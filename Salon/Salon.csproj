@@ -1,0 +1,519 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{AFEC4BD1-24D2-4A5B-B43F-B6B7B1E8A16D}</ProjectGuid>
+    <OutputType>WinExe</OutputType>
+    <RootNamespace>Salon</RootNamespace>
+    <AssemblyName>Salon</AssemblyName>
+    <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
+    <Deterministic>true</Deterministic>
+    <NuGetPackageImportStamp>
+    </NuGetPackageImportStamp>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="BouncyCastle.Cryptography, Version=2.0.0.0, Culture=neutral, PublicKeyToken=072edcf4a5328938, processorArchitecture=MSIL">
+      <HintPath>..\packages\BouncyCastle.Cryptography.2.5.1\lib\net461\BouncyCastle.Cryptography.dll</HintPath>
+    </Reference>
+    <Reference Include="Dapper, Version=2.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Dapper.2.1.66\lib\net461\Dapper.dll</HintPath>
+    </Reference>
+    <Reference Include="Google.Protobuf, Version=3.30.0.0, Culture=neutral, PublicKeyToken=a7d26565bac4d604, processorArchitecture=MSIL">
+      <HintPath>..\packages\Google.Protobuf.3.30.0\lib\net45\Google.Protobuf.dll</HintPath>
+    </Reference>
+    <Reference Include="K4os.Compression.LZ4, Version=1.3.8.0, Culture=neutral, PublicKeyToken=2186fa9121ef231d, processorArchitecture=MSIL">
+      <HintPath>..\packages\K4os.Compression.LZ4.1.3.8\lib\net462\K4os.Compression.LZ4.dll</HintPath>
+    </Reference>
+    <Reference Include="K4os.Compression.LZ4.Streams, Version=1.3.8.0, Culture=neutral, PublicKeyToken=2186fa9121ef231d, processorArchitecture=MSIL">
+      <HintPath>..\packages\K4os.Compression.LZ4.Streams.1.3.8\lib\net462\K4os.Compression.LZ4.Streams.dll</HintPath>
+    </Reference>
+    <Reference Include="K4os.Hash.xxHash, Version=1.0.8.0, Culture=neutral, PublicKeyToken=32cd54395057cec3, processorArchitecture=MSIL">
+      <HintPath>..\packages\K4os.Hash.xxHash.1.0.8\lib\net462\K4os.Hash.xxHash.dll</HintPath>
+    </Reference>
+    <Reference Include="LiveCharts, Version=0.9.7.0, Culture=neutral, PublicKeyToken=0bc1f845d1ebb8df, processorArchitecture=MSIL">
+      <HintPath>..\packages\LiveCharts.0.9.7\lib\net45\LiveCharts.dll</HintPath>
+    </Reference>
+    <Reference Include="LiveCharts.WinForms, Version=0.9.7.1, Culture=neutral, PublicKeyToken=0bc1f845d1ebb8df, processorArchitecture=MSIL">
+      <HintPath>..\packages\LiveCharts.WinForms.0.9.7.1\lib\net45\LiveCharts.WinForms.dll</HintPath>
+    </Reference>
+    <Reference Include="LiveCharts.Wpf, Version=0.9.7.0, Culture=neutral, PublicKeyToken=0bc1f845d1ebb8df, processorArchitecture=MSIL">
+      <HintPath>..\packages\LiveCharts.Wpf.0.9.7\lib\net45\LiveCharts.Wpf.dll</HintPath>
+    </Reference>
+    <Reference Include="MaterialSkin, Version=2.3.1.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\MaterialSkin.2.2.3.1\lib\net461\MaterialSkin.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Bcl.AsyncInterfaces, Version=9.0.0.1, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Bcl.AsyncInterfaces.9.0.1\lib\net462\Microsoft.Bcl.AsyncInterfaces.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Extensions.DependencyInjection, Version=8.0.0.1, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Extensions.DependencyInjection.8.0.1\lib\net462\Microsoft.Extensions.DependencyInjection.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Extensions.DependencyInjection.Abstractions, Version=8.0.0.2, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Extensions.DependencyInjection.Abstractions.8.0.2\lib\net462\Microsoft.Extensions.DependencyInjection.Abstractions.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Extensions.Logging, Version=8.0.0.1, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Extensions.Logging.8.0.1\lib\net462\Microsoft.Extensions.Logging.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Extensions.Logging.Abstractions, Version=8.0.0.2, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Extensions.Logging.Abstractions.8.0.2\lib\net462\Microsoft.Extensions.Logging.Abstractions.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Extensions.Options, Version=8.0.0.2, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Extensions.Options.8.0.2\lib\net462\Microsoft.Extensions.Options.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Extensions.Primitives, Version=8.0.0.0, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Extensions.Primitives.8.0.0\lib\net462\Microsoft.Extensions.Primitives.dll</HintPath>
+    </Reference>
+    <Reference Include="MySql.Data, Version=9.4.0.0, Culture=neutral, PublicKeyToken=c5687fc88969c44d, processorArchitecture=MSIL">
+      <HintPath>..\packages\MySql.Data.9.4.0\lib\net462\MySql.Data.dll</HintPath>
+    </Reference>
+    <Reference Include="PresentationCore" />
+    <Reference Include="PresentationFramework" />
+    <Reference Include="System" />
+    <Reference Include="System.Buffers, Version=4.0.3.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Buffers.4.5.1\lib\net461\System.Buffers.dll</HintPath>
+    </Reference>
+    <Reference Include="System.ComponentModel.DataAnnotations" />
+    <Reference Include="System.Configuration" />
+    <Reference Include="System.Configuration.ConfigurationManager, Version=8.0.0.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Configuration.ConfigurationManager.8.0.0\lib\net462\System.Configuration.ConfigurationManager.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Core" />
+    <Reference Include="System.Design" />
+    <Reference Include="System.Diagnostics.DiagnosticSource, Version=8.0.0.1, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Diagnostics.DiagnosticSource.8.0.1\lib\net462\System.Diagnostics.DiagnosticSource.dll</HintPath>
+    </Reference>
+    <Reference Include="System.IO.Pipelines, Version=5.0.0.2, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.IO.Pipelines.5.0.2\lib\net461\System.IO.Pipelines.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Management" />
+    <Reference Include="System.Memory, Version=4.0.1.2, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Memory.4.5.5\lib\net461\System.Memory.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Numerics" />
+    <Reference Include="System.Numerics.Vectors, Version=4.1.4.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Numerics.Vectors.4.5.0\lib\net46\System.Numerics.Vectors.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Runtime.CompilerServices.Unsafe, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Runtime.CompilerServices.Unsafe.6.0.0\lib\net461\System.Runtime.CompilerServices.Unsafe.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Security" />
+    <Reference Include="System.Security.Cryptography.Pkcs, Version=8.0.0.1, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Security.Cryptography.Pkcs.8.0.1\lib\net462\System.Security.Cryptography.Pkcs.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Threading.Tasks.Extensions, Version=4.2.0.1, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Threading.Tasks.Extensions.4.5.4\lib\net461\System.Threading.Tasks.Extensions.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Transactions" />
+    <Reference Include="System.ValueTuple, Version=4.0.3.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.ValueTuple.4.5.0\lib\net47\System.ValueTuple.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Windows.Forms.DataVisualization" />
+    <Reference Include="System.Xaml" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Deployment" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Net.Http" />
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Xml" />
+    <Reference Include="WindowsBase" />
+    <Reference Include="WindowsFormsIntegration" />
+    <Reference Include="ZstdSharp, Version=0.8.5.0, Culture=neutral, PublicKeyToken=8d151af33a4ad5cf, processorArchitecture=MSIL">
+      <HintPath>..\packages\ZstdSharp.Port.0.8.5\lib\net462\ZstdSharp.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Controller\AppointmentController.cs" />
+    <Compile Include="Controller\AppointmentServiceController.cs" />
+    <Compile Include="Controller\CategoryController.cs" />
+    <Compile Include="Controller\CustomerController.cs" />
+    <Compile Include="Controller\DeliveryController.cs" />
+    <Compile Include="Controller\DeliveryItemController.cs" />
+    <Compile Include="Controller\DiscountController.cs" />
+    <Compile Include="Controller\ExceptionSchedulesController.cs" />
+    <Compile Include="Controller\ExpensesController.cs" />
+    <Compile Include="Controller\InventoryBatchController.cs" />
+    <Compile Include="Controller\InventoryController.cs" />
+    <Compile Include="Controller\OverHeadController.cs" />
+    <Compile Include="Controller\PaymentController.cs" />
+    <Compile Include="Controller\ProductController.cs" />
+    <Compile Include="Controller\ServiceController.cs" />
+    <Compile Include="Controller\ServicePriceController.cs" />
+    <Compile Include="Controller\ServiceProductUsageController.cs" />
+    <Compile Include="Controller\StylistController.cs" />
+    <Compile Include="Controller\StylistSchedulesController.cs" />
+    <Compile Include="Controller\SubCategoryController.cs" />
+    <Compile Include="Controller\SupplierController.cs" />
+    <Compile Include="Controller\TimeSlotController.cs" />
+    <Compile Include="Controller\TransactionController.cs" />
+    <Compile Include="Controller\UserController.cs" />
+    <Compile Include="Controller\UtilController.cs" />
+    <Compile Include="Controller\VatController.cs" />
+    <Compile Include="Data\Database.cs" />
+    <Compile Include="Data\DatabaseConnection.cs" />
+    <Compile Include="Form1.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Form1.Designer.cs">
+      <DependentUpon>Form1.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Models\AppointmentModel.cs" />
+    <Compile Include="Models\AppointmentServicesModel.cs" />
+    <Compile Include="Models\BookingSummary.cs" />
+    <Compile Include="Models\BusinessHour.cs" />
+    <Compile Include="Models\CategoryModel.cs" />
+    <Compile Include="Models\CustomerModel.cs" />
+    <Compile Include="Models\DeliveryItemModel.cs" />
+    <Compile Include="Models\DeliveryModel.cs" />
+    <Compile Include="Models\DiscountModel.cs" />
+    <Compile Include="Models\ExceptionScheduleModel.cs" />
+    <Compile Include="Models\ExpensesModel.cs" />
+    <Compile Include="Models\InventoryBatchModel.cs" />
+    <Compile Include="Models\InventoryViewModel.cs" />
+    <Compile Include="Models\OverHeadModel.cs" />
+    <Compile Include="Models\PaymentModel.cs" />
+    <Compile Include="Models\ProductModel.cs" />
+    <Compile Include="Models\ServiceItemSelected.cs" />
+    <Compile Include="Models\ServiceModel.cs" />
+    <Compile Include="Models\ServicePriceModel.cs" />
+    <Compile Include="Models\ServiceProductUsageModel.cs" />
+    <Compile Include="Models\StylistModel.cs" />
+    <Compile Include="Models\StylistScheduleModel.cs" />
+    <Compile Include="Models\SubCategoryModel.cs" />
+    <Compile Include="Models\SupplierModel.cs" />
+    <Compile Include="Models\TimeSlot.cs" />
+    <Compile Include="Models\TransactionModel.cs" />
+    <Compile Include="Models\UsersModel.cs" />
+    <Compile Include="Models\UtilityModel.cs" />
+    <Compile Include="Models\VatModel.cs" />
+    <Compile Include="Program.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Repository\AppointmentRepository.cs" />
+    <Compile Include="Repository\AppointmentServiceRepository.cs" />
+    <Compile Include="Repository\BusinessHourRepository.cs" />
+    <Compile Include="Repository\CategoryRepository.cs" />
+    <Compile Include="Repository\CustomerRepository.cs" />
+    <Compile Include="Repository\DeliveredItemRepository.cs" />
+    <Compile Include="Repository\DeliveryRepository.cs" />
+    <Compile Include="Repository\DiscountRepository.cs" />
+    <Compile Include="Repository\ExceptionSchedulesRepository.cs" />
+    <Compile Include="Repository\ExpensesRepository.cs" />
+    <Compile Include="Repository\IAppointment.cs" />
+    <Compile Include="Repository\IAppointmentServiceRepository.cs" />
+    <Compile Include="Repository\ICategory.cs" />
+    <Compile Include="Repository\ICustomer.cs" />
+    <Compile Include="Repository\IDeliveredItems.cs" />
+    <Compile Include="Repository\IDelivery.cs" />
+    <Compile Include="Repository\IDiscount.cs" />
+    <Compile Include="Repository\IExceptionSchedules.cs" />
+    <Compile Include="Repository\IExpenses.cs" />
+    <Compile Include="Repository\InventoryBatchRepository.cs" />
+    <Compile Include="Repository\InventoryRepository.cs" />
+    <Compile Include="Repository\IOverHead.cs" />
+    <Compile Include="Repository\IPaymentRepository.cs" />
+    <Compile Include="Repository\IProduct.cs" />
+    <Compile Include="Repository\IService.cs" />
+    <Compile Include="Repository\IServicePrice.cs" />
+    <Compile Include="Repository\IServiceProductUsage.cs" />
+    <Compile Include="Repository\IStylist.cs" />
+    <Compile Include="Repository\IStylistSchedules.cs" />
+    <Compile Include="Repository\ISubCategory.cs" />
+    <Compile Include="Repository\ISupplier.cs" />
+    <Compile Include="Repository\ITransaction.cs" />
+    <Compile Include="Repository\IUser.cs" />
+    <Compile Include="Repository\IUtility.cs" />
+    <Compile Include="Repository\IVat.cs" />
+    <Compile Include="Repository\I_Inventory.cs" />
+    <Compile Include="Repository\I_InventoryBatches.cs" />
+    <Compile Include="Repository\OverHeadRepository.cs" />
+    <Compile Include="Repository\PaymentRepository.cs" />
+    <Compile Include="Repository\ProductRepository.cs" />
+    <Compile Include="Repository\ServicePriceRepository.cs" />
+    <Compile Include="Repository\ServiceProductUsageRepository.cs" />
+    <Compile Include="Repository\ServiceRepository.cs" />
+    <Compile Include="Repository\StylistRepository.cs" />
+    <Compile Include="Repository\StylistSchedulesRepository.cs" />
+    <Compile Include="Repository\SubCategoryRepository.cs" />
+    <Compile Include="Repository\SupplierRepository.cs" />
+    <Compile Include="Repository\TransactionRepository.cs" />
+    <Compile Include="Repository\UserRepository.cs" />
+    <Compile Include="Repository\UtilityRepository.cs" />
+    <Compile Include="Repository\VatRepository.cs" />
+    <Compile Include="Services\TimeSlotGenerator.cs" />
+    <Compile Include="Util\ReceiptRenderer.cs" />
+    <Compile Include="Util\ThemeManager.cs" />
+    <Compile Include="View\AppointmentForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="View\AppointmentForm.Designer.cs">
+      <DependentUpon>AppointmentForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="View\AppointmentStatusForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="View\AppointmentStatusForm.Designer.cs">
+      <DependentUpon>AppointmentStatusForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="View\AssignStylistForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="View\AssignStylistForm.Designer.cs">
+      <DependentUpon>AssignStylistForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="View\CategoryForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="View\CategoryForm.Designer.cs">
+      <DependentUpon>CategoryForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="View\ConfirmationBooking.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="View\ConfirmationBooking.Designer.cs">
+      <DependentUpon>ConfirmationBooking.cs</DependentUpon>
+    </Compile>
+    <Compile Include="View\CustomerForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="View\CustomerForm.Designer.cs">
+      <DependentUpon>CustomerForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="View\DeliveryAddStockForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="View\DeliveryAddStockForm.Designer.cs">
+      <DependentUpon>DeliveryAddStockForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="View\DeliveryForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="View\DeliveryForm.Designer.cs">
+      <DependentUpon>DeliveryForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="View\InvoiceForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="View\InvoiceForm.Designer.cs">
+      <DependentUpon>InvoiceForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="View\MainForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="View\MainForm.Designer.cs">
+      <DependentUpon>MainForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="View\OverHeadAndTotalWorkingHoursForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="View\OverHeadAndTotalWorkingHoursForm.Designer.cs">
+      <DependentUpon>OverHeadAndTotalWorkingHoursForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="View\PaymentForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="View\PaymentForm.Designer.cs">
+      <DependentUpon>PaymentForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="View\PricingServiceForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="View\PricingServiceForm.Designer.cs">
+      <DependentUpon>PricingServiceForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="View\ProductForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="View\ProductForm.Designer.cs">
+      <DependentUpon>ProductForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="View\ProductUsageForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="View\ProductUsageForm.Designer.cs">
+      <DependentUpon>ProductUsageForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="View\SearchResultControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="View\SearchResultControl.Designer.cs">
+      <DependentUpon>SearchResultControl.cs</DependentUpon>
+    </Compile>
+    <Compile Include="View\ServiceForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="View\ServiceForm.Designer.cs">
+      <DependentUpon>ServiceForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="View\ServicesCard.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="View\ServicesCard.Designer.cs">
+      <DependentUpon>ServicesCard.cs</DependentUpon>
+    </Compile>
+    <Compile Include="View\StylistForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="View\StylistForm.Designer.cs">
+      <DependentUpon>StylistForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="View\StylistScheduleForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="View\StylistScheduleForm.Designer.cs">
+      <DependentUpon>StylistScheduleForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="View\SubCategoryForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="View\SubCategoryForm.Designer.cs">
+      <DependentUpon>SubCategoryForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="View\SupplierForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="View\SupplierForm.Designer.cs">
+      <DependentUpon>SupplierForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="View\UserForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="View\UserForm.Designer.cs">
+      <DependentUpon>UserForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="View\UsersControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="View\UsersControl.Designer.cs">
+      <DependentUpon>UsersControl.cs</DependentUpon>
+    </Compile>
+    <Compile Include="View\UtilityForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="View\UtilityForm.Designer.cs">
+      <DependentUpon>UtilityForm.cs</DependentUpon>
+    </Compile>
+    <EmbeddedResource Include="Form1.resx">
+      <DependentUpon>Form1.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Properties\Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
+    <EmbeddedResource Include="View\AppointmentForm.resx">
+      <DependentUpon>AppointmentForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="View\AppointmentStatusForm.resx">
+      <DependentUpon>AppointmentStatusForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="View\AssignStylistForm.resx">
+      <DependentUpon>AssignStylistForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="View\CategoryForm.resx">
+      <DependentUpon>CategoryForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="View\ConfirmationBooking.resx">
+      <DependentUpon>ConfirmationBooking.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="View\CustomerForm.resx">
+      <DependentUpon>CustomerForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="View\DeliveryAddStockForm.resx">
+      <DependentUpon>DeliveryAddStockForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="View\DeliveryForm.resx">
+      <DependentUpon>DeliveryForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="View\MainForm.resx">
+      <DependentUpon>MainForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="View\OverHeadAndTotalWorkingHoursForm.resx">
+      <DependentUpon>OverHeadAndTotalWorkingHoursForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="View\PaymentForm.resx">
+      <DependentUpon>PaymentForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="View\PricingServiceForm.resx">
+      <DependentUpon>PricingServiceForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="View\ProductForm.resx">
+      <DependentUpon>ProductForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="View\ProductUsageForm.resx">
+      <DependentUpon>ProductUsageForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="View\SearchResultControl.resx">
+      <DependentUpon>SearchResultControl.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="View\ServiceForm.resx">
+      <DependentUpon>ServiceForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="View\ServicesCard.resx">
+      <DependentUpon>ServicesCard.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="View\StylistForm.resx">
+      <DependentUpon>StylistForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="View\StylistScheduleForm.resx">
+      <DependentUpon>StylistScheduleForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="View\SubCategoryForm.resx">
+      <DependentUpon>SubCategoryForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="View\SupplierForm.resx">
+      <DependentUpon>SupplierForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="View\UserForm.resx">
+      <DependentUpon>UserForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="View\UsersControl.resx">
+      <DependentUpon>UsersControl.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="View\UtilityForm.resx">
+      <DependentUpon>UtilityForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <None Include="packages.config" />
+    <None Include="Properties\Settings.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
+    </None>
+    <Compile Include="Properties\Settings.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Settings.settings</DependentUpon>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="App.config" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+</Project>

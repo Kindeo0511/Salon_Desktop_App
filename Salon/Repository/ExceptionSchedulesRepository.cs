@@ -1,0 +1,47 @@
+﻿using Dapper;
+using Laundry.Data;
+using Salon.Models;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace Salon.Repository
+{
+    public class ExceptionSchedulesRepository : IExceptionSchedules
+    {
+
+        public IEnumerable<ExceptionScheduleModel> GetExceptionSchedules(int stylist_id)
+        {
+            using (var connection = Database.GetConnection()) 
+            {
+                return connection.Query<ExceptionScheduleModel>("SELECT * FROM tbl_exception_schedules WHERE stylist_id = @StylistId", new { StylistId = stylist_id }).ToList();
+            }
+               
+        }
+        public void AddExceptionSchedule(ExceptionScheduleModel exceptionSchedule)
+        {
+            using (var connection = Database.GetConnection())
+            {
+                connection.Execute("INSERT INTO tbl_exception_schedules (stylist_id, date, start_time, end_time, is_available, reason) VALUES (@stylist_id, @date, @start_time, @end_time, @is_available, @reason)", exceptionSchedule);
+
+
+            }
+        }
+        public void UpdateExceptionSchedule(ExceptionScheduleModel exceptionSchedule)
+        {
+            using (var connection = Database.GetConnection())
+            {
+                connection.Execute("UPDATE tbl_exception_schedules SET stylist_id = @stylist_id, date = @date, start_time = @start_time, end_time = @end_time, is_available = @is_available, reason = @reason WHERE id = @id", exceptionSchedule);
+            }
+        }
+        public void DeleteExceptionSchedule(int exceptionScheduleId)
+        {
+            using (var connection = Database.GetConnection())
+            {
+                connection.Execute("DELETE FROM tbl_exception_schedules WHERE id = @Id", new { Id = exceptionScheduleId });
+            }
+        }
+    }
+}

@@ -1,0 +1,346 @@
+﻿namespace Salon.View
+{
+    partial class AppointmentForm
+    {
+        /// <summary>
+        /// Required designer variable.
+        /// </summary>
+        private System.ComponentModel.IContainer components = null;
+
+        /// <summary>
+        /// Clean up any resources being used.
+        /// </summary>
+        /// <param name="disposing">true if managed resources should be disposed; otherwise, false.</param>
+        protected override void Dispose(bool disposing)
+        {
+            if (disposing && (components != null))
+            {
+                components.Dispose();
+            }
+            base.Dispose(disposing);
+        }
+
+        #region Windows Form Designer generated code
+
+        /// <summary>
+        /// Required method for Designer support - do not modify
+        /// the contents of this method with the code editor.
+        /// </summary>
+        private void InitializeComponent()
+        {
+            this.txt_Search = new MaterialSkin.Controls.MaterialTextBox();
+            this.txt_FullName = new MaterialSkin.Controls.MaterialTextBox();
+            this.txt_Email = new MaterialSkin.Controls.MaterialTextBox();
+            this.txt_Contact = new MaterialSkin.Controls.MaterialTextBox();
+            this.cb_book_type = new MaterialSkin.Controls.MaterialComboBox();
+            this.cmb_Date = new System.Windows.Forms.DateTimePicker();
+            this.cb_Time = new MaterialSkin.Controls.MaterialComboBox();
+            this.customer_panel = new System.Windows.Forms.FlowLayoutPanel();
+            this.lbl_ID = new MaterialSkin.Controls.MaterialLabel();
+            this.txt_search_services = new MaterialSkin.Controls.MaterialTextBox();
+            this.service_panel = new System.Windows.Forms.FlowLayoutPanel();
+            this.dgv_table = new System.Windows.Forms.DataGridView();
+            this.btn_confirm = new MaterialSkin.Controls.MaterialButton();
+            this.col_service_id = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.col_service_name = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.col_category_name = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.col_duration = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            ((System.ComponentModel.ISupportInitialize)(this.dgv_table)).BeginInit();
+            this.SuspendLayout();
+            // 
+            // txt_Search
+            // 
+            this.txt_Search.AnimateReadOnly = false;
+            this.txt_Search.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            this.txt_Search.Depth = 0;
+            this.txt_Search.Font = new System.Drawing.Font("Roboto", 16F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
+            this.txt_Search.Hint = "Search Customer";
+            this.txt_Search.LeadingIcon = null;
+            this.txt_Search.Location = new System.Drawing.Point(25, 99);
+            this.txt_Search.MaxLength = 50;
+            this.txt_Search.MouseState = MaterialSkin.MouseState.OUT;
+            this.txt_Search.Multiline = false;
+            this.txt_Search.Name = "txt_Search";
+            this.txt_Search.Size = new System.Drawing.Size(470, 50);
+            this.txt_Search.TabIndex = 0;
+            this.txt_Search.Text = "";
+            this.txt_Search.TrailingIcon = null;
+            this.txt_Search.TextChanged += new System.EventHandler(this.txt_Search_TextChanged);
+            // 
+            // txt_FullName
+            // 
+            this.txt_FullName.AnimateReadOnly = false;
+            this.txt_FullName.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            this.txt_FullName.Depth = 0;
+            this.txt_FullName.Font = new System.Drawing.Font("Microsoft Sans Serif", 16F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
+            this.txt_FullName.Hint = "Full Name";
+            this.txt_FullName.LeadingIcon = null;
+            this.txt_FullName.Location = new System.Drawing.Point(25, 215);
+            this.txt_FullName.MaxLength = 50;
+            this.txt_FullName.MouseState = MaterialSkin.MouseState.OUT;
+            this.txt_FullName.Multiline = false;
+            this.txt_FullName.Name = "txt_FullName";
+            this.txt_FullName.Size = new System.Drawing.Size(400, 50);
+            this.txt_FullName.TabIndex = 1;
+            this.txt_FullName.Text = "";
+            this.txt_FullName.TrailingIcon = null;
+            // 
+            // txt_Email
+            // 
+            this.txt_Email.AnimateReadOnly = false;
+            this.txt_Email.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            this.txt_Email.Depth = 0;
+            this.txt_Email.Font = new System.Drawing.Font("Microsoft Sans Serif", 16F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
+            this.txt_Email.Hint = "Email";
+            this.txt_Email.LeadingIcon = null;
+            this.txt_Email.Location = new System.Drawing.Point(25, 310);
+            this.txt_Email.MaxLength = 50;
+            this.txt_Email.MouseState = MaterialSkin.MouseState.OUT;
+            this.txt_Email.Multiline = false;
+            this.txt_Email.Name = "txt_Email";
+            this.txt_Email.Size = new System.Drawing.Size(400, 50);
+            this.txt_Email.TabIndex = 2;
+            this.txt_Email.Text = "";
+            this.txt_Email.TrailingIcon = null;
+            // 
+            // txt_Contact
+            // 
+            this.txt_Contact.AnimateReadOnly = false;
+            this.txt_Contact.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            this.txt_Contact.Depth = 0;
+            this.txt_Contact.Font = new System.Drawing.Font("Microsoft Sans Serif", 16F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
+            this.txt_Contact.Hint = "Contact";
+            this.txt_Contact.LeadingIcon = null;
+            this.txt_Contact.Location = new System.Drawing.Point(25, 403);
+            this.txt_Contact.MaxLength = 50;
+            this.txt_Contact.MouseState = MaterialSkin.MouseState.OUT;
+            this.txt_Contact.Multiline = false;
+            this.txt_Contact.Name = "txt_Contact";
+            this.txt_Contact.Size = new System.Drawing.Size(400, 50);
+            this.txt_Contact.TabIndex = 3;
+            this.txt_Contact.Text = "";
+            this.txt_Contact.TrailingIcon = null;
+            // 
+            // cb_book_type
+            // 
+            this.cb_book_type.AutoResize = false;
+            this.cb_book_type.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
+            this.cb_book_type.Depth = 0;
+            this.cb_book_type.DrawMode = System.Windows.Forms.DrawMode.OwnerDrawVariable;
+            this.cb_book_type.DropDownHeight = 174;
+            this.cb_book_type.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cb_book_type.DropDownWidth = 121;
+            this.cb_book_type.Font = new System.Drawing.Font("Roboto Medium", 14F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Pixel);
+            this.cb_book_type.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(222)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
+            this.cb_book_type.FormattingEnabled = true;
+            this.cb_book_type.Hint = "Select Booking Type";
+            this.cb_book_type.IntegralHeight = false;
+            this.cb_book_type.ItemHeight = 43;
+            this.cb_book_type.Items.AddRange(new object[] {
+            "Walk-In",
+            "Online",
+            "Phone Call"});
+            this.cb_book_type.Location = new System.Drawing.Point(635, 206);
+            this.cb_book_type.MaxDropDownItems = 4;
+            this.cb_book_type.MouseState = MaterialSkin.MouseState.OUT;
+            this.cb_book_type.Name = "cb_book_type";
+            this.cb_book_type.Size = new System.Drawing.Size(400, 49);
+            this.cb_book_type.StartIndex = -1;
+            this.cb_book_type.TabIndex = 4;
+            // 
+            // cmb_Date
+            // 
+            this.cmb_Date.Location = new System.Drawing.Point(631, 431);
+            this.cmb_Date.Name = "cmb_Date";
+            this.cmb_Date.Size = new System.Drawing.Size(400, 22);
+            this.cmb_Date.TabIndex = 5;
+            // 
+            // cb_Time
+            // 
+            this.cb_Time.AutoResize = false;
+            this.cb_Time.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
+            this.cb_Time.Depth = 0;
+            this.cb_Time.DrawMode = System.Windows.Forms.DrawMode.OwnerDrawVariable;
+            this.cb_Time.DropDownHeight = 174;
+            this.cb_Time.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cb_Time.DropDownWidth = 121;
+            this.cb_Time.Font = new System.Drawing.Font("Microsoft Sans Serif", 14F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Pixel);
+            this.cb_Time.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(222)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
+            this.cb_Time.FormattingEnabled = true;
+            this.cb_Time.Hint = "Appointment Time";
+            this.cb_Time.IntegralHeight = false;
+            this.cb_Time.ItemHeight = 43;
+            this.cb_Time.Location = new System.Drawing.Point(631, 311);
+            this.cb_Time.MaxDropDownItems = 4;
+            this.cb_Time.MouseState = MaterialSkin.MouseState.OUT;
+            this.cb_Time.Name = "cb_Time";
+            this.cb_Time.Size = new System.Drawing.Size(400, 49);
+            this.cb_Time.StartIndex = 0;
+            this.cb_Time.TabIndex = 6;
+            this.cb_Time.SelectedIndexChanged += new System.EventHandler(this.cb_Time_SelectedIndexChanged);
+            // 
+            // customer_panel
+            // 
+            this.customer_panel.Location = new System.Drawing.Point(25, 165);
+            this.customer_panel.Name = "customer_panel";
+            this.customer_panel.Size = new System.Drawing.Size(470, 100);
+            this.customer_panel.TabIndex = 7;
+            // 
+            // lbl_ID
+            // 
+            this.lbl_ID.AutoSize = true;
+            this.lbl_ID.Depth = 0;
+            this.lbl_ID.Font = new System.Drawing.Font("Roboto", 14F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
+            this.lbl_ID.Location = new System.Drawing.Point(38, 281);
+            this.lbl_ID.MouseState = MaterialSkin.MouseState.HOVER;
+            this.lbl_ID.Name = "lbl_ID";
+            this.lbl_ID.Size = new System.Drawing.Size(16, 19);
+            this.lbl_ID.TabIndex = 8;
+            this.lbl_ID.Text = "ID";
+            this.lbl_ID.Visible = false;
+            // 
+            // txt_search_services
+            // 
+            this.txt_search_services.AnimateReadOnly = false;
+            this.txt_search_services.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            this.txt_search_services.Depth = 0;
+            this.txt_search_services.Font = new System.Drawing.Font("Microsoft Sans Serif", 16F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
+            this.txt_search_services.Hint = "Search Services";
+            this.txt_search_services.LeadingIcon = null;
+            this.txt_search_services.Location = new System.Drawing.Point(1182, 99);
+            this.txt_search_services.MaxLength = 50;
+            this.txt_search_services.MouseState = MaterialSkin.MouseState.OUT;
+            this.txt_search_services.Multiline = false;
+            this.txt_search_services.Name = "txt_search_services";
+            this.txt_search_services.Size = new System.Drawing.Size(700, 50);
+            this.txt_search_services.TabIndex = 9;
+            this.txt_search_services.Text = "";
+            this.txt_search_services.TrailingIcon = null;
+            this.txt_search_services.TextChanged += new System.EventHandler(this.txt_search_services_TextChanged);
+            // 
+            // service_panel
+            // 
+            this.service_panel.Location = new System.Drawing.Point(1182, 165);
+            this.service_panel.Name = "service_panel";
+            this.service_panel.Size = new System.Drawing.Size(700, 80);
+            this.service_panel.TabIndex = 8;
+            // 
+            // dgv_table
+            // 
+            this.dgv_table.AllowUserToAddRows = false;
+            this.dgv_table.AllowUserToDeleteRows = false;
+            this.dgv_table.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dgv_table.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
+            this.col_service_id,
+            this.col_service_name,
+            this.col_category_name,
+            this.col_duration});
+            this.dgv_table.Location = new System.Drawing.Point(1182, 311);
+            this.dgv_table.Name = "dgv_table";
+            this.dgv_table.ReadOnly = true;
+            this.dgv_table.RowHeadersWidth = 51;
+            this.dgv_table.RowTemplate.Height = 24;
+            this.dgv_table.Size = new System.Drawing.Size(700, 226);
+            this.dgv_table.TabIndex = 10;
+            // 
+            // btn_confirm
+            // 
+            this.btn_confirm.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
+            this.btn_confirm.Density = MaterialSkin.Controls.MaterialButton.MaterialButtonDensity.Default;
+            this.btn_confirm.Depth = 0;
+            this.btn_confirm.HighEmphasis = true;
+            this.btn_confirm.Icon = null;
+            this.btn_confirm.Location = new System.Drawing.Point(1796, 264);
+            this.btn_confirm.Margin = new System.Windows.Forms.Padding(4, 6, 4, 6);
+            this.btn_confirm.MouseState = MaterialSkin.MouseState.HOVER;
+            this.btn_confirm.Name = "btn_confirm";
+            this.btn_confirm.NoAccentTextColor = System.Drawing.Color.Empty;
+            this.btn_confirm.Size = new System.Drawing.Size(86, 36);
+            this.btn_confirm.TabIndex = 11;
+            this.btn_confirm.Text = "Confirm";
+            this.btn_confirm.Type = MaterialSkin.Controls.MaterialButton.MaterialButtonType.Contained;
+            this.btn_confirm.UseAccentColor = false;
+            this.btn_confirm.UseVisualStyleBackColor = true;
+            this.btn_confirm.Click += new System.EventHandler(this.btn_confirm_Click);
+            // 
+            // col_service_id
+            // 
+            this.col_service_id.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
+            this.col_service_id.HeaderText = "ID";
+            this.col_service_id.MinimumWidth = 6;
+            this.col_service_id.Name = "col_service_id";
+            this.col_service_id.ReadOnly = true;
+            // 
+            // col_service_name
+            // 
+            this.col_service_name.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
+            this.col_service_name.HeaderText = "Service Name";
+            this.col_service_name.MinimumWidth = 6;
+            this.col_service_name.Name = "col_service_name";
+            this.col_service_name.ReadOnly = true;
+            // 
+            // col_category_name
+            // 
+            this.col_category_name.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
+            this.col_category_name.HeaderText = "Category";
+            this.col_category_name.MinimumWidth = 6;
+            this.col_category_name.Name = "col_category_name";
+            this.col_category_name.ReadOnly = true;
+            // 
+            // col_duration
+            // 
+            this.col_duration.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
+            this.col_duration.HeaderText = "Duration";
+            this.col_duration.MinimumWidth = 6;
+            this.col_duration.Name = "col_duration";
+            this.col_duration.ReadOnly = true;
+            // 
+            // AppointmentForm
+            // 
+            this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
+            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.ClientSize = new System.Drawing.Size(1942, 1102);
+            this.Controls.Add(this.service_panel);
+            this.Controls.Add(this.btn_confirm);
+            this.Controls.Add(this.dgv_table);
+            this.Controls.Add(this.txt_search_services);
+            this.Controls.Add(this.lbl_ID);
+            this.Controls.Add(this.customer_panel);
+            this.Controls.Add(this.cb_Time);
+            this.Controls.Add(this.cmb_Date);
+            this.Controls.Add(this.cb_book_type);
+            this.Controls.Add(this.txt_Contact);
+            this.Controls.Add(this.txt_Email);
+            this.Controls.Add(this.txt_FullName);
+            this.Controls.Add(this.txt_Search);
+            this.Name = "AppointmentForm";
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
+            this.Text = "AppointmentForm";
+            this.WindowState = System.Windows.Forms.FormWindowState.Maximized;
+            ((System.ComponentModel.ISupportInitialize)(this.dgv_table)).EndInit();
+            this.ResumeLayout(false);
+            this.PerformLayout();
+
+        }
+
+        #endregion
+
+        private MaterialSkin.Controls.MaterialTextBox txt_Search;
+        private MaterialSkin.Controls.MaterialTextBox txt_FullName;
+        private MaterialSkin.Controls.MaterialTextBox txt_Email;
+        private MaterialSkin.Controls.MaterialTextBox txt_Contact;
+        private MaterialSkin.Controls.MaterialComboBox cb_book_type;
+        private System.Windows.Forms.DateTimePicker cmb_Date;
+        private MaterialSkin.Controls.MaterialComboBox cb_Time;
+        private System.Windows.Forms.FlowLayoutPanel customer_panel;
+        private MaterialSkin.Controls.MaterialLabel lbl_ID;
+        private MaterialSkin.Controls.MaterialTextBox txt_search_services;
+        private System.Windows.Forms.FlowLayoutPanel service_panel;
+        private System.Windows.Forms.DataGridView dgv_table;
+        private MaterialSkin.Controls.MaterialButton btn_confirm;
+        private System.Windows.Forms.DataGridViewTextBoxColumn col_service_id;
+        private System.Windows.Forms.DataGridViewTextBoxColumn col_service_name;
+        private System.Windows.Forms.DataGridViewTextBoxColumn col_category_name;
+        private System.Windows.Forms.DataGridViewTextBoxColumn col_duration;
+    }
+}
