@@ -22,6 +22,11 @@ namespace Salon.Controller
         {
             return _repo.GetAllUsers();
         }
+
+        public UsersModel GetUserAndPass(string user, string pass) 
+        {
+            return _repo.GetUserAndPassword(user, pass);
+        }
         public void AddUser(UsersModel user)
         {
             _repo.AddUser(user);

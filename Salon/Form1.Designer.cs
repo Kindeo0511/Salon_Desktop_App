@@ -30,8 +30,8 @@
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Form1));
             this.materialCard1 = new MaterialSkin.Controls.MaterialCard();
+            this.chk_show_password = new MaterialSkin.Controls.MaterialCheckbox();
             this.materialLabel1 = new MaterialSkin.Controls.MaterialLabel();
-            this.chk_show_password = new MaterialSkin.Controls.MaterialRadioButton();
             this.txt_password = new MaterialSkin.Controls.MaterialTextBox();
             this.txt_user_name = new MaterialSkin.Controls.MaterialTextBox();
             this.btn_cancel = new MaterialSkin.Controls.MaterialButton();
@@ -46,8 +46,8 @@
             // materialCard1
             // 
             this.materialCard1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
-            this.materialCard1.Controls.Add(this.materialLabel1);
             this.materialCard1.Controls.Add(this.chk_show_password);
+            this.materialCard1.Controls.Add(this.materialLabel1);
             this.materialCard1.Controls.Add(this.txt_password);
             this.materialCard1.Controls.Add(this.txt_user_name);
             this.materialCard1.Controls.Add(this.btn_cancel);
@@ -62,6 +62,23 @@
             this.materialCard1.Size = new System.Drawing.Size(452, 512);
             this.materialCard1.TabIndex = 0;
             // 
+            // chk_show_password
+            // 
+            this.chk_show_password.AutoSize = true;
+            this.chk_show_password.Depth = 0;
+            this.chk_show_password.Location = new System.Drawing.Point(28, 306);
+            this.chk_show_password.Margin = new System.Windows.Forms.Padding(0);
+            this.chk_show_password.MouseLocation = new System.Drawing.Point(-1, -1);
+            this.chk_show_password.MouseState = MaterialSkin.MouseState.HOVER;
+            this.chk_show_password.Name = "chk_show_password";
+            this.chk_show_password.ReadOnly = false;
+            this.chk_show_password.Ripple = true;
+            this.chk_show_password.Size = new System.Drawing.Size(149, 37);
+            this.chk_show_password.TabIndex = 6;
+            this.chk_show_password.Text = "Show Password";
+            this.chk_show_password.UseVisualStyleBackColor = true;
+            this.chk_show_password.CheckedChanged += new System.EventHandler(this.chk_show_password_CheckedChanged_1);
+            // 
             // materialLabel1
             // 
             this.materialLabel1.AutoSize = true;
@@ -74,22 +91,6 @@
             this.materialLabel1.Size = new System.Drawing.Size(174, 72);
             this.materialLabel1.TabIndex = 5;
             this.materialLabel1.Text = "LOGIN";
-            // 
-            // chk_show_password
-            // 
-            this.chk_show_password.AutoSize = true;
-            this.chk_show_password.Depth = 0;
-            this.chk_show_password.Location = new System.Drawing.Point(28, 310);
-            this.chk_show_password.Margin = new System.Windows.Forms.Padding(0);
-            this.chk_show_password.MouseLocation = new System.Drawing.Point(-1, -1);
-            this.chk_show_password.MouseState = MaterialSkin.MouseState.HOVER;
-            this.chk_show_password.Name = "chk_show_password";
-            this.chk_show_password.Ripple = true;
-            this.chk_show_password.Size = new System.Drawing.Size(149, 37);
-            this.chk_show_password.TabIndex = 4;
-            this.chk_show_password.TabStop = true;
-            this.chk_show_password.Text = "Show Password";
-            this.chk_show_password.UseVisualStyleBackColor = true;
             // 
             // txt_password
             // 
@@ -104,6 +105,7 @@
             this.txt_password.MouseState = MaterialSkin.MouseState.OUT;
             this.txt_password.Multiline = false;
             this.txt_password.Name = "txt_password";
+            this.txt_password.Password = true;
             this.txt_password.Size = new System.Drawing.Size(393, 50);
             this.txt_password.TabIndex = 3;
             this.txt_password.Text = "";
@@ -132,6 +134,7 @@
             this.btn_cancel.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
             this.btn_cancel.Density = MaterialSkin.Controls.MaterialButton.MaterialButtonDensity.Default;
             this.btn_cancel.Depth = 0;
+            this.btn_cancel.DialogResult = System.Windows.Forms.DialogResult.Cancel;
             this.btn_cancel.HighEmphasis = true;
             this.btn_cancel.Icon = null;
             this.btn_cancel.Location = new System.Drawing.Point(292, 456);
@@ -145,6 +148,7 @@
             this.btn_cancel.Type = MaterialSkin.Controls.MaterialButton.MaterialButtonType.Contained;
             this.btn_cancel.UseAccentColor = false;
             this.btn_cancel.UseVisualStyleBackColor = true;
+            this.btn_cancel.Click += new System.EventHandler(this.btn_cancel_Click);
             // 
             // btn_login
             // 
@@ -193,6 +197,7 @@
             // 
             // Form1
             // 
+            this.AcceptButton = this.btn_login;
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1170, 800);
@@ -200,7 +205,6 @@
             this.Controls.Add(this.materialCard1);
             this.Name = "Form1";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
-            this.Text = "Form1";
             this.materialCard1.ResumeLayout(false);
             this.materialCard1.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
@@ -212,7 +216,6 @@
         #endregion
 
         private MaterialSkin.Controls.MaterialCard materialCard1;
-        private MaterialSkin.Controls.MaterialRadioButton chk_show_password;
         private MaterialSkin.Controls.MaterialTextBox txt_password;
         private MaterialSkin.Controls.MaterialTextBox txt_user_name;
         private MaterialSkin.Controls.MaterialButton btn_cancel;
@@ -220,6 +223,7 @@
         private System.Windows.Forms.PictureBox pictureBox1;
         private MaterialSkin.Controls.MaterialCard materialCard2;
         private MaterialSkin.Controls.MaterialLabel materialLabel1;
+        private MaterialSkin.Controls.MaterialCheckbox chk_show_password;
     }
 }
 

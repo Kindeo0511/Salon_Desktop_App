@@ -15,5 +15,11 @@ namespace Salon.Models
         public string paid_by { get; set; }
         public string notes { get; set; }
         public DateTime timestamp { get; set; }
+
+        // SUMMARY REPORTS
+        public decimal TotalExpense { get; set; }
+        public decimal TotalPurchaseInventory { get; set; }
+        public decimal TotalUtilities { get; set; }
+        public decimal TotalSupplies { get; set; }
     }
 }

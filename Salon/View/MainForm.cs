@@ -29,11 +29,21 @@ namespace Salon.View
         private VatModel vatModel;
         private DiscountModel discountModel;
         private int currentOverheadId = 0;
+        private UtilityModel utilityModel;
 
         public MainForm()
         {
             InitializeComponent();
             ThemeManager.ApplyTheme(this);
+            DataGridViewTheme();
+            _userControl = new UserControl();
+
+            userTab.Controls.Add(_userControl);
+            _userControl.Dock = DockStyle.Fill;
+        }
+
+        private void DataGridViewTheme() 
+        {
             ThemeManager.StyleDataGridView(dgv_user);
             ThemeManager.StyleDataGridView(dgv_stylist);
             ThemeManager.StyleDataGridView(dgv_customer);
@@ -51,11 +61,7 @@ namespace Salon.View
             ThemeManager.StyleDataGridView(dgv_table_summary);
             ThemeManager.StyleDataGridView(dgv_report_table);
             ThemeManager.StyleDataGridView(dgv_inventory_report);
-
-            _userControl = new UserControl();
-
-            userTab.Controls.Add(_userControl);
-            _userControl.Dock = DockStyle.Fill;
+            ThemeManager.StyleDataGridView(dgv_expense_report);
         }
 
         private void MainForm_Load(object sender, EventArgs e)
@@ -93,6 +99,7 @@ namespace Salon.View
             // REPORTS
             FilterSalesReport();
             filterInventoryReport();
+            FilterExpenseReport();
         }
         // DASHBOARD
 
@@ -1217,26 +1224,26 @@ namespace Salon.View
 
 
         }
+
+       
         private void LoadRent() 
         {
             var repo = new OverHeadRepository();
             var controller = new OverHeadController(repo);
             var overhead = controller.GetOverHeadTotal();
 
-
+         
             if (overhead != null && overhead.monthly_rent != 0)
             {
                 currentOverheadId = overhead.over_head_id; // 🔥 Store ID
                 txt_month_rent.Text = overhead.monthly_rent.ToString("N2");
                 txt_working_hours.Text = overhead.total_working_hours.ToString();
-                pic_btn_update.Visible = true;
-                pic_btn_add.Visible = false;
+                
             }
             else
             {
                 currentOverheadId = 0;
-                pic_btn_update.Visible = false;
-                pic_btn_add.Visible = true;
+                
                 txt_month_rent.Text = "0.00";
             }
 
@@ -1258,76 +1265,109 @@ namespace Salon.View
            
             }
         }
+
+        private void Calculate_Util_Total_Amount() 
+        {
+            decimal total_util = 0;
+            decimal electric_bill = 0;
+            decimal water_bill = 0;
+            decimal internet_bill = 0;
+            decimal other_bill = 0;
+
+            decimal.TryParse(txt_total_utility.Text, out total_util);
+            decimal.TryParse(txt_electric_bill.Text, out electric_bill);
+            decimal.TryParse(txt_water_bill.Text, out water_bill);
+            decimal.TryParse(txt_internet_bill.Text, out internet_bill);
+            decimal.TryParse(txt_other_bill.Text, out other_bill);
+
+            total_util = electric_bill + water_bill + internet_bill + other_bill;
+            txt_total_utility.Text = total_util.ToString("N2");
+        }
         private void CalculateTotal()
         {
             decimal total_util = 0;
             decimal month_rent = 0;
+            decimal electric_bill = 0;
+            decimal water_bill = 0;
+            decimal internet_bill = 0;
+            decimal other_bill = 0;
 
             decimal.TryParse(txt_total_utility.Text, out total_util);
             decimal.TryParse(txt_month_rent.Text, out month_rent);
+            decimal.TryParse(txt_electric_bill.Text, out electric_bill);
+            decimal.TryParse(txt_water_bill.Text, out water_bill);
+            decimal.TryParse(txt_internet_bill.Text, out internet_bill);
+            decimal.TryParse(txt_other_bill.Text, out other_bill);
 
             decimal total_cost = month_rent + total_util;
             lbl_total_cost.Text = total_cost.ToString("N2");
         }
-
-        private void txt_month_rent_TextChanged(object sender, EventArgs e)
+        private void txt_electric_bill_TextChanged(object sender, EventArgs e)
         {
-          
-                CalculateTotal();
-           
+            Calculate_Util_Total_Amount();
         }
 
-        private void txt_total_utility_TextChanged(object sender, EventArgs e)
+        private void txt_water_bill_TextChanged(object sender, EventArgs e)
         {
-         
-                CalculateTotal();
-            
+            Calculate_Util_Total_Amount();
         }
-        
-        private void pic_btn_add_Click(object sender, EventArgs e)
-        {
 
+        private void txt_internet_bill_TextChanged(object sender, EventArgs e)
+        {
+            Calculate_Util_Total_Amount();
+        }
+
+        private void txt_other_bill_TextChanged(object sender, EventArgs e)
+        {
+            Calculate_Util_Total_Amount();
+        }
+        private void txt_month_rent_TextChanged_1(object sender, EventArgs e)
+        {
+            CalculateTotal();
+        }
+
+        private void txt_total_utility_TextChanged_1(object sender, EventArgs e)
+        {
+            CalculateTotal();
+        }
+        private void btn_edit_bill_Click_1(object sender, EventArgs e)
+        {
+            btn_add_bill.Visible = false;
+            btn_edit_bill.Visible = false;
+            btn_save_changes.Visible = true;
+            btn_cancel_bill.Visible = true;
+        }
+        private void btn_cancel_bill_Click_1(object sender, EventArgs e)
+        {
+            btn_add_bill.Visible = true;
+            btn_edit_bill.Visible = true;
+            btn_save_changes.Visible = false;
+            btn_cancel_bill.Visible = false;
+        }
+ 
+
+        private void btn_save_changes_Click(object sender, EventArgs e)
+        {
             decimal total_util = 0;
             decimal month_rent = 0;
+            decimal electric_bill = 0;
+            decimal water_bill = 0;
+            decimal internet_bill = 0;
+            decimal other_bill = 0;
+            string notes_bill = "";
             decimal total_cost = 0;
             int total_working_hrs = 0;
 
             decimal.TryParse(txt_total_utility.Text, out total_util);
             decimal.TryParse(txt_month_rent.Text, out month_rent);
+            decimal.TryParse(txt_electric_bill.Text, out electric_bill);
+            decimal.TryParse(txt_water_bill.Text, out water_bill);
+            decimal.TryParse(txt_internet_bill.Text, out internet_bill);
+            decimal.TryParse(txt_other_bill.Text, out other_bill);
             decimal.TryParse(lbl_total_cost.Text, out total_cost);
             int.TryParse(txt_working_hours.Text, out total_working_hrs);
 
-            var repo = new OverHeadRepository();
-            var controller = new OverHeadController(repo);
-
-            var model = new OverHeadModel 
-            {
-                monthly_rent = month_rent,
-                utilities_amount = total_util,
-                total_over_head = total_cost,
-                total_working_hours = total_working_hrs,
-               
-            };
-
-            controller.Add(model);
-            AddAndLoadExpenses("Utilities", "Monthly Rent & Bills", total_cost, "admin", "", DateTime.Now);
-            LoadRent();
-
-
-
-        }
-
-        private void pic_btn_update_Click(object sender, EventArgs e)
-        {
-            decimal total_util = 0;
-            decimal month_rent = 0;
-            decimal total_cost = 0;
-            int total_working_hrs = 0;
-
-            decimal.TryParse(txt_total_utility.Text, out total_util);
-            decimal.TryParse(txt_month_rent.Text, out month_rent);
-            decimal.TryParse(lbl_total_cost.Text, out total_cost);
-            int.TryParse(txt_working_hours.Text, out total_working_hrs);
+            notes_bill = txt_bill_note.Text;
 
             var repo = new OverHeadRepository();
             var controller = new OverHeadController(repo);
@@ -1336,21 +1376,67 @@ namespace Salon.View
             {
                 over_head_id = currentOverheadId,
                 monthly_rent = month_rent,
+                electricity_bill = electric_bill,
+                water_bill = water_bill,
+                internet_bill = internet_bill,
+                other_bill = other_bill,
+                notes = notes_bill,
                 utilities_amount = total_util,
                 total_over_head = total_cost,
                 total_working_hours = total_working_hrs,
 
             };
 
-
-
             controller.Update(model);
-            AddAndLoadExpenses("Utilities", "Monthly Rent & Bills", total_cost, "admin", "", DateTime.Now);
+            AddOrUpdateExpense("Utilities", "Updated Monthly Rent & Bills", total_cost, UserSession.CurrentUser.first_Name, "", DateTime.Now);
             LoadRent();
         }
+        private void btn_add_bill_Click(object sender, EventArgs e)
+        {
+            decimal total_util = 0;
+            decimal month_rent = 0;
+            decimal electric_bill = 0;
+            decimal water_bill = 0;
+            decimal internet_bill = 0;
+            decimal other_bill = 0;
+            string notes_bill = "";
+            decimal total_cost = 0;
+            int total_working_hrs = 0;
 
+            decimal.TryParse(txt_total_utility.Text, out total_util);
+            decimal.TryParse(txt_month_rent.Text, out month_rent);
+            decimal.TryParse(txt_electric_bill.Text, out electric_bill);
+            decimal.TryParse(txt_water_bill.Text, out water_bill);
+            decimal.TryParse(txt_internet_bill.Text, out internet_bill);
+            decimal.TryParse(txt_other_bill.Text, out other_bill);
+            decimal.TryParse(lbl_total_cost.Text, out total_cost);
+            int.TryParse(txt_working_hours.Text, out total_working_hrs);
 
-        private void AddAndLoadExpenses(string category, string description, decimal amount, string paid_by, string notes, DateTime timestamp)
+            notes_bill = txt_bill_note.Text;
+
+            var repo = new OverHeadRepository();
+            var controller = new OverHeadController(repo);
+
+            var model = new OverHeadModel
+            {
+                monthly_rent = month_rent,
+                electricity_bill = electric_bill,
+                water_bill = water_bill,
+                internet_bill = internet_bill,
+                other_bill = other_bill,
+                notes = notes_bill,
+                utilities_amount = total_util,
+                total_over_head = total_cost,
+                total_working_hours = total_working_hrs,
+
+            };
+
+            controller.Add(model);
+            AddOrUpdateExpense("Utilities", "Created Monthly Rent & Bills", total_cost, UserSession.CurrentUser.first_Name, "", DateTime.Now);
+            LoadRent();
+
+        }
+        private void AddOrUpdateExpense(string category, string description, decimal amount, string paid_by, string notes, DateTime timestamp)
         {
             var repo = new ExpensesRepository();
             var controller = new ExpensesController(repo);
@@ -1365,8 +1451,19 @@ namespace Salon.View
                 timestamp = timestamp
             };
 
-            controller.AddExpenses(model);
+            if (controller.Is_UtilityExists(category))
+            {
+                controller.UpdateExpense(model);
+            }
+            else 
+            {
+                controller.AddExpenses(model);
+            }
+
         }
+
+       
+
         // END OF UTILITIES
 
         // SALES REPORT
@@ -1591,634 +1688,131 @@ namespace Salon.View
             cmb_stock_status.Hint = "Select Stock Status";
         }
 
-        private void dashboardTab_Click(object sender, EventArgs e)
+        // END OF INVENTORY REPORT
+
+        private void FilterExpenseReport() 
         {
+            DateTime startDate;
+            DateTime endDate;
 
-        }
-
-        private void materialTabControl1_SelectedIndexChanged(object sender, EventArgs e)
-        {
-
-        }
-
-        private void tableLayoutPanel2_Paint(object sender, PaintEventArgs e)
-        {
-
-        }
-
-        private void materialCard2_Paint(object sender, PaintEventArgs e)
-        {
-
-        }
-
-        private void dgv_table_summary_CellContentClick(object sender, DataGridViewCellEventArgs e)
-        {
-
-        }
-
-        private void panel2_Paint(object sender, PaintEventArgs e)
-        {
-
-        }
-
-        private void materialLabel5_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void materialCard3_Paint(object sender, PaintEventArgs e)
-        {
-
-        }
-
-        private void tableLayoutPanel3_Paint(object sender, PaintEventArgs e)
-        {
-
-        }
-
-        private void materialLabel3_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void chart_popular_services_ChildChanged(object sender, System.Windows.Forms.Integration.ChildChangedEventArgs e)
-        {
-
-        }
-
-        private void panel1_Paint(object sender, PaintEventArgs e)
-        {
-
-        }
-
-        private void tableLayoutPanel1_Paint(object sender, PaintEventArgs e)
-        {
-
-        }
-
-        private void materialCard6_Paint(object sender, PaintEventArgs e)
-        {
-
-        }
-
-        private void pictureBox4_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void lbl_total_services_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void materialLabel4_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void materialCard5_Paint(object sender, PaintEventArgs e)
-        {
-
-        }
-
-        private void pictureBox3_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void lbl_total_product_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void lbl_product_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void materialCard4_Paint(object sender, PaintEventArgs e)
-        {
-
-        }
-
-        private void pictureBox2_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void lbl_total_appointment_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void materialLabel2_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void total_sales_card_Paint(object sender, PaintEventArgs e)
-        {
-
-        }
-
-        private void pictureBox1_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void lbl_total_sales_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void materialLabel1_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void userTab_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void dgv_user_CellContentClick(object sender, DataGridViewCellEventArgs e)
-        {
-
-        }
-
-        private void stylistTab_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void dgv_stylist_CellContentClick(object sender, DataGridViewCellEventArgs e)
-        {
-
-        }
-
-        private void customerTab_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void dgv_customer_CellContentClick(object sender, DataGridViewCellEventArgs e)
-        {
-
-        }
-
-        private void categoriesTab_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void dgv_category_CellContentClick(object sender, DataGridViewCellEventArgs e)
-        {
-
-        }
-
-        private void subCategoryTab_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void dgv_sub_category_CellContentClick(object sender, DataGridViewCellEventArgs e)
-        {
-
-        }
-
-        private void productsTab_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void dgv_product_CellContentClick(object sender, DataGridViewCellEventArgs e)
-        {
-
-        }
-
-        private void servicesTab_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void dgv_service_CellContentClick(object sender, DataGridViewCellEventArgs e)
-        {
-
-        }
-
-        private void appointmentTab_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void dgv_appointment_CellContentClick(object sender, DataGridViewCellEventArgs e)
-        {
-
-        }
-
-        private void reportsTab_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void reportsTabControl_SelectedIndexChanged(object sender, EventArgs e)
-        {
-
-        }
-
-        private void SalesTabPage_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void panel5_Paint(object sender, PaintEventArgs e)
-        {
-
-        }
-
-        private void dgv_report_table_CellContentClick(object sender, DataGridViewCellEventArgs e)
-        {
-
-        }
-
-        private void materialCard8_Paint(object sender, PaintEventArgs e)
-        {
-
-        }
-
-        private void btn_export_pdf_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void materialLabel13_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void lbl_report_total_gcash_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void lbl_report_total_discount_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void lbl_report_total_vat_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void lbl_report_total_sales_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void lbl_report_total_cash_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void lbl_report_total_transaction_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void materialLabel12_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void materialLabel11_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void materialLabel10_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void materialLabel9_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void materialLabel8_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void materialLabel7_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void materialLabel6_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void dtp_report_end_date_ValueChanged(object sender, EventArgs e)
-        {
-
-        }
-
-        private void dtp_report_start_date_ValueChanged(object sender, EventArgs e)
-        {
-
-        }
-
-        private void inventoryTabPage_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void panel6_Paint(object sender, PaintEventArgs e)
-        {
-
-        }
-
-        private void dgv_inventory_report_CellContentClick(object sender, DataGridViewCellEventArgs e)
-        {
-
-        }
-
-        private void materialCard9_Paint(object sender, PaintEventArgs e)
-        {
-
-        }
-
-        private void btn_inventory_export_pdf_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void lbl_inventory_stock_item_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void lbl_inventory_total_volume_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void lbl_inventory_total_product_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void lbl_inventory_low_stock_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void lbl_inventory_out_of_stock_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void materialLabel23_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void materialLabel24_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void materialLabel25_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void materialLabel26_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void materialLabel27_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void materialTabSelector3_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void auditTab_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void settingsTab_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void materialTabControl2_SelectedIndexChanged(object sender, EventArgs e)
-        {
-
-        }
-
-        private void vatAndDiscount_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void dgv_discount_CellContentClick(object sender, DataGridViewCellEventArgs e)
-        {
+            string selectedRange = cmb_expense_range.Text.Trim().ToLower();
 
-        }
-
-        private void materialCard1_Paint(object sender, PaintEventArgs e)
-        {
-
-        }
-
-        private void txt_promo_code_TextChanged(object sender, EventArgs e)
-        {
-
-        }
-
-        private void txt_discount_TextChanged(object sender, EventArgs e)
-        {
-
-        }
-
-        private void txt_vat_TextChanged(object sender, EventArgs e)
-        {
-
-        }
-
-        private void utilityTab_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void materialCard7_Paint(object sender, PaintEventArgs e)
-        {
-
-        }
-
-        private void materialTabSelector1_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void supplierTab_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void dgv_supplier_CellContentClick(object sender, DataGridViewCellEventArgs e)
-        {
-
-        }
-
-        private void deliveryTab_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void dgv_delivery_CellContentClick(object sender, DataGridViewCellEventArgs e)
-        {
-
-        }
-
-        private void inventoryTab_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void inventoryTabControl_SelectedIndexChanged(object sender, EventArgs e)
-        {
-
-        }
-
-        private void inventory_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void dgv_inventory_CellContentClick(object sender, DataGridViewCellEventArgs e)
-        {
-
-        }
-
-        private void batch_inventory_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void dgv_BatchInventory_CellContentClick(object sender, DataGridViewCellEventArgs e)
-        {
-
-        }
-
-        private void materialTabSelector2_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void priceTab_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void dgv_service_price_CellContentClick(object sender, DataGridViewCellEventArgs e)
-        {
-
-        }
-
-        private void materialTextBox1_TextChanged(object sender, EventArgs e)
-        {
-
-        }
-
-        private void txt_month_rent_TextChanged_1(object sender, EventArgs e)
-        {
+            if (string.IsNullOrWhiteSpace(selectedRange))
+            {
+          
+                startDate = dtp_expense_start_date.Value.Date;
+                endDate = dtp_expense_end_date.Value.Date;
+            }
+            else
+            {
+                switch (selectedRange)
+                {
+                    case "today":
+                        startDate = DateTime.Today;
+                        endDate = DateTime.Today.AddDays(1).AddTicks(-1);
+                        break;
 
-        }
-
-        private void txt_working_hours_TextChanged(object sender, EventArgs e)
-        {
-
-        }
-
-        private void txt_internet_bill_TextChanged(object sender, EventArgs e)
-        {
+                    case "weekly":
+                        startDate = DateTime.Today.AddDays(-(int)DateTime.Today.DayOfWeek);
+                        endDate = startDate.AddDays(6).AddDays(1).AddTicks(-1);
+                        break;
 
-        }
-
-        private void txt_other_bill_TextChanged(object sender, EventArgs e)
-        {
+                    case "monthly":
+                        startDate = new DateTime(DateTime.Today.Year, DateTime.Today.Month, 1);
+                        endDate = startDate.AddMonths(1).AddTicks(-1);
+                        break;
 
-        }
+                    default:
+                        MessageBox.Show("Invalid range selected.");
+                        return;
+                }
 
-        private void txt_bill_note_TextChanged(object sender, EventArgs e)
-        {
+                // Optional: update DateTimePickers to reflect the selected range
+                dtp_expense_start_date.Value = startDate;
+                dtp_expense_end_date.Value = endDate;
+            }
 
+            LoadExpenseReport(startDate, endDate);
+            LoadExpenseReportSummary(startDate, endDate);
         }
-
-        private void txt_electric_bill_TextChanged(object sender, EventArgs e)
+        private void LoadExpenseReport(DateTime? startDate = null, DateTime? endDate = null) 
         {
-
-        }
+            var repo = new ExpensesRepository();
+            var controller = new ExpensesController(repo);
 
-        private void txt_water_bill_TextChanged(object sender, EventArgs e)
-        {
+            var dgv_expense = (startDate.HasValue && endDate.HasValue)
+              ? controller.GetAllExpenses(startDate.Value, endDate.Value)
+              : controller.GetAllExpenses();
 
-        }
+            if (dgv_expense != null) 
+            {
+                dgv_expense_report.AutoGenerateColumns = false;
+                col_expense_id.DataPropertyName = "id";
+                col_expense_category.DataPropertyName = "category";
+                col_expense_description.DataPropertyName = "description";
+                col_expense_amount.DataPropertyName = "amount";
+                col_expense_paid_by.DataPropertyName = "paid_by";
+                col_expense_notes.DataPropertyName = "notes";
+                col_expense_date.DataPropertyName = "timestamp";
 
-        private void txt_total_utility_TextChanged_1(object sender, EventArgs e)
-        {
+                dgv_expense_report.DataSource = dgv_expense;
+            }
+        
 
         }
 
-        private void lbl_total_cost_TextChanged(object sender, EventArgs e)
+        private void LoadExpenseReportSummary(DateTime? startDate = null, DateTime? endDate = null)
         {
+            var repo = new ExpensesRepository();
+            var controller = new ExpensesController(repo);
 
-        }
-
-        private void pic_btn_update_Click_1(object sender, EventArgs e)
-        {
+            var expenseSummary = (startDate.HasValue && endDate.HasValue)
+              ? controller.GetSummaryExpenses(startDate.Value, endDate.Value)
+              : controller.GetSummaryExpenses();
 
-        }
 
-        private void pic_btn_add_Click_1(object sender, EventArgs e)
-        {
+            if (expenseSummary != null)
+            {
+                lbl_expense_total.Text = expenseSummary.TotalExpense.ToString("C2");
+                lbl_expense_inventory_total.Text = expenseSummary.TotalPurchaseInventory.ToString("C2");
+                lbl_expense_utility_total.Text = expenseSummary.TotalUtilities.ToString("C2");
+                lbl_expense_supplies.Text = expenseSummary.TotalSupplies.ToString("C2");
 
-        }
+            }
+            else 
+            {
+                lbl_expense_total.Text = "0.00";
+                lbl_expense_supplies.Text = "0.00";
+                lbl_expense_inventory_total.Text = "0.00";
+                lbl_expense_utility_total.Text = "0.00";
+            }
 
-        private void txt_expense_note_TextChanged(object sender, EventArgs e)
-        {
 
-        }
 
-        private void groupBox1_Enter(object sender, EventArgs e)
-        {
 
         }
 
-        private void groupBox2_Enter(object sender, EventArgs e)
+        private void cmb_expense_range_SelectedIndexChanged(object sender, EventArgs e)
         {
-
+            if (cmb_expense_range != null)
+            {
+                FilterExpenseReport();
+            }
         }
 
-        private void materialCard10_Paint(object sender, PaintEventArgs e)
+        private void btn_expense_filter_Click(object sender, EventArgs e)
         {
-
+            FilterExpenseReport();
         }
 
-        private void materialCard11_Paint(object sender, PaintEventArgs e)
+        private void btn_expense_clear_Click(object sender, EventArgs e)
         {
-
+            cmb_expense_range.Hint = string.Empty;
+            cmb_expense_range.SelectedIndex = -1;
+            dtp_expense_start_date.Value = DateTime.Today;
+            dtp_expense_end_date.Value = DateTime.Today;
+            FilterExpenseReport();
+            cmb_expense_range.Hint = "Select Range";
         }
     }
 }

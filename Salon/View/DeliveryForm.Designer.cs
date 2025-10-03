@@ -44,12 +44,12 @@
             this.materialLabel1 = new MaterialSkin.Controls.MaterialLabel();
             this.materialLabel2 = new MaterialSkin.Controls.MaterialLabel();
             this.materialCard1 = new MaterialSkin.Controls.MaterialCard();
+            this.btn_save = new MaterialSkin.Controls.MaterialButton();
             this.btn_cancel = new MaterialSkin.Controls.MaterialButton();
             this.btn_delete = new MaterialSkin.Controls.MaterialButton();
             this.btn_update = new MaterialSkin.Controls.MaterialButton();
             this.btn_add = new MaterialSkin.Controls.MaterialButton();
             this.dgv_Items = new System.Windows.Forms.DataGridView();
-            this.btn_save = new MaterialSkin.Controls.MaterialButton();
             this.product_id = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.col_product_name = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.col_qty = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -67,7 +67,7 @@
             // 
             // txt_received_by
             // 
-            this.txt_received_by.AnimateReadOnly = false;
+            this.txt_received_by.AnimateReadOnly = true;
             this.txt_received_by.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.txt_received_by.Depth = 0;
             this.txt_received_by.Font = new System.Drawing.Font("Roboto", 16F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
@@ -78,6 +78,7 @@
             this.txt_received_by.MouseState = MaterialSkin.MouseState.OUT;
             this.txt_received_by.Multiline = false;
             this.txt_received_by.Name = "txt_received_by";
+            this.txt_received_by.ReadOnly = true;
             this.txt_received_by.Size = new System.Drawing.Size(253, 50);
             this.txt_received_by.TabIndex = 0;
             this.txt_received_by.Text = "";
@@ -85,7 +86,7 @@
             // 
             // txt_total
             // 
-            this.txt_total.AnimateReadOnly = false;
+            this.txt_total.AnimateReadOnly = true;
             this.txt_total.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.txt_total.Depth = 0;
             this.txt_total.Font = new System.Drawing.Font("Roboto", 16F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
@@ -96,6 +97,7 @@
             this.txt_total.MouseState = MaterialSkin.MouseState.OUT;
             this.txt_total.Multiline = false;
             this.txt_total.Name = "txt_total";
+            this.txt_total.ReadOnly = true;
             this.txt_total.Size = new System.Drawing.Size(253, 50);
             this.txt_total.TabIndex = 1;
             this.txt_total.Text = "";
@@ -103,7 +105,7 @@
             // 
             // txt_unit
             // 
-            this.txt_unit.AnimateReadOnly = false;
+            this.txt_unit.AnimateReadOnly = true;
             this.txt_unit.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.txt_unit.Depth = 0;
             this.txt_unit.Font = new System.Drawing.Font("Roboto", 16F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
@@ -114,6 +116,7 @@
             this.txt_unit.MouseState = MaterialSkin.MouseState.OUT;
             this.txt_unit.Multiline = false;
             this.txt_unit.Name = "txt_unit";
+            this.txt_unit.ReadOnly = true;
             this.txt_unit.Size = new System.Drawing.Size(253, 50);
             this.txt_unit.TabIndex = 2;
             this.txt_unit.Text = "";
@@ -158,7 +161,7 @@
             // 
             // txt_volume
             // 
-            this.txt_volume.AnimateReadOnly = false;
+            this.txt_volume.AnimateReadOnly = true;
             this.txt_volume.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.txt_volume.Depth = 0;
             this.txt_volume.Font = new System.Drawing.Font("Roboto", 16F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
@@ -169,6 +172,7 @@
             this.txt_volume.MouseState = MaterialSkin.MouseState.OUT;
             this.txt_volume.Multiline = false;
             this.txt_volume.Name = "txt_volume";
+            this.txt_volume.ReadOnly = true;
             this.txt_volume.Size = new System.Drawing.Size(253, 50);
             this.txt_volume.TabIndex = 6;
             this.txt_volume.Text = "";
@@ -339,6 +343,26 @@
             this.materialCard1.Size = new System.Drawing.Size(1294, 568);
             this.materialCard1.TabIndex = 15;
             // 
+            // btn_save
+            // 
+            this.btn_save.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
+            this.btn_save.Density = MaterialSkin.Controls.MaterialButton.MaterialButtonDensity.Default;
+            this.btn_save.Depth = 0;
+            this.btn_save.HighEmphasis = true;
+            this.btn_save.Icon = null;
+            this.btn_save.Location = new System.Drawing.Point(1118, 512);
+            this.btn_save.Margin = new System.Windows.Forms.Padding(4, 6, 4, 6);
+            this.btn_save.MouseState = MaterialSkin.MouseState.HOVER;
+            this.btn_save.Name = "btn_save";
+            this.btn_save.NoAccentTextColor = System.Drawing.Color.Empty;
+            this.btn_save.Size = new System.Drawing.Size(64, 36);
+            this.btn_save.TabIndex = 19;
+            this.btn_save.Text = "Save";
+            this.btn_save.Type = MaterialSkin.Controls.MaterialButton.MaterialButtonType.Contained;
+            this.btn_save.UseAccentColor = false;
+            this.btn_save.UseVisualStyleBackColor = true;
+            this.btn_save.Click += new System.EventHandler(this.btn_save_Click);
+            // 
             // btn_cancel
             // 
             this.btn_cancel.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
@@ -365,6 +389,7 @@
             this.btn_delete.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
             this.btn_delete.Density = MaterialSkin.Controls.MaterialButton.MaterialButtonDensity.Default;
             this.btn_delete.Depth = 0;
+            this.btn_delete.Enabled = false;
             this.btn_delete.HighEmphasis = true;
             this.btn_delete.Icon = null;
             this.btn_delete.Location = new System.Drawing.Point(240, 512);
@@ -378,6 +403,7 @@
             this.btn_delete.Type = MaterialSkin.Controls.MaterialButton.MaterialButtonType.Contained;
             this.btn_delete.UseAccentColor = false;
             this.btn_delete.UseVisualStyleBackColor = true;
+            this.btn_delete.Click += new System.EventHandler(this.btn_delete_Click);
             // 
             // btn_update
             // 
@@ -445,26 +471,6 @@
             this.dgv_Items.Size = new System.Drawing.Size(1294, 234);
             this.dgv_Items.TabIndex = 16;
             this.dgv_Items.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgv_Items_CellClick);
-            // 
-            // btn_save
-            // 
-            this.btn_save.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
-            this.btn_save.Density = MaterialSkin.Controls.MaterialButton.MaterialButtonDensity.Default;
-            this.btn_save.Depth = 0;
-            this.btn_save.HighEmphasis = true;
-            this.btn_save.Icon = null;
-            this.btn_save.Location = new System.Drawing.Point(1118, 512);
-            this.btn_save.Margin = new System.Windows.Forms.Padding(4, 6, 4, 6);
-            this.btn_save.MouseState = MaterialSkin.MouseState.HOVER;
-            this.btn_save.Name = "btn_save";
-            this.btn_save.NoAccentTextColor = System.Drawing.Color.Empty;
-            this.btn_save.Size = new System.Drawing.Size(158, 36);
-            this.btn_save.TabIndex = 19;
-            this.btn_save.Text = "Save";
-            this.btn_save.Type = MaterialSkin.Controls.MaterialButton.MaterialButtonType.Contained;
-            this.btn_save.UseAccentColor = false;
-            this.btn_save.UseVisualStyleBackColor = true;
-            this.btn_save.Click += new System.EventHandler(this.btn_save_Click);
             // 
             // product_id
             // 

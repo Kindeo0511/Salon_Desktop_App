@@ -266,6 +266,7 @@
     <Compile Include="Repository\VatRepository.cs" />
     <Compile Include="Services\TimeSlotGenerator.cs" />
     <Compile Include="Util\ReceiptRenderer.cs" />
+    <Compile Include="Util\UserSession.cs" />
     <Compile Include="Util\ThemeManager.cs" />
     <Compile Include="View\AppointmentForm.cs">
       <SubType>Form</SubType>

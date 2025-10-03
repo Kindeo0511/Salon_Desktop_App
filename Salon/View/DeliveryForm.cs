@@ -25,6 +25,8 @@ namespace Salon.View
             LoadSupplier();
             LoadProducts();
             this.mainform = mainform;
+
+            txt_received_by.Text = UserSession.CurrentUser.first_Name.ToString();
         }
 
         private void LoadSupplier() 
@@ -162,6 +164,7 @@ namespace Salon.View
             btn_add.Visible = true;
             btn_cancel.Visible = false;
             btn_update.Visible = false;
+            btn_delete.Enabled = false;
             Clear();
         }
 
@@ -292,6 +295,25 @@ namespace Salon.View
             };
 
             controller.AddExpenses(model);
+        }
+
+        private void btn_delete_Click(object sender, EventArgs e)
+        {
+            if (dgv_Items.CurrentRow == null || dgv_Items.CurrentRow.Index < 0)
+                return;
+
+            var confirm = MessageBox.Show("Are you sure you want to delete this item?", "Confirm Delete", MessageBoxButtons.YesNo);
+            if (confirm == DialogResult.Yes)
+            {
+                dgv_Items.Rows.RemoveAt(dgv_Items.CurrentRow.Index);
+
+                btn_add.Visible = true;
+                btn_cancel.Visible = false;
+                btn_update.Visible = false;
+                btn_delete.Enabled = false;
+                Clear();
+            }
+
         }
     }
 }

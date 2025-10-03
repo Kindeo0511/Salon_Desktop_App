@@ -19,6 +19,14 @@ namespace Salon.Repository
                 return con.Query<UsersModel>(sql).ToList();
             }
         }
+        public UsersModel GetUserAndPassword(string user, string pass)
+        {
+            using (var con = Database.GetConnection()) 
+            {
+                var sql = "SELECT * FROM tbl_users WHERE userName = @userName AND userPassword =@userPassword";
+                return con.Query<UsersModel>(sql, new {userName = user, userPassword = pass }).FirstOrDefault();
+            }
+        }
         public void AddUser(UsersModel user)
         {
             using (var con = Database.GetConnection())
