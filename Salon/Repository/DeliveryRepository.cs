@@ -32,5 +32,29 @@ namespace Salon.Repository
             }
                
         }
+
+        // DELIVERY REPORT
+
+        public DeliveryModel TotalDelivery() 
+        {
+            using (var con = Database.GetConnection()) 
+            {
+                var sql = @"SELECT COUNT(*) AS TotalDelivery
+                            FROM tbl_delivery 
+                            WHERE MONTH(date) = MONTH(CURRENT_DATE) AND YEAR(date) = YEAR(CURRENT_DATE);";
+                return con.Query<DeliveryModel>(sql).FirstOrDefault();
+            }
+        }
+
+        public DeliveryModel TotalDelivery(DateTime start, DateTime end)
+        {
+            using (var con = Database.GetConnection())
+            {
+                var sql = @"SELECT COUNT(*) AS TotalDelivery
+                            FROM tbl_delivery 
+                            WHERE date BETWEEN @start AND @end";
+                return con.Query<DeliveryModel>(sql, new { start = start, end = end}).FirstOrDefault();
+            }
+        }
     }
 }

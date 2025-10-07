@@ -62,7 +62,7 @@
             this.lbl_Contact.AnimateReadOnly = false;
             this.lbl_Contact.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.lbl_Contact.Depth = 0;
-            this.lbl_Contact.Font = new System.Drawing.Font("Microsoft Sans Serif", 16F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
+            this.lbl_Contact.Font = new System.Drawing.Font("Roboto", 16F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
             this.lbl_Contact.Hint = "Contact #";
             this.lbl_Contact.LeadingIcon = null;
             this.lbl_Contact.Location = new System.Drawing.Point(44, 204);
@@ -80,7 +80,7 @@
             this.lbl_Email.AnimateReadOnly = false;
             this.lbl_Email.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.lbl_Email.Depth = 0;
-            this.lbl_Email.Font = new System.Drawing.Font("Microsoft Sans Serif", 16F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
+            this.lbl_Email.Font = new System.Drawing.Font("Roboto", 16F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
             this.lbl_Email.Hint = "Email";
             this.lbl_Email.LeadingIcon = null;
             this.lbl_Email.Location = new System.Drawing.Point(44, 306);
@@ -98,7 +98,7 @@
             this.lbl_book_type.AnimateReadOnly = false;
             this.lbl_book_type.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.lbl_book_type.Depth = 0;
-            this.lbl_book_type.Font = new System.Drawing.Font("Microsoft Sans Serif", 16F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
+            this.lbl_book_type.Font = new System.Drawing.Font("Roboto", 16F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
             this.lbl_book_type.Hint = "Booking Type";
             this.lbl_book_type.LeadingIcon = null;
             this.lbl_book_type.Location = new System.Drawing.Point(44, 394);
@@ -116,7 +116,7 @@
             this.lbl_Date.AnimateReadOnly = false;
             this.lbl_Date.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.lbl_Date.Depth = 0;
-            this.lbl_Date.Font = new System.Drawing.Font("Microsoft Sans Serif", 16F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
+            this.lbl_Date.Font = new System.Drawing.Font("Roboto", 16F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
             this.lbl_Date.Hint = "Date";
             this.lbl_Date.LeadingIcon = null;
             this.lbl_Date.Location = new System.Drawing.Point(370, 108);
@@ -134,7 +134,7 @@
             this.lbl_Time.AnimateReadOnly = false;
             this.lbl_Time.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.lbl_Time.Depth = 0;
-            this.lbl_Time.Font = new System.Drawing.Font("Microsoft Sans Serif", 16F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
+            this.lbl_Time.Font = new System.Drawing.Font("Roboto", 16F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
             this.lbl_Time.Hint = "Time";
             this.lbl_Time.LeadingIcon = null;
             this.lbl_Time.Location = new System.Drawing.Point(370, 204);
@@ -167,7 +167,7 @@
             this.lbl_Services.SelectionLength = 0;
             this.lbl_Services.SelectionStart = 0;
             this.lbl_Services.ShortcutsEnabled = true;
-            this.lbl_Services.Size = new System.Drawing.Size(234, 83);
+            this.lbl_Services.Size = new System.Drawing.Size(274, 138);
             this.lbl_Services.TabIndex = 6;
             this.lbl_Services.TabStop = false;
             this.lbl_Services.TextAlign = System.Windows.Forms.HorizontalAlignment.Left;

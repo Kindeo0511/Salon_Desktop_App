@@ -29,6 +29,8 @@ namespace Salon.View
             txt_received_by.Text = UserSession.CurrentUser.first_Name.ToString();
         }
 
+      
+
         private void LoadSupplier() 
         {
             var repo = new SupplierRepository();
@@ -275,7 +277,9 @@ namespace Salon.View
             }
             MessageBox.Show("Delivery has been added successfully.", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
             mainform.LoadDelivery();
-            //manageInventoryControl.LoadInventory();
+            mainform.LoadInventory();
+            mainform.LoadBatchInventory();
+            this.Close(); 
 
         }
 

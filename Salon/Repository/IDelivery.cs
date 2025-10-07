@@ -12,5 +12,10 @@ namespace Salon.Repository
         IEnumerable<DeliveryModel> GetAllDelivery();
 
         int AddDelivery(DeliveryModel delivery);
+
+        // DELIVERY REPORT
+
+        DeliveryModel TotalDelivery();
+        DeliveryModel TotalDelivery(DateTime start, DateTime end);
     }
 }

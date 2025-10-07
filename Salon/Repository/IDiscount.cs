@@ -16,5 +16,19 @@ namespace Salon.Repository
         void AddDiscounts(DiscountModel model);
         void UpdateDiscounts(DiscountModel model);
         void DeleteDiscounts(int id);
+
+        // DISCOUNT REPORT
+
+        DiscountModel TotalDiscount();
+        DiscountModel TotalDiscount(DateTime start, DateTime end);
+        DiscountModel TopItem();
+        DiscountModel TopItem(DateTime start, DateTime end);
+        DiscountModel DiscountedRate();
+        DiscountModel DiscountedRate(DateTime start, DateTime end);
+
+        // GRID DATA
+
+        IEnumerable<DiscountModel> AllDiscounts();
+        IEnumerable<DiscountModel> AllDiscounts(DateTime start, DateTime end);
     }
 }

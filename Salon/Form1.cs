@@ -7,29 +7,45 @@ using Salon.Repository;
 using Salon.Util;
 using Salon.View;
 using System;
+using System.Diagnostics;
 using System.Windows.Forms;
 
 namespace Salon
 {
+
     public partial class Form1 : MaterialForm
     {
+
         public Form1()
         {
             InitializeComponent();
+    
+
+            txt_user_name.Focus();
+
             var skin = MaterialSkinManager.Instance;
             skin.AddFormToManage(this);
+            skin.EnforceBackcolorOnAllComponents = true; // ← safe alternative
+                                                         // DO NOT call AddFormToManage(this) if drawer is not used
+
             skin.Theme = MaterialSkinManager.Themes.DARK;
             skin.ColorScheme = new ColorScheme(
-                             Primary.BlueGrey800,   // App bar / header background (dark neutral)
-                             Primary.BlueGrey900,   // Darker tone for depth
-                             Primary.BlueGrey500,   // Lighter tone for contrast
-                             Accent.LightBlue200,   // Accent (buttons, highlights, checkboxes)
-                             TextShade.WHITE        // White text for readability
-                         );
+                Primary.BlueGrey800,
+                Primary.BlueGrey900,
+                Primary.BlueGrey500,
+                Accent.LightBlue200,
+                TextShade.WHITE
+            );
+
+
+            
+
+           
         }
 
         private void btn_login_Click(object sender, EventArgs e)
         {
+           
             log_in();
         }
 
@@ -46,6 +62,8 @@ namespace Salon
                 // ✅ Success: proceed to dashboard
                 UserSession.CurrentUser = user;
                 MessageBox.Show($"Welcome {user.userName}!", "Login Successful", MessageBoxButtons.OK, MessageBoxIcon.Information);
+
+
                 MainForm mainForm = new MainForm();
                 mainForm.Show();
                 this.Hide();
@@ -70,6 +88,17 @@ namespace Salon
         private void btn_cancel_Click(object sender, EventArgs e)
         {
             this.Close(); 
+        }
+
+        private void Form1_Load(object sender, EventArgs e)
+        {
+            this.BeginInvoke(new Action(() => txt_user_name.Focus()));
+
+        }
+
+        private void txt_user_name_TextChanged(object sender, EventArgs e)
+        {
+            txt_user_name.Focus();
         }
     }
     

@@ -12,5 +12,14 @@ namespace Salon.Repository
         IEnumerable<DeliveryItemModel> GetDeliveryItems(int id);
 
         int AddDeliveryItem(DeliveryItemModel item);
+
+
+        // DELIVERY REPORT
+
+        DeliveryItemModel TotalQty();
+        DeliveryItemModel ExpiredQty();
+
+        IEnumerable<DeliveryItemModel> DeliveryItemList();
+        IEnumerable<DeliveryItemModel> DeliveryItemList(DateTime start, DateTime end);
     }
 }

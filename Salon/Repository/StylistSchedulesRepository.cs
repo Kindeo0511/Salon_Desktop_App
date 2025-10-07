@@ -45,5 +45,21 @@ namespace Salon.Repository
             }
                 
         }
+
+        // VALIDATION
+
+       public List<StylistModel> StylistSchedules(string dayOfWeek) 
+        {
+            using (var con = Database.GetConnection()) 
+            {
+                var sql = @"SELECT s.stylist_id, CONCAT(s.firstName,' ',s.middleName, ' ', s.lastName) AS fullName
+                    FROM tbl_stylist_schedules ss
+                    JOIN tbl_stylists s ON s.stylist_id = ss.stylist_id
+                    WHERE ss.day_of_week = @dayOfWeek AND ss.is_working = 1";
+
+                return con.Query<StylistModel>(sql, new { dayOfWeek }).ToList();
+
+            }
+        }
     }
 }

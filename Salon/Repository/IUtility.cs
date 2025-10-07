@@ -10,6 +10,8 @@ namespace Salon.Repository
     public interface IUtility
     {
         IEnumerable<UtilityModel> AllUtilities();
+
+        UtilityModel AllUtilty();
         UtilityModel TotalUtility();
         void AddUtility(UtilityModel model);
         void UpdateUtility(UtilityModel model);

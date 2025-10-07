@@ -19,7 +19,26 @@ namespace Salon.Models
         public string specialist { get; set; }
 
         public string fullName { get; set; }
-
+        public decimal daily_wage { get; set; }
         public decimal stylist_cost { get; set; }
+
+
+        // REPORT SUMMARY
+
+        public int TotalStaff { get; set; }
+        public int TotalActive { get; set; }
+        public int TotalInactive { get; set; }
+        public decimal TotalSales { get; set; }
+
+        public string StaffName { get; set; }
+        public string Role { get; set; }
+        public int Appointments { get; set; }
+        public decimal Sales { get; set; }
+        public string Availability { get; set; }
+    
+
+
+       
+
     }
 }

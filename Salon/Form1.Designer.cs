@@ -128,6 +128,7 @@
             this.txt_user_name.TabIndex = 2;
             this.txt_user_name.Text = "";
             this.txt_user_name.TrailingIcon = null;
+            this.txt_user_name.TextChanged += new System.EventHandler(this.txt_user_name_TextChanged);
             // 
             // btn_cancel
             // 
@@ -205,6 +206,7 @@
             this.Controls.Add(this.materialCard1);
             this.Name = "Form1";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
+            this.Load += new System.EventHandler(this.Form1_Load);
             this.materialCard1.ResumeLayout(false);
             this.materialCard1.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();

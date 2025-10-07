@@ -10,6 +10,8 @@ namespace Salon.Repository
     public interface ICustomer
     {
         IEnumerable<CustomerModel> GetAllCustomers();
+
+        CustomerModel TotalCustomer();
         List<CustomerModel> GetCustomerBySearch(string key);
         void AddCustomer(CustomerModel customer);
         void UpdateCustomer(CustomerModel customer);

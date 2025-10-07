@@ -1,4 +1,5 @@
 ﻿using MaterialSkin.Controls;
+using Org.BouncyCastle.Asn1.Cmp;
 using Salon.Controller;
 using Salon.Models;
 using Salon.Repository;
@@ -14,12 +15,16 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using static System.Windows.Forms.VisualStyles.VisualStyleElement;
 namespace Salon.View
 {
     public partial class AppointmentForm : MaterialForm
     {
         private MainForm mainForm;
+        private AppointmentModel model;
+        private CustomerModel customerModel;
         private List<ServiceItemSelected> serviceSelected;
+        private int duration_temp = 0;
         public AppointmentForm(MainForm mainForm)
         {
             InitializeComponent();
@@ -33,6 +38,49 @@ namespace Salon.View
                 DateTime time = new DateTime(1, 1, 1, hour, 0, 0);
                 string formattedTime = time.ToString("hh:mm tt"); // 12-hour format with AM/PM
                 cb_Time.Items.Add(formattedTime);
+            }
+        }
+        public AppointmentForm(MainForm mainForm, AppointmentModel model)
+        {
+            InitializeComponent();
+            ThemeManager.ApplyTheme(this);
+            ThemeManager.StyleDataGridView(dgv_table);
+            this.mainForm = mainForm;
+            this.model = model;
+
+
+            for (int hour = 9; hour <= 21; hour++)
+            {
+                DateTime time = new DateTime(1, 1, 1, hour, 0, 0);
+                string formattedTime = time.ToString("hh:mm tt"); // 12-hour format with AM/PM
+                cb_Time.Items.Add(formattedTime);
+            }
+            //customerModel.customer_name = model.CustomerName;
+            //customerModel.phoneNumber = model.PhoneNumber;
+            //customerModel.email = model.Email;
+            //customerModel.customer_id = model.CustomerId;
+            txt_FullName.Text = model.CustomerName;
+            lbl_ID.Text = model.CustomerId.ToString();
+            txt_Contact.Text = model.PhoneNumber;
+            txt_Email.Text = model.Email;
+            cb_book_type.Text = model.BookingType;
+            cb_Time.Text = DateTime.Today.Add(model.StartTime).ToString("hh:mm tt");
+            cmb_Date.Value = model.AppointmentDate;
+            btn_update.Visible = true;
+            btn_confirm.Visible = false;
+            reloadSelectedServices(model.AppointmentId);
+
+
+        }
+        private void reloadSelectedServices(int id) 
+        {
+            var repo = new AppointmentServiceRepository();
+            var controller = new AppointmentServiceController(repo);
+            var services = controller.GetSelectedServices(id);
+
+            foreach (var service in services) 
+            {
+                dgv_table.Rows.Add(service.ServiceId, service.ServiceName, service.SubCategoryname, service.Duration);
             }
         }
 
@@ -152,6 +200,165 @@ namespace Salon.View
             }
             return false;
         }
+        private void UpdateAppointment() 
+        {
+            var repo = new ServiceRepository();
+            var serviceController = new ServiceController(repo);
+            int total_duration = 0;
+            decimal total_price = 0;
+
+            serviceSelected = new List<ServiceItemSelected>();
+
+
+
+            foreach (DataGridViewRow row in dgv_table.Rows)
+            {
+
+                int service_id = Convert.ToInt32(row.Cells["col_service_id"].Value);
+                string name = row.Cells["col_service_name"].Value.ToString();
+                string category = row.Cells["col_category_name"].Value.ToString();
+                int duration = Convert.ToInt32(row.Cells["col_duration"].Value);
+
+
+                total_duration += duration;
+                var service = new ServiceItemSelected
+                {
+                    service_id = service_id,
+                    service_name = name,
+                    category_name = category,
+                    total_duration = duration,
+
+                };
+
+
+
+                serviceSelected.Add(service);
+            }
+
+            if (serviceSelected.Count == 0)
+            {
+                MessageBox.Show("Please select at least one service before confirming.", "No Services Selected", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
+            else if (CustomerFieldMissing())
+            {
+                MessageBox.Show("Please complete all required fields before confirming.", "Missing Information", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
+            else
+            {
+                UpdateAppointment(total_duration);
+            }
+        }
+        private BookingSummary BuildBookingSummary(int total_duration)
+        {
+            var customer = new CustomerModel
+            {
+                customer_id = Convert.ToInt32(lbl_ID.Text),
+                customer_name = txt_FullName.Text,
+                email = txt_Email.Text,
+                phoneNumber = txt_Contact.Text
+            };
+
+            var appointmentDate = cmb_Date.Value.Date;
+            var appointmentTime = DateTime.Parse(cb_Time.SelectedItem.ToString()).TimeOfDay;
+            var appointmentEndTime = appointmentTime.Add(TimeSpan.FromMinutes(total_duration));
+            var book_type = cb_book_type.Text;
+
+            return new BookingSummary
+            {
+                CustomerModel = customer,
+                SelectedServices = serviceSelected,
+                AppointmentDate = appointmentDate,
+                AppointmentTime = appointmentTime,
+                AppointmentEndTime = appointmentEndTime,
+                BookingType = book_type
+            };
+        }
+
+        private void UpdateAppointment(int total_duration)
+        {
+            var summary = BuildBookingSummary(total_duration);
+            var confirmationForm = new ConfirmationBooking(this, mainForm, summary, isUpdate: true, appointmentId: model.AppointmentId);
+            if (confirmationForm.ShowDialog() == DialogResult.OK)
+            {
+                serviceSelected.Clear();
+            }
+
+            //var customer = new CustomerModel
+            //{
+            //    customer_id = Convert.ToInt32(lbl_ID.Text),
+            //    customer_name = txt_FullName.Text,
+            //    email = txt_Email.Text,
+            //    phoneNumber = txt_Contact.Text
+            //};
+
+
+            //var appointmentDate = cmb_Date.Value.Date;
+            //var appointmentTime = DateTime.Parse(cb_Time.SelectedItem.ToString()).TimeOfDay;
+            //var appointmentEndTime = appointmentTime.Add(TimeSpan.FromMinutes(total_duration));
+            //var book_type = cb_book_type.Text;
+
+            //var summary = new BookingSummary
+            //{
+            //    CustomerModel = customer,
+            //    SelectedServices = serviceSelected,
+            //    AppointmentDate = appointmentDate,
+            //    AppointmentTime = appointmentTime,
+            //    AppointmentEndTime = appointmentEndTime,
+            //    BookingType = book_type
+            //};
+
+            //var appointment = new Models.AppointmentModel
+            //{
+            //    AppointmentId = model.AppointmentId,
+            //    CustomerId = model.CustomerId,
+            //    AppointmentDate = appointmentDate,
+            //    StartTime = appointmentTime,
+            //    EndTime = appointmentEndTime,
+            //    Status = model.Status,
+            //    PaymentStatus = model.PaymentStatus,
+            //    BookingType = book_type
+
+            //};
+
+            //var repo = new AppointmentRepository();
+            //var appointmentController = new AppointmentController(repo);
+            //int appointmentId = appointmentController.UpdatingTheAppointment(appointment);
+
+            //var service_repo = new AppointmentServiceRepository();
+            //var service_controller = new AppointmentServiceController(service_repo);
+
+            //service_controller.ClearDeleteAllServicesForAppointment(appointmentId);
+
+            //foreach (var service in serviceSelected)
+            //{
+
+            //var appointmentService = new AppointmentServicesModel
+            //{
+
+            //    AppointmentId = appointmentId,
+            //    ServiceId = service.service_id
+
+            //};
+            //var appointmentServiceRepo = new Repository.AppointmentServiceRepository();
+            // appointmentServiceRepo.AddAppointmentService(appointmentService);
+
+            //}
+            //MessageBox.Show("The appointment has been updated successfully!", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
+
+
+
+            //mainForm.LoadAppointments();
+            //mainForm.LoadTotalAppointments();
+            //mainForm.LoadPopularServices();
+
+
+            //this.Close();
+
+
+
+        }
         private void SaveAppointment() 
         {
             var repo = new ServiceRepository();
@@ -170,8 +377,8 @@ namespace Salon.View
                 string name = row.Cells["col_service_name"].Value.ToString();
                 string category = row.Cells["col_category_name"].Value.ToString();
                 int duration = Convert.ToInt32(row.Cells["col_duration"].Value);
-       
 
+                duration_temp += duration;
                 total_duration += duration;
                 var service = new ServiceItemSelected
                 {
@@ -182,9 +389,11 @@ namespace Salon.View
 
                 };
 
-                serviceSelected.Add(service);
 
+
+                serviceSelected.Add(service);
             }
+
             if (serviceSelected.Count == 0)
             {
                 MessageBox.Show("Please select at least one service before confirming.", "No Services Selected", MessageBoxButtons.OK, MessageBoxIcon.Warning);
@@ -203,39 +412,187 @@ namespace Salon.View
         }
         private void SaveAppointment(int total_duration)
         {
-
-            var customer = new CustomerModel
+            var summary = BuildBookingSummary(total_duration);
+            var confirmationForm = new ConfirmationBooking(this, mainForm, summary, isUpdate: false);
+            if (confirmationForm.ShowDialog() == DialogResult.OK)
             {
-                customer_id = Convert.ToInt32(lbl_ID.Text),
-                customer_name = txt_FullName.Text,
-                email = txt_Email.Text,
-                phoneNumber = txt_Contact.Text
-            };
-
-            var appointmentDate = cmb_Date.Value.Date;
-            var appointmentTime = DateTime.Parse(cb_Time.SelectedItem.ToString()).TimeOfDay;
-            var appointmentEndTime = appointmentTime.Add(TimeSpan.FromMinutes(total_duration));
-            var book_type = cb_book_type.Text;
-
-            var summary = new BookingSummary
-            {
-                CustomerModel = customer,
-                SelectedServices = serviceSelected,
-                AppointmentDate = appointmentDate,
-                AppointmentTime = appointmentTime,
-                AppointmentEndTime = appointmentEndTime,
-                BookingType = book_type
-            };
+                serviceSelected.Clear();
+            }
 
 
+            //var customer = new CustomerModel
+            //{
+            //    customer_id = Convert.ToInt32(lbl_ID.Text),
+            //    customer_name = txt_FullName.Text,
+            //    email = txt_Email.Text,
+            //    phoneNumber = txt_Contact.Text
+            //};
 
-            var confirmationForm = new ConfirmationBooking(this,mainForm, summary);
-            confirmationForm.ShowDialog();
+            //var appointmentDate = cmb_Date.Value.Date;
+            //var appointmentTime = DateTime.Parse(cb_Time.SelectedItem.ToString()).TimeOfDay;
+            //var appointmentEndTime = appointmentTime.Add(TimeSpan.FromMinutes(total_duration));
+            //var book_type = cb_book_type.Text;
+
+            //var summary = new BookingSummary
+            //{
+            //    CustomerModel = customer,
+            //    SelectedServices = serviceSelected,
+            //    AppointmentDate = appointmentDate,
+            //    AppointmentTime = appointmentTime,
+            //    AppointmentEndTime = appointmentEndTime,
+            //    BookingType = book_type
+            //};
+
+
+
+            //var confirmationForm = new ConfirmationBooking(this, mainForm, summary);
+            //confirmationForm.ShowDialog();
+            //serviceSelected.Clear();
+
 
         }
         private void btn_confirm_Click(object sender, EventArgs e)
         {
-            SaveAppointment();
+            if (model != null)
+            {
+                UpdateAppointment();
+            }
+            else 
+            {
+                SaveAppointment();
+            }
+               
         }
+
+        private void dgv_table_CellClick(object sender, DataGridViewCellEventArgs e)
+        {
+            if (dgv_table.CurrentRow == null || dgv_table.CurrentRow.Index < 0)
+                return;
+
+            if (e.RowIndex >= 0 && dgv_table.Columns[e.ColumnIndex].Name == "col_btn_delete")
+            {
+                var confirm = MessageBox.Show("Are you sure you want to delete this item?", "Confirm Delete", MessageBoxButtons.YesNo);
+                if (confirm == DialogResult.Yes)
+                {
+                    var service_repo = new AppointmentServiceRepository();
+                    var service_controller = new AppointmentServiceController(service_repo);
+
+                    service_controller.ClearDeleteAllServicesForAppointment(model.AppointmentId);
+
+                    // Remove from the grid
+                    dgv_table.Rows.RemoveAt(dgv_table.CurrentRow.Index);
+                }
+            }
+
+
+        }
+        public void CommitAppointment(BookingSummary summary, bool isUpdate)
+        {
+            var appointment = new AppointmentModel
+            {
+                AppointmentId = isUpdate ? model.AppointmentId : 0,
+                CustomerId = summary.CustomerModel.customer_id,
+                AppointmentDate = summary.AppointmentDate,
+                StartTime = summary.AppointmentTime,
+                EndTime = summary.AppointmentEndTime,
+                Status = "Scheduled",
+                PaymentStatus = "Unpaid",
+                BookingType = summary.BookingType
+            };
+
+            var repo = new AppointmentRepository();
+            var appointmentController = new AppointmentController(repo);
+
+            int appointmentId = isUpdate
+                ? appointmentController.UpdatingTheAppointment(appointment)
+                : appointmentController.CreateAppointment(appointment); 
+
+            var serviceRepo = new AppointmentServiceRepository();
+            var serviceController = new AppointmentServiceController(serviceRepo);
+
+            if (isUpdate)
+                serviceController.ClearDeleteAllServicesForAppointment(appointmentId);
+
+            foreach (var service in summary.SelectedServices)
+            {
+                var appointmentService = new AppointmentServicesModel
+                {
+                    AppointmentId = appointmentId,
+                    ServiceId = service.service_id
+                };
+                serviceRepo.AddAppointmentService(appointmentService);
+            }
+
+            MessageBox.Show("The appointment has been saved successfully!", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            mainForm.LoadAppointments();
+            mainForm.LoadTotalAppointments();
+            mainForm.LoadPopularServices();
+            this.Close();
+        }
+        private void btn_update_Click(object sender, EventArgs e)
+        {
+
+            UpdateAppointment();
+
+
+        }
+
+        private async void btn_check_available_Click(object sender, EventArgs e)
+        {
+            int totalDuration = 0;
+
+            foreach (DataGridViewRow row in dgv_table.Rows)
+            {
+                if (row.Cells["col_duration"].Value != null)
+                {
+                    int durationn = Convert.ToInt32(row.Cells["col_duration"].Value);
+                    totalDuration += durationn;
+                }
+            }
+
+            if (totalDuration == 0)
+            {
+                MessageBox.Show("Please select at least one service before checking availability.", "No Services Selected", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
+
+            var repo = new AppointmentRepository();
+            var controller = new AppointmentController(repo);
+            var date = cmb_Date.Value.Date;
+            var startTime = DateTime.Parse(cb_Time.SelectedItem.ToString()).TimeOfDay;
+            var duration = TimeSpan.FromMinutes(totalDuration);
+
+            bool isAvailable = await controller.CheckSlotRangeAvailable(date, startTime, duration);
+            MessageBox.Show($"Date: ({date}), start Time ({startTime}, Duration: ({duration}))");
+            txt_availability.Text = isAvailable ? "✅ Slot is available" : "❌ Slot is taken";
+
+            if (isAvailable)
+            {
+                btn_confirm.Enabled = true;
+            }
+            else 
+            {
+                btn_confirm.Enabled = false;
+            }
+        }
+
+
+        
+
+
+        //public async Task<bool> IsSlotRangeAvailableAsync(DateTime date, TimeSpan startTime, TimeSpan duration)
+        //{
+        //    int slotsNeeded = (int)Math.Ceiling(duration.TotalHours);
+        //    var repo = new AppointmentRepository();
+        //    var controller = new AppointmentController(repo);
+        //    for (int i = 0; i < slotsNeeded; i++)
+        //    {
+        //        var slotTime = startTime.Add(TimeSpan.FromHours(i));
+        //        if (await controller.CheckIsSlotTaken(date, slotTime)) 
+        //            return false;
+        //    }
+
+        //    return true;
+        //}
     }
 }

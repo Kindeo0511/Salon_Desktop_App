@@ -24,23 +24,68 @@ namespace Salon.View
             ThemeManager.ApplyTheme(this);
             this.mainForm = mainForm;
             this.appointment = appointment;
-            LoadStylist();
+            StylistExceptionSchedules();
+
+       
         }
 
-
-        private void LoadStylist() 
+        private void StylistExceptionSchedules()
         {
-            var repo = new StylistRepository();
-            var controller = new StylistController(repo);
-            var stylist = controller.StylistFullName();
+            var repo = new ExceptionSchedulesRepository();
+            var controller = new ExceptionSchedulesController(repo);
+            var hasException = controller.GetCheckExceptionSchedule(appointment.AppointmentDate);
 
-            cmb_stylist.DisplayMember = "fullName";
-            cmb_stylist.ValueMember = "stylist_id";
+            if (hasException)
+            {
+                // Exception exists — block stylist assignment
+                cmb_stylist.DataSource = null;
+                cmb_stylist.Items.Clear();
+                cmb_stylist.Items.Add("Stylist assignment blocked due to exception");
+                cmb_stylist.SelectedIndex = 0;
+                cmb_stylist.Enabled = false;
+                btn_assign.Enabled = false;
+                return;
+            }
 
-            cmb_stylist.DataSource = stylist;
-            cmb_stylist.SelectedIndex = -1;
-        
+            // No exception — check stylist schedule
+            var sh_repo = new StylistSchedulesRepository();
+            var sh_controller = new StylistSchedulesController(sh_repo);
+            var sh_sched = sh_controller.CheckStylistSchedule(appointment.AppointmentDate);
+
+            var stylist_repo = new StylistRepository();
+            var stylist_controller = new StylistController(stylist_repo);
+            var assignedStylists =stylist_controller.GetAssignedStylist(appointment.AppointmentDate, appointment.StartTime, appointment.EndTime);
+            var freeStylists = sh_sched
+                .Where(s => !assignedStylists.Contains(s.stylist_id))
+                .ToList();
+
+
+            if (freeStylists != null && freeStylists.Count > 0)
+            {
+                LoadStylist(freeStylists);
+            }
+            else
+            {
+                cmb_stylist.DataSource = null;
+                cmb_stylist.Items.Clear();
+                cmb_stylist.Items.Add("No Available Stylist");
+                cmb_stylist.SelectedIndex = 0;
+                cmb_stylist.Enabled = false;
+                btn_assign.Enabled = false;
+            }
+
         }
+        private void LoadStylist(List<StylistModel> stylists)
+    {
+        cmb_stylist.DisplayMember = "fullName";
+        cmb_stylist.ValueMember = "stylist_id";
+        cmb_stylist.DataSource = stylists;
+        cmb_stylist.SelectedIndex = -1;
+        cmb_stylist.Enabled = true;
+        btn_assign.Enabled = true;
+    }
+
+
 
         private void UpdateAppointment() 
         {

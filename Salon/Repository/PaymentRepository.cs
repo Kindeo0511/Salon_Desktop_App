@@ -30,5 +30,28 @@ namespace Salon.Repository
             }
             
         }
+
+
+
+        public PaymentModel GetTotalAmountPaid() 
+        {
+            using (var con = Database.GetConnection()) 
+            {
+                var sql = "SELECT SUM(total_amount) AS TotalAppointmentRevenue FROM tbl_payment";
+
+                return con.Query<PaymentModel>(sql).FirstOrDefault();
+                
+            }
+        }
+        public PaymentModel GetTotalAmountPaid(DateTime start, DateTime end) 
+        {
+            using (var con = Database.GetConnection())
+            {
+                var sql = "SELECT SUM(total_amount) AS TotalAppointmentRevenue FROM tbl_payment WHERE paid_at BETWEEN @start AND @end";
+
+                return con.Query<PaymentModel>(sql, new { start = start, end = end}).FirstOrDefault();
+
+            }
+        }
     }
 }

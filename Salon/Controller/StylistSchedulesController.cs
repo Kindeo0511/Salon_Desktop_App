@@ -33,5 +33,13 @@ namespace Salon.Controller
         {
             _repo.DeleteStylistSchedule(scheduleId);
         }
+
+        // VALIDATION
+
+        public List<StylistModel> CheckStylistSchedule(DateTime day)
+        {
+            string dayOfWeek = day.DayOfWeek.ToString();
+            return _repo.StylistSchedules(dayOfWeek);
+        }
     }
 }

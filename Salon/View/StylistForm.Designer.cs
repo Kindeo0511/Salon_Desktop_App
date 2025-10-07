@@ -29,19 +29,16 @@
         private void InitializeComponent()
         {
             this.btn_update = new MaterialSkin.Controls.MaterialButton();
-            this.chk_show_password = new MaterialSkin.Controls.MaterialRadioButton();
             this.btn_cancel = new MaterialSkin.Controls.MaterialButton();
             this.btn_save = new MaterialSkin.Controls.MaterialButton();
             this.dtp_day_of_birth = new System.Windows.Forms.DateTimePicker();
-            this.txt_username = new MaterialSkin.Controls.MaterialTextBox();
-            this.txt_password = new MaterialSkin.Controls.MaterialTextBox();
-            this.txt_confirm_password = new MaterialSkin.Controls.MaterialTextBox();
             this.txt_email = new MaterialSkin.Controls.MaterialTextBox();
             this.txt_contact = new MaterialSkin.Controls.MaterialTextBox();
             this.txt_address = new MaterialSkin.Controls.MaterialTextBox();
             this.txt_last_name = new MaterialSkin.Controls.MaterialTextBox();
             this.txt_middle_name = new MaterialSkin.Controls.MaterialTextBox();
             this.txt_first_name = new MaterialSkin.Controls.MaterialTextBox();
+            this.txt_daily_wage = new MaterialSkin.Controls.MaterialTextBox();
             this.SuspendLayout();
             // 
             // btn_update
@@ -51,7 +48,7 @@
             this.btn_update.Depth = 0;
             this.btn_update.HighEmphasis = true;
             this.btn_update.Icon = null;
-            this.btn_update.Location = new System.Drawing.Point(688, 621);
+            this.btn_update.Location = new System.Drawing.Point(377, 621);
             this.btn_update.Margin = new System.Windows.Forms.Padding(4, 6, 4, 6);
             this.btn_update.MouseState = MaterialSkin.MouseState.HOVER;
             this.btn_update.Name = "btn_update";
@@ -65,22 +62,6 @@
             this.btn_update.Visible = false;
             this.btn_update.Click += new System.EventHandler(this.btn_update_Click);
             // 
-            // chk_show_password
-            // 
-            this.chk_show_password.AutoSize = true;
-            this.chk_show_password.Depth = 0;
-            this.chk_show_password.Location = new System.Drawing.Point(717, 433);
-            this.chk_show_password.Margin = new System.Windows.Forms.Padding(0);
-            this.chk_show_password.MouseLocation = new System.Drawing.Point(-1, -1);
-            this.chk_show_password.MouseState = MaterialSkin.MouseState.HOVER;
-            this.chk_show_password.Name = "chk_show_password";
-            this.chk_show_password.Ripple = true;
-            this.chk_show_password.Size = new System.Drawing.Size(149, 37);
-            this.chk_show_password.TabIndex = 26;
-            this.chk_show_password.TabStop = true;
-            this.chk_show_password.Text = "Show Password";
-            this.chk_show_password.UseVisualStyleBackColor = true;
-            // 
             // btn_cancel
             // 
             this.btn_cancel.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
@@ -88,7 +69,7 @@
             this.btn_cancel.Depth = 0;
             this.btn_cancel.HighEmphasis = true;
             this.btn_cancel.Icon = null;
-            this.btn_cancel.Location = new System.Drawing.Point(852, 621);
+            this.btn_cancel.Location = new System.Drawing.Point(501, 621);
             this.btn_cancel.Margin = new System.Windows.Forms.Padding(4, 6, 4, 6);
             this.btn_cancel.MouseState = MaterialSkin.MouseState.HOVER;
             this.btn_cancel.Name = "btn_cancel";
@@ -107,7 +88,7 @@
             this.btn_save.Depth = 0;
             this.btn_save.HighEmphasis = true;
             this.btn_save.Icon = null;
-            this.btn_save.Location = new System.Drawing.Point(688, 621);
+            this.btn_save.Location = new System.Drawing.Point(377, 621);
             this.btn_save.Margin = new System.Windows.Forms.Padding(4, 6, 4, 6);
             this.btn_save.MouseState = MaterialSkin.MouseState.HOVER;
             this.btn_save.Name = "btn_save";
@@ -123,71 +104,17 @@
             // dtp_day_of_birth
             // 
             this.dtp_day_of_birth.Format = System.Windows.Forms.DateTimePickerFormat.Short;
-            this.dtp_day_of_birth.Location = new System.Drawing.Point(366, 366);
+            this.dtp_day_of_birth.Location = new System.Drawing.Point(366, 431);
             this.dtp_day_of_birth.Name = "dtp_day_of_birth";
             this.dtp_day_of_birth.Size = new System.Drawing.Size(212, 22);
             this.dtp_day_of_birth.TabIndex = 23;
-            // 
-            // txt_username
-            // 
-            this.txt_username.AnimateReadOnly = false;
-            this.txt_username.BorderStyle = System.Windows.Forms.BorderStyle.None;
-            this.txt_username.Depth = 0;
-            this.txt_username.Font = new System.Drawing.Font("Microsoft Sans Serif", 16F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
-            this.txt_username.Hint = "Username";
-            this.txt_username.LeadingIcon = null;
-            this.txt_username.Location = new System.Drawing.Point(717, 125);
-            this.txt_username.MaxLength = 50;
-            this.txt_username.MouseState = MaterialSkin.MouseState.OUT;
-            this.txt_username.Multiline = false;
-            this.txt_username.Name = "txt_username";
-            this.txt_username.Size = new System.Drawing.Size(212, 50);
-            this.txt_username.TabIndex = 22;
-            this.txt_username.Text = "";
-            this.txt_username.TrailingIcon = null;
-            // 
-            // txt_password
-            // 
-            this.txt_password.AnimateReadOnly = false;
-            this.txt_password.BorderStyle = System.Windows.Forms.BorderStyle.None;
-            this.txt_password.Depth = 0;
-            this.txt_password.Font = new System.Drawing.Font("Microsoft Sans Serif", 16F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
-            this.txt_password.Hint = "Password";
-            this.txt_password.LeadingIcon = null;
-            this.txt_password.Location = new System.Drawing.Point(717, 231);
-            this.txt_password.MaxLength = 50;
-            this.txt_password.MouseState = MaterialSkin.MouseState.OUT;
-            this.txt_password.Multiline = false;
-            this.txt_password.Name = "txt_password";
-            this.txt_password.Size = new System.Drawing.Size(212, 50);
-            this.txt_password.TabIndex = 21;
-            this.txt_password.Text = "";
-            this.txt_password.TrailingIcon = null;
-            // 
-            // txt_confirm_password
-            // 
-            this.txt_confirm_password.AnimateReadOnly = false;
-            this.txt_confirm_password.BorderStyle = System.Windows.Forms.BorderStyle.None;
-            this.txt_confirm_password.Depth = 0;
-            this.txt_confirm_password.Font = new System.Drawing.Font("Microsoft Sans Serif", 16F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
-            this.txt_confirm_password.Hint = "Confirm Password";
-            this.txt_confirm_password.LeadingIcon = null;
-            this.txt_confirm_password.Location = new System.Drawing.Point(717, 342);
-            this.txt_confirm_password.MaxLength = 50;
-            this.txt_confirm_password.MouseState = MaterialSkin.MouseState.OUT;
-            this.txt_confirm_password.Multiline = false;
-            this.txt_confirm_password.Name = "txt_confirm_password";
-            this.txt_confirm_password.Size = new System.Drawing.Size(212, 50);
-            this.txt_confirm_password.TabIndex = 20;
-            this.txt_confirm_password.Text = "";
-            this.txt_confirm_password.TrailingIcon = null;
             // 
             // txt_email
             // 
             this.txt_email.AnimateReadOnly = false;
             this.txt_email.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.txt_email.Depth = 0;
-            this.txt_email.Font = new System.Drawing.Font("Microsoft Sans Serif", 16F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
+            this.txt_email.Font = new System.Drawing.Font("Roboto", 16F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
             this.txt_email.Hint = "Email";
             this.txt_email.LeadingIcon = null;
             this.txt_email.Location = new System.Drawing.Point(366, 231);
@@ -205,7 +132,7 @@
             this.txt_contact.AnimateReadOnly = false;
             this.txt_contact.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.txt_contact.Depth = 0;
-            this.txt_contact.Font = new System.Drawing.Font("Microsoft Sans Serif", 16F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
+            this.txt_contact.Font = new System.Drawing.Font("Roboto", 16F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
             this.txt_contact.Hint = "Contact #";
             this.txt_contact.LeadingIcon = null;
             this.txt_contact.Location = new System.Drawing.Point(366, 126);
@@ -223,10 +150,10 @@
             this.txt_address.AnimateReadOnly = false;
             this.txt_address.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.txt_address.Depth = 0;
-            this.txt_address.Font = new System.Drawing.Font("Microsoft Sans Serif", 16F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
+            this.txt_address.Font = new System.Drawing.Font("Roboto", 16F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
             this.txt_address.Hint = "Address";
             this.txt_address.LeadingIcon = null;
-            this.txt_address.Location = new System.Drawing.Point(46, 449);
+            this.txt_address.Location = new System.Drawing.Point(46, 511);
             this.txt_address.MaxLength = 50;
             this.txt_address.MouseState = MaterialSkin.MouseState.OUT;
             this.txt_address.Multiline = false;
@@ -241,7 +168,7 @@
             this.txt_last_name.AnimateReadOnly = false;
             this.txt_last_name.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.txt_last_name.Depth = 0;
-            this.txt_last_name.Font = new System.Drawing.Font("Microsoft Sans Serif", 16F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
+            this.txt_last_name.Font = new System.Drawing.Font("Roboto", 16F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
             this.txt_last_name.Hint = "Last Name";
             this.txt_last_name.LeadingIcon = null;
             this.txt_last_name.Location = new System.Drawing.Point(46, 338);
@@ -259,7 +186,7 @@
             this.txt_middle_name.AnimateReadOnly = false;
             this.txt_middle_name.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.txt_middle_name.Depth = 0;
-            this.txt_middle_name.Font = new System.Drawing.Font("Microsoft Sans Serif", 16F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
+            this.txt_middle_name.Font = new System.Drawing.Font("Roboto", 16F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
             this.txt_middle_name.Hint = "Middle Name";
             this.txt_middle_name.LeadingIcon = null;
             this.txt_middle_name.Location = new System.Drawing.Point(46, 231);
@@ -277,7 +204,7 @@
             this.txt_first_name.AnimateReadOnly = false;
             this.txt_first_name.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.txt_first_name.Depth = 0;
-            this.txt_first_name.Font = new System.Drawing.Font("Microsoft Sans Serif", 16F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
+            this.txt_first_name.Font = new System.Drawing.Font("Roboto", 16F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
             this.txt_first_name.Hint = "First Name";
             this.txt_first_name.LeadingIcon = null;
             this.txt_first_name.Location = new System.Drawing.Point(46, 126);
@@ -290,19 +217,34 @@
             this.txt_first_name.Text = "";
             this.txt_first_name.TrailingIcon = null;
             // 
+            // txt_daily_wage
+            // 
+            this.txt_daily_wage.AnimateReadOnly = false;
+            this.txt_daily_wage.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            this.txt_daily_wage.Depth = 0;
+            this.txt_daily_wage.Font = new System.Drawing.Font("Microsoft Sans Serif", 16F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
+            this.txt_daily_wage.Hint = "Daily Wage";
+            this.txt_daily_wage.LeadingIcon = null;
+            this.txt_daily_wage.Location = new System.Drawing.Point(366, 338);
+            this.txt_daily_wage.MaxLength = 50;
+            this.txt_daily_wage.MouseState = MaterialSkin.MouseState.OUT;
+            this.txt_daily_wage.Multiline = false;
+            this.txt_daily_wage.Name = "txt_daily_wage";
+            this.txt_daily_wage.Size = new System.Drawing.Size(212, 50);
+            this.txt_daily_wage.TabIndex = 28;
+            this.txt_daily_wage.Text = "";
+            this.txt_daily_wage.TrailingIcon = null;
+            // 
             // StylistForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1291, 729);
+            this.ClientSize = new System.Drawing.Size(630, 729);
+            this.Controls.Add(this.txt_daily_wage);
             this.Controls.Add(this.btn_update);
-            this.Controls.Add(this.chk_show_password);
             this.Controls.Add(this.btn_cancel);
             this.Controls.Add(this.btn_save);
             this.Controls.Add(this.dtp_day_of_birth);
-            this.Controls.Add(this.txt_username);
-            this.Controls.Add(this.txt_password);
-            this.Controls.Add(this.txt_confirm_password);
             this.Controls.Add(this.txt_email);
             this.Controls.Add(this.txt_contact);
             this.Controls.Add(this.txt_address);
@@ -320,18 +262,15 @@
         #endregion
 
         private MaterialSkin.Controls.MaterialButton btn_update;
-        private MaterialSkin.Controls.MaterialRadioButton chk_show_password;
         private MaterialSkin.Controls.MaterialButton btn_cancel;
         private MaterialSkin.Controls.MaterialButton btn_save;
         private System.Windows.Forms.DateTimePicker dtp_day_of_birth;
-        private MaterialSkin.Controls.MaterialTextBox txt_username;
-        private MaterialSkin.Controls.MaterialTextBox txt_password;
-        private MaterialSkin.Controls.MaterialTextBox txt_confirm_password;
         private MaterialSkin.Controls.MaterialTextBox txt_email;
         private MaterialSkin.Controls.MaterialTextBox txt_contact;
         private MaterialSkin.Controls.MaterialTextBox txt_address;
         private MaterialSkin.Controls.MaterialTextBox txt_last_name;
         private MaterialSkin.Controls.MaterialTextBox txt_middle_name;
         private MaterialSkin.Controls.MaterialTextBox txt_first_name;
+        private MaterialSkin.Controls.MaterialTextBox txt_daily_wage;
     }
 }

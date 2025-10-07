@@ -25,5 +25,9 @@ namespace Salon.Models
             }
         }
 
+        // REPORT SUMMARY
+
+        public int TotalCustomer { get; set; }
+
     }
 }

@@ -12,6 +12,8 @@ namespace Salon.Models
         public int AppointmentId { get; set; }
         public int ServiceId { get; set; }
         public string ServiceName { get; set; }
+        public string SubCategoryname { get; set; }
+        public int Duration { get; set; }
         public decimal Price { get; set; }
 
         public decimal SellingPrice { get; set; }

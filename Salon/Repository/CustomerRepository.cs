@@ -20,6 +20,15 @@ namespace Salon.Repository
                 return con.Query<CustomerModel>(sql).ToList();
             }
         }
+        public CustomerModel TotalCustomer() 
+        {
+            using (var con = Database.GetConnection()) 
+            {
+                var sql = "SELECT COUNT(*) AS TotalCustomer FROM tbl_customer_account";
+
+                return con.Query<CustomerModel>(sql).FirstOrDefault();
+            }
+        }
         public List<CustomerModel> GetCustomerBySearch(string key)
         {
             using (var con = Database.GetConnection())
@@ -52,5 +61,8 @@ namespace Salon.Repository
                 con.Execute(sql, new { customerId });
             }
         }
+
+
+        
     }
 }

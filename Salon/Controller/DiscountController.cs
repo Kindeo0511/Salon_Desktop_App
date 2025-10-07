@@ -37,5 +37,44 @@ namespace Salon.Controller
         {
             discountRepository.DeleteDiscount(id);
         }
+
+
+        // DISCOUNT REPORT
+
+        public DiscountModel GetTotalDiscount() 
+        {
+            return discountRepository.TotalDiscount();
+        }
+        public DiscountModel GetTotalDiscount(DateTime start, DateTime end)
+        {
+            return discountRepository.TotalDiscount(start , end);
+        }
+
+        public DiscountModel GetTopItem()
+        {
+            return discountRepository.TopItem();
+        }
+        public DiscountModel GetTopItem(DateTime start, DateTime end)
+        {
+            return discountRepository.TopItem(start, end);
+        }
+
+        public DiscountModel GetTopDiscountedItem()
+        {
+            return discountRepository.DiscountedRate();
+        }
+        public DiscountModel GetTopDiscountedItem(DateTime start, DateTime end)
+        {
+            return discountRepository.DiscountedRate(start, end);
+        }
+
+        public IEnumerable<DiscountModel>  GetAllDiscounted()
+        {
+            return discountRepository.AllDiscounts();
+        }
+        public IEnumerable<DiscountModel> GetAllDiscounted(DateTime start, DateTime end)
+        {
+            return discountRepository.AllDiscounts(start, end);
+        }
     }
 }

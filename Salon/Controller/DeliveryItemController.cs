@@ -26,5 +26,37 @@ namespace Salon.Controller
             return _repository.AddDeliveryItem(deliveryItemModel);
 
         }
+
+        // DELIVERY REPORT
+
+        public DeliveryItemModel GetTotalQty() 
+        {
+            return _repository.TotalQty();
+        }
+
+        public DeliveryItemModel GetTotalQty(DateTime start , DateTime end)
+        {
+            return _repository.TotalQty(start, end);
+        }
+
+        public DeliveryItemModel GetExpiredQty() 
+        {
+            return _repository.ExpiredQty();
+        }
+
+
+        public DeliveryItemModel GetExpiredQty(DateTime start, DateTime end)
+        {
+            return _repository.ExpiredQty(start, end);
+        }
+
+        public IEnumerable<DeliveryItemModel> GetDeliveryItems() 
+        {
+            return _repository.DeliveryItemList();
+        }
+        public IEnumerable<DeliveryItemModel> GetDeliveryItems(DateTime start, DateTime end)
+        {
+            return _repository.DeliveryItemList(start, end);
+        }
     }
 }

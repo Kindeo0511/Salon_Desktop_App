@@ -40,7 +40,7 @@ namespace Salon.View
                 txt_contact.Text = _stylist.contactNumber;
                 txt_email.Text = _stylist.email;
                 txt_address.Text = _stylist.address;
-
+                txt_daily_wage.Text = _stylist.daily_wage.ToString();
 
                 btn_save.Visible = false;
                 btn_update.Visible = true;
@@ -65,7 +65,9 @@ namespace Salon.View
                 birth_date = dtp_day_of_birth.Value,
                 contactNumber = txt_contact.Text,
                 email = txt_email.Text,
-                address = txt_address.Text
+                address = txt_address.Text,
+                daily_wage = Convert.ToDecimal(txt_daily_wage.Text)
+                
                 };
 
             stylistController.Add(stylist);
@@ -82,7 +84,7 @@ namespace Salon.View
             _stylist.contactNumber = txt_contact.Text;
             _stylist.email = txt_email.Text;
             _stylist.address = txt_address.Text;
-
+                _stylist.daily_wage = Convert.ToDecimal(txt_daily_wage.Text);
 
             var repo = new StylistRepository();
             var stylistController = new Controller.StylistController(repo);
@@ -93,12 +95,16 @@ namespace Salon.View
 
         private void btn_save_Click(object sender, EventArgs e)
         {
+            MessageBox.Show("Stylist added successfully", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
+
             SaveStylist();
             _mainForm.LoadStylist();
         }
 
         private void btn_update_Click(object sender, EventArgs e)
         {
+            MessageBox.Show("Stylist updated successfully", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
+
             UpdateStylist();
             _mainForm.LoadStylist();
         }

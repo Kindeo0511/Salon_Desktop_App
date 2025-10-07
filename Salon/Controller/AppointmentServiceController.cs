@@ -26,6 +26,16 @@ namespace Salon.Controller
             };
             repo.AddAppointmentService(appointmentService);
         }
+
+        public void ClearDeleteAllServicesForAppointment(int id) 
+        {
+             repo.ClearDeleteAllServicesForAppointment(id);
+        }
+
+        public IEnumerable<AppointmentServicesModel> GetAllAppointmentServices(int id) 
+        {
+           return repo.AppointmentServicesSelected(id);
+        }
         public IEnumerable<AppointmentServicesModel> GetPopularServices() 
         {
             return repo.GetAll();
@@ -34,6 +44,11 @@ namespace Salon.Controller
         public IEnumerable<Models.AppointmentServicesModel> GetServicesByAppointmentId(int appointmentId)
         {
             return repo.GetServicesByAppointmentId(appointmentId);
+        }
+
+        public IEnumerable<AppointmentServicesModel> GetSelectedServices(int id) 
+        {
+            return repo.ServicesSelected(id);
         }
     }
 }

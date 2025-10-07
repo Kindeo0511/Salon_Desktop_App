@@ -43,5 +43,18 @@ namespace Salon.Repository
                 connection.Execute("DELETE FROM tbl_exception_schedules WHERE id = @Id", new { Id = exceptionScheduleId });
             }
         }
+
+        // VALIDATION
+
+        public bool CheckExceptionSchedule(DateTime date) 
+        {
+            using (var con = Database.GetConnection()) 
+            {
+                var sql = "SELECT COUNT(*) FROM `tbl_exception_schedules` WHERE date = @date AND is_available = 1";
+                int result = con.ExecuteScalar<int>(sql,new { date });
+
+                return result > 0;
+            }
+        }
     }
 }

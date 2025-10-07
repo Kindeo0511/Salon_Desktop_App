@@ -25,5 +25,14 @@ namespace Salon.Controller
             return _repo.GetPayment(appointment_id);
         }
 
+        public PaymentModel GetTotalAppointmentRevenue() 
+        {
+            return _repo.GetTotalAmountPaid();
+        }
+        public PaymentModel GetTotalAppointmentRevenue(DateTime start, DateTime end)
+        {
+            return _repo.GetTotalAmountPaid(start, end);
+        }
+
     }
 }

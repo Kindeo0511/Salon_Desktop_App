@@ -14,6 +14,7 @@ using System.Drawing;
 using System.Linq;
 using System.Management;
 using System.Runtime.InteropServices.ComTypes;
+using System.Security.Cryptography.X509Certificates;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
@@ -30,16 +31,27 @@ namespace Salon.View
         private DiscountModel discountModel;
         private int currentOverheadId = 0;
         private UtilityModel utilityModel;
-
+        private Form1 loginForm;
         public MainForm()
         {
             InitializeComponent();
-            ThemeManager.ApplyTheme(this);
+           
+          
+            ThemeManager.ApplyTheme(this);     
             DataGridViewTheme();
-            _userControl = new UserControl();
+           
 
-            userTab.Controls.Add(_userControl);
-            _userControl.Dock = DockStyle.Fill;
+ 
+
+
+            //_userControl = new UserControl();
+
+            //userTab.Controls.Add(_userControl);
+            //_userControl.Dock = DockStyle.Fill;
+
+
+
+
         }
 
         private void DataGridViewTheme() 
@@ -62,10 +74,16 @@ namespace Salon.View
             ThemeManager.StyleDataGridView(dgv_report_table);
             ThemeManager.StyleDataGridView(dgv_inventory_report);
             ThemeManager.StyleDataGridView(dgv_expense_report);
+            ThemeManager.StyleDataGridView(dgv_profitAndLostReport);
+            ThemeManager.StyleDataGridView(dgv_customer_report);
+            ThemeManager.StyleDataGridView(dgv_technician_report);
+            ThemeManager.StyleDataGridView(dgv_delivery_report);
+            ThemeManager.StyleDataGridView(dgv_discount_report);
         }
 
         private void MainForm_Load(object sender, EventArgs e)
         {
+      
             LoadUser();
             LoadStylist();
             LoadCustomers();
@@ -95,11 +113,17 @@ namespace Salon.View
             // UTILITIES
             LoadUtility();
             LoadRent();
+            LoadUtil();
 
             // REPORTS
             FilterSalesReport();
             filterInventoryReport();
             FilterExpenseReport();
+            FilterProfitAndLostReport();
+            FilteredCustomerReport();
+            FilteredStaffReport();
+            FilteredDeliveryReport();
+            FilteredDiscountReport();
         }
         // DASHBOARD
 
@@ -303,6 +327,7 @@ namespace Salon.View
             stylist_contact.DataPropertyName = "contactNumber";
             stylist_email.DataPropertyName = "email";
             stylist_address.DataPropertyName = "address";
+            col_stylist_wage.DataPropertyName = "daily_wage";
             dgv_stylist.DataSource = stylists;
         }
 
@@ -998,6 +1023,9 @@ namespace Salon.View
             appointment_id.DataPropertyName = "AppointmentId";
             customer_id.DataPropertyName = "CustomerId";
             customerName.DataPropertyName = "CustomerName";
+            col_appointment_services.DataPropertyName = "Services";
+            col_appointment_email.DataPropertyName = "Email";
+            col_appointment_number.DataPropertyName = "PhoneNumber";
             stylist_id.DataPropertyName = "StylistId";
             stylistName.DataPropertyName = "StylistName";
             date.DataPropertyName = "AppointmentDate";
@@ -1039,6 +1067,10 @@ namespace Salon.View
             if (e.RowIndex >= 0 && dgv_appointment.Columns[e.ColumnIndex].Name == "col_assign_staff")
             {
                 var appointment = dgv_appointment.Rows[e.RowIndex].DataBoundItem as AppointmentModel;
+                if (appointment.StylistId != 0 ) 
+                {
+                    return;
+                }
                 using (var assignStylistForm = new AssignStylistForm(this, appointment))
                 {
                     assignStylistForm.ShowDialog();
@@ -1060,6 +1092,17 @@ namespace Salon.View
                 {
                     appointmentStatusForm.ShowDialog();
                 }
+            }
+
+            else if (e.RowIndex >= 0 && dgv_appointment.Columns[e.ColumnIndex].Name == "col_update_appointment")
+            {
+                var appointment = dgv_appointment.Rows[e.RowIndex].DataBoundItem as AppointmentModel;
+
+                using (var appointmentForm = new AppointmentForm(this, appointment))
+                {
+                    appointmentForm.ShowDialog();
+                }
+                
             }
 
 
@@ -1224,7 +1267,28 @@ namespace Salon.View
 
 
         }
+        private void LoadUtil() 
+        {
+            var repo = new OverHeadRepository();
+            var controller = new OverHeadController(repo);
 
+            var utility = controller.GetOverHeadTotal();
+
+            if (utility != null)
+            {
+                txt_electric_bill.Text = utility.electricity_bill.ToString();
+                txt_water_bill.Text = utility.water_bill.ToString();
+                txt_internet_bill.Text = utility.internet_bill.ToString();
+                txt_other_bill.Text = utility.other_bill.ToString();
+            }
+            else 
+            {
+                txt_electric_bill.Text = "0.00";
+                txt_water_bill.Text = "0.00";
+                txt_internet_bill.Text = "0.00";
+                txt_other_bill.Text = "0.00";
+            }
+        }
        
         private void LoadRent() 
         {
@@ -1690,6 +1754,8 @@ namespace Salon.View
 
         // END OF INVENTORY REPORT
 
+        // EXPENSES REPORT
+
         private void FilterExpenseReport() 
         {
             DateTime startDate;
@@ -1814,6 +1880,767 @@ namespace Salon.View
             FilterExpenseReport();
             cmb_expense_range.Hint = "Select Range";
         }
+
+        // END OF EXPENSES REPORT
+
+        // PROFIT AND LOST REPORT
+
+        private void FilterProfitAndLostReport()
+        {
+            DateTime startDate;
+            DateTime endDate;
+
+            string selectedRange = cmb_profit_lost_range.Text.Trim().ToLower();
+
+            if (string.IsNullOrWhiteSpace(selectedRange))
+            {
+
+                startDate = dtp_profit_lost_start_date.Value.Date;
+                endDate = dtp_profit_lost_end_time.Value.Date;
+            }
+            else
+            {
+                switch (selectedRange)
+                {
+                    case "today":
+                        startDate = DateTime.Today;
+                        endDate = DateTime.Today.AddDays(1).AddTicks(-1);
+                        break;
+
+                    case "weekly":
+                        startDate = DateTime.Today.AddDays(-(int)DateTime.Today.DayOfWeek);
+                        endDate = startDate.AddDays(6).AddDays(1).AddTicks(-1);
+                        break;
+
+                    case "monthly":
+                        startDate = new DateTime(DateTime.Today.Year, DateTime.Today.Month, 1);
+                        endDate = startDate.AddMonths(1).AddTicks(-1);
+                        break;
+
+                    default:
+                        MessageBox.Show("Invalid range selected.");
+                        return;
+                }
+
+                // Optional: update DateTimePickers to reflect the selected range
+                dtp_profit_lost_start_date.Value = startDate;
+                dtp_profit_lost_end_time.Value = endDate;
+            }
+
+            Load_Expense_Report(startDate, endDate);
+            Load_ExpenseReport_Summary(startDate, endDate);
+            Load_AppointmentRevenueReport_Summary(startDate, endDate);
+            Profit_Lost_Calculation();
+        }
+        private void Load_Expense_Report(DateTime? startDate = null, DateTime? endDate = null)
+        {
+            var repo = new ExpensesRepository();
+            var controller = new ExpensesController(repo);
+
+            var dgv_expense = (startDate.HasValue && endDate.HasValue)
+              ? controller.GetAllExpenses(startDate.Value, endDate.Value)
+              : controller.GetAllExpenses();
+
+            if (dgv_expense != null)
+            {
+                dgv_profitAndLostReport.AutoGenerateColumns = false;
+                col_profit_lost_id.DataPropertyName = "id";
+                col_profit_lost_category.DataPropertyName = "category";
+                col_profit_lost_description.DataPropertyName = "description";
+                col_profit_lost_amount.DataPropertyName = "amount";
+                col_profit_lost_paid_by.DataPropertyName = "paid_by";
+                col_profit_lost_notes.DataPropertyName = "notes";
+                col_profit_lost_date.DataPropertyName = "timestamp";
+                dgv_profitAndLostReport.DataSource = dgv_expense;
+            }
+
+
+        }
+
+        private void Load_ExpenseReport_Summary(DateTime? startDate = null, DateTime? endDate = null)
+        {
+            var repo = new ExpensesRepository();
+            var controller = new ExpensesController(repo);
+
+            var expenseSummary = (startDate.HasValue && endDate.HasValue)
+              ? controller.GetSummaryExpenses(startDate.Value, endDate.Value)
+              : controller.GetSummaryExpenses();
+
+
+            if (expenseSummary != null)
+            {
+                lbl_profit_lost_expense.Text = expenseSummary.TotalExpense.ToString("C2");
+
+            }
+            else
+            {
+                lbl_profit_lost_expense.Text = "0.00";
+    
+            }
+
+
+
+
+        }
+
+        private void Load_AppointmentRevenueReport_Summary(DateTime? startDate = null, DateTime? endDate = null)
+        {
+            var repo = new PaymentRepository();
+            var controller = new PaymentController(repo);
+
+            var revenue = (startDate.HasValue && endDate.HasValue)
+              ? controller.GetTotalAppointmentRevenue(startDate.Value, endDate.Value)
+              : controller.GetTotalAppointmentRevenue();
+
+
+            if (revenue != null)
+            {
+                lbl_profit_lost_revenue.Text = revenue.TotalAppointmentRevenue.ToString("C2");
+
+            }
+            else
+            {
+                lbl_profit_lost_revenue.Text = "0.00";
+
+            }
+
+
+
+
+        }
+
+        private void Profit_Lost_Calculation() 
+        {
+            decimal totalRevenue = 0;
+            decimal totalExpense = 0;
+            decimal netProfit = 0;
+            decimal margin = 0;
+
+
+            if (decimal.TryParse(lbl_profit_lost_revenue.Text.Replace("₱", "").Trim(), out totalRevenue) &&
+               (decimal.TryParse(lbl_profit_lost_expense.Text.Replace("₱","").Trim(), out totalExpense)))
+            {
+                netProfit = totalRevenue - totalExpense;
+                margin = totalRevenue == 0 ? 0 : (netProfit / totalRevenue) * 100;
+
+                lbl_profit_lost_net_profit.Text = $"₱{netProfit:N2}";
+                lbl_profit_lost_margin.Text = $"{margin:N2}%";
+            }
+            else
+            {
+                lbl_profit_lost_net_profit.Text = "0.00";
+                lbl_profit_lost_margin.Text = "0.00";
+            }
+
+
+            
+        }
+        private void btn_profit_lost_filter_Click(object sender, EventArgs e)
+        {
+            cmb_profit_lost_range.Hint = string.Empty;
+            cmb_profit_lost_range.SelectedIndex = -1;
+            FilterProfitAndLostReport();
+
+            cmb_profit_lost_range.Hint = "Select Range";
+        }
+
+        private void btn_profit_lost_clear_Click(object sender, EventArgs e)
+        {
+            dtp_profit_lost_start_date.Value = DateTime.Today;
+            dtp_profit_lost_end_time.Value = DateTime.Today;
+            cmb_profit_lost_range.Hint = string.Empty;
+            cmb_profit_lost_range.SelectedIndex = -1;
+            FilterProfitAndLostReport();
+
+            cmb_profit_lost_range.Hint = "Select Range";
+
+        }
+
+        private void cmb_profit_lost_range_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if (cmb_profit_lost_range != null)
+            {
+                FilterProfitAndLostReport();
+            }
+        }
+
+        // END OF PROFIT AND LOST REPORT
+
+        // CUSTOMER REPORT
+
+        private void LoadTotalCustomer()
+        {
+            var repo = new CustomerRepository();
+            var controller = new CustomerController(repo);
+            var customers = controller.GetTotalCustomer();
+
+            if (customers != null)
+            {
+                lbl_customer_report_total.Text = $"Total Customer: ({customers.TotalCustomer})";
+            }
+            else 
+            {
+                lbl_customer_report_total.Text = "0";
+            }
+        }
+
+        private void FilteredCustomerReport() 
+        {
+            DateTime startDate;
+            DateTime endDate;
+
+            string selectedRange = cmb_customer_report_range.Text.Trim().ToLower();
+
+            if (string.IsNullOrWhiteSpace(selectedRange))
+            {
+
+                startDate = dtp_customer_report_start.Value.Date;
+                endDate = dtp_customer_report_end.Value.Date;
+            }
+            else
+            {
+                switch (selectedRange)
+                {
+                    case "today":
+                        startDate = DateTime.Today;
+                        endDate = DateTime.Today.AddDays(1).AddTicks(-1);
+                        break;
+
+                    case "weekly":
+                        startDate = DateTime.Today.AddDays(-(int)DateTime.Today.DayOfWeek);
+                        endDate = startDate.AddDays(6).AddDays(1).AddTicks(-1);
+                        break;
+
+                    case "monthly":
+                        startDate = new DateTime(DateTime.Today.Year, DateTime.Today.Month, 1);
+                        endDate = startDate.AddMonths(1).AddTicks(-1);
+                        break;
+
+                    default:
+                        MessageBox.Show("Invalid range selected.");
+                        return;
+                }
+
+                // Optional: update DateTimePickers to reflect the selected range
+                dtp_customer_report_start.Value = startDate;
+                dtp_customer_report_end.Value = endDate;
+            }
+            LoadTotalCustomer();
+            LoadTopSpender(startDate, endDate);
+            LoadRepeatedClient(startDate, endDate);
+            LoadCustomerFrequentlyVisit(startDate , endDate);
+
+        }
+
+        private void LoadTopSpender(DateTime? start = null, DateTime? end = null) 
+        {
+            var repo = new AppointmentReportRepository();
+            var controller = new AppointmentReportController(repo);
+            var topSpender = (start.HasValue && end.HasValue)
+                             ? controller.GetTopSpender(start.Value, end.Value)
+                             : controller.GetTopSpender();
+
+            if (topSpender != null)
+            {
+                lbl_customer_report_top_spender.Text = $"Top Spender: {topSpender.ClientName} ({topSpender.TotalSpent.ToString("C2")})";
+
+
+            }
+            else 
+            {
+                lbl_customer_report_top_spender.Text = "Top Spender:";
+
+            }
+
+        }
+
+        private void LoadRepeatedClient(DateTime? start = null, DateTime? end = null) 
+        {
+            var repo = new AppointmentReportRepository();
+            var controller = new AppointmentReportController(repo);
+            var repeatedClient = (start.HasValue && end.HasValue)
+                               ? controller.GetRepeatedCustomer(start.Value, end.Value)
+                               : controller.GetRepeatedCustomer();
+
+            if (repeatedClient != null)
+            {
+                lbl_customer_report_repeat_customer.Text = repeatedClient.RepeatClient.ToString();
+            }
+            else 
+            {
+                lbl_customer_report_repeat_customer.Text = "0";
+            }
+        }
+
+        private void LoadCustomerFrequentlyVisit(DateTime? start = null, DateTime? end = null) 
+        {
+            var repo = new AppointmentReportRepository();
+            var controller = new AppointmentReportController(repo);
+            var frequentCustomer = (start.HasValue && end.HasValue)
+                                 ? controller.GetFrequentCustomer(start.Value, end.Value)
+                                 : controller.GetFrequentCustomer();
+
+
+            if (frequentCustomer != null) 
+            {
+                dgv_customer_report.AutoGenerateColumns = false;
+                col_customer_report_name.DataPropertyName = "ClientName";
+                col_customer_report_visit.DataPropertyName = "Visit";
+                col_customer_report_spend.DataPropertyName = "TotalSpend";
+                col_customer_report_last_vist.DataPropertyName = "LastVisit";
+                dgv_customer_report.DataSource = frequentCustomer;
+            }
+
+        }
+
+        private void btn_customer_report_filter_Click(object sender, EventArgs e)
+        {
+            cmb_customer_report_range.Hint = string.Empty;
+            cmb_customer_report_range.SelectedIndex = -1;
+            FilteredCustomerReport();
+            cmb_customer_report_range.Hint = "Select Range";
+        }
+
+        private void btn_customer_report_clear_Click(object sender, EventArgs e)
+        {
+            dtp_customer_report_start.Value = DateTime.Today;
+            dtp_customer_report_end.Value = DateTime.Today;
+            cmb_customer_report_range.Hint = string.Empty;
+            cmb_customer_report_range.SelectedIndex = -1;
+            FilteredCustomerReport();
+            cmb_customer_report_range.Hint = "Select Range";
+        }
+
+        private void cmb_customer_report_range_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if (cmb_customer_report_range.Text != null) 
+            {
+                FilteredCustomerReport();
+            }
+        }
+
+        // END OF CUSTOMER REPORT
+
+        // STAFF REPORT
+
+        private void LoadTotalStaff() 
+        {
+            var repo = new StylistRepository();
+            var controller = new StylistController(repo);
+            var totalStaff = controller.GetTotalStaff();
+
+            if (totalStaff != null)
+            {
+                lbl_technician_report_total_technician.Text = $"Total Technician: ({totalStaff.TotalStaff})";
+            }
+            else 
+            {
+                lbl_technician_report_total_technician.Text = "Total Technician:";
+            }
+
+        }
+        private void LoadTotalActiveStaff() 
+        {
+            var repo = new StylistRepository();
+            var controller = new StylistController(repo);
+            var totalActive = controller.GetActiveStaff();
+
+            if (totalActive != null)
+            {
+                lbl_technician_report_active.Text = $"Total Active: ({totalActive.TotalActive})";
+            }
+            else
+            {
+                lbl_technician_report_active.Text = "Total Active:";
+            }
+        }
+
+        private void LoadTotalInactiveStaff()
+        {
+            var repo = new StylistRepository();
+            var controller = new StylistController(repo);
+            var totalInactive = controller.GetInactiveStaff();
+
+            if (totalInactive != null)
+            {
+                lbl_technician_report_active.Text = $"Total Inactive: ({totalInactive.TotalInactive})";
+            }
+            else
+            {
+                lbl_technician_report_active.Text = "Total Inactive:";
+            }
+        }
+
+        private void LoadTopPerformerStaff(DateTime? start = null, DateTime? end = null)
+        {
+            var repo = new StylistRepository();
+            var controller = new StylistController(repo);
+            var topPerformer = (start.HasValue && end.HasValue)
+                             ? controller.GetTopPerformerStaff(start.Value, end.Value)
+                             : controller.GetTopPerformerStaff();
+
+            if (topPerformer != null)
+            {
+                lbl_technician_top_performer.Text = $"Top Performer: {topPerformer.StaffName} ({topPerformer.TotalSales})";
+            }
+            else
+            {
+                lbl_technician_top_performer.Text = "Total Performer:";
+            }
+        }
+
+        private void LoadStaffListReport(DateTime? start = null, DateTime? end = null) 
+        {
+            var repo = new StylistRepository();
+            var controller = new StylistController(repo);
+            var staffList = (start.HasValue && end.HasValue)
+                          ? controller.GetStaffList(start.Value, end.Value)
+                          : controller.GetStaffList();
+
+            if (staffList !=  null) 
+            {
+                dgv_technician_report.AutoGenerateColumns = false;
+
+                col_technician_report_name.DataPropertyName = "StaffName";
+                col_technician_report_role.DataPropertyName = "Role";
+                col_technician_report_sales.DataPropertyName = "Sales";
+                col_technician_report_appointment.DataPropertyName = "Appointments";
+                col_technician_report_available.DataPropertyName = "Availability";
+
+                dgv_technician_report.DataSource = staffList;
+            }
+        }
+
+        private void FilteredStaffReport() 
+        {
+            DateTime startDate;
+            DateTime endDate;
+
+            string selectedRange = cmb_technician_range.Text.Trim().ToLower();
+
+            if (string.IsNullOrWhiteSpace(selectedRange))
+            {
+
+                startDate = dtp_technician_report_start.Value.Date;
+                endDate = dtp_technician_report_end.Value.Date;
+            }
+            else
+            {
+                switch (selectedRange)
+                {
+                    case "today":
+                        startDate = DateTime.Today;
+                        endDate = DateTime.Today.AddDays(1).AddTicks(-1);
+                        break;
+
+                    case "weekly":
+                        startDate = DateTime.Today.AddDays(-(int)DateTime.Today.DayOfWeek);
+                        endDate = startDate.AddDays(6).AddDays(1).AddTicks(-1);
+                        break;
+
+                    case "monthly":
+                        startDate = new DateTime(DateTime.Today.Year, DateTime.Today.Month, 1);
+                        endDate = startDate.AddMonths(1).AddTicks(-1);
+                        break;
+
+                    default:
+                        MessageBox.Show("Invalid range selected.");
+                        return;
+                }
+
+                // Optional: update DateTimePickers to reflect the selected range
+                dtp_technician_report_start.Value = startDate;
+                dtp_technician_report_end.Value = endDate;
+            }
+            LoadTotalStaff();
+            LoadTotalActiveStaff();
+            LoadTotalInactiveStaff();
+            LoadTopPerformerStaff(startDate, endDate);
+            LoadStaffListReport(startDate, endDate);
+
+        }
+
+        private void btn_technician_filter_Click(object sender, EventArgs e)
+        {
+
+            cmb_technician_range.Hint = string.Empty;
+            cmb_technician_range.SelectedIndex = -1;
+            FilteredStaffReport();
+            cmb_technician_range.Hint = "Select Range";
+        }
+
+        private void btn_technician_clear_Click(object sender, EventArgs e)
+        {
+            dtp_technician_report_start.Value = DateTime.Today;
+            dtp_technician_report_end.Value = DateTime.Today;
+            cmb_technician_range.Hint = string.Empty;
+            cmb_technician_range.SelectedIndex = -1;
+            FilteredStaffReport();
+            cmb_technician_range.Hint = "Select Range";
+        }
+
+        private void cmb_technician_range_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if (cmb_technician_range.Text != null) 
+            {
+                FilteredStaffReport();
+            }
+        }
+
+        // END OF STAFF REPORT
+
+        // DELIVERY REPORT
+
+        private void LoadTotalDelivery(DateTime? start = null, DateTime? end = null) 
+        {
+            var repo = new DeliveryRepository();
+            var controller = new DeliveryController(repo);
+            var totalDelivery = (start.HasValue && end.HasValue)
+                              ? controller.GetTotalDelivery(start.Value, end.Value)
+                              : controller.GetTotalDelivery();
+
+            if (totalDelivery != null)
+            {
+                lbl_delivery_report_total.Text = $"Deliveries This Month: ({totalDelivery.TotalDelivery})";
+            }
+            else 
+            {
+                lbl_delivery_report_total.Text = "Deliveries This Month:";
+            }
+        }
+        private void LoadTotalItemsAndExpired(DateTime? start = null, DateTime? end = null) 
+        {
+            var repo = new DeliveredItemRepository();
+            var controller = new DeliveryItemController(repo);
+
+
+            var totalItems = (start.HasValue && end.HasValue)
+                           ? controller.GetTotalQty(start.Value, end.Value)
+                           : controller.GetTotalQty();
+            var expiredItems = (start.HasValue && end.HasValue)
+                            ? controller.GetExpiredQty(start.Value, end.Value)
+                            : controller.GetExpiredQty();
+
+
+
+            if (totalItems != null || expiredItems != null)
+            {
+                lbl_delivery_report_qty.Text = $"Total Qty Received: ({totalItems.TotalQty})";
+                lbl_delivery_report_expired.Text = $"Expired Items: ({expiredItems.ExpiredQty})";
+            }
+            else 
+            {
+                lbl_delivery_report_qty.Text = "Total Qty Received:";
+                lbl_delivery_report_expired.Text = "Expired Items:";
+            }
+        }
+
+        private void LoadDeliveryItemsList(DateTime? start = null, DateTime? end = null) 
+        {
+            var repo = new DeliveredItemRepository();
+            var controller = new DeliveryItemController(repo);
+            var itemList = (start.HasValue && end.HasValue)
+                         ? controller.GetDeliveryItems(start.Value, end.Value)
+                         : controller.GetDeliveryItems();
+
+            if (itemList != null) 
+            {
+                dgv_delivery_report.AutoGenerateColumns = false;
+
+                col_delivery_report_date.DataPropertyName = "DeliveryDate";
+                col_delivery_report_product.DataPropertyName = "ProductName";
+                col_delivery_report_qty.DataPropertyName = "Quantity";
+                col_delivery_report_price.DataPropertyName = "Price";
+                col_delivery_report_expiry.DataPropertyName = "Expiry";
+                col_delivery_report_notes.DataPropertyName = "ItemNotes";
+
+                dgv_delivery_report.DataSource = itemList;
+            }
+        }
+
+        private void FilteredDeliveryReport() 
+        {
+            DateTime startDate;
+            DateTime endDate;
+
+            string selectedRange = cmb_delivery_report_range.Text.Trim().ToLower();
+
+            if (string.IsNullOrWhiteSpace(selectedRange))
+            {
+
+                startDate = dtp_delivery_report_start.Value.Date;
+                endDate = dtp_delivery_report_end.Value.Date;
+            }
+            else
+            {
+                switch (selectedRange)
+                {
+                    case "today":
+                        startDate = DateTime.Today;
+                        endDate = DateTime.Today.AddDays(1).AddTicks(-1);
+                        break;
+
+                    case "weekly":
+                        startDate = DateTime.Today.AddDays(-(int)DateTime.Today.DayOfWeek);
+                        endDate = startDate.AddDays(6).AddDays(1).AddTicks(-1);
+                        break;
+
+                    case "monthly":
+                        startDate = new DateTime(DateTime.Today.Year, DateTime.Today.Month, 1);
+                        endDate = startDate.AddMonths(1).AddTicks(-1);
+                        break;
+
+                    default:
+                        MessageBox.Show("Invalid range selected.");
+                        return;
+                }
+
+                // Optional: update DateTimePickers to reflect the selected range
+                dtp_delivery_report_start.Value = startDate;
+                dtp_delivery_report_end.Value = endDate;
+            }
+            LoadTotalDelivery(startDate, endDate);
+            LoadTotalItemsAndExpired(startDate, endDate);
+            LoadDeliveryItemsList(startDate, endDate);
+
+        }
+
+        private void btn_delivery_report_filter_Click(object sender, EventArgs e)
+        {
+            cmb_delivery_report_range.Hint = string.Empty;
+            cmb_delivery_report_range.SelectedIndex = -1;
+            FilteredDeliveryReport();
+            cmb_delivery_report_range.Hint = "Select Range";
+        }
+
+        private void btn_delivery_report_clear_Click(object sender, EventArgs e)
+        {
+            dtp_delivery_report_start.Value = DateTime.Today;
+            dtp_delivery_report_end.Value= DateTime.Today;
+            cmb_delivery_report_range.Hint = string.Empty;
+            cmb_delivery_report_range.SelectedIndex = -1;
+            FilteredDeliveryReport();
+            cmb_delivery_report_range.Hint = "Select Range";
+        }
+
+        private void cmb_delivery_report_range_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if (cmb_delivery_report_range.Text != null) 
+            {
+                FilteredDeliveryReport();
+            }
+        }
+
+        // END OF DELIVERY REPORT
+        private void FilteredDiscountReport()
+        {
+            DateTime startDate;
+            DateTime endDate;
+
+            string selectedRange = cmb_discont_report_range.Text.Trim().ToLower();
+
+            if (string.IsNullOrWhiteSpace(selectedRange))
+            {
+
+                startDate = dtp_discount_report_start.Value.Date;
+                endDate = dtp_discount_report_end.Value.Date;
+            }
+            else
+            {
+                switch (selectedRange)
+                {
+                    case "today":
+                        startDate = DateTime.Today;
+                        endDate = DateTime.Today.AddDays(1).AddTicks(-1);
+                        break;
+
+                    case "weekly":
+                        startDate = DateTime.Today.AddDays(-(int)DateTime.Today.DayOfWeek);
+                        endDate = startDate.AddDays(6).AddDays(1).AddTicks(-1);
+                        break;
+
+                    case "monthly":
+                        startDate = new DateTime(DateTime.Today.Year, DateTime.Today.Month, 1);
+                        endDate = startDate.AddMonths(1).AddTicks(-1);
+                        break;
+
+                    default:
+                        MessageBox.Show("Invalid range selected.");
+                        return;
+                }
+
+                // Optional: update DateTimePickers to reflect the selected range
+                dtp_discount_report_start.Value = startDate;
+                dtp_discount_report_end.Value = endDate;
+            }
+            LoadDeliveryTotalSummary(startDate, endDate);
+
+
+        }
+        private void LoadDeliveryTotalSummary(DateTime? start = null, DateTime? end = null) 
+        {
+            var repo = new DiscountRepository();
+            var controller = new DiscountController(repo);
+
+            var discount_repo = new DiscountRepository();
+            var discount_controller = new DiscountController(discount_repo);
+
+            var totalDelivery = (start.HasValue && end.HasValue)
+                               ? controller.GetTotalDiscount(start.Value, end.Value)
+                               : controller.GetTotalDiscount();
+             
+            var topItem = (start.HasValue && end.HasValue)
+                        ? discount_controller.GetTopItem(start.Value, end.Value)
+                        : discount_controller.GetTopItem();
+
+
+            var discountedRate = (start.HasValue && end.HasValue)
+                        ? discount_controller.GetTopDiscountedItem(start.Value, end.Value)
+                        : discount_controller.GetTopDiscountedItem();
+
+
+            if (totalDelivery != null && topItem != null && discountedRate != null)
+            {
+                lbl_discount_report_total.Text = $"Total Discounts:  ({totalDelivery.TotalDiscount:C2})";
+                lbl_discount_report_discounted_item.Text = $"Top Discounted Item  ({topItem.TopItem})";
+                lbl_discount_report_avg_discount.Text = $"Average Discount Rate:  ({discountedRate.AverageDiscountRate:N2}%)";
+            }
+            else 
+            {
+                lbl_discount_report_total.Text = "Total Discounts: ";
+                lbl_discount_report_discounted_item.Text = "Top Discounted Item: ";
+                lbl_discount_report_avg_discount.Text = "Average Discount Rate: ";
+            }
+
+        }
+
+        private void btn_discount_report_filter_Click(object sender, EventArgs e)
+        {
+            cmb_delivery_report_range.Hint = string.Empty;
+            cmb_discont_report_range.SelectedIndex = -1;
+            FilteredDiscountReport();
+            cmb_delivery_report_range.Hint = "Select Range";
+        }
+
+        private void btn_discount_report_clear_Click(object sender, EventArgs e)
+        {
+            dtp_discount_report_start.Value = DateTime.Today;
+            dtp_discount_report_end.Value = DateTime.Today;
+            cmb_delivery_report_range.Hint = string.Empty;
+            cmb_discont_report_range.SelectedIndex = -1;
+            FilteredDiscountReport();
+            cmb_delivery_report_range.Hint = "Select Range";
+        }
+
+        private void cmb_discont_report_range_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if (cmb_discont_report_range.Text != null) 
+            {
+                FilteredDiscountReport();
+            }
+        }
+
+        
     }
 }
 

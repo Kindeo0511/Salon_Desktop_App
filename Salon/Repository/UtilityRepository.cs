@@ -19,6 +19,14 @@ namespace Salon.Repository
                 return con.Query<UtilityModel>(sql).ToList();
             }
         }
+        public UtilityModel AllUtilty() 
+        {
+            using (var con = Database.GetConnection()) 
+            {
+                var sql = "SElECT * FROM tbl_utility";
+                return con.Query<UtilityModel>(sql).FirstOrDefault();
+            }
+        }
         public UtilityModel TotalUtility() 
         {
             using (var con = Database.GetConnection()) 

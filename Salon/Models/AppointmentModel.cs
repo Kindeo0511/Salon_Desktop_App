@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Forms;
 
 namespace Salon.Models
 {
@@ -11,6 +12,8 @@ namespace Salon.Models
         public int AppointmentId { get; set; }
         public int CustomerId { get; set; }
         public string CustomerName { get; set; }
+        public string Email { get; set; }
+        public string PhoneNumber { get; set; }
         public int StylistId { get; set; }
         public string StylistName { get; set; }
         public DateTime AppointmentDate { get; set; }
@@ -29,5 +32,17 @@ namespace Salon.Models
         // SUMMARY DASHBOARD
 
         public int TotalAppointment { get; set; }
+
+        // SUMMARY REPORT
+
+        public decimal TotalSpent { get; set; }
+        public int RepeatClient { get; set; }
+
+        public string TopSpenderName { get; set; }
+        public string ClientName { get; set; }
+        public int Visit { get; set; }
+        public decimal TotalSpend { get; set; }
+        public DateTime LastVisit { get; set; }
+
     }
 }

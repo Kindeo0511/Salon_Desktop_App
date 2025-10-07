@@ -85,14 +85,13 @@
             this.cmb_status.DropDownHeight = 174;
             this.cmb_status.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cmb_status.DropDownWidth = 121;
-            this.cmb_status.Font = new System.Drawing.Font("Roboto Medium", 14F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Pixel);
+            this.cmb_status.Font = new System.Drawing.Font("Microsoft Sans Serif", 14F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Pixel);
             this.cmb_status.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(222)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
             this.cmb_status.FormattingEnabled = true;
             this.cmb_status.Hint = "Select Status";
             this.cmb_status.IntegralHeight = false;
             this.cmb_status.ItemHeight = 43;
             this.cmb_status.Items.AddRange(new object[] {
-            "Completed",
             "No Show",
             "Cancelled"});
             this.cmb_status.Location = new System.Drawing.Point(48, 42);

@@ -30,19 +30,14 @@ namespace Salon.Controller
         {
             return repo.GetAllAppointments();
         }
-        public int CreateAppointment(int customer_id, DateTime date, TimeSpan startTime, TimeSpan endTime, string status, string paymentStatus, string booking_type)
+        public int CreateAppointment(AppointmentModel model)
         {
-            var appointment = new Models.AppointmentModel
-            {
-                CustomerId = customer_id,
-                AppointmentDate = date,
-                StartTime = startTime,
-                Status = status,
-                PaymentStatus = paymentStatus,
-                BookingType = booking_type
-
-            };
-            return repo.Add(appointment);
+           
+            return repo.Add(model);
+        }
+        public int UpdatingTheAppointment(AppointmentModel model) 
+        {
+            return repo.Update(model);
         }
         public void UpdateAppointment(AppointmentModel model)
         {
@@ -51,9 +46,9 @@ namespace Salon.Controller
             repo.UpdateStylist(model);
 
         }
-        public void UpdateAppointmentPayment(int appointmentId, string paymentStatus)
+        public void UpdateAppointmentPayment(int appointmentId, string paymentStatus, string status)
         {
-            var appointment = new Models.AppointmentModel { AppointmentId = appointmentId, PaymentStatus = paymentStatus };
+            var appointment = new Models.AppointmentModel { AppointmentId = appointmentId, PaymentStatus = paymentStatus , Status = status };
 
             repo.UpdatePaymentStatus(appointment);
 
@@ -62,5 +57,28 @@ namespace Salon.Controller
         {
             repo.UpdateStatus(status, id);
         }
+
+
+        // VALIDATION
+
+        public async Task<bool> CheckIsSlotTaken(DateTime date, TimeSpan startTime) 
+        {
+            return  await repo.IsSlotTakenAsync(date, startTime);
+        }
+
+        public async Task<bool> CheckSlotRangeAvailable(DateTime date, TimeSpan startTime, TimeSpan duration)
+        {
+            int slotsNeeded = (int)Math.Ceiling(duration.TotalHours);
+
+            for (int i = 0; i < slotsNeeded; i++)
+            {
+                var slotTime = startTime.Add(TimeSpan.FromHours(i));
+                if (await CheckIsSlotTaken(date, slotTime))
+                    return false;
+            }
+
+            return true;
+        }
+
     }
 }

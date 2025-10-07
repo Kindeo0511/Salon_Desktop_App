@@ -14,6 +14,22 @@ namespace Salon.Models
 
         public decimal discount_rate { get; set; }
         public string status { get; set; }
+
+        //  DISCOUNT REPORT
+
+        public decimal TotalDiscount { get; set; }
+        public string TopItem { get; set; }
+        public decimal AverageDiscountRate { get; set; }
+
+        // DISCOUNT REPORT GRID
+
+        public DateTime Date { get; set; }
+        public string Item { get; set; }
+        public decimal OriginalPrice { get; set; }
+        public decimal Discount { get; set; }
+        public decimal FinalPrice { get; set; }
+
+
     }
   
 }

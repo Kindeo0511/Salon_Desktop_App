@@ -22,6 +22,11 @@ namespace Salon.Models
         public int UserId { get; set; }
 
 
+        // REPORT SUMMARY 
+
+        public decimal TotalAppointmentRevenue { get; set; }
+
+
 
     }
 }

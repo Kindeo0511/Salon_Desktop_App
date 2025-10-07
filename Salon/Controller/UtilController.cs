@@ -20,6 +20,11 @@ namespace Salon.Controller
         {
             return repo.AllUtilities();
         }
+
+        public UtilityModel GetUtility() 
+        {
+            return repo.AllUtilty();
+        }
         public UtilityModel TotalUtility() 
         {
             return repo.TotalUtility(); 

@@ -57,5 +57,116 @@ namespace Salon.Repository
             }
                 
         }
+
+        // DISCOUNT REPORT
+
+        public DiscountModel TotalDiscount() 
+        {
+            using (var con = Database.GetConnection()) 
+            {
+                var sql = @"SELECT SUM(discount_amount) AS TotalDiscount
+                            FROM tbl_payment";
+                return con.Query<DiscountModel>(sql).FirstOrDefault();
+            }
+        }
+        public DiscountModel TotalDiscount(DateTime start, DateTime end) 
+        {
+            using (var con = Database.GetConnection())
+            {
+                var sql = @"SELECT SUM(discount_amount) AS TotalDiscount
+                            FROM tbl_payment
+                            WHERE paid_at BETWEEN @start AND @end";
+                return con.Query<DiscountModel>(sql, new {start = start, end = end}).FirstOrDefault();
+            }
+        }
+        public DiscountModel TopItem() 
+        {
+            using (var con = Database.GetConnection())
+            {
+                var sql = @"SELECT s.serviceName AS TopItem
+                            FROM tbl_payment p
+                            JOIN tbl_appointment a ON p.appointment_id = a.appointment_id
+                            JOIN tbl_appointment_services a_s ON a_s.appointment_id = a.appointment_id
+                            JOIN tbl_servicesname s ON s.serviceName_id = a_s.serviceName_id
+                            GROUP BY s.serviceName
+                            ORDER BY SUM(p.discount_amount) DESC
+                            LIMIT 1;";
+                return con.Query<DiscountModel>(sql).FirstOrDefault();
+            }
+        }
+        public DiscountModel TopItem(DateTime start, DateTime end) 
+        {
+            using (var con = Database.GetConnection()) 
+            {
+                var sql = @"SELECT s.serviceName AS TopItem
+                            FROM tbl_payment p
+                            JOIN tbl_appointment a ON p.appointment_id = a.appointment_id
+                            JOIN tbl_appointment_services a_s ON a_s.appointment_id = a.appointment_id
+                            JOIN tbl_servicesname s ON s.serviceName_id = a_s.serviceName_id
+                            WHERE p.paid_at BETWEEN @start AND @end
+                            GROUP BY s.serviceName
+                            ORDER BY SUM(p.discount_amount) DESC
+                            LIMIT 1;";
+                return con.Query<DiscountModel>(sql, new { start = start, end = end}).FirstOrDefault();
+            }
+        }
+        public DiscountModel DiscountedRate() 
+        {
+            using (var con = Database.GetConnection())
+            {
+                var sql = @"SELECT AVG(discount_amount / total_amount * 100) AS AverageDiscountRate
+                            FROM tbl_payment
+                            ";
+                return con.Query<DiscountModel>(sql).FirstOrDefault();
+            }
+        }
+        public DiscountModel DiscountedRate(DateTime start, DateTime end) 
+        {
+            using (var con = Database.GetConnection())
+            {
+                var sql = @"SELECT AVG(discount_amount / total_amount * 100) AS AverageDiscountRate
+                            FROM tbl_payment
+                            WHERE paid_at BETWEEN @start AND @end;";
+                return con.Query<DiscountModel>(sql, new { start = start, end = end}).FirstOrDefault();
+            }
+        }
+
+        // GRID DATA
+
+        public IEnumerable<DiscountModel> AllDiscounts() 
+        {
+            using (var con = Database.GetConnection())
+            {
+                var sql = @"SELECT 
+                            DATE(p.paid_at) AS Date,
+                            s.serviceName AS Item,
+                            (p.total_amount + p.discount_amount) AS OriginalPrice,
+                            p.discount_amount AS Discount,
+                            p.total_amount AS FinalPrice
+                        FROM tbl_payment p
+                        JOIN tbl_appointment a ON p.appointment_id = a.appointment_id
+                        JOIN tbl_appointment_services aps ON a.appointment_id = aps.appointment_id
+                        JOIN tbl_servicesname s ON aps.serviceName_id = s.serviceName_id";
+                return con.Query<DiscountModel>(sql).ToList();
+            }
+        }
+        public IEnumerable<DiscountModel> AllDiscounts(DateTime start, DateTime end) 
+        {
+            using (var con = Database.GetConnection())
+            {
+                var sql = @"SELECT 
+                            DATE(p.paid_at) AS Date,
+                            s.serviceName AS Item,
+                            (p.total_amount + p.discount_amount) AS OriginalPrice,
+                            p.discount_amount AS Discount,
+                            p.total_amount AS FinalPrice
+                        FROM tbl_payment p
+                        JOIN tbl_appointment a ON p.appointment_id = a.appointment_id
+                        JOIN tbl_appointment_services aps ON a.appointment_id = aps.appointment_id
+                        JOIN tbl_servicesname s ON aps.serviceName_id = s.serviceName_id
+                        WHERE p.paid_at BETWEEN @start AND @end;";
+                return con.Query<DiscountModel>(sql, new { start = start, end = end}).ToList();
+            }
+        }
     }
 }

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Org.BouncyCastle.Bcpg;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -20,7 +21,17 @@ namespace Salon.Models
 
 
 
+        // DELIVERY REPORT
 
+        public int TotalQty { get; set; }
+        public int ExpiredQty { get; set; }
+
+        public DateTime DeliveryDate { get; set; }
+        public string ProductName { get; set; }
+        public int Quantity { get; set; }
+        public decimal Price { get; set; }
+        public DateTime Expiry { get; set; }
+        public string ItemNotes { get; set; }
 
 
 

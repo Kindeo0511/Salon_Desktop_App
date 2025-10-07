@@ -20,6 +20,11 @@ namespace Salon.Controller
         {
             return repo.GetAllCustomers();
         }
+
+        public CustomerModel GetTotalCustomer() 
+        {
+            return repo.TotalCustomer();
+        }
         public List<CustomerModel> GetCustomerBySearch(string key)
         {
             return repo.GetCustomerBySearch(key);

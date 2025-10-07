@@ -27,5 +27,19 @@ namespace Salon.Controller
             var id = delivery.AddDelivery(deliveryModel);
             return id;
         }
+
+        // DELIVERY REPORT
+
+        public DeliveryModel GetTotalDelivery() 
+        {
+            return delivery.TotalDelivery();
+        }
+
+        public DeliveryModel GetTotalDelivery(DateTime start, DateTime end)
+        {
+            return delivery.TotalDelivery(start, end);
+        }
+
+
     }
 }

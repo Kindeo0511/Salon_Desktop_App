@@ -14,5 +14,10 @@ namespace Salon.Models
         public DateTime date { get; set; }
         public String invoice { get; set; }
         public string received_by { get; set; }
+
+
+        // SUMMARY DELIVERY REPORT
+
+        public int TotalDelivery { get; set; }
     }
 }

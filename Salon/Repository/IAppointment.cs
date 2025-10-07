@@ -9,14 +9,15 @@ namespace Salon.Repository
 {
     public interface IAppointment
     {
-        IEnumerable<AppointmentModel> GetAllAppointments();
-        AppointmentModel GetTotalAppointment();
-        IEnumerable<AppointmentModel> GetAll();
-        List<AppointmentModel> GetAppointmentsByDate(DateTime date);
-        int Add(AppointmentModel appointment);
-        void UpdateStylist(AppointmentModel appointment);
-        void UpdatePaymentStatus(AppointmentModel appointment);
-        void UpdateStatus(string status, int id);
+        // SUMMARY REPORT
 
+        AppointmentModel TopSpender();
+        AppointmentModel TopSpender(DateTime start, DateTime end);
+
+        AppointmentModel RepeatClient();
+        AppointmentModel RepeatClient(DateTime start, DateTime end);
+
+        IEnumerable<AppointmentModel> CustomerVisit();
+        IEnumerable<AppointmentModel> CustomerVisit(DateTime start, DateTime end);
     }
 }

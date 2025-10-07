@@ -10,7 +10,11 @@ namespace Salon.Repository
     public interface IAppointmentServiceRepository
     {
         void AddAppointmentService(AppointmentServicesModel appointmentServices);
+        void ClearDeleteAllServicesForAppointment(int id);
         IEnumerable<AppointmentServicesModel> GetAll();
         IEnumerable<AppointmentServicesModel> GetServicesByAppointmentId(int appointmentId);
+
+        IEnumerable<AppointmentServicesModel> ServicesSelected(int id);
+        IEnumerable<AppointmentServicesModel> AppointmentServicesSelected(int id);
     }
 }

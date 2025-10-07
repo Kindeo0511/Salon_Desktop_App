@@ -22,6 +22,24 @@ namespace Salon.Repository
             }
                 
         }
+        public void ClearDeleteAllServicesForAppointment(int id) 
+        {
+            using (var con = Database.GetConnection())
+            {
+                var sql = @"
+                DELETE FROM tbl_appointment_services WHERE appointment_id = @id;";
+               con.Execute(sql, new { id = id});
+            }
+        }
+        public IEnumerable<AppointmentServicesModel> AppointmentServicesSelected(int id) 
+        {
+            using (var con = Database.GetConnection()) 
+            {
+                var sql = "SELECT * FROM tbl_appointment_services WHERE appointment_id =@AppointmentId";
+                return con.Query<AppointmentServicesModel>(sql).ToList();
+            }
+        }
+
         public IEnumerable<AppointmentServicesModel> GetAll() 
         {
             using (var con = Database.GetConnection()) 
@@ -56,6 +74,25 @@ namespace Salon.Repository
             }
 
                 
+        }
+
+        public IEnumerable<AppointmentServicesModel> ServicesSelected(int id) 
+        {
+            using (var con = Database.GetConnection()) 
+            {
+                var sql = @"SELECT 
+                        sn.serviceName_id AS ServiceId,
+                        sn.serviceName AS ServiceName,
+                        sn.subCategory_id,
+                        sc.subCategoryName AS SubCategoryname,
+                        sn.duration AS Duration
+                    FROM tbl_appointment_services aps
+                    LEFT JOIN tbl_appointment a ON a.appointment_id = aps.appointment_id
+                    LEFT JOIN tbl_servicesname sn ON aps.serviceName_id = sn.serviceName_id
+                    LEFT JOIN tbl_subcategory sc ON sn.subCategory_id = sc.subCategory_id
+                    WHERE aps.appointment_id = @id;";
+                return con.Query<AppointmentServicesModel>(sql, new { id = id}).ToList();
+            }
         }
 
 

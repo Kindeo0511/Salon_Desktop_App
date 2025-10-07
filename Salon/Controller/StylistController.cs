@@ -41,5 +41,46 @@ namespace Salon.Controller
         {
             _repo.DeleteStylist(stylist_id);
         }
+
+        // SUMMARY REPORT
+
+        public StylistModel GetTotalStaff() 
+        {
+            return _repo.TotalStaff();
+        }
+        public StylistModel GetActiveStaff() 
+        {
+            return _repo.TotalActive();
+        }
+        public StylistModel GetInactiveStaff() 
+        {
+            return _repo.TotalInactive();
+        }
+        public StylistModel GetTopPerformerStaff() 
+        {
+            return _repo.TopPerformer();
+        }
+
+        public StylistModel GetTopPerformerStaff(DateTime start, DateTime end)
+        {
+            return _repo.TopPerformer(start, end);
+        }
+
+        public IEnumerable<StylistModel> GetStaffList() 
+        {
+            return _repo.StaffList();
+        }
+
+        public IEnumerable<StylistModel> GetStaffList(DateTime start, DateTime end)
+        {
+            return _repo.StaffList(start, end);
+        }
+
+        public List<int> GetAssignedStylist(DateTime date, TimeSpan start, TimeSpan end) 
+        {
+            return _repo.AssignedStylist(date, start, end);
+        }
+
+
     }
 }

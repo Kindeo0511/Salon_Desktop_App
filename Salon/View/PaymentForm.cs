@@ -251,7 +251,7 @@ namespace Salon.View
 
                 paymentController.CreatePayment(payment);
                 AddTransactions(model.AppointmentId, _vatAmount, _discountAmount, totalAmount, cb_PaymentMethod.SelectedItem.ToString(), "Paid", DateTime.Now);
-                appointment.UpdateAppointmentPayment(model.AppointmentId, "Paid");
+                appointment.UpdateAppointmentPayment(model.AppointmentId, "Paid", "Completed");
                 MessageBox.Show("✅ Payment has been recorded successfully!", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 mainForm.LoadAppointments();
                 mainForm.LoadTotalSales();

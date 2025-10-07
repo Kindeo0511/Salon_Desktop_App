@@ -69,9 +69,9 @@
             this.btn_add_to_cart.MouseState = MaterialSkin.MouseState.HOVER;
             this.btn_add_to_cart.Name = "btn_add_to_cart";
             this.btn_add_to_cart.NoAccentTextColor = System.Drawing.Color.Empty;
-            this.btn_add_to_cart.Size = new System.Drawing.Size(79, 36);
+            this.btn_add_to_cart.Size = new System.Drawing.Size(64, 36);
             this.btn_add_to_cart.TabIndex = 2;
-            this.btn_add_to_cart.Text = "Service";
+            this.btn_add_to_cart.Text = " Add";
             this.btn_add_to_cart.Type = MaterialSkin.Controls.MaterialButton.MaterialButtonType.Contained;
             this.btn_add_to_cart.UseAccentColor = false;
             this.btn_add_to_cart.UseVisualStyleBackColor = true;

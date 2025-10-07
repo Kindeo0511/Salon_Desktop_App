@@ -9,7 +9,10 @@ namespace Salon.Repository
 {
     public interface IPaymentRepository
     {
+        PaymentModel GetTotalAmountPaid();
+        PaymentModel GetTotalAmountPaid(DateTime start, DateTime end);
         void AddPayment(Models.PaymentModel payment);
+
         PaymentModel GetPayment(int id);
 
     }
