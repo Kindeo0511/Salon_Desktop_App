@@ -13,5 +13,7 @@ namespace Salon.Repository
         void AddSubCategory(SubCategoryModel subCategory);
         void UpdateSubCategory(SubCategoryModel subCategory);
         void DeleteSubCategory(int subCategoryId);
+
+        bool SubCategoriesExist(string name, int category_id, int id = 0);
     }
 }

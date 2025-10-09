@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(DeliveryForm));
             this.txt_received_by = new MaterialSkin.Controls.MaterialTextBox();
             this.txt_total = new MaterialSkin.Controls.MaterialTextBox();
@@ -50,6 +51,7 @@
             this.btn_update = new MaterialSkin.Controls.MaterialButton();
             this.btn_add = new MaterialSkin.Controls.MaterialButton();
             this.dgv_Items = new System.Windows.Forms.DataGridView();
+            this.errorProvider1 = new System.Windows.Forms.ErrorProvider(this.components);
             this.product_id = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.col_product_name = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.col_qty = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -63,6 +65,7 @@
             this.col_view_delivered_items = new System.Windows.Forms.DataGridViewImageColumn();
             this.materialCard1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgv_Items)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.errorProvider1)).BeginInit();
             this.SuspendLayout();
             // 
             // txt_received_by
@@ -73,13 +76,13 @@
             this.txt_received_by.Font = new System.Drawing.Font("Roboto", 16F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
             this.txt_received_by.Hint = "Received by";
             this.txt_received_by.LeadingIcon = null;
-            this.txt_received_by.Location = new System.Drawing.Point(57, 27);
+            this.txt_received_by.Location = new System.Drawing.Point(48, 27);
             this.txt_received_by.MaxLength = 50;
             this.txt_received_by.MouseState = MaterialSkin.MouseState.OUT;
             this.txt_received_by.Multiline = false;
             this.txt_received_by.Name = "txt_received_by";
             this.txt_received_by.ReadOnly = true;
-            this.txt_received_by.Size = new System.Drawing.Size(253, 50);
+            this.txt_received_by.Size = new System.Drawing.Size(400, 50);
             this.txt_received_by.TabIndex = 0;
             this.txt_received_by.Text = "";
             this.txt_received_by.TrailingIcon = null;
@@ -92,13 +95,13 @@
             this.txt_total.Font = new System.Drawing.Font("Roboto", 16F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
             this.txt_total.Hint = "Total Cost";
             this.txt_total.LeadingIcon = null;
-            this.txt_total.Location = new System.Drawing.Point(455, 389);
+            this.txt_total.Location = new System.Drawing.Point(507, 389);
             this.txt_total.MaxLength = 50;
             this.txt_total.MouseState = MaterialSkin.MouseState.OUT;
             this.txt_total.Multiline = false;
             this.txt_total.Name = "txt_total";
             this.txt_total.ReadOnly = true;
-            this.txt_total.Size = new System.Drawing.Size(253, 50);
+            this.txt_total.Size = new System.Drawing.Size(400, 50);
             this.txt_total.TabIndex = 1;
             this.txt_total.Text = "";
             this.txt_total.TrailingIcon = null;
@@ -111,13 +114,13 @@
             this.txt_unit.Font = new System.Drawing.Font("Roboto", 16F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
             this.txt_unit.Hint = "Unit";
             this.txt_unit.LeadingIcon = null;
-            this.txt_unit.Location = new System.Drawing.Point(57, 300);
+            this.txt_unit.Location = new System.Drawing.Point(48, 291);
             this.txt_unit.MaxLength = 50;
             this.txt_unit.MouseState = MaterialSkin.MouseState.OUT;
             this.txt_unit.Multiline = false;
             this.txt_unit.Name = "txt_unit";
             this.txt_unit.ReadOnly = true;
-            this.txt_unit.Size = new System.Drawing.Size(253, 50);
+            this.txt_unit.Size = new System.Drawing.Size(400, 50);
             this.txt_unit.TabIndex = 2;
             this.txt_unit.Text = "";
             this.txt_unit.TrailingIcon = null;
@@ -130,12 +133,12 @@
             this.txt_price.Font = new System.Drawing.Font("Roboto", 16F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
             this.txt_price.Hint = "Price";
             this.txt_price.LeadingIcon = null;
-            this.txt_price.Location = new System.Drawing.Point(455, 291);
+            this.txt_price.Location = new System.Drawing.Point(507, 291);
             this.txt_price.MaxLength = 50;
             this.txt_price.MouseState = MaterialSkin.MouseState.OUT;
             this.txt_price.Multiline = false;
             this.txt_price.Name = "txt_price";
-            this.txt_price.Size = new System.Drawing.Size(253, 50);
+            this.txt_price.Size = new System.Drawing.Size(400, 50);
             this.txt_price.TabIndex = 3;
             this.txt_price.Text = "";
             this.txt_price.TrailingIcon = null;
@@ -149,12 +152,12 @@
             this.txt_invoice.Font = new System.Drawing.Font("Roboto", 16F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
             this.txt_invoice.Hint = "Invoice";
             this.txt_invoice.LeadingIcon = null;
-            this.txt_invoice.Location = new System.Drawing.Point(455, 115);
+            this.txt_invoice.Location = new System.Drawing.Point(507, 118);
             this.txt_invoice.MaxLength = 50;
             this.txt_invoice.MouseState = MaterialSkin.MouseState.OUT;
             this.txt_invoice.Multiline = false;
             this.txt_invoice.Name = "txt_invoice";
-            this.txt_invoice.Size = new System.Drawing.Size(253, 50);
+            this.txt_invoice.Size = new System.Drawing.Size(400, 50);
             this.txt_invoice.TabIndex = 4;
             this.txt_invoice.Text = "";
             this.txt_invoice.TrailingIcon = null;
@@ -167,13 +170,13 @@
             this.txt_volume.Font = new System.Drawing.Font("Roboto", 16F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
             this.txt_volume.Hint = "Volume per Unit";
             this.txt_volume.LeadingIcon = null;
-            this.txt_volume.Location = new System.Drawing.Point(57, 389);
+            this.txt_volume.Location = new System.Drawing.Point(48, 389);
             this.txt_volume.MaxLength = 50;
             this.txt_volume.MouseState = MaterialSkin.MouseState.OUT;
             this.txt_volume.Multiline = false;
             this.txt_volume.Name = "txt_volume";
             this.txt_volume.ReadOnly = true;
-            this.txt_volume.Size = new System.Drawing.Size(253, 50);
+            this.txt_volume.Size = new System.Drawing.Size(400, 50);
             this.txt_volume.TabIndex = 6;
             this.txt_volume.Text = "";
             this.txt_volume.TrailingIcon = null;
@@ -186,12 +189,12 @@
             this.txt_qty.Font = new System.Drawing.Font("Roboto", 16F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
             this.txt_qty.Hint = "Quantity";
             this.txt_qty.LeadingIcon = null;
-            this.txt_qty.Location = new System.Drawing.Point(455, 198);
+            this.txt_qty.Location = new System.Drawing.Point(507, 201);
             this.txt_qty.MaxLength = 50;
             this.txt_qty.MouseState = MaterialSkin.MouseState.OUT;
             this.txt_qty.Multiline = false;
             this.txt_qty.Name = "txt_qty";
-            this.txt_qty.Size = new System.Drawing.Size(253, 50);
+            this.txt_qty.Size = new System.Drawing.Size(400, 50);
             this.txt_qty.TabIndex = 7;
             this.txt_qty.Text = "";
             this.txt_qty.TrailingIcon = null;
@@ -212,11 +215,11 @@
             this.cb_supplier_name.Hint = "Select Supplier";
             this.cb_supplier_name.IntegralHeight = false;
             this.cb_supplier_name.ItemHeight = 43;
-            this.cb_supplier_name.Location = new System.Drawing.Point(57, 116);
+            this.cb_supplier_name.Location = new System.Drawing.Point(48, 116);
             this.cb_supplier_name.MaxDropDownItems = 4;
             this.cb_supplier_name.MouseState = MaterialSkin.MouseState.OUT;
             this.cb_supplier_name.Name = "cb_supplier_name";
-            this.cb_supplier_name.Size = new System.Drawing.Size(253, 49);
+            this.cb_supplier_name.Size = new System.Drawing.Size(400, 49);
             this.cb_supplier_name.StartIndex = 0;
             this.cb_supplier_name.TabIndex = 8;
             // 
@@ -235,11 +238,11 @@
             this.cb_product_names.Hint = "Select Product";
             this.cb_product_names.IntegralHeight = false;
             this.cb_product_names.ItemHeight = 43;
-            this.cb_product_names.Location = new System.Drawing.Point(57, 199);
+            this.cb_product_names.Location = new System.Drawing.Point(48, 199);
             this.cb_product_names.MaxDropDownItems = 4;
             this.cb_product_names.MouseState = MaterialSkin.MouseState.OUT;
             this.cb_product_names.Name = "cb_product_names";
-            this.cb_product_names.Size = new System.Drawing.Size(253, 49);
+            this.cb_product_names.Size = new System.Drawing.Size(400, 49);
             this.cb_product_names.StartIndex = 0;
             this.cb_product_names.TabIndex = 9;
             this.cb_product_names.SelectedIndexChanged += new System.EventHandler(this.cb_product_names_SelectedIndexChanged);
@@ -247,7 +250,7 @@
             // dtp_delivery_date
             // 
             this.dtp_delivery_date.Format = System.Windows.Forms.DateTimePickerFormat.Short;
-            this.dtp_delivery_date.Location = new System.Drawing.Point(455, 55);
+            this.dtp_delivery_date.Location = new System.Drawing.Point(507, 55);
             this.dtp_delivery_date.Name = "dtp_delivery_date";
             this.dtp_delivery_date.Size = new System.Drawing.Size(219, 22);
             this.dtp_delivery_date.TabIndex = 10;
@@ -255,7 +258,7 @@
             // dtp_expiry
             // 
             this.dtp_expiry.Format = System.Windows.Forms.DateTimePickerFormat.Short;
-            this.dtp_expiry.Location = new System.Drawing.Point(792, 55);
+            this.dtp_expiry.Location = new System.Drawing.Point(804, 55);
             this.dtp_expiry.Name = "dtp_expiry";
             this.dtp_expiry.Size = new System.Drawing.Size(219, 22);
             this.dtp_expiry.TabIndex = 11;
@@ -269,7 +272,7 @@
             this.txt_notes.Depth = 0;
             this.txt_notes.HideSelection = true;
             this.txt_notes.Hint = "Notes";
-            this.txt_notes.Location = new System.Drawing.Point(792, 115);
+            this.txt_notes.Location = new System.Drawing.Point(957, 118);
             this.txt_notes.MaxLength = 32767;
             this.txt_notes.MouseState = MaterialSkin.MouseState.OUT;
             this.txt_notes.Name = "txt_notes";
@@ -280,18 +283,19 @@
             this.txt_notes.SelectionLength = 0;
             this.txt_notes.SelectionStart = 0;
             this.txt_notes.ShortcutsEnabled = true;
-            this.txt_notes.Size = new System.Drawing.Size(346, 138);
+            this.txt_notes.Size = new System.Drawing.Size(420, 185);
             this.txt_notes.TabIndex = 12;
             this.txt_notes.TabStop = false;
             this.txt_notes.TextAlign = System.Windows.Forms.HorizontalAlignment.Left;
             this.txt_notes.UseSystemPasswordChar = false;
+            this.txt_notes.Click += new System.EventHandler(this.txt_notes_Click);
             // 
             // materialLabel1
             // 
             this.materialLabel1.AutoSize = true;
             this.materialLabel1.Depth = 0;
             this.materialLabel1.Font = new System.Drawing.Font("Roboto", 14F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
-            this.materialLabel1.Location = new System.Drawing.Point(452, 27);
+            this.materialLabel1.Location = new System.Drawing.Point(504, 27);
             this.materialLabel1.MouseState = MaterialSkin.MouseState.HOVER;
             this.materialLabel1.Name = "materialLabel1";
             this.materialLabel1.Size = new System.Drawing.Size(107, 19);
@@ -303,7 +307,7 @@
             this.materialLabel2.AutoSize = true;
             this.materialLabel2.Depth = 0;
             this.materialLabel2.Font = new System.Drawing.Font("Roboto", 14F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
-            this.materialLabel2.Location = new System.Drawing.Point(789, 27);
+            this.materialLabel2.Location = new System.Drawing.Point(801, 27);
             this.materialLabel2.MouseState = MaterialSkin.MouseState.HOVER;
             this.materialLabel2.Name = "materialLabel2";
             this.materialLabel2.Size = new System.Drawing.Size(113, 19);
@@ -335,12 +339,12 @@
             this.materialCard1.Depth = 0;
             this.materialCard1.Dock = System.Windows.Forms.DockStyle.Top;
             this.materialCard1.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(222)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
-            this.materialCard1.Location = new System.Drawing.Point(3, 64);
+            this.materialCard1.Location = new System.Drawing.Point(20, 84);
             this.materialCard1.Margin = new System.Windows.Forms.Padding(14);
             this.materialCard1.MouseState = MaterialSkin.MouseState.HOVER;
             this.materialCard1.Name = "materialCard1";
             this.materialCard1.Padding = new System.Windows.Forms.Padding(14);
-            this.materialCard1.Size = new System.Drawing.Size(1294, 568);
+            this.materialCard1.Size = new System.Drawing.Size(1360, 568);
             this.materialCard1.TabIndex = 15;
             // 
             // btn_save
@@ -424,6 +428,7 @@
             this.btn_update.UseAccentColor = false;
             this.btn_update.UseVisualStyleBackColor = true;
             this.btn_update.Visible = false;
+            this.btn_update.Click += new System.EventHandler(this.btn_update_Click);
             // 
             // btn_add
             // 
@@ -449,6 +454,11 @@
             // 
             this.dgv_Items.AllowUserToAddRows = false;
             this.dgv_Items.AllowUserToDeleteRows = false;
+            this.dgv_Items.AllowUserToResizeColumns = false;
+            this.dgv_Items.AllowUserToResizeRows = false;
+            this.dgv_Items.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            this.dgv_Items.CellBorderStyle = System.Windows.Forms.DataGridViewCellBorderStyle.None;
+            this.dgv_Items.ColumnHeadersBorderStyle = System.Windows.Forms.DataGridViewHeaderBorderStyle.None;
             this.dgv_Items.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dgv_Items.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.product_id,
@@ -463,14 +473,20 @@
             this.col_note,
             this.col_view_delivered_items});
             this.dgv_Items.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.dgv_Items.Location = new System.Drawing.Point(3, 632);
+            this.dgv_Items.Location = new System.Drawing.Point(20, 652);
             this.dgv_Items.Name = "dgv_Items";
             this.dgv_Items.ReadOnly = true;
+            this.dgv_Items.RowHeadersBorderStyle = System.Windows.Forms.DataGridViewHeaderBorderStyle.None;
             this.dgv_Items.RowHeadersWidth = 51;
             this.dgv_Items.RowTemplate.Height = 24;
-            this.dgv_Items.Size = new System.Drawing.Size(1294, 234);
+            this.dgv_Items.Size = new System.Drawing.Size(1360, 197);
             this.dgv_Items.TabIndex = 16;
             this.dgv_Items.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgv_Items_CellClick);
+            // 
+            // errorProvider1
+            // 
+            this.errorProvider1.BlinkStyle = System.Windows.Forms.ErrorBlinkStyle.NeverBlink;
+            this.errorProvider1.ContainerControl = this;
             // 
             // product_id
             // 
@@ -555,26 +571,31 @@
             // 
             // col_view_delivered_items
             // 
+            this.col_view_delivered_items.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
             this.col_view_delivered_items.HeaderText = "";
             this.col_view_delivered_items.Image = ((System.Drawing.Image)(resources.GetObject("col_view_delivered_items.Image")));
             this.col_view_delivered_items.ImageLayout = System.Windows.Forms.DataGridViewImageCellLayout.Zoom;
             this.col_view_delivered_items.MinimumWidth = 6;
             this.col_view_delivered_items.Name = "col_view_delivered_items";
             this.col_view_delivered_items.ReadOnly = true;
-            this.col_view_delivered_items.Width = 125;
             // 
             // DeliveryForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1300, 869);
+            this.ClientSize = new System.Drawing.Size(1400, 869);
             this.Controls.Add(this.dgv_Items);
             this.Controls.Add(this.materialCard1);
+            this.MaximizeBox = false;
+            this.MinimizeBox = false;
             this.Name = "DeliveryForm";
-            this.Text = "DeliveryForm";
+            this.Padding = new System.Windows.Forms.Padding(20, 84, 20, 20);
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
+            this.Text = "DELIVERY INFORMATION";
             this.materialCard1.ResumeLayout(false);
             this.materialCard1.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgv_Items)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.errorProvider1)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -602,6 +623,7 @@
         private MaterialSkin.Controls.MaterialButton btn_add;
         private System.Windows.Forms.DataGridView dgv_Items;
         private MaterialSkin.Controls.MaterialButton btn_save;
+        private System.Windows.Forms.ErrorProvider errorProvider1;
         private System.Windows.Forms.DataGridViewTextBoxColumn product_id;
         private System.Windows.Forms.DataGridViewTextBoxColumn col_product_name;
         private System.Windows.Forms.DataGridViewTextBoxColumn col_qty;

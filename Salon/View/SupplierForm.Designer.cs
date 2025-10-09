@@ -28,13 +28,16 @@
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
             this.btn_update = new MaterialSkin.Controls.MaterialButton();
             this.btn_cancel = new MaterialSkin.Controls.MaterialButton();
             this.btn_save = new MaterialSkin.Controls.MaterialButton();
             this.txt_email = new MaterialSkin.Controls.MaterialTextBox();
             this.txt_contact = new MaterialSkin.Controls.MaterialTextBox();
             this.txt_supplier_name = new MaterialSkin.Controls.MaterialTextBox();
+            this.errorProvider1 = new System.Windows.Forms.ErrorProvider(this.components);
             this.txt_address = new MaterialSkin.Controls.MaterialMultiLineTextBox2();
+            ((System.ComponentModel.ISupportInitialize)(this.errorProvider1)).BeginInit();
             this.SuspendLayout();
             // 
             // btn_update
@@ -44,14 +47,14 @@
             this.btn_update.Depth = 0;
             this.btn_update.HighEmphasis = true;
             this.btn_update.Icon = null;
-            this.btn_update.Location = new System.Drawing.Point(441, 387);
+            this.btn_update.Location = new System.Drawing.Point(487, 387);
             this.btn_update.Margin = new System.Windows.Forms.Padding(4, 6, 4, 6);
             this.btn_update.MouseState = MaterialSkin.MouseState.HOVER;
             this.btn_update.Name = "btn_update";
             this.btn_update.NoAccentTextColor = System.Drawing.Color.Empty;
-            this.btn_update.Size = new System.Drawing.Size(77, 36);
+            this.btn_update.Size = new System.Drawing.Size(129, 36);
             this.btn_update.TabIndex = 25;
-            this.btn_update.Text = "update";
+            this.btn_update.Text = "save changes";
             this.btn_update.Type = MaterialSkin.Controls.MaterialButton.MaterialButtonType.Contained;
             this.btn_update.UseAccentColor = false;
             this.btn_update.UseVisualStyleBackColor = true;
@@ -85,7 +88,7 @@
             this.btn_save.Depth = 0;
             this.btn_save.HighEmphasis = true;
             this.btn_save.Icon = null;
-            this.btn_save.Location = new System.Drawing.Point(441, 387);
+            this.btn_save.Location = new System.Drawing.Point(552, 387);
             this.btn_save.Margin = new System.Windows.Forms.Padding(4, 6, 4, 6);
             this.btn_save.MouseState = MaterialSkin.MouseState.HOVER;
             this.btn_save.Name = "btn_save";
@@ -106,12 +109,12 @@
             this.txt_email.Font = new System.Drawing.Font("Roboto", 16F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
             this.txt_email.Hint = "Email";
             this.txt_email.LeadingIcon = null;
-            this.txt_email.Location = new System.Drawing.Point(441, 91);
+            this.txt_email.Location = new System.Drawing.Point(468, 91);
             this.txt_email.MaxLength = 50;
             this.txt_email.MouseState = MaterialSkin.MouseState.OUT;
             this.txt_email.Multiline = false;
             this.txt_email.Name = "txt_email";
-            this.txt_email.Size = new System.Drawing.Size(212, 50);
+            this.txt_email.Size = new System.Drawing.Size(400, 50);
             this.txt_email.TabIndex = 22;
             this.txt_email.Text = "";
             this.txt_email.TrailingIcon = null;
@@ -124,12 +127,12 @@
             this.txt_contact.Font = new System.Drawing.Font("Roboto", 16F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
             this.txt_contact.Hint = "Contact #";
             this.txt_contact.LeadingIcon = null;
-            this.txt_contact.Location = new System.Drawing.Point(104, 183);
+            this.txt_contact.Location = new System.Drawing.Point(468, 213);
             this.txt_contact.MaxLength = 50;
             this.txt_contact.MouseState = MaterialSkin.MouseState.OUT;
             this.txt_contact.Multiline = false;
             this.txt_contact.Name = "txt_contact";
-            this.txt_contact.Size = new System.Drawing.Size(212, 50);
+            this.txt_contact.Size = new System.Drawing.Size(400, 50);
             this.txt_contact.TabIndex = 21;
             this.txt_contact.Text = "";
             this.txt_contact.TrailingIcon = null;
@@ -140,17 +143,22 @@
             this.txt_supplier_name.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.txt_supplier_name.Depth = 0;
             this.txt_supplier_name.Font = new System.Drawing.Font("Roboto", 16F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
-            this.txt_supplier_name.Hint = "First Name";
+            this.txt_supplier_name.Hint = "Supplier Name";
             this.txt_supplier_name.LeadingIcon = null;
-            this.txt_supplier_name.Location = new System.Drawing.Point(104, 91);
+            this.txt_supplier_name.Location = new System.Drawing.Point(27, 91);
             this.txt_supplier_name.MaxLength = 50;
             this.txt_supplier_name.MouseState = MaterialSkin.MouseState.OUT;
             this.txt_supplier_name.Multiline = false;
             this.txt_supplier_name.Name = "txt_supplier_name";
-            this.txt_supplier_name.Size = new System.Drawing.Size(212, 50);
+            this.txt_supplier_name.Size = new System.Drawing.Size(400, 50);
             this.txt_supplier_name.TabIndex = 18;
             this.txt_supplier_name.Text = "";
             this.txt_supplier_name.TrailingIcon = null;
+            // 
+            // errorProvider1
+            // 
+            this.errorProvider1.BlinkStyle = System.Windows.Forms.ErrorBlinkStyle.NeverBlink;
+            this.errorProvider1.ContainerControl = this;
             // 
             // txt_address
             // 
@@ -161,7 +169,7 @@
             this.txt_address.Depth = 0;
             this.txt_address.HideSelection = true;
             this.txt_address.Hint = "Address";
-            this.txt_address.Location = new System.Drawing.Point(104, 275);
+            this.txt_address.Location = new System.Drawing.Point(27, 182);
             this.txt_address.MaxLength = 32767;
             this.txt_address.MouseState = MaterialSkin.MouseState.OUT;
             this.txt_address.Name = "txt_address";
@@ -172,7 +180,7 @@
             this.txt_address.SelectionLength = 0;
             this.txt_address.SelectionStart = 0;
             this.txt_address.ShortcutsEnabled = true;
-            this.txt_address.Size = new System.Drawing.Size(500, 50);
+            this.txt_address.Size = new System.Drawing.Size(400, 199);
             this.txt_address.TabIndex = 26;
             this.txt_address.TabStop = false;
             this.txt_address.TextAlign = System.Windows.Forms.HorizontalAlignment.Left;
@@ -182,7 +190,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(800, 450);
+            this.ClientSize = new System.Drawing.Size(900, 450);
             this.Controls.Add(this.txt_address);
             this.Controls.Add(this.btn_update);
             this.Controls.Add(this.btn_cancel);
@@ -193,6 +201,7 @@
             this.Name = "SupplierForm";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "SupplierForm";
+            ((System.ComponentModel.ISupportInitialize)(this.errorProvider1)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -206,6 +215,7 @@
         private MaterialSkin.Controls.MaterialTextBox txt_email;
         private MaterialSkin.Controls.MaterialTextBox txt_contact;
         private MaterialSkin.Controls.MaterialTextBox txt_supplier_name;
+        private System.Windows.Forms.ErrorProvider errorProvider1;
         private MaterialSkin.Controls.MaterialMultiLineTextBox2 txt_address;
     }
 }

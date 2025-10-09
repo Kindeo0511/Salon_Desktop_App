@@ -23,6 +23,8 @@ namespace Salon.View
             InitializeComponent();
             ThemeManager.ApplyTheme(this);
             _mainForm = mainForm;
+            dtp_day_of_birth.MaxDate = DateTime.Today;
+            dtp_day_of_birth.MinDate = new DateTime(1900, 1, 1);
         }
         public StylistForm(MainForm mainForm, StylistModel stylist)
         {
@@ -30,6 +32,8 @@ namespace Salon.View
             ThemeManager.ApplyTheme(this);
             _mainForm = mainForm;
             _stylist = stylist;
+            dtp_day_of_birth.MaxDate = DateTime.Today;
+            dtp_day_of_birth.MinDate = new DateTime(1900, 1, 1);
 
             if (_stylist != null)
             {
@@ -84,7 +88,7 @@ namespace Salon.View
             _stylist.contactNumber = txt_contact.Text;
             _stylist.email = txt_email.Text;
             _stylist.address = txt_address.Text;
-                _stylist.daily_wage = Convert.ToDecimal(txt_daily_wage.Text);
+            _stylist.daily_wage = Convert.ToDecimal(txt_daily_wage.Text);
 
             var repo = new StylistRepository();
             var stylistController = new Controller.StylistController(repo);
@@ -95,18 +99,69 @@ namespace Salon.View
 
         private void btn_save_Click(object sender, EventArgs e)
         {
+
+
+            // Run validation on UI thread
+            if (!Validated()) return;
+        
+
             MessageBox.Show("Stylist added successfully", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
 
             SaveStylist();
             _mainForm.LoadStylist();
+      
+            this.Close();
         }
 
         private void btn_update_Click(object sender, EventArgs e)
         {
+
+
+            if (!Validated()) 
+            {
+                MessageBox.Show("Validation failed");
+                return;
+            } 
+
             MessageBox.Show("Stylist updated successfully", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
 
             UpdateStylist();
             _mainForm.LoadStylist();
+            this.Close();
+        }
+
+        private bool Validated()
+        {
+
+            bool validated = true;
+            // REQUIRED FIELD
+            validated &= Validator.IsRequired(txt_first_name, errorProvider1, "First name is required.");
+            validated &= Validator.IsRequired(txt_middle_name, errorProvider1, "Middle name is required.");
+            validated &= Validator.IsRequired(txt_last_name, errorProvider1, "Last name is required.");
+            validated &= Validator.IsRequired(txt_email, errorProvider1, "Email is required.");
+            validated &= Validator.IsRequired(txt_contact, errorProvider1, "Contact number is required.");
+            validated &= Validator.IsRequired(txt_address, errorProvider1, "Address is required.");
+            validated &= Validator.IsRequired(txt_daily_wage, errorProvider1, "Daily wage is required.");
+
+            // VALID EMAIL
+            validated &= Validator.IsValidEmail(txt_email, errorProvider1);
+            // VAILD PHONE NUMBER
+            validated &= Validator.IsValidPhone(txt_contact, errorProvider1);
+
+            // EXISTS VALIDATION
+            int excludeId = _stylist?.stylist_id ?? 0;
+
+            validated &= Validator.IsStylistEmailExists(txt_email, errorProvider1, "Email already exists.", excludeId);
+            validated &= Validator.IsStylistPhoneExists(txt_contact, errorProvider1, "Contact number already exists.", excludeId);
+
+            return validated;
+
+
+        }
+
+        private void btn_cancel_Click(object sender, EventArgs e)
+        {
+            this.Close();
         }
     }
 }

@@ -14,5 +14,8 @@ namespace Salon.Repository
         void addService(ServiceModel service);
         void updateService(ServiceModel service);
         void deleteService(int id);
+
+
+        bool ServiceExists(string name, int id);
     }
 }

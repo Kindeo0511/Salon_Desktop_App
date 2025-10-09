@@ -63,5 +63,14 @@ namespace Salon.Repository
                 con.Execute(sql, new { productId });
             }
         }
+
+        public bool ProductExists(string name, int cat_id, int id = 0) 
+        {
+            using (var con = Database.GetConnection()) 
+            {
+                var sql = "SELECT COUNT(*) FROM tbl_products WHERE product_name = @name AND category_id =@cat_id AND product_id != @id";
+                return con.ExecuteScalar<int>(sql, new { name, cat_id, id }) > 0;
+            }
+        }
     }
 }

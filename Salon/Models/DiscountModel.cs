@@ -13,6 +13,7 @@ namespace Salon.Models
         public string promo_code { get; set; }
 
         public decimal discount_rate { get; set; }
+        public DateTime? expiry_date { get; set; }
         public string status { get; set; }
 
         //  DISCOUNT REPORT

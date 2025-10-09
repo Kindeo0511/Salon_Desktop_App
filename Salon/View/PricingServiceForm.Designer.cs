@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
             this.cmb_services = new MaterialSkin.Controls.MaterialComboBox();
             this.txt_product_cost = new MaterialSkin.Controls.MaterialTextBox();
             this.txt_stylist_cost = new MaterialSkin.Controls.MaterialTextBox();
@@ -43,6 +44,8 @@
             this.txt_vat = new MaterialSkin.Controls.MaterialTextBox();
             this.txt_net_price = new MaterialSkin.Controls.MaterialTextBox();
             this.txt_net_profit = new MaterialSkin.Controls.MaterialTextBox();
+            this.errorProvider1 = new System.Windows.Forms.ErrorProvider(this.components);
+            ((System.ComponentModel.ISupportInitialize)(this.errorProvider1)).BeginInit();
             this.SuspendLayout();
             // 
             // cmb_services
@@ -54,7 +57,7 @@
             this.cmb_services.DropDownHeight = 174;
             this.cmb_services.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cmb_services.DropDownWidth = 121;
-            this.cmb_services.Font = new System.Drawing.Font("Roboto Medium", 14F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Pixel);
+            this.cmb_services.Font = new System.Drawing.Font("Microsoft Sans Serif", 14F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Pixel);
             this.cmb_services.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(222)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
             this.cmb_services.FormattingEnabled = true;
             this.cmb_services.Hint = "Select Service";
@@ -71,9 +74,10 @@
             // 
             // txt_product_cost
             // 
-            this.txt_product_cost.AnimateReadOnly = false;
+            this.txt_product_cost.AnimateReadOnly = true;
             this.txt_product_cost.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.txt_product_cost.Depth = 0;
+            this.txt_product_cost.Enabled = false;
             this.txt_product_cost.Font = new System.Drawing.Font("Roboto", 16F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
             this.txt_product_cost.Hint = "Product Cost";
             this.txt_product_cost.LeadingIcon = null;
@@ -89,10 +93,11 @@
             // 
             // txt_stylist_cost
             // 
-            this.txt_stylist_cost.AnimateReadOnly = false;
+            this.txt_stylist_cost.AnimateReadOnly = true;
             this.txt_stylist_cost.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.txt_stylist_cost.Depth = 0;
-            this.txt_stylist_cost.Font = new System.Drawing.Font("Microsoft Sans Serif", 16F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
+            this.txt_stylist_cost.Enabled = false;
+            this.txt_stylist_cost.Font = new System.Drawing.Font("Roboto", 16F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
             this.txt_stylist_cost.Hint = "Stylist Cost";
             this.txt_stylist_cost.LeadingIcon = null;
             this.txt_stylist_cost.Location = new System.Drawing.Point(73, 445);
@@ -107,10 +112,11 @@
             // 
             // txt_overhead_cost
             // 
-            this.txt_overhead_cost.AnimateReadOnly = false;
+            this.txt_overhead_cost.AnimateReadOnly = true;
             this.txt_overhead_cost.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.txt_overhead_cost.Depth = 0;
-            this.txt_overhead_cost.Font = new System.Drawing.Font("Microsoft Sans Serif", 16F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
+            this.txt_overhead_cost.Enabled = false;
+            this.txt_overhead_cost.Font = new System.Drawing.Font("Roboto", 16F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
             this.txt_overhead_cost.Hint = "OverHeadCost";
             this.txt_overhead_cost.LeadingIcon = null;
             this.txt_overhead_cost.Location = new System.Drawing.Point(491, 117);
@@ -122,13 +128,15 @@
             this.txt_overhead_cost.TabIndex = 3;
             this.txt_overhead_cost.Text = "";
             this.txt_overhead_cost.TrailingIcon = null;
+            this.txt_overhead_cost.TextChanged += new System.EventHandler(this.txt_overhead_cost_TextChanged);
             // 
             // txt_total_cost
             // 
-            this.txt_total_cost.AnimateReadOnly = false;
+            this.txt_total_cost.AnimateReadOnly = true;
             this.txt_total_cost.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.txt_total_cost.Depth = 0;
-            this.txt_total_cost.Font = new System.Drawing.Font("Microsoft Sans Serif", 16F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
+            this.txt_total_cost.Enabled = false;
+            this.txt_total_cost.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.6F);
             this.txt_total_cost.Hint = "Total Cost";
             this.txt_total_cost.LeadingIcon = null;
             this.txt_total_cost.Location = new System.Drawing.Point(491, 225);
@@ -146,7 +154,7 @@
             this.txt_final_price.AnimateReadOnly = false;
             this.txt_final_price.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.txt_final_price.Depth = 0;
-            this.txt_final_price.Font = new System.Drawing.Font("Microsoft Sans Serif", 16F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
+            this.txt_final_price.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.6F);
             this.txt_final_price.Hint = "Selling Price";
             this.txt_final_price.LeadingIcon = null;
             this.txt_final_price.Location = new System.Drawing.Point(491, 346);
@@ -156,16 +164,17 @@
             this.txt_final_price.Name = "txt_final_price";
             this.txt_final_price.Size = new System.Drawing.Size(279, 50);
             this.txt_final_price.TabIndex = 5;
-            this.txt_final_price.Text = "0.00";
+            this.txt_final_price.Text = "";
             this.txt_final_price.TrailingIcon = null;
             this.txt_final_price.TextChanged += new System.EventHandler(this.txt_final_price_TextChanged);
             // 
             // txt_percent
             // 
-            this.txt_percent.AnimateReadOnly = false;
+            this.txt_percent.AnimateReadOnly = true;
             this.txt_percent.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.txt_percent.Depth = 0;
-            this.txt_percent.Font = new System.Drawing.Font("Microsoft Sans Serif", 16F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
+            this.txt_percent.Enabled = false;
+            this.txt_percent.Font = new System.Drawing.Font("Roboto", 16F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
             this.txt_percent.Hint = "Profit Percent (%)";
             this.txt_percent.LeadingIcon = null;
             this.txt_percent.Location = new System.Drawing.Point(863, 445);
@@ -181,10 +190,11 @@
             // 
             // txt_margin_peso
             // 
-            this.txt_margin_peso.AnimateReadOnly = false;
+            this.txt_margin_peso.AnimateReadOnly = true;
             this.txt_margin_peso.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.txt_margin_peso.Depth = 0;
-            this.txt_margin_peso.Font = new System.Drawing.Font("Microsoft Sans Serif", 16F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
+            this.txt_margin_peso.Enabled = false;
+            this.txt_margin_peso.Font = new System.Drawing.Font("Roboto", 16F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
             this.txt_margin_peso.Hint = "Gross Profit";
             this.txt_margin_peso.LeadingIcon = null;
             this.txt_margin_peso.Location = new System.Drawing.Point(863, 346);
@@ -260,10 +270,11 @@
             // 
             // txt_duration
             // 
-            this.txt_duration.AnimateReadOnly = false;
+            this.txt_duration.AnimateReadOnly = true;
             this.txt_duration.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.txt_duration.Depth = 0;
-            this.txt_duration.Font = new System.Drawing.Font("Microsoft Sans Serif", 16F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
+            this.txt_duration.Enabled = false;
+            this.txt_duration.Font = new System.Drawing.Font("Roboto", 16F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
             this.txt_duration.Hint = "Duration (mins)";
             this.txt_duration.LeadingIcon = null;
             this.txt_duration.Location = new System.Drawing.Point(73, 225);
@@ -278,10 +289,11 @@
             // 
             // txt_vat
             // 
-            this.txt_vat.AnimateReadOnly = false;
+            this.txt_vat.AnimateReadOnly = true;
             this.txt_vat.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.txt_vat.Depth = 0;
-            this.txt_vat.Font = new System.Drawing.Font("Microsoft Sans Serif", 16F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
+            this.txt_vat.Enabled = false;
+            this.txt_vat.Font = new System.Drawing.Font("Roboto", 16F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
             this.txt_vat.Hint = "Vat Amount";
             this.txt_vat.LeadingIcon = null;
             this.txt_vat.Location = new System.Drawing.Point(491, 445);
@@ -296,10 +308,11 @@
             // 
             // txt_net_price
             // 
-            this.txt_net_price.AnimateReadOnly = false;
+            this.txt_net_price.AnimateReadOnly = true;
             this.txt_net_price.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.txt_net_price.Depth = 0;
-            this.txt_net_price.Font = new System.Drawing.Font("Microsoft Sans Serif", 16F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
+            this.txt_net_price.Enabled = false;
+            this.txt_net_price.Font = new System.Drawing.Font("Roboto", 16F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
             this.txt_net_price.Hint = "Net Price";
             this.txt_net_price.LeadingIcon = null;
             this.txt_net_price.Location = new System.Drawing.Point(863, 118);
@@ -314,10 +327,11 @@
             // 
             // txt_net_profit
             // 
-            this.txt_net_profit.AnimateReadOnly = false;
+            this.txt_net_profit.AnimateReadOnly = true;
             this.txt_net_profit.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.txt_net_profit.Depth = 0;
-            this.txt_net_profit.Font = new System.Drawing.Font("Microsoft Sans Serif", 16F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
+            this.txt_net_profit.Enabled = false;
+            this.txt_net_profit.Font = new System.Drawing.Font("Roboto", 16F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
             this.txt_net_profit.Hint = "Net Profit";
             this.txt_net_profit.LeadingIcon = null;
             this.txt_net_profit.Location = new System.Drawing.Point(863, 225);
@@ -329,6 +343,11 @@
             this.txt_net_profit.TabIndex = 15;
             this.txt_net_profit.Text = "";
             this.txt_net_profit.TrailingIcon = null;
+            // 
+            // errorProvider1
+            // 
+            this.errorProvider1.BlinkStyle = System.Windows.Forms.ErrorBlinkStyle.NeverBlink;
+            this.errorProvider1.ContainerControl = this;
             // 
             // PricingServiceForm
             // 
@@ -352,7 +371,8 @@
             this.Controls.Add(this.cmb_services);
             this.Name = "PricingServiceForm";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
-            this.Text = "PricingServiceForm";
+            this.Text = " ";
+            ((System.ComponentModel.ISupportInitialize)(this.errorProvider1)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -375,5 +395,6 @@
         private MaterialSkin.Controls.MaterialTextBox txt_vat;
         private MaterialSkin.Controls.MaterialTextBox txt_net_price;
         private MaterialSkin.Controls.MaterialTextBox txt_net_profit;
+        private System.Windows.Forms.ErrorProvider errorProvider1;
     }
 }

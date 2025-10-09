@@ -16,5 +16,8 @@ namespace Salon.Repository
         void AddCustomer(CustomerModel customer);
         void UpdateCustomer(CustomerModel customer);
         void DeleteCustomer(int customerId);
+
+        bool EmailExists(string email, int id = 0);
+        bool ContactExists(string contact, int id = 0);
     }
 }

@@ -42,6 +42,45 @@ namespace Salon.View
             }
           
         }
+        private bool Validated()
+        {
+
+            bool validated = true;
+            // REQUIRED FIELD
+            validated &= Validator.IsRequired(txt_supplier_name, errorProvider1, "Supplier name is required.");
+            validated &= Validator.IsRequired(txt_address, errorProvider1, "Addresss is required.");
+            validated &= Validator.IsRequired(txt_email, errorProvider1, "Email is required.");
+            validated &= Validator.IsRequired(txt_contact, errorProvider1, "Contact number is required.");
+            ;
+
+
+            // VALID EMAIL
+            bool emailValid = Validator.IsValidEmail(txt_email, errorProvider1);
+            validated &= emailValid;
+
+            // VALID PHONE
+            bool phoneValid = Validator.IsValidPhone(txt_contact, errorProvider1);
+            validated &= phoneValid;
+
+
+
+
+            // EXISTS VALIDATION
+            int excludeId = supplierModel?.supplier_id ?? 0;
+
+            validated &= Validator.IsSupplierEExists(txt_supplier_name, errorProvider1, "Supplier already exists.", excludeId);
+
+            if (emailValid)
+                validated &= Validator.IsSupplierEmailExists(txt_email, errorProvider1, "Email already exists.", excludeId);
+
+            if (phoneValid)
+                validated &= Validator.IsSupplierPhoneExists(txt_contact, errorProvider1, "Contact number already exists.", excludeId);
+
+
+            return validated;
+
+
+        }
 
         private void AddSupplier() 
         {
@@ -77,11 +116,13 @@ namespace Salon.View
 
         private void btn_save_Click(object sender, EventArgs e)
         {
+            if (!Validated()) return;
             AddSupplier();
         }
 
         private void btn_update_Click(object sender, EventArgs e)
         {
+            if (!Validated()) return;
             UpdateSupplier();
         }
 

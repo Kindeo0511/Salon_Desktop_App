@@ -15,7 +15,7 @@ namespace Salon.Repository
         {
             using (var con = Database.GetConnection())
             {
-                var sql = "SELECT * FROM tbl_users";
+                var sql = "SELECT * FROM tbl_users WHERE Position != 'Admin'";
                 return con.Query<UsersModel>(sql).ToList();
             }
         }
@@ -52,6 +52,36 @@ namespace Salon.Repository
             {
                 var sql = "DELETE FROM tbl_users WHERE user_id = @userId";
                 con.Execute(sql, new { userId });
+            }
+        }
+
+        public bool UserExistsAsync(string username, int id = 0) 
+        {
+            using (var con = Database.GetConnection()) 
+            {
+                var sql = "SELECT COUNT(*) FROM tbl_users WHERE userName = @username AND user_id != @id";
+                var count =  con.ExecuteScalar<int>(sql, new { username, id });
+                return count > 0;
+            }
+        }
+
+        public  bool UserEmailExistsAsync(string email, int id = 0)
+        {
+            using (var con = Database.GetConnection())
+            {
+                var sql = "SELECT COUNT(*) FROM tbl_users WHERE email = @email AND user_id != @id";
+                var count =  con.ExecuteScalar<int>(sql, new { email, id });
+                return count > 0;
+            }
+        }
+
+        public  bool UserNumberExistsAsync(string number, int id = 0)
+        {
+            using (var con = Database.GetConnection())
+            {
+                var sql = "SELECT COUNT(*) FROM tbl_users WHERE phone_Number = @number AND user_id != @id";
+                var count =  con.ExecuteScalar<int>(sql, new { number, id });
+                return count > 0;
             }
         }
     }

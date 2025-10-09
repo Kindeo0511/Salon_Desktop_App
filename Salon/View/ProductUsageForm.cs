@@ -30,7 +30,29 @@ namespace Salon.View
             LoadServiceProductUsage();
         }
 
+        private bool Validated()
+        {
 
+            bool validated = true;
+
+            // REQUIRED FIELD
+            validated &= Validator.IsRequired(cmb_product, errorProvider1, "Service is required.");
+            validated &= Validator.IsRequired(txt_usage_amount, errorProvider1, "Usage amount is required.");
+            validated &= Validator.IsRequired(txt_unit_volume, errorProvider1, "Unit Volume is required.");
+
+
+
+
+            // EXISTS VALIDATION
+            int excludeId = ServiceProductUsageModel?.service_product_id ?? 0;
+            int product_id = Convert.ToInt32(cmb_product.SelectedValue);
+            validated &= Validator.IsProductUsageExists(cmb_product, errorProvider1, "Product already exists.", product_id, excludeId);
+
+
+            return validated;
+
+
+        }
         private void LoadProducts() 
         {
             var repo = new ProductRepository();
@@ -198,12 +220,14 @@ namespace Salon.View
 
         private void btn_add_Click(object sender, EventArgs e)
         {
+            if (!Validated()) return;
             AddProductUsage();
             Clear();
         }
 
         private void btn_update_prodct_usage_Click(object sender, EventArgs e)
         {
+            if (!Validated()) return;
             UpdateProductUsage();
             Clear();
         }

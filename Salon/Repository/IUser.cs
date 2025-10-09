@@ -17,5 +17,9 @@ namespace Salon.Repository
         void AddUser(UsersModel user);
         void UpdateUser(UsersModel user);
         void DeleteUser(int userId);
+
+        bool UserExistsAsync(string username, int id = 0);
+        bool UserEmailExistsAsync(string email, int id = 0);
+        bool UserNumberExistsAsync(string number, int id = 0);
     }
 }

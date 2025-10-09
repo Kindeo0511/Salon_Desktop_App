@@ -18,5 +18,7 @@ namespace Salon.Repository
 
         // VALIDATION
         bool CheckExceptionSchedule(DateTime date);
+
+        bool IsExceptionScheduleConflict(int stylist_id, DateTime date, TimeSpan start, TimeSpan end, int id = 0);
     }
 }

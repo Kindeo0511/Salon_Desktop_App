@@ -39,5 +39,20 @@ namespace Salon.Controller
         {
             _repo.DeleteUser(userId);
         }
+
+        public bool GetUserExistsAsync(string username, int id = 0) 
+        {
+            return  _repo.UserExistsAsync(username, id);
+        }
+
+        public  bool GetUserEmailExistsAsync(string email, int id = 0)
+        {
+            return  _repo.UserEmailExistsAsync(email, id);
+        }
+
+        public  bool GetUserNumberExistsAsync(string number, int id = 0)
+        {
+            return  _repo.UserNumberExistsAsync(number, id);
+        }
     }
 }

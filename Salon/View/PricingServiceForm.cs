@@ -28,6 +28,7 @@ namespace Salon.View
             InitializeComponent();
             ThemeManager.ApplyTheme(this);
             this.mainForm = mainForm;
+
             LoadServices();
         }
         public PricingServiceForm(MainForm mainForm, ServicePriceModel priceModel)
@@ -36,6 +37,7 @@ namespace Salon.View
             ThemeManager.ApplyTheme(this);
             this.mainForm = mainForm;
             this.priceModel = priceModel;
+        
             LoadServices();
 
             if (priceModel != null) 
@@ -55,13 +57,34 @@ namespace Salon.View
             txt_vat.Text = priceModel.vat_amount.ToString("N2");
             txt_net_price.Text = priceModel.net_price.ToString("N2");
             txt_net_profit.Text = priceModel.net_profit.ToString("N2");
-            txt_margin_peso.Text = priceModel.gross_profit.ToString("N2");
+            txt_margin_peso.Text = priceModel.gross_profit.ToString("N2"); 
             txt_percent.Text = priceModel.profit_percent.ToString("N2");
 
             btn_save.Visible = false;
             btn_update.Visible = true;
         }
 
+        private bool Validated()
+        {
+       
+            bool validated = true;
+            // REQUIRED FIELD
+            validated &= Validator.IsRequired(cmb_services, errorProvider1, "Service is required.");
+            validated &= Validator.IsRequired(txt_final_price, errorProvider1, "Selling price is required.");
+
+
+
+            // EXISTS VALIDATION
+            int excludeId = priceModel?.pricing_id ?? 0;
+            int spid = Convert.ToInt32(cmb_services.SelectedValue);
+            validated &= Validator.IsProductPriceExists(cmb_services, errorProvider1, "Service price already exists.", spid, excludeId);
+
+
+
+            return validated;
+
+
+        }
         private void LoadServices() 
         {
             var repo = new ServiceProductUsageRepository();
@@ -252,6 +275,8 @@ namespace Salon.View
         }
         private void btn_save_Click(object sender, EventArgs e)
         {
+            if (!Validated()) return;
+
             AddServicePrice();
             this.Close();
         }
@@ -281,8 +306,15 @@ namespace Salon.View
         }
         private void btn_update_Click(object sender, EventArgs e)
         {
+            if (!Validated()) return;
+
             UpdateServicePrice();
             this.Close();
+        }
+
+        private void txt_overhead_cost_TextChanged(object sender, EventArgs e)
+        {
+
         }
     }
 }

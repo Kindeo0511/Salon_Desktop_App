@@ -30,5 +30,8 @@ namespace Salon.Repository
 
         IEnumerable<DiscountModel> AllDiscounts();
         IEnumerable<DiscountModel> AllDiscounts(DateTime start, DateTime end);
+
+
+        bool DiscountExists(string name, int id);
     }
 }

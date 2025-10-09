@@ -28,11 +28,14 @@
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
             this.cmb_category = new MaterialSkin.Controls.MaterialComboBox();
             this.btn_update = new MaterialSkin.Controls.MaterialButton();
             this.btn_cancel = new MaterialSkin.Controls.MaterialButton();
             this.btn_save = new MaterialSkin.Controls.MaterialButton();
             this.txt_subcategory_name = new MaterialSkin.Controls.MaterialTextBox();
+            this.errorProvider1 = new System.Windows.Forms.ErrorProvider(this.components);
+            ((System.ComponentModel.ISupportInitialize)(this.errorProvider1)).BeginInit();
             this.SuspendLayout();
             // 
             // cmb_category
@@ -124,7 +127,7 @@
             this.txt_subcategory_name.AnimateReadOnly = false;
             this.txt_subcategory_name.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.txt_subcategory_name.Depth = 0;
-            this.txt_subcategory_name.Font = new System.Drawing.Font("Microsoft Sans Serif", 16F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
+            this.txt_subcategory_name.Font = new System.Drawing.Font("Roboto", 16F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
             this.txt_subcategory_name.Hint = "Sub-Category Name";
             this.txt_subcategory_name.LeadingIcon = null;
             this.txt_subcategory_name.Location = new System.Drawing.Point(77, 135);
@@ -137,6 +140,11 @@
             this.txt_subcategory_name.Text = "";
             this.txt_subcategory_name.TrailingIcon = null;
             // 
+            // errorProvider1
+            // 
+            this.errorProvider1.BlinkStyle = System.Windows.Forms.ErrorBlinkStyle.NeverBlink;
+            this.errorProvider1.ContainerControl = this;
+            // 
             // SubCategoryForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
@@ -148,7 +156,9 @@
             this.Controls.Add(this.btn_save);
             this.Controls.Add(this.txt_subcategory_name);
             this.Name = "SubCategoryForm";
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "SubCategoryForm";
+            ((System.ComponentModel.ISupportInitialize)(this.errorProvider1)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -161,5 +171,6 @@
         private MaterialSkin.Controls.MaterialButton btn_cancel;
         private MaterialSkin.Controls.MaterialButton btn_save;
         private MaterialSkin.Controls.MaterialTextBox txt_subcategory_name;
+        private System.Windows.Forms.ErrorProvider errorProvider1;
     }
 }

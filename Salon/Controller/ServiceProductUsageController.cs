@@ -39,5 +39,10 @@ namespace Salon.Controller
         {
             _repository.DeleteServiceProduct(id);
         }
+
+        public bool CheckProductUsageExists(int p_id, int id = 0) 
+        {
+            return _repository.ProductUsageExists(p_id, id);
+        }
     }
 }

@@ -33,7 +33,8 @@ namespace Salon.Repository
         // VALIDATION
         List<int> AssignedStylist(DateTime date, TimeSpan start, TimeSpan end);
  
-
+        bool EmailExists(string email, int id = 0);
+        bool ContactExists(string contact, int id = 0);
 
 
 

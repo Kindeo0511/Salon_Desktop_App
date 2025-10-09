@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Xml.Linq;
 
 namespace Salon.Repository
 {
@@ -41,6 +42,31 @@ namespace Salon.Repository
             {
                 var sql = "DELETE FROM tbl_supplier WHERE supplier_id = @Id";
                 con.Execute(sql, new { Id = id });
+            }
+        }
+
+        public bool SupplierExists(string name, int id = 0) 
+        {
+            using (var con = Database.GetConnection()) 
+            {
+                var sql = "SELECT COUNT(*) FROM tbl_supplier WHERE supplier_name = @name AND supplier_id != @id";
+                return con.ExecuteScalar<int>(sql, new { name, id }) > 0;
+            }
+        }
+        public bool EmailExists(string email, int id = 0) 
+        {
+            using (var con = Database.GetConnection())
+            {
+                var sql = "SELECT COUNT(*) FROM tbl_supplier WHERE email = @email AND supplier_id != @id";
+                return con.ExecuteScalar<int>(sql, new { email, id }) > 0;
+            }
+        }
+        public bool ContactExists(string contact, int id = 0) 
+        {
+            using (var con = Database.GetConnection())
+            {
+                var sql = "SELECT COUNT(*) FROM tbl_supplier WHERE contact = @contact AND supplier_id != @id";
+                return con.ExecuteScalar<int>(sql, new { contact, id }) > 0;
             }
         }
     }

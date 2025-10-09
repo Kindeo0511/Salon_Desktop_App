@@ -91,12 +91,14 @@ namespace Salon.View
 
         private void btn_save_Click(object sender, EventArgs e)
         {
+            if (!Validated()) return;
             AddService();
             this.Close();
         }
 
         private void btn_update_Click(object sender, EventArgs e)
         {
+            if (!Validated()) return;
             UpdateService();
             this.Close();
         }
@@ -104,6 +106,29 @@ namespace Salon.View
         private void btn_cancel_Click(object sender, EventArgs e)
         {
             this.Close();
+        }
+
+        private bool Validated()
+        {
+
+            bool validated = true;
+            // REQUIRED FIELD
+            validated &= Validator.IsRequired(txt_service_name, errorProvider1, "Status is required.");
+            validated &= Validator.IsRequired(txt_duration, errorProvider1, "Duration is required.");
+            validated &= Validator.IsRequired(cmb_sub_category, errorProvider1, "Category is required.");
+            validated &= Validator.IsRequired(cmb_status, errorProvider1, "Status is required.");
+
+
+
+            // EXISTS VALIDATION
+            int excludeId = serviceModel?.serviceName_id ?? 0;
+            int scid = Convert.ToInt32(cmb_sub_category.SelectedValue);
+            validated &= Validator.IsServicesExists(txt_service_name, errorProvider1, "Service name already exists.", scid, excludeId);
+
+
+            return validated;
+
+
         }
     }
 }

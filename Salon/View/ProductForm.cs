@@ -47,6 +47,30 @@ namespace Salon.View
 
             }
         }
+        private bool Validated()
+        {
+
+            bool validated = true;
+            // REQUIRED FIELD
+            validated &= Validator.IsRequired(txt_product_name, errorProvider1, "Product is required.");
+            validated &= Validator.IsRequired(txt_brand, errorProvider1, "Brand is required.");
+            validated &= Validator.IsRequired(txt_unit_volume, errorProvider1, "Unit Volume is required.");
+            validated &= Validator.IsRequired(cmb_category, errorProvider1, "Category is required.");
+            validated &= Validator.IsRequired(cmb_unit_type, errorProvider1, "Unit type is required.");
+            validated &= Validator.IsRequired(cmb_usage_type, errorProvider1, "Usage type is required.");
+
+
+
+            // EXISTS VALIDATION
+            int excludeId = productModel?.product_id ?? 0;
+            int cat_id = Convert.ToInt32(cmb_category.SelectedValue);
+            validated &= Validator.IsProductExists(txt_product_name, errorProvider1, "Product already exists.", cat_id, excludeId);
+
+
+            return validated;
+
+
+        }
         private void LoadCategory() 
         {
             var repo = new CategoryRepository();
@@ -93,12 +117,14 @@ namespace Salon.View
 
         private void btn_save_Click(object sender, EventArgs e)
         {
+            if (!Validated()) return;
             AddProduct();
             this.Close();
         }
 
         private void btn_update_Click(object sender, EventArgs e)
         {
+            if (!Validated()) return;
             UpdateProduct();
             this.Close();
         }

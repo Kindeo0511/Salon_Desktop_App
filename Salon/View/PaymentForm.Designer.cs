@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
             this.lbl_CustomerName = new MaterialSkin.Controls.MaterialTextBox();
             this.lbl_Time = new MaterialSkin.Controls.MaterialTextBox();
             this.lbl_Date = new MaterialSkin.Controls.MaterialTextBox();
@@ -52,12 +53,14 @@
             this.btn_invoice = new MaterialSkin.Controls.MaterialButton();
             this.printDocument = new System.Drawing.Printing.PrintDocument();
             this.dgv_Table = new System.Windows.Forms.DataGridView();
+            this.errorProvider1 = new System.Windows.Forms.ErrorProvider(this.components);
             ((System.ComponentModel.ISupportInitialize)(this.dgv_Table)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.errorProvider1)).BeginInit();
             this.SuspendLayout();
             // 
             // lbl_CustomerName
             // 
-            this.lbl_CustomerName.AnimateReadOnly = false;
+            this.lbl_CustomerName.AnimateReadOnly = true;
             this.lbl_CustomerName.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.lbl_CustomerName.Depth = 0;
             this.lbl_CustomerName.Font = new System.Drawing.Font("Roboto", 16F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
@@ -68,6 +71,7 @@
             this.lbl_CustomerName.MouseState = MaterialSkin.MouseState.OUT;
             this.lbl_CustomerName.Multiline = false;
             this.lbl_CustomerName.Name = "lbl_CustomerName";
+            this.lbl_CustomerName.ReadOnly = true;
             this.lbl_CustomerName.Size = new System.Drawing.Size(300, 50);
             this.lbl_CustomerName.TabIndex = 0;
             this.lbl_CustomerName.Text = "";
@@ -75,7 +79,7 @@
             // 
             // lbl_Time
             // 
-            this.lbl_Time.AnimateReadOnly = false;
+            this.lbl_Time.AnimateReadOnly = true;
             this.lbl_Time.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.lbl_Time.Depth = 0;
             this.lbl_Time.Font = new System.Drawing.Font("Roboto", 16F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
@@ -86,6 +90,7 @@
             this.lbl_Time.MouseState = MaterialSkin.MouseState.OUT;
             this.lbl_Time.Multiline = false;
             this.lbl_Time.Name = "lbl_Time";
+            this.lbl_Time.ReadOnly = true;
             this.lbl_Time.Size = new System.Drawing.Size(300, 50);
             this.lbl_Time.TabIndex = 1;
             this.lbl_Time.Text = "";
@@ -93,7 +98,7 @@
             // 
             // lbl_Date
             // 
-            this.lbl_Date.AnimateReadOnly = false;
+            this.lbl_Date.AnimateReadOnly = true;
             this.lbl_Date.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.lbl_Date.Depth = 0;
             this.lbl_Date.Font = new System.Drawing.Font("Roboto", 16F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
@@ -104,6 +109,7 @@
             this.lbl_Date.MouseState = MaterialSkin.MouseState.OUT;
             this.lbl_Date.Multiline = false;
             this.lbl_Date.Name = "lbl_Date";
+            this.lbl_Date.ReadOnly = true;
             this.lbl_Date.Size = new System.Drawing.Size(300, 50);
             this.lbl_Date.TabIndex = 2;
             this.lbl_Date.Text = "";
@@ -148,7 +154,7 @@
             // 
             // lbl_book_type
             // 
-            this.lbl_book_type.AnimateReadOnly = false;
+            this.lbl_book_type.AnimateReadOnly = true;
             this.lbl_book_type.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.lbl_book_type.Depth = 0;
             this.lbl_book_type.Font = new System.Drawing.Font("Roboto", 16F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
@@ -159,6 +165,7 @@
             this.lbl_book_type.MouseState = MaterialSkin.MouseState.OUT;
             this.lbl_book_type.Multiline = false;
             this.lbl_book_type.Name = "lbl_book_type";
+            this.lbl_book_type.ReadOnly = true;
             this.lbl_book_type.Size = new System.Drawing.Size(300, 50);
             this.lbl_book_type.TabIndex = 6;
             this.lbl_book_type.Text = "";
@@ -192,7 +199,7 @@
             // 
             // lbl_Services
             // 
-            this.lbl_Services.AnimateReadOnly = false;
+            this.lbl_Services.AnimateReadOnly = true;
             this.lbl_Services.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
             this.lbl_Services.CharacterCasing = System.Windows.Forms.CharacterCasing.Normal;
             this.lbl_Services.Cursor = System.Windows.Forms.Cursors.IBeam;
@@ -204,7 +211,7 @@
             this.lbl_Services.MouseState = MaterialSkin.MouseState.OUT;
             this.lbl_Services.Name = "lbl_Services";
             this.lbl_Services.PasswordChar = '\0';
-            this.lbl_Services.ReadOnly = false;
+            this.lbl_Services.ReadOnly = true;
             this.lbl_Services.ScrollBars = System.Windows.Forms.ScrollBars.None;
             this.lbl_Services.SelectedText = "";
             this.lbl_Services.SelectionLength = 0;
@@ -432,6 +439,11 @@
             this.dgv_Table.TabIndex = 23;
             this.dgv_Table.Visible = false;
             // 
+            // errorProvider1
+            // 
+            this.errorProvider1.BlinkStyle = System.Windows.Forms.ErrorBlinkStyle.NeverBlink;
+            this.errorProvider1.ContainerControl = this;
+            // 
             // PaymentForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
@@ -465,6 +477,7 @@
             this.Text = "PaymentForm";
             this.Load += new System.EventHandler(this.PaymentForm_Load);
             ((System.ComponentModel.ISupportInitialize)(this.dgv_Table)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.errorProvider1)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -496,5 +509,6 @@
         private MaterialSkin.Controls.MaterialButton btn_invoice;
         private System.Drawing.Printing.PrintDocument printDocument;
         private System.Windows.Forms.DataGridView dgv_Table;
+        private System.Windows.Forms.ErrorProvider errorProvider1;
     }
 }

@@ -37,5 +37,10 @@ namespace Salon.Controller
         {
             repo.DeleteServicePrice(id);
         }
+
+        public bool CheckServicePriceExists(int spid, int id) 
+        {
+            return repo.IsServicePriceExist(spid, id);
+        }
     }
 }

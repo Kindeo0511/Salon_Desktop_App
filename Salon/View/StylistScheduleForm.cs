@@ -32,7 +32,9 @@ namespace Salon.View
             ThemeManager.StyleDataGridView(dgv_exception_schedule);
             this.mainForm = mainForm;
             _stylist = stylist;
-
+     
+            dtp_date.MinDate = DateTime.Today;
+         
             LoadSchedules(_stylist.stylist_id);
 
             LoadExceptionSchedules(_stylist.stylist_id);
@@ -48,12 +50,113 @@ namespace Salon.View
             start_time.DataPropertyName = "StartTime";
             end_time.DataPropertyName = "EndTime";
             is_working.DataPropertyName = "IsWorking";
-            notes.DataPropertyName = "Notes";
+
 
             var stylistSchedulesRepo = new Repository.StylistSchedulesRepository();
             var StylistSchedulesController = new StylistSchedulesController(stylistSchedulesRepo);
             var schedules = StylistSchedulesController.GetAllSchedules(stylist_id);
             dgv_weekly_schedules.DataSource = schedules;
+        }
+        private bool WeeklyValidated()
+        {
+
+            bool validated = true;
+            // REQUIRED FIELD
+            validated &= Validator.IsRequired(txt_day, errorProvider1, "Day is required.");
+           
+
+            validated &= Validator.IsTimeSelected(dtp_start_time, errorProvider1, "Start time is required.");
+            
+            validated &= Validator.IsTimeSelected(dtp_end_time, errorProvider1, "End time is required.");
+           
+            if (dtp_start_time.Value.TimeOfDay >= dtp_end_time.Value.TimeOfDay)
+            {
+                errorProvider1.SetError(dtp_end_time, "End time must be after start time.");
+                validated = false;
+            }
+
+            if (!rad_yes.Checked && !rad_no.Checked)
+            {
+                errorProvider1.SetError(rad_yes, "Availability is required.");
+                errorProvider1.SetError(rad_no, "Availability is required."); 
+                validated = false;
+            }
+            else
+            {
+                errorProvider1.SetError(rad_yes, "");
+                errorProvider1.SetError(rad_no, "");
+            }
+
+
+            // EXISTS VALIDATION
+      
+            int weekly_id = _stylistSchedule?.ScheduleId ?? 0;
+            TimeSpan startTime = dtp_start_time.Value.TimeOfDay;
+            TimeSpan endTime = dtp_end_time.Value.TimeOfDay;
+
+            validated &= Validator.IsScheduleConflict(
+              new Control[] { txt_day, dtp_start_time, dtp_end_time }, 
+              errorProvider1,
+              "Schedule already exists.",
+              _stylist.stylist_id,
+              startTime,
+              endTime,
+              weekly_id
+          );
+
+           
+
+
+            return validated;
+
+
+        }
+        private bool ExceptionValidated()
+        {
+
+            bool validated = true;
+            // REQUIRED FIELD
+            validated &= Validator.IsRequired(txt_reason, errorProvider1, "Reason is required.");
+
+      
+
+            if (!chk_yes.Checked && !chk_no.Checked)
+            {
+                errorProvider1.SetError(chk_yes, "Availability is required.");
+                errorProvider1.SetError(chk_no, "Availability is required.");
+                validated = false;
+            }
+            else
+            {
+                errorProvider1.SetError(chk_yes, "");
+                errorProvider1.SetError(chk_no, "");
+            }
+
+
+            // EXISTS VALIDATION
+         
+            int exception_id = _exceptionSchedule?.id ?? 0;
+  
+            DateTime date = dtp_date.Value;
+            TimeSpan startTime = dtp_start_time.Value.TimeOfDay;
+            TimeSpan endTime = dtp_end_time.Value.TimeOfDay;
+    
+            validated &= Validator.IsExScheduleConflict(
+               new Control[] { dtp_date, dtp_start_time, dtp_end_time },
+               errorProvider1,
+               "Schedule already exists.",
+               _stylist.stylist_id,
+               startTime,
+               endTime,
+               exception_id
+           );
+
+
+
+
+            return validated;
+
+
         }
         private void AddSchedule()
         {
@@ -64,7 +167,7 @@ namespace Salon.View
                 StartTime = dtp_start_time.Value.TimeOfDay,
                 EndTime = dtp_end_time.Value.TimeOfDay,
                 IsWorking = rad_yes.Checked,
-                Notes = txt_notes.Text
+
             };
             var stylistSchedulesRepo = new StylistSchedulesRepository();
             var stylistSchedulesController = new StylistSchedulesController(stylistSchedulesRepo);
@@ -92,7 +195,7 @@ namespace Salon.View
                 _stylistSchedule.StartTime = dtp_start_time.Value.TimeOfDay;
                 _stylistSchedule.EndTime = dtp_end_time.Value.TimeOfDay;
                 _stylistSchedule.IsWorking = is_working;
-                _stylistSchedule.Notes = txt_notes.Text;
+
 
                 var stylistSchedulesRepo = new StylistSchedulesRepository();
                 var stylistSchedulesController = new StylistSchedulesController(stylistSchedulesRepo);
@@ -116,10 +219,19 @@ namespace Salon.View
             dtp_end_time.Value = DateTime.Today;
             rad_yes.Checked = false;
             rad_no.Checked = false;
-            txt_notes.Text = "";
+     ;
         }
         private void btn_add_Click(object sender, EventArgs e)
         {
+            if (!WeeklyValidated()) 
+            {
+               
+                return;
+
+
+            }
+ 
+
             AddSchedule();
         }
 
@@ -139,6 +251,9 @@ namespace Salon.View
             {
                 bool isWorking = Convert.ToBoolean(e.Value);
                 e.Value = isWorking ? "Yes" : "No";
+                e.CellStyle.ForeColor = isWorking ? Color.Green : Color.Red;
+                e.CellStyle.Font = new Font(e.CellStyle.Font, FontStyle.Bold); // optional: bold for emphasis
+
                 e.FormattingApplied = true;
             }
         }
@@ -163,7 +278,7 @@ namespace Salon.View
                 {
                     rad_no.Checked = true;
                 }
-                txt_notes.Text = _stylistSchedule.Notes;
+
                 btn_add.Visible = false;
                 btn_update.Visible = true;
                 btn_cancel.Visible = true;
@@ -177,10 +292,15 @@ namespace Salon.View
                 var schedules = dgv_weekly_schedules.Rows[e.RowIndex].DataBoundItem as StylistScheduleModel;
                 var stylistSchedulesRepo = new StylistSchedulesRepository();
                 var stylistSchedulesController = new StylistSchedulesController(stylistSchedulesRepo);
-                stylistSchedulesController.DeleteSchedule(schedules.ScheduleId);
-                MessageBox.Show("Schedule deleted successfully!");
-                LoadSchedules(_stylist.stylist_id);
-                clear();
+
+                if (MessageBox.Show("Are you sure you want to delete the schedule? ", "Warning", MessageBoxButtons.YesNo, MessageBoxIcon.Warning ) == DialogResult.Yes) 
+                {
+                    stylistSchedulesController.DeleteSchedule(schedules.ScheduleId);
+                    MessageBox.Show("Schedule deleted successfully!");
+                    LoadSchedules(_stylist.stylist_id);
+                    clear();
+                }
+               
             }
         }
 
@@ -195,6 +315,13 @@ namespace Salon.View
 
         private void btn_update_Click(object sender, EventArgs e)
         {
+            if (!WeeklyValidated())
+            {
+
+                return;
+
+
+            }
             UpdateSchedule();
         }
         // END OF WEEKLY SCHEDULES
@@ -253,11 +380,14 @@ namespace Salon.View
 
         private void btn_add_ExceptionSched_Click(object sender, EventArgs e)
         {
+            if (!ExceptionValidated()) return;
+
             AddExceptionSchedule();
         }
 
         private void btn_update_exceptionSched_Click(object sender, EventArgs e)
         {
+            if (!ExceptionValidated()) return;
             UpdateExceptionSchedule();
         }
 

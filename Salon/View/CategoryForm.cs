@@ -42,7 +42,26 @@ namespace Salon.View
             }
 
         }
+        private bool Validated()
+        {
 
+            bool validated = true;
+            // REQUIRED FIELD
+            validated &= Validator.IsRequired(txt_category_name, errorProvider1, "Category is required.");
+            validated &= Validator.IsRequired(cmb_category_type, errorProvider1, "Category Type is required.");
+
+
+
+            // EXISTS VALIDATION
+            int excludeId = category?.category_id ?? 0;
+
+            validated &= Validator.IsCategoryExists(txt_category_name, errorProvider1, "Category already exists.",cmb_category_type.Text.Trim(), excludeId);
+
+
+            return validated;
+
+
+        }
         private void addCategory()
         {
             var repo = new CategoryRepository();
@@ -67,6 +86,8 @@ namespace Salon.View
         }
         private void btn_save_Click(object sender, EventArgs e)
         {
+            if (!Validated()) return;
+
             addCategory();
             MessageBox.Show("Category added successfully!", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
             this.Close();
@@ -74,6 +95,7 @@ namespace Salon.View
 
         private void btn_update_Click(object sender, EventArgs e)
         {
+            if (!Validated()) return;
             updateCategory();
             MessageBox.Show("Category updated successfully!", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
             this.Close();

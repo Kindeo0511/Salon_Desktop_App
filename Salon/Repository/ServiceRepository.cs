@@ -72,5 +72,15 @@ tbl_subcategory.subCategoryName,tbl_servicesname.duration, tbl_servicesname.stat
                 con.Execute(sql, new { id });
             }
         }
+
+        public bool ServiceExists(string name, int s_cat_id, int id = 0) 
+        {
+            using (var con = Database.GetConnection()) 
+            {
+                var sql = "SELECT COUNT(*) FROM tbl_servicesname WHERE serviceName = @name AND subCategory_id = @s_cat_id AND serviceName_id != @id";
+
+                return con.ExecuteScalar<int>(sql, new { name, s_cat_id, id }) > 0;
+            }
+        }
     }
 }

@@ -35,5 +35,10 @@ namespace Salon.Controller
         {
             repo.DeleteProduct(productId);
         }
+
+        public bool CheckProductExists(string name, int cat_id, int id = 0) 
+        {
+            return repo.ProductExists(name, cat_id, id);
+        }
     }
 }

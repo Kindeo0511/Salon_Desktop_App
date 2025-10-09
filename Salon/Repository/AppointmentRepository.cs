@@ -13,6 +13,56 @@ namespace Salon.Repository
     public class AppointmentRepository
     {
 
+        public IEnumerable<AppointmentModel> ShowAllAppointmnets(string status = "") 
+        {
+            using (var con = Database.GetConnection())
+            {
+
+                var sql = string.IsNullOrEmpty(status) || status == "All"
+                    ? @"
+                    SELECT 
+                a.appointment_id AS AppointmentId,
+                a.customer_id AS CustomerId,
+                CONCAT(c.firstName, ' ', c.middleName, ' ', c.lastName) AS CustomerName,
+                a.stylist_id AS StylistId,
+                COALESCE(CONCAT(s.firstName, ' ', s.middleName, ' ', s.lastName), 'Stylist not assigned yet') AS StylistName,
+                sn.serviceName AS Services,
+                a.Date AS AppointmentDate,
+                a.start_time AS StartTime,
+                a.end_time AS EndTime,
+                a.Status,
+                a.Payment_status AS PaymentStatus,
+                a.booking_type AS BookingType
+            FROM tbl_appointment a
+            LEFT JOIN tbl_customer_account c ON a.customer_id = c.customer_id
+            LEFT JOIN tbl_stylists s ON a.stylist_id = s.stylist_id
+            LEFT JOIN tbl_appointment_services aps ON a.appointment_id = aps.appointment_id
+            LEFT JOIN tbl_servicesname sn ON aps.serviceName_id = sn.serviceName_id;"
+                : @"SELECT 
+                a.appointment_id AS AppointmentId,
+                a.customer_id AS CustomerId,
+                CONCAT(c.firstName, ' ', c.middleName, ' ', c.lastName) AS CustomerName,
+                a.stylist_id AS StylistId,
+                COALESCE(CONCAT(s.firstName, ' ', s.middleName, ' ', s.lastName), 'Stylist not assigned yet') AS StylistName,
+                sn.serviceName AS Services,
+                a.Date AS AppointmentDate,
+                a.start_time AS StartTime,
+                a.end_time AS EndTime,
+                a.Status,
+                a.Payment_status AS PaymentStatus,
+                a.booking_type AS BookingType
+            FROM tbl_appointment a
+            LEFT JOIN tbl_customer_account c ON a.customer_id = c.customer_id
+            LEFT JOIN tbl_stylists s ON a.stylist_id = s.stylist_id
+            LEFT JOIN tbl_appointment_services aps ON a.appointment_id = aps.appointment_id
+            LEFT JOIN tbl_servicesname sn ON aps.serviceName_id = sn.serviceName_id
+            WHERE a.Status = @status;";
+
+                return con.Query<AppointmentModel>(sql, new { status}).ToList();
+            }
+
+        }
+        
         public IEnumerable<AppointmentModel> GetAllAppointments()
         {
             using (var con = Database.GetConnection())

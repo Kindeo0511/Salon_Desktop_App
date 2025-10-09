@@ -199,8 +199,29 @@ namespace Salon.View
             printDocument.DefaultPageSettings.PaperSize = new System.Drawing.Printing.PaperSize("Custom", 300, heightInHundredths);
         }
 
+        private bool Validated()
+        {
+
+            bool validated = true;
+            // REQUIRED FIELD
+            validated &= Validator.IsRequired(cb_PaymentMethod, errorProvider1, "Payment Method is required.");
+            validated &= Validator.IsRequired(txt_amount_paid, errorProvider1, "Amount is required.");
+
+            if (cb_PaymentMethod.Text.ToLower() == "gcash") 
+            {
+                validated &= Validator.IsRequired(txt_Reference, errorProvider1, "Reference No. is required.");
+            }
+
+
+            return validated;
+
+
+        }
+
         private void btn_confirm_payment_Click(object sender, EventArgs e)
         {
+            if (!Validated()) return;
+
             decimal amountPaid = 0m;
             decimal totalAmount = ParseCurrency(lbl_Total.Text);
             decimal changeAmount = ParseCurrency(lbl_change_amount.Text);

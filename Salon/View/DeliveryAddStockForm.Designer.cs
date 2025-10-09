@@ -29,6 +29,7 @@
         private void InitializeComponent()
         {
             this.dgv_items = new System.Windows.Forms.DataGridView();
+            this.materialCard1 = new MaterialSkin.Controls.MaterialCard();
             this.col_DeliveryItemId = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.col_DeliveryId = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.col_ProductId = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -37,7 +38,6 @@
             this.col_TotalPrice = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.col_ExpiryDate = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.col_notes = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.materialCard1 = new MaterialSkin.Controls.MaterialCard();
             ((System.ComponentModel.ISupportInitialize)(this.dgv_items)).BeginInit();
             this.materialCard1.SuspendLayout();
             this.SuspendLayout();
@@ -63,15 +63,30 @@
             this.col_notes});
             this.dgv_items.Dock = System.Windows.Forms.DockStyle.Fill;
             this.dgv_items.EnableHeadersVisualStyles = false;
-            this.dgv_items.Location = new System.Drawing.Point(50, 50);
+            this.dgv_items.Location = new System.Drawing.Point(25, 25);
             this.dgv_items.Name = "dgv_items";
             this.dgv_items.ReadOnly = true;
             this.dgv_items.RowHeadersBorderStyle = System.Windows.Forms.DataGridViewHeaderBorderStyle.None;
             this.dgv_items.RowHeadersVisible = false;
             this.dgv_items.RowHeadersWidth = 51;
             this.dgv_items.RowTemplate.Height = 24;
-            this.dgv_items.Size = new System.Drawing.Size(794, 333);
+            this.dgv_items.Size = new System.Drawing.Size(844, 383);
             this.dgv_items.TabIndex = 0;
+            // 
+            // materialCard1
+            // 
+            this.materialCard1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
+            this.materialCard1.Controls.Add(this.dgv_items);
+            this.materialCard1.Depth = 0;
+            this.materialCard1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.materialCard1.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(222)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
+            this.materialCard1.Location = new System.Drawing.Point(3, 64);
+            this.materialCard1.Margin = new System.Windows.Forms.Padding(20);
+            this.materialCard1.MouseState = MaterialSkin.MouseState.HOVER;
+            this.materialCard1.Name = "materialCard1";
+            this.materialCard1.Padding = new System.Windows.Forms.Padding(25);
+            this.materialCard1.Size = new System.Drawing.Size(894, 433);
+            this.materialCard1.TabIndex = 1;
             // 
             // col_DeliveryItemId
             // 
@@ -89,6 +104,7 @@
             this.col_DeliveryId.MinimumWidth = 6;
             this.col_DeliveryId.Name = "col_DeliveryId";
             this.col_DeliveryId.ReadOnly = true;
+            this.col_DeliveryId.Visible = false;
             // 
             // col_ProductId
             // 
@@ -138,28 +154,16 @@
             this.col_notes.Name = "col_notes";
             this.col_notes.ReadOnly = true;
             // 
-            // materialCard1
-            // 
-            this.materialCard1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
-            this.materialCard1.Controls.Add(this.dgv_items);
-            this.materialCard1.Depth = 0;
-            this.materialCard1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.materialCard1.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(222)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
-            this.materialCard1.Location = new System.Drawing.Point(3, 64);
-            this.materialCard1.Margin = new System.Windows.Forms.Padding(20);
-            this.materialCard1.MouseState = MaterialSkin.MouseState.HOVER;
-            this.materialCard1.Name = "materialCard1";
-            this.materialCard1.Padding = new System.Windows.Forms.Padding(50);
-            this.materialCard1.Size = new System.Drawing.Size(894, 433);
-            this.materialCard1.TabIndex = 1;
-            // 
             // DeliveryAddStockForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(900, 500);
             this.Controls.Add(this.materialCard1);
+            this.MaximizeBox = false;
+            this.MinimizeBox = false;
             this.Name = "DeliveryAddStockForm";
+            this.Sizable = false;
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             ((System.ComponentModel.ISupportInitialize)(this.dgv_items)).EndInit();
             this.materialCard1.ResumeLayout(false);
@@ -170,6 +174,7 @@
         #endregion
 
         private System.Windows.Forms.DataGridView dgv_items;
+        private MaterialSkin.Controls.MaterialCard materialCard1;
         private System.Windows.Forms.DataGridViewTextBoxColumn col_DeliveryItemId;
         private System.Windows.Forms.DataGridViewTextBoxColumn col_DeliveryId;
         private System.Windows.Forms.DataGridViewTextBoxColumn col_ProductId;
@@ -178,6 +183,5 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn col_TotalPrice;
         private System.Windows.Forms.DataGridViewTextBoxColumn col_ExpiryDate;
         private System.Windows.Forms.DataGridViewTextBoxColumn col_notes;
-        private MaterialSkin.Controls.MaterialCard materialCard1;
     }
 }

@@ -29,6 +29,7 @@ namespace Salon.View
             lbl_ID.Text = customerModel.customer_id.ToString();
             lbl_FullName.Text = customerModel.fullName;
             lbl_Email.Text = customerModel.email;
+            lbl_contact.Text = customerModel.phoneNumber;
             temp_id = Convert.ToInt32(customerModel.customer_id.ToString());
         }
 

@@ -77,5 +77,14 @@ namespace Salon.Repository
                 con.Execute(sql, new { id = id});
             }
         }
+
+        public bool IsServicePriceExist(int spid, int id = 0)
+        {
+            using (var con = Database.GetConnection())
+            {
+                var sql = "SELECT COUNT(*) FROM tbl_service_price WHERE service_product_id = @spid AND pricing_id != @id";
+                return con.ExecuteScalar<int>(sql, new { spid, id }) > 0;
+            }
+        }
     }
 }

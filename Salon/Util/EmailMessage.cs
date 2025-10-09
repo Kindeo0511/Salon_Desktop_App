@@ -50,7 +50,7 @@ namespace Salon.Util
         </div>
         <div class='footer'>
           This is an automated message. Please do not reply.<br>
-          &copy; 2025 AlexPrada Systems
+          &copy; 2025 HCSANSOR
         </div>
       </div>
     </body>

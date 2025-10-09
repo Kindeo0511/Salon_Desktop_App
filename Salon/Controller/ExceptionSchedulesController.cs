@@ -38,5 +38,9 @@ namespace Salon.Controller
         {
            return _repo.CheckExceptionSchedule(date);
         }
+        public bool GetIsExceptionScheduleConflict(int stylist_id, DateTime date, TimeSpan start, TimeSpan end, int id = 0)
+        {
+            return _repo.IsExceptionScheduleConflict(stylist_id, date, start, end, id);
+        }
     }
 }

@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using static System.Windows.Forms.VisualStyles.VisualStyleElement.ListView;
 
 namespace Salon.Repository
 {
@@ -62,7 +63,26 @@ namespace Salon.Repository
             }
         }
 
+        public bool EmailExists(string email, int id = 0) 
+        {
+            using (var con = Database.GetConnection()) 
+            {
+                var sql = "SELECT COUNT(*) FROM tbl_customer_account WHERE email = @email AND customer_id != @id";
+                
+                return con.ExecuteScalar<int>(sql, new { email, id }) > 0;
+            }
+        }
+        public bool ContactExists(string contact, int id = 0) 
+        {
+            using (var con = Database.GetConnection())
+            {
+                var sql = "SELECT COUNT(*) FROM tbl_customer_account WHERE phoneNumber = @contact AND customer_id != @id";
 
-        
+                return con.ExecuteScalar<int>(sql, new { contact, id }) > 0;
+            }
+        }
+
+
+
     }
 }

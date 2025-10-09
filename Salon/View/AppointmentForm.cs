@@ -68,6 +68,7 @@ namespace Salon.View
             cmb_Date.Value = model.AppointmentDate;
             btn_update.Visible = true;
             btn_confirm.Visible = false;
+            btn_check_available.Visible = false;
             reloadSelectedServices(model.AppointmentId);
 
 
@@ -531,14 +532,32 @@ namespace Salon.View
         }
         private void btn_update_Click(object sender, EventArgs e)
         {
-
+            if (!Validated()) return;
             UpdateAppointment();
 
 
         }
+        private bool Validated()
+        {
 
+            bool validated = true;
+            // REQUIRED FIELD
+            validated &= Validator.IsRequired(txt_FullName, errorProvider1, "Full name is required.");
+            validated &= Validator.IsRequired(txt_Contact, errorProvider1, "Contact is required.");
+            validated &= Validator.IsRequired(txt_Email, errorProvider1, "Email is required.");
+            validated &= Validator.IsRequired(cb_book_type, errorProvider1, "Booking Type is required.");
+            validated &= Validator.IsRequired(cb_Time, errorProvider1, "Time is required.");
+            validated &= Validator.IsRequired(cmb_Date, errorProvider1, "Time is required.");
+
+
+
+            return validated;
+
+
+        }
         private async void btn_check_available_Click(object sender, EventArgs e)
         {
+            if (!Validated()) return;
             int totalDuration = 0;
 
             foreach (DataGridViewRow row in dgv_table.Rows)

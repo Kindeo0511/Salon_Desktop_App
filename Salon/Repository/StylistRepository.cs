@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using static System.Windows.Forms.VisualStyles.VisualStyleElement.ListView;
 
 namespace Salon.Repository
 {
@@ -27,7 +28,7 @@ namespace Salon.Repository
                 return con.Query<StylistModel>(sql).ToList();
             }
         }
-        public StylistModel GetStylistCost() 
+        public StylistModel GetStylistCost()
         {
             using (var con = Database.GetConnection())
             {
@@ -68,9 +69,9 @@ namespace Salon.Repository
         // SUMMARY STYLIST REPORT
 
 
-        public StylistModel TotalStaff() 
+        public StylistModel TotalStaff()
         {
-            using (var con = Database.GetConnection()) 
+            using (var con = Database.GetConnection())
             {
                 var sql = "SELECT COUNT(*) AS TotalStaff FROM tbl_stylists";
 
@@ -78,9 +79,9 @@ namespace Salon.Repository
             }
         }
 
-        public StylistModel TotalActive() 
+        public StylistModel TotalActive()
         {
-            using (var con = Database.GetConnection()) 
+            using (var con = Database.GetConnection())
             {
                 var sql = @"SELECT COUNT(*) AS TotalActive
                             FROM tbl_stylist_schedules 
@@ -89,7 +90,7 @@ namespace Salon.Repository
             }
         }
 
-        public StylistModel TotalInactive() 
+        public StylistModel TotalInactive()
         {
             using (var con = Database.GetConnection())
             {
@@ -100,7 +101,7 @@ namespace Salon.Repository
             }
         }
 
-        public StylistModel TopPerformer() 
+        public StylistModel TopPerformer()
         {
             using (var con = Database.GetConnection())
             {
@@ -114,7 +115,7 @@ namespace Salon.Repository
                 return con.Query<StylistModel>(sql).FirstOrDefault();
             }
         }
-        public StylistModel TopPerformer(DateTime start, DateTime end) 
+        public StylistModel TopPerformer(DateTime start, DateTime end)
         {
             using (var con = Database.GetConnection())
             {
@@ -126,11 +127,11 @@ namespace Salon.Repository
                             GROUP BY s.stylist_id
                             ORDER BY TotalSales DESC
                             LIMIT 1;";
-                return con.Query<StylistModel>(sql, new {start = start , end = end}).FirstOrDefault();
+                return con.Query<StylistModel>(sql, new { start = start, end = end }).FirstOrDefault();
             }
         }
 
-        public IEnumerable<StylistModel> StaffList() 
+        public IEnumerable<StylistModel> StaffList()
         {
             using (var con = Database.GetConnection())
             {
@@ -154,7 +155,7 @@ namespace Salon.Repository
                 return con.Query<StylistModel>(sql).ToList();
             }
         }
-        public IEnumerable<StylistModel> StaffList(DateTime start, DateTime end) 
+        public IEnumerable<StylistModel> StaffList(DateTime start, DateTime end)
         {
             using (var con = Database.GetConnection())
             {
@@ -175,7 +176,7 @@ namespace Salon.Repository
                     LEFT JOIN tbl_exception_schedules av ON s.stylist_id = av.stylist_id AND av.date = CURRENT_DATE
                     WHERE s.is_deleted = 0
                     GROUP BY s.stylist_id, s.firstName, s.lastName, s.specialists, s.address, av.is_available, av.reason;";
-                return con.Query<StylistModel>(sql, new { start = start, end = end}).ToList();
+                return con.Query<StylistModel>(sql, new { start = start, end = end }).ToList();
             }
         }
 
@@ -191,6 +192,26 @@ namespace Salon.Repository
 
                 var result = con.Query<int>(sql, new { date, start, end }).ToList();
                 return result;
+            }
+        }
+
+
+        public bool EmailExists(string email, int id = 0)
+        {
+            using (var con = Database.GetConnection())
+            {
+                var sql = "SELECT COUNT(*) FROM tbl_stylists WHERE email = @email AND stylist_id != @id";
+
+                return con.ExecuteScalar<int>(sql, new { email, id }) > 0;
+            }
+        }
+        public bool ContactExists(string contact, int id = 0)
+        {
+            using (var con = Database.GetConnection())
+            {
+                var sql = "SELECT COUNT(*) FROM tbl_stylists WHERE contactNumber = @contact AND stylist_id != @id";
+
+                return con.ExecuteScalar<int>(sql, new { contact, id }) > 0;
             }
         }
     }

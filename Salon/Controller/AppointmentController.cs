@@ -21,7 +21,10 @@ namespace Salon.Controller
             repo = repository;
         }
 
-
+        public IEnumerable<AppointmentModel> GetAllShowAppointments(string filter) 
+        {
+            return repo.ShowAllAppointmnets(filter);
+        }
         public IEnumerable<AppointmentModel> LoadAppointments()
         {
             return repo.GetAll();

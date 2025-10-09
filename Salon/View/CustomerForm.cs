@@ -74,17 +74,54 @@ namespace Salon.View
             customer.email = txt_email.Text;
             controller.UpdateCustomer(customer);
         }
+        private bool Validated()
+        {
+
+            bool validated = true;
+            // REQUIRED FIELD
+            validated &= Validator.IsRequired(txt_first_name, errorProvider1, "First name is required.");
+            validated &= Validator.IsRequired(txt_middle_name, errorProvider1, "Middle name is required.");
+            validated &= Validator.IsRequired(txt_last_name, errorProvider1, "Last name is required.");
+            validated &= Validator.IsRequired(txt_email, errorProvider1, "Email is required.");
+            validated &= Validator.IsRequired(txt_contact, errorProvider1, "Contact number is required.");
+   ;
+
+            // VALID EMAIL
+            validated &= Validator.IsValidEmail(txt_email, errorProvider1);
+            // VAILD PHONE NUMBER
+            validated &= Validator.IsValidPhone(txt_contact, errorProvider1);
+
+
+            // EXISTS VALIDATION
+            int excludeId = customer?.customer_id ?? 0;
+
+            validated &= Validator.IsCustomerEmailExists(txt_email, errorProvider1, "Email already exists.", excludeId);
+            validated &= Validator.IsCustomerPhoneExists(txt_contact, errorProvider1, "Contact number already exists.", excludeId);
+
+            return validated;
+
+
+        }
 
         private void btn_save_Click(object sender, EventArgs e)
         {
+            if (!Validated()) return;
             AddCustomer();
             mainform.LoadCustomers();
+            this.Close();
         }
 
         private void btn_update_Click(object sender, EventArgs e)
         {
+            if (!Validated()) return;
             UpdateCustomer();
             mainform.LoadCustomers();
+            this.Close();
+        }
+
+        private void btn_cancel_Click(object sender, EventArgs e)
+        {
+            this.Close();
         }
     }
 }

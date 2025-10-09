@@ -23,7 +23,7 @@ namespace Salon.Repository
         {
             using (var con = Database.GetConnection()) 
             {
-                var sql = "INSERT INTO tbl_overhead (monthly_rent, electricity_bill, water_bill, internet_bill, other_bill, notes, utilities_amount, total_over_head, total_working_hours) VALUES (@monthly_rent, @electricity_bill, @water_bill, @internet_bill, @other_bill, @notes, @utilities_amount, @total_over_head, @total_working_hours)";
+                var sql = "INSERT INTO tbl_overhead (monthly_rent, electricity_bill, water_bill, internet_bill, other_bill, notes, total_over_head, total_working_hours) VALUES (@monthly_rent, @electricity_bill, @water_bill, @internet_bill, @other_bill, @notes, @total_over_head, @total_working_hours)";
                 con.Execute(sql, overHead);
             }
         }
@@ -31,7 +31,7 @@ namespace Salon.Repository
         {
             using (var con = Database.GetConnection())
             {
-                var sql = "UPDATE tbl_overhead SET monthly_rent = @monthly_rent , electricity_bill = @electricity_bill, water_bill = @water_bill, internet_bill = @internet_bill, other_bill = @other_bill, notes = @notes, utilities_amount = @utilities_amount, total_over_head = @total_over_head, total_working_hours = @total_working_hours WHERE over_head_id = @over_head_id";
+                var sql = "UPDATE tbl_overhead SET monthly_rent = @monthly_rent , electricity_bill = @electricity_bill, water_bill = @water_bill, internet_bill = @internet_bill, other_bill = @other_bill, notes = @notes, total_over_head = @total_over_head, total_working_hours = @total_working_hours WHERE over_head_id = @over_head_id";
                 con.Execute(sql, overHead);
             }
         }

@@ -25,12 +25,35 @@ namespace Salon.View
             LoadSupplier();
             LoadProducts();
             this.mainform = mainform;
+            dtp_expiry.MinDate = DateTime.Today;
+            dtp_expiry.MaxDate = DateTime.Today.AddYears(10);
 
+            dtp_delivery_date.MinDate = DateTime.Today;
+            dtp_delivery_date.MaxDate = DateTime.Today.AddYears(1); // or any reasonable future window
             txt_received_by.Text = UserSession.CurrentUser.first_Name.ToString();
         }
 
-      
 
+        private bool Validated()
+        {
+
+            bool validated = true;
+            // REQUIRED FIELD
+            validated &= Validator.IsRequired(cb_product_names, errorProvider1, "Product is required.");
+            validated &= Validator.IsRequired(cb_supplier_name, errorProvider1, "Supplier is required.");
+            validated &= Validator.IsRequired(txt_invoice, errorProvider1, "Invoice is required.");
+            validated &= Validator.IsRequired(txt_qty, errorProvider1, "Qty is required.");
+            validated &= Validator.IsRequired(txt_price, errorProvider1, "Qty is required.");
+
+
+
+
+
+
+            return validated;
+
+
+        }
         private void LoadSupplier() 
         {
             var repo = new SupplierRepository();
@@ -116,6 +139,9 @@ namespace Salon.View
 
         private void btn_add_Click(object sender, EventArgs e)
         {
+
+            if (!Validated()) return;
+
             dgv_Items.Rows.Add(
                    cb_product_names.SelectedValue,
                    cb_product_names.Text,
@@ -138,26 +164,31 @@ namespace Salon.View
         {
             if (e.RowIndex < 0) return;
 
+            if (e.RowIndex >= 0 && dgv_Items.Columns[e.ColumnIndex].Name == "col_view_delivered_items") 
+            {
 
-            DataGridViewRow row = dgv_Items.Rows[e.RowIndex];
-            cb_product_names.Hint = string.Empty;
-            cb_supplier_name.Hint = string.Empty;
-            cb_product_names.SelectedValue = Convert.ToInt32(row.Cells["product_id"].Value);
-            txt_qty.Text = row.Cells["col_qty"].Value?.ToString();
-            txt_unit.Text = row.Cells["col_unit"].Value?.ToString();
-            txt_volume.Text = row.Cells["col_volume"].Value?.ToString();
-            txt_price.Text = row.Cells["col_price"].Value?.ToString();
-            txt_total.Text = row.Cells["col_total"].Value?.ToString();
-            dtp_delivery_date.Value = DateTime.Parse(row.Cells["col_delivered_date"].Value?.ToString());
-            dtp_expiry.Value = DateTime.Parse(row.Cells["col_expiry_date"].Value?.ToString());
-            txt_notes.Text = row.Cells["col_note"].Value?.ToString();
 
-            cb_product_names.Hint = "Select Product";
-            cb_supplier_name.Hint = "Select Supplier";
-            btn_update.Visible = true;
-            btn_cancel.Visible = true;
-            btn_add.Visible = false;
-            btn_delete.Enabled = true;
+                DataGridViewRow row = dgv_Items.Rows[e.RowIndex];
+                cb_product_names.Hint = string.Empty;
+                cb_supplier_name.Hint = string.Empty;
+                cb_product_names.SelectedValue = Convert.ToInt32(row.Cells["product_id"].Value);
+                txt_qty.Text = row.Cells["col_qty"].Value?.ToString();
+                txt_unit.Text = row.Cells["col_unit"].Value?.ToString();
+                txt_volume.Text = row.Cells["col_volume"].Value?.ToString();
+                txt_price.Text = row.Cells["col_price"].Value?.ToString();
+                txt_total.Text = row.Cells["col_total"].Value?.ToString();
+                dtp_delivery_date.Value = DateTime.Parse(row.Cells["col_delivered_date"].Value?.ToString());
+                dtp_expiry.Value = DateTime.Parse(row.Cells["col_expiry_date"].Value?.ToString());
+                txt_notes.Text = row.Cells["col_note"].Value?.ToString();
+
+                cb_product_names.Hint = "Select Product";
+                cb_supplier_name.Hint = "Select Supplier";
+                btn_update.Visible = true;
+                btn_cancel.Visible = true;
+                btn_add.Visible = false;
+                btn_delete.Enabled = true;
+            }
+
 
         }
 
@@ -318,6 +349,34 @@ namespace Salon.View
                 Clear();
             }
 
+        }
+
+        private void txt_notes_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void btn_update_Click(object sender, EventArgs e)
+        {
+            if (dgv_Items.CurrentRow != null)
+            {
+                var row = dgv_Items.CurrentRow;
+                row.Cells["product_id"].Value = cb_product_names.SelectedValue;
+                row.Cells["col_product_name"].Value = cb_product_names.Text;
+                row.Cells["col_qty"].Value = txt_qty.Text;
+                row.Cells["col_unit"].Value = txt_unit.Text;
+                row.Cells["col_volume"].Value = txt_volume.Text;
+                row.Cells["col_price"].Value = txt_price.Text;
+                row.Cells["col_total"].Value = txt_price.Text;
+                row.Cells["col_delivered_date"].Value = dtp_delivery_date.Value.ToShortDateString();
+                row.Cells["col_expiry_date"].Value = dtp_expiry.Value.ToShortDateString();
+                row.Cells["col_note"].Value = txt_notes.Text;
+            }
+
+            btn_add.Visible = true;
+            btn_cancel.Visible = false;
+            btn_update.Visible = false;
+            Clear();
         }
     }
 }

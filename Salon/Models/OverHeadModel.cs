@@ -15,7 +15,6 @@ namespace Salon.Models
         public decimal internet_bill { get; set; }
         public decimal other_bill { get; set; }
         public string notes { get; set; }
-        public decimal utilities_amount { get; set; }
         public decimal total_over_head { get; set; }
         public int total_working_hours { get; set; }
     }

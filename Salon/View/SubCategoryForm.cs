@@ -46,7 +46,26 @@ namespace Salon.View
             }
 
         }
+        private bool Validated()
+        {
 
+            bool validated = true;
+            // REQUIRED FIELD
+            validated &= Validator.IsRequired(txt_subcategory_name, errorProvider1, "Sub-Category is required.");
+            validated &= Validator.IsRequired(cmb_category, errorProvider1, "Category is required.");
+
+
+
+            // EXISTS VALIDATION
+            int excludeId = subCategoryModel?.subCategory_id ?? 0;
+            int cat_id = Convert.ToInt32(cmb_category.SelectedValue);
+            validated &= Validator.IsSubCategoryExists(txt_subcategory_name, errorProvider1, "Sub-Category already exists.", cat_id, excludeId);
+
+
+            return validated;
+
+
+        }
         private void LoadCategory() 
         {
             var repo = new CategoryRepository();
@@ -89,12 +108,14 @@ namespace Salon.View
 
         private void btn_save_Click(object sender, EventArgs e)
         {
+            if (!Validated()) return;
             AddSubCategory();
             this.Close();
         }
 
         private void btn_update_Click(object sender, EventArgs e)
         {
+            if (!Validated()) return;
             UpdateSubCategory();
             this.Close();
         }

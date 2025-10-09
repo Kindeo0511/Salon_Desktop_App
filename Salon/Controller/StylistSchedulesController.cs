@@ -41,5 +41,10 @@ namespace Salon.Controller
             string dayOfWeek = day.DayOfWeek.ToString();
             return _repo.StylistSchedules(dayOfWeek);
         }
+
+        public bool GetIsScheduleConflict(int stylist_id, string day, TimeSpan start, TimeSpan end, int id = 0) 
+        {
+            return _repo.IsScheduleConflict(stylist_id, day, start, end, id);
+        }
     }
 }

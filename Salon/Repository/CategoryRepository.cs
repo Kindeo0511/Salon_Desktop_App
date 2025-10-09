@@ -51,5 +51,13 @@ namespace Salon.Repository
                 con.Execute(sql, new { id });
             }
         }
+        public bool CategoriesExist(string category, string type, int id = 0) 
+        {
+            using (var con = Database.GetConnection()) 
+            {
+                var sql = "SELECT  COUNT(*) FROM tbl_category WHERE categoryName = @category AND type = @type AND category_id != @id";
+               return  con.ExecuteScalar<int>(sql, new {category, type, id }) > 0;
+            }
+        }
     }
 }

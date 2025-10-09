@@ -32,5 +32,20 @@ namespace Salon.Controller
         {
             repo.DeleteSupplier(id);
         }
+
+        public bool CheckSupplierExists(string name , int id = 0) 
+        {
+            return repo.SupplierExists(name, id);
+        }
+
+        public bool CheckEmailExists(string email, int id = 0)
+        {
+            return repo.EmailExists(email, id);
+        }
+
+        public bool CheckContactExists(string contact, int id = 0)
+        {
+            return repo.ContactExists(contact, id);
+        }
     }
 }

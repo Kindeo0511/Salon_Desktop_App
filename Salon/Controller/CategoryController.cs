@@ -36,5 +36,10 @@ namespace Salon.Controller
         {
             repo.deleteCategory(id);
         }
+
+        public bool CheckCategoryExists(string category, string type, int id = 0) 
+        {
+           return repo.CategoriesExist(category,type, id);
+        }
     }
 }

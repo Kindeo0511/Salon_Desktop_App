@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(AppointmentForm));
             this.txt_Search = new MaterialSkin.Controls.MaterialTextBox();
             this.txt_FullName = new MaterialSkin.Controls.MaterialTextBox();
@@ -50,7 +51,10 @@
             this.btn_update = new MaterialSkin.Controls.MaterialButton();
             this.btn_check_available = new MaterialSkin.Controls.MaterialButton();
             this.txt_availability = new MaterialSkin.Controls.MaterialLabel();
+            this.errorProvider1 = new System.Windows.Forms.ErrorProvider(this.components);
+            this.materialLabel1 = new MaterialSkin.Controls.MaterialLabel();
             ((System.ComponentModel.ISupportInitialize)(this.dgv_table)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.errorProvider1)).BeginInit();
             this.SuspendLayout();
             // 
             // txt_Search
@@ -368,12 +372,31 @@
             this.txt_availability.Size = new System.Drawing.Size(135, 24);
             this.txt_availability.TabIndex = 14;
             this.txt_availability.Text = "materialLabel1";
+            this.txt_availability.Visible = false;
+            // 
+            // errorProvider1
+            // 
+            this.errorProvider1.BlinkStyle = System.Windows.Forms.ErrorBlinkStyle.NeverBlink;
+            this.errorProvider1.ContainerControl = this;
+            // 
+            // materialLabel1
+            // 
+            this.materialLabel1.AutoSize = true;
+            this.materialLabel1.Depth = 0;
+            this.materialLabel1.Font = new System.Drawing.Font("Roboto", 14F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
+            this.materialLabel1.Location = new System.Drawing.Point(632, 409);
+            this.materialLabel1.MouseState = MaterialSkin.MouseState.HOVER;
+            this.materialLabel1.Name = "materialLabel1";
+            this.materialLabel1.Size = new System.Drawing.Size(38, 19);
+            this.materialLabel1.TabIndex = 15;
+            this.materialLabel1.Text = "Date:";
             // 
             // AppointmentForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1942, 1102);
+            this.Controls.Add(this.materialLabel1);
             this.Controls.Add(this.txt_availability);
             this.Controls.Add(this.btn_check_available);
             this.Controls.Add(this.btn_update);
@@ -395,6 +418,7 @@
             this.Text = " ";
             this.WindowState = System.Windows.Forms.FormWindowState.Maximized;
             ((System.ComponentModel.ISupportInitialize)(this.dgv_table)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.errorProvider1)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -423,5 +447,7 @@
         private System.Windows.Forms.DataGridViewImageColumn col_btn_delete;
         private MaterialSkin.Controls.MaterialButton btn_check_available;
         private MaterialSkin.Controls.MaterialLabel txt_availability;
+        private System.Windows.Forms.ErrorProvider errorProvider1;
+        private MaterialSkin.Controls.MaterialLabel materialLabel1;
     }
 }

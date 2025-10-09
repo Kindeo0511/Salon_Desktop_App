@@ -18,5 +18,9 @@ namespace Salon.Repository
         //bool SupplierExists(int id);
         //bool SupplierExists(SupplierModel supplier);
 
+        bool SupplierExists(string name, int id);
+        bool EmailExists(string email, int id);
+        bool ContactExists(string name, int id);
+
     }
 }

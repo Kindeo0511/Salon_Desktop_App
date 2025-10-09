@@ -76,5 +76,21 @@ namespace Salon.Controller
         {
             return discountRepository.AllDiscounts(start, end);
         }
+
+        public void UpdateDiscountStatus(DiscountModel model) 
+        {
+            discountRepository.UpdateDiscountStatus(model);
+        }
+
+        // VALIDATION
+
+        public List<DiscountModel> GetExpiringDiscounts(DateTime threshold) 
+        {
+            return discountRepository.GetExpiringDiscounts(threshold);
+        }
+        public bool CheckDiscountExists(string name, string code = "", decimal rate = 0, int id = 0) 
+        {
+            return discountRepository.DiscountExists(name, code, rate, id);
+        }
     }
 }

@@ -64,7 +64,7 @@ namespace Salon.View
 
         private async void btn_Confirm_Click(object sender, EventArgs e)
         {
-          
+
             DateTime startTime = DateTime.Today.Add(summary.AppointmentTime);
             string formattedStartTime = startTime.ToString("hh:mm tt");
 
@@ -109,9 +109,9 @@ namespace Salon.View
                 appointmentServiceRepo.AddAppointmentService(appointmentService);
             }
 
-         
 
-           
+
+
             try
             {
                 //await NotificationService.SendNotificationAsync(
@@ -121,15 +121,37 @@ namespace Salon.View
                 //    appointmentTime: $"{summary.AppointmentDate} at {formattedStartTime}",
                 //    customMessage: "Please arrive 10 minutes early and bring your ID."
                 //);
+              
+                //var sms_sender = new IProgSmsSender();
+                //string recipient = summary.CustomerModel.phoneNumber;
+                //string message = "Your appointment has been confirmed. Please arrive 10 minutes early and bring your ID.";
 
-                await EmailMessage.SendNotificationEmailAsync(
-                to: summary.CustomerModel.email,
-                recipientName: summary.CustomerModel.customer_name,
-                appointmentTime: $"{summary.AppointmentDate} at {formattedStartTime}",
-                customMessage: "Your appointment has been confirmed. Please arrive 10 minutes early and bring your ID.");
 
-                MessageBox.Show($"The appointment has been {(isUpdate ? "updated" : "booked")} successfully!",
-                          "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
+              
+                try
+                {
+                    await EmailMessage.SendNotificationEmailAsync(
+                    to: summary.CustomerModel.email,
+                    recipientName: summary.CustomerModel.customer_name,
+                    appointmentTime: $"{summary.AppointmentDate} at {formattedStartTime}",
+                    customMessage: "Your appointment has been confirmed. Please arrive 10 minutes early and bring your ID.");
+
+                    await SmsSender.SendSmsNotificationAsync(
+                    phone: summary.CustomerModel.phoneNumber,
+                    customerName: summary.CustomerModel.customer_name,
+                    appointmentDate: summary.AppointmentDate.ToString("MM/dd/yyyy"),
+                    startTime: formattedStartTime);
+
+                    MessageBox.Show($"The appointment has been {(isUpdate ? "updated" : "booked")} successfully!",
+                        "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show($"Error: {ex.Message}");
+                }
+
+
+
             }
             catch (Exception ex)
             {

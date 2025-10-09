@@ -28,11 +28,14 @@
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
             this.txt_category_name = new MaterialSkin.Controls.MaterialTextBox();
             this.btn_update = new MaterialSkin.Controls.MaterialButton();
             this.btn_cancel = new MaterialSkin.Controls.MaterialButton();
             this.btn_save = new MaterialSkin.Controls.MaterialButton();
             this.cmb_category_type = new MaterialSkin.Controls.MaterialComboBox();
+            this.errorProvider1 = new System.Windows.Forms.ErrorProvider(this.components);
+            ((System.ComponentModel.ISupportInitialize)(this.errorProvider1)).BeginInit();
             this.SuspendLayout();
             // 
             // txt_category_name
@@ -40,7 +43,7 @@
             this.txt_category_name.AnimateReadOnly = false;
             this.txt_category_name.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.txt_category_name.Depth = 0;
-            this.txt_category_name.Font = new System.Drawing.Font("Microsoft Sans Serif", 16F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
+            this.txt_category_name.Font = new System.Drawing.Font("Roboto", 16F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
             this.txt_category_name.Hint = "Category Name";
             this.txt_category_name.LeadingIcon = null;
             this.txt_category_name.Location = new System.Drawing.Point(101, 155);
@@ -123,7 +126,7 @@
             this.cmb_category_type.DropDownHeight = 174;
             this.cmb_category_type.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cmb_category_type.DropDownWidth = 121;
-            this.cmb_category_type.Font = new System.Drawing.Font("Roboto Medium", 14F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Pixel);
+            this.cmb_category_type.Font = new System.Drawing.Font("Microsoft Sans Serif", 14F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Pixel);
             this.cmb_category_type.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(222)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
             this.cmb_category_type.FormattingEnabled = true;
             this.cmb_category_type.Hint = "Select Category Type";
@@ -140,6 +143,11 @@
             this.cmb_category_type.StartIndex = -1;
             this.cmb_category_type.TabIndex = 21;
             // 
+            // errorProvider1
+            // 
+            this.errorProvider1.BlinkStyle = System.Windows.Forms.ErrorBlinkStyle.NeverBlink;
+            this.errorProvider1.ContainerControl = this;
+            // 
             // CategoryForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
@@ -153,6 +161,7 @@
             this.Name = "CategoryForm";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "CategoryForm";
+            ((System.ComponentModel.ISupportInitialize)(this.errorProvider1)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -164,5 +173,6 @@
         private MaterialSkin.Controls.MaterialButton btn_cancel;
         private MaterialSkin.Controls.MaterialButton btn_save;
         private MaterialSkin.Controls.MaterialComboBox cmb_category_type;
+        private System.Windows.Forms.ErrorProvider errorProvider1;
     }
 }

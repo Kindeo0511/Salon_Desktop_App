@@ -56,5 +56,22 @@ namespace Salon.Repository
                 return result > 0;
             }
         }
+        public bool IsExceptionScheduleConflict(int stylist_id, DateTime date, TimeSpan start, TimeSpan end, int id = 0)
+        {
+       
+            using (var con = Database.GetConnection())
+            {
+                var sql = @"SELECT COUNT(*) FROM tbl_exception_schedules
+WHERE stylist_id = @stylist_id AND date = @date AND id != @id
+AND (
+    (@start < end_time AND @end > start_time) OR
+    (start_time = @start AND end_time = @end)
+)";
+
+                var count = con.ExecuteScalar<int>(sql, new { stylist_id, date, start, end, id });
+                return count > 0;
+            }
+
+        }
     }
 }

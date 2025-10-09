@@ -82,5 +82,16 @@ namespace Salon.Controller
         }
 
 
+        public bool GetEmailExists(string email, int id = 0) 
+        {
+            return _repo.EmailExists(email, id);
+        }
+
+        public bool GetContactExists(string email, int id = 0)
+        {
+            return _repo.ContactExists(email, id);
+        }
+
+
     }
 }

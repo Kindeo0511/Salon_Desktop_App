@@ -4,6 +4,7 @@ using Salon.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.InteropServices.ComTypes;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -33,8 +34,8 @@ namespace Salon.Repository
         {
             using (var con = Database.GetConnection()) 
             {
-                var sql = @"INSERT INTO tbl_discount (discount_type,promo_code, discount_rate)
-                        VALUES(@discount_type, @promo_code, @discount_rate)";
+                var sql = @"INSERT INTO tbl_discount (discount_type,promo_code, discount_rate, expiry_date)
+                        VALUES(@discount_type, @promo_code, @discount_rate, @expiry_date)";
                 con.Execute(sql, model);
             }
                 
@@ -43,7 +44,7 @@ namespace Salon.Repository
         {
             using (var con = Database.GetConnection()) 
             {
-                var sql = @"UPDATE tbl_discount SET discount_type =@discount_type, promo_code =@promo_code, discount_rate=@discount_rate WHERE discount_id = @discount_id";
+                var sql = @"UPDATE tbl_discount SET discount_type =@discount_type, promo_code =@promo_code, discount_rate=@discount_rate, expiry_date = @expiry_date WHERE discount_id = @discount_id";
                 con.Execute(sql, model);
             }
                 
@@ -168,5 +169,56 @@ namespace Salon.Repository
                 return con.Query<DiscountModel>(sql, new { start = start, end = end}).ToList();
             }
         }
+
+        public List<DiscountModel> GetExpiringDiscounts(DateTime threshold)
+        {
+            using (var con = Database.GetConnection())
+            {
+                var sql = @"
+            SELECT * FROM tbl_discount
+            WHERE expiry_date IS NOT NULL
+              AND expiry_date <= @threshold
+              AND status = 'Active'";
+
+                return con.Query<DiscountModel>(sql, new { threshold }).ToList();
+            }
+        }
+
+        public void UpdateDiscountStatus(DiscountModel model) 
+        {
+            using (var con = Database.GetConnection()) 
+            {
+                var sql = "UPDATE tbl_discount SET status = @status WHERE discount_id = @discount_id";
+                con.Execute(sql,model);
+            }
+        }
+
+        // VALIDATION   
+
+        public bool DiscountExists(string type, string code, decimal rate, int id)
+        {
+            using (var con = Database.GetConnection())
+            {
+                string sql;
+
+                if (type == "Promo")
+                {
+                    sql = @"SELECT COUNT(*) FROM tbl_discount 
+                    WHERE promo_code = @code 
+                      AND discount_id != @id";
+                }
+                else
+                {
+                    sql = @"SELECT COUNT(*) FROM tbl_discount 
+                    WHERE discount_type = @type 
+                      AND discount_rate = @rate 
+                      AND discount_id != @id";
+                }
+
+                return con.ExecuteScalar<int>(sql, new { type, code, rate, id }) > 0;
+            }
+        }
+
+        
     }
 }

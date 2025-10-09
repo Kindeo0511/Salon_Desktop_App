@@ -14,5 +14,8 @@ namespace Salon.Repository
         void AddServiceProduct(ServiceProductUsageModel model);
         void UpdateServiceProduct(ServiceProductUsageModel model);
         void DeleteServiceProduct(int id);
+
+
+        bool ProductUsageExists(int product_id, int id);
     }
 }

@@ -17,5 +17,7 @@ namespace Salon.Repository
         // VALIDATION
 
         List<StylistModel> StylistSchedules(string day);
+
+        bool IsScheduleConflict(int stylist_id, string day, TimeSpan start, TimeSpan end, int id = 0);
     }
 }
