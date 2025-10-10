@@ -209,6 +209,8 @@ namespace Salon.View
           
 
             SaveUser();
+            string fullName = txt_first_name.Text +" "+ txt_last_name.Text;
+            Audit.AuditLog(DateTime.Now, "Create", UserSession.CurrentUser.first_Name, "Manage User", $"Created new user for {fullName} on {DateTime.Now:yyyy-MM-dd} at {DateTime.Now:HH:mm:ss}");
             Clear();
             _mainForm.LoadUser();
             this.Close();
@@ -238,7 +240,8 @@ namespace Salon.View
 
             // Offload only the save logic
              UpdateUser();
-  
+            string fullName = txt_first_name.Text + " " + txt_last_name.Text;
+            Audit.AuditLog(DateTime.Now, "Update", UserSession.CurrentUser.first_Name, "Manage User", $"Updated user {fullName} on {DateTime.Now:yyyy-MM-dd} at {DateTime.Now:HH:mm:ss}");
             Clear();
             _mainForm.LoadUser();
             this.Close();

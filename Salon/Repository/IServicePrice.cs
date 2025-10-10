@@ -9,6 +9,7 @@ namespace Salon.Repository
 {
     public interface IServicePrice
     {
+        IEnumerable<ServicePriceModel> GetAllServicesByName(string key = "");
         IEnumerable<ServicePriceModel> GetAllServicePrice();
         ServicePriceModel GetServicePrice(int SelectedServiceNameID);
         void AddServicePrice(ServicePriceModel servicePrice);

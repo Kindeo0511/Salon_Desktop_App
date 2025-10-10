@@ -45,17 +45,22 @@ namespace Salon.View
             this.model = appointmentModel;
             var _repo = new PaymentRepository();
             paymentController = new PaymentController(_repo);
-            LoadDiscount();
-            LoadVat();
-            calculate();
+  
             if (model != null)
             {
+                var _appointmentServiceRepo = new AppointmentServiceRepository();
+                _appointmentServiceController = new AppointmentServiceController(_appointmentServiceRepo);
+                _serviceList = _appointmentServiceController
+                .GetServicesByAppointmentId(model.AppointmentId)
+                .ToList();
+
                 DateTime startTime = DateTime.Today.Add(model.StartTime);
                 DateTime endTime = DateTime.Today.Add(model.EndTime);
 
                 string formattedStartTime = startTime.ToString("hh:mm tt");
                 string formattedEndTime = endTime.ToString("hh:mm tt");
 
+             
                 lbl_CustomerName.Text = model.CustomerName;
                 lbl_Date.Text = model.AppointmentDate.ToString("yyyy-MM-dd");
                 lbl_Time.Text = formattedStartTime + " - " + formattedEndTime;
@@ -64,13 +69,14 @@ namespace Salon.View
                 lbl_Vat.Text = model.vat_amount.ToString("N2");
                 lbl_book_type.Text = model.BookingType.ToString();
                 _vatAmount = decimal.TryParse(lbl_Vat.Text, out var result) ? result : 0;
-            }
+                _subtotal = Convert.ToDecimal(model.selling_price.ToString());
 
-            var _appointmentServiceRepo = new AppointmentServiceRepository();
-            _appointmentServiceController = new AppointmentServiceController(_appointmentServiceRepo);
-            _serviceList = _appointmentServiceController
-            .GetServicesByAppointmentId(model.AppointmentId)
-            .ToList();
+
+            }
+            LoadDiscount();
+            LoadVat();
+            calculate();
+
             printDocument.PrintPage += new PrintPageEventHandler(printDocument1_PrintPage);
 
         }
@@ -79,9 +85,9 @@ namespace Salon.View
         {
             var repo = new DiscountRepository();
             var controller = new DiscountController(repo);
-            var discounts = controller.getAllDiscount();
+            var discounts = controller.GetDiscounts();
 
-            cb_discount.DisplayMember = "discount_type";
+            cb_discount.DisplayMember = "discount_and_promo_code";
             cb_discount.ValueMember = "discount_id";
             cb_discount.DataSource = discounts;
 
@@ -271,11 +277,21 @@ namespace Salon.View
 
 
                 paymentController.CreatePayment(payment);
-                AddTransactions(model.AppointmentId, _vatAmount, _discountAmount, totalAmount, cb_PaymentMethod.SelectedItem.ToString(), "Paid", DateTime.Now);
+                AddTransactions(model.AppointmentId, _vatAmount, _discountAmount,_subtotal, totalAmount, cb_PaymentMethod.SelectedItem.ToString(), "Paid", DateTime.Now);
                 appointment.UpdateAppointmentPayment(model.AppointmentId, "Paid", "Completed");
                 MessageBox.Show("✅ Payment has been recorded successfully!", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
+
+                Audit.AuditLog(
+                  DateTime.Now,
+                  "Process Payment", 
+                  UserSession.CurrentUser.first_Name,
+                  "Appointment",
+                  $"Processed payment for client '{model.ClientName}' on {DateTime.Now:yyyy-MM-dd} at {DateTime.Now:HH:mm:ss}"
+              );
+
                 mainForm.LoadAppointments();
                 mainForm.LoadTotalSales();
+                mainForm.LoadAllTransactions();
                 btn_invoice.Enabled = true;
             }
         }
@@ -342,6 +358,13 @@ namespace Salon.View
             if (printDialog.ShowDialog() == DialogResult.OK)
             {
                 printDocument.Print();
+                Audit.AuditLog(
+                DateTime.Now,
+                "Generate Invoice",
+                UserSession.CurrentUser.first_Name,
+                "Appointment",
+                $"Generated Invoice for client '{model.ClientName}' on {DateTime.Now:yyyy-MM-dd} at {DateTime.Now:HH:mm:ss}"
+                );
             }
         }
 
@@ -411,7 +434,7 @@ namespace Salon.View
 
 
         // TRANSACTION
-        private void AddTransactions(int appointment_id, decimal vat_amount, decimal discount_amount, decimal amount_paid, string payment_method, string payment_status, DateTime timestamp)
+        private void AddTransactions(int appointment_id, decimal vat_amount, decimal discount_amount, decimal sub_total, decimal amount_paid, string payment_method, string payment_status, DateTime timestamp)
         {
             var repo = new TransactionRepository();
             var controller = new TransactionController(repo);
@@ -421,6 +444,7 @@ namespace Salon.View
                 appointment_id = appointment_id,
                 vat_amount = vat_amount,
                 discount_amount = discount_amount,
+                sub_total = sub_total,
                 amount_paid = amount_paid,
                 payment_method = payment_method,
                 payment_status = payment_status,

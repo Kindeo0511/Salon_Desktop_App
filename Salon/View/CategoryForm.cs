@@ -90,6 +90,8 @@ namespace Salon.View
 
             addCategory();
             MessageBox.Show("Category added successfully!", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            var category = txt_category_name.Text;
+            Audit.AuditLog(DateTime.Now, "Create", UserSession.CurrentUser.first_Name, "Manage Categories", $"Created category '{category}' on {DateTime.Now:yyyy-MM-dd} at {DateTime.Now:HH:mm:ss}");
             this.Close();
         }
 
@@ -98,6 +100,8 @@ namespace Salon.View
             if (!Validated()) return;
             updateCategory();
             MessageBox.Show("Category updated successfully!", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            var category = txt_category_name.Text;
+            Audit.AuditLog(DateTime.Now, "Update", UserSession.CurrentUser.first_Name, "Manage Categories", $"Updated category '{category}' on {DateTime.Now:yyyy-MM-dd} at {DateTime.Now:HH:mm:ss}");
             this.Close();
 
         }

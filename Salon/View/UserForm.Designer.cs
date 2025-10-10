@@ -401,6 +401,7 @@
             this.MinimizeBox = false;
             this.Name = "UserForm";
             this.Padding = new System.Windows.Forms.Padding(40, 94, 40, 80);
+            this.Sizable = false;
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.UserForm_FormClosing);
             this.Load += new System.EventHandler(this.UserForm_Load);

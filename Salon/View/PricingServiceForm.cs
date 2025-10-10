@@ -278,6 +278,13 @@ namespace Salon.View
             if (!Validated()) return;
 
             AddServicePrice();
+            Audit.AuditLog(
+            DateTime.Now,
+            "Create",
+            UserSession.CurrentUser.first_Name,
+            "Service Price",
+            $"Created service '{cmb_services.Text}' with a price of ₱{txt_final_price.Text} on {DateTime.Now:yyyy-MM-dd} at {DateTime.Now:HH:mm:ss}"
+        );
             this.Close();
         }
 
@@ -309,6 +316,14 @@ namespace Salon.View
             if (!Validated()) return;
 
             UpdateServicePrice();
+            AddServicePrice();
+            Audit.AuditLog(
+            DateTime.Now,
+            "Update",
+            UserSession.CurrentUser.first_Name,
+            "Service Price",
+            $"Updated service '{cmb_services.Text}' with a price of ₱{txt_final_price.Text} on {DateTime.Now:yyyy-MM-dd} at {DateTime.Now:HH:mm:ss}"
+        );
             this.Close();
         }
 

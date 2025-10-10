@@ -119,6 +119,8 @@ namespace Salon.View
         {
             if (!Validated()) return;
             AddProduct();
+            var productName = txt_product_name.Text;
+            Audit.AuditLog(DateTime.Now, "Create", UserSession.CurrentUser.first_Name, "Manage Products", $"Created product '{productName}' on {DateTime.Now:yyyy-MM-dd} at {DateTime.Now:HH:mm:ss}");
             this.Close();
         }
 
@@ -126,6 +128,8 @@ namespace Salon.View
         {
             if (!Validated()) return;
             UpdateProduct();
+            var productName = txt_product_name.Text;
+            Audit.AuditLog(DateTime.Now, "Update", UserSession.CurrentUser.first_Name, "Manage Products", $"Updated product '{productName}' on {DateTime.Now:yyyy-MM-dd} at {DateTime.Now:HH:mm:ss}");
             this.Close();
         }
 

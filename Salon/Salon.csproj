@@ -14,6 +14,7 @@
     <Deterministic>true</Deterministic>
     <NuGetPackageImportStamp>
     </NuGetPackageImportStamp>
+    <IsWebBootstrapper>false</IsWebBootstrapper>
     <PublishUrl>publish\</PublishUrl>
     <Install>true</Install>
     <InstallFrom>Disk</InstallFrom>
@@ -26,7 +27,6 @@
     <MapFileExtensions>true</MapFileExtensions>
     <ApplicationRevision>0</ApplicationRevision>
     <ApplicationVersion>1.0.0.%2a</ApplicationVersion>
-    <IsWebBootstrapper>false</IsWebBootstrapper>
     <UseApplicationTrust>false</UseApplicationTrust>
     <BootstrapperEnabled>true</BootstrapperEnabled>
   </PropertyGroup>
@@ -169,6 +169,7 @@
     <Compile Include="Controller\AppointmentController.cs" />
     <Compile Include="Controller\AppointmentReportController.cs" />
     <Compile Include="Controller\AppointmentServiceController.cs" />
+    <Compile Include="Controller\AuditController.cs" />
     <Compile Include="Controller\CategoryController.cs" />
     <Compile Include="Controller\CustomerController.cs" />
     <Compile Include="Controller\DeliveryController.cs" />
@@ -181,6 +182,7 @@
     <Compile Include="Controller\OverHeadController.cs" />
     <Compile Include="Controller\PaymentController.cs" />
     <Compile Include="Controller\ProductController.cs" />
+    <Compile Include="Controller\RefundController.cs" />
     <Compile Include="Controller\ServiceController.cs" />
     <Compile Include="Controller\ServicePriceController.cs" />
     <Compile Include="Controller\ServiceProductUsageController.cs" />
@@ -203,6 +205,7 @@
     </Compile>
     <Compile Include="Models\AppointmentModel.cs" />
     <Compile Include="Models\AppointmentServicesModel.cs" />
+    <Compile Include="Models\AuditModel.cs" />
     <Compile Include="Models\BookingSummary.cs" />
     <Compile Include="Models\BusinessHour.cs" />
     <Compile Include="Models\CategoryModel.cs" />
@@ -217,6 +220,7 @@
     <Compile Include="Models\OverHeadModel.cs" />
     <Compile Include="Models\PaymentModel.cs" />
     <Compile Include="Models\ProductModel.cs" />
+    <Compile Include="Models\RefundModel.cs" />
     <Compile Include="Models\ServiceItemSelected.cs" />
     <Compile Include="Models\ServiceModel.cs" />
     <Compile Include="Models\ServicePriceModel.cs" />
@@ -235,6 +239,7 @@
     <Compile Include="Repository\AppointmentReportRepository.cs" />
     <Compile Include="Repository\AppointmentRepository.cs" />
     <Compile Include="Repository\AppointmentServiceRepository.cs" />
+    <Compile Include="Repository\AuditRepository.cs" />
     <Compile Include="Repository\BusinessHourRepository.cs" />
     <Compile Include="Repository\CategoryRepository.cs" />
     <Compile Include="Repository\CustomerRepository.cs" />
@@ -245,6 +250,7 @@
     <Compile Include="Repository\ExpensesRepository.cs" />
     <Compile Include="Repository\IAppointment.cs" />
     <Compile Include="Repository\IAppointmentServiceRepository.cs" />
+    <Compile Include="Repository\IAudit.cs" />
     <Compile Include="Repository\ICategory.cs" />
     <Compile Include="Repository\ICustomer.cs" />
     <Compile Include="Repository\IDeliveredItems.cs" />
@@ -257,6 +263,7 @@
     <Compile Include="Repository\IOverHead.cs" />
     <Compile Include="Repository\IPaymentRepository.cs" />
     <Compile Include="Repository\IProduct.cs" />
+    <Compile Include="Repository\IRefund.cs" />
     <Compile Include="Repository\IService.cs" />
     <Compile Include="Repository\IServicePrice.cs" />
     <Compile Include="Repository\IServiceProductUsage.cs" />
@@ -273,6 +280,7 @@
     <Compile Include="Repository\OverHeadRepository.cs" />
     <Compile Include="Repository\PaymentRepository.cs" />
     <Compile Include="Repository\ProductRepository.cs" />
+    <Compile Include="Repository\RefundRepository.cs" />
     <Compile Include="Repository\ServicePriceRepository.cs" />
     <Compile Include="Repository\ServiceProductUsageRepository.cs" />
     <Compile Include="Repository\ServiceRepository.cs" />
@@ -285,12 +293,11 @@
     <Compile Include="Repository\UtilityRepository.cs" />
     <Compile Include="Repository\VatRepository.cs" />
     <Compile Include="Services\TimeSlotGenerator.cs" />
+    <Compile Include="Util\Audit.cs" />
     <Compile Include="Util\EmailMessage.cs" />
-    <Compile Include="Util\IProgSmsSender.cs" />
     <Compile Include="Util\LoadingEmailScreen.cs" />
     <Compile Include="Util\NotificationService.cs" />
     <Compile Include="Util\ReceiptRenderer.cs" />
-    <Compile Include="Util\SMSAPI.cs" />
     <Compile Include="Util\SmsSender.cs" />
     <Compile Include="Util\UserSession.cs" />
     <Compile Include="Util\ThemeManager.cs" />
@@ -361,6 +368,12 @@
     <Compile Include="View\LoadingScreenEmail.Designer.cs">
       <DependentUpon>LoadingScreenEmail.cs</DependentUpon>
     </Compile>
+    <Compile Include="View\LoginForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="View\LoginForm.Designer.cs">
+      <DependentUpon>LoginForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="View\MainForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -396,6 +409,12 @@
     </Compile>
     <Compile Include="View\ProductUsageForm.Designer.cs">
       <DependentUpon>ProductUsageForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="View\RefundForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="View\RefundForm.Designer.cs">
+      <DependentUpon>RefundForm.cs</DependentUpon>
     </Compile>
     <Compile Include="View\SearchResultControl.cs">
       <SubType>UserControl</SubType>
@@ -511,6 +530,9 @@
     <EmbeddedResource Include="View\LoadingScreenEmail.resx">
       <DependentUpon>LoadingScreenEmail.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="View\LoginForm.resx">
+      <DependentUpon>LoginForm.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="View\MainForm.resx">
       <DependentUpon>MainForm.cs</DependentUpon>
     </EmbeddedResource>
@@ -528,6 +550,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="View\ProductUsageForm.resx">
       <DependentUpon>ProductUsageForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="View\RefundForm.resx">
+      <DependentUpon>RefundForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="View\SearchResultControl.resx">
       <DependentUpon>SearchResultControl.cs</DependentUpon>

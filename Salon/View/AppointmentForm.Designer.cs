@@ -70,7 +70,7 @@
             this.txt_Search.MouseState = MaterialSkin.MouseState.OUT;
             this.txt_Search.Multiline = false;
             this.txt_Search.Name = "txt_Search";
-            this.txt_Search.Size = new System.Drawing.Size(470, 50);
+            this.txt_Search.Size = new System.Drawing.Size(500, 50);
             this.txt_Search.TabIndex = 0;
             this.txt_Search.Text = "";
             this.txt_Search.TrailingIcon = null;
@@ -120,7 +120,7 @@
             this.txt_Contact.Font = new System.Drawing.Font("Roboto", 16F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
             this.txt_Contact.Hint = "Contact";
             this.txt_Contact.LeadingIcon = null;
-            this.txt_Contact.Location = new System.Drawing.Point(25, 403);
+            this.txt_Contact.Location = new System.Drawing.Point(482, 215);
             this.txt_Contact.MaxLength = 50;
             this.txt_Contact.MouseState = MaterialSkin.MouseState.OUT;
             this.txt_Contact.Multiline = false;
@@ -149,7 +149,7 @@
             "Walk-In",
             "Online",
             "Phone Call"});
-            this.cb_book_type.Location = new System.Drawing.Point(635, 206);
+            this.cb_book_type.Location = new System.Drawing.Point(482, 311);
             this.cb_book_type.MaxDropDownItems = 4;
             this.cb_book_type.MouseState = MaterialSkin.MouseState.OUT;
             this.cb_book_type.Name = "cb_book_type";
@@ -159,7 +159,7 @@
             // 
             // cmb_Date
             // 
-            this.cmb_Date.Location = new System.Drawing.Point(631, 431);
+            this.cmb_Date.Location = new System.Drawing.Point(955, 338);
             this.cmb_Date.Name = "cmb_Date";
             this.cmb_Date.Size = new System.Drawing.Size(400, 22);
             this.cmb_Date.TabIndex = 5;
@@ -179,7 +179,7 @@
             this.cb_Time.Hint = "Appointment Time";
             this.cb_Time.IntegralHeight = false;
             this.cb_Time.ItemHeight = 43;
-            this.cb_Time.Location = new System.Drawing.Point(631, 311);
+            this.cb_Time.Location = new System.Drawing.Point(955, 215);
             this.cb_Time.MaxDropDownItems = 4;
             this.cb_Time.MouseState = MaterialSkin.MouseState.OUT;
             this.cb_Time.Name = "cb_Time";
@@ -190,9 +190,9 @@
             // 
             // customer_panel
             // 
-            this.customer_panel.Location = new System.Drawing.Point(598, 87);
+            this.customer_panel.Location = new System.Drawing.Point(25, 155);
             this.customer_panel.Name = "customer_panel";
-            this.customer_panel.Size = new System.Drawing.Size(470, 100);
+            this.customer_panel.Size = new System.Drawing.Size(500, 10);
             this.customer_panel.TabIndex = 7;
             // 
             // lbl_ID
@@ -216,7 +216,7 @@
             this.txt_search_services.Font = new System.Drawing.Font("Roboto", 16F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
             this.txt_search_services.Hint = "Search Services";
             this.txt_search_services.LeadingIcon = null;
-            this.txt_search_services.Location = new System.Drawing.Point(1182, 99);
+            this.txt_search_services.Location = new System.Drawing.Point(25, 455);
             this.txt_search_services.MaxLength = 50;
             this.txt_search_services.MouseState = MaterialSkin.MouseState.OUT;
             this.txt_search_services.Multiline = false;
@@ -229,9 +229,9 @@
             // 
             // service_panel
             // 
-            this.service_panel.Location = new System.Drawing.Point(1182, 165);
+            this.service_panel.Location = new System.Drawing.Point(25, 511);
             this.service_panel.Name = "service_panel";
-            this.service_panel.Size = new System.Drawing.Size(700, 80);
+            this.service_panel.Size = new System.Drawing.Size(700, 10);
             this.service_panel.TabIndex = 8;
             // 
             // dgv_table
@@ -245,12 +245,12 @@
             this.col_category_name,
             this.col_duration,
             this.col_btn_delete});
-            this.dgv_table.Location = new System.Drawing.Point(1182, 311);
+            this.dgv_table.Location = new System.Drawing.Point(25, 597);
             this.dgv_table.Name = "dgv_table";
             this.dgv_table.ReadOnly = true;
             this.dgv_table.RowHeadersWidth = 51;
             this.dgv_table.RowTemplate.Height = 24;
-            this.dgv_table.Size = new System.Drawing.Size(700, 226);
+            this.dgv_table.Size = new System.Drawing.Size(1369, 226);
             this.dgv_table.TabIndex = 10;
             this.dgv_table.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgv_table_CellClick);
             // 
@@ -306,7 +306,7 @@
             this.btn_confirm.Enabled = false;
             this.btn_confirm.HighEmphasis = true;
             this.btn_confirm.Icon = null;
-            this.btn_confirm.Location = new System.Drawing.Point(1796, 266);
+            this.btn_confirm.Location = new System.Drawing.Point(1225, 552);
             this.btn_confirm.Margin = new System.Windows.Forms.Padding(4, 6, 4, 6);
             this.btn_confirm.MouseState = MaterialSkin.MouseState.HOVER;
             this.btn_confirm.Name = "btn_confirm";
@@ -326,7 +326,7 @@
             this.btn_update.Depth = 0;
             this.btn_update.HighEmphasis = true;
             this.btn_update.Icon = null;
-            this.btn_update.Location = new System.Drawing.Point(1642, 266);
+            this.btn_update.Location = new System.Drawing.Point(1042, 552);
             this.btn_update.Margin = new System.Windows.Forms.Padding(4, 6, 4, 6);
             this.btn_update.MouseState = MaterialSkin.MouseState.HOVER;
             this.btn_update.Name = "btn_update";
@@ -347,7 +347,7 @@
             this.btn_check_available.Depth = 0;
             this.btn_check_available.HighEmphasis = true;
             this.btn_check_available.Icon = null;
-            this.btn_check_available.Location = new System.Drawing.Point(25, 529);
+            this.btn_check_available.Location = new System.Drawing.Point(827, 552);
             this.btn_check_available.Margin = new System.Windows.Forms.Padding(4, 6, 4, 6);
             this.btn_check_available.MouseState = MaterialSkin.MouseState.HOVER;
             this.btn_check_available.Name = "btn_check_available";
@@ -366,7 +366,7 @@
             this.txt_availability.Depth = 0;
             this.txt_availability.Font = new System.Drawing.Font("Roboto Medium", 20F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Pixel);
             this.txt_availability.FontType = MaterialSkin.MaterialSkinManager.fontType.H6;
-            this.txt_availability.Location = new System.Drawing.Point(290, 533);
+            this.txt_availability.Location = new System.Drawing.Point(649, 556);
             this.txt_availability.MouseState = MaterialSkin.MouseState.HOVER;
             this.txt_availability.Name = "txt_availability";
             this.txt_availability.Size = new System.Drawing.Size(135, 24);
@@ -384,7 +384,7 @@
             this.materialLabel1.AutoSize = true;
             this.materialLabel1.Depth = 0;
             this.materialLabel1.Font = new System.Drawing.Font("Roboto", 14F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
-            this.materialLabel1.Location = new System.Drawing.Point(632, 409);
+            this.materialLabel1.Location = new System.Drawing.Point(956, 316);
             this.materialLabel1.MouseState = MaterialSkin.MouseState.HOVER;
             this.materialLabel1.Name = "materialLabel1";
             this.materialLabel1.Size = new System.Drawing.Size(38, 19);
@@ -395,9 +395,9 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1942, 1102);
-            this.Controls.Add(this.materialLabel1);
+            this.ClientSize = new System.Drawing.Size(1400, 900);
             this.Controls.Add(this.txt_availability);
+            this.Controls.Add(this.materialLabel1);
             this.Controls.Add(this.btn_check_available);
             this.Controls.Add(this.btn_update);
             this.Controls.Add(this.service_panel);
@@ -413,10 +413,12 @@
             this.Controls.Add(this.txt_Email);
             this.Controls.Add(this.txt_FullName);
             this.Controls.Add(this.txt_Search);
+            this.MaximizeBox = false;
+            this.MinimizeBox = false;
             this.Name = "AppointmentForm";
+            this.Sizable = false;
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
-            this.Text = " ";
-            this.WindowState = System.Windows.Forms.FormWindowState.Maximized;
+            this.Text = " BOOKING INFORMATION";
             ((System.ComponentModel.ISupportInitialize)(this.dgv_table)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.errorProvider1)).EndInit();
             this.ResumeLayout(false);

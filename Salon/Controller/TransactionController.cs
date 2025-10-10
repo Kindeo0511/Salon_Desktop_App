@@ -17,6 +17,14 @@ namespace Salon.Controller
             this.repo = repo;
         }
 
+        public IEnumerable<TransactionModel> GetAllTransactions() 
+        {
+           return repo.ShowAllTransactions();
+        }
+        public IEnumerable<TransactionModel> GetAllTransactions(DateTime start, DateTime end)
+        {
+            return repo.ShowAllTransactions(start, end);
+        }
         public IEnumerable<TransactionModel> ShowAllTransactions() 
         {
             return repo.GetTransactions();
@@ -46,6 +54,11 @@ namespace Salon.Controller
         public void UpdateTransaction(TransactionModel transaction) 
         {
             repo.UpdateTransaction(transaction);
+        }
+
+        public void UpdateTransactionStatus(TransactionModel transaction) 
+        {
+            repo.UpdateTransactionStatus(transaction);
         }
 
         public void DeleteTransaction(int id) 

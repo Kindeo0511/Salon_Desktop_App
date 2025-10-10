@@ -21,6 +21,22 @@ namespace Salon.Repository
             }
                
         }
+        public IEnumerable<DiscountModel> Discounts() 
+        {
+            using (var con = Database.GetConnection())
+            {
+                var sql = @"SELECT 
+                          discount_id,
+                          CONCAT(discount_type, '  ', promo_code) AS discount_and_promo_code,
+                          discount_rate,
+                          expiry_date,
+                          status
+                        FROM tbl_discount
+                        WHERE  status = 'Active';";
+                return con.Query<DiscountModel>(sql);
+            }
+
+        }
         public DiscountModel GetDiscountById(int discountId)
         {
             using (var con = Database.GetConnection()) 

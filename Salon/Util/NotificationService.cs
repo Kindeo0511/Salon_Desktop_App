@@ -15,15 +15,7 @@ namespace Salon.Util
         private const string EmailPassword = "xewo quer qlch cmzv";
         private const string SmsApiKey = "textbelt"; // Replace with your paid key if needed
 
-        public static async Task SendNotificationAsync(string toEmail, string toPhone, string recipientName, string appointmentTime, string customMessage)
-        {
-            bool emailSent = await TrySendEmailAsync(toEmail, recipientName, appointmentTime, customMessage);
-
-            if (!emailSent)
-            {
-                await TrySendSmsFallbackAsync(toPhone, recipientName, appointmentTime, customMessage);
-            }
-        }
+      
 
         private static async Task<bool> TrySendEmailAsync(string to, string name, string time, string message)
         {
@@ -86,22 +78,6 @@ namespace Salon.Util
             return phone;
         }
 
-
-        private static async Task TrySendSmsFallbackAsync(string phone, string name, string time, string message)
-        {
-            var smsMessage = $"Hi {name}, your appointment is confirmed for {time}. {message}";
-            var normalizedPhone = NormalizePhone(phone);
-
-            try
-            {
-                await SMSAPI.SendSemaphoreSmsAsync(normalizedPhone, smsMessage);
-                Log("SMS sent via Semaphore to " + normalizedPhone);
-            }
-            catch (Exception ex)
-            {
-                Log("Semaphore SMS failed: " + ex.Message);
-            }
-        }
 
 
         private static void Log(string message)

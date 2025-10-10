@@ -33,11 +33,15 @@ namespace Salon.View
         private DiscountModel discountModel;
         private int currentOverheadId = 0;
         private UtilityModel utilityModel;
-        private Form1 loginForm;
+        private LoginForm loginForm;
+
+        private int currentPage = 1;
+        private int pageSize = 25;
+        private int totalPages = 0;
         public MainForm()
         {
             InitializeComponent();
-           
+         
           
             ThemeManager.ApplyTheme(this);     
             DataGridViewTheme();
@@ -81,10 +85,14 @@ namespace Salon.View
             ThemeManager.StyleDataGridView(dgv_technician_report);
             ThemeManager.StyleDataGridView(dgv_delivery_report);
             ThemeManager.StyleDataGridView(dgv_discount_report);
+            ThemeManager.StyleDataGridView(dgv_transaction_history);
+            ThemeManager.StyleDataGridView(dgv_audit_report);
+            ThemeManager.StyleDataGridView(dgv_refund);
         }
 
         private void MainForm_Load(object sender, EventArgs e)
         {
+            UserAccess();
             var repo = new DiscountRepository();
             var expiringSoon = repo.GetExpiringDiscounts(DateTime.Today.AddDays(3)); // next 3 days
 
@@ -115,8 +123,8 @@ namespace Salon.View
             LoadBatchInventory();
             LoadAppointments();
             LoadServicePrices();
-
-
+            LoadAllTransactions();
+            LoadRefund();
             // SUMMARY DASHBOARD
             LoadTotalSales();
             LoadTotalAppointments();
@@ -139,9 +147,32 @@ namespace Salon.View
             FilteredStaffReport();
             FilteredDeliveryReport();
             FilteredDiscountReport();
+           
         }
-        // DASHBOARD
 
+
+        private void UserAccess() 
+        {
+            if (UserSession.CurrentUser.Position == "Staff") 
+            {
+                HideTab(materialTabControl1, userTab);
+                HideTab(materialTabControl1, supplierTab);
+                HideTab(materialTabControl1, categoriesTab);
+                HideTab(materialTabControl1, subCategoryTab);
+                HideTab(materialTabControl1, deliveryTab);
+                HideTab(materialTabControl1, settingsTab);
+            }
+        }
+        private void HideTab(MaterialTabControl tabControl, TabPage tabPage) 
+        {
+            if (tabControl.TabPages.Contains(tabPage))
+            {
+                tabControl.TabPages.Remove(tabPage);
+            }
+
+        }
+
+        // DASHBOARD
 
         public void LoadTotalSales() 
         {
@@ -310,6 +341,8 @@ namespace Salon.View
                     var userController = new UserController(_repo);
                     userController.DeleteUser(user.user_id);
                     LoadUser();
+                    var fullName = user.first_Name + " " + user.last_Name;
+                    Audit.AuditLog(DateTime.Now, "Delete", UserSession.CurrentUser.first_Name, "Manage User", $"Deleted user {fullName} on {DateTime.Now:yyyy-MM-dd} at {DateTime.Now:HH:mm:ss}");
 
                 }
             }
@@ -321,6 +354,8 @@ namespace Salon.View
                 bool isViewed = true;
                 using (var userForm = new UserForm(this, user, isViewed))
                 {
+                    var fullName = user.first_Name + " " + user.last_Name;
+                    Audit.AuditLog(DateTime.Now, "View", UserSession.CurrentUser.first_Name, "Manage User", $"Viewed user {fullName} on {DateTime.Now:yyyy-MM-dd} at {DateTime.Now:HH:mm:ss}");
                     userForm.ShowDialog();
                 }
 
@@ -382,8 +417,11 @@ namespace Salon.View
                 {
                     var _repo = new StylistRepository();
                     var stylistController = new StylistController(_repo);
+                    var fullName = stylist.firstName + " " + stylist.lastName;
+                    Audit.AuditLog(DateTime.Now, "Delete", UserSession.CurrentUser.first_Name, "Manage Stylist", $"Deleted stylist {fullName} on {DateTime.Now:yyyy-MM-dd} at {DateTime.Now:HH:mm:ss}");
                     stylistController.Delete(stylist.stylist_id);
                     LoadStylist();
+
                 }
             }
             else if (e.RowIndex >= 0 && dgv_stylist.Columns[e.ColumnIndex].Name == "col_view_schedules")
@@ -451,6 +489,8 @@ namespace Salon.View
                 {
                     var repo = new CustomerRepository();
                     var customerController = new CustomerController(repo);
+                    var fullName = customer.firstName + " " + customer.lastName;
+                    Audit.AuditLog(DateTime.Now, "Delete", UserSession.CurrentUser.first_Name, "Manage Customer", $"Deleted customer '{fullName}' on {DateTime.Now:yyyy-MM-dd} at {DateTime.Now:HH:mm:ss}");
                     customerController.DeleteCustomer(customer.customer_id);
                     LoadCustomers();
                 }
@@ -500,6 +540,8 @@ namespace Salon.View
                 {
                     var repo = new CategoryRepository();
                     var categoryController = new CategoryController(repo);
+              
+                    Audit.AuditLog(DateTime.Now, "Delete", UserSession.CurrentUser.first_Name, "Manage Categories", $"Deleted category '{category.categoryName}' on {DateTime.Now:yyyy-MM-dd} at {DateTime.Now:HH:mm:ss}");
                     categoryController.deleteCategory(category.category_id);
                     LoadCategory();
                 }
@@ -546,6 +588,8 @@ namespace Salon.View
                 {
                     var repo = new SubCategoryRepository();
                     var subCategoryController = new SubCategoryController(repo);
+                   
+                    Audit.AuditLog(DateTime.Now, "Delete", UserSession.CurrentUser.first_Name, "Manage Sub-Categories", $"Deleted sub-category '{subCategory.subCategoryName}' for ({subCategory.categoryName}) on {DateTime.Now:yyyy-MM-dd} at {DateTime.Now:HH:mm:ss}");
                     subCategoryController.deleteSubCategory(subCategory.subCategory_id);
                     LoadSubCategory();
                 }
@@ -593,6 +637,8 @@ namespace Salon.View
                 {
                     var repo = new ProductRepository();
                     var controller = new ProductController(repo);
+
+                    Audit.AuditLog(DateTime.Now, "Delete", UserSession.CurrentUser.first_Name, "Manage Products", $"Deleted product '{product.product_name}' on {DateTime.Now:yyyy-MM-dd} at {DateTime.Now:HH:mm:ss}");
                     controller.deleteProduct(product.product_id);
                     LoadProducts();
                     LoadTotalProducts();
@@ -662,6 +708,8 @@ namespace Salon.View
                 {
                     var repo = new ServiceRepository();
                     var controller = new ServiceController(repo);
+
+                    Audit.AuditLog(DateTime.Now, "Delete", UserSession.CurrentUser.first_Name, "Manage Services", $"Deleted service '{service.serviceName}' on {DateTime.Now:yyyy-MM-dd} at {DateTime.Now:HH:mm:ss}");
                     controller.deleteService(service.serviceName_id);
                     LoadServices();
                 }
@@ -781,6 +829,13 @@ namespace Salon.View
                 {
                     MessageBox.Show("Tax updated succesfully!", "success", MessageBoxButtons.OK, MessageBoxIcon.Information);
                     tax_controller.UpdateTax(vatModel);
+                    Audit.AuditLog(
+                   DateTime.Now,
+                   "Update",
+                   UserSession.CurrentUser.first_Name,
+                   "Vat/Discount",
+                  $"Updated Vat with rate '{tax_rate}' on {DateTime.Now:yyyy-MM-dd} at {DateTime.Now:HH:mm:ss}"
+               );
                     LoadVat();
                 }
 
@@ -794,6 +849,13 @@ namespace Salon.View
                 };
                 MessageBox.Show("Tax created succesfully!", "success", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 tax_controller.CreateTax(tax_model);
+                Audit.AuditLog(
+                   DateTime.Now,
+                   "Create",
+                   UserSession.CurrentUser.first_Name,
+                   "Vat/Discount",
+                   $"Created Vat with rate '{tax_rate}' on {DateTime.Now:yyyy-MM-dd} at {DateTime.Now:HH:mm:ss}"
+               );
                 LoadVat();
 
 
@@ -845,6 +907,14 @@ namespace Salon.View
             };
             discount_controller.AddDiscount(discount);
             MessageBox.Show("Discount added succesfully!", "success", MessageBoxButtons.OK, MessageBoxIcon.Information);
+
+            Audit.AuditLog(
+                   DateTime.Now,
+                   "Create",
+                   UserSession.CurrentUser.first_Name,
+                   "Vat/Discount",
+                   $"Created discount '{cmb_discount_type.Text}' with rate ({txt_discount.Text}%) on {DateTime.Now:yyyy-MM-dd} at {DateTime.Now:HH:mm:ss}"
+               );
             LoadDiscount();
 
         }
@@ -883,6 +953,13 @@ namespace Salon.View
                 discount_controller.UpdateDiscount(discountModel);
                 MessageBox.Show("Discount updated succesfully!", "success", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 LoadDiscount();
+                Audit.AuditLog(
+                   DateTime.Now,
+                   "Update",
+                   UserSession.CurrentUser.first_Name,
+                   "Vat/Discount",
+                   $"Updated discount '{cmb_discount_type.Text}' with rate ({txt_discount.Text}%) on {DateTime.Now:yyyy-MM-dd} at {DateTime.Now:HH:mm:ss}"
+               );
                 clear_discount_fields();
             }
         }
@@ -938,6 +1015,14 @@ namespace Salon.View
                 {
                     var repo = new DiscountRepository();
                     var controller = new DiscountController(repo);
+
+                    Audit.AuditLog(
+                       DateTime.Now,
+                       "Delete",
+                       UserSession.CurrentUser.first_Name,
+                       "Vat/Discount",
+                       $"Deleted discount '{discountModel.discount_type}' with rate ({discountModel.discount_rate}%) on {DateTime.Now:yyyy-MM-dd} at {DateTime.Now:HH:mm:ss}"
+                   );
                     controller.DeleteDiscount(discountModel.discount_id);
                     LoadDiscount();
                 }
@@ -1022,6 +1107,8 @@ namespace Salon.View
                 {
                     var repo = new SupplierRepository();
                     var controller = new SupplierController(repo);
+             
+                    Audit.AuditLog(DateTime.Now, "Delete", UserSession.CurrentUser.first_Name, "Manage Supplier", $"Deleted supplier '{supplier.supplier_name}' on {DateTime.Now:yyyy-MM-dd} at {DateTime.Now:HH:mm:ss}");
                     controller.DeleteSupplier(supplier.supplier_id);
                     LoadSuppliers();
                 }
@@ -1064,6 +1151,8 @@ namespace Salon.View
                 int delivery_id = Convert.ToInt32(dgv_delivery.Rows[e.RowIndex].Cells["col_delivery_id"].Value);
                 using (var addStockForm = new DeliveryAddStockForm(this, delivery_id))
                 {
+               
+                    Audit.AuditLog(DateTime.Now, "View", UserSession.CurrentUser.first_Name, "Manage Delivery", $"Viewed delivery on {DateTime.Now:yyyy-MM-dd} at {DateTime.Now:HH:mm:ss}");
                     addStockForm.ShowDialog();
                 }
 
@@ -1134,6 +1223,8 @@ namespace Salon.View
             customer_id.DataPropertyName = "CustomerId";
             customerName.DataPropertyName = "CustomerName";
             col_appointment_services.DataPropertyName = "Services";
+            col_appointment_selling_price.DataPropertyName = "selling_price";
+            col_appointment_vat_amount.DataPropertyName = "vat_amount";
             col_appointment_email.DataPropertyName = "Email";
             col_appointment_number.DataPropertyName = "PhoneNumber";
             stylist_id.DataPropertyName = "StylistId";
@@ -1170,6 +1261,13 @@ namespace Salon.View
             }
         }
 
+        private void cmb_appointment_status_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if (cmb_appointment_status.Text != null)
+            {
+                LoadAppointments();
+            }
+        }
         private void dgv_appointment_CellClick(object sender, DataGridViewCellEventArgs e)
         {
             if (e.RowIndex < 0) return;
@@ -1190,17 +1288,14 @@ namespace Salon.View
             else if (e.RowIndex >= 0 && dgv_appointment.Columns[e.ColumnIndex].Name == "col_pay")
             {
                 var appointment = dgv_appointment.Rows[e.RowIndex].DataBoundItem as AppointmentModel;
+
+                if (appointment.PaymentStatus.ToLower() == "paid")
+                {
+                    return;
+                }
                 using (var paymentForm = new PaymentForm(this, appointment))
                 {
                     paymentForm.ShowDialog();
-                }
-            }
-            else if (e.RowIndex >= 0 && dgv_appointment.Columns[e.ColumnIndex].Name == "col_appointment_status")
-            {
-                var appointment = dgv_appointment.Rows[e.RowIndex].DataBoundItem as AppointmentModel;
-                using (var appointmentStatusForm = new AppointmentStatusForm(this, appointment))
-                {
-                    appointmentStatusForm.ShowDialog();
                 }
             }
 
@@ -1214,6 +1309,126 @@ namespace Salon.View
                 }
                 
             }
+
+
+
+        }
+        private void cancelledToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (dgv_appointment.SelectedRows.Count > 0)
+            {
+                var selectedRow = dgv_appointment.SelectedRows[0];
+                var appointmentId = Convert.ToInt32(selectedRow.Cells["appointment_id"].Value);
+                var name = selectedRow.Cells["customerName"].Value;
+                var confirm = MessageBox.Show(
+                    "Are you sure you want to cancel this appointment?",
+                    "Confirm Cancellation",
+                    MessageBoxButtons.YesNo,
+                    MessageBoxIcon.Question
+                );
+
+                if (confirm == DialogResult.Yes)
+                {
+                    var controller = new AppointmentController();
+                    controller.UpdateStatus("Cancelled", appointmentId);
+
+                    MessageBox.Show(
+                        "Appointment status updated to 'Cancelled' successfully.",
+                        "Success",
+                        MessageBoxButtons.OK,
+                        MessageBoxIcon.Information
+                    );
+
+                    Audit.AuditLog(
+                    DateTime.Now,
+                    "Cancel Status",
+                    UserSession.CurrentUser.first_Name,
+                    "Appointment",
+                    $"Cancelled Status for client '{name}' on {DateTime.Now:yyyy-MM-dd} at {DateTime.Now:HH:mm:ss}"
+                    );
+                    LoadAppointments();
+                }
+            }
+            else
+            {
+                MessageBox.Show(
+                    "Please select an appointment first.",
+                    "No Selection",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Warning
+                );
+            }
+        }
+
+        private void noShowToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (dgv_appointment.SelectedRows.Count > 0)
+            {
+                var selectedRow = dgv_appointment.SelectedRows[0];
+                var appointmentId = Convert.ToInt32(selectedRow.Cells["appointment_id"].Value);
+                var name = selectedRow.Cells["customerName"].Value;
+                var confirm = MessageBox.Show(
+                    "Are you sure you want to mark this appointment as 'No Show'?",
+                    "Confirm No Show",
+                    MessageBoxButtons.YesNo,
+                    MessageBoxIcon.Question
+                );
+
+                if (confirm == DialogResult.Yes)
+                {
+                    var controller = new AppointmentController();
+                    controller.UpdateStatus("No Show", appointmentId); // ✅ Correct status
+
+                    MessageBox.Show(
+                        "Appointment status updated to 'No Show' successfully.",
+                        "Success",
+                        MessageBoxButtons.OK,
+                        MessageBoxIcon.Information
+                    );
+
+                    Audit.AuditLog(
+                        DateTime.Now,
+                        "No Show Status",
+                        UserSession.CurrentUser.first_Name,
+                        "Appointment",
+                        $"Marked client '{name}' as No Show on {DateTime.Now:yyyy-MM-dd} at {DateTime.Now:HH:mm:ss}"
+                    );
+
+                    LoadAppointments();
+                }
+            }
+            else
+            {
+                MessageBox.Show(
+                    "Please select an appointment first.",
+                    "No Selection",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Warning
+                );
+            }
+        }
+        private void dgv_appointment_MouseDown(object sender, MouseEventArgs e)
+        {
+            if (e.Button == MouseButtons.Right)
+            {
+                var hit = dgv_appointment.HitTest(e.X, e.Y);
+
+                if (hit.RowIndex >= 0)
+                {
+                    dgv_appointment.ClearSelection();
+                    dgv_appointment.Rows[hit.RowIndex].Selected = true;
+
+                    // Temporarily assign the menu and show it
+                    dgv_appointment.ContextMenuStrip = contextMenuStrip1;
+                    contextMenuStrip1.Show(dgv_appointment, e.Location);
+                }
+                else
+                {
+                    // Detach the menu so it doesn't show
+                    dgv_appointment.ContextMenuStrip = null;
+                }
+            }
+
 
 
 
@@ -1275,7 +1490,13 @@ namespace Salon.View
                 {
                     var repo = new ServicePriceRepository();
                     var controller = new ServicePriceController(repo);
-
+                    Audit.AuditLog(
+                        DateTime.Now,
+                        "Delete",
+                        UserSession.CurrentUser.first_Name,
+                        "Service Price",
+                        $"Deleted service '{servicePrice.serviceName}' with a price of ₱{servicePrice.selling_price} on {DateTime.Now:yyyy-MM-dd} at {DateTime.Now:HH:mm:ss}"
+                    );
                     controller.DeleteServicePrice(servicePrice.pricing_id);
 
                     MessageBox.Show("Delete success", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
@@ -2735,7 +2956,9 @@ namespace Salon.View
             }
 
         }
+        // END OF DELIVERY
 
+        // DISCOUNT
         private void btn_discount_report_filter_Click(object sender, EventArgs e)
         {
             cmb_delivery_report_range.Hint = string.Empty;
@@ -2762,13 +2985,392 @@ namespace Salon.View
             }
         }
 
-        private void cmb_appointment_status_SelectedIndexChanged(object sender, EventArgs e)
+        // END OF DISCOUNT
+
+
+
+        // AUDIT TRAIL
+
+        private void btn__audit_next_Click(object sender, EventArgs e)
         {
-            if (cmb_appointment_status.Text != null) 
+            currentPage++;
+            LoadAuditTrail();
+
+        }
+
+        private void btn_audit_previous_Click(object sender, EventArgs e)
+        {
+            if (currentPage > 1)
             {
-                LoadAppointments();
+                currentPage--;
+                LoadAuditTrail();
+            }
+
+        }
+
+
+        private void LoadAuditTrail() 
+        {
+   
+
+            var repo = new AuditRepository();
+            var controller = new AuditController(repo);
+            var logs = controller.GetAllAudit(currentPage, pageSize);
+
+            dgv_audit_report.AutoGenerateColumns = false;
+
+            col_audit_id.DataPropertyName = "id";
+            col_audit_date.DataPropertyName = "timestamp";
+            col_audit_user.DataPropertyName = "user";
+            col_audit_action.DataPropertyName = "action";
+            col_audit_module.DataPropertyName = "module";
+            col_audit_notes.DataPropertyName = "note";
+
+            if (logs.Any())
+                dgv_audit_report.DataSource = logs;
+            else
+                MessageBox.Show("No audit logs found for this page.", "Info", MessageBoxButtons.OK, MessageBoxIcon.Information);
+
+
+            totalPages = controller.GetTotalPages(pageSize);
+            lbl_current_page.Text = $"Page {currentPage}";
+
+            int totalRecords = controller.GetTotalRecordCount();
+            lbl_total_result.Text = $"Showing {logs.Count()} of {totalRecords} records";
+
+            btn_audit_previous.Enabled = currentPage > 1;
+            btn__audit_next.Enabled = currentPage < totalPages;
+        }
+
+
+        // END OF AUDIT TRAIL
+
+
+        // LOGOUT
+        private void materialTabControl1_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            var selectedTab = materialTabControl1.SelectedTab;
+
+            if (selectedTab == logoutTab)
+            {
+                LogOut();
+            }
+            if (selectedTab == reportsTab)
+            {
+
+                Audit.AuditLog(
+                DateTime.Now,
+                "View",
+                UserSession.CurrentUser.first_Name,
+                "Sales Report",
+                $"Sales Report on {DateTime.Now:yyyy-MM-dd} at {DateTime.Now:HH:mm:ss}"
+            );
+            }
+
+            if (selectedTab == inventoryTab) 
+            {
+           
+                Audit.AuditLog(
+                DateTime.Now,
+                "View",
+                UserSession.CurrentUser.first_Name,
+                "Inventory",
+                $"Viewed inventory on {DateTime.Now:yyyy-MM-dd} at {DateTime.Now:HH:mm:ss}"
+            );
+            }
+
+            if (selectedTab == transactionTab) 
+            {
+                 
+                Audit.AuditLog(
+                    DateTime.Now,
+                    "View",
+                    UserSession.CurrentUser.first_Name,
+                    "Transaction History",
+                    $"Viewed Transaction History on {DateTime.Now:yyyy-MM-dd} at {DateTime.Now:HH:mm:ss}"
+                );
+                
+            }
+
+        }
+        private void LogOut() 
+        {
+
+            var confirm = MessageBox.Show("Are you sure you want to log out?", "Confirm Logout",
+           MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+
+            if (confirm == DialogResult.Yes)
+            {
+                Audit.AuditLog(
+                       DateTime.Now,
+                       "Log Out",
+                       UserSession.CurrentUser.first_Name,
+                       "User",
+                       $"Log Out '{UserSession.CurrentUser.first_Name}'on {DateTime.Now:yyyy-MM-dd} at {DateTime.Now:HH:mm:ss}"
+                   );
+           
+                UserSession.Clear();
+                this.Close();
+
+
+            }
+
+        }
+        // END OF LOG OUT
+
+        // TRANSACTION HISTORY
+
+        public void LoadAllTransactions(DateTime? start = null, DateTime? end = null) 
+        {
+            var repo = new TransactionRepository();
+            var controller = new TransactionController(repo);
+            var transactions = (start.HasValue && end.HasValue)
+                             ? controller.GetAllTransactions(start.Value, end.Value)
+                             : controller.GetAllTransactions();
+            dgv_transaction_history.AutoGenerateColumns = false;
+
+            col_transaction_id.DataPropertyName = "transaction_id";
+            col_transaction_appointment_id.DataPropertyName = "appointment_id";
+            dgv_col_transaction_customer_name.DataPropertyName = "ClientName";
+            dgv_col_transaction_services.DataPropertyName = "Services";
+            dgv_col_transaction_staff_name.DataPropertyName = "StaffName";
+            dgv_col_transaction_payment_method.DataPropertyName = "payment_method";
+            dgv_col_transaction_sub_total.DataPropertyName = "sub_total";
+            dgv_col_transaction_discount_amount.DataPropertyName = "discount_amount";
+            dgv_col_transaction_vat.DataPropertyName = "vat_amount";
+            dgv_col_transaction__total_amount.DataPropertyName = "amount_paid";
+            dgv_col_transaction__status.DataPropertyName = "AppointmentStatus";
+            dgv_col_transaction_date.DataPropertyName = "timestamp";
+
+            dgv_transaction_history.DataSource = transactions;
+        }
+
+        private void btn_transaction_filter_Click(object sender, EventArgs e)
+        {
+            DateTime start = dtp_transaction_start.Value;
+            DateTime end = dtp_transaction_end.Value;
+
+            LoadAllTransactions(start, end);
+        }
+
+        private void btn_transaction_clear_Click(object sender, EventArgs e)
+        {
+            dtp_transaction_start.Value = DateTime.Today;
+            dtp_transaction_end.Value = DateTime.Today;
+            LoadAllTransactions();
+        }
+
+        private void inventoryTabControl_SelectedIndexChanged(object sender, EventArgs e)
+        {
+      
+            var selectedTab = inventoryTabControl.SelectedTab;
+
+            if (selectedTab == batch_inventory)
+            {
+
+                Audit.AuditLog(
+                DateTime.Now,
+                "View",
+                UserSession.CurrentUser.first_Name,
+                "Batch Inventory",
+                $"Viewed batch inventory on {DateTime.Now:yyyy-MM-dd} at {DateTime.Now:HH:mm:ss}");
+            }
+           
+
+        }
+
+        private void reportsTabControl_SelectedIndexChanged(object sender, EventArgs e)
+        {
+
+            var selectedTab = reportsTabControl.SelectedTab;
+
+            switch (selectedTab)
+            {
+                case var tab when tab == SalesTabPage:
+                    Audit.AuditLog(
+                        DateTime.Now,
+                        "View",
+                        UserSession.CurrentUser.first_Name,
+                        "Sales Report",
+                        $"Viewed Sales Report on {DateTime.Now:yyyy-MM-dd} at {DateTime.Now:HH:mm:ss}"
+                    );
+                    break;
+
+                case var tab when tab == inventoryTabPage:
+                    Audit.AuditLog(
+                        DateTime.Now,
+                        "View",
+                        UserSession.CurrentUser.first_Name,
+                        "Inventory Report",
+                        $"Viewed Inventory Report on {DateTime.Now:yyyy-MM-dd} at {DateTime.Now:HH:mm:ss}"
+                    );
+                    break;
+
+                case var tab when tab == expenseTabPage:
+                    Audit.AuditLog(
+                        DateTime.Now,
+                        "View",
+                        UserSession.CurrentUser.first_Name,
+                        "Expense Report",
+                        $"Viewed Expense Report on {DateTime.Now:yyyy-MM-dd} at {DateTime.Now:HH:mm:ss}"
+                    );
+                    break;
+
+                case var tab when tab == profitAndLostTabPage:
+                    Audit.AuditLog(
+                        DateTime.Now,
+                        "View",
+                        UserSession.CurrentUser.first_Name,
+                        "Profit/Lost Report",
+                        $"Viewed Proft/Lost Report on {DateTime.Now:yyyy-MM-dd} at {DateTime.Now:HH:mm:ss}"
+                    );
+                    break;
+
+                case var tab when tab == customerTabPage:
+                    Audit.AuditLog(
+                        DateTime.Now,
+                        "View",
+                        UserSession.CurrentUser.first_Name,
+                        "Customer Report",
+                        $"Viewed Customer Report on {DateTime.Now:yyyy-MM-dd} at {DateTime.Now:HH:mm:ss}"
+                    );
+                    break;
+
+                case var tab when tab == technicianTabPage:
+                    Audit.AuditLog(
+                        DateTime.Now,
+                        "View",
+                        UserSession.CurrentUser.first_Name,
+                        "Technician Report",
+                        $"Viewed Technician Report on {DateTime.Now:yyyy-MM-dd} at {DateTime.Now:HH:mm:ss}"
+                    );
+                    break;
+
+                case var tab when tab == deliveryTabPage:
+                    Audit.AuditLog(
+                        DateTime.Now,
+                        "View",
+                        UserSession.CurrentUser.first_Name,
+                        "Delivery Report",
+                        $"Viewed Delivery Report on {DateTime.Now:yyyy-MM-dd} at {DateTime.Now:HH:mm:ss}"
+                    );
+                    break;
+
+                case var tab when tab == discountTabPage:
+                    Audit.AuditLog(
+                        DateTime.Now,
+                        "View",
+                        UserSession.CurrentUser.first_Name,
+                        "Discount Report",
+                        $"Viewed Discount Report on {DateTime.Now:yyyy-MM-dd} at {DateTime.Now:HH:mm:ss}"
+                    );
+                    break;
+                case var tab when tab == auditTabPage:
+                    Audit.AuditLog(
+                        DateTime.Now,
+                        "View",
+                        UserSession.CurrentUser.first_Name,
+                        "AuditReport",
+                        $"Viewed Aduit Report on {DateTime.Now:yyyy-MM-dd} at {DateTime.Now:HH:mm:ss}"
+                    );
+
+                    LoadAuditTrail();
+                    break;
             }
         }
+
+        private void refundToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (dgv_transaction_history.SelectedRows.Count > 0)
+            {
+                var selectedRow = dgv_transaction_history.SelectedRows[0];
+                //var appointmentId = Convert.ToInt32(selectedRow.Cells["appointment_id"].Value);
+                var transaction = selectedRow.DataBoundItem as TransactionModel;
+                var confirm = MessageBox.Show(
+                    "Are you sure you want to refund this transaction?",
+                    "Confirm Refund",
+                    MessageBoxButtons.YesNo,
+                    MessageBoxIcon.Question
+                );
+
+                if (confirm == DialogResult.Yes)
+                {
+                    using (var form = new RefundForm(this, transaction)) 
+                    {
+                        form.ShowDialog();
+                    }
+                      
+
+                   
+                    
+
+                    //Audit.AuditLog(
+                    //DateTime.Now,
+                    //"Cancel Status",
+                    //UserSession.CurrentUser.first_Name,
+                    //"Appointment",
+                    //$"Cancelled Status for client '{name}' on {DateTime.Now:yyyy-MM-dd} at {DateTime.Now:HH:mm:ss}"
+                    //);
+                    //LoadAppointments();
+                }
+            }
+            else
+            {
+                MessageBox.Show(
+                    "Please select an appointment first.",
+                    "No Selection",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Warning
+                );
+            }
+        }
+
+        private void dgv_transaction_history_MouseDown(object sender, MouseEventArgs e)
+        {
+            if (e.Button == MouseButtons.Right)
+            {
+                var hit = dgv_transaction_history.HitTest(e.X, e.Y);
+
+                if (hit.RowIndex >= 0)
+                {
+                    dgv_transaction_history.ClearSelection();
+                    dgv_transaction_history.Rows[hit.RowIndex].Selected = true;
+
+                    // Temporarily assign the menu and show it
+                    dgv_transaction_history.ContextMenuStrip = ct_menu_strip_transaction;
+                    ct_menu_strip_transaction.Show(dgv_transaction_history, e.Location);
+                }
+                else
+                {
+                    // Detach the menu so it doesn't show
+                    dgv_transaction_history.ContextMenuStrip = null;
+                }
+            }
+
+        }
+
+        // REFUND 
+
+        public void LoadRefund() 
+        {
+            var repo = new RefundRepository();
+            var controller = new RefundController(repo);
+
+            dgv_refund.AutoGenerateColumns = false;
+            col_refund_service_name.DataPropertyName = "Service_Name";
+            col_refund_price.DataPropertyName = "Original_Price";
+            col_refund_amount.DataPropertyName = "refund_amount";
+            col_refund_method.DataPropertyName = "refund_method";
+            col_refund_reason.DataPropertyName = "refund_reason";
+            col_refund_date.DataPropertyName = "refund_timestamp";
+            col_refund_refunded_by.DataPropertyName = "refunded_by";
+
+            dgv_refund.DataSource = controller.GetRefunds();
+        }
+
+
+        // END OF REFUMD
     }
 }
+
 

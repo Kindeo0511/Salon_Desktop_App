@@ -29,10 +29,10 @@
         private void InitializeComponent()
         {
             this.materialCard1 = new MaterialSkin.Controls.MaterialCard();
+            this.lbl_contact = new MaterialSkin.Controls.MaterialLabel();
             this.lbl_ID = new MaterialSkin.Controls.MaterialLabel();
             this.lbl_Email = new MaterialSkin.Controls.MaterialLabel();
             this.lbl_FullName = new MaterialSkin.Controls.MaterialLabel();
-            this.lbl_contact = new MaterialSkin.Controls.MaterialLabel();
             this.materialCard1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -55,6 +55,19 @@
             this.materialCard1.TabIndex = 0;
             this.materialCard1.Paint += new System.Windows.Forms.PaintEventHandler(this.materialCard1_Paint);
             this.materialCard1.MouseClick += new System.Windows.Forms.MouseEventHandler(this.materialCard1_MouseClick);
+            // 
+            // lbl_contact
+            // 
+            this.lbl_contact.AutoSize = true;
+            this.lbl_contact.Depth = 0;
+            this.lbl_contact.Font = new System.Drawing.Font("Roboto", 14F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
+            this.lbl_contact.Location = new System.Drawing.Point(358, 38);
+            this.lbl_contact.MouseState = MaterialSkin.MouseState.HOVER;
+            this.lbl_contact.Name = "lbl_contact";
+            this.lbl_contact.Size = new System.Drawing.Size(40, 19);
+            this.lbl_contact.TabIndex = 3;
+            this.lbl_contact.Text = "email";
+            this.lbl_contact.Visible = false;
             // 
             // lbl_ID
             // 
@@ -91,18 +104,6 @@
             this.lbl_FullName.Size = new System.Drawing.Size(64, 19);
             this.lbl_FullName.TabIndex = 0;
             this.lbl_FullName.Text = "fullname";
-            // 
-            // lbl_contact
-            // 
-            this.lbl_contact.AutoSize = true;
-            this.lbl_contact.Depth = 0;
-            this.lbl_contact.Font = new System.Drawing.Font("Roboto", 14F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
-            this.lbl_contact.Location = new System.Drawing.Point(358, 38);
-            this.lbl_contact.MouseState = MaterialSkin.MouseState.HOVER;
-            this.lbl_contact.Name = "lbl_contact";
-            this.lbl_contact.Size = new System.Drawing.Size(40, 19);
-            this.lbl_contact.TabIndex = 3;
-            this.lbl_contact.Text = "email";
             // 
             // SearchResultControl
             // 

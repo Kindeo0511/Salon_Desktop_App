@@ -228,6 +228,7 @@ namespace Salon.View
                     service_name = name,
                     category_name = category,
                     total_duration = duration,
+                    price = total_price
 
                 };
 
@@ -456,6 +457,7 @@ namespace Salon.View
         {
             if (model != null)
             {
+
                 UpdateAppointment();
             }
             else 
@@ -559,7 +561,7 @@ namespace Salon.View
         {
             if (!Validated()) return;
             int totalDuration = 0;
-
+            txt_availability.Visible = true;
             foreach (DataGridViewRow row in dgv_table.Rows)
             {
                 if (row.Cells["col_duration"].Value != null)
@@ -587,12 +589,16 @@ namespace Salon.View
 
             if (isAvailable)
             {
+           
                 btn_confirm.Enabled = true;
             }
             else 
             {
                 btn_confirm.Enabled = false;
+          
             }
+
+            txt_availability.Visible = false;
         }
 
 

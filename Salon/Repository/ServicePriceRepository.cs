@@ -25,6 +25,24 @@ namespace Salon.Repository
             }
         }
 
+        public IEnumerable<ServicePriceModel> GetAllServicesByName(string key = "") 
+        {
+            using (var con = Database.GetConnection()) 
+            {
+                var sql = @"SELECT 
+                            sn.serviceName_id,
+                            sn.serviceName,
+                            sc.subCategoryName,
+                            sn.duration,
+                            sp.selling_price
+                        FROM tbl_service_price sp
+                        LEFT JOIN tbl_service_product pr ON pr.service_product_id = sp.service_product_id
+                        LEFT JOIN tbl_servicesname sn ON sn.serviceName_id = pr.service_id
+                        LEFT JOIN tbl_subcategory sc ON sc.subCategory_id = sn.subCategory_id
+                        WHERE sn.serviceName LIKE @key";
+                return con.Query<ServicePriceModel>(sql, new { key = $"%{key}%" }).ToList();
+            }
+        }
         public ServicePriceModel GetServicePrice(int SelectedServiceNameID)
         {
             using (var con = Database.GetConnection())

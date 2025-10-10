@@ -110,6 +110,9 @@ namespace Salon.View
         {
             if (!Validated()) return;
             AddSubCategory();
+            var subCategory = txt_subcategory_name.Text;
+            var category = cmb_category.Text;
+            Audit.AuditLog(DateTime.Now, "Create", UserSession.CurrentUser.first_Name, "Manage Sub-Categories", $"Created sub-category '{subCategory}' for ({subCategory}) on {DateTime.Now:yyyy-MM-dd} at {DateTime.Now:HH:mm:ss}");
             this.Close();
         }
 
@@ -117,6 +120,10 @@ namespace Salon.View
         {
             if (!Validated()) return;
             UpdateSubCategory();
+
+            var subCategory = txt_subcategory_name.Text;
+            var category = cmb_category.Text;
+            Audit.AuditLog(DateTime.Now, "Update", UserSession.CurrentUser.first_Name, "Manage Sub-Categories", $"Updated sub-category '{subCategory}' for ({subCategory}) on {DateTime.Now:yyyy-MM-dd} at {DateTime.Now:HH:mm:ss}");
             this.Close();
         }
 

@@ -16,6 +16,8 @@ namespace Salon.Repository
         TransactionModel GetTotalReportSales(DateTime start_date, DateTime end_date);
         void AddTransaction(TransactionModel transaction);
         void UpdateTransaction(TransactionModel transaction);
+
+        void UpdateTransactionStatus(TransactionModel transaction);
         void DeleteTransaction(int id);
     }
 }

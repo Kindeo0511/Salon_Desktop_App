@@ -48,5 +48,10 @@ namespace Salon.View
         {
             AddToCartClicked?.Invoke(this, BoundService);
         }
+
+        private void ServicesCard_Load(object sender, EventArgs e)
+        {
+
+        }
     }
 }

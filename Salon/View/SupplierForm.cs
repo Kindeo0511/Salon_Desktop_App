@@ -96,6 +96,8 @@ namespace Salon.View
             controller.AddSupplier(model);
             mainform.LoadSuppliers();
             MessageBox.Show("Supplier added successfully!", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            var fullName = txt_supplier_name.Text;
+            Audit.AuditLog(DateTime.Now, "Create", UserSession.CurrentUser.first_Name, "Manage Supplier", $"Created supplier '{fullName}' on {DateTime.Now:yyyy-MM-dd} at {DateTime.Now:HH:mm:ss}");
             this.Close();
 
         }
@@ -110,6 +112,8 @@ namespace Salon.View
             controller.UpdateSupplier(supplierModel);
             mainform.LoadSuppliers();
             MessageBox.Show("Supplier updated successfully!", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            var fullName = txt_supplier_name.Text;
+            Audit.AuditLog(DateTime.Now, "Update", UserSession.CurrentUser.first_Name, "Manage Supplier", $"Updated supplier '{fullName}' on {DateTime.Now:yyyy-MM-dd} at {DateTime.Now:HH:mm:ss}");
             this.Close();
         }
 

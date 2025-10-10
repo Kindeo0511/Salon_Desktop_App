@@ -9,7 +9,10 @@ namespace Salon.Models
     public class ServicePriceModel
     {
         public int pricing_id { get; set; }
+        public int serviceName_id { get; set; }
         public string serviceName { get; set; }
+        public int duration { get; set; }
+        public string subCategoryName { get; set; }
         public int service_product_id { get; set; }
         public decimal product_cost { get; set; }
         public decimal stylist_cost { get; set; }

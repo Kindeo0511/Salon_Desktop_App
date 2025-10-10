@@ -44,9 +44,9 @@ namespace Salon.View
 
 
             // EXISTS VALIDATION
-            int excludeId = ServiceProductUsageModel?.service_product_id ?? 0;
-            int product_id = Convert.ToInt32(cmb_product.SelectedValue);
-            validated &= Validator.IsProductUsageExists(cmb_product, errorProvider1, "Product already exists.", product_id, excludeId);
+            //int excludeId = ServiceProductUsageModel?.service_product_id ?? 0;
+            //int product_id = Convert.ToInt32(cmb_product.SelectedValue);
+            //validated &= Validator.IsProductUsageExists(cmb_product, errorProvider1, "Product already exists.", product_id, excludeId);
 
 
             return validated;
@@ -222,6 +222,8 @@ namespace Salon.View
         {
             if (!Validated()) return;
             AddProductUsage();
+            var product = cmb_product.Text;
+            Audit.AuditLog(DateTime.Now, "Create", UserSession.CurrentUser.first_Name, "Manage Services, Product Usage", $"Created product usage '{product}' for ({serviceModel.serviceName}) on {DateTime.Now:yyyy-MM-dd} at {DateTime.Now:HH:mm:ss}");
             Clear();
         }
 
@@ -229,6 +231,8 @@ namespace Salon.View
         {
             if (!Validated()) return;
             UpdateProductUsage();
+            var product = cmb_product.Text;
+            Audit.AuditLog(DateTime.Now, "Update", UserSession.CurrentUser.first_Name, "Manage Services, Product Usage", $"Updated product usage '{product}' for ({serviceModel.serviceName}) on {DateTime.Now:yyyy-MM-dd} at {DateTime.Now:HH:mm:ss}");
             Clear();
         }
 
@@ -287,6 +291,8 @@ namespace Salon.View
                 {
                     var repo = new ServiceProductUsageRepository();
                     var controller = new ServiceProductUsageController(repo);
+                    var product = cmb_product.Text;
+                    Audit.AuditLog(DateTime.Now, "Delete", UserSession.CurrentUser.first_Name, "Manage Services, Product Usage", $"Deleted product usage '{product}' for ({serviceModel.serviceName}) on {DateTime.Now:yyyy-MM-dd} at {DateTime.Now:HH:mm:ss}");
                     controller.DeleteServiceProduct(ServiceProductUsageModel.service_product_id);
                     LoadServiceProductUsage();
                 }

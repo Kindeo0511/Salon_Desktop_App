@@ -15,6 +15,11 @@ namespace Salon.Controller
         {
             this.repo = repo;
         }
+
+        public IEnumerable<ServicePriceModel> GetServiceByName(string key) 
+        {
+            return repo.GetAllServicesByName(key);
+        }
         public IEnumerable<ServicePriceModel> ShowAllServices() 
         {
             return repo.GetAllServicePrice();

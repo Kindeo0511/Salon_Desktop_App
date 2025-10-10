@@ -66,8 +66,7 @@ namespace Salon.Repository
                 INNER JOIN tbl_servicesname sn ON sn.serviceName_id = aps.serviceName_id
                 LEFT JOIN tbl_service_product spd ON spd.service_id = sn.serviceName_id
                 LEFT JOIN tbl_service_price spr ON spr.service_product_id = spd.service_product_id
-                WHERE aps.appointment_id = @AppointmentId
-                GROUP BY aps.appointment_id ;";
+                WHERE aps.appointment_id = @AppointmentId";
     
 
                 return con.Query<AppointmentServicesModel>(sql, new { AppointmentId = appointmentId }).ToList();

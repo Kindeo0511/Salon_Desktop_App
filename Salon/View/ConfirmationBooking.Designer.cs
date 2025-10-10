@@ -52,7 +52,7 @@
             this.lbl_CustomerName.MouseState = MaterialSkin.MouseState.OUT;
             this.lbl_CustomerName.Multiline = false;
             this.lbl_CustomerName.Name = "lbl_CustomerName";
-            this.lbl_CustomerName.Size = new System.Drawing.Size(234, 50);
+            this.lbl_CustomerName.Size = new System.Drawing.Size(400, 50);
             this.lbl_CustomerName.TabIndex = 0;
             this.lbl_CustomerName.Text = "";
             this.lbl_CustomerName.TrailingIcon = null;
@@ -70,7 +70,7 @@
             this.lbl_Contact.MouseState = MaterialSkin.MouseState.OUT;
             this.lbl_Contact.Multiline = false;
             this.lbl_Contact.Name = "lbl_Contact";
-            this.lbl_Contact.Size = new System.Drawing.Size(234, 50);
+            this.lbl_Contact.Size = new System.Drawing.Size(400, 50);
             this.lbl_Contact.TabIndex = 1;
             this.lbl_Contact.Text = "";
             this.lbl_Contact.TrailingIcon = null;
@@ -88,7 +88,7 @@
             this.lbl_Email.MouseState = MaterialSkin.MouseState.OUT;
             this.lbl_Email.Multiline = false;
             this.lbl_Email.Name = "lbl_Email";
-            this.lbl_Email.Size = new System.Drawing.Size(234, 50);
+            this.lbl_Email.Size = new System.Drawing.Size(400, 50);
             this.lbl_Email.TabIndex = 2;
             this.lbl_Email.Text = "";
             this.lbl_Email.TrailingIcon = null;
@@ -106,7 +106,7 @@
             this.lbl_book_type.MouseState = MaterialSkin.MouseState.OUT;
             this.lbl_book_type.Multiline = false;
             this.lbl_book_type.Name = "lbl_book_type";
-            this.lbl_book_type.Size = new System.Drawing.Size(234, 50);
+            this.lbl_book_type.Size = new System.Drawing.Size(400, 50);
             this.lbl_book_type.TabIndex = 4;
             this.lbl_book_type.Text = "";
             this.lbl_book_type.TrailingIcon = null;
@@ -119,12 +119,12 @@
             this.lbl_Date.Font = new System.Drawing.Font("Roboto", 16F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
             this.lbl_Date.Hint = "Date";
             this.lbl_Date.LeadingIcon = null;
-            this.lbl_Date.Location = new System.Drawing.Point(370, 108);
+            this.lbl_Date.Location = new System.Drawing.Point(558, 109);
             this.lbl_Date.MaxLength = 50;
             this.lbl_Date.MouseState = MaterialSkin.MouseState.OUT;
             this.lbl_Date.Multiline = false;
             this.lbl_Date.Name = "lbl_Date";
-            this.lbl_Date.Size = new System.Drawing.Size(234, 50);
+            this.lbl_Date.Size = new System.Drawing.Size(400, 50);
             this.lbl_Date.TabIndex = 4;
             this.lbl_Date.Text = "";
             this.lbl_Date.TrailingIcon = null;
@@ -137,12 +137,12 @@
             this.lbl_Time.Font = new System.Drawing.Font("Roboto", 16F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
             this.lbl_Time.Hint = "Time";
             this.lbl_Time.LeadingIcon = null;
-            this.lbl_Time.Location = new System.Drawing.Point(370, 204);
+            this.lbl_Time.Location = new System.Drawing.Point(558, 204);
             this.lbl_Time.MaxLength = 50;
             this.lbl_Time.MouseState = MaterialSkin.MouseState.OUT;
             this.lbl_Time.Multiline = false;
             this.lbl_Time.Name = "lbl_Time";
-            this.lbl_Time.Size = new System.Drawing.Size(234, 50);
+            this.lbl_Time.Size = new System.Drawing.Size(400, 50);
             this.lbl_Time.TabIndex = 5;
             this.lbl_Time.Text = "";
             this.lbl_Time.TrailingIcon = null;
@@ -156,7 +156,7 @@
             this.lbl_Services.Depth = 0;
             this.lbl_Services.HideSelection = true;
             this.lbl_Services.Hint = "Selected Services";
-            this.lbl_Services.Location = new System.Drawing.Point(370, 306);
+            this.lbl_Services.Location = new System.Drawing.Point(558, 306);
             this.lbl_Services.MaxLength = 32767;
             this.lbl_Services.MouseState = MaterialSkin.MouseState.OUT;
             this.lbl_Services.Name = "lbl_Services";
@@ -167,7 +167,7 @@
             this.lbl_Services.SelectionLength = 0;
             this.lbl_Services.SelectionStart = 0;
             this.lbl_Services.ShortcutsEnabled = true;
-            this.lbl_Services.Size = new System.Drawing.Size(274, 138);
+            this.lbl_Services.Size = new System.Drawing.Size(400, 138);
             this.lbl_Services.TabIndex = 6;
             this.lbl_Services.TabStop = false;
             this.lbl_Services.TextAlign = System.Windows.Forms.HorizontalAlignment.Left;
@@ -180,7 +180,7 @@
             this.btn_Confirm.Depth = 0;
             this.btn_Confirm.HighEmphasis = true;
             this.btn_Confirm.Icon = null;
-            this.btn_Confirm.Location = new System.Drawing.Point(370, 498);
+            this.btn_Confirm.Location = new System.Drawing.Point(735, 524);
             this.btn_Confirm.Margin = new System.Windows.Forms.Padding(4, 6, 4, 6);
             this.btn_Confirm.MouseState = MaterialSkin.MouseState.HOVER;
             this.btn_Confirm.Name = "btn_Confirm";
@@ -200,7 +200,7 @@
             this.btn_cancel.Depth = 0;
             this.btn_cancel.HighEmphasis = true;
             this.btn_cancel.Icon = null;
-            this.btn_cancel.Location = new System.Drawing.Point(527, 498);
+            this.btn_cancel.Location = new System.Drawing.Point(881, 524);
             this.btn_cancel.Margin = new System.Windows.Forms.Padding(4, 6, 4, 6);
             this.btn_cancel.MouseState = MaterialSkin.MouseState.HOVER;
             this.btn_cancel.Name = "btn_cancel";
@@ -211,12 +211,13 @@
             this.btn_cancel.Type = MaterialSkin.Controls.MaterialButton.MaterialButtonType.Contained;
             this.btn_cancel.UseAccentColor = false;
             this.btn_cancel.UseVisualStyleBackColor = true;
+            this.btn_cancel.Click += new System.EventHandler(this.btn_cancel_Click);
             // 
             // ConfirmationBooking
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(650, 600);
+            this.ClientSize = new System.Drawing.Size(1000, 600);
             this.Controls.Add(this.btn_cancel);
             this.Controls.Add(this.btn_Confirm);
             this.Controls.Add(this.lbl_Services);
@@ -226,9 +227,12 @@
             this.Controls.Add(this.lbl_Email);
             this.Controls.Add(this.lbl_Contact);
             this.Controls.Add(this.lbl_CustomerName);
+            this.MaximizeBox = false;
+            this.MinimizeBox = false;
             this.Name = "ConfirmationBooking";
+            this.Sizable = false;
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
-            this.Text = "ConfirmationBooking";
+            this.Text = "SUMMARY BOOKING";
             this.ResumeLayout(false);
             this.PerformLayout();
 

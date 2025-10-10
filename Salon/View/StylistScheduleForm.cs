@@ -230,7 +230,8 @@ namespace Salon.View
 
 
             }
- 
+            var day = txt_day.Text;
+            Audit.AuditLog(DateTime.Now, "Create", UserSession.CurrentUser.first_Name, "Manage Stylist, Schedule", $"Created schedule for '{day}' (Stylist: {_stylist.firstName}) on {DateTime.Now:yyyy-MM-dd} at {DateTime.Now:HH:mm:ss}");
 
             AddSchedule();
         }
@@ -298,6 +299,8 @@ namespace Salon.View
                     stylistSchedulesController.DeleteSchedule(schedules.ScheduleId);
                     MessageBox.Show("Schedule deleted successfully!");
                     LoadSchedules(_stylist.stylist_id);
+                    var day = txt_day.Text;
+                    Audit.AuditLog(DateTime.Now, "Delete", UserSession.CurrentUser.first_Name, "Manage Stylist, Schedule", $"Deleted schedule for '{day}' (Stylist: {_stylist.firstName}) on {DateTime.Now:yyyy-MM-dd} at {DateTime.Now:HH:mm:ss}");
                     clear();
                 }
                
@@ -323,6 +326,8 @@ namespace Salon.View
 
             }
             UpdateSchedule();
+            var day = txt_day.Text;
+            Audit.AuditLog(DateTime.Now, "Update", UserSession.CurrentUser.first_Name, "Manage Stylist, Schedule", $"Updated schedule for '{day}' (Stylist: {_stylist.firstName}) on {DateTime.Now:yyyy-MM-dd} at {DateTime.Now:HH:mm:ss}");
         }
         // END OF WEEKLY SCHEDULES
 
@@ -381,13 +386,16 @@ namespace Salon.View
         private void btn_add_ExceptionSched_Click(object sender, EventArgs e)
         {
             if (!ExceptionValidated()) return;
-
+            var reason = txt_reason.Text;
+            Audit.AuditLog(DateTime.Now, "Create", UserSession.CurrentUser.first_Name, "Manage Stylist, Exception Schedule", $"Created exception schedule for Stylist: '{_stylist.firstName}' (Reason: {reason}) on {DateTime.Now:yyyy-MM-dd} at {DateTime.Now:HH:mm:ss}");
             AddExceptionSchedule();
         }
 
         private void btn_update_exceptionSched_Click(object sender, EventArgs e)
         {
             if (!ExceptionValidated()) return;
+            var reason = txt_reason.Text;
+            Audit.AuditLog(DateTime.Now, "Update", UserSession.CurrentUser.first_Name, "Manage Stylist, Exception Schedule", $"Updated exception schedule for Stylist: '{_stylist.firstName}' (Reason: {reason}) on {DateTime.Now:yyyy-MM-dd} at {DateTime.Now:HH:mm:ss}");
             UpdateExceptionSchedule();
         }
 
@@ -427,6 +435,8 @@ namespace Salon.View
                 stylistSchedulesController.Delete_ExceptionSchedule(schedules.id);
                 MessageBox.Show("Schedule deleted successfully!");
                 LoadExceptionSchedules(_stylist.stylist_id);
+                var reason = txt_reason.Text;
+                Audit.AuditLog(DateTime.Now, "Create", UserSession.CurrentUser.first_Name, "Manage Stylist, Exception Schedule", $"Created exception schedule for Stylist: '{_stylist.firstName}' (Reason: {reason}) on {DateTime.Now:yyyy-MM-dd} at {DateTime.Now:HH:mm:ss}");
                 clear();
             }
         }

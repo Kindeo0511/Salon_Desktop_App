@@ -11,6 +11,7 @@ namespace Salon.Models
         public int discount_id { get; set; }
         public string discount_type { get; set; }
         public string promo_code { get; set; }
+        public string discount_and_promo_code { get; set; }
 
         public decimal discount_rate { get; set; }
         public DateTime? expiry_date { get; set; }

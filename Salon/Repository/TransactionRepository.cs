@@ -11,6 +11,61 @@ namespace Salon.Repository
 {
     public class TransactionRepository
     {
+        public IEnumerable<TransactionModel> ShowAllTransactions() 
+        {
+            using (var con = Database.GetConnection()) 
+            {
+                var sql = @"SELECT 
+							t.transaction_id,
+                            a.appointment_id,
+                            CONCAT(ca.firstName, ' ', ca.middleName, ' ', ca.lastName) AS ClientName,
+                            GROUP_CONCAT(sn.serviceName SEPARATOR ', ') AS Services,
+                            CONCAT(s.firstName, ' ', s.lastName) AS StaffName,
+                            t.payment_method,
+                            t.sub_total,
+                            t.discount_amount,
+                            t.vat_amount,
+                            t.amount_paid,
+                            t.payment_status AS AppointmentStatus,
+                            t.timestamp
+                        FROM tbl_transaction t
+                        LEFT JOIN tbl_appointment a ON a.appointment_id = t.appointment_id
+                        LEFT JOIN tbl_appointment_services aps ON aps.appointment_id = a.appointment_id
+                        LEFT JOIN tbl_servicesname sn ON sn.serviceName_id = aps.serviceName_id
+                        LEFT JOIN tbl_customer_account ca ON ca.customer_id = a.customer_id
+                        LEFT JOIN tbl_stylists s ON s.stylist_id = a.stylist_id
+                        GROUP BY t.transaction_id";
+                return con.Query<TransactionModel>(sql).ToList();
+            }
+        }
+        public IEnumerable<TransactionModel> ShowAllTransactions(DateTime start, DateTime end)
+        {
+            using (var con = Database.GetConnection())
+            {
+                var sql = @"SELECT 
+                            t.transaction_id,
+                            a.appointment_id,
+                            CONCAT(ca.firstName, ' ', ca.middleName, ' ', ca.lastName) AS ClientName,
+                            GROUP_CONCAT(sn.serviceName SEPARATOR ', ') AS Services,
+                            CONCAT(s.firstName, ' ', s.lastName) AS StaffName,
+                            t.payment_method,
+                            t.sub_total,
+                            t.discount_amount,
+                            t.vat_amount,
+                            t.amount_paid,
+                            t.payment_status AS AppointmentStatus,
+                            t.timestamp
+                        FROM tbl_transaction t
+                        LEFT JOIN tbl_appointment a ON a.appointment_id = t.appointment_id
+                        LEFT JOIN tbl_appointment_services aps ON aps.appointment_id = a.appointment_id
+                        LEFT JOIN tbl_servicesname sn ON sn.serviceName_id = aps.serviceName_id
+                        LEFT JOIN tbl_customer_account ca ON ca.customer_id = a.customer_id
+                        LEFT JOIN tbl_stylists s ON s.stylist_id = a.stylist_id
+                        WHERE t.timestamp BETWEEN @start AND @end
+                        GROUP BY t.transaction_id";
+                return con.Query<TransactionModel>(sql, new { start, end }).ToList();
+            }
+        }
         public IEnumerable<TransactionModel> GetTransactions() 
         {
             using (var con = Database.GetConnection()) 
@@ -77,8 +132,8 @@ namespace Salon.Repository
         {
             using (var con = Database.GetConnection()) 
             {
-                var sql = @"INSERT INTO tbl_transaction (appointment_id, vat_amount, discount_amount, amount_paid, payment_method, payment_status, timestamp)
-                            VALUES (@appointment_id, @vat_amount, @discount_amount, @amount_paid, @payment_method, @payment_status, @timestamp)";
+                var sql = @"INSERT INTO tbl_transaction (appointment_id, vat_amount, discount_amount,sub_total, amount_paid, payment_method, payment_status, timestamp)
+                            VALUES (@appointment_id, @vat_amount, @discount_amount, @sub_total, @amount_paid, @payment_method, @payment_status, @timestamp)";
 
                 con.Execute(sql,transaction);
             }
@@ -91,11 +146,22 @@ namespace Salon.Repository
                         SET appointment_id = @appointment_id,
                         vat_amount = @vat_amount,
                         discount_amount = @discount_amount,
+                        sub_total = @subtotal,
                         amount_paid = @amount_paid,
                         payment_method = @payment_method,
                         payment_status = @payment_status,
                         timestamp = @timestamp ";
                 con.Execute(sql,transaction);
+            }
+        }
+        public void UpdateTransactionStatus(TransactionModel transaction) 
+        {
+            using (var con = Database.GetConnection())
+            {
+                var sql = @"UPDATE tbl_transaction
+                        SET payment_status = @payment_status
+                        WHERE transaction_id = @transaction_id";
+                con.Execute(sql, transaction);
             }
         }
         public void DeleteTransaction(int id) 

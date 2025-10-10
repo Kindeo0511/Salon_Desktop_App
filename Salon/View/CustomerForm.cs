@@ -107,6 +107,8 @@ namespace Salon.View
         {
             if (!Validated()) return;
             AddCustomer();
+            var fullName = txt_first_name.Text +" "+ txt_last_name.Text;
+            Audit.AuditLog(DateTime.Now, "Create", UserSession.CurrentUser.first_Name, "Manage Customer", $"Created customer '{fullName}' on {DateTime.Now:yyyy-MM-dd} at {DateTime.Now:HH:mm:ss}");
             mainform.LoadCustomers();
             this.Close();
         }
@@ -115,6 +117,8 @@ namespace Salon.View
         {
             if (!Validated()) return;
             UpdateCustomer();
+            var fullName = txt_first_name.Text + " " + txt_last_name.Text;
+            Audit.AuditLog(DateTime.Now, "Update", UserSession.CurrentUser.first_Name, "Manage Customer", $"Updated customer '{fullName}' on {DateTime.Now:yyyy-MM-dd} at {DateTime.Now:HH:mm:ss}");
             mainform.LoadCustomers();
             this.Close();
         }

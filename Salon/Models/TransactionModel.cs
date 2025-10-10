@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Org.BouncyCastle.Bcpg;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -9,14 +10,21 @@ namespace Salon.Models
     public class TransactionModel
     {
         public int transaction_id { get; set; }
-        public string customer_name { get; set; }
         public int appointment_id { get; set; }
-        public decimal vat_amount { get; set; }
-        public decimal discount_amount { get; set; }
-        public decimal amount_paid { get; set; }
+        public string ClientName { get; set; }
+        public string Services { get; set; }
+        public string StaffName { get; set; }
         public string payment_method { get; set; }
+        public decimal sub_total { get; set; }
+        public decimal discount_amount { get; set; }
+        public decimal vat_amount { get; set; }
+        public decimal amount_paid { get; set; }
         public string payment_status { get; set; }
+        public string AppointmentStatus { get; set; }
         public DateTime timestamp { get; set; }
+  
+
+
 
 
         // SUMMARY

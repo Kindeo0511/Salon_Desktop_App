@@ -93,6 +93,8 @@ namespace Salon.View
         {
             if (!Validated()) return;
             AddService();
+            var service = txt_service_name.Text;
+            Audit.AuditLog(DateTime.Now, "Create", UserSession.CurrentUser.first_Name, "Manage Services", $"Created service '{service}' on {DateTime.Now:yyyy-MM-dd} at {DateTime.Now:HH:mm:ss}");
             this.Close();
         }
 
@@ -100,6 +102,8 @@ namespace Salon.View
         {
             if (!Validated()) return;
             UpdateService();
+            var service = txt_service_name.Text;
+            Audit.AuditLog(DateTime.Now, "Update", UserSession.CurrentUser.first_Name, "Manage Services", $"Updated service '{service}' on {DateTime.Now:yyyy-MM-dd} at {DateTime.Now:HH:mm:ss}");
             this.Close();
         }
 

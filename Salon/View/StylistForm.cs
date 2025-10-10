@@ -108,6 +108,8 @@ namespace Salon.View
             MessageBox.Show("Stylist added successfully", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
 
             SaveStylist();
+            var fullName = txt_first_name.Text + " " + txt_last_name.Text;
+            Audit.AuditLog(DateTime.Now, "Create", UserSession.CurrentUser.first_Name, "Manage Stylist", $"Created stylist {fullName} on {DateTime.Now:yyyy-MM-dd} at {DateTime.Now:HH:mm:ss}");
             _mainForm.LoadStylist();
       
             this.Close();
@@ -126,6 +128,8 @@ namespace Salon.View
             MessageBox.Show("Stylist updated successfully", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
 
             UpdateStylist();
+            var fullName = txt_first_name.Text + " " + txt_last_name.Text;
+            Audit.AuditLog(DateTime.Now, "Update", UserSession.CurrentUser.first_Name, "Manage Stylist", $"Updated stylist {fullName} on {DateTime.Now:yyyy-MM-dd} at {DateTime.Now:HH:mm:ss}");
             _mainForm.LoadStylist();
             this.Close();
         }

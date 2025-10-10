@@ -26,7 +26,7 @@ namespace Salon.Util
     }
         public static async Task SendNotificationEmailAsync(string to, string recipientName, string appointmentTime, string customMessage)
         {
-            string subject = "🔔 Appointment Notification";
+            string subject = "🔔 Appointment Notification"; 
 
             string body = $@"
     <html>

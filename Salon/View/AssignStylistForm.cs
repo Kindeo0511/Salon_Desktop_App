@@ -99,6 +99,13 @@ namespace Salon.View
             MessageBox.Show("Stylist successfully assigned to the appointment!", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
 
             mainForm.LoadAppointments();
+            Audit.AuditLog(
+             DateTime.Now,
+             "Assign",
+             UserSession.CurrentUser.first_Name,
+             "Appointment",
+             $"Assigned stylist '{appointment.StylistName}' to client '{appointment.ClientName}' on {DateTime.Now:yyyy-MM-dd} at {DateTime.Now:HH:mm:ss}"
+         );
             this.Close(); 
 
         }

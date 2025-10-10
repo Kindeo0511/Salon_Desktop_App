@@ -21,6 +21,11 @@ namespace Salon.Controller
         {
             return discountRepository.getAllDiscounts();
         }
+
+        public IEnumerable<DiscountModel> GetDiscounts()
+        {
+            return discountRepository.Discounts();
+        }
         public DiscountModel GetDiscountById(int id)
         {
             return discountRepository.GetDiscountById(id);

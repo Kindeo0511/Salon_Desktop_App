@@ -91,10 +91,24 @@ namespace Salon.View
                 var serviceRepo = new AppointmentServiceRepository();
                 var serviceController = new AppointmentServiceController(serviceRepo);
                 serviceController.ClearDeleteAllServicesForAppointment(appointmentId);
+
+                Audit.AuditLog(
+                DateTime.Now,
+                "Update",
+                UserSession.CurrentUser.first_Name,
+                "Appointment",
+                $"Updated appointment for '{summary.CustomerModel.customer_name}' on {DateTime.Now:yyyy-MM-dd} at {DateTime.Now:HH:mm:ss}");
             }
             else
             {
                 appointmentId = appointmentController.CreateAppointment(model);
+
+                Audit.AuditLog(
+                DateTime.Now,
+                "Create",
+                UserSession.CurrentUser.first_Name,
+                "Appointment",
+                 $"Created appointment for '{summary.CustomerModel.customer_name}' on {DateTime.Now:yyyy-MM-dd} at {DateTime.Now:HH:mm:ss}");
             }
 
             foreach (var service in summary.SelectedServices)
@@ -112,60 +126,45 @@ namespace Salon.View
 
 
 
-            try
-            {
-                //await NotificationService.SendNotificationAsync(
-                //    toEmail: summary.CustomerModel.email,
-                //    toPhone: summary.CustomerModel.phoneNumber,
+
+              
+                //try
+                //{
+                //    await EmailMessage.SendNotificationEmailAsync(
+                //    to: summary.CustomerModel.email,
                 //    recipientName: summary.CustomerModel.customer_name,
                 //    appointmentTime: $"{summary.AppointmentDate} at {formattedStartTime}",
-                //    customMessage: "Please arrive 10 minutes early and bring your ID."
-                //);
-              
-                //var sms_sender = new IProgSmsSender();
-                //string recipient = summary.CustomerModel.phoneNumber;
-                //string message = "Your appointment has been confirmed. Please arrive 10 minutes early and bring your ID.";
+                //    customMessage: "Your appointment has been confirmed. Please arrive 10 minutes early and bring your ID.");
 
+                //    await SmsSender.SendSmsNotificationAsync(
+                //    phone: summary.CustomerModel.phoneNumber,
+                //    customerName: summary.CustomerModel.customer_name,
+                //    appointmentDate: summary.AppointmentDate.ToString("MM/dd/yyyy"),
+                //    startTime: formattedStartTime);
 
-              
-                try
-                {
-                    await EmailMessage.SendNotificationEmailAsync(
-                    to: summary.CustomerModel.email,
-                    recipientName: summary.CustomerModel.customer_name,
-                    appointmentTime: $"{summary.AppointmentDate} at {formattedStartTime}",
-                    customMessage: "Your appointment has been confirmed. Please arrive 10 minutes early and bring your ID.");
-
-                    await SmsSender.SendSmsNotificationAsync(
-                    phone: summary.CustomerModel.phoneNumber,
-                    customerName: summary.CustomerModel.customer_name,
-                    appointmentDate: summary.AppointmentDate.ToString("MM/dd/yyyy"),
-                    startTime: formattedStartTime);
-
-                    MessageBox.Show($"The appointment has been {(isUpdate ? "updated" : "booked")} successfully!",
-                        "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                }
-                catch (Exception ex)
-                {
-                    MessageBox.Show($"Error: {ex.Message}");
-                }
+                //    MessageBox.Show($"The appointment has been {(isUpdate ? "updated" : "booked")} successfully!",
+                //        "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                //}
+                //catch (Exception ex)
+                //{
+                //    MessageBox.Show($"Error: {ex.Message}");
+                //}
 
 
 
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show($"Error: {ex.Message}");
-                // Optionally log ex.ToString() for audit trace
-            }
 
             mainForm.LoadAppointments();
             mainForm.LoadTotalAppointments();
             mainForm.LoadPopularServices();
-
+            mainForm.LoadAllTransactions();
             this.DialogResult = DialogResult.OK;
             this.Close();
             appointmentForm.Close();
+        }
+
+        private void btn_cancel_Click(object sender, EventArgs e)
+        {
+            this.Close();
         }
     }
 }

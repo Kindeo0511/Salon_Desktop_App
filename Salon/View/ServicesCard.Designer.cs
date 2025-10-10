@@ -86,6 +86,7 @@
             this.Controls.Add(this.lbl_ServiceName);
             this.Name = "ServicesCard";
             this.Size = new System.Drawing.Size(700, 80);
+            this.Load += new System.EventHandler(this.ServicesCard_Load);
             this.ResumeLayout(false);
             this.PerformLayout();
 

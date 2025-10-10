@@ -265,6 +265,14 @@ namespace Salon.View
 
                     AddAndLoadExpenses("Inventory Purchase", cb_product_names.Text + " restock ("+ quantity +" units)", totalPrce, txt_received_by.Text, "", DateTime.Now);
 
+                    Audit.AuditLog(
+                    DateTime.Now,
+                    "Restock",
+                    UserSession.CurrentUser.first_Name,
+                    "Manage Delivery",
+                   $"Restocked existing product '{cb_product_names.Text}' (Qty: {quantity}, Volume: {total_volume}) on {DateTime.Now:yyyy-MM-dd} at {DateTime.Now:HH:mm:ss}"
+                    );
+
                 }
                 else
                 {
@@ -280,6 +288,13 @@ namespace Salon.View
 
                     AddAndLoadExpenses("Inventory Purchase", cb_product_names.Text, totalPrce, txt_received_by.Text,"",DateTime.Now);
 
+                    Audit.AuditLog(
+                    DateTime.Now,
+                    "Add",
+                    UserSession.CurrentUser.first_Name,
+                    "Manage Delivery",
+                    $"Added delivery for product '{cb_product_names.Text}' (Qty: {quantity}, Volume: {total_volume}) on {DateTime.Now:yyyy-MM-dd} at {DateTime.Now:HH:mm:ss}"
+                    );
 
                 }
 
