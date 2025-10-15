@@ -80,5 +80,15 @@ namespace Salon.View
         {
 
         }
+
+        private void lnk_forgot_password_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
+        {
+            this.Hide();
+            var form = new ForgotPasswordForm(this);
+            
+                form.Show();
+              
+            
+        }
     }
 }

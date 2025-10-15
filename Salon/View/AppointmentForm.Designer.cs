@@ -50,7 +50,6 @@
             this.btn_confirm = new MaterialSkin.Controls.MaterialButton();
             this.btn_update = new MaterialSkin.Controls.MaterialButton();
             this.btn_check_available = new MaterialSkin.Controls.MaterialButton();
-            this.txt_availability = new MaterialSkin.Controls.MaterialLabel();
             this.errorProvider1 = new System.Windows.Forms.ErrorProvider(this.components);
             this.materialLabel1 = new MaterialSkin.Controls.MaterialLabel();
             ((System.ComponentModel.ISupportInitialize)(this.dgv_table)).BeginInit();
@@ -96,7 +95,7 @@
             // 
             // txt_Email
             // 
-            this.txt_Email.AnimateReadOnly = false;
+            this.txt_Email.AnimateReadOnly = true;
             this.txt_Email.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.txt_Email.Depth = 0;
             this.txt_Email.Font = new System.Drawing.Font("Roboto", 16F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
@@ -107,6 +106,7 @@
             this.txt_Email.MouseState = MaterialSkin.MouseState.OUT;
             this.txt_Email.Multiline = false;
             this.txt_Email.Name = "txt_Email";
+            this.txt_Email.ReadOnly = true;
             this.txt_Email.Size = new System.Drawing.Size(400, 50);
             this.txt_Email.TabIndex = 2;
             this.txt_Email.Text = "";
@@ -114,7 +114,7 @@
             // 
             // txt_Contact
             // 
-            this.txt_Contact.AnimateReadOnly = false;
+            this.txt_Contact.AnimateReadOnly = true;
             this.txt_Contact.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.txt_Contact.Depth = 0;
             this.txt_Contact.Font = new System.Drawing.Font("Roboto", 16F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
@@ -125,6 +125,7 @@
             this.txt_Contact.MouseState = MaterialSkin.MouseState.OUT;
             this.txt_Contact.Multiline = false;
             this.txt_Contact.Name = "txt_Contact";
+            this.txt_Contact.ReadOnly = true;
             this.txt_Contact.Size = new System.Drawing.Size(400, 50);
             this.txt_Contact.TabIndex = 3;
             this.txt_Contact.Text = "";
@@ -206,7 +207,6 @@
             this.lbl_ID.Size = new System.Drawing.Size(16, 19);
             this.lbl_ID.TabIndex = 8;
             this.lbl_ID.Text = "ID";
-            this.lbl_ID.Visible = false;
             // 
             // txt_search_services
             // 
@@ -360,20 +360,6 @@
             this.btn_check_available.UseVisualStyleBackColor = true;
             this.btn_check_available.Click += new System.EventHandler(this.btn_check_available_Click);
             // 
-            // txt_availability
-            // 
-            this.txt_availability.AutoSize = true;
-            this.txt_availability.Depth = 0;
-            this.txt_availability.Font = new System.Drawing.Font("Roboto Medium", 20F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Pixel);
-            this.txt_availability.FontType = MaterialSkin.MaterialSkinManager.fontType.H6;
-            this.txt_availability.Location = new System.Drawing.Point(649, 556);
-            this.txt_availability.MouseState = MaterialSkin.MouseState.HOVER;
-            this.txt_availability.Name = "txt_availability";
-            this.txt_availability.Size = new System.Drawing.Size(135, 24);
-            this.txt_availability.TabIndex = 14;
-            this.txt_availability.Text = "materialLabel1";
-            this.txt_availability.Visible = false;
-            // 
             // errorProvider1
             // 
             this.errorProvider1.BlinkStyle = System.Windows.Forms.ErrorBlinkStyle.NeverBlink;
@@ -396,7 +382,6 @@
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1400, 900);
-            this.Controls.Add(this.txt_availability);
             this.Controls.Add(this.materialLabel1);
             this.Controls.Add(this.btn_check_available);
             this.Controls.Add(this.btn_update);
@@ -419,6 +404,7 @@
             this.Sizable = false;
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = " BOOKING INFORMATION";
+            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.AppointmentForm_FormClosing);
             ((System.ComponentModel.ISupportInitialize)(this.dgv_table)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.errorProvider1)).EndInit();
             this.ResumeLayout(false);
@@ -448,7 +434,6 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn col_duration;
         private System.Windows.Forms.DataGridViewImageColumn col_btn_delete;
         private MaterialSkin.Controls.MaterialButton btn_check_available;
-        private MaterialSkin.Controls.MaterialLabel txt_availability;
         private System.Windows.Forms.ErrorProvider errorProvider1;
         private MaterialSkin.Controls.MaterialLabel materialLabel1;
     }

@@ -20,6 +20,11 @@ namespace Salon.Controller
         {
             return repo.AllAuditLog(pageNumber, pageSize);
         }
+
+        public IEnumerable<AuditModel> GetAllAudit(DateTime start, DateTime end, int pageNumber, int pageSize)
+        {
+            return repo.AllAuditLog(start, end, pageNumber, pageSize);
+        }
         public int GetTotalPages(int pageSize) 
         {
             return repo.TotalPages(pageSize);

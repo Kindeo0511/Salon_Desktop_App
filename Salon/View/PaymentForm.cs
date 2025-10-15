@@ -293,6 +293,7 @@ namespace Salon.View
                 mainForm.LoadTotalSales();
                 mainForm.LoadAllTransactions();
                 btn_invoice.Enabled = true;
+                btn_confirm_payment.Enabled = false;
             }
         }
 

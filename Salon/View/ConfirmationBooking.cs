@@ -49,9 +49,10 @@ namespace Salon.View
             lbl_CustomerName.Text = summary.CustomerModel.customer_name;
             lbl_Contact.Text = summary.CustomerModel.phoneNumber;
             lbl_Email.Text = summary.CustomerModel.email;
-          ;
+          
             lbl_Time.Text = formattedStartTime + " - " + formattedEndTime;
             lbl_book_type.Text = summary.BookingType;
+            lbl_Date.Text = summary.AppointmentDate.ToString();
 
             foreach (var service in summary.SelectedServices)
             {
@@ -127,28 +128,29 @@ namespace Salon.View
 
 
 
-              
-                //try
-                //{
-                //    await EmailMessage.SendNotificationEmailAsync(
-                //    to: summary.CustomerModel.email,
-                //    recipientName: summary.CustomerModel.customer_name,
-                //    appointmentTime: $"{summary.AppointmentDate} at {formattedStartTime}",
-                //    customMessage: "Your appointment has been confirmed. Please arrive 10 minutes early and bring your ID.");
 
-                //    await SmsSender.SendSmsNotificationAsync(
-                //    phone: summary.CustomerModel.phoneNumber,
-                //    customerName: summary.CustomerModel.customer_name,
-                //    appointmentDate: summary.AppointmentDate.ToString("MM/dd/yyyy"),
-                //    startTime: formattedStartTime);
+            try
+            {
+                await EmailMessage.SendNotificationEmailAsync(
+                to: summary.CustomerModel.email,
+                recipientName: summary.CustomerModel.customer_name,
+                appointmentTime: $"{summary.AppointmentDate} at {formattedStartTime}",
+                services: lbl_Services.Text,
+                customMessage: "Your appointment has been confirmed. Please arrive 10 minutes early and bring your ID.");
 
-                //    MessageBox.Show($"The appointment has been {(isUpdate ? "updated" : "booked")} successfully!",
-                //        "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                //}
-                //catch (Exception ex)
-                //{
-                //    MessageBox.Show($"Error: {ex.Message}");
-                //}
+                await SmsSender.SendSmsNotificationAsync(
+                phone: summary.CustomerModel.phoneNumber,
+                customerName: summary.CustomerModel.customer_name,
+                appointmentDate: summary.AppointmentDate.ToString("MM/dd/yyyy"),
+                startTime: formattedStartTime);
+
+                MessageBox.Show($"The appointment has been {(isUpdate ? "updated" : "booked")} successfully!",
+                    "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Error: {ex.Message}");
+            }
 
 
 

@@ -12,10 +12,13 @@ namespace Salon.Repository
     public interface IUser
     {
         IEnumerable<UsersModel> GetAllUsers();
-
+        UsersModel GetUserByEmail(string name);
+        UsersModel GetUserByContactNumber(string number);
         UsersModel GetUserAndPassword(string user, string pass);
         void AddUser(UsersModel user);
         void UpdateUser(UsersModel user);
+
+        void UpdateUserByEmailOrPhone(UsersModel user);
         void DeleteUser(int userId);
 
         bool UserExistsAsync(string username, int id = 0);

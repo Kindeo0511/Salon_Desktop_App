@@ -17,6 +17,7 @@ namespace Salon.View
     public partial class DeliveryForm : MaterialForm
     {
         private MainForm mainform;
+        private int totalVolume = 0;
         public DeliveryForm(MainForm mainform)
         {
             InitializeComponent();
@@ -84,10 +85,12 @@ namespace Salon.View
         private void UpdateTotal()
         {
             if (decimal.TryParse(txt_price.Text, out decimal price) &&
-                int.TryParse(txt_qty.Text, out int qty))
+                int.TryParse(txt_qty.Text, out int qty) && int.TryParse(txt_volume.Text , out int volume))
             {
                 var total = price * qty;
+                totalVolume = volume * qty;
                 txt_total.Text = total.ToString("N2");
+                
             }
             else
             {
@@ -104,6 +107,7 @@ namespace Salon.View
             txt_qty.Clear();
             txt_unit.Clear();
             txt_volume.Clear();
+            totalVolume = 0;
 
 
         }
@@ -142,13 +146,14 @@ namespace Salon.View
 
             if (!Validated()) return;
 
-            dgv_Items.Rows.Add(
+                   dgv_Items.Rows.Add(
                    cb_product_names.SelectedValue,
                    cb_product_names.Text,
                    txt_qty.Text.Trim(),
                    txt_unit.Text.Trim(),
                    txt_volume.Text.Trim(),
                    txt_price.Text.Trim(),
+                   totalVolume,
                    txt_total.Text.Trim(),
                    dtp_delivery_date.Value.ToShortDateString(),
                    dtp_expiry.Value.ToShortDateString(),
@@ -176,6 +181,7 @@ namespace Salon.View
                 txt_unit.Text = row.Cells["col_unit"].Value?.ToString();
                 txt_volume.Text = row.Cells["col_volume"].Value?.ToString();
                 txt_price.Text = row.Cells["col_price"].Value?.ToString();
+                totalVolume = Convert.ToInt32(row.Cells["col_price"].Value?.ToString());
                 txt_total.Text = row.Cells["col_total"].Value?.ToString();
                 dtp_delivery_date.Value = DateTime.Parse(row.Cells["col_delivered_date"].Value?.ToString());
                 dtp_expiry.Value = DateTime.Parse(row.Cells["col_expiry_date"].Value?.ToString());

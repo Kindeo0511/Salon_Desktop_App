@@ -477,13 +477,20 @@ namespace Salon.View
                 var confirm = MessageBox.Show("Are you sure you want to delete this item?", "Confirm Delete", MessageBoxButtons.YesNo);
                 if (confirm == DialogResult.Yes)
                 {
-                    var service_repo = new AppointmentServiceRepository();
-                    var service_controller = new AppointmentServiceController(service_repo);
-
-                    service_controller.ClearDeleteAllServicesForAppointment(model.AppointmentId);
-
+                    if (model != null)
+                    {
+                        var service_repo = new AppointmentServiceRepository();
+                        var service_controller = new AppointmentServiceController(service_repo);
+                        service_controller.ClearDeleteAllServicesForAppointment(model.AppointmentId);
+                        dgv_table.Rows.RemoveAt(dgv_table.CurrentRow.Index);
+                    }
+                    else 
+                    {
+                        dgv_table.Rows.RemoveAt(dgv_table.CurrentRow.Index);
+                    }
+    
                     // Remove from the grid
-                    dgv_table.Rows.RemoveAt(dgv_table.CurrentRow.Index);
+                  
                 }
             }
 
@@ -561,7 +568,7 @@ namespace Salon.View
         {
             if (!Validated()) return;
             int totalDuration = 0;
-            txt_availability.Visible = true;
+
             foreach (DataGridViewRow row in dgv_table.Rows)
             {
                 if (row.Cells["col_duration"].Value != null)
@@ -582,27 +589,71 @@ namespace Salon.View
             var date = cmb_Date.Value.Date;
             var startTime = DateTime.Parse(cb_Time.SelectedItem.ToString()).TimeOfDay;
             var duration = TimeSpan.FromMinutes(totalDuration);
+            int  id = Convert.ToInt32(lbl_ID.Text.ToString());
 
-            bool isAvailable = await controller.CheckSlotRangeAvailable(date, startTime, duration);
-            MessageBox.Show($"Date: ({date}), start Time ({startTime}, Duration: ({duration}))");
-            txt_availability.Text = isAvailable ? "✅ Slot is available" : "❌ Slot is taken";
+            bool isCustomerAlreadyBooked = await controller.CustomerIsAlreadyBooked(date, startTime, duration, id);
+            //bool isAvailable = await controller.CheckSlotRangeAvailable(date, startTime, duration);
 
-            if (isAvailable)
+            string message;
+            MessageBoxIcon icon;
+
+            //if (isCustomerAlreadyBooked)
+            //{
+            //    message = "❗ Customer is already booked for this slot.";
+            //    icon = MessageBoxIcon.Warning;
+            //    btn_confirm.Enabled = false;
+            //}
+            ////else if (!isAvailable)
+            ////{
+            ////    message = "❌ Slot is taken by another customer.";
+            ////    icon = MessageBoxIcon.Warning;
+            ////    btn_confirm.Enabled = false;
+            ////}
+            //else
+            //{
+            //    message = "✅ Slot is available.";
+            //    icon = MessageBoxIcon.Information;
+            //    btn_confirm.Enabled = true;
+            //}
+
+            if (isCustomerAlreadyBooked)
             {
-           
+                message = "❗ This customer is already booked for this time slot.";
+                icon = MessageBoxIcon.Warning;
+                btn_confirm.Enabled = false;
+            }
+            else
+            {
+                message = "✅ Slot is available for this customer.";
+                icon = MessageBoxIcon.Information;
                 btn_confirm.Enabled = true;
             }
-            else 
+
+
+
+            MessageBox.Show(message, "Slot Status", MessageBoxButtons.OK, icon);
+
+
+        }
+
+        private void AppointmentForm_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            if (dgv_table.Rows.Count == 0)
             {
-                btn_confirm.Enabled = false;
-          
+                MessageBox.Show(
+                    "You must select at least one service before closing.",
+                    "Missing Services",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Warning
+                );
+
+                e.Cancel = true; // Prevent form from closing
             }
 
-            txt_availability.Visible = false;
         }
 
 
-        
+
 
 
         //public async Task<bool> IsSlotRangeAvailableAsync(DateTime date, TimeSpan startTime, TimeSpan duration)

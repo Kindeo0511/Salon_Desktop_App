@@ -38,6 +38,7 @@
             this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
             this.materialCard2 = new MaterialSkin.Controls.MaterialCard();
+            this.lnk_forgot_password = new System.Windows.Forms.LinkLabel();
             this.tableLayoutPanel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.materialCard2.SuspendLayout();
@@ -182,6 +183,7 @@
             // materialCard2
             // 
             this.materialCard2.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
+            this.materialCard2.Controls.Add(this.lnk_forgot_password);
             this.materialCard2.Controls.Add(this.materialLabel1);
             this.materialCard2.Controls.Add(this.chk_show_password);
             this.materialCard2.Controls.Add(this.btn_cancel);
@@ -198,6 +200,17 @@
             this.materialCard2.Padding = new System.Windows.Forms.Padding(14);
             this.materialCard2.Size = new System.Drawing.Size(476, 568);
             this.materialCard2.TabIndex = 0;
+            // 
+            // lnk_forgot_password
+            // 
+            this.lnk_forgot_password.AutoSize = true;
+            this.lnk_forgot_password.Location = new System.Drawing.Point(325, 358);
+            this.lnk_forgot_password.Name = "lnk_forgot_password";
+            this.lnk_forgot_password.Size = new System.Drawing.Size(108, 16);
+            this.lnk_forgot_password.TabIndex = 7;
+            this.lnk_forgot_password.TabStop = true;
+            this.lnk_forgot_password.Text = "Forgot password";
+            this.lnk_forgot_password.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.lnk_forgot_password_LinkClicked);
             // 
             // LoginForm
             // 
@@ -231,5 +244,6 @@
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel1;
         private MaterialSkin.Controls.MaterialCard materialCard2;
         private System.Windows.Forms.PictureBox pictureBox1;
+        private System.Windows.Forms.LinkLabel lnk_forgot_password;
     }
 }

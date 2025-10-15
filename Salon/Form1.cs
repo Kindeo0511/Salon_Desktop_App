@@ -51,14 +51,12 @@ namespace Salon
         private void timer1_Tick(object sender, EventArgs e)
         {
             lbl_progress_bar.Increment(2);
-            lbl_percent.Text = "Loading..." + lbl_progress_bar.Value.ToString() + "%";
+            
 
             if (lbl_progress_bar.Value == 100) 
             {
                 timer1.Enabled = false;
-                LoginForm loginForm = new LoginForm();
-                loginForm.Show();
-                this.Hide();
+                this.Close();
             }
 
         }

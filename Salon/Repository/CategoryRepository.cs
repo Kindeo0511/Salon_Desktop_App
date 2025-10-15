@@ -15,7 +15,7 @@ namespace Salon.Repository
         {
             using (var con = Database.GetConnection()) 
             {
-                var sql = "SELECT * FROM tbl_category";
+                var sql = "SELECT * FROM tbl_category WHERE is_deleted = 0";
                 return con.Query<CategoryModel>(sql).ToList();
             }
         }
@@ -47,7 +47,15 @@ namespace Salon.Repository
         {
             using (var con = Database.GetConnection())
             {
-                var sql = "DELETE FROM tbl_category WHERE category_id = @id";
+                var sql = "UPDATE tbl_category SET is_deleted = 1 WHERE category_id = @id";
+                con.Execute(sql, new { id });
+            }
+        }
+        public void restoreDeleted(int id) 
+        {
+            using (var con = Database.GetConnection())
+            {
+                var sql = "UPDATE tbl_category SET is_deleted = 0 WHERE category_id = @id";
                 con.Execute(sql, new { id });
             }
         }

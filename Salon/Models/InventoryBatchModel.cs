@@ -16,6 +16,7 @@ namespace Salon.Models
         public int volume_per_unit { get; set; }
         public int volume { get; set; }
         public decimal price { get; set; }
+        public decimal total_price { get; set; }
         public string notes { get; set; }
         public DateTime delivered_date { get; set; }
         public DateTime expiry_date { get; set; }

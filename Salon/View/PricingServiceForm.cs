@@ -37,14 +37,14 @@ namespace Salon.View
             ThemeManager.ApplyTheme(this);
             this.mainForm = mainForm;
             this.priceModel = priceModel;
-        
+
             LoadServices();
 
-            if (priceModel != null) 
+            if (priceModel != null)
             {
                 FillData();
             }
-        
+
         }
         private void FillData() 
         {

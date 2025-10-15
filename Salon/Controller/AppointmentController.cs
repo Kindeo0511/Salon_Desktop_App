@@ -64,12 +64,37 @@ namespace Salon.Controller
 
         // VALIDATION
 
-        public async Task<bool> CheckIsSlotTaken(DateTime date, TimeSpan startTime) 
+        //public async Task<bool> CheckIsSlotTaken(DateTime date, TimeSpan startTime) 
+        //{
+        //    //return  await repo.IsSlotTakenAsync(date, startTime);
+
+        //}
+
+
+        public async Task<bool> CheckIsSlotTaken(DateTime date, TimeSpan startTime)
         {
-            return  await repo.IsSlotTakenAsync(date, startTime);
+            return await repo.IsSlotTakenAsync(date, startTime);
         }
 
-        public async Task<bool> CheckSlotRangeAvailable(DateTime date, TimeSpan startTime, TimeSpan duration)
+        //public async Task<bool> CheckSlotRangeAvailable(DateTime date, TimeSpan startTime, TimeSpan duration)
+        //{
+        //    int slotsNeeded = (int)Math.Ceiling(duration.TotalHours);
+
+        //    for (int i = 0; i < slotsNeeded; i++)
+        //    {
+        //        var slotTime = startTime.Add(TimeSpan.FromHours(i));
+        //        if (await CheckIsSlotTaken(date, slotTime))
+        //            return false;
+        //    }
+
+        //    return true;
+        //}
+        public async Task<bool> CustomerIsAlreadyBooked(DateTime date, TimeSpan startTime, TimeSpan duration, int customerId)
+        {
+            return await repo.CustomerIsAlreadyBooked(date, startTime, duration, customerId);
+        }
+
+        public async Task<bool> CheckCustomerSlotRangeAvailable(DateTime date, TimeSpan startTime, TimeSpan duration, int id)
         {
             int slotsNeeded = (int)Math.Ceiling(duration.TotalHours);
 
@@ -83,5 +108,9 @@ namespace Salon.Controller
             return true;
         }
 
+        //public async Task<bool> CustomerIsAlreadyBooked(DateTime date, TimeSpan start_time, TimeSpan end_time, int customer_id)
+        //{
+        //    return await repo.CustomerIsAlreadyBooked(date, start_time, end_time, customer_id);
+        //}
     }
 }

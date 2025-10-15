@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Salon.View;
+using System;
 using System.Windows.Forms;
 
 namespace Salon
@@ -13,7 +14,15 @@ namespace Salon
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new Form1());
+            //Application.Run(new Form1());
+
+            // Show splash screen
+            Form1 splash = new Form1();
+            splash.ShowDialog(); // blocks until closed
+
+            // Then launch login form as main window
+            Application.Run(new LoginForm());
+
         }
     }
 }

@@ -88,6 +88,7 @@ namespace Salon.View
             ThemeManager.StyleDataGridView(dgv_transaction_history);
             ThemeManager.StyleDataGridView(dgv_audit_report);
             ThemeManager.StyleDataGridView(dgv_refund);
+            ThemeManager.StyleDataGridView(dgv_deleted_record);
         }
 
         private void MainForm_Load(object sender, EventArgs e)
@@ -125,6 +126,11 @@ namespace Salon.View
             LoadServicePrices();
             LoadAllTransactions();
             LoadRefund();
+
+
+            FilterdDeletedRecords();
+ 
+
             // SUMMARY DASHBOARD
             LoadTotalSales();
             LoadTotalAppointments();
@@ -543,7 +549,9 @@ namespace Salon.View
               
                     Audit.AuditLog(DateTime.Now, "Delete", UserSession.CurrentUser.first_Name, "Manage Categories", $"Deleted category '{category.categoryName}' on {DateTime.Now:yyyy-MM-dd} at {DateTime.Now:HH:mm:ss}");
                     categoryController.deleteCategory(category.category_id);
+                    InsertDeletedRecord(category.category_id, "Category", category.categoryName, UserSession.CurrentUser.first_Name, DateTime.Today);
                     LoadCategory();
+                    LoadDeletedRecords();
                 }
             }
         }
@@ -976,7 +984,6 @@ namespace Salon.View
             clear_discount_fields();
             btn_add_discount.Visible = true;
             btn_update_discount.Visible = false;
-            btn_cancel_discount.Visible = false;
 
         }
 
@@ -1199,6 +1206,7 @@ namespace Salon.View
             col_volume_per_qtn.DataPropertyName = "volume_per_unit";
             col_vol.DataPropertyName = "volume";
             col_price.DataPropertyName = "price";
+            col_total_price.DataPropertyName = "total_price";
             col_notes.DataPropertyName = "notes";
             col_DateReceived.DataPropertyName = "delivered_date";
             col_ExpiryDate.DataPropertyName = "expiry_date";
@@ -1242,6 +1250,8 @@ namespace Salon.View
             col_db_app_id.DataPropertyName = "AppointmentId";
             col_db_customer_id.DataPropertyName = "CustomerId";
             col_db_customer_name.DataPropertyName = "CustomerName";
+            col_appointment_email.DataPropertyName = "Email";
+            col_appointment_number.DataPropertyName = "PhoneNumber";
             col_db_stylist_id.DataPropertyName = "StylistId";
             col_db_stylist_name.DataPropertyName = "StylistName";
             col_db_date.DataPropertyName = "AppointmentDate";
@@ -1302,7 +1312,10 @@ namespace Salon.View
             else if (e.RowIndex >= 0 && dgv_appointment.Columns[e.ColumnIndex].Name == "col_update_appointment")
             {
                 var appointment = dgv_appointment.Rows[e.RowIndex].DataBoundItem as AppointmentModel;
-
+                if (appointment.PaymentStatus.ToLower() == "paid" && (appointment.Status.ToLower() == "completed" || appointment.Status.ToLower() == "refunded"))
+                {
+                    return;
+                }
                 using (var appointmentForm = new AppointmentForm(this, appointment))
                 {
                     appointmentForm.ShowDialog();
@@ -3008,14 +3021,29 @@ namespace Salon.View
 
         }
 
+        private void btn_audit_filter_Click(object sender, EventArgs e)
+        {
+            DateTime start = dtp_audit_start.Value;
+            DateTime end = dtp_audit_end.Value;
 
-        private void LoadAuditTrail() 
+            LoadAuditTrail(start,end);
+        }
+        private void btn_audit_clear_Click(object sender, EventArgs e)
+        {
+            dtp_audit_start.Value = DateTime.Today;
+            dtp_audit_end.Value = DateTime.Today;
+
+            LoadAuditTrail();
+        }
+
+
+        private void LoadAuditTrail(DateTime? start = null, DateTime? end = null) 
         {
    
 
             var repo = new AuditRepository();
             var controller = new AuditController(repo);
-            var logs = controller.GetAllAudit(currentPage, pageSize);
+            var logs = (start.HasValue && end.HasValue) ? controller.GetAllAudit(start.Value, end.Value, currentPage, pageSize) : controller.GetAllAudit(currentPage, pageSize);
 
             dgv_audit_report.AutoGenerateColumns = false;
 
@@ -3281,37 +3309,46 @@ namespace Salon.View
 
         private void refundToolStripMenuItem_Click(object sender, EventArgs e)
         {
+            var row = dgv_transaction_history.CurrentRow;
+
             if (dgv_transaction_history.SelectedRows.Count > 0)
             {
-                var selectedRow = dgv_transaction_history.SelectedRows[0];
-                //var appointmentId = Convert.ToInt32(selectedRow.Cells["appointment_id"].Value);
-                var transaction = selectedRow.DataBoundItem as TransactionModel;
+                var transaction = row.DataBoundItem as TransactionModel;
+
+                //if (transaction.AppointmentStatus.ToLower() == "refunded")
+                //{
+                //    MessageBox.Show(
+                //        "This transaction has already been refunded.",
+                //        "Refund Blocked",
+                //        MessageBoxButtons.OK,
+                //        MessageBoxIcon.Warning
+                //    );
+                //    return; // Stop further execution
+                //}
+
                 var confirm = MessageBox.Show(
-                    "Are you sure you want to refund this transaction?",
-                    "Confirm Refund",
-                    MessageBoxButtons.YesNo,
-                    MessageBoxIcon.Question
-                );
+                        "Are you sure you want to refund this transaction?",
+                        "Confirm Refund",
+                        MessageBoxButtons.YesNo,
+                        MessageBoxIcon.Question
+                    );
 
                 if (confirm == DialogResult.Yes)
                 {
-                    using (var form = new RefundForm(this, transaction)) 
+                    using (var form = new RefundForm(this, transaction))
                     {
                         form.ShowDialog();
                     }
-                      
 
-                   
+                    Audit.AuditLog(
+                        DateTime.Now,
+                        "Cancel Status",
+                        UserSession.CurrentUser.first_Name,
+                        "Appointment",
+                        $"Cancelled Status for client '{transaction.ClientName}' on {DateTime.Now:yyyy-MM-dd} at {DateTime.Now:HH:mm:ss}"
+                    );
+
                     
-
-                    //Audit.AuditLog(
-                    //DateTime.Now,
-                    //"Cancel Status",
-                    //UserSession.CurrentUser.first_Name,
-                    //"Appointment",
-                    //$"Cancelled Status for client '{name}' on {DateTime.Now:yyyy-MM-dd} at {DateTime.Now:HH:mm:ss}"
-                    //);
-                    //LoadAppointments();
                 }
             }
             else
@@ -3323,6 +3360,7 @@ namespace Salon.View
                     MessageBoxIcon.Warning
                 );
             }
+
         }
 
         private void dgv_transaction_history_MouseDown(object sender, MouseEventArgs e)
@@ -3336,25 +3374,31 @@ namespace Salon.View
                     dgv_transaction_history.ClearSelection();
                     dgv_transaction_history.Rows[hit.RowIndex].Selected = true;
 
-                    // Temporarily assign the menu and show it
+                    // Temporarily assign and show the menu
                     dgv_transaction_history.ContextMenuStrip = ct_menu_strip_transaction;
                     ct_menu_strip_transaction.Show(dgv_transaction_history, e.Location);
+
+                    // Detach immediately after showing
+                    dgv_transaction_history.ContextMenuStrip = null;
                 }
                 else
                 {
-                    // Detach the menu so it doesn't show
                     dgv_transaction_history.ContextMenuStrip = null;
                 }
             }
-
         }
+
+
+        
 
         // REFUND 
 
-        public void LoadRefund() 
+        public void LoadRefund(DateTime? start = null, DateTime? end = null) 
         {
             var repo = new RefundRepository();
             var controller = new RefundController(repo);
+
+            var refund = (start.HasValue && end.HasValue) ? controller.GetRefunds(start.Value, end.Value) : controller.GetRefunds();
 
             dgv_refund.AutoGenerateColumns = false;
             col_refund_service_name.DataPropertyName = "Service_Name";
@@ -3365,11 +3409,207 @@ namespace Salon.View
             col_refund_date.DataPropertyName = "refund_timestamp";
             col_refund_refunded_by.DataPropertyName = "refunded_by";
 
-            dgv_refund.DataSource = controller.GetRefunds();
+            dgv_refund.DataSource = refund;
+        }
+
+        private void ct_menu_strip_transaction_Opening(object sender, CancelEventArgs e)
+        {
+
+        }
+
+        private void btn_refund_filter_Click(object sender, EventArgs e)
+        {
+            DateTime start = dtp_refund_start.Value;
+            DateTime end = dtp_refund_end.Value;
+
+            LoadRefund(start, end);
+        }
+
+        private void btn_refund_clear_Click(object sender, EventArgs e)
+        {
+            dtp_refund_start.Value = DateTime.Today;
+            dtp_refund_end.Value = DateTime.Today;
+
+            LoadRefund();
         }
 
 
+
+
+
         // END OF REFUMD
+
+        // DELETED RECORDS
+
+        public void InsertDeletedRecord(int record_id, string module, string name, string deleted_by, DateTime deleted_on) 
+        {
+            var repo = new DeletedRecordRepository();
+            var controller = new DeletedRecordController(repo);
+
+            var model = new DeletedRecord
+            {
+                record_id = record_id,
+                module = module,
+                name = name,
+                deleted_by = deleted_by,
+                deleted_on = deleted_on
+            };
+
+            controller.Add(model);
+
+        }
+
+        public bool DeleteDeletedRecord(int record_id) 
+        {
+            var repo = new DeletedRecordRepository();
+            var controller = new DeletedRecordController(repo);
+
+            return controller.Delete(record_id);
+            
+
+        }
+        private void FilterdDeletedRecords() 
+        {
+            DateTime startDate;
+            DateTime endDate;
+
+            string selectedRange = cmb_deleted_record_filter.Text.Trim().ToLower();
+
+            if (string.IsNullOrWhiteSpace(selectedRange))
+            {
+
+                startDate = dtp_delete_record_start.Value.Date;
+                endDate = dtp_delete_record_end.Value.Date;
+            }
+            else
+            {
+                switch (selectedRange)
+                {
+                    case "today":
+                        startDate = DateTime.Today;
+                        endDate = DateTime.Today.AddDays(1).AddTicks(-1);
+                        break;
+
+                    case "weekly":
+                        startDate = DateTime.Today.AddDays(-(int)DateTime.Today.DayOfWeek);
+                        endDate = startDate.AddDays(6).AddDays(1).AddTicks(-1);
+                        break;
+
+                    case "monthly":
+                        startDate = new DateTime(DateTime.Today.Year, DateTime.Today.Month, 1);
+                        endDate = startDate.AddMonths(1).AddTicks(-1);
+                        break;
+
+                    default:
+                        MessageBox.Show("Invalid range selected.");
+                        return;
+                }
+
+                // Optional: update DateTimePickers to reflect the selected range
+                dtp_delete_record_start.Value = startDate;
+                dtp_delete_record_end.Value = endDate;
+            }
+
+            LoadDeletedRecords(startDate, endDate);
+
+        }
+        public void LoadDeletedRecords(DateTime? start = null, DateTime? end = null) 
+        {
+            var repo = new DeletedRecordRepository();
+            var controller = new DeletedRecordController(repo);
+            var records = (start.HasValue && end.HasValue) ? controller.GetAllDeleteRecords(start.Value, end.Value) : controller.GetAllDeleteRecords();
+
+            if (records != null) 
+            {
+                dgv_deleted_record.AutoGenerateColumns = false;
+
+                col_deleted_id.DataPropertyName = "deleted_id";
+                col_deleted_record_id.DataPropertyName = "record_id";
+                col_deleted_module.DataPropertyName = "module";
+                col_deleted_name.DataPropertyName = "name";
+                col_deleted_by.DataPropertyName = "deleted_by";
+                col_deleted_date.DataPropertyName = "deleted_on";
+
+                dgv_deleted_record.DataSource = records;
+            }
+
+           
+        }
+
+        public void RestoreDeletedRecord(int id) 
+        {
+            var repo = new CategoryRepository();
+            var controller = new CategoryController(repo);
+            controller.restoreCategory(id);
+        }
+
+        private void dgv_deleted_record_CellClick(object sender, DataGridViewCellEventArgs e)
+        {
+            if (e.RowIndex < 0) return;
+
+            if (dgv_deleted_record.Columns[e.ColumnIndex].Name == "col_restore")
+            {
+                var record = dgv_deleted_record.Rows[e.RowIndex].DataBoundItem as DeletedRecord;
+
+                if (record != null)
+                {
+                    var confirm = MessageBox.Show(
+                        $"Are you sure you want to restore this {record.name} record?",
+                        "Information",
+                        MessageBoxButtons.YesNo,
+                        MessageBoxIcon.Question);
+
+                    if (confirm == DialogResult.Yes)
+                    {
+                        bool success = DeleteDeletedRecord(record.deleted_id);
+
+                        if (success)
+                        {
+                            RestoreDeletedRecord(record.record_id);
+                            MessageBox.Show("Record restored successfully!", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                            LoadCategory();
+                            LoadDeletedRecords();
+                        }
+                        else
+                        {
+                            MessageBox.Show("Restore failed. Please check logs.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        }
+                    }
+                }
+            }
+
+        }
+
+        private void cmb_deleted_record_filter_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if (cmb_deleted_record_filter.Text.Length > 0) 
+            {
+                FilterdDeletedRecords();
+            }
+        }
+
+        private void btn_deleted_record_filter_Click(object sender, EventArgs e)
+        {
+            cmb_deleted_record_filter.Hint = string.Empty;
+            cmb_deleted_record_filter.SelectedIndex = -1;
+            FilterdDeletedRecords();
+
+            cmb_deleted_record_filter.Hint = "Select Filter";
+        }
+
+        private void btn_deleted_record_clear_Click(object sender, EventArgs e)
+        {
+            cmb_deleted_record_filter.Hint = string.Empty;
+            cmb_deleted_record_filter.SelectedIndex = -1;
+            dtp_delete_record_start.Value = DateTime.Today;
+            dtp_delete_record_end.Value = DateTime.Today;
+            FilterdDeletedRecords();
+              
+            cmb_deleted_record_filter.Hint = "Select Filter";
+        }
+
+
+        // END OF DELETED RECORD
     }
 }
 

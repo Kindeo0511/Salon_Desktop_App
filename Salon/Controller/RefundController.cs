@@ -24,6 +24,11 @@ namespace Salon.Controller
         {
             return repo.Refunds();
         }
+
+        public IEnumerable<RefundModel> GetRefunds(DateTime start, DateTime end)
+        {
+            return repo.Refunds(start , end);
+        }
         public void AddRefund(RefundModel model) 
         {
             repo.Add(model);

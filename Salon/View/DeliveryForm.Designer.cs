@@ -58,6 +58,7 @@
             this.col_unit = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.col_volume = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.col_price = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.col_total_volume = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.col_total = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.col_delivered_date = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.col_expiry_date = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -467,6 +468,7 @@
             this.col_unit,
             this.col_volume,
             this.col_price,
+            this.col_total_volume,
             this.col_total,
             this.col_delivered_date,
             this.col_expiry_date,
@@ -536,6 +538,14 @@
             this.col_price.MinimumWidth = 6;
             this.col_price.Name = "col_price";
             this.col_price.ReadOnly = true;
+            // 
+            // col_total_volume
+            // 
+            this.col_total_volume.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
+            this.col_total_volume.HeaderText = "Total Volume";
+            this.col_total_volume.MinimumWidth = 6;
+            this.col_total_volume.Name = "col_total_volume";
+            this.col_total_volume.ReadOnly = true;
             // 
             // col_total
             // 
@@ -630,6 +640,7 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn col_unit;
         private System.Windows.Forms.DataGridViewTextBoxColumn col_volume;
         private System.Windows.Forms.DataGridViewTextBoxColumn col_price;
+        private System.Windows.Forms.DataGridViewTextBoxColumn col_total_volume;
         private System.Windows.Forms.DataGridViewTextBoxColumn col_total;
         private System.Windows.Forms.DataGridViewTextBoxColumn col_delivered_date;
         private System.Windows.Forms.DataGridViewTextBoxColumn col_expiry_date;

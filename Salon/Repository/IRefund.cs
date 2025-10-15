@@ -12,6 +12,7 @@ namespace Salon.Repository
         IEnumerable<RefundModel> SelectedServices(int appointment_id);
 
         IEnumerable<RefundModel> Refunds();
+        IEnumerable<RefundModel> Refunds(DateTime start, DateTime end);
         void Add(RefundModel model);
 
     }

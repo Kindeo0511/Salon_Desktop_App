@@ -22,6 +22,16 @@ namespace Salon.Repository
 
             }
         }
+        public IEnumerable<AuditModel> AllAuditLog(DateTime start, DateTime end, int pageNumber, int pageSize)
+        {
+            using (var con = Database.GetConnection())
+            {
+                int offset = (pageNumber - 1) * pageSize;
+                var sql = "SELECT * FROM tbl_audit_trail WHERE timestamp BETWEEN @start AND @end ORDER BY id DESC LIMIT @PageSize OFFSET @Offset ";
+                return con.Query<AuditModel>(sql, new {start, end,  PageSize = pageSize, Offset = offset }).ToList();
+
+            }
+        }
         public int TotalPages(int pageSize)
         {
             using (var con = Database.GetConnection())

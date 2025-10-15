@@ -26,6 +26,8 @@ namespace Salon.Repository
         CONCAT(c.firstName, ' ', c.middleName, ' ', c.lastName) AS CustomerName,
         a.stylist_id AS StylistId,
         COALESCE(CONCAT(s.firstName, ' ', s.middleName, ' ', s.lastName), 'Stylist not assigned yet') AS StylistName,
+         c.email As Email,
+         c.phoneNumber AS PhoneNumber,
         GROUP_CONCAT(DISTINCT sn.serviceName SEPARATOR ', ') AS Services,
         SUM(spr.selling_price) AS selling_price,
         SUM(spr.vat_amount) AS vat_amount,
@@ -58,6 +60,8 @@ namespace Salon.Repository
                 CONCAT(c.firstName, ' ', c.middleName, ' ', c.lastName) AS CustomerName,
                 a.stylist_id AS StylistId,
                 COALESCE(CONCAT(s.firstName, ' ', s.middleName, ' ', s.lastName), 'Stylist not assigned yet') AS StylistName,
+                 c.email As Email,
+                 c.phoneNumber AS PhoneNumber,
                 GROUP_CONCAT(DISTINCT sn.serviceName SEPARATOR ', ') AS Services,
                 SUM(spr.selling_price) AS selling_price,
                 SUM(spr.vat_amount) AS vat_amount,
@@ -293,8 +297,37 @@ GROUP BY a.appointment_id;";
 
                 var parameters = new
                 {
-                    Date = date.ToString("yyyy-MM-dd"), 
-                    StartTime = startTime.ToString(@"hh\:mm\:ss")  
+                    Date = date.ToString("yyyy-MM-dd"),
+                    StartTime = startTime.ToString(@"hh\:mm\:ss")
+                };
+
+                int count = await con.ExecuteScalarAsync<int>(query, parameters);
+                return count > 0;
+            }
+        }
+
+        public async Task<bool> CustomerIsAlreadyBooked(DateTime date, TimeSpan startTime, TimeSpan duration, int customerId)
+        {
+            using (var con = Database.GetConnection())
+            {
+                TimeSpan endTime = startTime.Add(duration);
+
+                string query = @"
+            SELECT COUNT(*) FROM tbl_appointment
+            WHERE DATE(Date) = @Date
+              AND customer_id = @CustomerId
+              AND (
+                  (@StartTime BETWEEN start_time AND end_time) OR
+                  (@EndTime BETWEEN start_time AND end_time) OR
+                  (start_time BETWEEN @StartTime AND @EndTime)
+              )";
+
+                var parameters = new
+                {
+                    Date = date.ToString("yyyy-MM-dd"),
+                    StartTime = startTime.ToString(@"hh\:mm\:ss"),
+                    EndTime = endTime.ToString(@"hh\:mm\:ss"),
+                    CustomerId = customerId
                 };
 
                 int count = await con.ExecuteScalarAsync<int>(query, parameters);

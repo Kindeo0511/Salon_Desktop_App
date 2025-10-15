@@ -22,7 +22,14 @@ namespace Salon.Controller
         {
             return _repo.GetAllUsers();
         }
-
+        public UsersModel GetUser(string email) 
+        {
+            return _repo.GetUserByEmail(email);
+        }
+        public UsersModel GetUserByPhone(string phone)
+        {
+            return _repo.GetUserByContactNumber(phone);
+        }
         public UsersModel GetUserAndPass(string user, string pass) 
         {
             return _repo.GetUserAndPassword(user, pass);
@@ -34,6 +41,11 @@ namespace Salon.Controller
         public void UpdateUser(UsersModel user)
         {
             _repo.UpdateUser(user);
+        }
+
+        public void UpdateUserByOtp(UsersModel user) 
+        {
+            _repo.UpdateUserByEmailOrPhone(user);
         }
         public void DeleteUser(int userId)
         {

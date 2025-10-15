@@ -16,6 +16,7 @@ namespace Salon.View
         private MainForm mainForm;
         private TransactionModel model;
 
+
         public RefundForm(MainForm mainForm, TransactionModel model)
         {
             InitializeComponent();
@@ -29,9 +30,10 @@ namespace Salon.View
             lbl_amount_paid.Text = $"Amount Paid:  {model.amount_paid:N2}";
             lbl_payment_method.Text = $"Payment Method:  {model.payment_method}";
             lbl_transaction_date.Text = $"Transaction Date:  {model.timestamp}";
-
             lbl_refund_amount.Text = model.amount_paid.ToString("N2");
             LoadRefundableServices();
+
+           
         }
 
         private void LoadRefundableServices()
@@ -118,6 +120,13 @@ namespace Salon.View
             mainForm.LoadInventory();
             return true;
         }
+        private void UpdateAppointmentStatus(int id) 
+        {
+            var controller = new AppointmentController();
+            controller.UpdateStatus("Refunded", id); 
+            mainForm.LoadAppointments();
+            
+        }
         private void AddRefund() 
         {
             var repo = new RefundRepository();
@@ -167,6 +176,8 @@ namespace Salon.View
             mainForm.LoadAllTransactions();
             mainForm.LoadInventory();
             mainForm.LoadRefund();
+            mainForm.LoadTotalSales();
+            UpdateAppointmentStatus(model.appointment_id);
            this.Close();
         }
     }

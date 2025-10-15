@@ -30,23 +30,24 @@
         {
             this.lbl_appointment_id = new MaterialSkin.Controls.MaterialLabel();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
-            this.lbl_customer_name = new MaterialSkin.Controls.MaterialLabel();
-            this.lbl_services = new MaterialSkin.Controls.MaterialLabel();
-            this.lbl_amount_paid = new MaterialSkin.Controls.MaterialLabel();
-            this.lbl_payment_method = new MaterialSkin.Controls.MaterialLabel();
             this.lbl_transaction_date = new MaterialSkin.Controls.MaterialLabel();
+            this.lbl_payment_method = new MaterialSkin.Controls.MaterialLabel();
+            this.lbl_amount_paid = new MaterialSkin.Controls.MaterialLabel();
+            this.lbl_services = new MaterialSkin.Controls.MaterialLabel();
+            this.lbl_customer_name = new MaterialSkin.Controls.MaterialLabel();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
+            this.lbl_refund_amount = new MaterialSkin.Controls.MaterialLabel();
+            this.txt_reason = new MaterialSkin.Controls.MaterialMultiLineTextBox2();
+            this.cmb_refund_method = new MaterialSkin.Controls.MaterialComboBox();
             this.materialLabel11 = new MaterialSkin.Controls.MaterialLabel();
             this.materialLabel12 = new MaterialSkin.Controls.MaterialLabel();
             this.materialLabel13 = new MaterialSkin.Controls.MaterialLabel();
             this.groupBox3 = new System.Windows.Forms.GroupBox();
-            this.btn_refund = new MaterialSkin.Controls.MaterialButton();
             this.btn_cancel_refund = new MaterialSkin.Controls.MaterialButton();
-            this.cmb_refund_method = new MaterialSkin.Controls.MaterialComboBox();
-            this.txt_reason = new MaterialSkin.Controls.MaterialMultiLineTextBox2();
-            this.lbl_refund_amount = new MaterialSkin.Controls.MaterialLabel();
+            this.btn_refund = new MaterialSkin.Controls.MaterialButton();
             this.groupBox4 = new System.Windows.Forms.GroupBox();
             this.servicesPanel = new System.Windows.Forms.FlowLayoutPanel();
+            this.lbl_test = new System.Windows.Forms.Label();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
             this.groupBox3.SuspendLayout();
@@ -80,41 +81,17 @@
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Transaction Details";
             // 
-            // lbl_customer_name
+            // lbl_transaction_date
             // 
-            this.lbl_customer_name.AutoSize = true;
-            this.lbl_customer_name.Depth = 0;
-            this.lbl_customer_name.Font = new System.Drawing.Font("Roboto", 14F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
-            this.lbl_customer_name.Location = new System.Drawing.Point(43, 76);
-            this.lbl_customer_name.MouseState = MaterialSkin.MouseState.HOVER;
-            this.lbl_customer_name.Name = "lbl_customer_name";
-            this.lbl_customer_name.Size = new System.Drawing.Size(123, 19);
-            this.lbl_customer_name.TabIndex = 1;
-            this.lbl_customer_name.Text = "Customer Name: ";
-            // 
-            // lbl_services
-            // 
-            this.lbl_services.AutoSize = true;
-            this.lbl_services.Depth = 0;
-            this.lbl_services.Font = new System.Drawing.Font("Microsoft Sans Serif", 14F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
-            this.lbl_services.Location = new System.Drawing.Point(43, 115);
-            this.lbl_services.MouseState = MaterialSkin.MouseState.HOVER;
-            this.lbl_services.Name = "lbl_services";
-            this.lbl_services.Size = new System.Drawing.Size(79, 19);
-            this.lbl_services.TabIndex = 2;
-            this.lbl_services.Text = "Service(s): ";
-            // 
-            // lbl_amount_paid
-            // 
-            this.lbl_amount_paid.AutoSize = true;
-            this.lbl_amount_paid.Depth = 0;
-            this.lbl_amount_paid.Font = new System.Drawing.Font("Roboto", 14F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
-            this.lbl_amount_paid.Location = new System.Drawing.Point(696, 27);
-            this.lbl_amount_paid.MouseState = MaterialSkin.MouseState.HOVER;
-            this.lbl_amount_paid.Name = "lbl_amount_paid";
-            this.lbl_amount_paid.Size = new System.Drawing.Size(101, 19);
-            this.lbl_amount_paid.TabIndex = 3;
-            this.lbl_amount_paid.Text = "Amount Paid: ";
+            this.lbl_transaction_date.AutoSize = true;
+            this.lbl_transaction_date.Depth = 0;
+            this.lbl_transaction_date.Font = new System.Drawing.Font("Roboto", 14F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
+            this.lbl_transaction_date.Location = new System.Drawing.Point(696, 126);
+            this.lbl_transaction_date.MouseState = MaterialSkin.MouseState.HOVER;
+            this.lbl_transaction_date.Name = "lbl_transaction_date";
+            this.lbl_transaction_date.Size = new System.Drawing.Size(131, 19);
+            this.lbl_transaction_date.TabIndex = 4;
+            this.lbl_transaction_date.Text = "Transaction Date: ";
             // 
             // lbl_payment_method
             // 
@@ -128,17 +105,41 @@
             this.lbl_payment_method.TabIndex = 4;
             this.lbl_payment_method.Text = "Payment Method: ";
             // 
-            // lbl_transaction_date
+            // lbl_amount_paid
             // 
-            this.lbl_transaction_date.AutoSize = true;
-            this.lbl_transaction_date.Depth = 0;
-            this.lbl_transaction_date.Font = new System.Drawing.Font("Roboto", 14F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
-            this.lbl_transaction_date.Location = new System.Drawing.Point(696, 126);
-            this.lbl_transaction_date.MouseState = MaterialSkin.MouseState.HOVER;
-            this.lbl_transaction_date.Name = "lbl_transaction_date";
-            this.lbl_transaction_date.Size = new System.Drawing.Size(131, 19);
-            this.lbl_transaction_date.TabIndex = 4;
-            this.lbl_transaction_date.Text = "Transaction Date: ";
+            this.lbl_amount_paid.AutoSize = true;
+            this.lbl_amount_paid.Depth = 0;
+            this.lbl_amount_paid.Font = new System.Drawing.Font("Roboto", 14F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
+            this.lbl_amount_paid.Location = new System.Drawing.Point(696, 27);
+            this.lbl_amount_paid.MouseState = MaterialSkin.MouseState.HOVER;
+            this.lbl_amount_paid.Name = "lbl_amount_paid";
+            this.lbl_amount_paid.Size = new System.Drawing.Size(101, 19);
+            this.lbl_amount_paid.TabIndex = 3;
+            this.lbl_amount_paid.Text = "Amount Paid: ";
+            // 
+            // lbl_services
+            // 
+            this.lbl_services.AutoSize = true;
+            this.lbl_services.Depth = 0;
+            this.lbl_services.Font = new System.Drawing.Font("Roboto", 14F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
+            this.lbl_services.Location = new System.Drawing.Point(43, 115);
+            this.lbl_services.MouseState = MaterialSkin.MouseState.HOVER;
+            this.lbl_services.Name = "lbl_services";
+            this.lbl_services.Size = new System.Drawing.Size(79, 19);
+            this.lbl_services.TabIndex = 2;
+            this.lbl_services.Text = "Service(s): ";
+            // 
+            // lbl_customer_name
+            // 
+            this.lbl_customer_name.AutoSize = true;
+            this.lbl_customer_name.Depth = 0;
+            this.lbl_customer_name.Font = new System.Drawing.Font("Roboto", 14F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
+            this.lbl_customer_name.Location = new System.Drawing.Point(43, 76);
+            this.lbl_customer_name.MouseState = MaterialSkin.MouseState.HOVER;
+            this.lbl_customer_name.Name = "lbl_customer_name";
+            this.lbl_customer_name.Size = new System.Drawing.Size(123, 19);
+            this.lbl_customer_name.TabIndex = 1;
+            this.lbl_customer_name.Text = "Customer Name: ";
             // 
             // groupBox2
             // 
@@ -154,6 +155,69 @@
             this.groupBox2.TabIndex = 3;
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "Refund Options";
+            // 
+            // lbl_refund_amount
+            // 
+            this.lbl_refund_amount.AutoSize = true;
+            this.lbl_refund_amount.Depth = 0;
+            this.lbl_refund_amount.Font = new System.Drawing.Font("Roboto", 14F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
+            this.lbl_refund_amount.Location = new System.Drawing.Point(685, 54);
+            this.lbl_refund_amount.MouseState = MaterialSkin.MouseState.HOVER;
+            this.lbl_refund_amount.Name = "lbl_refund_amount";
+            this.lbl_refund_amount.Size = new System.Drawing.Size(116, 19);
+            this.lbl_refund_amount.TabIndex = 5;
+            this.lbl_refund_amount.Text = "Refund Amount:";
+            // 
+            // txt_reason
+            // 
+            this.txt_reason.AnimateReadOnly = false;
+            this.txt_reason.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
+            this.txt_reason.CharacterCasing = System.Windows.Forms.CharacterCasing.Normal;
+            this.txt_reason.Cursor = System.Windows.Forms.Cursors.IBeam;
+            this.txt_reason.Depth = 0;
+            this.txt_reason.HideSelection = true;
+            this.txt_reason.Location = new System.Drawing.Point(688, 173);
+            this.txt_reason.MaxLength = 32767;
+            this.txt_reason.MouseState = MaterialSkin.MouseState.OUT;
+            this.txt_reason.Name = "txt_reason";
+            this.txt_reason.PasswordChar = '\0';
+            this.txt_reason.ReadOnly = false;
+            this.txt_reason.ScrollBars = System.Windows.Forms.ScrollBars.None;
+            this.txt_reason.SelectedText = "";
+            this.txt_reason.SelectionLength = 0;
+            this.txt_reason.SelectionStart = 0;
+            this.txt_reason.ShortcutsEnabled = true;
+            this.txt_reason.Size = new System.Drawing.Size(400, 86);
+            this.txt_reason.TabIndex = 4;
+            this.txt_reason.TabStop = false;
+            this.txt_reason.TextAlign = System.Windows.Forms.HorizontalAlignment.Left;
+            this.txt_reason.UseSystemPasswordChar = false;
+            // 
+            // cmb_refund_method
+            // 
+            this.cmb_refund_method.AutoResize = false;
+            this.cmb_refund_method.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
+            this.cmb_refund_method.Depth = 0;
+            this.cmb_refund_method.DrawMode = System.Windows.Forms.DrawMode.OwnerDrawVariable;
+            this.cmb_refund_method.DropDownHeight = 174;
+            this.cmb_refund_method.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cmb_refund_method.DropDownWidth = 121;
+            this.cmb_refund_method.Font = new System.Drawing.Font("Microsoft Sans Serif", 14F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Pixel);
+            this.cmb_refund_method.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(222)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
+            this.cmb_refund_method.FormattingEnabled = true;
+            this.cmb_refund_method.Hint = "Select Refund Method";
+            this.cmb_refund_method.IntegralHeight = false;
+            this.cmb_refund_method.ItemHeight = 43;
+            this.cmb_refund_method.Items.AddRange(new object[] {
+            "Cash",
+            "Gcash"});
+            this.cmb_refund_method.Location = new System.Drawing.Point(688, 98);
+            this.cmb_refund_method.MaxDropDownItems = 4;
+            this.cmb_refund_method.MouseState = MaterialSkin.MouseState.OUT;
+            this.cmb_refund_method.Name = "cmb_refund_method";
+            this.cmb_refund_method.Size = new System.Drawing.Size(400, 49);
+            this.cmb_refund_method.StartIndex = -1;
+            this.cmb_refund_method.TabIndex = 3;
             // 
             // materialLabel11
             // 
@@ -202,26 +266,6 @@
             this.groupBox3.TabStop = false;
             this.groupBox3.Text = "Actions";
             // 
-            // btn_refund
-            // 
-            this.btn_refund.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
-            this.btn_refund.Density = MaterialSkin.Controls.MaterialButton.MaterialButtonDensity.Default;
-            this.btn_refund.Depth = 0;
-            this.btn_refund.HighEmphasis = true;
-            this.btn_refund.Icon = null;
-            this.btn_refund.Location = new System.Drawing.Point(46, 40);
-            this.btn_refund.Margin = new System.Windows.Forms.Padding(4, 6, 4, 6);
-            this.btn_refund.MouseState = MaterialSkin.MouseState.HOVER;
-            this.btn_refund.Name = "btn_refund";
-            this.btn_refund.NoAccentTextColor = System.Drawing.Color.Empty;
-            this.btn_refund.Size = new System.Drawing.Size(146, 36);
-            this.btn_refund.TabIndex = 3;
-            this.btn_refund.Text = "Confirm refund";
-            this.btn_refund.Type = MaterialSkin.Controls.MaterialButton.MaterialButtonType.Contained;
-            this.btn_refund.UseAccentColor = false;
-            this.btn_refund.UseVisualStyleBackColor = true;
-            this.btn_refund.Click += new System.EventHandler(this.btn_refund_Click);
-            // 
             // btn_cancel_refund
             // 
             this.btn_cancel_refund.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
@@ -241,68 +285,25 @@
             this.btn_cancel_refund.UseAccentColor = false;
             this.btn_cancel_refund.UseVisualStyleBackColor = true;
             // 
-            // cmb_refund_method
+            // btn_refund
             // 
-            this.cmb_refund_method.AutoResize = false;
-            this.cmb_refund_method.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
-            this.cmb_refund_method.Depth = 0;
-            this.cmb_refund_method.DrawMode = System.Windows.Forms.DrawMode.OwnerDrawVariable;
-            this.cmb_refund_method.DropDownHeight = 174;
-            this.cmb_refund_method.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.cmb_refund_method.DropDownWidth = 121;
-            this.cmb_refund_method.Font = new System.Drawing.Font("Roboto Medium", 14F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Pixel);
-            this.cmb_refund_method.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(222)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
-            this.cmb_refund_method.FormattingEnabled = true;
-            this.cmb_refund_method.Hint = "Select Refund Method";
-            this.cmb_refund_method.IntegralHeight = false;
-            this.cmb_refund_method.ItemHeight = 43;
-            this.cmb_refund_method.Items.AddRange(new object[] {
-            "Cash",
-            "Gcash"});
-            this.cmb_refund_method.Location = new System.Drawing.Point(688, 98);
-            this.cmb_refund_method.MaxDropDownItems = 4;
-            this.cmb_refund_method.MouseState = MaterialSkin.MouseState.OUT;
-            this.cmb_refund_method.Name = "cmb_refund_method";
-            this.cmb_refund_method.Size = new System.Drawing.Size(400, 49);
-            this.cmb_refund_method.StartIndex = -1;
-            this.cmb_refund_method.TabIndex = 3;
-            // 
-            // txt_reason
-            // 
-            this.txt_reason.AnimateReadOnly = false;
-            this.txt_reason.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
-            this.txt_reason.CharacterCasing = System.Windows.Forms.CharacterCasing.Normal;
-            this.txt_reason.Cursor = System.Windows.Forms.Cursors.IBeam;
-            this.txt_reason.Depth = 0;
-            this.txt_reason.HideSelection = true;
-            this.txt_reason.Location = new System.Drawing.Point(688, 173);
-            this.txt_reason.MaxLength = 32767;
-            this.txt_reason.MouseState = MaterialSkin.MouseState.OUT;
-            this.txt_reason.Name = "txt_reason";
-            this.txt_reason.PasswordChar = '\0';
-            this.txt_reason.ReadOnly = false;
-            this.txt_reason.ScrollBars = System.Windows.Forms.ScrollBars.None;
-            this.txt_reason.SelectedText = "";
-            this.txt_reason.SelectionLength = 0;
-            this.txt_reason.SelectionStart = 0;
-            this.txt_reason.ShortcutsEnabled = true;
-            this.txt_reason.Size = new System.Drawing.Size(400, 86);
-            this.txt_reason.TabIndex = 4;
-            this.txt_reason.TabStop = false;
-            this.txt_reason.TextAlign = System.Windows.Forms.HorizontalAlignment.Left;
-            this.txt_reason.UseSystemPasswordChar = false;
-            // 
-            // lbl_refund_amount
-            // 
-            this.lbl_refund_amount.AutoSize = true;
-            this.lbl_refund_amount.Depth = 0;
-            this.lbl_refund_amount.Font = new System.Drawing.Font("Roboto", 14F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
-            this.lbl_refund_amount.Location = new System.Drawing.Point(685, 54);
-            this.lbl_refund_amount.MouseState = MaterialSkin.MouseState.HOVER;
-            this.lbl_refund_amount.Name = "lbl_refund_amount";
-            this.lbl_refund_amount.Size = new System.Drawing.Size(116, 19);
-            this.lbl_refund_amount.TabIndex = 5;
-            this.lbl_refund_amount.Text = "Refund Amount:";
+            this.btn_refund.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
+            this.btn_refund.Density = MaterialSkin.Controls.MaterialButton.MaterialButtonDensity.Default;
+            this.btn_refund.Depth = 0;
+            this.btn_refund.HighEmphasis = true;
+            this.btn_refund.Icon = null;
+            this.btn_refund.Location = new System.Drawing.Point(46, 40);
+            this.btn_refund.Margin = new System.Windows.Forms.Padding(4, 6, 4, 6);
+            this.btn_refund.MouseState = MaterialSkin.MouseState.HOVER;
+            this.btn_refund.Name = "btn_refund";
+            this.btn_refund.NoAccentTextColor = System.Drawing.Color.Empty;
+            this.btn_refund.Size = new System.Drawing.Size(146, 36);
+            this.btn_refund.TabIndex = 3;
+            this.btn_refund.Text = "Confirm refund";
+            this.btn_refund.Type = MaterialSkin.Controls.MaterialButton.MaterialButtonType.Contained;
+            this.btn_refund.UseAccentColor = false;
+            this.btn_refund.UseVisualStyleBackColor = true;
+            this.btn_refund.Click += new System.EventHandler(this.btn_refund_Click);
             // 
             // groupBox4
             // 
@@ -324,11 +325,21 @@
             this.servicesPanel.Size = new System.Drawing.Size(1182, 141);
             this.servicesPanel.TabIndex = 0;
             // 
+            // lbl_test
+            // 
+            this.lbl_test.AutoSize = true;
+            this.lbl_test.Location = new System.Drawing.Point(654, 98);
+            this.lbl_test.Name = "lbl_test";
+            this.lbl_test.Size = new System.Drawing.Size(44, 16);
+            this.lbl_test.TabIndex = 6;
+            this.lbl_test.Text = "label1";
+            // 
             // RefundForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1200, 1000);
+            this.Controls.Add(this.lbl_test);
             this.Controls.Add(this.groupBox4);
             this.Controls.Add(this.groupBox3);
             this.Controls.Add(this.groupBox2);
@@ -347,6 +358,7 @@
             this.groupBox3.PerformLayout();
             this.groupBox4.ResumeLayout(false);
             this.ResumeLayout(false);
+            this.PerformLayout();
 
         }
 
@@ -371,5 +383,6 @@
         private MaterialSkin.Controls.MaterialLabel lbl_refund_amount;
         private System.Windows.Forms.GroupBox groupBox4;
         private System.Windows.Forms.FlowLayoutPanel servicesPanel;
+        private System.Windows.Forms.Label lbl_test;
     }
 }

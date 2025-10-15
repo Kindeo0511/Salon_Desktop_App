@@ -172,6 +172,7 @@
     <Compile Include="Controller\AuditController.cs" />
     <Compile Include="Controller\CategoryController.cs" />
     <Compile Include="Controller\CustomerController.cs" />
+    <Compile Include="Controller\DeletedRecordController.cs" />
     <Compile Include="Controller\DeliveryController.cs" />
     <Compile Include="Controller\DeliveryItemController.cs" />
     <Compile Include="Controller\DiscountController.cs" />
@@ -206,10 +207,12 @@
     <Compile Include="Models\AppointmentModel.cs" />
     <Compile Include="Models\AppointmentServicesModel.cs" />
     <Compile Include="Models\AuditModel.cs" />
+    <Compile Include="Models\BookingSlotStatus.cs" />
     <Compile Include="Models\BookingSummary.cs" />
     <Compile Include="Models\BusinessHour.cs" />
     <Compile Include="Models\CategoryModel.cs" />
     <Compile Include="Models\CustomerModel.cs" />
+    <Compile Include="Models\DeletedRecord.cs" />
     <Compile Include="Models\DeliveryItemModel.cs" />
     <Compile Include="Models\DeliveryModel.cs" />
     <Compile Include="Models\DiscountModel.cs" />
@@ -217,6 +220,7 @@
     <Compile Include="Models\ExpensesModel.cs" />
     <Compile Include="Models\InventoryBatchModel.cs" />
     <Compile Include="Models\InventoryViewModel.cs" />
+    <Compile Include="Models\OtpEntryModel.cs" />
     <Compile Include="Models\OverHeadModel.cs" />
     <Compile Include="Models\PaymentModel.cs" />
     <Compile Include="Models\ProductModel.cs" />
@@ -243,6 +247,7 @@
     <Compile Include="Repository\BusinessHourRepository.cs" />
     <Compile Include="Repository\CategoryRepository.cs" />
     <Compile Include="Repository\CustomerRepository.cs" />
+    <Compile Include="Repository\DeletedRecordRepository.cs" />
     <Compile Include="Repository\DeliveredItemRepository.cs" />
     <Compile Include="Repository\DeliveryRepository.cs" />
     <Compile Include="Repository\DiscountRepository.cs" />
@@ -253,6 +258,7 @@
     <Compile Include="Repository\IAudit.cs" />
     <Compile Include="Repository\ICategory.cs" />
     <Compile Include="Repository\ICustomer.cs" />
+    <Compile Include="Repository\IDeletedRecord.cs" />
     <Compile Include="Repository\IDeliveredItems.cs" />
     <Compile Include="Repository\IDelivery.cs" />
     <Compile Include="Repository\IDiscount.cs" />
@@ -349,6 +355,12 @@
     </Compile>
     <Compile Include="View\DeliveryForm.Designer.cs">
       <DependentUpon>DeliveryForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="View\ForgotPasswordForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="View\ForgotPasswordForm.Designer.cs">
+      <DependentUpon>ForgotPasswordForm.cs</DependentUpon>
     </Compile>
     <Compile Include="View\InvoiceForm.cs">
       <SubType>Form</SubType>
@@ -523,6 +535,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="View\DeliveryForm.resx">
       <DependentUpon>DeliveryForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="View\ForgotPasswordForm.resx">
+      <DependentUpon>ForgotPasswordForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="View\LoadingScreenControl.resx">
       <DependentUpon>LoadingScreenControl.cs</DependentUpon>
