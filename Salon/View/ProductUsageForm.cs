@@ -19,6 +19,15 @@ namespace Salon.View
         private MainForm mainform;
         private ServiceModel serviceModel;
         private ServiceProductUsageModel ServiceProductUsageModel;
+
+        public ProductUsageForm()
+        {
+            InitializeComponent();
+            ThemeManager.ApplyTheme(this);
+            ThemeManager.StyleDataGridView(dgv_Service_Product);
+            LoadProducts();
+            LoadServiceProductUsage();
+        }
         public ProductUsageForm(MainForm mainForm, ServiceModel serviceModel)
         {
             InitializeComponent();
@@ -67,7 +76,7 @@ namespace Salon.View
          
 
         }
-        private void LoadServiceProductUsage()
+        public void LoadServiceProductUsage()
         {
             var repo = new ServiceProductUsageRepository();
             var controller = new ServiceProductUsageController(repo);
@@ -294,6 +303,8 @@ namespace Salon.View
                     var product = cmb_product.Text;
                     Audit.AuditLog(DateTime.Now, "Delete", UserSession.CurrentUser.first_Name, "Manage Services, Product Usage", $"Deleted product usage '{product}' for ({serviceModel.serviceName}) on {DateTime.Now:yyyy-MM-dd} at {DateTime.Now:HH:mm:ss}");
                     controller.DeleteServiceProduct(ServiceProductUsageModel.service_product_id);
+                    mainform.InsertDeletedRecord(ServiceProductUsageModel.service_product_id, "Manage Services, Product Usage", ServiceProductUsageModel.serviceName, UserSession.CurrentUser.first_Name, DateTime.Today);
+                    mainform.FilterdDeletedRecords();
                     LoadServiceProductUsage();
                 }
             }

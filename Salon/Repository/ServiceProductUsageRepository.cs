@@ -19,7 +19,7 @@ namespace Salon.Repository
                         FROM  tbl_service_product as sp 
                         LEFT JOIN tbl_servicesname as s ON s.serviceName_id = sp.service_id
                         LEFT JOIN tbl_products as p ON p.product_id = sp.product_id
-                        WHERE s.serviceName_id = @id;";
+                        WHERE s.serviceName_id = @id AND sp.is_deleted = 0;";
                 return con.Query<ServiceProductUsageModel>(sql, new { id }).ToList();
             }
                
@@ -66,10 +66,18 @@ namespace Salon.Repository
         {
             using (var con = Database.GetConnection()) 
             {
-                var sql = "DELETE FROM tbl_service_product WHERE service_product_id = @service_product_id";
+                var sql = "UPDATE tbl_service_product SET is_deleted = 1 WHERE service_product_id = @service_product_id";
                 con.Execute(sql, new { service_product_id = id });
             }
               
+        }
+        public void RestoreServiceProduct(int id) 
+        {
+            using (var con = Database.GetConnection())
+            {
+                var sql = "UPDATE tbl_service_product SET is_deleted = 0 WHERE service_product_id = @service_product_id";
+                con.Execute(sql, new { service_product_id = id });
+            }
         }
 
         public bool ProductUsageExists(int product_id, int id = 0) 

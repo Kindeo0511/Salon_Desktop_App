@@ -16,9 +16,9 @@ namespace Salon
             Application.SetCompatibleTextRenderingDefault(false);
             //Application.Run(new Form1());
 
-            // Show splash screen
-            Form1 splash = new Form1();
-            splash.ShowDialog(); // blocks until closed
+            //// Show splash screen
+            //Form1 splash = new Form1();
+            //splash.ShowDialog(); // blocks until closed
 
             // Then launch login form as main window
             Application.Run(new LoginForm());

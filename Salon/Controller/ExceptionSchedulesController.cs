@@ -32,6 +32,11 @@ namespace Salon.Controller
             _repo.DeleteExceptionSchedule(exceptionScheduleId);
         }
 
+        public void RestoreExceptionSchedule(int id) 
+        {
+            _repo.RestoreExceptionSchedule(id);
+        }
+
         // VALIDATION 
 
         public bool GetCheckExceptionSchedule(DateTime date) 

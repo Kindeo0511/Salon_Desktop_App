@@ -12,6 +12,7 @@ namespace Salon.Models
         public int category_id { get; set; }
         public string subCategoryName { get; set; }
         public string categoryName { get; set; }
+     
 
     }
 }

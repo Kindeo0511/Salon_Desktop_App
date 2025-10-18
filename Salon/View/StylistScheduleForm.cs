@@ -299,6 +299,8 @@ namespace Salon.View
                     stylistSchedulesController.DeleteSchedule(schedules.ScheduleId);
                     MessageBox.Show("Schedule deleted successfully!");
                     LoadSchedules(_stylist.stylist_id);
+                    mainForm.InsertDeletedRecord(schedules.ScheduleId, "Manage Stylist, Schedule", schedules.DayOfWeek, UserSession.CurrentUser.first_Name, DateTime.Today);
+                    mainForm.FilterdDeletedRecords();
                     var day = txt_day.Text;
                     Audit.AuditLog(DateTime.Now, "Delete", UserSession.CurrentUser.first_Name, "Manage Stylist, Schedule", $"Deleted schedule for '{day}' (Stylist: {_stylist.firstName}) on {DateTime.Now:yyyy-MM-dd} at {DateTime.Now:HH:mm:ss}");
                     clear();
@@ -435,6 +437,8 @@ namespace Salon.View
                 stylistSchedulesController.Delete_ExceptionSchedule(schedules.id);
                 MessageBox.Show("Schedule deleted successfully!");
                 LoadExceptionSchedules(_stylist.stylist_id);
+                mainForm.InsertDeletedRecord(schedules.id, "Manage Stylist, Exception Schedule",  _stylist.firstName + $"({schedules.date})", UserSession.CurrentUser.first_Name, DateTime.Today);
+                mainForm.FilterdDeletedRecords();
                 var reason = txt_reason.Text;
                 Audit.AuditLog(DateTime.Now, "Create", UserSession.CurrentUser.first_Name, "Manage Stylist, Exception Schedule", $"Created exception schedule for Stylist: '{_stylist.firstName}' (Reason: {reason}) on {DateTime.Now:yyyy-MM-dd} at {DateTime.Now:HH:mm:ss}");
                 clear();

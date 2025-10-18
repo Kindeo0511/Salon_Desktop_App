@@ -30,9 +30,9 @@ namespace Salon.Controller
         {
             return discountRepository.GetDiscountById(id);
         }
-        public void AddDiscount(DiscountModel model)
+        public int AddDiscount(DiscountModel model)
         {
-            discountRepository.AddDiscount(model);
+            return discountRepository.AddDiscount(model);
         }
         public void UpdateDiscount(DiscountModel model)
         {
@@ -43,7 +43,10 @@ namespace Salon.Controller
             discountRepository.DeleteDiscount(id);
         }
 
-
+        public void RestoreDiscount(int id) 
+        {
+            discountRepository.RestoreDiscount(id);
+        }
         // DISCOUNT REPORT
 
         public DiscountModel GetTotalDiscount() 

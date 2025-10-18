@@ -472,6 +472,8 @@
             this.Controls.Add(this.lbl_Date);
             this.Controls.Add(this.lbl_Time);
             this.Controls.Add(this.lbl_CustomerName);
+            this.MaximizeBox = false;
+            this.MinimizeBox = false;
             this.Name = "PaymentForm";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "PaymentForm";

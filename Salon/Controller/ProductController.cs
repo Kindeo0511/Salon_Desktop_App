@@ -35,6 +35,10 @@ namespace Salon.Controller
         {
             repo.DeleteProduct(productId);
         }
+        public void RestoreProduct(int productId)
+        {
+            repo.RestoreProduct(productId);
+        }
 
         public bool CheckProductExists(string name, int cat_id, int id = 0) 
         {

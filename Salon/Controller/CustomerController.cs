@@ -29,6 +29,10 @@ namespace Salon.Controller
         {
             return repo.GetCustomerBySearch(key);
         }
+        public CustomerModel GetCustomerById(int id) 
+        {
+            return repo.GetCustomerById(id);
+        }
         public void AddCustomer(CustomerModel customer)
         {
             repo.AddCustomer(customer);
@@ -40,6 +44,10 @@ namespace Salon.Controller
         public void DeleteCustomer(int customerId)
         {
             repo.DeleteCustomer(customerId);
+        }
+        public void RestoreCustomer(int customerId) 
+        {
+            repo.ActivateCustomer(customerId);
         }
         public bool CheckEmailExists(string email, int id = 0) 
         {

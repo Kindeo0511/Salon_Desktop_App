@@ -40,6 +40,10 @@ namespace Salon.Controller
             repo.deleteService(id);
         }
 
+        public void RestoreServices(int id) 
+        {
+            repo.RestoreService(id);
+        }
         public bool CheckServiceExists(string name, int scid, int id) 
         {
            return repo.ServiceExists(name, scid, id);

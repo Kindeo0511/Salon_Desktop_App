@@ -17,6 +17,11 @@ namespace Salon.Models
         public DateTime? expiry_date { get; set; }
         public string status { get; set; }
 
+        public int max_usage { get; set; }
+        public int per_customer_limit { get; set; }
+        public int notif_on_create { get; set; }
+        public int notif_on_expired { get; set; }
+
         //  DISCOUNT REPORT
 
         public decimal TotalDiscount { get; set; }

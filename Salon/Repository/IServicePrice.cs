@@ -15,7 +15,7 @@ namespace Salon.Repository
         void AddServicePrice(ServicePriceModel servicePrice);
         void UpdateServicePrice(ServicePriceModel servicePrice);
         void DeleteServicePrice(int id);
-
+        void RestoreServicePrice(int id);
 
         bool IsServicePriceExist(int spid, int id);
 

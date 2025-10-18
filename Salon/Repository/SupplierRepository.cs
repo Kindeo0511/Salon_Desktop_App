@@ -16,7 +16,7 @@ namespace Salon.Repository
         {
             using (var con = Database.GetConnection())
             {
-                var sql = "SELECT * FROM tbl_supplier";
+                var sql = "SELECT * FROM tbl_supplier WHERE is_deleted = 0";
                 return con.Query<SupplierModel>(sql).ToList();
             }
         }
@@ -40,7 +40,16 @@ namespace Salon.Repository
         {
             using (var con = Database.GetConnection())
             {
-                var sql = "DELETE FROM tbl_supplier WHERE supplier_id = @Id";
+                var sql = "UPDATE tbl_supplier SET status = 'Inactive', is_deleted = 1 WHERE supplier_id = @Id";
+                con.Execute(sql, new { Id = id });
+            }
+        }
+
+        public void ActivateSupplier(int id)
+        {
+            using (var con = Database.GetConnection())
+            {
+                var sql = "UPDATE tbl_supplier SET status = 'Active', is_deleted = 0 WHERE supplier_id = @Id";
                 con.Execute(sql, new { Id = id });
             }
         }

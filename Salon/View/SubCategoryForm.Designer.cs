@@ -155,6 +155,8 @@
             this.Controls.Add(this.btn_cancel);
             this.Controls.Add(this.btn_save);
             this.Controls.Add(this.txt_subcategory_name);
+            this.MaximizeBox = false;
+            this.MinimizeBox = false;
             this.Name = "SubCategoryForm";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "SubCategoryForm";

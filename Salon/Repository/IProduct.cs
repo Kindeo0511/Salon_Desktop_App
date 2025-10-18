@@ -14,6 +14,7 @@ namespace Salon.Repository
         void AddProduct(ProductModel product);
         void UpdateProduct(ProductModel product);
         void DeleteProduct(int productId);
+        void RestoreProduct(int productId);
 
         bool ProductExists(string name, int cat_id, int productId);
     }

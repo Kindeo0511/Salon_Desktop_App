@@ -24,5 +24,10 @@ namespace Salon.Repository
         bool UserExistsAsync(string username, int id = 0);
         bool UserEmailExistsAsync(string email, int id = 0);
         bool UserNumberExistsAsync(string number, int id = 0);
+
+
+        // RESTORING DATA
+
+        void RestoreUser(int userId);
     }
 }

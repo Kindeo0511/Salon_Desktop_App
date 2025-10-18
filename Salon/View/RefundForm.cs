@@ -180,5 +180,10 @@ namespace Salon.View
             UpdateAppointmentStatus(model.appointment_id);
            this.Close();
         }
+
+        private void btn_cancel_refund_Click(object sender, EventArgs e)
+        {
+            this.Close();
+        }
     }
 }

@@ -61,7 +61,15 @@ namespace Salon.Repository
         {
             using (var con = Database.GetConnection())
             {
-                var sql = "DELETE FROM tbl_stylists WHERE stylist_id = @stylist_id";
+                var sql = "UPDATE tbl_stylists SET status = 'Inactive', is_deleted = 1 WHERE stylist_id = @stylist_id";
+                con.Execute(sql, new { stylist_id });
+            }
+        }
+        public void ActivateStylist(int stylist_id) 
+        {
+            using (var con = Database.GetConnection())
+            {
+                var sql = "UPDATE tbl_stylists SET status = 'Active', is_deleted = 0 WHERE stylist_id = @stylist_id";
                 con.Execute(sql, new { stylist_id });
             }
         }

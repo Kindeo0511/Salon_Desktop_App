@@ -16,7 +16,7 @@ namespace Salon.Repository
         {
             using (var con = Database.GetConnection()) 
             {
-                var sql = "SELECT * FROM tbl_discount";
+                var sql = "SELECT * FROM tbl_discount WHERE is_deleted = 0";
                 return con.Query<DiscountModel>(sql);
             }
                
@@ -27,12 +27,15 @@ namespace Salon.Repository
             {
                 var sql = @"SELECT 
                           discount_id,
-                          CONCAT(discount_type, '  ', promo_code) AS discount_and_promo_code,
+                          CONCAT(discount_type, ' ', promo_code) AS discount_and_promo_code,
                           discount_rate,
                           expiry_date,
                           status
                         FROM tbl_discount
-                        WHERE  status = 'Active';";
+                        WHERE 
+                          status = 'Active' 
+                          AND expiry_date >= CURDATE();
+                        ";
                 return con.Query<DiscountModel>(sql);
             }
 
@@ -46,15 +49,18 @@ namespace Salon.Repository
             }
                 
         }
-        public void AddDiscount(DiscountModel model)
+        public int AddDiscount(DiscountModel model)
         {
-            using (var con = Database.GetConnection()) 
+            using (var con = Database.GetConnection())
             {
-                var sql = @"INSERT INTO tbl_discount (discount_type,promo_code, discount_rate, expiry_date)
-                        VALUES(@discount_type, @promo_code, @discount_rate, @expiry_date)";
-                con.Execute(sql, model);
+                var sql = @"INSERT INTO tbl_discount 
+                    (discount_type, promo_code, discount_rate, expiry_date, max_usage, per_customer_limit, notif_on_create, notif_on_expired)
+                    VALUES 
+                    (@discount_type, @promo_code, @discount_rate, @expiry_date, @max_usage, @per_customer_limit, @notif_on_create, @notif_on_expired);
+                    SELECT LAST_INSERT_ID();";
+
+                return con.ExecuteScalar<int>(sql, model);
             }
-                
         }
         public void UpdateDiscount(DiscountModel model)
         {
@@ -69,10 +75,19 @@ namespace Salon.Repository
         {
             using (var con = Database.GetConnection()) 
             {
-                var sql = @"DELETE FROM tbl_discount  WHERE discount_id = @discount_id";
+                var sql = @"UPDATE tbl_discount SET is_deleted = 1 WHERE discount_id = @discount_id";
                 con.Execute(sql, new { discount_id = id });
             }
                 
+        }
+        public void RestoreDiscount(int id)
+        {
+            using (var con = Database.GetConnection())
+            {
+                var sql = @"UPDATE tbl_discount SET is_deleted = 0 WHERE discount_id = @discount_id";
+                con.Execute(sql, new { discount_id = id });
+            }
+
         }
 
         // DISCOUNT REPORT

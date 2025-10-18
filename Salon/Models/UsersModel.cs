@@ -19,5 +19,6 @@ namespace Salon.Models
         public string userName { get; set; }
         public string userPassword { get; set; }
         public string Position { get; set; }
+        public string status { get; set; }
     }
 }

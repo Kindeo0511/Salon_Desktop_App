@@ -20,7 +20,8 @@ namespace Salon.Repository
                             LEFT JOIN tbl_service_product 
                             ON tbl_service_product.service_product_id = tbl_service_price.service_product_id
                             LEFT JOIN tbl_servicesname
-                            ON tbl_servicesname.serviceName_id = tbl_service_product.service_id;";
+                            ON tbl_servicesname.serviceName_id = tbl_service_product.service_id
+                            WHERE tbl_service_price.is_deleted = 0;";
                 return con.Query<ServicePriceModel>(sql).ToList();
             }
         }
@@ -91,8 +92,17 @@ namespace Salon.Repository
         {
             using (var con = Database.GetConnection()) 
             {
-                var sql = "DELETE FROM tbl_service_price WHERE pricing_id = @id";
+                var sql = "UPDATE tbl_service_price SET is_deleted = 1 WHERE pricing_id = @id";
                 con.Execute(sql, new { id = id});
+            }
+        }
+
+        public void RestoreServicePrice(int id)
+        {
+            using (var con = Database.GetConnection())
+            {
+                var sql = "UPDATE tbl_service_price SET is_deleted = 0 WHERE pricing_id = @id";
+                con.Execute(sql, new { id = id });
             }
         }
 

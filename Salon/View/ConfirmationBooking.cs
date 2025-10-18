@@ -131,18 +131,18 @@ namespace Salon.View
 
             try
             {
-                await EmailMessage.SendNotificationEmailAsync(
-                to: summary.CustomerModel.email,
-                recipientName: summary.CustomerModel.customer_name,
-                appointmentTime: $"{summary.AppointmentDate} at {formattedStartTime}",
-                services: lbl_Services.Text,
-                customMessage: "Your appointment has been confirmed. Please arrive 10 minutes early and bring your ID.");
+                //await EmailMessage.SendNotificationEmailAsync(
+                //to: summary.CustomerModel.email,
+                //recipientName: summary.CustomerModel.customer_name,
+                //appointmentTime: $"{summary.AppointmentDate} at {formattedStartTime}",
+                //services: lbl_Services.Text,
+                //customMessage: "Your appointment has been confirmed. Please arrive 10 minutes early and bring your ID.");
 
-                await SmsSender.SendSmsNotificationAsync(
-                phone: summary.CustomerModel.phoneNumber,
-                customerName: summary.CustomerModel.customer_name,
-                appointmentDate: summary.AppointmentDate.ToString("MM/dd/yyyy"),
-                startTime: formattedStartTime);
+                //await SmsSender.SendSmsNotificationAsync(
+                //phone: summary.CustomerModel.phoneNumber,
+                //customerName: summary.CustomerModel.customer_name,
+                //appointmentDate: summary.AppointmentDate.ToString("MM/dd/yyyy"),
+                //startTime: formattedStartTime);
 
                 MessageBox.Show($"The appointment has been {(isUpdate ? "updated" : "booked")} successfully!",
                     "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);

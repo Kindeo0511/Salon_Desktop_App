@@ -17,7 +17,8 @@ namespace Salon.Repository
             {
                 var sql = @"SELECT sc.subCategory_id, sc.category_id, sc.subCategoryName, c.categoryName
                             FROM tbl_subcategory sc
-                            JOIN tbl_category c ON sc.category_id = c.category_id";
+                            JOIN tbl_category c ON sc.category_id = c.category_id
+                            WHERE sc.is_deleted = 0 ";
                 return con.Query<SubCategoryModel>(sql).ToList();
             }
         }
@@ -41,8 +42,16 @@ namespace Salon.Repository
         {
             using (var con = Database.GetConnection())
             {
-                var sql = "DELETE FROM tbl_subcategory WHERE subCategory_id = @subCategory_id";
+                var sql = "UPDATE tbl_subcategory SET is_deleted = 1 WHERE subCategory_id = @subCategory_id";
                 con.Execute(sql, new { subCategory_id = subCategoryId });
+            }
+        }
+        public void RestoreDeletedSubCategories(int id) 
+        {
+            using (var con = Database.GetConnection())
+            {
+                var sql = "UPDATE tbl_subcategory SET is_deleted = 0 WHERE subCategory_id = @id";
+                con.Execute(sql, new { id = id });
             }
         }
 

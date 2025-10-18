@@ -158,6 +158,8 @@
             this.Controls.Add(this.btn_cancel);
             this.Controls.Add(this.btn_save);
             this.Controls.Add(this.txt_category_name);
+            this.MaximizeBox = false;
+            this.MinimizeBox = false;
             this.Name = "CategoryForm";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "CategoryForm";

@@ -18,6 +18,8 @@ namespace Salon.Models
         public string address { get; set; }
         public string specialist { get; set; }
 
+        public string status { get; set; }
+
         public string fullName { get; set; }
         public decimal daily_wage { get; set; }
         public decimal stylist_cost { get; set; }

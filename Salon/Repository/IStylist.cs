@@ -15,6 +15,7 @@ namespace Salon.Repository
         void AddStylist(StylistModel stylist);
         void UpdateStylist(StylistModel stylist);
         void DeleteStylist(int stylist_id);
+        void ActivateStylist(int stylist_id);
 
         // SUMMARY STYlIST REPORT
 

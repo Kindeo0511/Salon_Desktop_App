@@ -209,6 +209,8 @@
             this.Controls.Add(this.txt_last_name);
             this.Controls.Add(this.txt_middle_name);
             this.Controls.Add(this.txt_first_name);
+            this.MaximizeBox = false;
+            this.MinimizeBox = false;
             this.Name = "CustomerForm";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "CUSTOMER INFORMATION";

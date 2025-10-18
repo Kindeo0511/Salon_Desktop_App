@@ -77,6 +77,7 @@ namespace Salon.View
 
         private void btn_next_Click(object sender, EventArgs e)
         {
+
             string method = rad_email.Checked ? "Email" :
                  rad_sms.Checked ? "SMS" : null;
 
@@ -98,7 +99,7 @@ namespace Salon.View
                 forgotPasswordTabControl.Selecting += forgotPasswordTabControl_Selecting;
             }
 
-            
+
 
 
         }
@@ -145,7 +146,6 @@ namespace Salon.View
                 forgotPasswordTabControl.SelectedIndex = 2; // Switch to Tab 2
                 forgotPasswordTabControl.Selecting += forgotPasswordTabControl_Selecting; // Re-enable block
             }
-
 
 
 

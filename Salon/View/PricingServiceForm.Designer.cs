@@ -136,7 +136,7 @@
             this.txt_total_cost.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.txt_total_cost.Depth = 0;
             this.txt_total_cost.Enabled = false;
-            this.txt_total_cost.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.6F);
+            this.txt_total_cost.Font = new System.Drawing.Font("Roboto", 9.6F);
             this.txt_total_cost.Hint = "Total Cost";
             this.txt_total_cost.LeadingIcon = null;
             this.txt_total_cost.Location = new System.Drawing.Point(491, 225);
@@ -154,7 +154,7 @@
             this.txt_final_price.AnimateReadOnly = false;
             this.txt_final_price.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.txt_final_price.Depth = 0;
-            this.txt_final_price.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.6F);
+            this.txt_final_price.Font = new System.Drawing.Font("Roboto", 16F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
             this.txt_final_price.Hint = "Selling Price";
             this.txt_final_price.LeadingIcon = null;
             this.txt_final_price.Location = new System.Drawing.Point(491, 346);
@@ -246,6 +246,7 @@
             this.btn_cancel.Type = MaterialSkin.Controls.MaterialButton.MaterialButtonType.Contained;
             this.btn_cancel.UseAccentColor = false;
             this.btn_cancel.UseVisualStyleBackColor = true;
+            this.btn_cancel.Click += new System.EventHandler(this.btn_cancel_Click);
             // 
             // btn_update
             // 
@@ -369,6 +370,8 @@
             this.Controls.Add(this.txt_stylist_cost);
             this.Controls.Add(this.txt_product_cost);
             this.Controls.Add(this.cmb_services);
+            this.MaximizeBox = false;
+            this.MinimizeBox = false;
             this.Name = "PricingServiceForm";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = " ";

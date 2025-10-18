@@ -34,6 +34,10 @@ namespace Salon.Controller
             _repo.DeleteStylistSchedule(scheduleId);
         }
 
+        public void RestoreSchedule(int scheduleId)
+        {
+            _repo.RestoreStylistSchedule(scheduleId);
+        }
         // VALIDATION
 
         public List<StylistModel> CheckStylistSchedule(DateTime day)

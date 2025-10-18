@@ -284,6 +284,7 @@
             this.btn_cancel_refund.Type = MaterialSkin.Controls.MaterialButton.MaterialButtonType.Contained;
             this.btn_cancel_refund.UseAccentColor = false;
             this.btn_cancel_refund.UseVisualStyleBackColor = true;
+            this.btn_cancel_refund.Click += new System.EventHandler(this.btn_cancel_refund_Click);
             // 
             // btn_refund
             // 

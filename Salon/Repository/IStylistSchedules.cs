@@ -13,6 +13,7 @@ namespace Salon.Repository
         void AddStylistSchedule(StylistScheduleModel stylistSchedules);
         void UpdateStylistSchedule(StylistScheduleModel stylistSchedules);
         void DeleteStylistSchedule(int scheduleId);
+        void RestoreStylistSchedule(int scheduleId);
 
         // VALIDATION
 

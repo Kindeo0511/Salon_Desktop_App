@@ -56,6 +56,8 @@ namespace Salon
             if (lbl_progress_bar.Value == 100) 
             {
                 timer1.Enabled = false;
+                //var form = new LoginForm();
+                //form.ShowDialog();
                 this.Close();
             }
 

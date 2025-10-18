@@ -18,7 +18,7 @@ namespace Salon.Repository
 
             using (var connection = Database.GetConnection()) 
             {
-                return connection.Query<StylistScheduleModel>("SELECT id as ScheduleId, stylist_id as StylistId, day_of_week as DayOfWeek, start_time as StartTime, end_time as EndTime, is_working as IsWorking FROM tbl_stylist_schedules WHERE stylist_id =@StylistId ", new { StylistId = stylistId }).ToList();
+                return connection.Query<StylistScheduleModel>("SELECT id as ScheduleId, stylist_id as StylistId, day_of_week as DayOfWeek, start_time as StartTime, end_time as EndTime, is_working as IsWorking FROM tbl_stylist_schedules WHERE stylist_id =@StylistId AND is_deleted = 0", new { StylistId = stylistId }).ToList();
             }
             
         }
@@ -42,14 +42,21 @@ namespace Salon.Repository
         {
             using (var connection = Database.GetConnection()) 
             {
-                connection.Execute("DELETE FROM tbl_stylist_schedules WHERE id = @Id", new { Id = scheduleId });
+                connection.Execute("UPDATE tbl_stylist_schedules SET is_deleted = 1 WHERE id = @Id", new { Id = scheduleId });
             }
                 
+        }
+        public void RestoreStylistSchedule(int scheduleId) 
+        {
+            using (var connection = Database.GetConnection())
+            {
+                connection.Execute("UPDATE tbl_stylist_schedules SET is_deleted = 0 WHERE id = @Id", new { Id = scheduleId });
+            }
         }
 
         // VALIDATION
 
-       public List<StylistModel> StylistSchedules(string dayOfWeek) 
+        public List<StylistModel> StylistSchedules(string dayOfWeek) 
         {
             using (var con = Database.GetConnection()) 
             {

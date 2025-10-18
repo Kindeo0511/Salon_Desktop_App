@@ -78,7 +78,7 @@ namespace Salon.Repository
         {
             using (var con = Database.GetConnection())
             {
-                var sql = "DELETE FROM tbl_users WHERE user_id = @userId";
+                var sql = "UPDATE tbl_users SET status = 'Inactive', is_deactivate = 1 WHERE user_id = @userId";
                 con.Execute(sql, new { userId });
             }
         }
@@ -110,6 +110,15 @@ namespace Salon.Repository
                 var sql = "SELECT COUNT(*) FROM tbl_users WHERE phone_Number = @number AND user_id != @id";
                 var count =  con.ExecuteScalar<int>(sql, new { number, id });
                 return count > 0;
+            }
+        }
+
+        public void RestoreUser(int userId) 
+        {
+            using (var con = Database.GetConnection())
+            {
+                var sql = "UPDATE tbl_users SET status = 'Active', is_deactivate = 0 WHERE user_id = @userId";
+                con.Execute(sql, new { userId });
             }
         }
     }

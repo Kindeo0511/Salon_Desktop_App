@@ -198,6 +198,8 @@
             this.Controls.Add(this.txt_email);
             this.Controls.Add(this.txt_contact);
             this.Controls.Add(this.txt_supplier_name);
+            this.MaximizeBox = false;
+            this.MinimizeBox = false;
             this.Name = "SupplierForm";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "SupplierForm";

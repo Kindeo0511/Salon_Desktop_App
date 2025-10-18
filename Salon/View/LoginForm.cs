@@ -26,6 +26,7 @@ namespace Salon.View
         }
         private void btn_login_Click(object sender, EventArgs e)
         {
+
             log_in();
         }
         private void log_in()
@@ -49,10 +50,12 @@ namespace Salon.View
                       "User",
                       $"Log In '{UserSession.CurrentUser.first_Name}'on {DateTime.Now:yyyy-MM-dd} at {DateTime.Now:HH:mm:ss}"
                   );
-
+                var form = new MainForm(this);
+                form.ShowDialog();
                 this.Hide();
-                MainForm mainForm = new MainForm();
-                mainForm.Show();
+                //this.Close();
+
+
 
 
             }

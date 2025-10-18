@@ -223,7 +223,44 @@ namespace Salon.View
 
 
         }
+        private int CustomerDiscountUsageCount(int discount_id, int customer_id) 
+        {
+            var repo = new DiscountUsageRepository();
+            var controller = new DiscountUsageController(repo);
+            var counts =  controller.GetUsageCount(discount_id, customer_id);
 
+            return counts;
+            
+        }
+
+        private int DiscountCustomerlimit(int discount_id) 
+        {
+            var repo = new DiscountRepository();
+            var controller = new DiscountController(repo);
+            var limit = controller.GetDiscountById(discount_id);
+
+            return limit.per_customer_limit;
+
+        }
+
+        private void InsertIntoDiscountUsage(int discount_id, int customer_id, int appointment_id, DateTime used_on) 
+        {
+            var repo = new DiscountUsageRepository();
+            var controller = new DiscountUsageController(repo);
+            var model = new DiscountUsageModel
+            {
+                discount_id = discount_id,
+                customer_id = customer_id,
+                appointment_id = appointment_id,
+                used_on = used_on,
+            };
+
+           
+                controller.AddDiscountUsage(model);
+            
+   
+            
+        }
         private void btn_confirm_payment_Click(object sender, EventArgs e)
         {
             if (!Validated()) return;
@@ -263,7 +300,12 @@ namespace Salon.View
 
             if (cb_PaymentMethod.SelectedIndex == -1)
             {
-                MessageBox.Show("Please select a payment method.");
+                MessageBox.Show("Please select a payment method.");     
+                return;
+            }
+            if (CustomerDiscountUsageCount(Convert.ToInt32(cb_discount.SelectedValue), model.CustomerId) >= DiscountCustomerlimit(Convert.ToInt32(cb_discount.SelectedValue)))
+            {
+                MessageBox.Show("This customer has reached the usage limit for this discount.", "Limit Reached", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 return;
             }
             else
@@ -275,7 +317,7 @@ namespace Salon.View
                     return;
                 }
 
-
+                InsertIntoDiscountUsage(Convert.ToInt32(cb_discount.SelectedValue), model.CustomerId, model.AppointmentId, DateTime.Today);
                 paymentController.CreatePayment(payment);
                 AddTransactions(model.AppointmentId, _vatAmount, _discountAmount,_subtotal, totalAmount, cb_PaymentMethod.SelectedItem.ToString(), "Paid", DateTime.Now);
                 appointment.UpdateAppointmentPayment(model.AppointmentId, "Paid", "Completed");

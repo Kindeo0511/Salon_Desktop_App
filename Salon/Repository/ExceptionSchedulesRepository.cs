@@ -16,7 +16,7 @@ namespace Salon.Repository
         {
             using (var connection = Database.GetConnection()) 
             {
-                return connection.Query<ExceptionScheduleModel>("SELECT * FROM tbl_exception_schedules WHERE stylist_id = @StylistId", new { StylistId = stylist_id }).ToList();
+                return connection.Query<ExceptionScheduleModel>("SELECT * FROM tbl_exception_schedules WHERE stylist_id = @StylistId AND is_deleted = 0", new { StylistId = stylist_id }).ToList();
             }
                
         }
@@ -40,7 +40,15 @@ namespace Salon.Repository
         {
             using (var connection = Database.GetConnection())
             {
-                connection.Execute("DELETE FROM tbl_exception_schedules WHERE id = @Id", new { Id = exceptionScheduleId });
+                connection.Execute("UPDATE tbl_exception_schedules SET is_deleted = 1 WHERE id = @Id", new { Id = exceptionScheduleId });
+            }
+        }
+
+        public void RestoreExceptionSchedule(int exceptionScheduleId) 
+        {
+            using (var connection = Database.GetConnection())
+            {
+                connection.Execute("UPDATE tbl_exception_schedules SET is_deleted = 0 WHERE id = @Id", new { Id = exceptionScheduleId });
             }
         }
 

@@ -34,6 +34,11 @@ namespace Salon.Controller
             repo.DeleteSubCategory(subCategoryId);
         }
 
+        public void RestoreSubCategory(int id) 
+        {
+            repo.RestoreDeletedSubCategories(id);
+        }
+
         public bool CheckSubCategoryExists(string name, int category_id, int id) 
         {
             return repo.SubCategoriesExist(name, category_id, id);

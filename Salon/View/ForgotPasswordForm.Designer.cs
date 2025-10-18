@@ -31,6 +31,10 @@
             this.txt_username = new MaterialSkin.Controls.MaterialTextBox();
             this.lbl_email = new MaterialSkin.Controls.MaterialLabel();
             this.g_step_1 = new System.Windows.Forms.GroupBox();
+            this.lbl_number = new MaterialSkin.Controls.MaterialLabel();
+            this.txt_number = new MaterialSkin.Controls.MaterialTextBox();
+            this.rad_email = new MaterialSkin.Controls.MaterialRadioButton();
+            this.rad_sms = new MaterialSkin.Controls.MaterialRadioButton();
             this.materialLabel4 = new MaterialSkin.Controls.MaterialLabel();
             this.g_step_3 = new System.Windows.Forms.GroupBox();
             this.materialLabel3 = new MaterialSkin.Controls.MaterialLabel();
@@ -47,20 +51,16 @@
             this.btn_confirm = new MaterialSkin.Controls.MaterialButton();
             this.btn_back_to_step_2 = new MaterialSkin.Controls.MaterialButton();
             this.forgotPasswordTabControl = new MaterialSkin.Controls.MaterialTabControl();
-            this.tabPage2 = new System.Windows.Forms.TabPage();
             this.tabPage1 = new System.Windows.Forms.TabPage();
+            this.tabPage2 = new System.Windows.Forms.TabPage();
             this.tabPage3 = new System.Windows.Forms.TabPage();
             this.materialTabSelector1 = new MaterialSkin.Controls.MaterialTabSelector();
-            this.rad_sms = new MaterialSkin.Controls.MaterialRadioButton();
-            this.rad_email = new MaterialSkin.Controls.MaterialRadioButton();
-            this.txt_number = new MaterialSkin.Controls.MaterialTextBox();
-            this.lbl_number = new MaterialSkin.Controls.MaterialLabel();
             this.g_step_1.SuspendLayout();
             this.g_step_3.SuspendLayout();
             this.g_step_2.SuspendLayout();
             this.forgotPasswordTabControl.SuspendLayout();
-            this.tabPage2.SuspendLayout();
             this.tabPage1.SuspendLayout();
+            this.tabPage2.SuspendLayout();
             this.tabPage3.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -72,7 +72,7 @@
             this.txt_username.Font = new System.Drawing.Font("Roboto", 16F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
             this.txt_username.Hint = "Enter email";
             this.txt_username.LeadingIcon = null;
-            this.txt_username.Location = new System.Drawing.Point(9, 158);
+            this.txt_username.Location = new System.Drawing.Point(79, 175);
             this.txt_username.MaxLength = 50;
             this.txt_username.MouseState = MaterialSkin.MouseState.OUT;
             this.txt_username.Multiline = false;
@@ -88,7 +88,7 @@
             this.lbl_email.AutoSize = true;
             this.lbl_email.Depth = 0;
             this.lbl_email.Font = new System.Drawing.Font("Roboto", 14F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
-            this.lbl_email.Location = new System.Drawing.Point(6, 113);
+            this.lbl_email.Location = new System.Drawing.Point(85, 153);
             this.lbl_email.MouseState = MaterialSkin.MouseState.HOVER;
             this.lbl_email.Name = "lbl_email";
             this.lbl_email.Size = new System.Drawing.Size(45, 19);
@@ -106,19 +106,85 @@
             this.g_step_1.Controls.Add(this.lbl_email);
             this.g_step_1.Controls.Add(this.txt_username);
             this.g_step_1.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.g_step_1.Location = new System.Drawing.Point(39, 51);
+            this.g_step_1.Location = new System.Drawing.Point(6, 47);
             this.g_step_1.Name = "g_step_1";
-            this.g_step_1.Size = new System.Drawing.Size(505, 255);
+            this.g_step_1.Size = new System.Drawing.Size(677, 300);
             this.g_step_1.TabIndex = 4;
             this.g_step_1.TabStop = false;
             this.g_step_1.Text = "FORGOT PASSWORD     (STEP 1)";
+            // 
+            // lbl_number
+            // 
+            this.lbl_number.AutoSize = true;
+            this.lbl_number.Depth = 0;
+            this.lbl_number.Font = new System.Drawing.Font("Roboto", 14F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
+            this.lbl_number.Location = new System.Drawing.Point(85, 153);
+            this.lbl_number.MouseState = MaterialSkin.MouseState.HOVER;
+            this.lbl_number.Name = "lbl_number";
+            this.lbl_number.Size = new System.Drawing.Size(120, 19);
+            this.lbl_number.TabIndex = 7;
+            this.lbl_number.Text = "Contact Number:";
+            this.lbl_number.Visible = false;
+            // 
+            // txt_number
+            // 
+            this.txt_number.AnimateReadOnly = false;
+            this.txt_number.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            this.txt_number.Depth = 0;
+            this.txt_number.Font = new System.Drawing.Font("Roboto", 16F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
+            this.txt_number.Hint = "Enter contact number";
+            this.txt_number.LeadingIcon = null;
+            this.txt_number.Location = new System.Drawing.Point(79, 175);
+            this.txt_number.MaxLength = 50;
+            this.txt_number.MouseState = MaterialSkin.MouseState.OUT;
+            this.txt_number.Multiline = false;
+            this.txt_number.Name = "txt_number";
+            this.txt_number.Size = new System.Drawing.Size(350, 50);
+            this.txt_number.TabIndex = 6;
+            this.txt_number.Text = "";
+            this.txt_number.TrailingIcon = null;
+            this.txt_number.Visible = false;
+            // 
+            // rad_email
+            // 
+            this.rad_email.AutoSize = true;
+            this.rad_email.Depth = 0;
+            this.rad_email.Location = new System.Drawing.Point(216, 94);
+            this.rad_email.Margin = new System.Windows.Forms.Padding(0);
+            this.rad_email.MouseLocation = new System.Drawing.Point(-1, -1);
+            this.rad_email.MouseState = MaterialSkin.MouseState.HOVER;
+            this.rad_email.Name = "rad_email";
+            this.rad_email.Ripple = true;
+            this.rad_email.Size = new System.Drawing.Size(75, 37);
+            this.rad_email.TabIndex = 5;
+            this.rad_email.TabStop = true;
+            this.rad_email.Text = "Email";
+            this.rad_email.UseVisualStyleBackColor = true;
+            this.rad_email.CheckedChanged += new System.EventHandler(this.rad_email_CheckedChanged);
+            // 
+            // rad_sms
+            // 
+            this.rad_sms.AutoSize = true;
+            this.rad_sms.Depth = 0;
+            this.rad_sms.Location = new System.Drawing.Point(88, 94);
+            this.rad_sms.Margin = new System.Windows.Forms.Padding(0);
+            this.rad_sms.MouseLocation = new System.Drawing.Point(-1, -1);
+            this.rad_sms.MouseState = MaterialSkin.MouseState.HOVER;
+            this.rad_sms.Name = "rad_sms";
+            this.rad_sms.Ripple = true;
+            this.rad_sms.Size = new System.Drawing.Size(69, 37);
+            this.rad_sms.TabIndex = 4;
+            this.rad_sms.TabStop = true;
+            this.rad_sms.Text = "SMS";
+            this.rad_sms.UseVisualStyleBackColor = true;
+            this.rad_sms.CheckedChanged += new System.EventHandler(this.rad_sms_CheckedChanged);
             // 
             // materialLabel4
             // 
             this.materialLabel4.AutoSize = true;
             this.materialLabel4.Depth = 0;
             this.materialLabel4.Font = new System.Drawing.Font("Roboto", 14F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
-            this.materialLabel4.Location = new System.Drawing.Point(6, 29);
+            this.materialLabel4.Location = new System.Drawing.Point(29, 36);
             this.materialLabel4.MouseState = MaterialSkin.MouseState.HOVER;
             this.materialLabel4.Name = "materialLabel4";
             this.materialLabel4.Size = new System.Drawing.Size(151, 19);
@@ -133,9 +199,9 @@
             this.g_step_3.Controls.Add(this.materialLabel2);
             this.g_step_3.Controls.Add(this.txt_password);
             this.g_step_3.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.g_step_3.Location = new System.Drawing.Point(86, 88);
+            this.g_step_3.Location = new System.Drawing.Point(6, 47);
             this.g_step_3.Name = "g_step_3";
-            this.g_step_3.Size = new System.Drawing.Size(386, 248);
+            this.g_step_3.Size = new System.Drawing.Size(677, 300);
             this.g_step_3.TabIndex = 5;
             this.g_step_3.TabStop = false;
             this.g_step_3.Text = "FORGOT PASSWORD     (STEP 3)";
@@ -145,7 +211,7 @@
             this.materialLabel3.AutoSize = true;
             this.materialLabel3.Depth = 0;
             this.materialLabel3.Font = new System.Drawing.Font("Roboto", 14F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
-            this.materialLabel3.Location = new System.Drawing.Point(6, 146);
+            this.materialLabel3.Location = new System.Drawing.Point(76, 177);
             this.materialLabel3.MouseState = MaterialSkin.MouseState.HOVER;
             this.materialLabel3.Name = "materialLabel3";
             this.materialLabel3.Size = new System.Drawing.Size(136, 19);
@@ -160,7 +226,7 @@
             this.txt_confirm_password.Font = new System.Drawing.Font("Roboto", 16F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
             this.txt_confirm_password.Hint = "Enter confirm password";
             this.txt_confirm_password.LeadingIcon = null;
-            this.txt_confirm_password.Location = new System.Drawing.Point(9, 168);
+            this.txt_confirm_password.Location = new System.Drawing.Point(79, 199);
             this.txt_confirm_password.MaxLength = 50;
             this.txt_confirm_password.MouseState = MaterialSkin.MouseState.OUT;
             this.txt_confirm_password.Multiline = false;
@@ -175,7 +241,7 @@
             this.materialLabel2.AutoSize = true;
             this.materialLabel2.Depth = 0;
             this.materialLabel2.Font = new System.Drawing.Font("Roboto", 14F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
-            this.materialLabel2.Location = new System.Drawing.Point(6, 56);
+            this.materialLabel2.Location = new System.Drawing.Point(76, 87);
             this.materialLabel2.MouseState = MaterialSkin.MouseState.HOVER;
             this.materialLabel2.Name = "materialLabel2";
             this.materialLabel2.Size = new System.Drawing.Size(110, 19);
@@ -190,7 +256,7 @@
             this.txt_password.Font = new System.Drawing.Font("Roboto", 16F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
             this.txt_password.Hint = "Enter new password";
             this.txt_password.LeadingIcon = null;
-            this.txt_password.Location = new System.Drawing.Point(9, 78);
+            this.txt_password.Location = new System.Drawing.Point(79, 109);
             this.txt_password.MaxLength = 50;
             this.txt_password.MouseState = MaterialSkin.MouseState.OUT;
             this.txt_password.Multiline = false;
@@ -248,9 +314,9 @@
             this.g_step_2.Controls.Add(this.materialLabel6);
             this.g_step_2.Controls.Add(this.txt_otp);
             this.g_step_2.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.g_step_2.Location = new System.Drawing.Point(61, 36);
+            this.g_step_2.Location = new System.Drawing.Point(6, 47);
             this.g_step_2.Name = "g_step_2";
-            this.g_step_2.Size = new System.Drawing.Size(324, 255);
+            this.g_step_2.Size = new System.Drawing.Size(677, 300);
             this.g_step_2.TabIndex = 7;
             this.g_step_2.TabStop = false;
             this.g_step_2.Text = "FORGOT PASSWORD     (STEP 2)";
@@ -260,7 +326,7 @@
             this.materialLabel6.AutoSize = true;
             this.materialLabel6.Depth = 0;
             this.materialLabel6.Font = new System.Drawing.Font("Roboto", 14F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
-            this.materialLabel6.Location = new System.Drawing.Point(6, 56);
+            this.materialLabel6.Location = new System.Drawing.Point(76, 97);
             this.materialLabel6.MouseState = MaterialSkin.MouseState.HOVER;
             this.materialLabel6.Name = "materialLabel6";
             this.materialLabel6.Size = new System.Drawing.Size(81, 19);
@@ -275,7 +341,7 @@
             this.txt_otp.Font = new System.Drawing.Font("Roboto", 16F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
             this.txt_otp.Hint = "Enter otp";
             this.txt_otp.LeadingIcon = null;
-            this.txt_otp.Location = new System.Drawing.Point(9, 90);
+            this.txt_otp.Location = new System.Drawing.Point(79, 119);
             this.txt_otp.MaxLength = 50;
             this.txt_otp.MouseState = MaterialSkin.MouseState.OUT;
             this.txt_otp.Multiline = false;
@@ -385,19 +451,6 @@
             this.forgotPasswordTabControl.TabIndex = 10;
             this.forgotPasswordTabControl.Selecting += new System.Windows.Forms.TabControlCancelEventHandler(this.forgotPasswordTabControl_Selecting);
             // 
-            // tabPage2
-            // 
-            this.tabPage2.Controls.Add(this.g_step_2);
-            this.tabPage2.Controls.Add(this.btn_back_to_step_1);
-            this.tabPage2.Controls.Add(this.btn_confirm);
-            this.tabPage2.Location = new System.Drawing.Point(4, 25);
-            this.tabPage2.Name = "tabPage2";
-            this.tabPage2.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage2.Size = new System.Drawing.Size(689, 520);
-            this.tabPage2.TabIndex = 1;
-            this.tabPage2.Text = "STEP 2";
-            this.tabPage2.UseVisualStyleBackColor = true;
-            // 
             // tabPage1
             // 
             this.tabPage1.Controls.Add(this.g_step_1);
@@ -410,6 +463,19 @@
             this.tabPage1.TabIndex = 0;
             this.tabPage1.Text = "STEP 1";
             this.tabPage1.UseVisualStyleBackColor = true;
+            // 
+            // tabPage2
+            // 
+            this.tabPage2.Controls.Add(this.g_step_2);
+            this.tabPage2.Controls.Add(this.btn_back_to_step_1);
+            this.tabPage2.Controls.Add(this.btn_confirm);
+            this.tabPage2.Location = new System.Drawing.Point(4, 25);
+            this.tabPage2.Name = "tabPage2";
+            this.tabPage2.Padding = new System.Windows.Forms.Padding(3);
+            this.tabPage2.Size = new System.Drawing.Size(689, 520);
+            this.tabPage2.TabIndex = 1;
+            this.tabPage2.Text = "STEP 2";
+            this.tabPage2.UseVisualStyleBackColor = true;
             // 
             // tabPage3
             // 
@@ -438,72 +504,6 @@
             this.materialTabSelector1.TabIndex = 11;
             this.materialTabSelector1.Text = "materialTabSelector1";
             // 
-            // rad_sms
-            // 
-            this.rad_sms.AutoSize = true;
-            this.rad_sms.Depth = 0;
-            this.rad_sms.Location = new System.Drawing.Point(9, 64);
-            this.rad_sms.Margin = new System.Windows.Forms.Padding(0);
-            this.rad_sms.MouseLocation = new System.Drawing.Point(-1, -1);
-            this.rad_sms.MouseState = MaterialSkin.MouseState.HOVER;
-            this.rad_sms.Name = "rad_sms";
-            this.rad_sms.Ripple = true;
-            this.rad_sms.Size = new System.Drawing.Size(69, 37);
-            this.rad_sms.TabIndex = 4;
-            this.rad_sms.TabStop = true;
-            this.rad_sms.Text = "SMS";
-            this.rad_sms.UseVisualStyleBackColor = true;
-            this.rad_sms.CheckedChanged += new System.EventHandler(this.rad_sms_CheckedChanged);
-            // 
-            // rad_email
-            // 
-            this.rad_email.AutoSize = true;
-            this.rad_email.Depth = 0;
-            this.rad_email.Location = new System.Drawing.Point(152, 64);
-            this.rad_email.Margin = new System.Windows.Forms.Padding(0);
-            this.rad_email.MouseLocation = new System.Drawing.Point(-1, -1);
-            this.rad_email.MouseState = MaterialSkin.MouseState.HOVER;
-            this.rad_email.Name = "rad_email";
-            this.rad_email.Ripple = true;
-            this.rad_email.Size = new System.Drawing.Size(75, 37);
-            this.rad_email.TabIndex = 5;
-            this.rad_email.TabStop = true;
-            this.rad_email.Text = "Email";
-            this.rad_email.UseVisualStyleBackColor = true;
-            this.rad_email.CheckedChanged += new System.EventHandler(this.rad_email_CheckedChanged);
-            // 
-            // txt_number
-            // 
-            this.txt_number.AnimateReadOnly = false;
-            this.txt_number.BorderStyle = System.Windows.Forms.BorderStyle.None;
-            this.txt_number.Depth = 0;
-            this.txt_number.Font = new System.Drawing.Font("Roboto", 16F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
-            this.txt_number.Hint = "Enter contact number";
-            this.txt_number.LeadingIcon = null;
-            this.txt_number.Location = new System.Drawing.Point(9, 158);
-            this.txt_number.MaxLength = 50;
-            this.txt_number.MouseState = MaterialSkin.MouseState.OUT;
-            this.txt_number.Multiline = false;
-            this.txt_number.Name = "txt_number";
-            this.txt_number.Size = new System.Drawing.Size(350, 50);
-            this.txt_number.TabIndex = 6;
-            this.txt_number.Text = "";
-            this.txt_number.TrailingIcon = null;
-            this.txt_number.Visible = false;
-            // 
-            // lbl_number
-            // 
-            this.lbl_number.AutoSize = true;
-            this.lbl_number.Depth = 0;
-            this.lbl_number.Font = new System.Drawing.Font("Roboto", 14F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
-            this.lbl_number.Location = new System.Drawing.Point(6, 113);
-            this.lbl_number.MouseState = MaterialSkin.MouseState.HOVER;
-            this.lbl_number.Name = "lbl_number";
-            this.lbl_number.Size = new System.Drawing.Size(120, 19);
-            this.lbl_number.TabIndex = 7;
-            this.lbl_number.Text = "Contact Number:";
-            this.lbl_number.Visible = false;
-            // 
             // ForgotPasswordForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
@@ -525,10 +525,10 @@
             this.g_step_2.ResumeLayout(false);
             this.g_step_2.PerformLayout();
             this.forgotPasswordTabControl.ResumeLayout(false);
-            this.tabPage2.ResumeLayout(false);
-            this.tabPage2.PerformLayout();
             this.tabPage1.ResumeLayout(false);
             this.tabPage1.PerformLayout();
+            this.tabPage2.ResumeLayout(false);
+            this.tabPage2.PerformLayout();
             this.tabPage3.ResumeLayout(false);
             this.tabPage3.PerformLayout();
             this.ResumeLayout(false);

@@ -17,7 +17,8 @@ namespace Salon.Repository
             {
                 var sql = @"SELECT p.product_id, p.product_name, p.brand, p.category_id, c.categoryName AS categoryName, p.unit_type, p.usage_type, p.unit_volume
                             FROM tbl_products p
-                            JOIN tbl_category c ON p.category_id = c.category_id";
+                            JOIN tbl_category c ON p.category_id = c.category_id
+                            WHERE p.is_deleted = 0";
                 return con.Query<ProductModel>(sql).ToList();
             }
         }
@@ -59,7 +60,15 @@ namespace Salon.Repository
         {
             using (var con = Database.GetConnection())
             {
-                var sql = "DELETE FROM tbl_products WHERE product_id = @productId";
+                var sql = "UPDATE tbl_products SET is_deleted = 1 WHERE product_id = @productId";
+                con.Execute(sql, new { productId });
+            }
+        }
+       public void RestoreProduct(int productId) 
+        {
+            using (var con = Database.GetConnection())
+            {
+                var sql = "UPDATE tbl_products SET is_deleted = 0 WHERE product_id = @productId";
                 con.Execute(sql, new { productId });
             }
         }

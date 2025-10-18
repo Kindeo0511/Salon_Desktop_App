@@ -30,6 +30,15 @@ namespace Salon.Repository
                 return con.Query<CustomerModel>(sql).FirstOrDefault();
             }
         }
+        public CustomerModel GetCustomerById(int id) 
+        {
+            using (var con = Database.GetConnection())
+            {
+
+                var sql = "SELECT * FROM tbl_customer_account WHERE customer_id = @id";
+                return con.Query<CustomerModel>(sql, new {id = id }).FirstOrDefault();
+            }
+        }
         public List<CustomerModel> GetCustomerBySearch(string key)
         {
             using (var con = Database.GetConnection())
@@ -58,11 +67,19 @@ namespace Salon.Repository
         {
             using (var con = Database.GetConnection())
             {
-                var sql = "DELETE FROM tbl_customer_account WHERE customer_id = @customerId";
+                var sql = "UPDATE tbl_customer_account SET status = 'Inactive', is_deleted = 1 WHERE customer_id = @customerId";
                 con.Execute(sql, new { customerId });
             }
         }
 
+        public void ActivateCustomer(int customerId) 
+        {
+            using (var con = Database.GetConnection())
+            {
+                var sql = "UPDATE tbl_customer_account SET status = 'Active', is_deleted = 0 WHERE customer_id = @customerId";
+                con.Execute(sql, new { customerId });
+            }
+        }
         public bool EmailExists(string email, int id = 0) 
         {
             using (var con = Database.GetConnection()) 

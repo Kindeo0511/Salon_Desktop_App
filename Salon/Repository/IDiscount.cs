@@ -16,6 +16,7 @@ namespace Salon.Repository
         void AddDiscounts(DiscountModel model);
         void UpdateDiscounts(DiscountModel model);
         void DeleteDiscounts(int id);
+        void RestoreDiscounts(int id);
 
         // DISCOUNT REPORT
 

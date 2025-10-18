@@ -1,4 +1,10 @@
-﻿using LiveCharts;
+﻿using iText.IO.Font.Constants;
+using iText.Kernel.Font;
+using iText.Kernel.Pdf;
+using iText.Layout;
+using iText.Layout.Element;
+using iText.Layout.Properties;
+using LiveCharts;
 using LiveCharts.Wpf;
 using MaterialSkin;
 using MaterialSkin.Controls;
@@ -19,6 +25,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Xml.Linq;
+using ZstdSharp.Unsafe;
 
 
 
@@ -33,21 +40,24 @@ namespace Salon.View
         private DiscountModel discountModel;
         private int currentOverheadId = 0;
         private UtilityModel utilityModel;
-        private LoginForm loginForm;
+        private readonly LoginForm loginForm;
 
         private int currentPage = 1;
         private int pageSize = 25;
         private int totalPages = 0;
-        public MainForm()
+       
+        public MainForm(LoginForm login)
         {
             InitializeComponent();
-         
-          
-            ThemeManager.ApplyTheme(this);     
-            DataGridViewTheme();
-           
+            loginForm = login;
 
- 
+            ThemeManager.ApplyTheme(this);
+
+
+            DataGridViewTheme();
+
+
+
 
 
             //_userControl = new UserControl();
@@ -126,7 +136,7 @@ namespace Salon.View
             LoadServicePrices();
             LoadAllTransactions();
             LoadRefund();
-
+            LoadAuditTrail();
 
             FilterdDeletedRecords();
  
@@ -153,13 +163,14 @@ namespace Salon.View
             FilteredStaffReport();
             FilteredDeliveryReport();
             FilteredDiscountReport();
+       
            
         }
 
 
         private void UserAccess() 
         {
-            if (UserSession.CurrentUser.Position == "Staff") 
+            if (UserSession.CurrentUser.Position == "Staff")
             {
                 HideTab(materialTabControl1, userTab);
                 HideTab(materialTabControl1, supplierTab);
@@ -303,6 +314,7 @@ namespace Salon.View
             col_username.DataPropertyName = "userName";
             col_password.DataPropertyName = "password";
             col_role.DataPropertyName = "Position";
+            col_user_status.DataPropertyName = "status";
 
             dgv_user.DataSource = users;
 
@@ -335,20 +347,41 @@ namespace Salon.View
 
 
             }
+            else if (dgv_user.Columns[e.ColumnIndex].Name == "btn_activate")
+            {
+                var user = dgv_user.Rows[e.RowIndex].DataBoundItem as UsersModel;
+
+
+                // Ask for confirmation before delete
+                if (MessageBox.Show($"Activate user {user.userName}?", "Confirm Activation", MessageBoxButtons.YesNo) == DialogResult.Yes)
+                {
+                    RestoreDeactivatedUserRecord(user.user_id);
+                    DeleteDeletedRecord(user.user_id);
+
+                    LoadDeletedRecords();
+                    LoadUser();
+                    var fullName = user.first_Name + " " + user.last_Name;
+                    Audit.AuditLog(DateTime.Now, "Activate", UserSession.CurrentUser.first_Name, "Manage User", $"Activated user {fullName} on {DateTime.Now:yyyy-MM-dd} at {DateTime.Now:HH:mm:ss}");
+
+                }
+            }
+
             else if (dgv_user.Columns[e.ColumnIndex].Name == "btn_delete")
             {
                 var user = dgv_user.Rows[e.RowIndex].DataBoundItem as UsersModel;
 
 
                 // Ask for confirmation before delete
-                if (MessageBox.Show($"Delete user {user.userName}?", "Confirm Delete", MessageBoxButtons.YesNo) == DialogResult.Yes)
+                if (MessageBox.Show($"Deactivate user {user.userName}?", "Confirm Deactivation", MessageBoxButtons.YesNo) == DialogResult.Yes)
                 {
                     var _repo = new UserRepository();
                     var userController = new UserController(_repo);
                     userController.DeleteUser(user.user_id);
+                    InsertDeletedRecord(user.user_id, "Manage User", user.first_Name, UserSession.CurrentUser.first_Name, DateTime.Today);
+                    LoadDeletedRecords();
                     LoadUser();
                     var fullName = user.first_Name + " " + user.last_Name;
-                    Audit.AuditLog(DateTime.Now, "Delete", UserSession.CurrentUser.first_Name, "Manage User", $"Deleted user {fullName} on {DateTime.Now:yyyy-MM-dd} at {DateTime.Now:HH:mm:ss}");
+                    Audit.AuditLog(DateTime.Now, "Deactivate", UserSession.CurrentUser.first_Name, "Manage User", $"Deactivated user {fullName} on {DateTime.Now:yyyy-MM-dd} at {DateTime.Now:HH:mm:ss}");
 
                 }
             }
@@ -367,6 +400,30 @@ namespace Salon.View
 
             }
         }
+
+        private void dgv_user_CellFormatting(object sender, DataGridViewCellFormattingEventArgs e)
+        {
+            // Check if we're formatting the "Status" column
+            if (dgv_user.Columns[e.ColumnIndex].Name == "col_user_status" && e.Value != null)
+            {
+                string status = e.Value.ToString();
+
+                if (status == "Active")
+                {
+                    e.CellStyle.ForeColor = Color.Green;
+                
+                }
+                else if (status == "Inactive")
+                {
+                    e.CellStyle.ForeColor = Color.Red;
+                   
+                }
+            }
+
+        }
+
+
+
         // END OF USERS
 
         // STYLIST
@@ -385,6 +442,7 @@ namespace Salon.View
             stylist_email.DataPropertyName = "email";
             stylist_address.DataPropertyName = "address";
             col_stylist_wage.DataPropertyName = "daily_wage";
+            col_stylist_status.DataPropertyName = "status";
             dgv_stylist.DataSource = stylists;
         }
 
@@ -399,7 +457,7 @@ namespace Salon.View
         private void dgv_stylist_CellClick(object sender, DataGridViewCellEventArgs e)
         {
             if (e.RowIndex < 0) return;
-
+            
             if (e.RowIndex >= 0 && dgv_stylist.Columns[e.ColumnIndex].Name == "stylist_btn_update")
             {
 
@@ -413,12 +471,33 @@ namespace Salon.View
 
 
             }
+            else if (e.RowIndex >= 0 && dgv_stylist.Columns[e.ColumnIndex].Name == "col_stylist_active")
+            {
+
+                var stylist = dgv_stylist.Rows[e.RowIndex].DataBoundItem as StylistModel;
+
+                if (MessageBox.Show($"Activate stylist {stylist.firstName}?", "Confirm Activation", MessageBoxButtons.YesNo) == DialogResult.Yes)
+                {
+                    var _repo = new StylistRepository();
+                    var stylistController = new StylistController(_repo);
+                    var fullName = stylist.firstName + " " + stylist.lastName;
+                    Audit.AuditLog(DateTime.Now, "Activate", UserSession.CurrentUser.first_Name, "Manage Stylist", $"Activated stylist {fullName} on {DateTime.Now:yyyy-MM-dd} at {DateTime.Now:HH:mm:ss}");
+                    RestoreDeletedStylistRecord(stylist.stylist_id);
+                    DeleteDeletedRecord(stylist.stylist_id);
+                    LoadStylist();
+                    LoadDeletedRecords();
+
+                }
+
+
+
+            }
             else if (e.RowIndex >= 0 && dgv_stylist.Columns[e.ColumnIndex].Name == "stylist_btn_delete")
             {
                 var stylist = dgv_stylist.Rows[e.RowIndex].DataBoundItem as StylistModel;
 
 
-                // Ask for confirmation before delete
+               
                 if (MessageBox.Show($"Delete user {stylist.firstName}?", "Confirm Delete", MessageBoxButtons.YesNo) == DialogResult.Yes)
                 {
                     var _repo = new StylistRepository();
@@ -426,7 +505,9 @@ namespace Salon.View
                     var fullName = stylist.firstName + " " + stylist.lastName;
                     Audit.AuditLog(DateTime.Now, "Delete", UserSession.CurrentUser.first_Name, "Manage Stylist", $"Deleted stylist {fullName} on {DateTime.Now:yyyy-MM-dd} at {DateTime.Now:HH:mm:ss}");
                     stylistController.Delete(stylist.stylist_id);
+                    InsertDeletedRecord(stylist.stylist_id,"Manage Stylist", fullName, UserSession.CurrentUser.first_Name, DateTime.Today);
                     LoadStylist();
+                    LoadDeletedRecords();
 
                 }
             }
@@ -442,7 +523,29 @@ namespace Salon.View
                     stylistScheduleForm.ShowDialog();
                 }
             }
+
+
         }
+
+        private void dgv_stylist_CellFormatting(object sender, DataGridViewCellFormattingEventArgs e)
+        {
+            if (dgv_stylist.Columns[e.ColumnIndex].Name == "col_stylist_status" && e.Value != null)
+            {
+                string status = e.Value.ToString();
+
+                if (status == "Active")
+                {
+                    e.CellStyle.ForeColor = Color.Green;
+
+                }
+                else if (status == "Inactive")
+                {
+                    e.CellStyle.ForeColor = Color.Red;
+
+                }
+            }
+        }
+
         // END OF STYLIST
 
         // CUSTOMERS
@@ -461,6 +564,7 @@ namespace Salon.View
             col_customer_last_name.DataPropertyName = "lastName";
             col_customer_contact.DataPropertyName = "phoneNumber";
             col_customer_email.DataPropertyName = "email";
+            col_customer_status.DataPropertyName = "status";
 
             dgv_customer.DataSource = customers;
 
@@ -487,6 +591,22 @@ namespace Salon.View
                     customerForm.ShowDialog();
                 }
             }
+            else if (e.RowIndex >= 0 && dgv_customer.Columns[e.ColumnIndex].Name == "col_customer_activate")
+            {
+                var customer = dgv_customer.Rows[e.RowIndex].DataBoundItem as CustomerModel;
+
+                if (MessageBox.Show($"Activate customer {customer.firstName}?", "Confirm Activation", MessageBoxButtons.YesNo) == DialogResult.Yes)
+                {
+                    var repo = new CustomerRepository();
+                    var customerController = new CustomerController(repo);
+                    var fullName = customer.firstName + " " + customer.lastName;
+                    Audit.AuditLog(DateTime.Now, "Activate", UserSession.CurrentUser.first_Name, "Manage Customer", $"Activated customer '{fullName}' on {DateTime.Now:yyyy-MM-dd} at {DateTime.Now:HH:mm:ss}");
+                    RestoreDeletedCustomerRecord(customer.customer_id);
+                    DeleteDeletedRecord(customer.customer_id);
+                    LoadDeletedRecords();
+                    LoadCustomers();
+                }
+            }
             else if (e.RowIndex >= 0 && dgv_customer.Columns[e.ColumnIndex].Name == "col_customer_btn_delete")
             {
                 var customer = dgv_customer.Rows[e.RowIndex].DataBoundItem as CustomerModel;
@@ -498,6 +618,8 @@ namespace Salon.View
                     var fullName = customer.firstName + " " + customer.lastName;
                     Audit.AuditLog(DateTime.Now, "Delete", UserSession.CurrentUser.first_Name, "Manage Customer", $"Deleted customer '{fullName}' on {DateTime.Now:yyyy-MM-dd} at {DateTime.Now:HH:mm:ss}");
                     customerController.DeleteCustomer(customer.customer_id);
+                    InsertDeletedRecord(customer.customer_id, "Manage Customer", fullName, UserSession.CurrentUser.first_Name, DateTime.Today);
+                    LoadDeletedRecords();
                     LoadCustomers();
                 }
             }
@@ -599,6 +721,8 @@ namespace Salon.View
                    
                     Audit.AuditLog(DateTime.Now, "Delete", UserSession.CurrentUser.first_Name, "Manage Sub-Categories", $"Deleted sub-category '{subCategory.subCategoryName}' for ({subCategory.categoryName}) on {DateTime.Now:yyyy-MM-dd} at {DateTime.Now:HH:mm:ss}");
                     subCategoryController.deleteSubCategory(subCategory.subCategory_id);
+                    InsertDeletedRecord(subCategory.subCategory_id, "Manage Sub-Categories", subCategory.subCategoryName, UserSession.CurrentUser.first_Name, DateTime.Today);
+                    FilterdDeletedRecords();
                     LoadSubCategory();
                 }
             }
@@ -648,6 +772,8 @@ namespace Salon.View
 
                     Audit.AuditLog(DateTime.Now, "Delete", UserSession.CurrentUser.first_Name, "Manage Products", $"Deleted product '{product.product_name}' on {DateTime.Now:yyyy-MM-dd} at {DateTime.Now:HH:mm:ss}");
                     controller.deleteProduct(product.product_id);
+                    InsertDeletedRecord(product.product_id, "Manage Products", product.product_name, UserSession.CurrentUser.first_Name, DateTime.Today);
+                    FilterdDeletedRecords();
                     LoadProducts();
                     LoadTotalProducts();
                 }
@@ -719,6 +845,8 @@ namespace Salon.View
 
                     Audit.AuditLog(DateTime.Now, "Delete", UserSession.CurrentUser.first_Name, "Manage Services", $"Deleted service '{service.serviceName}' on {DateTime.Now:yyyy-MM-dd} at {DateTime.Now:HH:mm:ss}");
                     controller.deleteService(service.serviceName_id);
+                    InsertDeletedRecord(service.serviceName_id, "Manage Services", service.serviceName, UserSession.CurrentUser.first_Name, DateTime.Today);
+                    FilterdDeletedRecords();
                     LoadServices();
                 }
             }
@@ -770,6 +898,8 @@ namespace Salon.View
             col_promo_code.DataPropertyName = "promo_code";
             col_discount_rate.DataPropertyName = "discount_rate";
             col_discount_status.DataPropertyName = "status";
+            col_discount_max_usage.DataPropertyName = "max_usage";
+            col_discount_customer_limit.DataPropertyName = "per_customer_limit";
             col_discount_expiry_date.DataPropertyName = "expiry_date";
             dgv_discount.DataSource = discounts;
 
@@ -929,9 +1059,11 @@ namespace Salon.View
 
         private void btn_add_discount_Click(object sender, EventArgs e)
         {
-            if (!DiscountValidated()) return;
-            AddDiscount();
-            clear_discount_fields();
+            var form = new DiscountForm(this);
+            form.ShowDialog();
+            //if (!DiscountValidated()) return;
+            //AddDiscount();
+            //clear_discount_fields();
         }
 
         private void UpdateDiscount()
@@ -994,23 +1126,29 @@ namespace Salon.View
             if (e.RowIndex >= 0 && dgv_discount.Columns[e.ColumnIndex].Name == "col_discount_update")
             {
                 discountModel = dgv_discount.Rows[e.RowIndex].DataBoundItem as DiscountModel;
-                cmb_discount_type.Hint = string.Empty;
-                cmb_discount_type.Text = discountModel.discount_type;
-                if (discountModel.discount_type.ToLower() == "promo")
+
+                using (var form = new DiscountForm(this, discountModel)) 
                 {
-                    txt_promo_code.Visible = true;
-                    txt_promo_code.Text = discountModel.promo_code;
+                    form.ShowDialog();
                 }
-                else
-                {
-                    txt_promo_code.Visible = false;
-                    txt_promo_code.Text = "N/A";
-                }
-                txt_discount.Text = discountModel.discount_rate.ToString();
-                cmb_discount_type.Hint = "Select Discount Type";
-                btn_add_discount.Visible = false;
-                btn_update_discount.Visible = true;
-                btn_cancel_discount.Visible = true;
+        
+                //cmb_discount_type.Hint = string.Empty;
+                //cmb_discount_type.Text = discountModel.discount_type;
+                //if (discountModel.discount_type.ToLower() == "promo")
+                //{
+                //    txt_promo_code.Visible = true;
+                //    txt_promo_code.Text = discountModel.promo_code;
+                //}
+                //else
+                //{
+                //    txt_promo_code.Visible = false;
+                //    txt_promo_code.Text = "N/A";
+                //}
+                //txt_discount.Text = discountModel.discount_rate.ToString();
+                //cmb_discount_type.Hint = "Select Discount Type";
+                //btn_add_discount.Visible = false;
+                //btn_update_discount.Visible = true;
+                //btn_cancel_discount.Visible = true;
 
 
             }
@@ -1031,6 +1169,8 @@ namespace Salon.View
                        $"Deleted discount '{discountModel.discount_type}' with rate ({discountModel.discount_rate}%) on {DateTime.Now:yyyy-MM-dd} at {DateTime.Now:HH:mm:ss}"
                    );
                     controller.DeleteDiscount(discountModel.discount_id);
+                    InsertDeletedRecord(discountModel.discount_id, "Vat/Discount", discountModel.discount_type + " " + discountModel.promo_code, UserSession.CurrentUser.first_Name, DateTime.Today);
+                    FilterdDeletedRecords();
                     LoadDiscount();
                 }
             }
@@ -1107,6 +1247,7 @@ namespace Salon.View
                 }
 
             }
+        
             else if (e.RowIndex >= 0 && dgv_supplier.Columns[e.ColumnIndex].Name == "col_supplier_delete")
             {
                 var supplier = dgv_supplier.Rows[e.RowIndex].DataBoundItem as SupplierModel;
@@ -1117,6 +1258,8 @@ namespace Salon.View
              
                     Audit.AuditLog(DateTime.Now, "Delete", UserSession.CurrentUser.first_Name, "Manage Supplier", $"Deleted supplier '{supplier.supplier_name}' on {DateTime.Now:yyyy-MM-dd} at {DateTime.Now:HH:mm:ss}");
                     controller.DeleteSupplier(supplier.supplier_id);
+                    InsertDeletedRecord(supplier.supplier_id, "Manage Supplier", supplier.supplier_name, UserSession.CurrentUser.first_Name, DateTime.Today);
+                    FilterdDeletedRecords(); 
                     LoadSuppliers();
                 }
             }
@@ -1511,7 +1654,8 @@ namespace Salon.View
                         $"Deleted service '{servicePrice.serviceName}' with a price of ₱{servicePrice.selling_price} on {DateTime.Now:yyyy-MM-dd} at {DateTime.Now:HH:mm:ss}"
                     );
                     controller.DeleteServicePrice(servicePrice.pricing_id);
-
+                    InsertDeletedRecord(servicePrice.pricing_id, "Service Price", servicePrice.serviceName, UserSession.CurrentUser.first_Name, DateTime.Today);
+                    FilterdDeletedRecords();
                     MessageBox.Show("Delete success", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
                     LoadServicePrices();
 
@@ -1957,7 +2101,7 @@ namespace Salon.View
 
                 dgv_report_table.AutoGenerateColumns = false;
                 col_transaction_id.DataPropertyName = "transaction_id";
-                col_report_appointment_id.DataPropertyName = "appointment_id";
+                //col_report_appointment_id.DataPropertyName = "appointment_id";
                 col_report_amount_paid.DataPropertyName = "amount_paid";
                 col_report_vat_amount.DataPropertyName = "vat_amount";
                 col_report_discount_amount.DataPropertyName = "discount_amount";
@@ -1975,7 +2119,48 @@ namespace Salon.View
                 lbl_report_total_gcash.Text = "0.00";
             }
         }
+      
 
+        private void btn_sales_report_export_pdf_Click(object sender, EventArgs e)
+        {
+            using (SaveFileDialog sfd = new SaveFileDialog())
+            {
+                sfd.Filter = "PDF files (*.pdf)|*.pdf";
+                sfd.FileName = $"SalesReport_{DateTime.Now:yyyyMMdd_HHmmss}.pdf";
+
+                if (sfd.ShowDialog() == DialogResult.OK)
+                {
+                    var summary = new Dictionary<string, string>
+            {
+                { "Total Sales", lbl_report_total_sales.Text },
+                { "Total VAT", lbl_report_total_vat.Text },
+                { "Total Discount", lbl_report_total_discount.Text },
+                { "Total Transactions", lbl_report_total_transaction.Text },
+                { "Cash Total", lbl_report_total_cash.Text },
+                { "GCash Total", lbl_report_total_gcash.Text }
+            };
+                    string logoPath = @"C:\Users\Alex\OneDrive\Pictures\hcsansor_logo.jpg";
+                    var builder = new PdfReportBuilder(
+                            sfd.FileName,
+                            "Sales Report",
+                            summary,
+                            dgv_report_table,
+                            UserSession.CurrentUser?.first_Name ?? "Unknown",
+                            logoPath,
+                            dtp_report_start_date.Value,
+                            dtp_report_end_date.Value
+                        );
+
+
+                    builder.Export();
+
+                    Audit.AuditLog(DateTime.Now, "Export PDF", UserSession.CurrentUser.first_Name, "User", $"Exported Sales Report to PDF at {DateTime.Now:yyyy-MM-dd HH:mm:ss}");
+                    MessageBox.Show("Sales report exported successfully!", "Export PDF", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                }
+            }
+
+
+        }
         private void btn_report_filter_Click(object sender, EventArgs e)
         {
             cmb_sales_report_range.Hint = string.Empty;
@@ -2042,6 +2227,44 @@ namespace Salon.View
             }
 
             LoadInventoryReport(status);
+        }
+        private void btn_inventory_export_pdf_Click(object sender, EventArgs e)
+        {
+            using (SaveFileDialog sfd = new SaveFileDialog())
+            {
+                sfd.Filter = "PDF files (*.pdf)|*.pdf";
+                sfd.FileName = $"InventoryReport_{DateTime.Now:yyyyMMdd_HHmmss}.pdf";
+
+                if (sfd.ShowDialog() == DialogResult.OK)
+                {
+                    var summary = new Dictionary<string, string>
+            {
+                { "Total Products", lbl_inventory_total_product.Text },
+                { "Total Volume", lbl_inventory_total_volume.Text },
+                { "In Stock Items", lbl_inventory_stock_item.Text },
+                { "Low Stock Items", lbl_inventory_low_stock.Text },
+                { "Out of Stock Items", lbl_inventory_out_of_stock.Text }
+            };
+
+                    string logoPath = @"C:\Users\Alex\OneDrive\Pictures\hcsansor_logo.jpg";
+
+                    var builder = new PdfReportBuilder(
+                        sfd.FileName,
+                        "Inventory Report",
+                        summary,
+                        dgv_inventory_report,
+                        UserSession.CurrentUser?.first_Name ?? "Unknown",
+                        logoPath
+                    );
+
+                    builder.Export();
+
+                    Audit.AuditLog(DateTime.Now, "Export PDF", UserSession.CurrentUser.first_Name, "User", $"Exported Inventory Report to PDF at {DateTime.Now:yyyy-MM-dd HH:mm:ss}");
+                    MessageBox.Show("Inventory report exported successfully!", "Export PDF", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                }
+            }
+
+
         }
 
         private void LoadInventoryReport(string status = null) 
@@ -2213,7 +2436,44 @@ namespace Salon.View
 
 
         }
+        private void btn_export_expense_pdf_Click(object sender, EventArgs e)
+        {
+            using (SaveFileDialog sfd = new SaveFileDialog())
+            {
+                sfd.Filter = "PDF files (*.pdf)|*.pdf";
+                sfd.FileName = $"ExpenseReport_{DateTime.Now:yyyyMMdd_HHmmss}.pdf";
 
+                if (sfd.ShowDialog() == DialogResult.OK)
+                {
+                    var summary = new Dictionary<string, string>
+            {
+                { "Total Expense", lbl_expense_total.Text },
+                { "Inventory Purchases", lbl_expense_inventory_total.Text },
+                { "Utilities", lbl_expense_utility_total.Text },
+                { "Supplies", lbl_expense_supplies.Text }
+            };
+
+                    string logoPath = @"C:\Users\Alex\OneDrive\Pictures\hcsansor_logo.jpg";
+
+                    var builder = new PdfReportBuilder(
+                        sfd.FileName,
+                        "Expense Report",
+                        summary,
+                        dgv_expense_report,
+                        UserSession.CurrentUser?.first_Name ?? "Unknown",
+                        logoPath,
+                        dtp_expense_start_date.Value,
+                        dtp_expense_end_date.Value
+                    );
+
+                    builder.Export();
+
+                    Audit.AuditLog(DateTime.Now, "Export PDF", UserSession.CurrentUser.first_Name, "User", $"Exported Expense Report to PDF at {DateTime.Now:yyyy-MM-dd HH:mm:ss}");
+                    MessageBox.Show("Expense report exported successfully!", "Export PDF", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                }
+            }
+
+        }
         private void cmb_expense_range_SelectedIndexChanged(object sender, EventArgs e)
         {
             if (cmb_expense_range != null)
@@ -2390,6 +2650,42 @@ namespace Salon.View
 
 
             
+        }
+        private void btn_export_profit_n_lost_pdf_Click(object sender, EventArgs e)
+        {
+            using (SaveFileDialog sfd = new SaveFileDialog())
+            {
+                sfd.Filter = "PDF files (*.pdf)|*.pdf";
+                sfd.FileName = $"ProfitAndLossReport_{DateTime.Now:yyyyMMdd_HHmmss}.pdf";
+
+                if (sfd.ShowDialog() == DialogResult.OK)
+                {
+                    var summary = new Dictionary<string, string>
+            {
+                { "Total Revenue", lbl_profit_lost_revenue.Text },
+                { "Total Expense", lbl_profit_lost_expense.Text }
+            };
+
+                    string logoPath = @"C:\Users\Alex\OneDrive\Pictures\hcsansor_logo.jpg";
+
+                    var builder = new PdfReportBuilder(
+                        sfd.FileName,
+                        "Profit and Loss Report",
+                        summary,
+                        dgv_profitAndLostReport,
+                        UserSession.CurrentUser?.first_Name ?? "Unknown",
+                        logoPath,
+                        dtp_profit_lost_start_date.Value,
+                        dtp_profit_lost_end_time.Value
+                    );
+
+                    builder.Export();
+
+                    Audit.AuditLog(DateTime.Now, "Export PDF", UserSession.CurrentUser.first_Name, "User", $"Exported Profit and Loss Report to PDF at {DateTime.Now:yyyy-MM-dd HH:mm:ss}");
+                    MessageBox.Show("Profit and Loss report exported successfully!", "Export PDF", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                }
+            }
+
         }
         private void btn_profit_lost_filter_Click(object sender, EventArgs e)
         {
@@ -2573,6 +2869,81 @@ namespace Salon.View
             {
                 FilteredCustomerReport();
             }
+        }
+        private void btn_export_customer_pdf_Click(object sender, EventArgs e)
+        {
+            using (SaveFileDialog sfd = new SaveFileDialog())
+            {
+                sfd.Filter = "PDF files (*.pdf)|*.pdf";
+                sfd.FileName = $"CustomerReport_{DateTime.Now:yyyyMMdd_HHmmss}.pdf";
+
+                if (sfd.ShowDialog() == DialogResult.OK)
+                {
+                    var summary = new Dictionary<string, string>
+            {
+                { "Total Customers", lbl_customer_report_total.Text.Replace("Total Customer: (", "").Replace(")", "") },
+                { "Top Spender", lbl_customer_report_top_spender.Text.Replace("Top Spender: ", "") },
+                { "Repeat Clients", lbl_customer_report_repeat_customer.Text }
+            };
+
+                    string logoPath = @"C:\Users\Alex\OneDrive\Pictures\hcsansor_logo.jpg";
+
+                    var builder = new PdfReportBuilder(
+                        sfd.FileName,
+                        "Customer Report",
+                        summary,
+                        dgv_customer_report,
+                        UserSession.CurrentUser?.first_Name ?? "Unknown",
+                        logoPath,
+                        dtp_customer_report_start.Value,
+                        dtp_customer_report_end.Value
+                    );
+
+                    builder.Export();
+
+                    Audit.AuditLog(DateTime.Now, "Export PDF", UserSession.CurrentUser.first_Name, "User", $"Exported Customer Report to PDF at {DateTime.Now:yyyy-MM-dd HH:mm:ss}");
+                    MessageBox.Show("Customer report exported successfully!", "Export PDF", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                }
+            }
+
+        }
+        private void btn_export_stylist_pdf_Click(object sender, EventArgs e)
+        {
+            using (SaveFileDialog sfd = new SaveFileDialog())
+            {
+                sfd.Filter = "PDF files (*.pdf)|*.pdf";
+                sfd.FileName = $"TechnicianReport_{DateTime.Now:yyyyMMdd_HHmmss}.pdf";
+
+                if (sfd.ShowDialog() == DialogResult.OK)
+                {
+                    var summary = new Dictionary<string, string>
+            {
+                { "Total Technicians", lbl_technician_report_total_technician.Text.Replace("Total Technician: (", "").Replace(")", "") },
+                { "Active Staff", lbl_technician_report_active.Text.Contains("Active") ? lbl_technician_report_active.Text.Replace("Total Active: (", "").Replace(")", "") : "0" },
+                { "Inactive Staff", lbl_technician_report_active.Text.Contains("Inactive") ? lbl_technician_report_active.Text.Replace("Total Inactive: (", "").Replace(")", "") : "0" },
+                { "Top Performer", lbl_technician_top_performer.Text.Replace("Top Performer: ", "") }
+            };
+
+                    string logoPath = @"C:\Users\Alex\OneDrive\Pictures\hcsansor_logo.jpg";
+
+                    var builder = new PdfReportBuilder(
+                        sfd.FileName,
+                        "Technician Report",
+                        summary,
+                        dgv_technician_report,
+                        UserSession.CurrentUser?.first_Name ?? "Unknown",
+                        logoPath,
+                        dtp_technician_report_start.Value,
+                        dtp_technician_report_end.Value
+                    );
+
+                    builder.Export();
+
+                    Audit.AuditLog(DateTime.Now, "Export PDF", UserSession.CurrentUser.first_Name, "User", $"Exported Technician Report to PDF at {DateTime.Now:yyyy-MM-dd HH:mm:ss}");
+                    MessageBox.Show("Technician report exported successfully!", "Export PDF", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                }
+            }
+
         }
 
         // END OF CUSTOMER REPORT
@@ -2886,7 +3257,43 @@ namespace Salon.View
                 FilteredDeliveryReport();
             }
         }
+        private void btn_export_delivery_pdf_Click(object sender, EventArgs e)
+        {
+            using (SaveFileDialog sfd = new SaveFileDialog())
+            {
+                sfd.Filter = "PDF files (*.pdf)|*.pdf";
+                sfd.FileName = $"DeliveryReport_{DateTime.Now:yyyyMMdd_HHmmss}.pdf";
 
+                if (sfd.ShowDialog() == DialogResult.OK)
+                {
+                    var summary = new Dictionary<string, string>
+            {
+                { "Total Deliveries", lbl_delivery_report_total.Text.Replace("Deliveries This Month: (", "").Replace(")", "") },
+                { "Total Qty Received", lbl_delivery_report_qty.Text.Replace("Total Qty Received: (", "").Replace(")", "") },
+                { "Expired Items", lbl_delivery_report_expired.Text.Replace("Expired Items: (", "").Replace(")", "") }
+            };
+
+                    string logoPath = @"C:\Users\Alex\OneDrive\Pictures\hcsansor_logo.jpg";
+
+                    var builder = new PdfReportBuilder(
+                        sfd.FileName,
+                        "Delivery Report",
+                        summary,
+                        dgv_delivery_report,
+                        UserSession.CurrentUser?.first_Name ?? "Unknown",
+                        logoPath,
+                        dtp_delivery_report_start.Value,
+                        dtp_delivery_report_end.Value
+                    );
+
+                    builder.Export();
+
+                    Audit.AuditLog(DateTime.Now, "Export PDF", UserSession.CurrentUser.first_Name, "User", $"Exported Delivery Report to PDF at {DateTime.Now:yyyy-MM-dd HH:mm:ss}");
+                    MessageBox.Show("Delivery report exported successfully!", "Export PDF", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                }
+            }
+
+        }
         // END OF DELIVERY REPORT
         private void FilteredDiscountReport()
         {
@@ -2930,6 +3337,27 @@ namespace Salon.View
                 dtp_discount_report_end.Value = endDate;
             }
             LoadDeliveryTotalSummary(startDate, endDate);
+            LoadDiscountReport(startDate, endDate);
+
+
+        }
+        private void LoadDiscountReport(DateTime? start = null, DateTime? end = null)
+        {
+            var repo = new DiscountRepository();
+            var controller = new DiscountController(repo);
+            var discounts = (start.HasValue && end.HasValue)
+                               ? controller.GetAllDiscounted(start.Value, end.Value)
+                               : controller.GetAllDiscounted();
+
+            dgv_discount_report.AutoGenerateColumns = false;
+            col_discount_report_date.DataPropertyName = "date";
+            col_discount_report_discount.DataPropertyName = "Discount";
+            col_discount_report_final_price.DataPropertyName = "FinalPrice";
+            col_discount_report_item.DataPropertyName = "Item";
+            col_discount_report_orig_price.DataPropertyName = "OriginalPrice";
+
+            dgv_discount_report.DataSource = discounts; 
+
 
 
         }
@@ -2998,6 +3426,45 @@ namespace Salon.View
             }
         }
 
+        private void btn_export_discount_pdf_Click(object sender, EventArgs e)
+        {
+
+            using (SaveFileDialog sfd = new SaveFileDialog())
+            {
+                sfd.Filter = "PDF files (*.pdf)|*.pdf";
+                sfd.FileName = $"DiscountReport_{DateTime.Now:yyyyMMdd_HHmmss}.pdf";
+
+                if (sfd.ShowDialog() == DialogResult.OK)
+                {
+                    var summary = new Dictionary<string, string>
+            {
+                { "Total Discounts", lbl_discount_report_total.Text.Replace("Total Discounts:  (", "").Replace(")", "") },
+                { "Top Discounted Item", lbl_discount_report_discounted_item.Text.Replace("Top Discounted Item  (", "").Replace(")", "") },
+                { "Average Discount Rate", lbl_discount_report_avg_discount.Text.Replace("Average Discount Rate:  (", "").Replace("%)", "") + "%" }
+            };
+
+                    string logoPath = @"C:\Users\Alex\OneDrive\Pictures\hcsansor_logo.jpg";
+
+                    var builder = new PdfReportBuilder(
+                        sfd.FileName,
+                        "Discount Report",
+                        summary,
+                        dgv_discount_report, // No DataGridView for this report
+                        UserSession.CurrentUser?.first_Name ?? "Unknown",
+                        logoPath,
+                        dtp_discount_report_start.Value,
+                        dtp_discount_report_end.Value
+                    );
+
+                    builder.Export();
+
+                    Audit.AuditLog(DateTime.Now, "Export PDF", UserSession.CurrentUser.first_Name, "User", $"Exported Discount Report to PDF at {DateTime.Now:yyyy-MM-dd HH:mm:ss}");
+                    MessageBox.Show("Discount report exported successfully!", "Export PDF", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                }
+            }
+
+        }
+
         // END OF DISCOUNT
 
 
@@ -3037,7 +3504,7 @@ namespace Salon.View
         }
 
 
-        private void LoadAuditTrail(DateTime? start = null, DateTime? end = null) 
+        public void LoadAuditTrail(DateTime? start = null, DateTime? end = null) 
         {
    
 
@@ -3070,7 +3537,42 @@ namespace Salon.View
             btn__audit_next.Enabled = currentPage < totalPages;
         }
 
+        private void btn_export_audit_pdf_Click(object sender, EventArgs e)
+        {
+            using (SaveFileDialog sfd = new SaveFileDialog())
+            {
+                sfd.Filter = "PDF files (*.pdf)|*.pdf";
+                sfd.FileName = $"AuditTrailReport_{DateTime.Now:yyyyMMdd_HHmmss}.pdf";
 
+                if (sfd.ShowDialog() == DialogResult.OK)
+                {
+                    var summary = new Dictionary<string, string>
+            {
+                { "Current Page", lbl_current_page.Text.Replace("Page ", "") },
+                { "Records Shown", lbl_total_result.Text.Replace("Showing ", "").Replace(" records", "") }
+            };
+
+                    string logoPath = @"C:\Users\Alex\OneDrive\Pictures\hcsansor_logo.jpg";
+
+                    var builder = new PdfReportBuilder(
+                          sfd.FileName,
+                          "Audit Trail Report",
+                          new Dictionary<string, string>(),
+                          dgv_audit_report,
+                          UserSession.CurrentUser?.first_Name ?? "Unknown",
+                          logoPath,
+                          dtp_audit_start.Value,
+                          dtp_audit_end.Value
+                      );
+
+                    builder.Export();
+
+                    Audit.AuditLog(DateTime.Now, "Export PDF", UserSession.CurrentUser.first_Name, "User", $"Exported Audit Trail Report to PDF at {DateTime.Now:yyyy-MM-dd HH:mm:ss}");
+                    MessageBox.Show("Audit trail report exported successfully!", "Export PDF", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                }
+            }
+
+        }
         // END OF AUDIT TRAIL
 
 
@@ -3138,7 +3640,11 @@ namespace Salon.View
                    );
            
                 UserSession.Clear();
+                var form = new LoginForm();
+                form.Show();
                 this.Close();
+
+
 
 
             }
@@ -3468,7 +3974,7 @@ namespace Salon.View
             
 
         }
-        private void FilterdDeletedRecords() 
+        public void FilterdDeletedRecords() 
         {
             DateTime startDate;
             DateTime endDate;
@@ -3536,11 +4042,95 @@ namespace Salon.View
            
         }
 
-        public void RestoreDeletedRecord(int id) 
+        public void RestoreDeactivatedUserRecord(int id)
+        {
+            var repo = new UserRepository();
+            var controller = new UserController(repo);
+            controller.RestoreUser(id);
+        }
+        public void RestoreDeletedCategoryRecord(int id) 
         {
             var repo = new CategoryRepository();
             var controller = new CategoryController(repo);
             controller.restoreCategory(id);
+        }
+
+        public void RestoreDeletedStylistRecord(int id)
+        {
+            var repo = new StylistRepository();
+            var controller = new StylistController(repo);
+            controller.restoreStylist(id);
+        }
+
+        public void RestoreDeletedCustomerRecord(int id) 
+        {
+            var repo = new CustomerRepository();
+            var controller = new CustomerController(repo);
+            controller.RestoreCustomer(id);
+        }
+
+        public void RestoreDeletedSupplierRecord(int id) 
+        {
+            var repo = new SupplierRepository();
+            var controller = new SupplierController(repo);
+            controller.RestoreSupplier(id);
+
+        }
+
+        public void RestoreDeletedSubCategoryRecord(int id)
+        {
+            var repo = new SubCategoryRepository();
+            var controller = new SubCategoryController(repo);
+            controller.RestoreSubCategory(id);
+
+        }
+
+        public void RestoreDeletedProductRecord(int id) 
+        {
+            var repo = new ProductRepository();
+            var controller = new ProductController(repo);
+            controller.RestoreProduct(id);
+        }
+
+        public void RestoreDeletedServiceRecord(int id)
+        {
+            var repo = new ServiceRepository();
+            var controller = new ServiceController(repo);
+            controller.RestoreServices(id);
+        }
+        public void RestoreDeletedServicePriceRecord(int id)
+        {
+            var repo = new ServicePriceRepository();
+            var controller = new ServicePriceController(repo);
+            controller.RestoreServicePrice(id);
+        }
+
+        public void RestoreDeletedDiscountRecord(int id)
+        {
+            var repo = new DiscountRepository();
+            var controller = new DiscountController(repo);
+            controller.RestoreDiscount(id);
+        }
+
+        public void RestoreDeletedServiceProductRecord(int id) 
+        {
+            var repo = new ServiceProductUsageRepository();
+            var controller = new ServiceProductUsageController(repo);
+            controller.RestoreServiceProduct(id);
+        }
+
+        public void RestoreDeletedWeeklySchedule(int id)
+        {
+            var repo = new StylistSchedulesRepository();
+            var controller = new StylistSchedulesController(repo);
+            controller.RestoreSchedule(id);
+        }
+
+        public void RestoreDeletedExceptionSchedule(int id)
+        {
+            var repo = new ExceptionSchedulesRepository();
+            var controller = new ExceptionSchedulesController(repo);
+            controller.RestoreExceptionSchedule (id);
         }
 
         private void dgv_deleted_record_CellClick(object sender, DataGridViewCellEventArgs e)
@@ -3565,10 +4155,64 @@ namespace Salon.View
 
                         if (success)
                         {
-                            RestoreDeletedRecord(record.record_id);
+                            switch (record.module) 
+                            {
+                                case "Manage User":
+                                    RestoreDeactivatedUserRecord(record.record_id);
+                                    LoadUser();
+                                    break;
+                                case "Category":
+                                    RestoreDeletedCategoryRecord(record.record_id);
+                                    LoadCategory();
+                                    break;
+                                case "Manage Stylist":
+                                    RestoreDeletedStylistRecord(record.record_id);
+                                    LoadStylist();
+                                    break;
+                                case "Manage Customer":
+                                    RestoreDeletedCustomerRecord(record.record_id);
+                                    LoadCustomers();
+                                    break;
+                                case "Manage Supplier":
+                                    RestoreDeletedSupplierRecord(record.record_id);
+                                    LoadSuppliers();
+                                    break;
+                                case "Manage Sub-Categories":
+                                    RestoreDeletedSubCategoryRecord(record.record_id);
+                                    LoadSubCategory();
+                                    break;
+                                case "Manage Products":
+                                    RestoreDeletedProductRecord(record.record_id);
+                                    LoadProducts();
+                                    break;
+                                case "Manage Services":
+                                    RestoreDeletedServiceRecord(record.record_id);
+                                    LoadServices();
+                                    break;
+                                case "Service Price":
+                                    RestoreDeletedServicePriceRecord(record.record_id);
+                                    LoadServicePrices();
+                                    break;
+                                case "Vat/Discount":
+                                    RestoreDeletedDiscountRecord(record.record_id);
+                                    LoadDiscount();
+                                    break;
+                                case "Manage Services, Product Usage":
+                                    RestoreDeletedServiceProductRecord(record.record_id);                                 
+                                    break;
+                                case "Manage Stylist, Schedule":
+                                    RestoreDeletedWeeklySchedule(record.record_id);
+                                    break;
+                                case "Manage Stylist, Exception Schedule":
+                                    RestoreDeletedExceptionSchedule(record.record_id);
+                                    break;
+
+
+                            }
+                           
                             MessageBox.Show("Record restored successfully!", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                            LoadCategory();
-                            LoadDeletedRecords();
+
+                            FilterdDeletedRecords();
                         }
                         else
                         {
@@ -3607,6 +4251,26 @@ namespace Salon.View
               
             cmb_deleted_record_filter.Hint = "Select Filter";
         }
+
+    
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
         // END OF DELETED RECORD

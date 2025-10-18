@@ -42,7 +42,7 @@ namespace Salon.Repository
         {
             using (var con = Database.GetConnection())
             {
-                var sql = "DELETE FROM tbl_deleted_records WHERE deleted_id = @id";
+                var sql = "DELETE FROM tbl_deleted_records WHERE deleted_id = @id OR record_id = @id";
 
                 con.Execute(sql, new { id = id});
             }
