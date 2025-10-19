@@ -56,9 +56,9 @@ namespace Salon.Controller
             repo.UpdateTransaction(transaction);
         }
 
-        public void UpdateTransactionStatus(TransactionModel transaction) 
+        public void UpdateTransactionStatus(int id ,string status) 
         {
-            repo.UpdateTransactionStatus(transaction);
+            repo.UpdateTransactionStatus(id, status);
         }
 
         public void DeleteTransaction(int id) 

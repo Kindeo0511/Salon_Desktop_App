@@ -154,14 +154,15 @@ namespace Salon.Repository
                 con.Execute(sql,transaction);
             }
         }
-        public void UpdateTransactionStatus(TransactionModel transaction) 
+        public void UpdateTransactionStatus(int transaction_id, string status)
         {
             using (var con = Database.GetConnection())
             {
                 var sql = @"UPDATE tbl_transaction
-                        SET payment_status = @payment_status
-                        WHERE transaction_id = @transaction_id";
-                con.Execute(sql, transaction);
+                    SET payment_status = @status
+                    WHERE transaction_id = @transaction_id";
+
+                con.Execute(sql, new { status = status, transaction_id = transaction_id });
             }
         }
         public void DeleteTransaction(int id) 

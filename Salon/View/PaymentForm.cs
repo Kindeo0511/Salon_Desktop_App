@@ -68,6 +68,9 @@ namespace Salon.View
                 lbl_Subtotal.Text = model.selling_price.ToString("N2");
                 lbl_Vat.Text = model.vat_amount.ToString("N2");
                 lbl_book_type.Text = model.BookingType.ToString();
+
+                
+
                 _vatAmount = decimal.TryParse(lbl_Vat.Text, out var result) ? result : 0;
                 _subtotal = Convert.ToDecimal(model.selling_price.ToString());
 
@@ -148,14 +151,34 @@ namespace Salon.View
         }
         private void calculate()
         {
+            // Step 0: Parse values
             _subtotal = ParseCurrency(lbl_Subtotal.Text);
-            _discountAmount = _subtotal * (discount_rate / 100);
-            _totalWithVat = _subtotal - _discountAmount;
 
+            // Convert percentage rates from int to decimal
+            decimal vatRate = vat_rate / 100m;         // Converts 12 to 0.12
+            decimal discountRate = discount_rate / 100m;
+
+            // Step 1: Extract VAT from VAT-inclusive subtotal
+            decimal vatPortion = Math.Round(_subtotal * vatRate / (1 + vatRate), 2);
+            decimal netAmount = Math.Round(_subtotal - vatPortion, 2);
+
+            // Step 2: Determine discount base
+            decimal discountBase = sw_exempt_vat.Checked ? netAmount : _subtotal;
+
+            // Step 3: Calculate discount
+            _discountAmount = Math.Round(discountBase * discountRate, 2);
+
+            // Step 4: Final total
+            _totalWithVat = Math.Round(discountBase - _discountAmount, 2);
+
+            // Step 5: Update UI
+            lbl_Vat.Text = sw_exempt_vat.Checked ? "₱0.00" : $"₱ {vatPortion:N2}";
             lbl_Discount.Text = _discountAmount > 0 ? $"₱ {_discountAmount:N2}" : "₱0.00";
-
-
             lbl_Total.Text = $"₱ {_totalWithVat:N2}";
+
+            // Step 6: Store for audit/export
+            _vatAmount = sw_exempt_vat.Checked ? 0 : vatPortion;
+
         }
 
         private void txt_amount_paid_TextChanged(object sender, EventArgs e)
@@ -303,11 +326,27 @@ namespace Salon.View
                 MessageBox.Show("Please select a payment method.");     
                 return;
             }
-            if (CustomerDiscountUsageCount(Convert.ToInt32(cb_discount.SelectedValue), model.CustomerId) >= DiscountCustomerlimit(Convert.ToInt32(cb_discount.SelectedValue)))
+
+            int selectedDiscountId = Convert.ToInt32(cb_discount.SelectedValue);
+            var repo = new DiscountRepository();
+            var controller = new DiscountController(repo);
+            var discount = controller.GetDiscountById(selectedDiscountId);
+
+            // Bypass usage limit for Senior/PWD
+            if (discount != null && discount.discount_type == "Promo")
             {
-                MessageBox.Show("This customer has reached the usage limit for this discount.", "Limit Reached", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                return;
+                if (CustomerDiscountUsageCount(selectedDiscountId, model.CustomerId) >= discount.per_customer_limit)
+                {
+                    MessageBox.Show("This customer has reached the usage limit for this discount.", "Limit Reached", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    return;
+                }
             }
+
+            //if (CustomerDiscountUsageCount(Convert.ToInt32(cb_discount.SelectedValue), model.CustomerId) >= DiscountCustomerlimit(Convert.ToInt32(cb_discount.SelectedValue)))
+            //{
+            //    MessageBox.Show("This customer has reached the usage limit for this discount.", "Limit Reached", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+            //    return;
+            //}
             else
             {
                 bool inventoryOk = Product_Inventory();
@@ -317,7 +356,12 @@ namespace Salon.View
                     return;
                 }
 
-                InsertIntoDiscountUsage(Convert.ToInt32(cb_discount.SelectedValue), model.CustomerId, model.AppointmentId, DateTime.Today);
+                if (!string.IsNullOrWhiteSpace(cb_discount.Text) && cb_discount.SelectedValue != null)
+                {
+                    int discountId = Convert.ToInt32(cb_discount.SelectedValue);
+                    InsertIntoDiscountUsage(discountId, model.CustomerId, model.AppointmentId, DateTime.Today);
+                }
+
                 paymentController.CreatePayment(payment);
                 AddTransactions(model.AppointmentId, _vatAmount, _discountAmount,_subtotal, totalAmount, cb_PaymentMethod.SelectedItem.ToString(), "Paid", DateTime.Now);
                 appointment.UpdateAppointmentPayment(model.AppointmentId, "Paid", "Completed");
@@ -473,6 +517,11 @@ namespace Salon.View
 
 
 
+        }
+
+        private void sw_exempt_vat_CheckedChanged(object sender, EventArgs e)
+        {
+            calculate();
         }
 
 

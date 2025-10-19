@@ -16,7 +16,7 @@ namespace Salon.Repository
         {
             using (var con = Database.GetConnection()) 
             {
-                var sql = @"SELECT i.inventory_id, p.product_id, p.product_name, p.brand, c.categoryName as category,i.unit,i.volume_per_unit, i.volume, i.critical_level, i.status, i.expiry_date 
+                var sql = @"SELECT i.inventory_id, p.product_id, p.product_name, p.brand, c.categoryName as category,(i.volume / i.volume_per_unit) AS Unit,i.volume_per_unit, i.volume, i.critical_level, i.status, i.expiry_date 
                         FROM tbl_inventory as i
                         LEFT JOIN tbl_products as p ON p.product_id = i.product_id
                         LEFT JOIN tbl_category as c ON c.category_id = p.category_id
@@ -29,7 +29,7 @@ namespace Salon.Repository
         {
             using (var con = Database.GetConnection())
             {
-                var sql = @"SELECT i.inventory_id, p.product_id, p.product_name, p.brand, c.categoryName as category,i.unit,i.volume_per_unit, i.volume, i.critical_level, i.status, i.expiry_date 
+                var sql = @"SELECT i.inventory_id, p.product_id, p.product_name, p.brand, c.categoryName as category,(i.volume / i.volume_per_unit) AS Unit,i.volume_per_unit, i.volume, i.critical_level, i.status, i.expiry_date 
                         FROM tbl_inventory as i
                         LEFT JOIN tbl_products as p ON p.product_id = i.product_id
                         LEFT JOIN tbl_category as c ON c.category_id = p.category_id
@@ -99,16 +99,30 @@ namespace Salon.Repository
             }
                
         }
-
         public void UpdateInventoryVolume(int id, double unit, double volume)
-        {
-            using (var con = Database.GetConnection()) 
-            {
-                var sql = "UPDATE tbl_inventory SET unit = @unit, volume = volume - @volume WHERE product_id = @id";
-                con.Execute(sql, new { id, unit, volume });
-            }
+{
+    unit = double.IsNaN(unit) ? 0 : unit;
+    volume = double.IsNaN(volume) ? 0 : volume;
+
+    using (var con = Database.GetConnection())
+    {
+        var sql = @"UPDATE tbl_inventory 
+                    SET unit = @unit, 
+                        volume = GREATEST(volume - @volume, 0) 
+                    WHERE product_id = @id";
+        con.Execute(sql, new { id, unit, volume });
+    }
+}
+        //public void UpdateInventoryVolume(int id, double unit, double volume)
+        //{
+
+        //    using (var con = Database.GetConnection()) 
+        //    {
+        //        var sql = "UPDATE tbl_inventory SET unit = @unit, volume = volume - @volume WHERE product_id = @id";
+        //        con.Execute(sql, new { id, unit, volume });
+        //    }
               
-        }
+        //}
         public int LowOrOutOfStock()
         {
             using (var con = Database.GetConnection())

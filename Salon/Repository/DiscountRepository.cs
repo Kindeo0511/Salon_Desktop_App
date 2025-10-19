@@ -44,7 +44,7 @@ namespace Salon.Repository
         {
             using (var con = Database.GetConnection()) 
             {
-                var sql = "SELECT * FROM tbl_discount WHERE discount_id = @discount_id";
+                var sql = "SELECT * FROM tbl_discount WHERE discount_id = @discount_id AND is_deleted = 0";
                 return con.QueryFirstOrDefault<DiscountModel>(sql, new { discount_id = discountId });
             }
                 

@@ -30,17 +30,19 @@
         {
             this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainForm));
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle4 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle5 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle6 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle7 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle8 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle12 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle13 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle14 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle15 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle16 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle17 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle18 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle19 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle20 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle21 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle22 = new System.Windows.Forms.DataGridViewCellStyle();
             this.materialTabControl1 = new MaterialSkin.Controls.MaterialTabControl();
             this.dashboardTab = new System.Windows.Forms.TabPage();
-            this.lblDiscountAlert = new MaterialSkin.Controls.MaterialLabel();
             this.tableLayoutPanel2 = new System.Windows.Forms.TableLayoutPanel();
             this.materialCard2 = new MaterialSkin.Controls.MaterialCard();
             this.dgv_table_summary = new System.Windows.Forms.DataGridView();
@@ -776,7 +778,6 @@
             // dashboardTab
             // 
             this.dashboardTab.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
-            this.dashboardTab.Controls.Add(this.lblDiscountAlert);
             this.dashboardTab.Controls.Add(this.tableLayoutPanel2);
             this.dashboardTab.Controls.Add(this.panel1);
             this.dashboardTab.ImageKey = "home.png";
@@ -787,18 +788,6 @@
             this.dashboardTab.TabIndex = 2;
             this.dashboardTab.Text = "DashBoard";
             this.dashboardTab.UseVisualStyleBackColor = true;
-            // 
-            // lblDiscountAlert
-            // 
-            this.lblDiscountAlert.AutoSize = true;
-            this.lblDiscountAlert.Depth = 0;
-            this.lblDiscountAlert.Font = new System.Drawing.Font("Roboto", 14F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
-            this.lblDiscountAlert.Location = new System.Drawing.Point(1477, 19);
-            this.lblDiscountAlert.MouseState = MaterialSkin.MouseState.HOVER;
-            this.lblDiscountAlert.Name = "lblDiscountAlert";
-            this.lblDiscountAlert.Size = new System.Drawing.Size(116, 19);
-            this.lblDiscountAlert.TabIndex = 3;
-            this.lblDiscountAlert.Text = "materialLabel34";
             // 
             // tableLayoutPanel2
             // 
@@ -1691,9 +1680,9 @@
             // col_stylist_wage
             // 
             this.col_stylist_wage.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
-            dataGridViewCellStyle1.Format = "C2";
-            dataGridViewCellStyle1.NullValue = null;
-            this.col_stylist_wage.DefaultCellStyle = dataGridViewCellStyle1;
+            dataGridViewCellStyle12.Format = "C2";
+            dataGridViewCellStyle12.NullValue = null;
+            this.col_stylist_wage.DefaultCellStyle = dataGridViewCellStyle12;
             this.col_stylist_wage.HeaderText = "Daily Wage";
             this.col_stylist_wage.MinimumWidth = 6;
             this.col_stylist_wage.Name = "col_stylist_wage";
@@ -3288,6 +3277,9 @@
             // col_Unit
             // 
             this.col_Unit.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
+            dataGridViewCellStyle13.Format = "N1";
+            dataGridViewCellStyle13.NullValue = null;
+            this.col_Unit.DefaultCellStyle = dataGridViewCellStyle13;
             this.col_Unit.HeaderText = "Unit";
             this.col_Unit.MinimumWidth = 6;
             this.col_Unit.Name = "col_Unit";
@@ -3664,9 +3656,9 @@
             // startTime
             // 
             this.startTime.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
-            dataGridViewCellStyle2.Format = "t";
-            dataGridViewCellStyle2.NullValue = null;
-            this.startTime.DefaultCellStyle = dataGridViewCellStyle2;
+            dataGridViewCellStyle14.Format = "t";
+            dataGridViewCellStyle14.NullValue = null;
+            this.startTime.DefaultCellStyle = dataGridViewCellStyle14;
             this.startTime.HeaderText = "Start Time";
             this.startTime.MinimumWidth = 6;
             this.startTime.Name = "startTime";
@@ -3674,9 +3666,9 @@
             // endTime
             // 
             this.endTime.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
-            dataGridViewCellStyle3.Format = "t";
-            dataGridViewCellStyle3.NullValue = null;
-            this.endTime.DefaultCellStyle = dataGridViewCellStyle3;
+            dataGridViewCellStyle15.Format = "t";
+            dataGridViewCellStyle15.NullValue = null;
+            this.endTime.DefaultCellStyle = dataGridViewCellStyle15;
             this.endTime.HeaderText = "End TIme";
             this.endTime.MinimumWidth = 6;
             this.endTime.Name = "endTime";
@@ -5509,9 +5501,9 @@
             // col_customer_report_spend
             // 
             this.col_customer_report_spend.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
-            dataGridViewCellStyle4.Format = "C2";
-            dataGridViewCellStyle4.NullValue = null;
-            this.col_customer_report_spend.DefaultCellStyle = dataGridViewCellStyle4;
+            dataGridViewCellStyle16.Format = "C2";
+            dataGridViewCellStyle16.NullValue = null;
+            this.col_customer_report_spend.DefaultCellStyle = dataGridViewCellStyle16;
             this.col_customer_report_spend.HeaderText = "Total Spend";
             this.col_customer_report_spend.MinimumWidth = 6;
             this.col_customer_report_spend.Name = "col_customer_report_spend";
@@ -5810,9 +5802,9 @@
             // col_technician_report_sales
             // 
             this.col_technician_report_sales.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
-            dataGridViewCellStyle5.Format = "C2";
-            dataGridViewCellStyle5.NullValue = null;
-            this.col_technician_report_sales.DefaultCellStyle = dataGridViewCellStyle5;
+            dataGridViewCellStyle17.Format = "C2";
+            dataGridViewCellStyle17.NullValue = null;
+            this.col_technician_report_sales.DefaultCellStyle = dataGridViewCellStyle17;
             this.col_technician_report_sales.HeaderText = "Sales";
             this.col_technician_report_sales.MinimumWidth = 6;
             this.col_technician_report_sales.Name = "col_technician_report_sales";
@@ -6113,9 +6105,9 @@
             // col_delivery_report_price
             // 
             this.col_delivery_report_price.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
-            dataGridViewCellStyle6.Format = "C2";
-            dataGridViewCellStyle6.NullValue = null;
-            this.col_delivery_report_price.DefaultCellStyle = dataGridViewCellStyle6;
+            dataGridViewCellStyle18.Format = "C2";
+            dataGridViewCellStyle18.NullValue = null;
+            this.col_delivery_report_price.DefaultCellStyle = dataGridViewCellStyle18;
             this.col_delivery_report_price.HeaderText = "Price";
             this.col_delivery_report_price.MinimumWidth = 6;
             this.col_delivery_report_price.Name = "col_delivery_report_price";
@@ -6399,9 +6391,9 @@
             // col_discount_report_orig_price
             // 
             this.col_discount_report_orig_price.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
-            dataGridViewCellStyle7.Format = "C2";
-            dataGridViewCellStyle7.NullValue = null;
-            this.col_discount_report_orig_price.DefaultCellStyle = dataGridViewCellStyle7;
+            dataGridViewCellStyle19.Format = "C2";
+            dataGridViewCellStyle19.NullValue = null;
+            this.col_discount_report_orig_price.DefaultCellStyle = dataGridViewCellStyle19;
             this.col_discount_report_orig_price.HeaderText = "Original Price";
             this.col_discount_report_orig_price.MinimumWidth = 6;
             this.col_discount_report_orig_price.Name = "col_discount_report_orig_price";
@@ -6718,9 +6710,9 @@
             // col_audit_action
             // 
             this.col_audit_action.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
-            dataGridViewCellStyle8.Format = "C2";
-            dataGridViewCellStyle8.NullValue = null;
-            this.col_audit_action.DefaultCellStyle = dataGridViewCellStyle8;
+            dataGridViewCellStyle20.Format = "C2";
+            dataGridViewCellStyle20.NullValue = null;
+            this.col_audit_action.DefaultCellStyle = dataGridViewCellStyle20;
             this.col_audit_action.HeaderText = "Action";
             this.col_audit_action.MinimumWidth = 6;
             this.col_audit_action.Name = "col_audit_action";
@@ -7507,6 +7499,14 @@
             this.dgv_discount.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.dgv_discount.CellBorderStyle = System.Windows.Forms.DataGridViewCellBorderStyle.None;
             this.dgv_discount.ColumnHeadersBorderStyle = System.Windows.Forms.DataGridViewHeaderBorderStyle.None;
+            dataGridViewCellStyle21.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            dataGridViewCellStyle21.BackColor = System.Drawing.SystemColors.Control;
+            dataGridViewCellStyle21.Font = new System.Drawing.Font("Microsoft Sans Serif", 13.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle21.ForeColor = System.Drawing.SystemColors.WindowText;
+            dataGridViewCellStyle21.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle21.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle21.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.dgv_discount.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle21;
             this.dgv_discount.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dgv_discount.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.col_discount_id,
@@ -7525,9 +7525,20 @@
             this.dgv_discount.Name = "dgv_discount";
             this.dgv_discount.ReadOnly = true;
             this.dgv_discount.RowHeadersBorderStyle = System.Windows.Forms.DataGridViewHeaderBorderStyle.None;
+            dataGridViewCellStyle22.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            dataGridViewCellStyle22.BackColor = System.Drawing.SystemColors.Control;
+            dataGridViewCellStyle22.Font = new System.Drawing.Font("Microsoft Sans Serif", 13.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle22.ForeColor = System.Drawing.SystemColors.WindowText;
+            dataGridViewCellStyle22.Padding = new System.Windows.Forms.Padding(5);
+            dataGridViewCellStyle22.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle22.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle22.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.dgv_discount.RowHeadersDefaultCellStyle = dataGridViewCellStyle22;
             this.dgv_discount.RowHeadersVisible = false;
             this.dgv_discount.RowHeadersWidth = 51;
-            this.dgv_discount.RowTemplate.Height = 24;
+            this.dgv_discount.RowTemplate.DefaultCellStyle.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            this.dgv_discount.RowTemplate.DefaultCellStyle.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.dgv_discount.RowTemplate.Height = 30;
             this.dgv_discount.Size = new System.Drawing.Size(1820, 467);
             this.dgv_discount.TabIndex = 1;
             this.dgv_discount.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgv_discount_CellClick);
@@ -7573,7 +7584,8 @@
             this.col_discount_max_usage.MinimumWidth = 6;
             this.col_discount_max_usage.Name = "col_discount_max_usage";
             this.col_discount_max_usage.ReadOnly = true;
-            this.col_discount_max_usage.Width = 148;
+            this.col_discount_max_usage.Visible = false;
+            this.col_discount_max_usage.Width = 125;
             // 
             // col_discount_customer_limit
             // 
@@ -8453,7 +8465,7 @@
             // 
             // expiry_timer
             // 
-            this.expiry_timer.Interval = 300000;
+            this.expiry_timer.Interval = 30000;
             this.expiry_timer.Tick += new System.EventHandler(this.expiry_timer_Tick);
             // 
             // MainForm
@@ -8476,7 +8488,6 @@
             this.Load += new System.EventHandler(this.MainForm_Load);
             this.materialTabControl1.ResumeLayout(false);
             this.dashboardTab.ResumeLayout(false);
-            this.dashboardTab.PerformLayout();
             this.tableLayoutPanel2.ResumeLayout(false);
             this.materialCard2.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.dgv_table_summary)).EndInit();
@@ -9001,7 +9012,6 @@
         private System.Windows.Forms.DateTimePicker dtp_discount_expiry_date;
         private MaterialSkin.Controls.MaterialLabel materialLabel29;
         private System.Windows.Forms.ErrorProvider errorProvider1;
-        private MaterialSkin.Controls.MaterialLabel lblDiscountAlert;
         private System.Windows.Forms.DataGridViewTextBoxColumn col_product_id;
         private System.Windows.Forms.DataGridViewTextBoxColumn col_product_name;
         private System.Windows.Forms.DataGridViewTextBoxColumn col_product_brand;
@@ -9102,16 +9112,6 @@
         private System.Windows.Forms.DataGridViewImageColumn col_assign_staff;
         private System.Windows.Forms.DataGridViewImageColumn col_pay;
         private System.Windows.Forms.DataGridViewImageColumn col_update_appointment;
-        private System.Windows.Forms.DataGridViewTextBoxColumn col_InventoryID;
-        private System.Windows.Forms.DataGridViewTextBoxColumn col_ProductID;
-        private System.Windows.Forms.DataGridViewTextBoxColumn col_ProductName;
-        private System.Windows.Forms.DataGridViewTextBoxColumn col_Brand;
-        private System.Windows.Forms.DataGridViewTextBoxColumn col_Category;
-        private System.Windows.Forms.DataGridViewTextBoxColumn col_Unit;
-        private System.Windows.Forms.DataGridViewTextBoxColumn col_volume_per_unit;
-        private System.Windows.Forms.DataGridViewTextBoxColumn col_Volume;
-        private System.Windows.Forms.DataGridViewTextBoxColumn col_Critical_Level;
-        private System.Windows.Forms.DataGridViewTextBoxColumn col_Status;
         private System.Windows.Forms.DataGridViewTextBoxColumn col_BatchID;
         private System.Windows.Forms.DataGridViewTextBoxColumn col_DeliveryItemID;
         private System.Windows.Forms.DataGridViewTextBoxColumn col_ProdName;
@@ -9148,17 +9148,6 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn col_supplier_contact;
         private System.Windows.Forms.DataGridViewImageColumn col_supplier_update;
         private System.Windows.Forms.DataGridViewImageColumn col_supplier_delete;
-        private System.Windows.Forms.DataGridViewTextBoxColumn col_discount_id;
-        private System.Windows.Forms.DataGridViewTextBoxColumn col_discount_type;
-        private System.Windows.Forms.DataGridViewTextBoxColumn col_promo_code;
-        private System.Windows.Forms.DataGridViewTextBoxColumn col_discount_rate;
-        private System.Windows.Forms.DataGridViewTextBoxColumn col_discount_max_usage;
-        private System.Windows.Forms.DataGridViewTextBoxColumn col_discount_customer_limit;
-        private System.Windows.Forms.DataGridViewTextBoxColumn col_discount_status;
-        private System.Windows.Forms.DataGridViewTextBoxColumn col_discount_expiry_date;
-        private System.Windows.Forms.DataGridViewImageColumn col_discount_update;
-        private System.Windows.Forms.DataGridViewImageColumn coL_discount_delete;
-        private System.Windows.Forms.DataGridViewImageColumn col_discount_mark_status;
         private System.Windows.Forms.DataGridViewTextBoxColumn col_transaction_id;
         private System.Windows.Forms.DataGridViewTextBoxColumn col_report_vat_amount;
         private System.Windows.Forms.DataGridViewTextBoxColumn col_report_discount_amount;
@@ -9211,5 +9200,26 @@
         private System.Windows.Forms.NotifyIcon notifyIcon1;
         private System.ComponentModel.BackgroundWorker bgExpiryWorker;
         private System.Windows.Forms.Timer expiry_timer;
+        private System.Windows.Forms.DataGridViewTextBoxColumn col_InventoryID;
+        private System.Windows.Forms.DataGridViewTextBoxColumn col_ProductID;
+        private System.Windows.Forms.DataGridViewTextBoxColumn col_ProductName;
+        private System.Windows.Forms.DataGridViewTextBoxColumn col_Brand;
+        private System.Windows.Forms.DataGridViewTextBoxColumn col_Category;
+        private System.Windows.Forms.DataGridViewTextBoxColumn col_Unit;
+        private System.Windows.Forms.DataGridViewTextBoxColumn col_volume_per_unit;
+        private System.Windows.Forms.DataGridViewTextBoxColumn col_Volume;
+        private System.Windows.Forms.DataGridViewTextBoxColumn col_Critical_Level;
+        private System.Windows.Forms.DataGridViewTextBoxColumn col_Status;
+        private System.Windows.Forms.DataGridViewTextBoxColumn col_discount_id;
+        private System.Windows.Forms.DataGridViewTextBoxColumn col_discount_type;
+        private System.Windows.Forms.DataGridViewTextBoxColumn col_promo_code;
+        private System.Windows.Forms.DataGridViewTextBoxColumn col_discount_rate;
+        private System.Windows.Forms.DataGridViewTextBoxColumn col_discount_max_usage;
+        private System.Windows.Forms.DataGridViewTextBoxColumn col_discount_customer_limit;
+        private System.Windows.Forms.DataGridViewTextBoxColumn col_discount_status;
+        private System.Windows.Forms.DataGridViewTextBoxColumn col_discount_expiry_date;
+        private System.Windows.Forms.DataGridViewImageColumn col_discount_update;
+        private System.Windows.Forms.DataGridViewImageColumn coL_discount_delete;
+        private System.Windows.Forms.DataGridViewImageColumn col_discount_mark_status;
     }
 }

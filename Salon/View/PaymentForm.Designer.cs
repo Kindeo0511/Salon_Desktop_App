@@ -54,6 +54,7 @@
             this.printDocument = new System.Drawing.Printing.PrintDocument();
             this.dgv_Table = new System.Windows.Forms.DataGridView();
             this.errorProvider1 = new System.Windows.Forms.ErrorProvider(this.components);
+            this.sw_exempt_vat = new MaterialSkin.Controls.MaterialSwitch();
             ((System.ComponentModel.ISupportInitialize)(this.dgv_Table)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.errorProvider1)).BeginInit();
             this.SuspendLayout();
@@ -228,7 +229,7 @@
             this.materialLabel1.AutoSize = true;
             this.materialLabel1.Depth = 0;
             this.materialLabel1.Font = new System.Drawing.Font("Roboto", 14F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
-            this.materialLabel1.Location = new System.Drawing.Point(851, 126);
+            this.materialLabel1.Location = new System.Drawing.Point(851, 174);
             this.materialLabel1.MouseState = MaterialSkin.MouseState.HOVER;
             this.materialLabel1.Name = "materialLabel1";
             this.materialLabel1.Size = new System.Drawing.Size(61, 19);
@@ -240,7 +241,7 @@
             this.lbl_discount_type.AutoSize = true;
             this.lbl_discount_type.Depth = 0;
             this.lbl_discount_type.Font = new System.Drawing.Font("Roboto", 14F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
-            this.lbl_discount_type.Location = new System.Drawing.Point(851, 197);
+            this.lbl_discount_type.Location = new System.Drawing.Point(851, 245);
             this.lbl_discount_type.MouseState = MaterialSkin.MouseState.HOVER;
             this.lbl_discount_type.Name = "lbl_discount_type";
             this.lbl_discount_type.Size = new System.Drawing.Size(64, 19);
@@ -252,7 +253,7 @@
             this.lbl_tax_rate.AutoSize = true;
             this.lbl_tax_rate.Depth = 0;
             this.lbl_tax_rate.Font = new System.Drawing.Font("Roboto", 14F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
-            this.lbl_tax_rate.Location = new System.Drawing.Point(851, 256);
+            this.lbl_tax_rate.Location = new System.Drawing.Point(851, 304);
             this.lbl_tax_rate.MouseState = MaterialSkin.MouseState.HOVER;
             this.lbl_tax_rate.Name = "lbl_tax_rate";
             this.lbl_tax_rate.Size = new System.Drawing.Size(25, 19);
@@ -264,7 +265,7 @@
             this.materialLabel4.AutoSize = true;
             this.materialLabel4.Depth = 0;
             this.materialLabel4.Font = new System.Drawing.Font("Roboto", 14F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
-            this.materialLabel4.Location = new System.Drawing.Point(851, 312);
+            this.materialLabel4.Location = new System.Drawing.Point(851, 360);
             this.materialLabel4.MouseState = MaterialSkin.MouseState.HOVER;
             this.materialLabel4.Name = "materialLabel4";
             this.materialLabel4.Size = new System.Drawing.Size(102, 19);
@@ -276,7 +277,7 @@
             this.materialLabel5.AutoSize = true;
             this.materialLabel5.Depth = 0;
             this.materialLabel5.Font = new System.Drawing.Font("Roboto", 14F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
-            this.materialLabel5.Location = new System.Drawing.Point(851, 375);
+            this.materialLabel5.Location = new System.Drawing.Point(851, 423);
             this.materialLabel5.MouseState = MaterialSkin.MouseState.HOVER;
             this.materialLabel5.Name = "materialLabel5";
             this.materialLabel5.Size = new System.Drawing.Size(59, 19);
@@ -288,7 +289,7 @@
             this.lbl_change_amount.AutoSize = true;
             this.lbl_change_amount.Depth = 0;
             this.lbl_change_amount.Font = new System.Drawing.Font("Roboto", 14F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
-            this.lbl_change_amount.Location = new System.Drawing.Point(1075, 375);
+            this.lbl_change_amount.Location = new System.Drawing.Point(1075, 423);
             this.lbl_change_amount.MouseState = MaterialSkin.MouseState.HOVER;
             this.lbl_change_amount.Name = "lbl_change_amount";
             this.lbl_change_amount.Size = new System.Drawing.Size(31, 19);
@@ -300,7 +301,7 @@
             this.lbl_Total.AutoSize = true;
             this.lbl_Total.Depth = 0;
             this.lbl_Total.Font = new System.Drawing.Font("Roboto", 14F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
-            this.lbl_Total.Location = new System.Drawing.Point(1075, 312);
+            this.lbl_Total.Location = new System.Drawing.Point(1075, 360);
             this.lbl_Total.MouseState = MaterialSkin.MouseState.HOVER;
             this.lbl_Total.Name = "lbl_Total";
             this.lbl_Total.Size = new System.Drawing.Size(31, 19);
@@ -312,7 +313,7 @@
             this.lbl_Vat.AutoSize = true;
             this.lbl_Vat.Depth = 0;
             this.lbl_Vat.Font = new System.Drawing.Font("Roboto", 14F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
-            this.lbl_Vat.Location = new System.Drawing.Point(1075, 256);
+            this.lbl_Vat.Location = new System.Drawing.Point(1075, 304);
             this.lbl_Vat.MouseState = MaterialSkin.MouseState.HOVER;
             this.lbl_Vat.Name = "lbl_Vat";
             this.lbl_Vat.Size = new System.Drawing.Size(31, 19);
@@ -324,7 +325,7 @@
             this.lbl_Discount.AutoSize = true;
             this.lbl_Discount.Depth = 0;
             this.lbl_Discount.Font = new System.Drawing.Font("Roboto", 14F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
-            this.lbl_Discount.Location = new System.Drawing.Point(1075, 197);
+            this.lbl_Discount.Location = new System.Drawing.Point(1075, 245);
             this.lbl_Discount.MouseState = MaterialSkin.MouseState.HOVER;
             this.lbl_Discount.Name = "lbl_Discount";
             this.lbl_Discount.Size = new System.Drawing.Size(31, 19);
@@ -336,7 +337,7 @@
             this.lbl_Subtotal.AutoSize = true;
             this.lbl_Subtotal.Depth = 0;
             this.lbl_Subtotal.Font = new System.Drawing.Font("Roboto", 14F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
-            this.lbl_Subtotal.Location = new System.Drawing.Point(1075, 127);
+            this.lbl_Subtotal.Location = new System.Drawing.Point(1075, 175);
             this.lbl_Subtotal.MouseState = MaterialSkin.MouseState.HOVER;
             this.lbl_Subtotal.Name = "lbl_Subtotal";
             this.lbl_Subtotal.Size = new System.Drawing.Size(31, 19);
@@ -444,11 +445,28 @@
             this.errorProvider1.BlinkStyle = System.Windows.Forms.ErrorBlinkStyle.NeverBlink;
             this.errorProvider1.ContainerControl = this;
             // 
+            // sw_exempt_vat
+            // 
+            this.sw_exempt_vat.AutoSize = true;
+            this.sw_exempt_vat.Depth = 0;
+            this.sw_exempt_vat.Location = new System.Drawing.Point(838, 109);
+            this.sw_exempt_vat.Margin = new System.Windows.Forms.Padding(0);
+            this.sw_exempt_vat.MouseLocation = new System.Drawing.Point(-1, -1);
+            this.sw_exempt_vat.MouseState = MaterialSkin.MouseState.HOVER;
+            this.sw_exempt_vat.Name = "sw_exempt_vat";
+            this.sw_exempt_vat.Ripple = true;
+            this.sw_exempt_vat.Size = new System.Drawing.Size(145, 37);
+            this.sw_exempt_vat.TabIndex = 24;
+            this.sw_exempt_vat.Text = "Exempt VAT";
+            this.sw_exempt_vat.UseVisualStyleBackColor = true;
+            this.sw_exempt_vat.CheckedChanged += new System.EventHandler(this.sw_exempt_vat_CheckedChanged);
+            // 
             // PaymentForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1300, 628);
+            this.Controls.Add(this.sw_exempt_vat);
             this.Controls.Add(this.dgv_Table);
             this.Controls.Add(this.btn_invoice);
             this.Controls.Add(this.cb_discount);
@@ -512,5 +530,6 @@
         private System.Drawing.Printing.PrintDocument printDocument;
         private System.Windows.Forms.DataGridView dgv_Table;
         private System.Windows.Forms.ErrorProvider errorProvider1;
+        private MaterialSkin.Controls.MaterialSwitch sw_exempt_vat;
     }
 }

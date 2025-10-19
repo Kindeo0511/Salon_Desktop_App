@@ -45,7 +45,8 @@ namespace Salon.View
         private int currentPage = 1;
         private int pageSize = 25;
         private int totalPages = 0;
-        private string lastNotificationType = "";
+
+        List<string> notificationTypes = new List<string>();
 
         public MainForm(LoginForm login)
         {
@@ -116,7 +117,8 @@ namespace Salon.View
             int lowOrOutCount = inventoryController.GetLowOrOutOfStock();
             if (lowOrOutCount > 0)
             {
-                lastNotificationType = "inventory";
+                notificationTypes.Add("inventory");
+
 
                 message += $"⚠️ {lowOrOutCount} item(s) are low or out of stock.\n";
 
@@ -126,7 +128,8 @@ namespace Salon.View
             var expiringSoon = discountController.GetExpiringDiscounts(DateTime.Today.AddDays(3));
             if (expiringSoon.Any())
             {
-                lastNotificationType = "discount";
+                notificationTypes.Add("discount");
+
 
                 foreach (var expiry in expiringSoon)
                 {
@@ -4338,10 +4341,11 @@ namespace Salon.View
                 this.WindowState = FormWindowState.Maximized;
                 this.Activate();
 
-                if (lastNotificationType == "inventory")
+                if (notificationTypes.Contains("inventory"))
                     materialTabControl1.SelectedTab = inventoryTab;
-                else if (lastNotificationType == "discount")
+                else if (notificationTypes.Contains("discount"))
                     materialTabControl1.SelectedTab = settingsTab;
+
 
                 notifyIcon1.Visible = false;
 
@@ -4355,10 +4359,11 @@ namespace Salon.View
             this.WindowState = FormWindowState.Maximized;
             this.Activate();
 
-            if (lastNotificationType == "inventory")
+            if (notificationTypes.Contains("inventory"))
                 materialTabControl1.SelectedTab = inventoryTab;
-            else if (lastNotificationType == "discount")
+            else if (notificationTypes.Contains("discount"))
                 materialTabControl1.SelectedTab = settingsTab;
+
 
             notifyIcon1.Visible = false;
 
@@ -4374,6 +4379,7 @@ namespace Salon.View
             controller.UpdateExpiredProducts();
             InventoryBatchProcessed();
             LoadExpiringDiscount();
+
 
 ;       }
         private void InventoryBatchProcessed() 

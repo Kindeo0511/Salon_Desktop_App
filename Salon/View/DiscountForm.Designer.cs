@@ -214,6 +214,7 @@
             this.txt_max_usage.Name = "txt_max_usage";
             this.txt_max_usage.Size = new System.Drawing.Size(350, 22);
             this.txt_max_usage.TabIndex = 18;
+            this.txt_max_usage.Visible = false;
             // 
             // txt_customer_limit
             // 
@@ -234,6 +235,7 @@
             this.materialLabel1.Size = new System.Drawing.Size(84, 19);
             this.materialLabel1.TabIndex = 20;
             this.materialLabel1.Text = "Max Usage:";
+            this.materialLabel1.Visible = false;
             // 
             // materialLabel2
             // 
@@ -282,6 +284,7 @@
             this.sw_expiry_notif.TabIndex = 23;
             this.sw_expiry_notif.Text = "Send Expiry Notifcation";
             this.sw_expiry_notif.UseVisualStyleBackColor = true;
+            this.sw_expiry_notif.Visible = false;
             // 
             // DiscountForm
             // 

@@ -150,13 +150,7 @@ namespace Salon.View
             var repo = new TransactionRepository();
             var controller = new TransactionController(repo);
 
-            var transaction = new TransactionModel
-            {
-                transaction_id = model.transaction_id,
-                payment_status = "Refunded"
-            };
-
-            controller.UpdateTransactionStatus(transaction);
+            controller.UpdateTransactionStatus(model.transaction_id, "Refunded");
         }
         private void btn_refund_Click(object sender, EventArgs e)
         {

@@ -334,6 +334,7 @@
             this.lbl_test.Size = new System.Drawing.Size(44, 16);
             this.lbl_test.TabIndex = 6;
             this.lbl_test.Text = "label1";
+            this.lbl_test.Visible = false;
             // 
             // RefundForm
             // 
