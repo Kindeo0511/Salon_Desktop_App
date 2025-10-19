@@ -34,7 +34,7 @@ namespace Salon.Repository
                         FROM tbl_discount
                         WHERE 
                           status = 'Active' 
-                          AND expiry_date >= CURDATE();
+                          ;
                         ";
                 return con.Query<DiscountModel>(sql);
             }

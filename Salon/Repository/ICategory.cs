@@ -11,6 +11,7 @@ namespace Salon.Repository
     {
         IEnumerable<CategoryModel> getAllCategory();
         IEnumerable<CategoryModel> getAllCategoryByProduct();
+        IEnumerable<CategoryModel> getAllCategoryByService();
         void addCategory(CategoryModel category);
         void updateCategory(CategoryModel category);
         void deleteCategory(int id);

@@ -48,11 +48,19 @@ namespace Salon.Controller
         {
             inventoryRepository.UpdateInventory(id, unit, volume);
         }
+
+        public void UpdateExpiredProducts() 
+        {
+            inventoryRepository.UpdateExpiredInventory();
+        }
         public void UpdateInventoryByVolume(int id, double unit, double volume)
         {
             inventoryRepository.UpdateInventoryVolume(id, unit, volume);
         }
-
+        public int GetLowOrOutOfStock() 
+        {
+            return inventoryRepository.LowOrOutOfStock();
+        }
 
         public void DeleteInventory(int inventoryId)
         {

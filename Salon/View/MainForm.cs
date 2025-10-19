@@ -45,7 +45,8 @@ namespace Salon.View
         private int currentPage = 1;
         private int pageSize = 25;
         private int totalPages = 0;
-       
+        private string lastNotificationType = "";
+
         public MainForm(LoginForm login)
         {
             InitializeComponent();
@@ -101,21 +102,60 @@ namespace Salon.View
             ThemeManager.StyleDataGridView(dgv_deleted_record);
         }
 
-        private void MainForm_Load(object sender, EventArgs e)
+        public void LoadExpiringDiscount()
         {
-            UserAccess();
-            var repo = new DiscountRepository();
-            var expiringSoon = repo.GetExpiringDiscounts(DateTime.Today.AddDays(3)); // next 3 days
+            var discountRepo = new DiscountRepository();
+            var discountController = new DiscountController(discountRepo);
 
+            var inventoryRepo = new InventoryRepository();
+            var inventoryController = new InventoryController(inventoryRepo);
+
+            string message = "";
+
+            // 🔍 Check for low/out-of-stock items
+            int lowOrOutCount = inventoryController.GetLowOrOutOfStock();
+            if (lowOrOutCount > 0)
+            {
+                lastNotificationType = "inventory";
+
+                message += $"⚠️ {lowOrOutCount} item(s) are low or out of stock.\n";
+
+            }
+
+            // ⏳ Check for expiring discounts
+            var expiringSoon = discountController.GetExpiringDiscounts(DateTime.Today.AddDays(3));
             if (expiringSoon.Any())
             {
-                lblDiscountAlert.Text = $"⚠️ {expiringSoon.Count} discount(s) are expiring soon";
-                lblDiscountAlert.Visible = true;
+                lastNotificationType = "discount";
+
+                foreach (var expiry in expiringSoon)
+                {
+                    var model = new DiscountModel
+                    {
+                        discount_id = expiry.discount_id,
+                        status = "Expiring Soon"
+                    };
+                    discountController.UpdateDiscountStatus(model);
+                }
+
+                message += $"⚠️ {expiringSoon.Count} discount(s) are expiring soon.";
+
+               
             }
-            else
+            if (!string.IsNullOrEmpty(message))
             {
-                lblDiscountAlert.Visible = false;
+                notifyIcon1.Visible = true;
+                notifyIcon1.BalloonTipText = message;
+                notifyIcon1.ShowBalloonTip(3000);
             }
+
+        }
+        private void MainForm_Load(object sender, EventArgs e)
+        {
+            expiry_timer.Start();
+
+            UserAccess();
+            LoadExpiringDiscount();
 
 
             LoadUser();
@@ -347,24 +387,24 @@ namespace Salon.View
 
 
             }
-            else if (dgv_user.Columns[e.ColumnIndex].Name == "btn_activate")
-            {
-                var user = dgv_user.Rows[e.RowIndex].DataBoundItem as UsersModel;
+            //else if (dgv_user.Columns[e.ColumnIndex].Name == "btn_activate")
+            //{
+            //    var user = dgv_user.Rows[e.RowIndex].DataBoundItem as UsersModel;
 
 
-                // Ask for confirmation before delete
-                if (MessageBox.Show($"Activate user {user.userName}?", "Confirm Activation", MessageBoxButtons.YesNo) == DialogResult.Yes)
-                {
-                    RestoreDeactivatedUserRecord(user.user_id);
-                    DeleteDeletedRecord(user.user_id);
+            //    // Ask for confirmation before delete
+            //    if (MessageBox.Show($"Activate user {user.userName}?", "Confirm Activation", MessageBoxButtons.YesNo) == DialogResult.Yes)
+            //    {
+            //        RestoreDeactivatedUserRecord(user.user_id);
+            //        DeleteDeletedRecord(user.user_id);
 
-                    LoadDeletedRecords();
-                    LoadUser();
-                    var fullName = user.first_Name + " " + user.last_Name;
-                    Audit.AuditLog(DateTime.Now, "Activate", UserSession.CurrentUser.first_Name, "Manage User", $"Activated user {fullName} on {DateTime.Now:yyyy-MM-dd} at {DateTime.Now:HH:mm:ss}");
+            //        LoadDeletedRecords();
+            //        LoadUser();
+            //        var fullName = user.first_Name + " " + user.last_Name;
+            //        Audit.AuditLog(DateTime.Now, "Activate", UserSession.CurrentUser.first_Name, "Manage User", $"Activated user {fullName} on {DateTime.Now:yyyy-MM-dd} at {DateTime.Now:HH:mm:ss}");
 
-                }
-            }
+            //    }
+            //}
 
             else if (dgv_user.Columns[e.ColumnIndex].Name == "btn_delete")
             {
@@ -471,27 +511,27 @@ namespace Salon.View
 
 
             }
-            else if (e.RowIndex >= 0 && dgv_stylist.Columns[e.ColumnIndex].Name == "col_stylist_active")
-            {
+            //else if (e.RowIndex >= 0 && dgv_stylist.Columns[e.ColumnIndex].Name == "col_stylist_active")
+            //{
 
-                var stylist = dgv_stylist.Rows[e.RowIndex].DataBoundItem as StylistModel;
+            //    var stylist = dgv_stylist.Rows[e.RowIndex].DataBoundItem as StylistModel;
 
-                if (MessageBox.Show($"Activate stylist {stylist.firstName}?", "Confirm Activation", MessageBoxButtons.YesNo) == DialogResult.Yes)
-                {
-                    var _repo = new StylistRepository();
-                    var stylistController = new StylistController(_repo);
-                    var fullName = stylist.firstName + " " + stylist.lastName;
-                    Audit.AuditLog(DateTime.Now, "Activate", UserSession.CurrentUser.first_Name, "Manage Stylist", $"Activated stylist {fullName} on {DateTime.Now:yyyy-MM-dd} at {DateTime.Now:HH:mm:ss}");
-                    RestoreDeletedStylistRecord(stylist.stylist_id);
-                    DeleteDeletedRecord(stylist.stylist_id);
-                    LoadStylist();
-                    LoadDeletedRecords();
+            //    if (MessageBox.Show($"Activate stylist {stylist.firstName}?", "Confirm Activation", MessageBoxButtons.YesNo) == DialogResult.Yes)
+            //    {
+            //        var _repo = new StylistRepository();
+            //        var stylistController = new StylistController(_repo);
+            //        var fullName = stylist.firstName + " " + stylist.lastName;
+            //        Audit.AuditLog(DateTime.Now, "Activate", UserSession.CurrentUser.first_Name, "Manage Stylist", $"Activated stylist {fullName} on {DateTime.Now:yyyy-MM-dd} at {DateTime.Now:HH:mm:ss}");
+            //        RestoreDeletedStylistRecord(stylist.stylist_id);
+            //        DeleteDeletedRecord(stylist.stylist_id);
+            //        LoadStylist();
+            //        LoadDeletedRecords();
 
-                }
+            //    }
 
 
 
-            }
+            //}
             else if (e.RowIndex >= 0 && dgv_stylist.Columns[e.ColumnIndex].Name == "stylist_btn_delete")
             {
                 var stylist = dgv_stylist.Rows[e.RowIndex].DataBoundItem as StylistModel;
@@ -591,22 +631,22 @@ namespace Salon.View
                     customerForm.ShowDialog();
                 }
             }
-            else if (e.RowIndex >= 0 && dgv_customer.Columns[e.ColumnIndex].Name == "col_customer_activate")
-            {
-                var customer = dgv_customer.Rows[e.RowIndex].DataBoundItem as CustomerModel;
+            //else if (e.RowIndex >= 0 && dgv_customer.Columns[e.ColumnIndex].Name == "col_customer_activate")
+            //{
+            //    var customer = dgv_customer.Rows[e.RowIndex].DataBoundItem as CustomerModel;
 
-                if (MessageBox.Show($"Activate customer {customer.firstName}?", "Confirm Activation", MessageBoxButtons.YesNo) == DialogResult.Yes)
-                {
-                    var repo = new CustomerRepository();
-                    var customerController = new CustomerController(repo);
-                    var fullName = customer.firstName + " " + customer.lastName;
-                    Audit.AuditLog(DateTime.Now, "Activate", UserSession.CurrentUser.first_Name, "Manage Customer", $"Activated customer '{fullName}' on {DateTime.Now:yyyy-MM-dd} at {DateTime.Now:HH:mm:ss}");
-                    RestoreDeletedCustomerRecord(customer.customer_id);
-                    DeleteDeletedRecord(customer.customer_id);
-                    LoadDeletedRecords();
-                    LoadCustomers();
-                }
-            }
+            //    if (MessageBox.Show($"Activate customer {customer.firstName}?", "Confirm Activation", MessageBoxButtons.YesNo) == DialogResult.Yes)
+            //    {
+            //        var repo = new CustomerRepository();
+            //        var customerController = new CustomerController(repo);
+            //        var fullName = customer.firstName + " " + customer.lastName;
+            //        Audit.AuditLog(DateTime.Now, "Activate", UserSession.CurrentUser.first_Name, "Manage Customer", $"Activated customer '{fullName}' on {DateTime.Now:yyyy-MM-dd} at {DateTime.Now:HH:mm:ss}");
+            //        RestoreDeletedCustomerRecord(customer.customer_id);
+            //        DeleteDeletedRecord(customer.customer_id);
+            //        LoadDeletedRecords();
+            //        LoadCustomers();
+            //    }
+            //}
             else if (e.RowIndex >= 0 && dgv_customer.Columns[e.ColumnIndex].Name == "col_customer_btn_delete")
             {
                 var customer = dgv_customer.Rows[e.RowIndex].DataBoundItem as CustomerModel;
@@ -1172,6 +1212,7 @@ namespace Salon.View
                     InsertDeletedRecord(discountModel.discount_id, "Vat/Discount", discountModel.discount_type + " " + discountModel.promo_code, UserSession.CurrentUser.first_Name, DateTime.Today);
                     FilterdDeletedRecords();
                     LoadDiscount();
+                
                 }
             }
             else if (e.RowIndex >= 0 && dgv_discount.Columns[e.ColumnIndex].Name == "col_discount_mark_status")
@@ -1190,6 +1231,43 @@ namespace Salon.View
                     //LoadDiscount();
                 
             }
+        }
+        private void dgv_discount_CellFormatting(object sender, DataGridViewCellFormattingEventArgs e)
+        {
+            if (dgv_discount.Columns[e.ColumnIndex].Name == "col_discount_status" && e.RowIndex >= 0)
+            {
+                var cellValue = e.Value?.ToString()?.ToLower();
+
+                if (cellValue == null) return;
+
+                // Set default style
+                e.CellStyle.ForeColor = Color.White;
+                e.CellStyle.SelectionForeColor = Color.White;
+
+                switch (cellValue)
+                {
+                    case "active":
+                        e.CellStyle.BackColor = Color.SeaGreen;
+                        e.CellStyle.SelectionBackColor = Color.DarkGreen;
+                        break;
+
+                    case "expired":
+                        e.CellStyle.BackColor = Color.DarkGray;
+                        e.CellStyle.SelectionBackColor = Color.Gray;
+                        break;
+
+                    case "expiring soon":
+                        e.CellStyle.BackColor = Color.Orange;
+                        e.CellStyle.SelectionBackColor = Color.DarkOrange;
+                        break;
+
+                    default:
+                        e.CellStyle.BackColor = Color.White;
+                        e.CellStyle.ForeColor = Color.Black;
+                        break;
+                }
+            }
+
         }
 
         private void cmb_discount_type_SelectedIndexChanged(object sender, EventArgs e)
@@ -4252,7 +4330,69 @@ namespace Salon.View
             cmb_deleted_record_filter.Hint = "Select Filter";
         }
 
-    
+        private void notifyIcon1_MouseClick(object sender, MouseEventArgs e)
+        {
+            if (e.Button == MouseButtons.Left)
+            {
+                this.Show();
+                this.WindowState = FormWindowState.Maximized;
+                this.Activate();
+
+                if (lastNotificationType == "inventory")
+                    materialTabControl1.SelectedTab = inventoryTab;
+                else if (lastNotificationType == "discount")
+                    materialTabControl1.SelectedTab = settingsTab;
+
+                notifyIcon1.Visible = false;
+
+            }
+
+        }
+
+        private void notifyIcon1_BalloonTipClicked(object sender, EventArgs e)
+        {
+            this.Show();
+            this.WindowState = FormWindowState.Maximized;
+            this.Activate();
+
+            if (lastNotificationType == "inventory")
+                materialTabControl1.SelectedTab = inventoryTab;
+            else if (lastNotificationType == "discount")
+                materialTabControl1.SelectedTab = settingsTab;
+
+            notifyIcon1.Visible = false;
+
+
+
+        }
+
+        private void backgroundWorker1_DoWork(object sender, DoWorkEventArgs e)
+        {
+            var repo = new InventoryRepository();
+            var controller = new InventoryController(repo);
+
+            controller.UpdateExpiredProducts();
+            InventoryBatchProcessed();
+            LoadExpiringDiscount();
+
+;       }
+        private void InventoryBatchProcessed() 
+        {
+            var repo = new InventoryBatchRepository();
+            var controller = new InventoryBatchController(repo);
+            controller.UpdateInventoryStatus();
+        }
+
+        private void expiry_timer_Tick(object sender, EventArgs e)
+        {
+            if (!bgExpiryWorker.IsBusy)
+                bgExpiryWorker.RunWorkerAsync();
+            LoadInventory();
+
+        }
+
+
+
 
 
 

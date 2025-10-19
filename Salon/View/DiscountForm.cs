@@ -125,6 +125,8 @@ namespace Salon.View
             {
                 update_discount_controller.UpdateDiscount(discountModel);
                 MessageBox.Show("Discount updated succesfully!", "success", MessageBoxButtons.OK, MessageBoxIcon.Information);
+               
+          
                 main.LoadDiscount();
                 Audit.AuditLog(
                    DateTime.Now,

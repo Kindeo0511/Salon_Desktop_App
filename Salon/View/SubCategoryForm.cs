@@ -70,7 +70,7 @@ namespace Salon.View
         {
             var repo = new CategoryRepository();
             var controller = new CategoryController(repo);
-            var categories = controller.getAllCategory();
+            var categories = controller.getAllCategoryByService();
 
             cmb_category.ValueMember = "category_id";
             cmb_category.DisplayMember = "categoryName";

@@ -33,7 +33,7 @@ namespace Salon.View
             var repo = new DiscountRepository();
             var controller = new DiscountController(repo);
 
-            discountModel.status = cmb_status.Text;
+            discountModel.status = cmb_status.Text.Trim();
 
             controller.UpdateDiscountStatus(discountModel);
 
@@ -44,6 +44,7 @@ namespace Salon.View
             UpdateStatus();
             MessageBox.Show("Status Update Successfully!", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
             mainForm.LoadDiscount();
+            mainForm.LoadExpiringDiscount();
             this.Close();
         }
 

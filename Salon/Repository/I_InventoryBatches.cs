@@ -12,7 +12,7 @@ namespace Salon.Repository
         IEnumerable<InventoryBatchModel> GetAllInventoryBatch();
         InventoryBatchModel GetProductPriceByName(int product_id);
         void AddInventoryBatch(InventoryBatchModel inventoryBatch);
-        void UpdateInventoryBatch(InventoryBatchModel inventoryBatch);
+        void UpdateInventoryBatch();
         void DeleteInventoryBatch(InventoryBatchModel inventoryBatch);
     }
 }

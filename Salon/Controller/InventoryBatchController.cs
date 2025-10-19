@@ -32,6 +32,10 @@ namespace Salon.Controller
         {
             _repository.AddInventoryBatch(inventoryBatchModel);
         }
+        public void UpdateInventoryStatus() 
+        {
+            _repository.UpdateInventoryBatch();
+        }
 
         //public void UpdateStatusToExpiringSoon()
         //{

@@ -52,9 +52,15 @@ namespace Salon.Repository
             }
                
         }
-        public void UpdateInventoryBatch(InventoryBatchModel inventoryBatch)
+        public void UpdateInventoryBatch()
         {
-
+            using (var con = Database.GetConnection())
+            {
+                var sql = @"UPDATE tbl_inventory_batch
+                    SET is_expired_processed = TRUE
+                    WHERE expiry_date < CURDATE() AND is_expired_processed = FALSE;";
+                con.Execute(sql);
+            }
         }
         public void DeleteInventoryBatch(InventoryBatchModel inventoryBatch)
         {

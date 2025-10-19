@@ -17,7 +17,7 @@ namespace Salon.Repository
             using (var con = Database.GetConnection()) 
             {
             
-                var sql = "SELECT * FROM tbl_customer_account";
+                var sql = "SELECT * FROM tbl_customer_account WHERE is_deleted = 0";
                 return con.Query<CustomerModel>(sql).ToList();
             }
         }

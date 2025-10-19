@@ -15,6 +15,9 @@ namespace Salon.Repository
         InventoryViewModel InventoryReportSummary();
         InventoryViewModel InventoryReportSummary(string status);
 
+        int LowOrOutOfStock();
+        void UpdateExpiredInventory();
+
         bool ProductExists(int id);
         void AddInventory(InventoryViewModel inventory);
         void UpdateInventory(int id, int unit, int volume);

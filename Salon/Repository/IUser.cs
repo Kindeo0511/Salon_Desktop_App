@@ -26,6 +26,10 @@ namespace Salon.Repository
         bool UserNumberExistsAsync(string number, int id = 0);
 
 
+        // LOGIN USER
+        UsersModel LoginUser(string username, string password);
+        UsersModel GetUserByUsername(string username);
+
         // RESTORING DATA
 
         void RestoreUser(int userId);

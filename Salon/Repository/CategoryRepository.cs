@@ -19,11 +19,19 @@ namespace Salon.Repository
                 return con.Query<CategoryModel>(sql).ToList();
             }
         }
+        public IEnumerable<CategoryModel> getAllCategoryByService() 
+        {
+            using (var con = Database.GetConnection())
+            {
+                var sql = "SELECT * FROM tbl_category WHERE type = 'Service' AND is_deleted = 0";
+                return con.Query<CategoryModel>(sql).ToList();
+            }
+        }
         public IEnumerable<CategoryModel> getAllCategoryByProduct()
         {
             using (var con = Database.GetConnection())
             {
-                var sql = "SELECT * FROM tbl_category WHERE type = 'Product'";
+                var sql = "SELECT * FROM tbl_category WHERE type = 'Product' AND is_deleted = 0";
                 return con.Query<CategoryModel>(sql).ToList();
             }
         }

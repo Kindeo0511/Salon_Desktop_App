@@ -20,10 +20,15 @@ namespace Salon.Controller
         {
             return repo.getAllCategory();
         }
+        public IEnumerable<CategoryModel> getAllCategoryByService() 
+        {
+            return repo.getAllCategoryByService();
+        }
         public IEnumerable<CategoryModel> getAllCategoryByProduct()
         {
             return repo.getAllCategoryByProduct();
         }
+
         public void addCategory(CategoryModel category)
         {
             repo.addCategory(category);

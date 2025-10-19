@@ -62,6 +62,10 @@ namespace Salon.View
                 btn_update.Visible = false;
             }
         }
+        private string HashPassword(string password) 
+        {
+            return BCrypt.Net.BCrypt.HashPassword(password);
+        }
         public UserForm(MainForm mainForm, UsersModel user, bool isViewed)
         {
             InitializeComponent();
@@ -117,7 +121,7 @@ namespace Salon.View
                 email = txt_email.Text,
                 address = txt_address.Text,
                 userName = txt_username.Text,
-                userPassword = txt_password.Text,
+                userPassword = HashPassword(txt_password.Text.Trim()),
                 Position = "Staff",
             };
             var _repo = new UserRepository();
@@ -139,7 +143,7 @@ namespace Salon.View
                 _user.email = txt_email.Text;
                 _user.address = txt_address.Text;
                 _user.userName = txt_username.Text;
-                _user.userPassword = txt_password.Text;
+                _user.userPassword = HashPassword(txt_password.Text.Trim());
                 var _repo = new UserRepository();
                 var userController = new UserController(_repo);
                 userController.UpdateUser(_user);
@@ -149,6 +153,12 @@ namespace Salon.View
         {
 
             bool validated = true;
+
+            // LENGTH FIELD 
+            validated &= Validator.IsMaximumLength(txt_first_name, errorProvider1, "First name must not exceed 50 characters.");
+
+
+
             // REQUIRED FIELD
             validated &= Validator.IsRequired(txt_first_name, errorProvider1,"First name is required.");
             validated &= Validator.IsRequired(txt_middle_name, errorProvider1, "Middle name is required.");

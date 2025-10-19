@@ -12,7 +12,23 @@ namespace Salon.Util
 {
     public static class Validator
     {
-       
+        public static bool IsMaximumLength(Control control, ErrorProvider ep, string message)
+        {
+            if (control is TextBox tb)
+            {
+                if (tb.TextLength > 50)
+                {
+                    ep.SetError(tb, message);
+                    return false;
+                }
+                ep.SetError(control, "");
+                return true;
+            }
+
+           
+            ep.SetError(control, "");
+            return true;
+        }
         public static bool IsRequired(Control control, ErrorProvider ep, string message) 
         {
             if (control is NumericUpDown nud)

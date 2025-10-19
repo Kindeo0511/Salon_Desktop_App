@@ -67,7 +67,13 @@ namespace Salon.Controller
             return  _repo.UserNumberExistsAsync(number, id);
         }
 
+        public UsersModel AuthenticateUser(string username, string password)
+        {
+            return _repo.LoginUser(username, password);
+        }
 
+
+  
         // RESTORE DATA
 
         public void RestoreUser(int userId) 

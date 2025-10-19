@@ -35,7 +35,7 @@ namespace Salon.View
             string password = txt_password.Text.Trim();
             var repo = new UserRepository();
             var controler = new UserController(repo);
-            var user = controler.GetUserAndPass(username, password);
+            var user = controler.AuthenticateUser(username, password);
 
             if (user != null)
             {
@@ -76,7 +76,7 @@ namespace Salon.View
 
         private void btn_cancel_Click(object sender, EventArgs e)
         {
-         
+            Application.Exit();
         }
 
         private void pictureBox1_Click(object sender, EventArgs e)

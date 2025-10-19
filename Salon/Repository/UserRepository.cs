@@ -3,6 +3,7 @@ using Laundry.Data;
 using Salon.Models;
 using System;
 using System.Collections.Generic;
+using System.Data.SqlClient;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -121,5 +122,28 @@ namespace Salon.Repository
                 con.Execute(sql, new { userId });
             }
         }
+
+        public UsersModel LoginUser(string username, string password)
+        {
+            var user = GetUserByUsername(username);
+            if (user == null || string.IsNullOrWhiteSpace(user.userPassword))
+                return null;
+
+            bool isValid = BCrypt.Net.BCrypt.Verify(password, user.userPassword);
+            return isValid ? user : null;
+        }
+
+        public UsersModel GetUserByUsername(string username)
+        {
+            using (var con = Database.GetConnection())
+            {
+                string query = "SELECT * FROM tbl_users WHERE userName = @Username";
+                return con.QueryFirstOrDefault<UsersModel>(query, new { Username = username });
+            }
+
+        }
+
+
+
     }
 }

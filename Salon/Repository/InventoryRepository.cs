@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using static iText.StyledXmlParser.Jsoup.Select.Evaluator;
 
 namespace Salon.Repository
 {
@@ -107,6 +108,32 @@ namespace Salon.Repository
                 con.Execute(sql, new { id, unit, volume });
             }
               
+        }
+        public int LowOrOutOfStock()
+        {
+            using (var con = Database.GetConnection())
+            {
+                var sql = @"SELECT COUNT(*) FROM tbl_inventory
+                    WHERE status IN ('Low Stock', 'Out of Stock');";
+                return con.ExecuteScalar<int>(sql); // returns actual count
+            }
+        }
+        public void UpdateExpiredInventory() 
+        {
+            using (var con = Database.GetConnection())
+            {
+                var sql = @"UPDATE tbl_inventory i
+                JOIN (
+                  SELECT product_id, SUM(volume) AS expired_volume
+                  FROM tbl_inventory_batch
+                  WHERE expiry_date < CURDATE() AND is_expired_processed = FALSE
+                  GROUP BY product_id
+                ) expired ON i.product_id = expired.product_id
+                SET 
+                  i.volume = GREATEST(i.volume - expired.expired_volume, 0),
+                  i.unit = GREATEST(FLOOR((i.volume - expired.expired_volume) / i.volume_per_unit), 0);";
+                                con.Execute(sql);
+            }
         }
 
         public void DeleteInventory(int inventoryId)
