@@ -33,7 +33,7 @@ namespace Salon.Repository
                           status
                         FROM tbl_discount
                         WHERE 
-                          status = 'Active' 
+                          status != 'Expired' 
                           ;
                         ";
                 return con.Query<DiscountModel>(sql);

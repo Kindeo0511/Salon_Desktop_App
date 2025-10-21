@@ -50,15 +50,28 @@ namespace Salon
 
         private void timer1_Tick(object sender, EventArgs e)
         {
+            var repo = new UserRepository();
+            var controller = new UserController(repo);
             lbl_progress_bar.Increment(2);
             
 
             if (lbl_progress_bar.Value == 100) 
             {
                 timer1.Enabled = false;
-                //var form = new LoginForm();
-                //form.ShowDialog();
-                this.Close();
+
+                if (!controller.CheckAdminExists())
+                {
+                    var form = new ConfigureSettingsForm();
+                    form.Show();
+                    this.Hide();
+                }
+                else
+                {
+                    var form = new LoginForm();
+                    form.Show();
+                    this.Hide();
+                }
+
             }
 
         }

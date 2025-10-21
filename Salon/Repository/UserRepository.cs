@@ -13,6 +13,14 @@ namespace Salon.Repository
 {
     public class UserRepository : IUser
     {
+        public bool IsAdminExists() 
+        {
+            using (var con = Database.GetConnection())
+            {
+                var sql = "SELECT COUNT(*) FROM tbl_users WHERE Position = 'Admin'";
+                return con.ExecuteScalar<int>(sql) > 0;
+            }
+        }
         public IEnumerable<UsersModel> GetAllUsers()
         {
             using (var con = Database.GetConnection())

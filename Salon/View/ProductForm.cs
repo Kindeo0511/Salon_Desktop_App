@@ -47,24 +47,77 @@ namespace Salon.View
 
             }
         }
-        private bool Validated()
+        private bool IsValid()
         {
-
-            bool validated = true;
-            // REQUIRED FIELD
-            validated &= Validator.IsRequired(txt_product_name, errorProvider1, "Product is required.");
-            validated &= Validator.IsRequired(txt_brand, errorProvider1, "Brand is required.");
-            validated &= Validator.IsRequired(txt_unit_volume, errorProvider1, "Unit Volume is required.");
-            validated &= Validator.IsRequired(cmb_category, errorProvider1, "Category is required.");
-            validated &= Validator.IsRequired(cmb_unit_type, errorProvider1, "Unit type is required.");
-            validated &= Validator.IsRequired(cmb_usage_type, errorProvider1, "Usage type is required.");
-
-
-
-            // EXISTS VALIDATION
             int excludeId = productModel?.product_id ?? 0;
             int cat_id = Convert.ToInt32(cmb_category.SelectedValue);
-            validated &= Validator.IsProductExists(txt_product_name, errorProvider1, "Product already exists.", cat_id, excludeId);
+            bool validated = true;
+
+
+          
+            validated &= Validator.IsRequired(txt_unit_volume, errorProvider1, "Unit Volume is required.");
+
+            // REQUIRED FIELD
+
+            // PRODUCT NAME
+            if (!Validator.IsRequiredTextField(txt_product_name, errorProvider1, "Category is required."))
+            {
+                validated = false;
+            }
+            else if (!Validator.IsMinimumLength(txt_product_name, errorProvider1, "Category must be at least 3 characters.", 3))
+            {
+                validated = false;
+            }
+            else if (!Validator.Pattern(txt_product_name, errorProvider1, @"^[A-Za-z0-9 _.\-&/]{3,50}$", "Product can only contain letters, numbers, spaces, underscores, and hyphens."))
+            {
+                validated = false;
+            }
+
+            else if (!Validator.IsProductExists(txt_product_name, errorProvider1, "Product already exits.", cat_id, excludeId))
+            {
+                validated = false;
+            }
+
+            // BRAND NAME
+            if (!Validator.IsRequiredTextField(txt_brand, errorProvider1, "Brand is required."))
+            {
+                validated = false;
+            }
+            else if (!Validator.IsMinimumLength(txt_brand, errorProvider1, "Brand must be at least 3 characters.", 3))
+            {
+                validated = false;
+            }
+            else if (!Validator.Pattern(txt_brand, errorProvider1, @"^[A-Za-z0-9 _.\-&/]{3,50}$", "Brand can only contain letters, numbers, spaces, underscores, hyphens, dots, ampersands, and slashes"))
+            {
+                validated = false;
+            }
+
+            if (!Validator.IntOnly(txt_unit_volume,errorProvider1, "Unit Volume is Required", "Spaces are not allowed", "Unit volume must be a whole number.", "Value must be greater than zero.")) 
+            {
+                validated = false;
+            }
+        
+
+
+
+
+            if (!Validator.IsComboBoxSelected(cmb_category, errorProvider1, "Category Type is Required"))
+            {
+                validated = false;
+            }
+
+            if (!Validator.IsComboBoxSelected(cmb_unit_type, errorProvider1, "Unit Type is Required"))
+            {
+                validated = false;
+            }
+
+            if (!Validator.IsComboBoxSelected(cmb_usage_type, errorProvider1, "Usage Type is Required"))
+            {
+                validated = false;
+            }
+
+
+
 
 
             return validated;
@@ -117,7 +170,7 @@ namespace Salon.View
 
         private void btn_save_Click(object sender, EventArgs e)
         {
-            if (!Validated()) return;
+            if (!IsValid()) return;
             AddProduct();
             var productName = txt_product_name.Text;
             Audit.AuditLog(DateTime.Now, "Create", UserSession.CurrentUser.first_Name, "Manage Products", $"Created product '{productName}' on {DateTime.Now:yyyy-MM-dd} at {DateTime.Now:HH:mm:ss}");
@@ -126,7 +179,7 @@ namespace Salon.View
 
         private void btn_update_Click(object sender, EventArgs e)
         {
-            if (!Validated()) return;
+            if (!IsValid()) return;
             UpdateProduct();
             var productName = txt_product_name.Text;
             Audit.AuditLog(DateTime.Now, "Update", UserSession.CurrentUser.first_Name, "Manage Products", $"Updated product '{productName}' on {DateTime.Now:yyyy-MM-dd} at {DateTime.Now:HH:mm:ss}");

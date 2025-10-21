@@ -50,16 +50,37 @@ namespace Salon.View
         {
 
             bool validated = true;
-            // REQUIRED FIELD
-            validated &= Validator.IsRequired(txt_subcategory_name, errorProvider1, "Sub-Category is required.");
-            validated &= Validator.IsRequired(cmb_category, errorProvider1, "Category is required.");
+            int excludeId = subCategoryModel?.subCategory_id ?? 0;
+            int cat_id = Convert.ToInt32(cmb_category.SelectedValue);
 
+
+            // REQUIRED AND MIN LENGTH FIELD
+            if (!Validator.IsRequiredTextField(txt_subcategory_name, errorProvider1, "Sub-Category is required."))
+            {
+                validated = false;
+            }
+            else if (!Validator.IsMinimumLength(txt_subcategory_name, errorProvider1, "Sub-Category must be at least 3 characters.", 3))
+            {
+                validated = false;
+            }
+            else if (!Validator.Pattern(txt_subcategory_name, errorProvider1, @"^[A-Za-z0-9 _-]{3,50}$", "Sub-Category can only contain letters, numbers, spaces, underscores, and hyphens."))
+            {
+                validated = false;
+            }
+
+            else if (!Validator.IsSubCategoryExists(txt_subcategory_name, errorProvider1, "Sub-Category already exists.",cat_id, excludeId))
+            {
+                validated = false;
+            }
+
+            if (!Validator.IsComboBoxSelected(cmb_category, errorProvider1, "Category is Required"))
+            {
+                validated = false;
+            }
 
 
             // EXISTS VALIDATION
-            int excludeId = subCategoryModel?.subCategory_id ?? 0;
-            int cat_id = Convert.ToInt32(cmb_category.SelectedValue);
-            validated &= Validator.IsSubCategoryExists(txt_subcategory_name, errorProvider1, "Sub-Category already exists.", cat_id, excludeId);
+            
 
 
             return validated;

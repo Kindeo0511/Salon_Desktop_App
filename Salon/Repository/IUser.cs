@@ -11,6 +11,7 @@ namespace Salon.Repository
 {
     public interface IUser
     {
+        bool IsAdminExists();
         IEnumerable<UsersModel> GetAllUsers();
         UsersModel GetUserByEmail(string name);
         UsersModel GetUserByContactNumber(string number);

@@ -27,6 +27,10 @@ namespace Salon.Controller
             var id = delivery.AddDelivery(deliveryModel);
             return id;
         }
+        public bool GetDeliveryExists(string invoice) 
+        {
+            return delivery.DeliveryExists(invoice);
+        }
 
         // DELIVERY REPORT
 

@@ -42,21 +42,37 @@ namespace Salon.View
             }
 
         }
-        private bool Validated()
+        private bool IsValid()
         {
 
             bool validated = true;
-            // REQUIRED FIELD
-            validated &= Validator.IsRequired(txt_category_name, errorProvider1, "Category is required.");
-            validated &= Validator.IsRequired(cmb_category_type, errorProvider1, "Category Type is required.");
-
-
-
-            // EXISTS VALIDATION
             int excludeId = category?.category_id ?? 0;
+          
+  
 
-            validated &= Validator.IsCategoryExists(txt_category_name, errorProvider1, "Category already exists.",cmb_category_type.Text.Trim(), excludeId);
+            // REQUIRED AND MIN LENGTH FIELD
+            if (!Validator.IsRequiredTextField(txt_category_name, errorProvider1, "Category is required."))
+            {
+                validated = false;
+            }
+            else if (!Validator.IsMinimumLength(txt_category_name, errorProvider1, "Category must be at least 3 characters.", 3))
+            {
+                validated = false;
+            }
+            else if (!Validator.Pattern(txt_category_name, errorProvider1, @"^[A-Za-z0-9 _-]{3,50}$", "Category can only contain letters, numbers, spaces, underscores, and hyphens."))
+            {
+                validated = false;
+            }
 
+            else if (!Validator.IsCategoryExists(txt_category_name, errorProvider1, "Category already exits.", cmb_category_type.Text, excludeId))
+            {
+                validated = false;
+            }
+
+            if (!Validator.IsComboBoxSelected(cmb_category_type,errorProvider1, "Category Type is Required")) 
+            {
+                validated = false;
+            }
 
             return validated;
 
@@ -86,7 +102,7 @@ namespace Salon.View
         }
         private void btn_save_Click(object sender, EventArgs e)
         {
-            if (!Validated()) return;
+            if (!IsValid()) return;
 
             addCategory();
             MessageBox.Show("Category added successfully!", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
@@ -97,7 +113,7 @@ namespace Salon.View
 
         private void btn_update_Click(object sender, EventArgs e)
         {
-            if (!Validated()) return;
+            if (!IsValid()) return;
             updateCategory();
             MessageBox.Show("Category updated successfully!", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
             var category = txt_category_name.Text;

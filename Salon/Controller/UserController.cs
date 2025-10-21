@@ -18,6 +18,10 @@ namespace Salon.Controller
             this._repo = _repo;
         }
 
+        public bool CheckAdminExists() 
+        {
+            return _repo.IsAdminExists();
+        }
         public IEnumerable<UsersModel> GetAllUsers()
         {
             return _repo.GetAllUsers();

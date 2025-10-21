@@ -91,7 +91,7 @@ namespace Salon.View
 
         private void btn_save_Click(object sender, EventArgs e)
         {
-            if (!Validated()) return;
+            if (!IsValid()) return;
             AddService();
             var service = txt_service_name.Text;
             Audit.AuditLog(DateTime.Now, "Create", UserSession.CurrentUser.first_Name, "Manage Services", $"Created service '{service}' on {DateTime.Now:yyyy-MM-dd} at {DateTime.Now:HH:mm:ss}");
@@ -100,7 +100,7 @@ namespace Salon.View
 
         private void btn_update_Click(object sender, EventArgs e)
         {
-            if (!Validated()) return;
+            if (!IsValid()) return;
             UpdateService();
             var service = txt_service_name.Text;
             Audit.AuditLog(DateTime.Now, "Update", UserSession.CurrentUser.first_Name, "Manage Services", $"Updated service '{service}' on {DateTime.Now:yyyy-MM-dd} at {DateTime.Now:HH:mm:ss}");
@@ -111,28 +111,64 @@ namespace Salon.View
         {
             this.Close();
         }
-
-        private bool Validated()
+        private bool IsValid()
         {
-
-            bool validated = true;
-            // REQUIRED FIELD
-            validated &= Validator.IsRequired(txt_service_name, errorProvider1, "Status is required.");
-            validated &= Validator.IsRequired(txt_duration, errorProvider1, "Duration is required.");
-            validated &= Validator.IsRequired(cmb_sub_category, errorProvider1, "Category is required.");
-            validated &= Validator.IsRequired(cmb_status, errorProvider1, "Status is required.");
-
-
-
-            // EXISTS VALIDATION
             int excludeId = serviceModel?.serviceName_id ?? 0;
             int scid = Convert.ToInt32(cmb_sub_category.SelectedValue);
-            validated &= Validator.IsServicesExists(txt_service_name, errorProvider1, "Service name already exists.", scid, excludeId);
+            bool validated = true;
+
+           
+
+            // REQUIRED FIELD
+
+            // SERVICE NAME
+            if (!Validator.IsRequiredTextField(txt_service_name, errorProvider1, "Service is required."))
+            {
+                validated = false;
+            }
+            else if (!Validator.IsMinimumLength(txt_service_name, errorProvider1, "Service must be at least 3 characters.", 3))
+            {
+                validated = false;
+            }
+            else if (!Validator.Pattern(txt_service_name, errorProvider1, @"^[A-Za-z0-9 _.\-&/]{3,50}$", "Service can only contain letters, numbers, spaces, underscores, and hyphens."))
+            {
+                validated = false;
+            }
+
+            else if (!Validator.IsServicesExists(txt_service_name, errorProvider1, "Service already exits.", scid, excludeId))
+            {
+                validated = false;
+            }
+
+            // BRAND NAME
+            if (!Validator.IsRequired(txt_duration, errorProvider1, "Duration is required."))
+            {
+                validated = false;
+            }
+      
+
+
+
+
+            if (!Validator.IsComboBoxSelected(cmb_sub_category, errorProvider1, "Category Type is Required"))
+            {
+                validated = false;
+            }
+
+            if (!Validator.IsComboBoxSelected(cmb_status, errorProvider1, "Unit Type is Required"))
+            {
+                validated = false;
+            }
+
+          
+
+
 
 
             return validated;
 
 
         }
+      
     }
 }

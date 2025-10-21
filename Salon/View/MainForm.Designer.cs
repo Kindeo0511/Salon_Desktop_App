@@ -515,6 +515,7 @@
             this.dgv_col_transaction_vat = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.dgv_col_transaction__total_amount = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.dgv_col_transaction__status = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.col_transaction_btn_refund = new System.Windows.Forms.DataGridViewImageColumn();
             this.ct_menu_strip_transaction = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.refundToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.panel13 = new System.Windows.Forms.Panel();
@@ -557,14 +558,7 @@
             this.coL_discount_delete = new System.Windows.Forms.DataGridViewImageColumn();
             this.col_discount_mark_status = new System.Windows.Forms.DataGridViewImageColumn();
             this.materialCard1 = new MaterialSkin.Controls.MaterialCard();
-            this.materialLabel29 = new MaterialSkin.Controls.MaterialLabel();
-            this.dtp_discount_expiry_date = new System.Windows.Forms.DateTimePicker();
-            this.btn_cancel_discount = new MaterialSkin.Controls.MaterialButton();
-            this.btn_update_discount = new MaterialSkin.Controls.MaterialButton();
             this.btn_add_discount = new MaterialSkin.Controls.MaterialButton();
-            this.txt_promo_code = new MaterialSkin.Controls.MaterialTextBox();
-            this.cmb_discount_type = new MaterialSkin.Controls.MaterialComboBox();
-            this.txt_discount = new MaterialSkin.Controls.MaterialTextBox();
             this.btn_apply = new MaterialSkin.Controls.MaterialButton();
             this.txt_vat = new MaterialSkin.Controls.MaterialTextBox();
             this.utilityTab = new System.Windows.Forms.TabPage();
@@ -574,10 +568,10 @@
             this.btn_edit_bill = new MaterialSkin.Controls.MaterialButton();
             this.btn_add_bill = new MaterialSkin.Controls.MaterialButton();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.txt_bill_note = new MaterialSkin.Controls.MaterialMultiLineTextBox2();
             this.txt_internet_bill = new MaterialSkin.Controls.MaterialTextBox();
             this.txt_other_bill = new MaterialSkin.Controls.MaterialTextBox();
             this.txt_month_rent = new MaterialSkin.Controls.MaterialTextBox();
-            this.txt_bill_note = new MaterialSkin.Controls.MaterialTextBox();
             this.txt_water_bill = new MaterialSkin.Controls.MaterialTextBox();
             this.txt_electric_bill = new MaterialSkin.Controls.MaterialTextBox();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
@@ -7003,7 +6997,8 @@
             this.dgv_col_transaction_discount_amount,
             this.dgv_col_transaction_vat,
             this.dgv_col_transaction__total_amount,
-            this.dgv_col_transaction__status});
+            this.dgv_col_transaction__status,
+            this.col_transaction_btn_refund});
             this.dgv_transaction_history.ContextMenuStrip = this.ct_menu_strip_transaction;
             this.dgv_transaction_history.Dock = System.Windows.Forms.DockStyle.Fill;
             this.dgv_transaction_history.EnableHeadersVisualStyles = false;
@@ -7016,6 +7011,7 @@
             this.dgv_transaction_history.RowTemplate.Height = 24;
             this.dgv_transaction_history.Size = new System.Drawing.Size(1800, 760);
             this.dgv_transaction_history.TabIndex = 2;
+            this.dgv_transaction_history.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgv_transaction_history_CellClick);
             this.dgv_transaction_history.MouseDown += new System.Windows.Forms.MouseEventHandler(this.dgv_transaction_history_MouseDown);
             // 
             // dgv_col_transaction_id
@@ -7115,6 +7111,16 @@
             this.dgv_col_transaction__status.MinimumWidth = 6;
             this.dgv_col_transaction__status.Name = "dgv_col_transaction__status";
             this.dgv_col_transaction__status.ReadOnly = true;
+            // 
+            // col_transaction_btn_refund
+            // 
+            this.col_transaction_btn_refund.HeaderText = "Refund";
+            this.col_transaction_btn_refund.Image = ((System.Drawing.Image)(resources.GetObject("col_transaction_btn_refund.Image")));
+            this.col_transaction_btn_refund.ImageLayout = System.Windows.Forms.DataGridViewImageCellLayout.Zoom;
+            this.col_transaction_btn_refund.MinimumWidth = 6;
+            this.col_transaction_btn_refund.Name = "col_transaction_btn_refund";
+            this.col_transaction_btn_refund.ReadOnly = true;
+            this.col_transaction_btn_refund.Width = 125;
             // 
             // ct_menu_strip_transaction
             // 
@@ -7647,14 +7653,7 @@
             // materialCard1
             // 
             this.materialCard1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
-            this.materialCard1.Controls.Add(this.materialLabel29);
-            this.materialCard1.Controls.Add(this.dtp_discount_expiry_date);
-            this.materialCard1.Controls.Add(this.btn_cancel_discount);
-            this.materialCard1.Controls.Add(this.btn_update_discount);
             this.materialCard1.Controls.Add(this.btn_add_discount);
-            this.materialCard1.Controls.Add(this.txt_promo_code);
-            this.materialCard1.Controls.Add(this.cmb_discount_type);
-            this.materialCard1.Controls.Add(this.txt_discount);
             this.materialCard1.Controls.Add(this.btn_apply);
             this.materialCard1.Controls.Add(this.txt_vat);
             this.materialCard1.Depth = 0;
@@ -7668,75 +7667,6 @@
             this.materialCard1.Size = new System.Drawing.Size(1820, 277);
             this.materialCard1.TabIndex = 0;
             // 
-            // materialLabel29
-            // 
-            this.materialLabel29.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.materialLabel29.AutoSize = true;
-            this.materialLabel29.Depth = 0;
-            this.materialLabel29.Font = new System.Drawing.Font("Roboto", 14F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
-            this.materialLabel29.Location = new System.Drawing.Point(1209, 148);
-            this.materialLabel29.MouseState = MaterialSkin.MouseState.HOVER;
-            this.materialLabel29.Name = "materialLabel29";
-            this.materialLabel29.Size = new System.Drawing.Size(113, 19);
-            this.materialLabel29.TabIndex = 9;
-            this.materialLabel29.Text = "Expiration Date:";
-            this.materialLabel29.Visible = false;
-            // 
-            // dtp_discount_expiry_date
-            // 
-            this.dtp_discount_expiry_date.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.dtp_discount_expiry_date.Format = System.Windows.Forms.DateTimePickerFormat.Short;
-            this.dtp_discount_expiry_date.Location = new System.Drawing.Point(1212, 173);
-            this.dtp_discount_expiry_date.Name = "dtp_discount_expiry_date";
-            this.dtp_discount_expiry_date.Size = new System.Drawing.Size(350, 34);
-            this.dtp_discount_expiry_date.TabIndex = 8;
-            this.dtp_discount_expiry_date.Visible = false;
-            // 
-            // btn_cancel_discount
-            // 
-            this.btn_cancel_discount.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.btn_cancel_discount.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
-            this.btn_cancel_discount.Density = MaterialSkin.Controls.MaterialButton.MaterialButtonDensity.Default;
-            this.btn_cancel_discount.Depth = 0;
-            this.btn_cancel_discount.HighEmphasis = true;
-            this.btn_cancel_discount.Icon = null;
-            this.btn_cancel_discount.Location = new System.Drawing.Point(1656, 130);
-            this.btn_cancel_discount.Margin = new System.Windows.Forms.Padding(4, 6, 4, 6);
-            this.btn_cancel_discount.MouseState = MaterialSkin.MouseState.HOVER;
-            this.btn_cancel_discount.Name = "btn_cancel_discount";
-            this.btn_cancel_discount.NoAccentTextColor = System.Drawing.Color.Empty;
-            this.btn_cancel_discount.Size = new System.Drawing.Size(77, 36);
-            this.btn_cancel_discount.TabIndex = 7;
-            this.btn_cancel_discount.Text = "cancel";
-            this.btn_cancel_discount.Type = MaterialSkin.Controls.MaterialButton.MaterialButtonType.Contained;
-            this.btn_cancel_discount.UseAccentColor = false;
-            this.btn_cancel_discount.UseVisualStyleBackColor = true;
-            this.btn_cancel_discount.Click += new System.EventHandler(this.btn_cancel_discount_Click);
-            // 
-            // btn_update_discount
-            // 
-            this.btn_update_discount.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.btn_update_discount.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
-            this.btn_update_discount.Density = MaterialSkin.Controls.MaterialButton.MaterialButtonDensity.Default;
-            this.btn_update_discount.Depth = 0;
-            this.btn_update_discount.HighEmphasis = true;
-            this.btn_update_discount.Icon = null;
-            this.btn_update_discount.Location = new System.Drawing.Point(1650, 82);
-            this.btn_update_discount.Margin = new System.Windows.Forms.Padding(4, 6, 4, 6);
-            this.btn_update_discount.MouseState = MaterialSkin.MouseState.HOVER;
-            this.btn_update_discount.Name = "btn_update_discount";
-            this.btn_update_discount.NoAccentTextColor = System.Drawing.Color.Empty;
-            this.btn_update_discount.Size = new System.Drawing.Size(152, 36);
-            this.btn_update_discount.TabIndex = 6;
-            this.btn_update_discount.Text = "Update Discount";
-            this.btn_update_discount.Type = MaterialSkin.Controls.MaterialButton.MaterialButtonType.Contained;
-            this.btn_update_discount.UseAccentColor = false;
-            this.btn_update_discount.UseVisualStyleBackColor = true;
-            this.btn_update_discount.Visible = false;
-            this.btn_update_discount.Click += new System.EventHandler(this.btn_update_discount_Click);
-            // 
             // btn_add_discount
             // 
             this.btn_add_discount.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
@@ -7746,7 +7676,7 @@
             this.btn_add_discount.Depth = 0;
             this.btn_add_discount.HighEmphasis = true;
             this.btn_add_discount.Icon = null;
-            this.btn_add_discount.Location = new System.Drawing.Point(1650, 57);
+            this.btn_add_discount.Location = new System.Drawing.Point(1676, 232);
             this.btn_add_discount.Margin = new System.Windows.Forms.Padding(4, 6, 4, 6);
             this.btn_add_discount.MouseState = MaterialSkin.MouseState.HOVER;
             this.btn_add_discount.Name = "btn_add_discount";
@@ -7758,76 +7688,6 @@
             this.btn_add_discount.UseAccentColor = false;
             this.btn_add_discount.UseVisualStyleBackColor = true;
             this.btn_add_discount.Click += new System.EventHandler(this.btn_add_discount_Click);
-            // 
-            // txt_promo_code
-            // 
-            this.txt_promo_code.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.txt_promo_code.AnimateReadOnly = false;
-            this.txt_promo_code.BorderStyle = System.Windows.Forms.BorderStyle.None;
-            this.txt_promo_code.Depth = 0;
-            this.txt_promo_code.Font = new System.Drawing.Font("Roboto", 16F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
-            this.txt_promo_code.Hint = "Promo Code";
-            this.txt_promo_code.LeadingIcon = null;
-            this.txt_promo_code.Location = new System.Drawing.Point(814, 157);
-            this.txt_promo_code.MaxLength = 50;
-            this.txt_promo_code.MouseState = MaterialSkin.MouseState.OUT;
-            this.txt_promo_code.Multiline = false;
-            this.txt_promo_code.Name = "txt_promo_code";
-            this.txt_promo_code.Size = new System.Drawing.Size(350, 50);
-            this.txt_promo_code.TabIndex = 4;
-            this.txt_promo_code.Text = "";
-            this.txt_promo_code.TrailingIcon = null;
-            this.txt_promo_code.Visible = false;
-            // 
-            // cmb_discount_type
-            // 
-            this.cmb_discount_type.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.cmb_discount_type.AutoResize = false;
-            this.cmb_discount_type.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
-            this.cmb_discount_type.Depth = 0;
-            this.cmb_discount_type.DrawMode = System.Windows.Forms.DrawMode.OwnerDrawVariable;
-            this.cmb_discount_type.DropDownHeight = 174;
-            this.cmb_discount_type.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.cmb_discount_type.DropDownWidth = 121;
-            this.cmb_discount_type.Font = new System.Drawing.Font("Microsoft Sans Serif", 14F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Pixel);
-            this.cmb_discount_type.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(222)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
-            this.cmb_discount_type.FormattingEnabled = true;
-            this.cmb_discount_type.Hint = "Select Discount Type";
-            this.cmb_discount_type.IntegralHeight = false;
-            this.cmb_discount_type.ItemHeight = 43;
-            this.cmb_discount_type.Items.AddRange(new object[] {
-            "Senior/PWD",
-            "Promo"});
-            this.cmb_discount_type.Location = new System.Drawing.Point(814, 45);
-            this.cmb_discount_type.MaxDropDownItems = 4;
-            this.cmb_discount_type.MouseState = MaterialSkin.MouseState.OUT;
-            this.cmb_discount_type.Name = "cmb_discount_type";
-            this.cmb_discount_type.Size = new System.Drawing.Size(350, 49);
-            this.cmb_discount_type.StartIndex = -1;
-            this.cmb_discount_type.TabIndex = 3;
-            this.cmb_discount_type.SelectedIndexChanged += new System.EventHandler(this.cmb_discount_type_SelectedIndexChanged);
-            // 
-            // txt_discount
-            // 
-            this.txt_discount.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.txt_discount.AnimateReadOnly = false;
-            this.txt_discount.BorderStyle = System.Windows.Forms.BorderStyle.None;
-            this.txt_discount.Depth = 0;
-            this.txt_discount.Font = new System.Drawing.Font("Roboto", 16F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
-            this.txt_discount.Hint = "Disocunt (%)";
-            this.txt_discount.LeadingIcon = null;
-            this.txt_discount.Location = new System.Drawing.Point(1212, 43);
-            this.txt_discount.MaxLength = 50;
-            this.txt_discount.MouseState = MaterialSkin.MouseState.OUT;
-            this.txt_discount.Multiline = false;
-            this.txt_discount.Name = "txt_discount";
-            this.txt_discount.Size = new System.Drawing.Size(350, 50);
-            this.txt_discount.TabIndex = 2;
-            this.txt_discount.Text = "";
-            this.txt_discount.TrailingIcon = null;
             // 
             // btn_apply
             // 
@@ -7981,10 +7841,10 @@
             // 
             // groupBox1
             // 
+            this.groupBox1.Controls.Add(this.txt_bill_note);
             this.groupBox1.Controls.Add(this.txt_internet_bill);
             this.groupBox1.Controls.Add(this.txt_other_bill);
             this.groupBox1.Controls.Add(this.txt_month_rent);
-            this.groupBox1.Controls.Add(this.txt_bill_note);
             this.groupBox1.Controls.Add(this.txt_water_bill);
             this.groupBox1.Controls.Add(this.txt_electric_bill);
             this.groupBox1.Location = new System.Drawing.Point(566, 108);
@@ -7993,6 +7853,32 @@
             this.groupBox1.TabIndex = 36;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Rent and Bills";
+            // 
+            // txt_bill_note
+            // 
+            this.txt_bill_note.AnimateReadOnly = true;
+            this.txt_bill_note.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
+            this.txt_bill_note.CharacterCasing = System.Windows.Forms.CharacterCasing.Normal;
+            this.txt_bill_note.Cursor = System.Windows.Forms.Cursors.IBeam;
+            this.txt_bill_note.Depth = 0;
+            this.txt_bill_note.HideSelection = true;
+            this.txt_bill_note.Hint = "Notes";
+            this.txt_bill_note.Location = new System.Drawing.Point(448, 248);
+            this.txt_bill_note.MaxLength = 32767;
+            this.txt_bill_note.MouseState = MaterialSkin.MouseState.OUT;
+            this.txt_bill_note.Name = "txt_bill_note";
+            this.txt_bill_note.PasswordChar = '\0';
+            this.txt_bill_note.ReadOnly = true;
+            this.txt_bill_note.ScrollBars = System.Windows.Forms.ScrollBars.None;
+            this.txt_bill_note.SelectedText = "";
+            this.txt_bill_note.SelectionLength = 0;
+            this.txt_bill_note.SelectionStart = 0;
+            this.txt_bill_note.ShortcutsEnabled = true;
+            this.txt_bill_note.Size = new System.Drawing.Size(300, 80);
+            this.txt_bill_note.TabIndex = 42;
+            this.txt_bill_note.TabStop = false;
+            this.txt_bill_note.TextAlign = System.Windows.Forms.HorizontalAlignment.Left;
+            this.txt_bill_note.UseSystemPasswordChar = false;
             // 
             // txt_internet_bill
             // 
@@ -8008,6 +7894,7 @@
             this.txt_internet_bill.MouseState = MaterialSkin.MouseState.OUT;
             this.txt_internet_bill.Multiline = false;
             this.txt_internet_bill.Name = "txt_internet_bill";
+            this.txt_internet_bill.ReadOnly = true;
             this.txt_internet_bill.Size = new System.Drawing.Size(300, 50);
             this.txt_internet_bill.TabIndex = 23;
             this.txt_internet_bill.Text = "";
@@ -8028,6 +7915,7 @@
             this.txt_other_bill.MouseState = MaterialSkin.MouseState.OUT;
             this.txt_other_bill.Multiline = false;
             this.txt_other_bill.Name = "txt_other_bill";
+            this.txt_other_bill.ReadOnly = true;
             this.txt_other_bill.Size = new System.Drawing.Size(300, 50);
             this.txt_other_bill.TabIndex = 24;
             this.txt_other_bill.Text = "";
@@ -8048,30 +7936,12 @@
             this.txt_month_rent.MouseState = MaterialSkin.MouseState.OUT;
             this.txt_month_rent.Multiline = false;
             this.txt_month_rent.Name = "txt_month_rent";
+            this.txt_month_rent.ReadOnly = true;
             this.txt_month_rent.Size = new System.Drawing.Size(300, 50);
             this.txt_month_rent.TabIndex = 15;
             this.txt_month_rent.Text = "";
             this.txt_month_rent.TrailingIcon = null;
             this.txt_month_rent.TextChanged += new System.EventHandler(this.txt_month_rent_TextChanged_1);
-            // 
-            // txt_bill_note
-            // 
-            this.txt_bill_note.AnimateReadOnly = true;
-            this.txt_bill_note.BorderStyle = System.Windows.Forms.BorderStyle.None;
-            this.txt_bill_note.Depth = 0;
-            this.txt_bill_note.Font = new System.Drawing.Font("Roboto", 16F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
-            this.txt_bill_note.Hint = "Notes";
-            this.txt_bill_note.LeadingIcon = null;
-            this.txt_bill_note.Location = new System.Drawing.Point(448, 248);
-            this.txt_bill_note.Margin = new System.Windows.Forms.Padding(50);
-            this.txt_bill_note.MaxLength = 50;
-            this.txt_bill_note.MouseState = MaterialSkin.MouseState.OUT;
-            this.txt_bill_note.Multiline = false;
-            this.txt_bill_note.Name = "txt_bill_note";
-            this.txt_bill_note.Size = new System.Drawing.Size(300, 50);
-            this.txt_bill_note.TabIndex = 25;
-            this.txt_bill_note.Text = "";
-            this.txt_bill_note.TrailingIcon = null;
             // 
             // txt_water_bill
             // 
@@ -8087,6 +7957,7 @@
             this.txt_water_bill.MouseState = MaterialSkin.MouseState.OUT;
             this.txt_water_bill.Multiline = false;
             this.txt_water_bill.Name = "txt_water_bill";
+            this.txt_water_bill.ReadOnly = true;
             this.txt_water_bill.Size = new System.Drawing.Size(300, 50);
             this.txt_water_bill.TabIndex = 22;
             this.txt_water_bill.Text = "";
@@ -8107,6 +7978,7 @@
             this.txt_electric_bill.MouseState = MaterialSkin.MouseState.OUT;
             this.txt_electric_bill.Multiline = false;
             this.txt_electric_bill.Name = "txt_electric_bill";
+            this.txt_electric_bill.ReadOnly = true;
             this.txt_electric_bill.Size = new System.Drawing.Size(300, 50);
             this.txt_electric_bill.TabIndex = 21;
             this.txt_electric_bill.Text = "";
@@ -8138,6 +8010,7 @@
             this.txt_working_hours.MouseState = MaterialSkin.MouseState.OUT;
             this.txt_working_hours.Multiline = false;
             this.txt_working_hours.Name = "txt_working_hours";
+            this.txt_working_hours.ReadOnly = true;
             this.txt_working_hours.Size = new System.Drawing.Size(300, 50);
             this.txt_working_hours.TabIndex = 17;
             this.txt_working_hours.Text = "";
@@ -8692,12 +8565,7 @@
         private MaterialSkin.Controls.MaterialCard materialCard1;
         private MaterialSkin.Controls.MaterialTextBox txt_vat;
         private MaterialSkin.Controls.MaterialButton btn_apply;
-        private MaterialSkin.Controls.MaterialTextBox txt_discount;
-        private MaterialSkin.Controls.MaterialComboBox cmb_discount_type;
-        private MaterialSkin.Controls.MaterialTextBox txt_promo_code;
         private MaterialSkin.Controls.MaterialButton btn_add_discount;
-        private MaterialSkin.Controls.MaterialButton btn_cancel_discount;
-        private MaterialSkin.Controls.MaterialButton btn_update_discount;
         private System.Windows.Forms.DataGridView dgv_discount;
         private MaterialSkin.Controls.MaterialButton btn_add_supplier;
         private System.Windows.Forms.DataGridView dgv_supplier;
@@ -8851,7 +8719,6 @@
         private MaterialSkin.Controls.MaterialTextBox txt_internet_bill;
         private MaterialSkin.Controls.MaterialTextBox txt_other_bill;
         private MaterialSkin.Controls.MaterialTextBox txt_month_rent;
-        private MaterialSkin.Controls.MaterialTextBox txt_bill_note;
         private MaterialSkin.Controls.MaterialTextBox txt_water_bill;
         private MaterialSkin.Controls.MaterialTextBox txt_electric_bill;
         private System.Windows.Forms.GroupBox groupBox2;
@@ -9009,8 +8876,6 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn col_delivery_invoice;
         private System.Windows.Forms.DataGridViewTextBoxColumn col_delivery_received_by;
         private System.Windows.Forms.DataGridViewImageColumn col_delivery_view_items;
-        private System.Windows.Forms.DateTimePicker dtp_discount_expiry_date;
-        private MaterialSkin.Controls.MaterialLabel materialLabel29;
         private System.Windows.Forms.ErrorProvider errorProvider1;
         private System.Windows.Forms.DataGridViewTextBoxColumn col_product_id;
         private System.Windows.Forms.DataGridViewTextBoxColumn col_product_name;
@@ -9064,18 +8929,6 @@
         private System.Windows.Forms.Panel panel15;
         private System.Windows.Forms.ContextMenuStrip ct_menu_strip_transaction;
         private System.Windows.Forms.ToolStripMenuItem refundToolStripMenuItem;
-        private System.Windows.Forms.DataGridViewTextBoxColumn dgv_col_transaction_id;
-        private System.Windows.Forms.DataGridViewTextBoxColumn col_transaction_appointment_id;
-        private System.Windows.Forms.DataGridViewTextBoxColumn dgv_col_transaction_date;
-        private System.Windows.Forms.DataGridViewTextBoxColumn dgv_col_transaction_customer_name;
-        private System.Windows.Forms.DataGridViewTextBoxColumn dgv_col_transaction_services;
-        private System.Windows.Forms.DataGridViewTextBoxColumn dgv_col_transaction_staff_name;
-        private System.Windows.Forms.DataGridViewTextBoxColumn dgv_col_transaction_payment_method;
-        private System.Windows.Forms.DataGridViewTextBoxColumn dgv_col_transaction_sub_total;
-        private System.Windows.Forms.DataGridViewTextBoxColumn dgv_col_transaction_discount_amount;
-        private System.Windows.Forms.DataGridViewTextBoxColumn dgv_col_transaction_vat;
-        private System.Windows.Forms.DataGridViewTextBoxColumn dgv_col_transaction__total_amount;
-        private System.Windows.Forms.DataGridViewTextBoxColumn dgv_col_transaction__status;
         private System.Windows.Forms.TabPage refundTab;
         private MaterialSkin.Controls.MaterialCard materialCard38;
         private System.Windows.Forms.DataGridView dgv_refund;
@@ -9221,5 +9074,19 @@
         private System.Windows.Forms.DataGridViewImageColumn col_discount_update;
         private System.Windows.Forms.DataGridViewImageColumn coL_discount_delete;
         private System.Windows.Forms.DataGridViewImageColumn col_discount_mark_status;
+        private System.Windows.Forms.DataGridViewTextBoxColumn dgv_col_transaction_id;
+        private System.Windows.Forms.DataGridViewTextBoxColumn col_transaction_appointment_id;
+        private System.Windows.Forms.DataGridViewTextBoxColumn dgv_col_transaction_date;
+        private System.Windows.Forms.DataGridViewTextBoxColumn dgv_col_transaction_customer_name;
+        private System.Windows.Forms.DataGridViewTextBoxColumn dgv_col_transaction_services;
+        private System.Windows.Forms.DataGridViewTextBoxColumn dgv_col_transaction_staff_name;
+        private System.Windows.Forms.DataGridViewTextBoxColumn dgv_col_transaction_payment_method;
+        private System.Windows.Forms.DataGridViewTextBoxColumn dgv_col_transaction_sub_total;
+        private System.Windows.Forms.DataGridViewTextBoxColumn dgv_col_transaction_discount_amount;
+        private System.Windows.Forms.DataGridViewTextBoxColumn dgv_col_transaction_vat;
+        private System.Windows.Forms.DataGridViewTextBoxColumn dgv_col_transaction__total_amount;
+        private System.Windows.Forms.DataGridViewTextBoxColumn dgv_col_transaction__status;
+        private System.Windows.Forms.DataGridViewImageColumn col_transaction_btn_refund;
+        private MaterialSkin.Controls.MaterialMultiLineTextBox2 txt_bill_note;
     }
 }

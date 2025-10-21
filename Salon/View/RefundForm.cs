@@ -35,6 +35,40 @@ namespace Salon.View
 
            
         }
+        private bool IsValid()
+        {
+
+            bool validated = true;
+
+            // REQUIRED AND MIN LENGTH FIELD
+            if (!Validator.IsAddressRequiredField(txt_reason, errorProvider1, "Reasonis required."))
+            {
+                validated = false;
+            }
+            else if (!Validator.IsMinimumLength(txt_reason, errorProvider1, "Sub-Category must be at least 3 characters.", 3))
+            {
+                validated = false;
+            }
+            else if (!Validator.MultiLinePattern(txt_reason, errorProvider1, @"^[A-Za-z0-9 _-]{3,50}$", "Sub-Category can only contain letters, numbers, spaces, underscores, and hyphens."))
+            {
+                validated = false;
+            }
+
+
+            if (!Validator.IsComboBoxSelected(cmb_refund_method, errorProvider1, "Refund method is Required"))
+            {
+                validated = false;
+            }
+
+
+            // EXISTS VALIDATION
+
+
+
+            return validated;
+
+
+        }
 
         private void LoadRefundableServices()
         {
@@ -154,6 +188,7 @@ namespace Salon.View
         }
         private void btn_refund_Click(object sender, EventArgs e)
         {
+            if (!IsValid()) return;
             AddRefund();
             UpdateTransactionByItsStatus();
             Refund_Inventory();

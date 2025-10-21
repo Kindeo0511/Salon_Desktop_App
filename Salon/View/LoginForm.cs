@@ -26,9 +26,55 @@ namespace Salon.View
         }
         private void btn_login_Click(object sender, EventArgs e)
         {
-
-            log_in();
+            if (IsValid())
+            {
+                log_in();
+            }
         }
+        private bool IsValid()
+        {
+            bool validated = true;
+
+            // USERNAME: Required first, then length
+            if (!Validator.IsRequiredTextField(txt_user_name, errorProvider1, "Username is required."))
+            {
+                validated = false;
+            }
+            else if (!Validator.IsMinimumLength(txt_user_name, errorProvider1, "Username must be at least 3 characters.", 3))
+            {
+                validated = false;
+            }
+            else if (!Validator.Pattern(txt_user_name, errorProvider1, @"^[a-zA-Z0-9._]+$", "Username can only contain letters, numbers, dot, and underscore."))
+            {
+                validated = false;
+            }
+
+            // PASSWORD: Required first, then length
+            if (!Validator.IsRequiredTextField(txt_password, errorProvider1, "Password is required."))
+            {
+                validated = false;
+            }
+            else if (!Validator.IsMinimumLength(txt_password, errorProvider1, "Password must be at least 8 characters.", 8))
+            {
+                validated = false;
+            }
+            else if (!Validator.DisallowSpaces(txt_password, errorProvider1, "Password must not contain spaces."))
+            {
+                validated = false;
+            }
+            else if (!Validator.Pattern(txt_password, errorProvider1, @"^[\w@$!%*?&]{8,}$",
+                "Password must be at least 8 characters and may include letters, numbers, and @$!%*?&."))
+            {
+                validated = false;
+            }
+
+
+
+
+
+            return validated;
+        }
+
         private void log_in()
         {
             string username = txt_user_name.Text.Trim();
@@ -92,6 +138,17 @@ namespace Salon.View
                 form.Show();
               
             
+        }
+
+        private void txt_user_name_TextChanged(object sender, EventArgs e)
+        {
+            
+
+        }
+
+        private void txt_password_TextChanged(object sender, EventArgs e)
+        {
+          
         }
     }
 }

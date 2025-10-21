@@ -46,12 +46,12 @@
             this.txt_category_name.Font = new System.Drawing.Font("Roboto", 16F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
             this.txt_category_name.Hint = "Category Name";
             this.txt_category_name.LeadingIcon = null;
-            this.txt_category_name.Location = new System.Drawing.Point(101, 155);
+            this.txt_category_name.Location = new System.Drawing.Point(46, 155);
             this.txt_category_name.MaxLength = 50;
             this.txt_category_name.MouseState = MaterialSkin.MouseState.OUT;
             this.txt_category_name.Multiline = false;
             this.txt_category_name.Name = "txt_category_name";
-            this.txt_category_name.Size = new System.Drawing.Size(212, 50);
+            this.txt_category_name.Size = new System.Drawing.Size(300, 50);
             this.txt_category_name.TabIndex = 12;
             this.txt_category_name.Text = "";
             this.txt_category_name.TrailingIcon = null;
@@ -135,11 +135,11 @@
             this.cmb_category_type.Items.AddRange(new object[] {
             "Service",
             "Product"});
-            this.cmb_category_type.Location = new System.Drawing.Point(437, 155);
+            this.cmb_category_type.Location = new System.Drawing.Point(445, 156);
             this.cmb_category_type.MaxDropDownItems = 4;
             this.cmb_category_type.MouseState = MaterialSkin.MouseState.OUT;
             this.cmb_category_type.Name = "cmb_category_type";
-            this.cmb_category_type.Size = new System.Drawing.Size(260, 49);
+            this.cmb_category_type.Size = new System.Drawing.Size(300, 49);
             this.cmb_category_type.StartIndex = -1;
             this.cmb_category_type.TabIndex = 21;
             // 

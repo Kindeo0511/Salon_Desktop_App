@@ -13,6 +13,8 @@ namespace Salon.Repository
 
         int AddDelivery(DeliveryModel delivery);
 
+        bool DeliveryExists(string invoice);
+
         // DELIVERY REPORT
 
         DeliveryModel TotalDelivery();

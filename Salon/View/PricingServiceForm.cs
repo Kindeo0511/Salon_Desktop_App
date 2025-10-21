@@ -64,27 +64,60 @@ namespace Salon.View
             btn_update.Visible = true;
         }
 
-        private bool Validated()
+        private bool IsValid()
         {
-       
             bool validated = true;
-            // REQUIRED FIELD
-            validated &= Validator.IsRequired(cmb_services, errorProvider1, "Service is required.");
-            validated &= Validator.IsRequired(txt_final_price, errorProvider1, "Selling price is required.");
-
-
-
-            // EXISTS VALIDATION
             int excludeId = priceModel?.pricing_id ?? 0;
             int spid = Convert.ToInt32(cmb_services.SelectedValue);
-            validated &= Validator.IsProductPriceExists(cmb_services, errorProvider1, "Service price already exists.", spid, excludeId);
+            decimal total_cost = Convert.ToDecimal(txt_total_cost.Text);
+            decimal selling_price;
 
+            // Validate service selection
+            if (!Validator.IsRequired(cmb_services, errorProvider1, "Service is required."))
+            {
+                validated = false;
+            }
+            else if (!Validator.IsProductPriceExists(cmb_services, errorProvider1, "Service price already exists.", spid, excludeId))
+            {
+                validated = false;
+            }
 
+            // Validate final price format
+            if (!Validator.DecimalOnly(txt_final_price, errorProvider1,
+                    "Price is required.",
+                    "No spaces allowed.",
+                    "Price must be a valid number.",
+                    "Price must be at least 1.00."))
+            {
+                validated = false;
+            }
+            else
+            {
+                // Safe conversion after validation
+                if (!decimal.TryParse(txt_final_price.Text.Trim(), out selling_price))
+                {
+                    errorProvider1.SetError(txt_final_price, "Final price must be a valid decimal number.");
+                    validated = false;
+                }
+                else
+                {
+                    // Business rules
+                    if (selling_price < total_cost)
+                    {
+                        errorProvider1.SetError(txt_final_price, "Final price must not be less than total cost.");
+                        validated = false;
+                    }
+                    else if (selling_price > 100000)
+                    {
+                        errorProvider1.SetError(txt_final_price, "Final price seems too high for a service. Please double-check.");
+                        validated = false;
+                    }
+                }
+            }
 
             return validated;
-
-
         }
+
         private void LoadServices() 
         {
             var repo = new ServiceProductUsageRepository();
@@ -275,7 +308,7 @@ namespace Salon.View
         }
         private void btn_save_Click(object sender, EventArgs e)
         {
-            if (!Validated()) return;
+            if (!IsValid()) return;
 
             AddServicePrice();
             Audit.AuditLog(
@@ -313,7 +346,7 @@ namespace Salon.View
         }
         private void btn_update_Click(object sender, EventArgs e)
         {
-            if (!Validated()) return;
+            if (!IsValid()) return;
 
             UpdateServicePrice();
             AddServicePrice();

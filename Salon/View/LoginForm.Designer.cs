@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(LoginForm));
             this.chk_show_password = new MaterialSkin.Controls.MaterialCheckbox();
             this.materialLabel1 = new MaterialSkin.Controls.MaterialLabel();
@@ -39,9 +40,11 @@
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
             this.materialCard2 = new MaterialSkin.Controls.MaterialCard();
             this.lnk_forgot_password = new System.Windows.Forms.LinkLabel();
+            this.errorProvider1 = new System.Windows.Forms.ErrorProvider(this.components);
             this.tableLayoutPanel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.materialCard2.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.errorProvider1)).BeginInit();
             this.SuspendLayout();
             // 
             // chk_show_password
@@ -89,9 +92,10 @@
             this.txt_password.Name = "txt_password";
             this.txt_password.Password = true;
             this.txt_password.Size = new System.Drawing.Size(400, 50);
-            this.txt_password.TabIndex = 3;
+            this.txt_password.TabIndex = 2;
             this.txt_password.Text = "";
             this.txt_password.TrailingIcon = null;
+            this.txt_password.TextChanged += new System.EventHandler(this.txt_password_TextChanged);
             // 
             // txt_user_name
             // 
@@ -107,9 +111,10 @@
             this.txt_user_name.Multiline = false;
             this.txt_user_name.Name = "txt_user_name";
             this.txt_user_name.Size = new System.Drawing.Size(400, 50);
-            this.txt_user_name.TabIndex = 2;
+            this.txt_user_name.TabIndex = 1;
             this.txt_user_name.Text = "";
             this.txt_user_name.TrailingIcon = null;
+            this.txt_user_name.TextChanged += new System.EventHandler(this.txt_user_name_TextChanged);
             // 
             // btn_cancel
             // 
@@ -212,6 +217,11 @@
             this.lnk_forgot_password.Text = "Forgot password";
             this.lnk_forgot_password.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.lnk_forgot_password_LinkClicked);
             // 
+            // errorProvider1
+            // 
+            this.errorProvider1.BlinkStyle = System.Windows.Forms.ErrorBlinkStyle.NeverBlink;
+            this.errorProvider1.ContainerControl = this;
+            // 
             // LoginForm
             // 
             this.AcceptButton = this.btn_login;
@@ -230,6 +240,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
             this.materialCard2.ResumeLayout(false);
             this.materialCard2.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.errorProvider1)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -245,5 +256,6 @@
         private MaterialSkin.Controls.MaterialCard materialCard2;
         private System.Windows.Forms.PictureBox pictureBox1;
         private System.Windows.Forms.LinkLabel lnk_forgot_password;
+        private System.Windows.Forms.ErrorProvider errorProvider1;
     }
 }

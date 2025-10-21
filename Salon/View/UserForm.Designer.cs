@@ -122,7 +122,7 @@
             this.txt_contact.Multiline = false;
             this.txt_contact.Name = "txt_contact";
             this.txt_contact.Size = new System.Drawing.Size(400, 50);
-            this.txt_contact.TabIndex = 4;
+            this.txt_contact.TabIndex = 3;
             this.txt_contact.Text = "";
             this.txt_contact.TrailingIcon = null;
             // 
@@ -140,7 +140,7 @@
             this.txt_email.Multiline = false;
             this.txt_email.Name = "txt_email";
             this.txt_email.Size = new System.Drawing.Size(400, 50);
-            this.txt_email.TabIndex = 5;
+            this.txt_email.TabIndex = 4;
             this.txt_email.Text = "";
             this.txt_email.TrailingIcon = null;
             this.txt_email.TextChanged += new System.EventHandler(this.txt_email_TextChanged);
@@ -160,7 +160,7 @@
             this.txt_confirm_password.Name = "txt_confirm_password";
             this.txt_confirm_password.Password = true;
             this.txt_confirm_password.Size = new System.Drawing.Size(400, 50);
-            this.txt_confirm_password.TabIndex = 6;
+            this.txt_confirm_password.TabIndex = 9;
             this.txt_confirm_password.Text = "";
             this.txt_confirm_password.TrailingIcon = null;
             // 
@@ -179,7 +179,7 @@
             this.txt_password.Name = "txt_password";
             this.txt_password.Password = true;
             this.txt_password.Size = new System.Drawing.Size(400, 50);
-            this.txt_password.TabIndex = 7;
+            this.txt_password.TabIndex = 8;
             this.txt_password.Text = "";
             this.txt_password.TrailingIcon = null;
             // 
@@ -197,7 +197,7 @@
             this.txt_username.Multiline = false;
             this.txt_username.Name = "txt_username";
             this.txt_username.Size = new System.Drawing.Size(400, 50);
-            this.txt_username.TabIndex = 8;
+            this.txt_username.TabIndex = 7;
             this.txt_username.Text = "";
             this.txt_username.TrailingIcon = null;
             // 
@@ -207,7 +207,7 @@
             this.dtp_day_of_birth.Location = new System.Drawing.Point(477, 240);
             this.dtp_day_of_birth.Name = "dtp_day_of_birth";
             this.dtp_day_of_birth.Size = new System.Drawing.Size(400, 22);
-            this.dtp_day_of_birth.TabIndex = 9;
+            this.dtp_day_of_birth.TabIndex = 5;
             // 
             // btn_cancel
             // 
@@ -224,7 +224,7 @@
             this.btn_cancel.Name = "btn_cancel";
             this.btn_cancel.NoAccentTextColor = System.Drawing.Color.Empty;
             this.btn_cancel.Size = new System.Drawing.Size(77, 36);
-            this.btn_cancel.TabIndex = 11;
+            this.btn_cancel.TabIndex = 12;
             this.btn_cancel.Text = "cancel";
             this.btn_cancel.Type = MaterialSkin.Controls.MaterialButton.MaterialButtonType.Contained;
             this.btn_cancel.UseAccentColor = false;
@@ -246,7 +246,7 @@
             this.btn_update.Name = "btn_update";
             this.btn_update.NoAccentTextColor = System.Drawing.Color.Empty;
             this.btn_update.Size = new System.Drawing.Size(129, 36);
-            this.btn_update.TabIndex = 13;
+            this.btn_update.TabIndex = 11;
             this.btn_update.Text = "save changes";
             this.btn_update.Type = MaterialSkin.Controls.MaterialButton.MaterialButtonType.Contained;
             this.btn_update.UseAccentColor = false;
@@ -269,7 +269,7 @@
             this.btn_save.Name = "btn_save";
             this.btn_save.NoAccentTextColor = System.Drawing.Color.Empty;
             this.btn_save.Size = new System.Drawing.Size(64, 36);
-            this.btn_save.TabIndex = 10;
+            this.btn_save.TabIndex = 11;
             this.btn_save.Text = "save";
             this.btn_save.Type = MaterialSkin.Controls.MaterialButton.MaterialButtonType.Contained;
             this.btn_save.UseAccentColor = false;
@@ -317,7 +317,7 @@
             this.txt_address.HideSelection = true;
             this.txt_address.Hint = "Address";
             this.txt_address.Location = new System.Drawing.Point(23, 322);
-            this.txt_address.MaxLength = 32767;
+            this.txt_address.MaxLength = 255;
             this.txt_address.MouseState = MaterialSkin.MouseState.OUT;
             this.txt_address.Name = "txt_address";
             this.txt_address.PasswordChar = '\0';
@@ -328,7 +328,7 @@
             this.txt_address.SelectionStart = 0;
             this.txt_address.ShortcutsEnabled = true;
             this.txt_address.Size = new System.Drawing.Size(666, 122);
-            this.txt_address.TabIndex = 4;
+            this.txt_address.TabIndex = 6;
             this.txt_address.TabStop = false;
             this.txt_address.TextAlign = System.Windows.Forms.HorizontalAlignment.Left;
             this.txt_address.UseSystemPasswordChar = false;
@@ -360,7 +360,7 @@
             this.chk_show_password.ReadOnly = false;
             this.chk_show_password.Ripple = true;
             this.chk_show_password.Size = new System.Drawing.Size(149, 37);
-            this.chk_show_password.TabIndex = 9;
+            this.chk_show_password.TabIndex = 10;
             this.chk_show_password.Text = "Show Password";
             this.chk_show_password.UseVisualStyleBackColor = true;
             this.chk_show_password.CheckedChanged += new System.EventHandler(this.chk_show_password_CheckedChanged_1);

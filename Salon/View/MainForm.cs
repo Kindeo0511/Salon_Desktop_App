@@ -23,6 +23,7 @@ using System.Runtime.InteropServices.ComTypes;
 using System.Security.Cryptography.X509Certificates;
 using System.Text;
 using System.Threading.Tasks;
+using System.Transactions;
 using System.Windows.Forms;
 using System.Xml.Linq;
 using ZstdSharp.Unsafe;
@@ -946,51 +947,16 @@ namespace Salon.View
             col_discount_expiry_date.DataPropertyName = "expiry_date";
             dgv_discount.DataSource = discounts;
 
-            dtp_discount_expiry_date.MinDate = DateTime.Today;
-            dtp_discount_expiry_date.MaxDate =
-                new DateTime(DateTime.Today.Year, DateTime.Today.Month, 1) // First day of current month
-                .AddMonths(1)                                               // First day of next month
-                .AddDays(-1);                                               // Go back one day → last day of current month
+            //dtp_discount_expiry_date.MinDate = DateTime.Today;
+            //dtp_discount_expiry_date.MaxDate =
+            //    new DateTime(DateTime.Today.Year, DateTime.Today.Month, 1) // First day of current month
+            //    .AddMonths(1)                                               // First day of next month
+            //    .AddDays(-1);                                               // Go back one day → last day of current month
 
 
 
         }
-        private bool DiscountValidated()
-        {
-
-            bool validated = true;
-            // REQUIRED FIELD
-            validated &= Validator.IsRequired(cmb_discount_type, errorProvider1, "Discount type is required.");
-            validated &= Validator.IsRequired(txt_discount, errorProvider1, "Discount rate is required.");
-
-            if (cmb_discount_type.Text == "Promo") 
-            {
-                validated &= Validator.IsRequired(txt_promo_code, errorProvider1, "Promo code is required.");
-
-            }
-
-            int excludeId = discountModel?.discount_id ?? 0;
-            string code = txt_promo_code.Text.Trim();
-
-            // Parse discount rate safely
-            if (decimal.TryParse(txt_discount.Text.Trim(), out decimal rate))
-            {
-                validated &= Validator.IsDiscountExists(
-                    cmb_discount_type,
-                    errorProvider1,
-                    "Discount already exists.",
-                    cmb_discount_type.Text.Trim(),
-                    code,
-                    rate,
-                    excludeId
-                );
-            }
-
-
-            return validated;
-
-
-        }
+      
 
         private void AddOrUpdateVat()
         {
@@ -1048,57 +1014,8 @@ namespace Salon.View
 
             AddOrUpdateVat();
         }
-        private void clear_discount_fields()
-        {
-            cmb_discount_type.Hint = string.Empty;
-            cmb_discount_type.SelectedIndex = -1;
-            txt_promo_code.Text = string.Empty;
-            txt_discount.Text = string.Empty;
-            btn_add_discount.Visible = true;
-            btn_update_discount.Visible = false;
-            btn_cancel_discount.Visible = false;
-            cmb_discount_type.Hint = "Select Discount Type";
-        }
-        private void AddDiscount()
-        {
-            string promo_code = "";
-            DateTime? expiration_date;
-
-            if (!string.IsNullOrWhiteSpace(txt_promo_code.Text))
-            {
-                promo_code = txt_promo_code.Text.Trim();
-                expiration_date = dtp_discount_expiry_date.Value;
-            }
-            else
-            {
-                promo_code = "";
-                expiration_date = null;
-            }
-
-
-
-                var repo = new DiscountRepository();
-            var discount_controller = new DiscountController(repo);
-            var discount = new DiscountModel
-            {
-                discount_type = cmb_discount_type.Text,
-                promo_code = promo_code,
-                discount_rate = Convert.ToInt32(txt_discount.Text),
-                expiry_date = expiration_date,
-            };
-            discount_controller.AddDiscount(discount);
-            MessageBox.Show("Discount added succesfully!", "success", MessageBoxButtons.OK, MessageBoxIcon.Information);
-
-            Audit.AuditLog(
-                   DateTime.Now,
-                   "Create",
-                   UserSession.CurrentUser.first_Name,
-                   "Vat/Discount",
-                   $"Created discount '{cmb_discount_type.Text}' with rate ({txt_discount.Text}%) on {DateTime.Now:yyyy-MM-dd} at {DateTime.Now:HH:mm:ss}"
-               );
-            LoadDiscount();
-
-        }
+     
+        
 
         private void btn_add_discount_Click(object sender, EventArgs e)
         {
@@ -1109,59 +1026,9 @@ namespace Salon.View
             //clear_discount_fields();
         }
 
-        private void UpdateDiscount()
-        {
-            string promo_code = "";
-            DateTime? expiration_date;
-            if (!string.IsNullOrWhiteSpace(txt_promo_code.Text))
-            {
-                promo_code = txt_promo_code.Text.Trim();
-                expiration_date = dtp_discount_expiry_date.Value;
-            }
-            else
-            {
-                promo_code = "";
-                expiration_date = null;
-            }
+      
 
-            discountModel.discount_type = cmb_discount_type.Text;
-            discountModel.promo_code = promo_code;
-            discountModel.discount_rate = Convert.ToInt32(txt_discount.Text);
-            discountModel.expiry_date = expiration_date;
-
-            var repo = new DiscountRepository();
-            var discount_controller = new DiscountController(repo);
-            if (MessageBox.Show($"Are you sure you want to update {discountModel.discount_type}?", "Confirm Update", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
-            {
-                discount_controller.UpdateDiscount(discountModel);
-                MessageBox.Show("Discount updated succesfully!", "success", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                LoadDiscount();
-                Audit.AuditLog(
-                   DateTime.Now,
-                   "Update",
-                   UserSession.CurrentUser.first_Name,
-                   "Vat/Discount",
-                   $"Updated discount '{cmb_discount_type.Text}' with rate ({txt_discount.Text}%) on {DateTime.Now:yyyy-MM-dd} at {DateTime.Now:HH:mm:ss}"
-               );
-                clear_discount_fields();
-            }
-        }
-
-        private void btn_update_discount_Click(object sender, EventArgs e)
-        {
-            if (!DiscountValidated()) return;
-
-            UpdateDiscount();
-        }
-
-        private void btn_cancel_discount_Click(object sender, EventArgs e)
-        {
-            clear_discount_fields();
-            btn_add_discount.Visible = true;
-            btn_update_discount.Visible = false;
-
-        }
-
+      
         private void dgv_discount_CellClick(object sender, DataGridViewCellEventArgs e)
         {
             if (e.RowIndex < 0) return;
@@ -1275,20 +1142,7 @@ namespace Salon.View
 
         private void cmb_discount_type_SelectedIndexChanged(object sender, EventArgs e)
         {
-            if (cmb_discount_type.Text.ToLower() == "promo")
-            {
-                txt_promo_code.Visible = true;
-                dtp_discount_expiry_date.Visible = true;
-                materialLabel29.Visible = true;
-
-            }
-            else
-            {
-                txt_promo_code.Visible = false;
-                dtp_discount_expiry_date.Visible = false;
-                materialLabel29.Visible = false;
-
-            }
+           
         }
 
         // END OF VAT AND DISCOUNT
@@ -1850,6 +1704,7 @@ namespace Salon.View
                 txt_water_bill.Text = utility.water_bill.ToString();
                 txt_internet_bill.Text = utility.internet_bill.ToString();
                 txt_other_bill.Text = utility.other_bill.ToString();
+                txt_bill_note.Text = utility.notes;
             }
             else 
             {
@@ -1906,11 +1761,59 @@ namespace Salon.View
 
             bool validated = true;
             // REQUIRED FIELD
-            validated &= Validator.IsRequired(txt_month_rent, errorProvider1, "Monthly rent is required.");
-            validated &= Validator.IsRequired(txt_electric_bill, errorProvider1, "Electricity bill is required.");
-            validated &= Validator.IsRequired(txt_water_bill, errorProvider1, "Water bill is required.");
-            validated &= Validator.IsRequired(txt_internet_bill, errorProvider1, "Internet bill is required.");
-            validated &= Validator.IsRequired(txt_working_hours, errorProvider1, "Woring hours is required.");
+
+            // PRICE
+            if (!Validator.DecimalOnly(txt_month_rent, errorProvider1,
+                "Monthly rent is required.",
+                "No spaces allowed.",
+                "Monthly rent must be a valid number.",
+                "Monthly rent must be at least 1.00."))
+            {
+                validated = false;
+            }
+            if (!Validator.DecimalOnly(txt_electric_bill, errorProvider1,
+            "Electric bill is required.",
+            "No spaces allowed.",
+            "Electric bill must be a valid number.",
+            "Electric bill must be at least 1.00."))
+            {
+                validated = false;
+            }
+            if (!Validator.DecimalOnly(txt_water_bill, errorProvider1,
+            "Water bill is required.",
+            "No spaces allowed.",
+            "Water bill be a valid number.",
+            "Water bill be at least 1.00."))
+            {
+                validated = false;
+            }
+            if (!Validator.DecimalOnly(txt_internet_bill, errorProvider1,
+            "Internet bill is required.",
+            "No spaces allowed.",
+            "Internet bill must be a valid number.",
+            "Internet bill must be at least 1.00."))
+            {
+                validated = false;
+            }
+          
+            if (!Validator.IntOnly(txt_working_hours, errorProvider1, "Working hours is required.", "No spaces allowed.", "Working hours must be a whole number.", "Working hours must be greater than zero."))
+            {
+                validated = false;
+            }
+
+            if (!string.IsNullOrWhiteSpace(txt_bill_note.Text)) 
+            {
+                if (!Validator.IsMinimumLength(txt_bill_note, errorProvider1, "Notes must be at least 5 characters.", 5))
+                {
+                    validated = false;
+                }
+                else if (!Validator.MultiLinePattern(txt_bill_note, errorProvider1,@"^[A-Za-z0-9\s]+$","Notes can only contain letters, numbers, and spaces."))
+                {
+                    validated = false;
+                }
+
+            }
+
 
 
 
@@ -1977,7 +1880,15 @@ namespace Salon.View
             lbl_total_cost.Enabled = true;
 
 
-   
+            txt_month_rent.ReadOnly = false;
+            txt_electric_bill.ReadOnly = false;
+            txt_water_bill.ReadOnly = false;
+            txt_internet_bill.ReadOnly = false;
+            txt_other_bill.ReadOnly = false;
+            txt_bill_note.ReadOnly = false ;
+            txt_working_hours.ReadOnly = false;
+        
+
             btn_edit_bill.Visible = false;
             btn_save_changes.Visible = true;
             btn_cancel_bill.Visible = true;
@@ -2032,6 +1943,7 @@ namespace Salon.View
 
             };
 
+            MessageBox.Show("Updated Success");
             controller.Update(model);
             AddOrUpdateExpense("Utilities", "Updated Monthly Rent & Bills", total_cost, UserSession.CurrentUser.first_Name, "", DateTime.Now);
             LoadRent();
@@ -3893,6 +3805,28 @@ namespace Salon.View
                     break;
             }
         }
+        private void dgv_transaction_history_CellClick(object sender, DataGridViewCellEventArgs e)
+        {
+            if (e.RowIndex < 0) return;
+
+           
+
+            if (e.RowIndex >= 0 && dgv_transaction_history.Columns[e.ColumnIndex].Name == "col_transaction_btn_refund")
+            {
+                var transaction = dgv_transaction_history.Rows[e.RowIndex].DataBoundItem as TransactionModel;
+
+                if (transaction.AppointmentStatus.ToLower() == "refunded")
+                {
+                    return;
+                }
+                using (var form = new RefundForm(this, transaction))
+                {
+                    form.ShowDialog();
+                }
+
+               
+            }  
+        }
 
         private void refundToolStripMenuItem_Click(object sender, EventArgs e)
         {
@@ -4396,6 +4330,7 @@ namespace Salon.View
             LoadInventory();
 
         }
+
 
 
 

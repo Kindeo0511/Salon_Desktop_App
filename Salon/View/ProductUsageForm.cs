@@ -45,10 +45,26 @@ namespace Salon.View
             bool validated = true;
 
             // REQUIRED FIELD
-            validated &= Validator.IsRequired(cmb_product, errorProvider1, "Service is required.");
-            validated &= Validator.IsRequired(txt_usage_amount, errorProvider1, "Usage amount is required.");
-            validated &= Validator.IsRequired(txt_unit_volume, errorProvider1, "Unit Volume is required.");
+            if (!Validator.IntOnly(txt_usage_amount, errorProvider1, "Usage amount is Required", "Spaces are not allowed", "Usage amount must be a whole number.", "Value must be greater than zero."))
+            {
+                validated = false;
+            }
 
+            if (!Validator.DecimalOnly(txt_unit_volume, errorProvider1,
+               "Unit Volume is required.",
+               "No spaces allowed.",
+               "Unit Volume must be a valid number.",
+               "PriUnit Volumece must be at least 1.00."))
+            {
+                validated = false;
+            }
+
+            if (!Validator.IsComboBoxSelected(cmb_product, errorProvider1, "Service is required.")) 
+            {
+                validated = false;
+            }
+            
+     
 
 
 
@@ -170,7 +186,7 @@ namespace Salon.View
                 txt_total_usage.Text = string.Empty;
             }
         }
-
+         
         private void AddProductUsage()
         {
             var repo = new ServiceProductUsageRepository();
@@ -180,7 +196,7 @@ namespace Salon.View
                 service_id = serviceModel.serviceName_id,
                 product_id = (int)cmb_product.SelectedValue,
                 usage_amount = double.Parse(txt_usage_amount.Text),
-                unit_per_volume = int.Parse(txt_unit_volume.Text),
+                unit_per_volume = double.Parse(txt_unit_volume.Text),
                 total_usage_amount = double.Parse(txt_total_usage.Text),
                 total_cost = decimal.Parse(txt_tota_cost.Text)
             };

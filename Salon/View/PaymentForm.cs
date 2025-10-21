@@ -130,6 +130,8 @@ namespace Salon.View
                 {
                     discount_rate = selectedDiscount.discount_rate; // Set the actual rate
                     lbl_discount_type.Text = $"Discount ({discount_rate}%)";
+
+
                     calculate();
                 }
             }
@@ -291,6 +293,7 @@ namespace Salon.View
             decimal amountPaid = 0m;
             decimal totalAmount = ParseCurrency(lbl_Total.Text);
             decimal changeAmount = ParseCurrency(lbl_change_amount.Text);
+
             if (!decimal.TryParse(txt_amount_paid.Text, out amountPaid))
             {
                 MessageBox.Show("Invalid amount paid.", "Validation Error", MessageBoxButtons.OK, MessageBoxIcon.Warning);
@@ -303,6 +306,11 @@ namespace Salon.View
                 return;
             }
 
+            if (cb_PaymentMethod.SelectedIndex == -1)
+            {
+                MessageBox.Show("Please select a payment method.");
+                return;
+            }
 
             var discount_type = string.IsNullOrWhiteSpace(cb_discount.Text) ? "N/A" : cb_discount.Text;
             var reference_no = string.IsNullOrWhiteSpace(txt_Reference.Text) ? "N/A" : txt_Reference.Text;
@@ -321,67 +329,165 @@ namespace Salon.View
                 PaidAt = DateTime.Now
             };
 
-            if (cb_PaymentMethod.SelectedIndex == -1)
+            DiscountModel discount = null;
+            int selectedDiscountId = -1;
+
+            if (cb_discount.SelectedIndex >= 0 && cb_discount.SelectedValue != null)
             {
-                MessageBox.Show("Please select a payment method.");     
+                selectedDiscountId = Convert.ToInt32(cb_discount.SelectedValue);
+                var repo = new DiscountRepository();
+                var controller = new DiscountController(repo);
+                discount = controller.GetDiscountById(selectedDiscountId);
+            }
+
+            // Check inventory before proceeding
+            bool inventoryOk = Product_Inventory();
+            if (!inventoryOk)
+            {
+                MessageBox.Show("❌ Payment cannot proceed due to insufficient inventory.", "Payment Blocked", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
             }
 
-            int selectedDiscountId = Convert.ToInt32(cb_discount.SelectedValue);
-            var repo = new DiscountRepository();
-            var controller = new DiscountController(repo);
-            var discount = controller.GetDiscountById(selectedDiscountId);
-
-            // Bypass usage limit for Senior/PWD
-            if (discount != null && discount.discount_type == "Promo")
+            // If discount is selected, check usage limits and log usage
+            if (discount != null)
             {
-                if (CustomerDiscountUsageCount(selectedDiscountId, model.CustomerId) >= discount.per_customer_limit)
+                if (discount.discount_type != "Senior/PWD" &&
+                    discount.per_customer_limit > 0 &&
+                    CustomerDiscountUsageCount(selectedDiscountId, model.CustomerId) >= discount.per_customer_limit)
                 {
                     MessageBox.Show("This customer has reached the usage limit for this discount.", "Limit Reached", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                     return;
                 }
+
+                InsertIntoDiscountUsage(selectedDiscountId, model.CustomerId, model.AppointmentId, DateTime.Today);
             }
 
-            //if (CustomerDiscountUsageCount(Convert.ToInt32(cb_discount.SelectedValue), model.CustomerId) >= DiscountCustomerlimit(Convert.ToInt32(cb_discount.SelectedValue)))
-            //{
-            //    MessageBox.Show("This customer has reached the usage limit for this discount.", "Limit Reached", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-            //    return;
-            //}
-            else
-            {
-                bool inventoryOk = Product_Inventory();
-                if (!inventoryOk)
-                {
-                    MessageBox.Show("❌ Payment cannot proceed due to insufficient inventory.", "Payment Blocked", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                    return;
-                }
+            // Finalize payment
+            paymentController.CreatePayment(payment);
+            AddTransactions(model.AppointmentId, _vatAmount, _discountAmount, _subtotal, totalAmount, cb_PaymentMethod.SelectedItem.ToString(), "Paid", DateTime.Now);
+            appointment.UpdateAppointmentPayment(model.AppointmentId, "Paid", "Completed");
 
-                if (!string.IsNullOrWhiteSpace(cb_discount.Text) && cb_discount.SelectedValue != null)
-                {
-                    int discountId = Convert.ToInt32(cb_discount.SelectedValue);
-                    InsertIntoDiscountUsage(discountId, model.CustomerId, model.AppointmentId, DateTime.Today);
-                }
+            MessageBox.Show("✅ Payment has been recorded successfully!", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
 
-                paymentController.CreatePayment(payment);
-                AddTransactions(model.AppointmentId, _vatAmount, _discountAmount,_subtotal, totalAmount, cb_PaymentMethod.SelectedItem.ToString(), "Paid", DateTime.Now);
-                appointment.UpdateAppointmentPayment(model.AppointmentId, "Paid", "Completed");
-                MessageBox.Show("✅ Payment has been recorded successfully!", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            Audit.AuditLog(
+                DateTime.Now,
+                "Process Payment",
+                UserSession.CurrentUser.first_Name,
+                "Appointment",
+                $"Processed payment for client '{model.ClientName}' on {DateTime.Now:yyyy-MM-dd} at {DateTime.Now:HH:mm:ss}"
+            );
 
-                Audit.AuditLog(
-                  DateTime.Now,
-                  "Process Payment", 
-                  UserSession.CurrentUser.first_Name,
-                  "Appointment",
-                  $"Processed payment for client '{model.ClientName}' on {DateTime.Now:yyyy-MM-dd} at {DateTime.Now:HH:mm:ss}"
-              );
-
-                mainForm.LoadAppointments();
-                mainForm.LoadTotalSales();
-                mainForm.LoadAllTransactions();
-                btn_invoice.Enabled = true;
-                btn_confirm_payment.Enabled = false;
-            }
+            mainForm.LoadAppointments();
+            mainForm.LoadTotalSales();
+            mainForm.LoadAllTransactions();
+            btn_invoice.Enabled = true;
+            btn_confirm_payment.Enabled = false;
         }
+
+        //private void btn_confirm_payment_Click(object sender, EventArgs e)
+        //{
+        //    if (!Validated()) return;
+
+        //    decimal amountPaid = 0m;
+        //    decimal totalAmount = ParseCurrency(lbl_Total.Text);
+        //    decimal changeAmount = ParseCurrency(lbl_change_amount.Text);
+        //    if (!decimal.TryParse(txt_amount_paid.Text, out amountPaid))
+        //    {
+        //        MessageBox.Show("Invalid amount paid.", "Validation Error", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+        //        return;
+        //    }
+
+        //    if (amountPaid < totalAmount)
+        //    {
+        //        MessageBox.Show("Insufficient payment. Please collect the full amount.", "Payment Error", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+        //        return;
+        //    }
+
+
+        //    var discount_type = string.IsNullOrWhiteSpace(cb_discount.Text) ? "N/A" : cb_discount.Text;
+        //    var reference_no = string.IsNullOrWhiteSpace(txt_Reference.Text) ? "N/A" : txt_Reference.Text;
+
+        //    var payment = new PaymentModel
+        //    {
+        //        AppointmentId = model.AppointmentId,
+        //        AmountPaid = amountPaid,
+        //        DiscountType = discount_type,
+        //        TotalAmount = _totalWithVat,
+        //        ChangeAmount = changeAmount,
+        //        DiscountAmount = _discountAmount,
+        //        VatAmount = _vatAmount,
+        //        PaymentMethod = cb_PaymentMethod.SelectedItem.ToString(),
+        //        ReferenceNo = reference_no,
+        //        PaidAt = DateTime.Now
+        //    };
+
+        //    if (cb_PaymentMethod.SelectedIndex == -1)
+        //    {
+        //        MessageBox.Show("Please select a payment method.");     
+        //        return;
+        //    }
+
+        //    int selectedDiscountId = Convert.ToInt32(cb_discount.SelectedValue);
+        //    var repo = new DiscountRepository();
+        //    var controller = new DiscountController(repo);
+        //    var discount = controller.GetDiscountById(selectedDiscountId);
+
+        //    // Bypass usage limit for Senior/PWD
+        //    if (discount != null)
+        //    {
+        //        if (discount.discount_type != "Senior/PWD" &&
+        //            discount.per_customer_limit > 0 &&
+        //            CustomerDiscountUsageCount(selectedDiscountId, model.CustomerId) >= discount.per_customer_limit)
+        //        {
+        //            MessageBox.Show("This customer has reached the usage limit for this discount.", "Limit Reached", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+        //            return;
+        //        }
+        //        else
+        //        {
+        //            bool inventoryOk = Product_Inventory();
+        //            if (!inventoryOk)
+        //            {
+        //                MessageBox.Show("❌ Payment cannot proceed due to insufficient inventory.", "Payment Blocked", MessageBoxButtons.OK, MessageBoxIcon.Error);
+        //                return;
+        //            }
+
+        //            if (!string.IsNullOrWhiteSpace(cb_discount.Text) && cb_discount.SelectedValue != null)
+        //            {
+        //                int discountId = Convert.ToInt32(cb_discount.SelectedValue);
+        //                InsertIntoDiscountUsage(discountId, model.CustomerId, model.AppointmentId, DateTime.Today);
+        //            }
+
+        //            paymentController.CreatePayment(payment);
+        //            AddTransactions(model.AppointmentId, _vatAmount, _discountAmount, _subtotal, totalAmount, cb_PaymentMethod.SelectedItem.ToString(), "Paid", DateTime.Now);
+        //            appointment.UpdateAppointmentPayment(model.AppointmentId, "Paid", "Completed");
+        //            MessageBox.Show("✅ Payment has been recorded successfully!", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
+
+        //            Audit.AuditLog(
+        //              DateTime.Now,
+        //              "Process Payment",
+        //              UserSession.CurrentUser.first_Name,
+        //              "Appointment",
+        //              $"Processed payment for client '{model.ClientName}' on {DateTime.Now:yyyy-MM-dd} at {DateTime.Now:HH:mm:ss}"
+        //          );
+
+        //            mainForm.LoadAppointments();
+        //            mainForm.LoadTotalSales();
+        //            mainForm.LoadAllTransactions();
+        //            btn_invoice.Enabled = true;
+        //            btn_confirm_payment.Enabled = false;
+        //        }
+        //    }
+        //}
+
+
+
+        //if (CustomerDiscountUsageCount(Convert.ToInt32(cb_discount.SelectedValue), model.CustomerId) >= DiscountCustomerlimit(Convert.ToInt32(cb_discount.SelectedValue)))
+        //{
+        //    MessageBox.Show("This customer has reached the usage limit for this discount.", "Limit Reached", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+        //    return;
+        //}
+
+
 
         private bool Product_Inventory()
         {
@@ -521,6 +627,7 @@ namespace Salon.View
 
         private void sw_exempt_vat_CheckedChanged(object sender, EventArgs e)
         {
+       
             calculate();
         }
 

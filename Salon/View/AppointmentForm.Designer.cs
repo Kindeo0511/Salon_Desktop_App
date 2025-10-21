@@ -77,7 +77,7 @@
             // 
             // txt_FullName
             // 
-            this.txt_FullName.AnimateReadOnly = false;
+            this.txt_FullName.AnimateReadOnly = true;
             this.txt_FullName.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.txt_FullName.Depth = 0;
             this.txt_FullName.Font = new System.Drawing.Font("Roboto", 16F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
@@ -88,6 +88,7 @@
             this.txt_FullName.MouseState = MaterialSkin.MouseState.OUT;
             this.txt_FullName.Multiline = false;
             this.txt_FullName.Name = "txt_FullName";
+            this.txt_FullName.ReadOnly = true;
             this.txt_FullName.Size = new System.Drawing.Size(400, 50);
             this.txt_FullName.TabIndex = 1;
             this.txt_FullName.Text = "";
@@ -207,6 +208,7 @@
             this.lbl_ID.Size = new System.Drawing.Size(16, 19);
             this.lbl_ID.TabIndex = 8;
             this.lbl_ID.Text = "ID";
+            this.lbl_ID.Visible = false;
             // 
             // txt_search_services
             // 

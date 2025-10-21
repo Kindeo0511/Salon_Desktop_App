@@ -21,13 +21,14 @@ namespace Salon.View
         private UsersModel _user;
         private bool _isViewed = false;
         private bool _isSaving = false;
+
         public UserForm(MainForm mainForm)
         {
             InitializeComponent();
             ThemeManager.ApplyTheme(this);
             this._mainForm = mainForm;
             dtp_day_of_birth.MaxDate = DateTime.Today;
-            dtp_day_of_birth.MinDate = new DateTime(1900, 1, 1);
+            dtp_day_of_birth.MinDate = new DateTime(1960, 1, 1);
 
         }
         public UserForm(MainForm mainForm, UsersModel user)
@@ -37,7 +38,7 @@ namespace Salon.View
             this._mainForm = mainForm;
             this._user = user;
             dtp_day_of_birth.MaxDate = DateTime.Today;
-            dtp_day_of_birth.MinDate = new DateTime(1900, 1, 1);
+            dtp_day_of_birth.MinDate = new DateTime(1960, 1, 1);
 
             if (_user != null)
             {
@@ -149,52 +150,143 @@ namespace Salon.View
                 userController.UpdateUser(_user);
             }
         }
-        private bool Validated()
+        private bool IsValid()
         {
+            DateTime birthDate = dtp_day_of_birth.Value;
+            int age = DateTime.Now.Year - birthDate.Year;
+            int excludeId = _user?.user_id ?? 0;
 
             bool validated = true;
 
-            // LENGTH FIELD 
-            validated &= Validator.IsMaximumLength(txt_first_name, errorProvider1, "First name must not exceed 50 characters.");
+            // REQUIRED AND MIN LENGTH FIELD
+            if (!Validator.IsRequiredTextField(txt_first_name, errorProvider1, "First name is required."))
+            {
+                validated = false;
+            }
+            else if (!Validator.IsMinimumLength(txt_first_name, errorProvider1, "First name must be at least 3 characters.", 3))
+            {
+                validated = false;
+            }
+
+            if (!string.IsNullOrWhiteSpace(txt_middle_name.Text))
+            {
+                validated &= Validator.IsMinimumLength(txt_middle_name, errorProvider1, "Middle name must be at least 3 characters.", 3);
+            }
+
+            if (!Validator.IsRequiredTextField(txt_last_name, errorProvider1, "Last name is required."))
+            {
+                validated = false;
+            }
+            else if (!Validator.IsMinimumLength(txt_last_name, errorProvider1, "Last name must be at least 3 characters.", 3))
+            {
+                validated = false;
+            }
+
+            if (!Validator.IsRequired(txt_email, errorProvider1, "Email is required."))
+            {
+                validated = false;
+            }
+            else if (!Validator.IsValidEmail(txt_email, errorProvider1))
+            {
+               validated = false;
+            }
+            else if (!Validator.IsEmailExists(txt_email, errorProvider1, "Email already exists.", excludeId))
+            {
+                validated = false;
+            }
 
 
 
-            // REQUIRED FIELD
-            validated &= Validator.IsRequired(txt_first_name, errorProvider1,"First name is required.");
-            validated &= Validator.IsRequired(txt_middle_name, errorProvider1, "Middle name is required.");
-            validated &= Validator.IsRequired(txt_last_name, errorProvider1, "Last name is required.");
-            validated &= Validator.IsRequired(txt_email, errorProvider1, "Email is required.");
-            validated &= Validator.IsRequired(txt_contact, errorProvider1, "Contact number is required.");
-            validated &= Validator.IsRequired(txt_address, errorProvider1, "Address is required.");
+            if (!Validator.IsRequiredTextField(txt_contact, errorProvider1, "Contact number is required."))
+            {
+                validated = false;
+            }
+            else if (!Validator.IsMinimumLength(txt_contact, errorProvider1, "Contact number must be at least 11 characters.", 11))
+            {
+                validated = false;
+            }
+            else if (!Validator.IsValidPhone(txt_contact, errorProvider1))
+            {
+                validated = false;
+            }
+            else if (!Validator.IsPhoneExists(txt_contact, errorProvider1, "Contact number already exists.", excludeId)) 
+            {
+                validated = false;
+            }
 
-            // VALID EMAIL
-            bool emailValid = Validator.IsValidEmail(txt_email, errorProvider1);
-            validated &= emailValid;
 
-            // VALID PHONE
-            bool phoneValid = Validator.IsValidPhone(txt_contact, errorProvider1);
-            validated &= phoneValid;
+            if (!Validator.IsAddressRequiredField(txt_address, errorProvider1, "Address is required."))
+            {
+                validated = false;
+            }
+            else if (!Validator.IsMinimumLength(txt_address, errorProvider1, "Address must be at least 10 characters.", 10))
+            {
+                validated = false;
+            }
+
+            // Adjust if birthday hasn't occurred yet this year
+            if (birthDate > DateTime.Now.AddYears(-age))
+            {
+                age--;
+            }
+
+            if (age < 18)
+            {
+                errorProvider1.SetError(dtp_day_of_birth, "Must be 18+ years old.");
+                validated = false;
+            }
+            else
+            {
+                errorProvider1.SetError(dtp_day_of_birth, "");
+            }
+
+
+
+
 
 
 
             // ACCOUNT VALIDATION
-            
-            validated &= Validator.IsRequired(txt_username, errorProvider1, "Username is required.");
-            validated &= Validator.IsRequired(txt_password, errorProvider1, "Password is required.");
-            validated &= Validator.IsRequired(txt_confirm_password, errorProvider1, "Confirm password is required.");
-            validated &= Validator.MinLength(txt_password, errorProvider1, 8, "Password must be at least 8 characters..");
-            validated &= Validator.MinLength(txt_confirm_password, errorProvider1, 8, "Confirm password must be at least 8 characters..");
+            if (!Validator.IsRequiredTextField(txt_username, errorProvider1, "Username is required."))
+            {
+                validated = false;
+            }
+            else if (!Validator.IsMinimumLength(txt_username, errorProvider1, "Username must be at least 5 characters.", 5))
+            {
+                validated = false;
+            }
+            else if (!Validator.IsUserExists(txt_username, errorProvider1, "Username already exists.", excludeId))
+            {
+                validated = false;
+            }
 
-            // EXISTS VALIDATION
-            int excludeId = _user?.user_id ?? 0;
 
-       
-            validated &= Validator.IsUserExists(txt_username, errorProvider1, "Username already exists.", excludeId);
-            if (emailValid)
-                validated &= Validator.IsEmailExists(txt_email, errorProvider1, "Email already exists.", excludeId);
+            if (!Validator.IsRequiredTextField(txt_password, errorProvider1, "Password is required."))
+            {
+                validated = false;
+            }
+            else if (!Validator.IsMinimumLength(txt_password, errorProvider1, "Password must be at least 8 characters.", 8))
+            {
+                validated = false;
+            }
 
-            if (phoneValid)
-                validated &= Validator.IsPhoneExists(txt_contact, errorProvider1, "Contact number already exists.", excludeId);
+            if (!Validator.IsRequiredTextField(txt_confirm_password, errorProvider1, "Confirm password is required."))
+            {
+                validated = false;
+            }
+            else if (!Validator.IsMinimumLength(txt_confirm_password, errorProvider1, "Confirm password must be at least 8 characters.", 8))
+            {
+                validated = false;
+            }
+
+           
+
+            //validated &= Validator.IsUserExists(txt_username, errorProvider1, "Username already exists.", excludeId);
+            //if (emailValid)
+            //    validated &= Validator.IsEmailExists(txt_email, errorProvider1, "Email already exists.", excludeId);
+
+            //if (phoneValid)
+            //    validated &= Validator.IsPhoneExists(txt_contact, errorProvider1, "Contact number already exists.", excludeId);
 
             return validated;
 
@@ -208,7 +300,7 @@ namespace Salon.View
             btn_save.Enabled = false;
 
             // Run validation on UI thread
-            if (!Validated())
+            if (!IsValid())
             {
                
                 btn_save.Enabled = true;
@@ -239,7 +331,7 @@ namespace Salon.View
             btn_update.Enabled = false;
 
             // Run validation on UI thread
-            if (!Validated())
+            if (!IsValid())
             {
           
                 btn_update.Enabled = true;

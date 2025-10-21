@@ -393,6 +393,12 @@
     <Compile Include="View\CategoryForm.Designer.cs">
       <DependentUpon>CategoryForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="View\ConfigureSettingsForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="View\ConfigureSettingsForm.Designer.cs">
+      <DependentUpon>ConfigureSettingsForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="View\ConfirmationBooking.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -590,6 +596,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="View\CategoryForm.resx">
       <DependentUpon>CategoryForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="View\ConfigureSettingsForm.resx">
+      <DependentUpon>ConfigureSettingsForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="View\ConfirmationBooking.resx">
       <DependentUpon>ConfirmationBooking.cs</DependentUpon>

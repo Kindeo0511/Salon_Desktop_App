@@ -102,7 +102,7 @@ namespace Salon.View
 
 
             // Run validation on UI thread
-            if (!Validated()) return;
+            if (!IsValid()) return;
         
 
             MessageBox.Show("Stylist added successfully", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
@@ -119,11 +119,8 @@ namespace Salon.View
         {
 
 
-            if (!Validated()) 
-            {
-                MessageBox.Show("Validation failed");
-                return;
-            } 
+            if (!IsValid()) return;
+         
 
             MessageBox.Show("Stylist updated successfully", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
 
@@ -134,31 +131,130 @@ namespace Salon.View
             this.Close();
         }
 
-        private bool Validated()
+        private bool IsValid()
         {
-
-            bool validated = true;
-            // REQUIRED FIELD
-            validated &= Validator.IsRequired(txt_first_name, errorProvider1, "First name is required.");
-            validated &= Validator.IsRequired(txt_middle_name, errorProvider1, "Middle name is required.");
-            validated &= Validator.IsRequired(txt_last_name, errorProvider1, "Last name is required.");
-            validated &= Validator.IsRequired(txt_email, errorProvider1, "Email is required.");
-            validated &= Validator.IsRequired(txt_contact, errorProvider1, "Contact number is required.");
-            validated &= Validator.IsRequired(txt_address, errorProvider1, "Address is required.");
-            validated &= Validator.IsRequired(txt_daily_wage, errorProvider1, "Daily wage is required.");
-
-            // VALID EMAIL
-            validated &= Validator.IsValidEmail(txt_email, errorProvider1);
-            // VAILD PHONE NUMBER
-            validated &= Validator.IsValidPhone(txt_contact, errorProvider1);
-
-            // EXISTS VALIDATION
+            DateTime birthDate = dtp_day_of_birth.Value;
+            int age = DateTime.Now.Year - birthDate.Year;
             int excludeId = _stylist?.stylist_id ?? 0;
 
-            validated &= Validator.IsStylistEmailExists(txt_email, errorProvider1, "Email already exists.", excludeId);
-            validated &= Validator.IsStylistPhoneExists(txt_contact, errorProvider1, "Contact number already exists.", excludeId);
+            bool validated = true;
+
+            // REQUIRED AND MIN LENGTH FIELD
+            if (!Validator.IsRequiredTextField(txt_first_name, errorProvider1, "First name is required."))
+            {
+                validated = false;
+            }
+            else if (!Validator.IsMinimumLength(txt_first_name, errorProvider1, "First name must be at least 3 characters.", 3))
+            {
+                validated = false;
+            }
+
+            if (!string.IsNullOrWhiteSpace(txt_middle_name.Text))
+            {
+                validated &= Validator.IsMinimumLength(txt_middle_name, errorProvider1, "Middle name must be at least 3 characters.", 3);
+            }
+
+            if (!Validator.IsRequiredTextField(txt_last_name, errorProvider1, "Last name is required."))
+            {
+                validated = false;
+            }
+            else if (!Validator.IsMinimumLength(txt_last_name, errorProvider1, "Last name must be at least 3 characters.", 3))
+            {
+                validated = false;
+            }
+
+            if (!Validator.IsRequired(txt_email, errorProvider1, "Email is required."))
+            {
+                validated = false;
+            }
+            else if (!Validator.IsValidEmail(txt_email, errorProvider1))
+            {
+                validated = false;
+            }
+            else if (!Validator.IsStylistEmailExists(txt_email, errorProvider1, "Email already exists.", excludeId))
+            {
+                validated = false;
+            }
+
+
+
+            if (!Validator.IsRequiredTextField(txt_contact, errorProvider1, "Contact number is required."))
+            {
+                validated = false;
+            }
+            else if (!Validator.IsMinimumLength(txt_contact, errorProvider1, "Contact number must be at least 11 characters.", 11))
+            {
+                validated = false;
+            }
+            else if (!Validator.IsValidPhone(txt_contact, errorProvider1))
+            {
+                validated = false;
+            }
+            else if (!Validator.IsStylistPhoneExists(txt_contact, errorProvider1, "Contact number already exists.", excludeId))
+            {
+                validated = false;
+            }
+
+
+            if (!Validator.IsAddressRequiredField(txt_address, errorProvider1, "Address is required."))
+            {
+                validated = false;
+            }
+            else if (!Validator.IsMinimumLength(txt_address, errorProvider1, "Address must be at least 10 characters.", 10))
+            {
+                validated = false;
+            }
+
+
+            if (!Validator.IsRequiredTextField(txt_daily_wage, errorProvider1, "Daily wage is required."))
+            {
+                validated = false;
+            }
+            else
+            {
+                if (decimal.TryParse(txt_daily_wage.Text.Trim(), out decimal wage))
+                {
+                    if (wage <= 0)
+                    {
+                        errorProvider1.SetError(txt_daily_wage, "Daily wage must be greater than zero.");
+                        validated = false;
+                    }
+                    else if (wage > 10000) 
+                    {
+                        errorProvider1.SetError(txt_daily_wage, "Daily wage seems unusually high. Please double-check.");
+                        validated = false;
+                    }
+                    else
+                    {
+                        errorProvider1.SetError(txt_daily_wage, "");
+                    }
+                }
+                else
+                {
+                    errorProvider1.SetError(txt_daily_wage, "Daily wage must be a valid number.");
+                    validated = false;
+                }
+            }
+
+            // Adjust if birthday hasn't occurred yet this year
+            if (birthDate > DateTime.Now.AddYears(-age))
+            {
+                age--;
+            }
+
+            if (age < 18)
+            {
+                errorProvider1.SetError(dtp_day_of_birth, "Must be 18+ years old.");
+                validated = false;
+            }
+            else
+            {
+                errorProvider1.SetError(dtp_day_of_birth, "");
+            }
+
 
             return validated;
+
 
 
         }

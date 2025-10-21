@@ -57,7 +57,7 @@
             this.cmb_category.MaxDropDownItems = 4;
             this.cmb_category.MouseState = MaterialSkin.MouseState.OUT;
             this.cmb_category.Name = "cmb_category";
-            this.cmb_category.Size = new System.Drawing.Size(260, 49);
+            this.cmb_category.Size = new System.Drawing.Size(300, 49);
             this.cmb_category.StartIndex = -1;
             this.cmb_category.TabIndex = 26;
             // 
@@ -135,7 +135,7 @@
             this.txt_subcategory_name.MouseState = MaterialSkin.MouseState.OUT;
             this.txt_subcategory_name.Multiline = false;
             this.txt_subcategory_name.Name = "txt_subcategory_name";
-            this.txt_subcategory_name.Size = new System.Drawing.Size(212, 50);
+            this.txt_subcategory_name.Size = new System.Drawing.Size(300, 50);
             this.txt_subcategory_name.TabIndex = 22;
             this.txt_subcategory_name.Text = "";
             this.txt_subcategory_name.TrailingIcon = null;

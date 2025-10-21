@@ -51,7 +51,6 @@
             this.btn_update = new MaterialSkin.Controls.MaterialButton();
             this.btn_add = new MaterialSkin.Controls.MaterialButton();
             this.dgv_Items = new System.Windows.Forms.DataGridView();
-            this.errorProvider1 = new System.Windows.Forms.ErrorProvider(this.components);
             this.product_id = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.col_product_name = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.col_qty = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -64,6 +63,7 @@
             this.col_expiry_date = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.col_note = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.col_view_delivered_items = new System.Windows.Forms.DataGridViewImageColumn();
+            this.errorProvider1 = new System.Windows.Forms.ErrorProvider(this.components);
             this.materialCard1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgv_Items)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.errorProvider1)).BeginInit();
@@ -274,7 +274,7 @@
             this.txt_notes.HideSelection = true;
             this.txt_notes.Hint = "Notes";
             this.txt_notes.Location = new System.Drawing.Point(957, 118);
-            this.txt_notes.MaxLength = 32767;
+            this.txt_notes.MaxLength = 255;
             this.txt_notes.MouseState = MaterialSkin.MouseState.OUT;
             this.txt_notes.Name = "txt_notes";
             this.txt_notes.PasswordChar = '\0';
@@ -284,7 +284,7 @@
             this.txt_notes.SelectionLength = 0;
             this.txt_notes.SelectionStart = 0;
             this.txt_notes.ShortcutsEnabled = true;
-            this.txt_notes.Size = new System.Drawing.Size(420, 185);
+            this.txt_notes.Size = new System.Drawing.Size(503, 185);
             this.txt_notes.TabIndex = 12;
             this.txt_notes.TabStop = false;
             this.txt_notes.TextAlign = System.Windows.Forms.HorizontalAlignment.Left;
@@ -345,7 +345,7 @@
             this.materialCard1.MouseState = MaterialSkin.MouseState.HOVER;
             this.materialCard1.Name = "materialCard1";
             this.materialCard1.Padding = new System.Windows.Forms.Padding(14);
-            this.materialCard1.Size = new System.Drawing.Size(1360, 568);
+            this.materialCard1.Size = new System.Drawing.Size(1560, 568);
             this.materialCard1.TabIndex = 15;
             // 
             // btn_save
@@ -353,6 +353,7 @@
             this.btn_save.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
             this.btn_save.Density = MaterialSkin.Controls.MaterialButton.MaterialButtonDensity.Default;
             this.btn_save.Depth = 0;
+            this.btn_save.Enabled = false;
             this.btn_save.HighEmphasis = true;
             this.btn_save.Icon = null;
             this.btn_save.Location = new System.Drawing.Point(1118, 512);
@@ -481,14 +482,9 @@
             this.dgv_Items.RowHeadersBorderStyle = System.Windows.Forms.DataGridViewHeaderBorderStyle.None;
             this.dgv_Items.RowHeadersWidth = 51;
             this.dgv_Items.RowTemplate.Height = 24;
-            this.dgv_Items.Size = new System.Drawing.Size(1360, 197);
+            this.dgv_Items.Size = new System.Drawing.Size(1560, 197);
             this.dgv_Items.TabIndex = 16;
             this.dgv_Items.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgv_Items_CellClick);
-            // 
-            // errorProvider1
-            // 
-            this.errorProvider1.BlinkStyle = System.Windows.Forms.ErrorBlinkStyle.NeverBlink;
-            this.errorProvider1.ContainerControl = this;
             // 
             // product_id
             // 
@@ -589,11 +585,16 @@
             this.col_view_delivered_items.Name = "col_view_delivered_items";
             this.col_view_delivered_items.ReadOnly = true;
             // 
+            // errorProvider1
+            // 
+            this.errorProvider1.BlinkStyle = System.Windows.Forms.ErrorBlinkStyle.NeverBlink;
+            this.errorProvider1.ContainerControl = this;
+            // 
             // DeliveryForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1400, 869);
+            this.ClientSize = new System.Drawing.Size(1600, 869);
             this.Controls.Add(this.dgv_Items);
             this.Controls.Add(this.materialCard1);
             this.MaximizeBox = false;

@@ -16,12 +16,13 @@ namespace Salon
             Application.SetCompatibleTextRenderingDefault(false);
             //Application.Run(new Form1());
 
-            //// Show splash screen
+            // Show splash screen
             //Form1 splash = new Form1();
             //splash.ShowDialog(); // blocks until closed
 
             // Then launch login form as main window
-            Application.Run(new LoginForm());
+            //Application.Run(new LoginForm());
+            Application.Run(new Form1());
 
         }
     }

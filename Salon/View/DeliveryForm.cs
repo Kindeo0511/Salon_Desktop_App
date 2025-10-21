@@ -9,6 +9,7 @@ using System.ComponentModel;
 using System.Data;
 using System.Drawing;
 using System.Linq;
+using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
@@ -34,19 +35,111 @@ namespace Salon.View
             txt_received_by.Text = UserSession.CurrentUser.first_Name.ToString();
         }
 
-
-        private bool Validated()
+        private bool InvoiceExists(string invoice) 
         {
+            var repo = new DeliveryRepository();
+            var controller = new DeliveryController(repo);
 
+            return controller.GetDeliveryExists(invoice);
+        }
+
+        private bool IsValid()
+        {
+          
             bool validated = true;
+            DateTime deliveredDate = dtp_delivery_date.Value;
+            DateTime expirationDate = dtp_expiry.Value;
+   
+
             // REQUIRED FIELD
-            validated &= Validator.IsRequired(cb_product_names, errorProvider1, "Product is required.");
-            validated &= Validator.IsRequired(cb_supplier_name, errorProvider1, "Supplier is required.");
-            validated &= Validator.IsRequired(txt_invoice, errorProvider1, "Invoice is required.");
-            validated &= Validator.IsRequired(txt_qty, errorProvider1, "Qty is required.");
-            validated &= Validator.IsRequired(txt_price, errorProvider1, "Qty is required.");
+
+            // INBOICE 
+            if (!Validator.IsRequiredTextField(txt_invoice, errorProvider1, "Invoice is required."))
+            {
+                validated = false;
+            }
+            else if (!Validator.IsMinimumLength(txt_invoice, errorProvider1, "Invoice must be at least 3 characters.", 3))
+            {
+                validated = false;
+            }
+            else if (!Validator.Pattern(txt_invoice, errorProvider1, @"^[A-Za-z0-9 _.\-&/]{3,50}$", "Invoice can only contain letters, numbers, spaces, dots, underscores, hyphens, ampersands, and slashes."))
+            {
+                validated = false;
+            }
+            else if (InvoiceExists(txt_invoice.Text.Trim()))
+            {
+                errorProvider1.SetError(txt_invoice, "Invoice already exists!");
+                validated = false;
+            }
 
 
+            // QTY 
+            if (!Validator.IntOnly(txt_qty, errorProvider1, "Quantity is required.", "No spaces allowed.", "Quantity must be a whole number.", "Quantity must be greater than zero."))
+            {
+                validated = false;
+            }
+
+            // PRICE
+            if (!Validator.DecimalOnly(txt_price, errorProvider1,
+                "Price is required.",
+                "No spaces allowed.",
+                "Price must be a valid number.",
+                "Price must be at least 1.00."))
+            {
+                validated = false;
+            }
+
+
+            if (!string.IsNullOrWhiteSpace(txt_notes.Text)) 
+            {
+                if (txt_notes.Text.Length < 10)
+                {
+                    errorProvider1.SetError(txt_notes, "Notes must be at least 10 characters..");
+                    validated = false;
+                }
+             
+                else if (!Validator.MultiLinePattern(txt_notes, errorProvider1,
+                    @"^[A-Za-z0-9\s.,!?()\-']+$""",
+                    "Notes can only contain letters, numbers, and common punctuation(. , ! ? ( ) - ')."))
+                {
+                    validated = false;
+                }
+                
+
+
+            }
+         
+
+
+            if (!Validator.IsComboBoxSelected(cb_product_names, errorProvider1, "Product is Required"))
+            {
+                validated = false;
+            }
+
+            if (!Validator.IsComboBoxSelected(cb_supplier_name, errorProvider1, "Supplier is Required"))
+            {
+                validated = false;
+            }
+
+            if (deliveredDate > DateTime.Now)
+            {
+                errorProvider1.SetError(dtp_delivery_date, "Delivered date cannot be in the future.");
+                validated = false;
+            }
+            else
+            {
+                errorProvider1.SetError(dtp_delivery_date, "");
+            }
+
+            if (expirationDate <= deliveredDate)
+            {
+                errorProvider1.SetError(dtp_expiry, "Expiration date must be after the delivered date.");
+                validated = false;
+            }
+            else
+            {
+                errorProvider1.SetError(dtp_expiry, "");
+            }
 
 
 
@@ -55,6 +148,7 @@ namespace Salon.View
 
 
         }
+        
         private void LoadSupplier() 
         {
             var repo = new SupplierRepository();
@@ -144,7 +238,7 @@ namespace Salon.View
         private void btn_add_Click(object sender, EventArgs e)
         {
 
-            if (!Validated()) return;
+            if (!IsValid()) return;
 
                    dgv_Items.Rows.Add(
                    cb_product_names.SelectedValue,
@@ -160,10 +254,22 @@ namespace Salon.View
                    txt_notes.Text.Trim()
 
                 );
+            if (dgv_Items.Rows.Count > 0)
+            {
+                btn_save.Enabled = true;
+            }
+            else
+            {
+                btn_save.Enabled = false;
+            }
+
+
 
             Clear();
 
         }
+
+
 
         private void dgv_Items_CellClick(object sender, DataGridViewCellEventArgs e)
         {
@@ -351,6 +457,9 @@ namespace Salon.View
             };
 
             controller.AddExpenses(model);
+
+    
+                
         }
 
         private void btn_delete_Click(object sender, EventArgs e)
@@ -367,8 +476,18 @@ namespace Salon.View
                 btn_cancel.Visible = false;
                 btn_update.Visible = false;
                 btn_delete.Enabled = false;
+
+                if (dgv_Items.Rows.Count <= 0)
+                {
+                    btn_save.Enabled = false;
+                }
+                else
+                {
+                    btn_save.Enabled = true;
+                }
                 Clear();
             }
+
 
         }
 

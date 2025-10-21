@@ -25,12 +25,15 @@ namespace Salon.View
         private CustomerModel customerModel;
         private List<ServiceItemSelected> serviceSelected;
         private int duration_temp = 0;
+
         public AppointmentForm(MainForm mainForm)
         {
             InitializeComponent();
             ThemeManager.ApplyTheme(this);
             ThemeManager.StyleDataGridView(dgv_table);
             this.mainForm = mainForm;
+            cmb_Date.MinDate = DateTime.Today;
+            cmb_Date.MaxDate = DateTime.Today.AddMonths(3); 
 
 
             for (int hour = 9; hour <= 21; hour++)
@@ -47,7 +50,8 @@ namespace Salon.View
             ThemeManager.StyleDataGridView(dgv_table);
             this.mainForm = mainForm;
             this.model = model;
-
+            cmb_Date.MinDate = DateTime.Today;
+            cmb_Date.MaxDate = DateTime.Today.AddMonths(3);
 
             for (int hour = 9; hour <= 21; hour++)
             {
@@ -483,10 +487,13 @@ namespace Salon.View
                         var service_controller = new AppointmentServiceController(service_repo);
                         service_controller.ClearDeleteAllServicesForAppointment(model.AppointmentId);
                         dgv_table.Rows.RemoveAt(dgv_table.CurrentRow.Index);
+
+                        btn_confirm.Enabled = false;
                     }
                     else 
                     {
                         dgv_table.Rows.RemoveAt(dgv_table.CurrentRow.Index);
+                        btn_confirm.Enabled = false;
                     }
     
                     // Remove from the grid
@@ -550,6 +557,7 @@ namespace Salon.View
         {
 
             bool validated = true;
+            
             // REQUIRED FIELD
             validated &= Validator.IsRequired(txt_FullName, errorProvider1, "Full name is required.");
             validated &= Validator.IsRequired(txt_Contact, errorProvider1, "Contact is required.");
@@ -557,6 +565,23 @@ namespace Salon.View
             validated &= Validator.IsRequired(cb_book_type, errorProvider1, "Booking Type is required.");
             validated &= Validator.IsRequired(cb_Time, errorProvider1, "Time is required.");
             validated &= Validator.IsRequired(cmb_Date, errorProvider1, "Time is required.");
+
+            DateTime selectedDate = cmb_Date.Value;
+
+            // 1. Prevent past dates
+            if (selectedDate < DateTime.Today)
+            {
+                errorProvider1.SetError(cmb_Date, "Appointment date must be today or later.");
+                validated = false;
+            }
+
+            // 2. Prevent booking too far in advance
+            else if (selectedDate > DateTime.Today.AddMonths(3))
+            {
+                errorProvider1.SetError(cmb_Date, "Appointments can only be booked up to 3 months in advance.");
+                validated = false;
+            }
+
 
 
 
@@ -638,17 +663,21 @@ namespace Salon.View
 
         private void AppointmentForm_FormClosing(object sender, FormClosingEventArgs e)
         {
-            if (dgv_table.Rows.Count == 0)
+            if (model != null) 
             {
-                MessageBox.Show(
-                    "You must select at least one service before closing.",
-                    "Missing Services",
-                    MessageBoxButtons.OK,
-                    MessageBoxIcon.Warning
-                );
+                if (dgv_table.Rows.Count == 0)
+                {
+                    MessageBox.Show(
+                        "You must select at least one service before closing.",
+                        "Missing Services",
+                        MessageBoxButtons.OK,
+                        MessageBoxIcon.Warning
+                    );
 
-                e.Cancel = true; // Prevent form from closing
+                    e.Cancel = true; // Prevent form from closing
+                }
             }
+       
 
         }
 

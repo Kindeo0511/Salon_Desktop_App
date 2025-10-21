@@ -24,6 +24,8 @@ namespace Salon.View
             InitializeComponent();
             ThemeManager.ApplyTheme(this);
             this.main = mainForm;
+            dtp_discount_expiry_date.MinDate = DateTime.Today;
+            dtp_discount_expiry_date.MaxDate = DateTime.Today.AddMonths(1);
         }
         public DiscountForm(MainForm mainForm, DiscountModel model)
         {
@@ -31,6 +33,8 @@ namespace Salon.View
             ThemeManager.ApplyTheme(this);
             this.main = mainForm;
             this.discountModel = model;
+            dtp_discount_expiry_date.MinDate = DateTime.Today;
+            dtp_discount_expiry_date.MaxDate = DateTime.Today.AddMonths(1);
 
             if (discountModel != null)
             {
@@ -76,9 +80,10 @@ namespace Salon.View
 
         private void btn_update_discount_Click(object sender, EventArgs e)
         {
-            if (!DiscountValidated()) return;
+            if (!IsValid()) return;
 
             UpdateDiscount();
+            this.Close();
         }
         private void UpdateDiscount()
         {
@@ -255,8 +260,70 @@ namespace Salon.View
             txt_discount.Text = string.Empty;
             btn_add_discount.Visible = true;
             btn_update_discount.Visible = false;
-            btn_cancel_discount.Visible = false;
             cmb_discount_type.Hint = "Select Discount Type";
+        }
+        private bool IsValid()
+        {
+
+            int excludeId = discountModel?.discount_id ?? 0;
+            string code = txt_promo_code.Text.Trim();
+
+
+            bool validated = true;
+        
+
+            if (!Validator.IsComboBoxSelected(cmb_discount_type, errorProvider1, "Discount type is required"))
+            {
+                validated = false;
+            }
+            if (cmb_discount_type.Text == "Promo")
+            {
+                if (!Validator.IsRequired(txt_promo_code, errorProvider1, "Promo code is required."))
+                {
+                    validated = false;
+                }
+                else if (!Validator.IsMinimumLength(txt_promo_code, errorProvider1, "Promo code must be 5 characters", 5))
+                {
+                    validated = false;
+                }
+
+            }
+
+            if (!Validator.IntOnly(txt_discount, errorProvider1, "Unit Volume is Required", "Spaces are not allowed", "Unit volume must be a whole number.", "Value must be greater than zero."))
+            {
+                validated = false;
+            }
+            else if (decimal.TryParse(txt_discount.Text.Trim(), out decimal rate))
+            {
+                validated &= Validator.IsDiscountExists(
+                    cmb_discount_type,
+                    errorProvider1,
+                    "Discount already exists.",
+                    cmb_discount_type.Text.Trim(),
+                    code,
+                    rate,
+                    excludeId
+                );
+            }
+            int customerLimit;
+            if (cmb_discount_type.Text == "Promo")
+            {
+                if (int.TryParse(txt_customer_limit.Text, out customerLimit) && customerLimit == 0)
+                {
+                    errorProvider1.SetError(txt_customer_limit, "Customer limit cannot be 0.");
+                }
+                else
+                {
+                    errorProvider1.SetError(txt_customer_limit, ""); 
+                }
+            }
+
+
+
+            return validated;
+
+
+
         }
         private bool DiscountValidated()
         {
@@ -299,9 +366,10 @@ namespace Salon.View
         }
         private void btn_add_discount_Click(object sender, EventArgs e)
         {
-            if (!DiscountValidated()) return;
+            if (!IsValid()) return;
             AddDiscount();
             clear_discount_fields();
+            this.Close();
         }
 
         private void cmb_discount_type_SelectedIndexChanged(object sender, EventArgs e)

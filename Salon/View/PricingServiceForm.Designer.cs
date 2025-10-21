@@ -158,7 +158,7 @@
             this.txt_final_price.Hint = "Selling Price";
             this.txt_final_price.LeadingIcon = null;
             this.txt_final_price.Location = new System.Drawing.Point(491, 346);
-            this.txt_final_price.MaxLength = 50;
+            this.txt_final_price.MaxLength = 10;
             this.txt_final_price.MouseState = MaterialSkin.MouseState.OUT;
             this.txt_final_price.Multiline = false;
             this.txt_final_price.Name = "txt_final_price";

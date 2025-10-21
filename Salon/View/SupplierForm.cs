@@ -42,42 +42,79 @@ namespace Salon.View
             }
           
         }
-        private bool Validated()
+
+        private bool IsValid()
         {
-
-            bool validated = true;
-            // REQUIRED FIELD
-            validated &= Validator.IsRequired(txt_supplier_name, errorProvider1, "Supplier name is required.");
-            validated &= Validator.IsRequired(txt_address, errorProvider1, "Addresss is required.");
-            validated &= Validator.IsRequired(txt_email, errorProvider1, "Email is required.");
-            validated &= Validator.IsRequired(txt_contact, errorProvider1, "Contact number is required.");
-            ;
-
-
-            // VALID EMAIL
-            bool emailValid = Validator.IsValidEmail(txt_email, errorProvider1);
-            validated &= emailValid;
-
-            // VALID PHONE
-            bool phoneValid = Validator.IsValidPhone(txt_contact, errorProvider1);
-            validated &= phoneValid;
-
-
-
-
-            // EXISTS VALIDATION
+           
             int excludeId = supplierModel?.supplier_id ?? 0;
 
-            validated &= Validator.IsSupplierEExists(txt_supplier_name, errorProvider1, "Supplier already exists.", excludeId);
+            bool validated = true;
 
-            if (emailValid)
-                validated &= Validator.IsSupplierEmailExists(txt_email, errorProvider1, "Email already exists.", excludeId);
+            // REQUIRED AND MIN LENGTH FIELD
+            if (!Validator.IsRequiredTextField(txt_supplier_name, errorProvider1, "First name is required."))
+            {
+                validated = false;
+            }
+            else if (!Validator.IsMinimumLength(txt_supplier_name, errorProvider1, "First name must be at least 3 characters.", 3))
+            {
+                validated = false;
+            }
+            else if (!Validator.IsSupplierEExists(txt_supplier_name, errorProvider1, "Supplier already exits.", excludeId))
+            {
+                validated = false;
+            }
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 
 
-            if (phoneValid)
-                validated &= Validator.IsSupplierPhoneExists(txt_contact, errorProvider1, "Contact number already exists.", excludeId);
 
+            if (!Validator.IsRequired(txt_email, errorProvider1, "Email is required."))
+            {
+                validated = false;
+            }
+            else if (!Validator.IsValidEmail(txt_email, errorProvider1))
+            {
+                validated = false;
+            }
+            else if (!Validator.IsStylistEmailExists(txt_email, errorProvider1, "Email already exists.", excludeId))
+            {
+                validated = false;
+            }
+
+
+
+            if (!Validator.IsRequiredTextField(txt_contact, errorProvider1, "Contact number is required."))
+            {
+                validated = false;
+            }
+            else if (!Validator.IsMinimumLength(txt_contact, errorProvider1, "Contact number must be at least 11 characters.", 11))
+            {
+                validated = false;
+            }
+            else if (!Validator.IsValidPhone(txt_contact, errorProvider1))
+            {
+                validated = false;
+            }
+            else if (!Validator.IsStylistPhoneExists(txt_contact, errorProvider1, "Contact number already exists.", excludeId))
+            {
+                validated = false;
+            }
+
+
+            if (!Validator.IsAddressRequiredField(txt_address, errorProvider1, "Address is required."))
+            {
+                validated = false;
+            }
+            else if (!Validator.IsMinimumLength(txt_address, errorProvider1, "Address must be at least 10 characters.", 10))
+            {
+                validated = false;
+            }
+
+
+           
+
+          
 
             return validated;
+
 
 
         }
@@ -120,13 +157,13 @@ namespace Salon.View
 
         private void btn_save_Click(object sender, EventArgs e)
         {
-            if (!Validated()) return;
+            if (!IsValid()) return;
             AddSupplier();
         }
 
         private void btn_update_Click(object sender, EventArgs e)
         {
-            if (!Validated()) return;
+            if (!IsValid()) return;
             UpdateSupplier();
         }
 

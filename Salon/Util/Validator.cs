@@ -1,4 +1,5 @@
-﻿using Salon.Controller;
+﻿using MaterialSkin.Controls;
+using Salon.Controller;
 using Salon.Repository;
 using System;
 using System.Collections.Generic;
@@ -12,6 +13,32 @@ namespace Salon.Util
 {
     public static class Validator
     {
+        public static bool Pattern(MaterialTextBox tb, ErrorProvider ep, string pattern, string message)
+        {
+            string input = tb.Text.Trim();
+
+            if (!Regex.IsMatch(input, pattern))
+            {
+                ep.SetError(tb, message);
+                return false;
+            }
+
+            ep.SetError(tb, "");
+            return true;
+        }
+        public static bool MultiLinePattern(MaterialMultiLineTextBox2 tb, ErrorProvider ep, string pattern, string message)
+        {
+            string input = tb.Text.Trim();
+
+            if (!Regex.IsMatch(input, pattern))
+            {
+                ep.SetError(tb, message);
+                return false;
+            }
+
+            ep.SetError(tb, "");
+            return true;
+        }
         public static bool IsMaximumLength(Control control, ErrorProvider ep, string message)
         {
             if (control is TextBox tb)
@@ -25,15 +52,176 @@ namespace Salon.Util
                 return true;
             }
 
-           
+
+
             ep.SetError(control, "");
             return true;
         }
+        public static bool DisallowSpaces(MaterialTextBox tb, ErrorProvider ep, string message)
+        {
+            string rawText = tb.Text;
+
+            if (rawText.Contains(" "))
+            {
+                ep.SetError(tb, message);
+                return false;
+            }
+
+            tb.Text = rawText.Trim(); // Optional: clean up after validation
+            ep.SetError(tb, "");
+            return true;
+        }
+
+        public static bool IntOnly(MaterialTextBox tb, ErrorProvider ep, string requiredMessage, string spaceMessage, string invalidMessage, string invalidValue)
+        {
+            string rawText = tb.Text?.Trim();
+
+            if (string.IsNullOrWhiteSpace(rawText))
+            {
+                ep.SetError(tb, requiredMessage);
+                return false;
+            }
+
+            if (rawText.Contains(" "))
+            {
+                ep.SetError(tb, spaceMessage);
+                return false;
+            }
+
+            if (!int.TryParse(rawText, out _))
+            {
+                ep.SetError(tb, invalidMessage);
+                return false;
+            }
+            if (int.TryParse(rawText, out int value))
+            {
+                if (value <= 0)
+                {
+                    ep.SetError(tb, invalidValue);
+                    return false;
+                }
+            }
+
+            ep.SetError(tb, "");
+            return true;
+        }
+
+        public static bool DecimalOnly(MaterialTextBox tb, ErrorProvider ep, string requiredMessage, string spaceMessage, string invalidMessage, string invalidValue)
+        {
+            string rawText = tb.Text?.Trim();
+
+            if (string.IsNullOrWhiteSpace(rawText))
+            {
+                ep.SetError(tb, requiredMessage);
+                return false;
+            }
+
+            if (rawText.Contains(" "))
+            {
+                ep.SetError(tb, spaceMessage);
+                return false;
+            }
+
+            if (!decimal.TryParse(rawText, out decimal value))
+            {
+                ep.SetError(tb, invalidMessage);
+                return false;
+            }
+
+            // Check for more than 2 decimal places
+            if (decimal.Round(value, 2) != value)
+            {
+                ep.SetError(tb, "Price must have no more than 2 decimal places.");
+                return false;
+            }
+
+            if (value < 1.00m)
+            {
+                ep.SetError(tb, invalidValue);
+                return false;
+            }
+
+            ep.SetError(tb, "");
+            return true;
+        }
+
+
+
+        public static bool IsMinimumLength(Control control, ErrorProvider ep, string message, int size)
+        {
+            if (control is MaterialTextBox tb)
+            {
+                if (tb.TextLength < size)
+                {
+                    ep.SetError(tb, message);
+                    return false;
+                }
+                ep.SetError(control, "");
+                return true;
+            }
+
+
+            if (control is MaterialMultiLineTextBox2 mtb)
+            {
+                if (mtb.TextLength > 255)
+                {
+                    ep.SetError(mtb, message);
+                    return false;
+                }
+                ep.SetError(control, "");
+                return true;
+            }
+
+
+            ep.SetError(control, "");
+            return true;
+        }
+        public static bool IsRequiredTextField(MaterialTextBox tb, ErrorProvider ep, string message)
+        {
+            string input = tb.Text?.Trim();
+
+            if (string.IsNullOrWhiteSpace(input))
+            {
+                ep.SetError(tb, message);
+                return false;
+            }
+
+            ep.SetError(tb, "");
+            return true;
+        }
+        public static bool IsComboBoxSelected(MaterialComboBox cmb, ErrorProvider ep, string message)
+        {
+            if (cmb.SelectedIndex < 0)
+            {
+                ep.SetError(cmb, message);
+                return false;
+            }
+
+            ep.SetError(cmb, "");
+            return true;
+        }
+
+        public static bool IsAddressRequiredField(MaterialMultiLineTextBox2 tb, ErrorProvider ep, string message)
+        {
+            string input = tb.Text?.Trim();
+
+            if (string.IsNullOrWhiteSpace(input))
+            {
+                ep.SetError(tb, message);
+                return false;
+            }
+
+            ep.SetError(tb, "");
+            return true;
+        }
+
+
+
         public static bool IsRequired(Control control, ErrorProvider ep, string message) 
         {
             if (control is NumericUpDown nud)
             {
-                if (nud.Value == 0) // or use a threshold like nud.Value <= 0
+                if (nud.Value == 0) 
                 {
                     ep.SetError(control, message);
                     return false;
