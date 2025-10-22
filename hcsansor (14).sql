@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Oct 21, 2025 at 04:47 PM
+-- Generation Time: Oct 22, 2025 at 11:46 AM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.0.30
 
@@ -46,9 +46,9 @@ CREATE TABLE `tbl_appointment` (
 --
 
 INSERT INTO `tbl_appointment` (`appointment_id`, `customer_id`, `stylist_id`, `Date`, `Time`, `start_time`, `end_time`, `Status`, `payment_status`, `booking_type`, `cancel_Request`) VALUES
-(834, 48, NULL, '2025-10-21 00:00:00', '', '09:00:00', '09:30:00', 'Refunded', 'Paid', 'Online', 'None'),
-(835, 48, NULL, '2025-10-21 00:00:00', '', '10:00:00', '10:30:00', 'Completed', 'Paid', 'Walk-In', 'None'),
-(836, 48, NULL, '2025-10-24 00:00:00', '', '09:00:00', '09:30:00', 'Completed', 'Unpaid', 'Walk-In', 'None');
+(834, 48, 20, '2025-10-21 00:00:00', '', '09:00:00', '09:30:00', 'Refunded', 'Paid', 'Online', 'None'),
+(835, 48, NULL, '2025-10-21 00:00:00', '', '10:00:00', '10:30:00', 'Refunded', 'Paid', 'Walk-In', 'None'),
+(836, 48, NULL, '2025-10-24 00:00:00', '', '09:00:00', '09:25:00', 'Completed', 'Paid', 'Walk-In', 'None');
 
 -- --------------------------------------------------------
 
@@ -100,7 +100,7 @@ CREATE TABLE `tbl_appointment_services` (
 INSERT INTO `tbl_appointment_services` (`appointment_service_id`, `appointment_id`, `serviceName_id`) VALUES
 (878, 834, 96),
 (879, 835, 96),
-(880, 836, 96);
+(881, 836, 96);
 
 -- --------------------------------------------------------
 
@@ -1569,7 +1569,132 @@ INSERT INTO `tbl_audit_trail` (`id`, `user`, `action`, `module`, `note`, `timest
 (1449, 'Kindeo', 'Generate Invoice', 'Appointment', 'Generated Invoice for client \'\' on 2025-10-21 at 22:44:09', '2025-10-21 22:44:09'),
 (1450, 'Kindeo', 'Log In', 'User', 'Log In \'Kindeo\'on 2025-10-21 at 22:44:53', '2025-10-21 22:44:53'),
 (1451, 'Kindeo', 'View', 'Transaction History', 'Viewed Transaction History on 2025-10-21 at 22:44:56', '2025-10-21 22:44:56'),
-(1452, 'Kindeo', 'View', 'Inventory', 'Viewed inventory on 2025-10-21 at 22:44:57', '2025-10-21 22:44:57');
+(1452, 'Kindeo', 'View', 'Inventory', 'Viewed inventory on 2025-10-21 at 22:44:57', '2025-10-21 22:44:57'),
+(1453, 'Kindeo', 'Log In', 'User', 'Log In \'Kindeo\'on 2025-10-21 at 22:54:25', '2025-10-21 22:54:25'),
+(1454, 'Kindeo', 'View', 'Transaction History', 'Viewed Transaction History on 2025-10-21 at 22:54:32', '2025-10-21 22:54:32'),
+(1455, 'Kindeo', 'View', 'Transaction History', 'Viewed Transaction History on 2025-10-21 at 22:54:39', '2025-10-21 22:54:39'),
+(1456, 'Kindeo', 'Log In', 'User', 'Log In \'Kindeo\'on 2025-10-21 at 23:16:49', '2025-10-21 23:16:49'),
+(1457, 'Kindeo', 'View', 'Transaction History', 'Viewed Transaction History on 2025-10-21 at 23:16:54', '2025-10-21 23:16:54'),
+(1458, 'Kindeo', 'Log In', 'User', 'Log In \'Kindeo\'on 2025-10-21 at 23:18:14', '2025-10-21 23:18:14'),
+(1459, 'Kindeo', 'Log In', 'User', 'Log In \'Kindeo\'on 2025-10-21 at 23:21:25', '2025-10-21 23:21:25'),
+(1460, 'Kindeo', 'Update', 'Vat/Discount', 'Updated discount \'Promo\' with rate (10%) on 2025-10-21 at 23:21:41', '2025-10-21 23:21:41'),
+(1461, 'Kindeo', 'Log In', 'User', 'Log In \'Kindeo\'on 2025-10-21 at 23:45:44', '2025-10-21 23:45:44'),
+(1462, 'Kindeo', 'View', 'Sales Report', 'Sales Report on 2025-10-21 at 23:46:06', '2025-10-21 23:46:06'),
+(1463, 'Kindeo', 'View', 'Transaction History', 'Viewed Transaction History on 2025-10-21 at 23:46:06', '2025-10-21 23:46:06'),
+(1464, 'Kindeo', 'Log In', 'User', 'Log In \'Kindeo\'on 2025-10-21 at 23:48:51', '2025-10-21 23:48:51'),
+(1465, 'Kindeo', 'Log In', 'User', 'Log In \'Kindeo\'on 2025-10-21 at 23:57:15', '2025-10-21 23:57:15'),
+(1466, 'Kindeo', 'View', 'Transaction History', 'Viewed Transaction History on 2025-10-21 at 23:57:18', '2025-10-21 23:57:18'),
+(1467, 'Kindeo', 'Log In', 'User', 'Log In \'Kindeo\'on 2025-10-21 at 23:59:53', '2025-10-21 23:59:53'),
+(1468, 'Kindeo', 'Log In', 'User', 'Log In \'Kindeo\'on 2025-10-22 at 00:01:14', '2025-10-22 00:01:14'),
+(1469, 'Kindeo', 'Log In', 'User', 'Log In \'Kindeo\'on 2025-10-22 at 00:37:07', '2025-10-22 00:37:07'),
+(1470, 'Kindeo', 'Create', 'Manage Services, Product Usage', 'Created product usage \'Hair Color\' for (Hair Color) on 2025-10-22 at 00:37:48', '2025-10-22 00:37:48'),
+(1471, 'Kindeo', 'Log In', 'User', 'Log In \'Kindeo\'on 2025-10-22 at 00:38:14', '2025-10-22 00:38:14'),
+(1472, 'Kindeo', 'Log In', 'User', 'Log In \'Kindeo\'on 2025-10-22 at 00:43:18', '2025-10-22 00:43:18'),
+(1473, 'Kindeo', 'Create', 'Manage Services, Product Usage', 'Created product usage \'Hair Color\' for (Hair Color) on 2025-10-22 at 00:43:31', '2025-10-22 00:43:31'),
+(1474, 'Kindeo', 'Create', 'Manage Services, Product Usage', 'Created product usage \'Hair Color\' for (Hair Color) on 2025-10-22 at 00:43:36', '2025-10-22 00:43:36'),
+(1475, 'Kindeo', 'View', 'Inventory', 'Viewed inventory on 2025-10-22 at 00:46:59', '2025-10-22 00:46:59'),
+(1476, 'Kindeo', 'View', 'Sales Report', 'Sales Report on 2025-10-22 at 00:47:01', '2025-10-22 00:47:01'),
+(1477, 'Kindeo', 'View', 'Inventory', 'Viewed inventory on 2025-10-22 at 00:47:36', '2025-10-22 00:47:36'),
+(1478, 'Kindeo', 'View', 'Inventory', 'Viewed inventory on 2025-10-22 at 00:47:51', '2025-10-22 00:47:51'),
+(1479, 'Kindeo', 'View', 'Sales Report', 'Sales Report on 2025-10-22 at 00:47:53', '2025-10-22 00:47:53'),
+(1480, 'Kindeo', 'View', 'Transaction History', 'Viewed Transaction History on 2025-10-22 at 00:47:54', '2025-10-22 00:47:54'),
+(1481, 'Kindeo', 'View', 'Transaction History', 'Viewed Transaction History on 2025-10-22 at 00:48:35', '2025-10-22 00:48:35'),
+(1482, 'Kindeo', 'Log In', 'User', 'Log In \'Kindeo\'on 2025-10-22 at 01:48:31', '2025-10-22 01:48:31'),
+(1483, 'Kindeo', 'Log Out', 'User', 'Log Out \'Kindeo\'on 2025-10-22 at 01:48:36', '2025-10-22 01:48:36'),
+(1484, 'Kindeo', 'Create', 'Vat/Discount', 'Created Vat with rate \'12\' on 2025-10-22 at 01:57:36', '2025-10-22 01:57:36'),
+(1485, 'kindeo', 'Create', 'Vat/Discount', 'Created Vat with rate \'12\' on 2025-10-22 at 02:00:20', '2025-10-22 02:00:20'),
+(1486, 'kindeo', 'Create', 'Vat/Discount', 'Created Vat with rate \'12\' on 2025-10-22 at 02:02:19', '2025-10-22 02:02:19'),
+(1487, 'kindeo', 'Create', 'Vat/Discount', 'Created Vat with rate \'12\' on 2025-10-22 at 02:06:08', '2025-10-22 02:06:08'),
+(1488, 'kindeo', 'Create', 'Vat/Discount', 'Created Vat with rate \'12\' on 2025-10-22 at 02:30:47', '2025-10-22 02:30:47'),
+(1489, 'kindeo', 'Create', 'Vat/Discount', 'Created Vat with rate \'12\' on 2025-10-22 at 02:33:06', '2025-10-22 02:33:06'),
+(1490, 'kindeo', 'Log In', 'User', 'Log In \'kindeo\'on 2025-10-22 at 02:33:10', '2025-10-22 02:33:10'),
+(1491, 'kindeo', 'Log In', 'User', 'Log In \'kindeo\'on 2025-10-22 at 02:34:57', '2025-10-22 02:34:57'),
+(1492, 'kindeo', 'Log In', 'User', 'Log In \'kindeo\'on 2025-10-22 at 12:26:29', '2025-10-22 12:26:29'),
+(1493, 'kindeo', 'Log In', 'User', 'Log In \'kindeo\'on 2025-10-22 at 12:27:18', '2025-10-22 12:27:18'),
+(1494, 'kindeo', 'View', 'Transaction History', 'Viewed Transaction History on 2025-10-28 at 12:28:00', '2025-10-28 12:28:00'),
+(1495, 'kindeo', 'Create', 'Vat/Discount', 'Created Vat with rate \'12\' on 2025-10-22 at 12:56:00', '2025-10-22 12:56:00'),
+(1496, 'kindeo', 'Log In', 'User', 'Log In \'kindeo\'on 2025-10-22 at 12:56:09', '2025-10-22 12:56:09'),
+(1497, 'kindeo', 'Log Out', 'User', 'Log Out \'kindeo\'on 2025-10-22 at 12:56:14', '2025-10-22 12:56:14'),
+(1498, 'kindeo', 'Log In', 'User', 'Log In \'kindeo\'on 2025-10-22 at 14:14:36', '2025-10-22 14:14:36'),
+(1499, 'kindeo', 'View', 'Inventory', 'Viewed inventory on 2025-10-22 at 14:14:50', '2025-10-22 14:14:50'),
+(1500, 'kindeo', 'View', 'Batch Inventory', 'Viewed batch inventory on 2025-10-22 at 14:14:56', '2025-10-22 14:14:56'),
+(1501, 'kindeo', 'View', 'Batch Inventory', 'Viewed batch inventory on 2025-10-22 at 14:15:10', '2025-10-22 14:15:10'),
+(1502, 'kindeo', 'Log In', 'User', 'Log In \'kindeo\'on 2025-10-22 at 14:16:15', '2025-10-22 14:16:15'),
+(1503, 'kindeo', 'View', 'Inventory', 'Viewed inventory on 2025-10-22 at 14:16:18', '2025-10-22 14:16:18'),
+(1504, 'kindeo', 'View', 'Batch Inventory', 'Viewed batch inventory on 2025-10-22 at 14:16:25', '2025-10-22 14:16:25'),
+(1505, 'kindeo', 'Log In', 'User', 'Log In \'kindeo\'on 2025-10-22 at 14:19:59', '2025-10-22 14:19:59'),
+(1506, 'kindeo', 'View', 'Inventory', 'Viewed inventory on 2025-10-22 at 14:20:02', '2025-10-22 14:20:02'),
+(1507, 'kindeo', 'Log In', 'User', 'Log In \'kindeo\'on 2025-10-22 at 14:21:18', '2025-10-22 14:21:18'),
+(1508, 'kindeo', 'View', 'Inventory', 'Viewed inventory on 2025-10-22 at 14:21:21', '2025-10-22 14:21:21'),
+(1509, 'kindeo', 'Log In', 'User', 'Log In \'kindeo\'on 2025-10-22 at 14:22:31', '2025-10-22 14:22:31'),
+(1510, 'kindeo', 'View', 'Inventory', 'Viewed inventory on 2025-10-22 at 14:22:35', '2025-10-22 14:22:35'),
+(1511, 'kindeo', 'Log In', 'User', 'Log In \'kindeo\'on 2025-11-22 at 14:23:03', '2025-11-22 14:23:03'),
+(1512, 'kindeo', 'View', 'Inventory', 'Viewed inventory on 2025-11-22 at 14:23:07', '2025-11-22 14:23:07'),
+(1513, 'kindeo', 'View', 'Batch Inventory', 'Viewed batch inventory on 2025-11-22 at 14:23:28', '2025-11-22 14:23:28'),
+(1514, 'kindeo', 'View', 'Batch Inventory', 'Viewed batch inventory on 2025-11-22 at 14:23:41', '2025-11-22 14:23:41'),
+(1515, 'kindeo', 'View', 'Inventory', 'Viewed inventory on 2025-11-22 at 14:24:00', '2025-11-22 14:24:00'),
+(1516, 'kindeo', 'Log In', 'User', 'Log In \'kindeo\'on 2025-10-22 at 15:25:32', '2025-10-22 15:25:32'),
+(1517, 'kindeo', 'Log Out', 'User', 'Log Out \'kindeo\'on 2025-10-22 at 15:26:18', '2025-10-22 15:26:18'),
+(1518, 'kindeo', 'Create', 'Vat/Discount', 'Created Vat with rate \'12\' on 2025-10-22 at 15:31:56', '2025-10-22 15:31:56'),
+(1519, 'kindeo', 'Log In', 'User', 'Log In \'kindeo\'on 2025-10-22 at 15:34:03', '2025-10-22 15:34:03'),
+(1520, 'kindeo', 'Assign', 'Appointment', 'Assigned stylist \'Stylist not assigned yet\' to client \'\' on 2025-10-22 at 15:35:06', '2025-10-22 15:35:06'),
+(1521, 'kindeo', 'View', 'Transaction History', 'Viewed Transaction History on 2025-10-22 at 15:38:23', '2025-10-22 15:38:23'),
+(1522, 'kindeo', 'View', 'Transaction History', 'Viewed Transaction History on 2025-10-22 at 15:40:45', '2025-10-22 15:40:45'),
+(1523, 'kindeo', 'View', 'Transaction History', 'Viewed Transaction History on 2025-10-22 at 15:41:00', '2025-10-22 15:41:00'),
+(1524, 'kindeo', 'View', 'Transaction History', 'Viewed Transaction History on 2025-10-22 at 15:45:24', '2025-10-22 15:45:24'),
+(1525, 'kindeo', 'View', 'Sales Report', 'Sales Report on 2025-10-22 at 15:46:36', '2025-10-22 15:46:36'),
+(1526, 'kindeo', 'View', 'Transaction History', 'Viewed Transaction History on 2025-10-22 at 15:46:38', '2025-10-22 15:46:38'),
+(1527, 'kindeo', 'View', 'Transaction History', 'Viewed Transaction History on 2025-10-22 at 15:48:17', '2025-10-22 15:48:17'),
+(1528, 'kindeo', 'View', 'Transaction History', 'Viewed Transaction History on 2025-10-22 at 15:48:40', '2025-10-22 15:48:40'),
+(1529, 'kindeo', 'View', 'Transaction History', 'Viewed Transaction History on 2025-10-22 at 15:48:50', '2025-10-22 15:48:50'),
+(1530, 'kindeo', 'Deactivate', 'Manage User', 'Deactivated user Nissan  Malik on 2025-10-22 at 15:51:10', '2025-10-22 15:51:10'),
+(1531, 'kindeo', 'Create', 'Manage Stylist', 'Created stylist kindeo neidko on 2025-10-22 at 15:56:16', '2025-10-22 15:56:16'),
+(1532, 'kindeo', 'Update', 'Manage Stylist', 'Updated stylist kindeo neidko on 2025-10-22 at 15:56:28', '2025-10-22 15:56:28'),
+(1533, 'kindeo', 'Delete', 'Manage Stylist', 'Deleted stylist kindeo neidko on 2025-10-22 at 15:56:37', '2025-10-22 15:56:37'),
+(1534, 'kindeo', 'Create', 'Manage Products', 'Created product \'straightener\' on 2025-10-22 at 16:10:23', '2025-10-22 16:10:23'),
+(1535, 'kindeo', 'View', 'Manage Delivery', 'Viewed delivery on 2025-10-22 at 16:16:55', '2025-10-22 16:16:55'),
+(1536, 'kindeo', 'View', 'Manage Delivery', 'Viewed delivery on 2025-10-22 at 16:17:12', '2025-10-22 16:17:12'),
+(1537, 'kindeo', 'View', 'Manage Delivery', 'Viewed delivery on 2025-10-22 at 16:17:15', '2025-10-22 16:17:15'),
+(1538, 'kindeo', 'Delete', 'Service Price', 'Deleted service \'\' with a price of ₱100 on 2025-10-22 at 16:18:13', '2025-10-22 16:18:13'),
+(1539, 'kindeo', 'Log In', 'User', 'Log In \'kindeo\'on 2025-10-22 at 16:18:36', '2025-10-22 16:18:36'),
+(1540, 'kindeo', 'Create', 'Service Price', 'Created service \'Hair Color\' with a price of ₱200 on 2025-10-22 at 16:19:10', '2025-10-22 16:19:10'),
+(1541, 'kindeo', 'Delete', 'Service Price', 'Deleted service \'Hair Color\' with a price of ₱200 on 2025-10-22 at 16:20:30', '2025-10-22 16:20:30'),
+(1542, 'kindeo', 'Update', 'Manage Services', 'Updated service \'Hair Color\' on 2025-10-22 at 16:24:42', '2025-10-22 16:24:42'),
+(1543, 'kindeo', 'View', 'Inventory', 'Viewed inventory on 2025-10-22 at 16:29:43', '2025-10-22 16:29:43'),
+(1544, 'kindeo', 'View', 'Batch Inventory', 'Viewed batch inventory on 2025-10-22 at 16:30:38', '2025-10-22 16:30:38'),
+(1545, 'kindeo', 'View', 'Batch Inventory', 'Viewed batch inventory on 2025-10-22 at 16:30:45', '2025-10-22 16:30:45'),
+(1546, 'kindeo', 'View', 'Inventory', 'Viewed inventory on 2025-10-22 at 16:32:59', '2025-10-22 16:32:59'),
+(1547, 'kindeo', 'View', 'Batch Inventory', 'Viewed batch inventory on 2025-10-22 at 16:33:02', '2025-10-22 16:33:02'),
+(1548, 'kindeo', 'View', 'Batch Inventory', 'Viewed batch inventory on 2025-10-22 at 16:33:16', '2025-10-22 16:33:16'),
+(1549, 'kindeo', 'Update', 'Appointment', 'Updated appointment for \'Mariano B Vincent\' on 2025-10-22 at 16:38:32', '2025-10-22 16:38:32'),
+(1550, 'kindeo', 'View', 'Sales Report', 'Sales Report on 2025-10-22 at 16:38:41', '2025-10-22 16:38:41'),
+(1551, 'kindeo', 'View', 'AuditReport', 'Viewed Aduit Report on 2025-10-22 at 16:38:51', '2025-10-22 16:38:51'),
+(1552, 'kindeo', 'View', 'Sales Report', 'Viewed Sales Report on 2025-10-22 at 16:38:53', '2025-10-22 16:38:53'),
+(1553, 'kindeo', 'Export PDF', 'User', 'Exported Sales Report to PDF at 2025-10-22 16:39:07', '2025-10-22 16:39:07'),
+(1554, 'kindeo', 'View', 'Inventory Report', 'Viewed Inventory Report on 2025-10-22 at 16:40:20', '2025-10-22 16:40:20'),
+(1555, 'kindeo', 'View', 'Sales Report', 'Viewed Sales Report on 2025-10-22 at 16:40:23', '2025-10-22 16:40:23'),
+(1556, 'kindeo', 'View', 'AuditReport', 'Viewed Aduit Report on 2025-10-22 at 16:40:30', '2025-10-22 16:40:30'),
+(1557, 'kindeo', 'View', 'Sales Report', 'Viewed Sales Report on 2025-10-22 at 16:40:40', '2025-10-22 16:40:40'),
+(1558, 'kindeo', 'View', 'Inventory Report', 'Viewed Inventory Report on 2025-10-22 at 16:40:53', '2025-10-22 16:40:53'),
+(1559, 'kindeo', 'View', 'Expense Report', 'Viewed Expense Report on 2025-10-22 at 16:40:53', '2025-10-22 16:40:53'),
+(1560, 'kindeo', 'View', 'Profit/Lost Report', 'Viewed Proft/Lost Report on 2025-10-22 at 16:40:55', '2025-10-22 16:40:55'),
+(1561, 'kindeo', 'View', 'Customer Report', 'Viewed Customer Report on 2025-10-22 at 16:40:57', '2025-10-22 16:40:57'),
+(1562, 'kindeo', 'View', 'Technician Report', 'Viewed Technician Report on 2025-10-22 at 16:40:58', '2025-10-22 16:40:58'),
+(1563, 'kindeo', 'View', 'Delivery Report', 'Viewed Delivery Report on 2025-10-22 at 16:40:59', '2025-10-22 16:40:59'),
+(1564, 'kindeo', 'View', 'AuditReport', 'Viewed Aduit Report on 2025-10-22 at 16:41:00', '2025-10-22 16:41:00'),
+(1565, 'kindeo', 'View', 'Transaction History', 'Viewed Transaction History on 2025-10-22 at 16:41:19', '2025-10-22 16:41:19'),
+(1566, 'kindeo', 'Refund', 'Transaction History', 'Refunded services on 2025-10-22 at 16:42:40', '2025-10-22 16:42:40'),
+(1567, 'kindeo', 'View', 'Transaction History', 'Viewed Transaction History on 2025-10-22 at 16:43:10', '2025-10-22 16:43:10'),
+(1568, 'kindeo', 'Refund', 'Transaction History', 'Refunded services on 2025-10-22 at 16:44:03', '2025-10-22 16:44:03'),
+(1569, 'kindeo', 'Create', 'Vat/Discount', 'Created discount \'Promo\' with rate (20%) on 2025-10-22 at 16:48:21', '2025-10-22 16:48:21'),
+(1570, 'kindeo', 'Delete', 'Manage Stylist', 'Deleted stylist kindeo neidko on 2025-10-22 at 16:50:02', '2025-10-22 16:50:02'),
+(1571, 'kindeo', 'Log Out', 'User', 'Log Out \'kindeo\'on 2025-10-22 at 16:51:00', '2025-10-22 16:51:00'),
+(1572, 'kindeo', 'Log In', 'User', 'Log In \'kindeo\'on 2025-10-22 at 16:51:38', '2025-10-22 16:51:38'),
+(1573, 'kindeo', 'Process Payment', 'Appointment', 'Processed payment for client \'\' on 2025-10-22 at 16:53:09', '2025-10-22 16:53:09'),
+(1574, 'kindeo', 'Generate Invoice', 'Appointment', 'Generated Invoice for client \'\' on 2025-10-22 at 16:53:20', '2025-10-22 16:53:20'),
+(1575, 'kindeo', 'Generate Invoice', 'Appointment', 'Generated Invoice for client \'\' on 2025-10-22 at 16:53:38', '2025-10-22 16:53:38'),
+(1576, 'kindeo', 'Generate Invoice', 'Appointment', 'Generated Invoice for client \'\' on 2025-10-22 at 16:53:56', '2025-10-22 16:53:56'),
+(1577, 'kindeo', 'Log In', 'User', 'Log In \'kindeo\'on 2025-10-22 at 17:39:10', '2025-10-22 17:39:10');
 
 -- --------------------------------------------------------
 
@@ -1642,7 +1767,7 @@ CREATE TABLE `tbl_customer_account` (
 --
 
 INSERT INTO `tbl_customer_account` (`customer_id`, `firstName`, `middleName`, `lastName`, `phoneNumber`, `email`, `gender`, `streetAddress`, `cityAddress`, `userName`, `password`, `status`, `reset_token`, `token_expiry`, `is_deleted`) VALUES
-(48, 'Mariano', 'B', 'Vincent', '09472632013', 'alexprada782@gmail.com', 'Male', '', '', '', '', NULL, NULL, NULL, 0);
+(48, 'Mariano', 'B', 'Vincent', '09494475270', 'alexprada782@gmail.com', 'Male', '', '', '', '', NULL, NULL, NULL, 0);
 
 -- --------------------------------------------------------
 
@@ -1693,6 +1818,13 @@ CREATE TABLE `tbl_deleted_records` (
   `deleted_by` varchar(255) NOT NULL,
   `deleted_on` datetime NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `tbl_deleted_records`
+--
+
+INSERT INTO `tbl_deleted_records` (`deleted_id`, `record_id`, `module`, `name`, `deleted_by`, `deleted_on`) VALUES
+(39, 262, 'Manage User', 'Nissan ', 'kindeo', '2025-10-22 00:00:00');
 
 -- --------------------------------------------------------
 
@@ -1769,7 +1901,8 @@ INSERT INTO `tbl_discount` (`discount_id`, `discount_type`, `promo_code`, `disco
 (28, 'Senior/PWD', '', 20.00, NULL, 'Active', 0, 0, 1, 0, 0),
 (29, 'Promo', 'summer10', 10.00, '2025-10-21', 'Expired', 0, 0, 0, 0, 0),
 (30, 'Promo', 'summer15', 15.00, '2025-10-22', 'Expired', 0, 1, 0, 0, 0),
-(31, 'Promo', 'sum10', 10.00, '2025-10-21', 'Expiring Soon', 0, 1, 0, 0, 0);
+(31, 'Promo', 'sum10', 10.00, '2025-10-30', 'Expiring Soon', 0, 1, 0, 0, 0),
+(32, 'Promo', 'promo20', 20.00, '2025-10-31', 'Active', 0, 1, 1, 0, 0);
 
 -- --------------------------------------------------------
 
@@ -1787,6 +1920,13 @@ CREATE TABLE `tbl_discount_notification` (
   `sent_on` datetime DEFAULT NULL,
   `error_message` text DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `tbl_discount_notification`
+--
+
+INSERT INTO `tbl_discount_notification` (`notif_id`, `discount_id`, `customer_id`, `channel`, `status`, `scheduled_on`, `sent_on`, `error_message`) VALUES
+(55, 32, 48, NULL, 'Sent', NULL, NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -1808,7 +1948,8 @@ CREATE TABLE `tbl_discount_usage` (
 
 INSERT INTO `tbl_discount_usage` (`usage_id`, `discount_id`, `customer_id`, `appointment_id`, `used_on`) VALUES
 (18, 28, 48, 834, '2025-10-21 00:00:00'),
-(19, 31, 48, 835, '2025-10-21 00:00:00');
+(19, 31, 48, 835, '2025-10-21 00:00:00'),
+(20, 32, 48, 836, '2025-10-22 00:00:00');
 
 -- --------------------------------------------------------
 
@@ -1856,19 +1997,27 @@ CREATE TABLE `tbl_expenses` (
 
 INSERT INTO `tbl_expenses` (`id`, `category`, `description`, `amount`, `paid_by`, `notes`, `timestamp`) VALUES
 (1, 'Inventory Purchase', ' restock (25 units)', 2500, 'staff', '', '2025-10-03 07:56:54'),
-(2, 'Utilities', 'Updated Monthly Rent & Bills', 9099, 'Kindeo', '', '2025-10-08 14:56:42'),
-(3, 'Utilities', 'Updated Monthly Rent & Bills', 9099, 'Kindeo', '', '2025-10-08 14:56:42'),
-(4, 'Utilities', 'Updated Monthly Rent & Bills', 9099, 'Kindeo', '', '2025-10-08 14:56:42'),
-(5, 'Utilities', 'Updated Monthly Rent & Bills', 9099, 'Kindeo', '', '2025-10-08 14:56:42'),
-(6, 'Utilities', 'Updated Monthly Rent & Bills', 9099, 'Kindeo', '', '2025-10-08 14:56:42'),
-(7, 'Utilities', 'Updated Monthly Rent & Bills', 9099, 'Kindeo', '', '2025-10-08 14:56:42'),
-(8, 'Utilities', 'Updated Monthly Rent & Bills', 9099, 'Kindeo', '', '2025-10-08 14:56:42'),
+(2, 'Utilities', 'Updated Monthly Rent & Bills', 9099, 'Kindeo', '', '2025-10-22 00:00:12'),
+(3, 'Utilities', 'Updated Monthly Rent & Bills', 9099, 'Kindeo', '', '2025-10-22 00:00:12'),
+(4, 'Utilities', 'Updated Monthly Rent & Bills', 9099, 'Kindeo', '', '2025-10-22 00:00:12'),
+(5, 'Utilities', 'Updated Monthly Rent & Bills', 9099, 'Kindeo', '', '2025-10-22 00:00:12'),
+(6, 'Utilities', 'Updated Monthly Rent & Bills', 9099, 'Kindeo', '', '2025-10-22 00:00:12'),
+(7, 'Utilities', 'Updated Monthly Rent & Bills', 9099, 'Kindeo', '', '2025-10-22 00:00:12'),
+(8, 'Utilities', 'Updated Monthly Rent & Bills', 9099, 'Kindeo', '', '2025-10-22 00:00:12'),
 (9, 'Inventory Purchase', '', 2000, 'Kindeo', '', '2025-10-10 04:30:25'),
 (10, 'Inventory Purchase', '', 4000, 'Kindeo', '', '2025-10-10 19:44:36'),
 (11, 'Inventory Purchase', ' restock (12 units)', 144, 'Kindeo', '', '2025-10-13 03:05:44'),
 (12, 'Inventory Purchase', '', 4000, 'Kindeo', '', '2025-10-13 10:23:01'),
 (13, 'Inventory Purchase', '', 3000, 'Kindeo', '', '2025-10-13 10:23:01'),
-(14, 'Inventory Purchase', '', 2000, 'Kindeo', '', '2025-10-19 23:51:51');
+(14, 'Inventory Purchase', '', 2000, 'Kindeo', '', '2025-10-19 23:51:51'),
+(15, 'Utilities', 'Created Monthly Rent & Bills', 9199, 'Kindeo', '', '2025-10-22 01:57:36'),
+(16, 'Utilities', 'Created Monthly Rent & Bills', 9199, 'kindeo', '', '2025-10-22 02:00:21'),
+(17, 'Utilities', 'Created Monthly Rent & Bills', 9199, 'kindeo', '', '2025-10-22 02:02:19'),
+(18, 'Utilities', 'Created Monthly Rent & Bills', 9199, 'kindeo', '', '2025-10-22 02:06:08'),
+(19, 'Utilities', 'Created Monthly Rent & Bills', 9199, 'kindeo', '', '2025-10-22 02:30:47'),
+(20, 'Utilities', 'Created Monthly Rent & Bills', 9199, 'kindeo', '', '2025-10-22 02:33:06'),
+(21, 'Utilities', 'Created Monthly Rent & Bills', 9099, 'kindeo', '', '2025-10-22 12:56:00'),
+(22, 'Utilities', 'Created Monthly Rent & Bills', 8799, 'kindeo', '', '2025-10-22 15:31:56');
 
 -- --------------------------------------------------------
 
@@ -1892,7 +2041,7 @@ CREATE TABLE `tbl_inventory` (
 --
 
 INSERT INTO `tbl_inventory` (`inventory_id`, `product_id`, `unit`, `volume_per_unit`, `volume`, `critical_level`, `status`, `expiry_date`) VALUES
-(22, 21, 4, 1000, 4380, 5000, 'Low Stock', '0001-01-01 00:00:00');
+(22, 21, 0, 1000, 36, 5000, 'Low Stock', '0001-01-01 00:00:00');
 
 --
 -- Triggers `tbl_inventory`
@@ -1957,7 +2106,7 @@ CREATE TABLE `tbl_inventory_batch` (
 --
 
 INSERT INTO `tbl_inventory_batch` (`batch_id`, `delivery_item_id`, `product_id`, `unit`, `volume_per_unit`, `volume`, `price`, `notes`, `delivered_date`, `expiry_date`, `is_expired_processed`) VALUES
-(13, 40, 21, 10, 1000, 10000, 200.00, '', '2025-10-19 00:00:00', '2025-10-25 00:00:00', 0);
+(13, 40, 21, 10, 1000, 10000, 200.00, '', '2025-10-19 00:00:00', '2025-10-25 00:00:00', 1);
 
 -- --------------------------------------------------------
 
@@ -1996,7 +2145,7 @@ CREATE TABLE `tbl_overhead` (
 --
 
 INSERT INTO `tbl_overhead` (`over_head_id`, `monthly_rent`, `electricity_bill`, `water_bill`, `internet_bill`, `other_bill`, `notes`, `utilities_amount`, `total_over_head`, `total_working_hours`) VALUES
-(3, 7000, 500, 400, 999, 200, '', 2099, 9099, 224);
+(11, 7000, 400, 200, 999, 200, 'cleaning', 0, 8799, 224);
 
 -- --------------------------------------------------------
 
@@ -2026,7 +2175,8 @@ CREATE TABLE `tbl_payment` (
 INSERT INTO `tbl_payment` (`payment_id`, `appointment_id`, `discount_type`, `discount_amount`, `vat_amount`, `amount_paid`, `total_amount`, `change_amount`, `payment_method`, `reference_no`, `paid_at`, `user_id`) VALUES
 (95, 834, 'Senior/PWD ', 18, 0, 100, 71, 29, 'Cash', 'N/A', '2025-10-21 21:03:52', NULL),
 (96, 835, 'Promo (sum10)', 10, 11, 200, 90, 111, 'Cash', 'N/A', '2025-10-21 22:33:06', NULL),
-(97, 836, 'N/A', 0, 11, 1500, 100, 1400, 'Cash', 'N/A', '2025-10-21 22:43:57', NULL);
+(97, 836, 'N/A', 0, 11, 1500, 100, 1400, 'Cash', 'N/A', '2025-10-21 22:43:57', NULL),
+(98, 836, 'Promo promo20', 40, 21, 200, 160, 40, 'Cash', 'N/A', '2025-10-22 16:53:08', NULL);
 
 -- --------------------------------------------------------
 
@@ -2051,7 +2201,8 @@ CREATE TABLE `tbl_products` (
 --
 
 INSERT INTO `tbl_products` (`product_id`, `product_name`, `brand`, `category_id`, `unit_type`, `usage_type`, `unit_volume`, `quantity`, `is_deleted`) VALUES
-(21, 'Hair Color', 'Evon', 93, 'ml', 'Scoop', 1000, 0, 0);
+(21, 'Hair Color', 'Evon', 93, 'ml', 'Scoop', 1000, 0, 0),
+(22, 'straightener', 'revlon', 93, 'ml', 'Spray', 1000, 0, 0);
 
 -- --------------------------------------------------------
 
@@ -2076,7 +2227,9 @@ CREATE TABLE `tbl_refund` (
 --
 
 INSERT INTO `tbl_refund` (`refund_id`, `transaction_id`, `appointment_id`, `refund_amount`, `refund_method`, `refund_reason`, `refunded_by`, `refund_timestamp`, `status`) VALUES
-(21, 42, 834, 71, 'Cash', 'cancel', 'Kindeo', '2025-10-21 22:31:27', 'Processed');
+(21, 42, 834, 71, 'Cash', 'cancel', 'Kindeo', '2025-10-21 22:31:27', 'Processed'),
+(22, 44, 836, 200, 'Cash', 'cancel', 'kindeo', '2025-10-22 16:42:39', 'Processed'),
+(23, 43, 835, 180, 'Cash', 'cancel', 'kindeo', '2025-10-22 16:44:02', 'Processed');
 
 -- --------------------------------------------------------
 
@@ -2099,7 +2252,7 @@ CREATE TABLE `tbl_servicesname` (
 --
 
 INSERT INTO `tbl_servicesname` (`serviceName_id`, `subCategory_id`, `serviceName`, `servicePrice`, `duration`, `status`, `is_deleted`) VALUES
-(96, 144, 'Hair Color', 0.00, 30, 0, 0);
+(96, 144, 'Hair Color', 0.00, 25, 0, 0);
 
 -- --------------------------------------------------------
 
@@ -2128,7 +2281,8 @@ CREATE TABLE `tbl_service_price` (
 --
 
 INSERT INTO `tbl_service_price` (`pricing_id`, `service_product_id`, `product_cost`, `stylist_cost`, `overhead_cost`, `total_cost`, `selling_price`, `vat_amount`, `net_price`, `net_profit`, `gross_profit`, `profit_percent`, `is_deleted`) VALUES
-(11, 22, 12, 24, 20, 56, 100, 11, 89, 33, 44, 44, 0);
+(11, NULL, 12, 24, 20, 56, 100, 11, 89, 33, 44, 44, 1),
+(12, 24, 4, 24, 20, 47, 200, 21, 179, 131, 153, 76, 0);
 
 -- --------------------------------------------------------
 
@@ -2141,7 +2295,7 @@ CREATE TABLE `tbl_service_product` (
   `service_id` int(11) DEFAULT NULL,
   `product_id` int(11) DEFAULT NULL,
   `usage_amount` double NOT NULL,
-  `unit_per_volume` int(11) NOT NULL,
+  `unit_per_volume` double NOT NULL,
   `total_usage_amount` double NOT NULL,
   `total_cost` decimal(10,0) NOT NULL,
   `is_deleted` tinyint(1) NOT NULL DEFAULT 0
@@ -2152,7 +2306,8 @@ CREATE TABLE `tbl_service_product` (
 --
 
 INSERT INTO `tbl_service_product` (`service_product_id`, `service_id`, `product_id`, `usage_amount`, `unit_per_volume`, `total_usage_amount`, `total_cost`, `is_deleted`) VALUES
-(22, 96, 21, 3, 20, 60, 12, 0);
+(24, 96, 21, 3, 3, 9, 2, 0),
+(25, 96, 21, 3, 2.5, 7.5, 2, 0);
 
 -- --------------------------------------------------------
 
@@ -2241,7 +2396,8 @@ INSERT INTO `tbl_stylists` (`stylist_id`, `firstName`, `middleName`, `lastName`,
 (20, 'Mohaifa ', 'Lakiman', 'Malik', '2000-06-22 00:00:00', 'malikmohaif@gmail.com', '', '123213123', 'Blk - 31 Lot - 19 Lanao Del Norte Maharlik Vill. Taguig City', '', 600, ' Active', 0),
 (22, 'test123', 'test', 'test', '2025-09-30 00:19:40.653422', 'test', '', 'test', 'test', '', 500, ' Active', 0),
 (23, 'we', 'w', 'w', '2025-10-03 02:31:12.318118', 'w', '', 'w', 'w', '', 0, ' Active', 0),
-(24, 'kindeo123', 'neikdo', 'ken', '2025-06-03 00:00:00', 'tesst@gmail.com', '', '4124124', 'test', '', 300, 'Active', 0);
+(24, 'kindeo123', 'neikdo', 'ken', '2025-06-03 00:00:00', 'tesst@gmail.com', '', '4124124', 'test', '', 300, 'Active', 0),
+(25, 'kindeo', 'nek', 'neidko', '1999-05-11 00:00:00', 'alexprada782@gmail.com', '', '09494475270', 'taguig city', '', 360, 'Active', 0);
 
 -- --------------------------------------------------------
 
@@ -2357,7 +2513,7 @@ CREATE TABLE `tbl_tax` (
 --
 
 INSERT INTO `tbl_tax` (`tax_id`, `tax`) VALUES
-(2, 12);
+(10, 12);
 
 -- --------------------------------------------------------
 
@@ -2383,8 +2539,9 @@ CREATE TABLE `tbl_transaction` (
 
 INSERT INTO `tbl_transaction` (`transaction_id`, `appointment_id`, `sub_total`, `vat_amount`, `discount_amount`, `amount_paid`, `payment_method`, `payment_status`, `timestamp`) VALUES
 (42, 834, 100, 0, 18, 71, 'Cash', 'Refunded', '2025-10-21 21:03:52'),
-(43, 835, 100, 11, 10, 90, 'Cash', 'Paid', '2025-10-21 22:33:06'),
-(44, 836, 100, 11, 0, 100, 'Cash', 'Paid', '2025-10-21 22:43:57');
+(43, 835, 100, 11, 10, 90, 'Cash', 'Refunded', '2025-10-21 22:33:06'),
+(44, 836, 100, 11, 0, 100, 'Cash', 'Refunded', '2025-10-21 22:43:57'),
+(45, 836, 200, 21, 40, 160, 'Cash', 'Paid', '2025-10-22 16:53:08');
 
 -- --------------------------------------------------------
 
@@ -2433,8 +2590,8 @@ CREATE TABLE `tbl_users` (
 
 INSERT INTO `tbl_users` (`user_id`, `first_Name`, `middle_Name`, `last_Name`, `birth_date`, `phone_Number`, `email`, `address`, `userName`, `userPassword`, `Position`, `status`, `is_deactivate`) VALUES
 (257, 'Kindeo', 'Ken', 'Neikdo', '2025-10-09 00:00:00', '09945489867', 'alexprada420@gmail.com', 'taguig city', 'ken11', '$2a$11$1q5BQc.nf9mAMxr9vPFP5uCOxxqd3syNhcvQoT1yNeUp70JDgEBqi', 'Staff', 'Active', 0),
-(261, 'Kindeo', 'Ken', 'Neikdo', '2025-10-05 00:00:00', '1234566789', 'Kindeo@gmail.com', 'test address', 'admin', '$2a$11$t1RWujWm1TRkMHDt6.sui.2hBP6VqbuooLbjqc9HeP/9rmlu24bDS', 'Admin', 'Active', 0),
-(262, 'Nissan ', 'Lakiman', 'Malik', '2000-06-22 00:00:00', '09203101161', 'malikmohaifa@gmail.com', 'Bulacan', 'Nissan', '$2a$11$Dam2tAk.ZeF4h8jErwfOYe4dqERFt2w2P5l1fJETjeqCq5UFOktLa', 'Staff', 'Active', 0);
+(262, 'Nissan ', 'Lakiman', 'Malik', '2000-06-22 00:00:00', '09203101161', 'malikmohaifa@gmail.com', 'Bulacan', 'Nissan', '$2a$11$Dam2tAk.ZeF4h8jErwfOYe4dqERFt2w2P5l1fJETjeqCq5UFOktLa', 'Staff', 'Inactive', 1),
+(277, 'kindeo', 'ken', 'neikdo', '1999-05-11 15:27:48', '09494475270', 'alexprada782@gmail.com', 'taguig city', 'admin', '$2a$11$sSzQOgiwKZvI56gtJ6isGugFyktDdihN80adfZxVRMweb/sP.EXLS', 'Admin', 'Active', 0);
 
 -- --------------------------------------------------------
 
@@ -2830,7 +2987,7 @@ ALTER TABLE `tbl_appointment_archive`
 -- AUTO_INCREMENT for table `tbl_appointment_services`
 --
 ALTER TABLE `tbl_appointment_services`
-  MODIFY `appointment_service_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=881;
+  MODIFY `appointment_service_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=882;
 
 --
 -- AUTO_INCREMENT for table `tbl_appointment_services_archive`
@@ -2842,7 +2999,7 @@ ALTER TABLE `tbl_appointment_services_archive`
 -- AUTO_INCREMENT for table `tbl_audit_trail`
 --
 ALTER TABLE `tbl_audit_trail`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=1453;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=1578;
 
 --
 -- AUTO_INCREMENT for table `tbl_business_hours`
@@ -2872,7 +3029,7 @@ ALTER TABLE `tbl_customer_violations`
 -- AUTO_INCREMENT for table `tbl_deleted_records`
 --
 ALTER TABLE `tbl_deleted_records`
-  MODIFY `deleted_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=39;
+  MODIFY `deleted_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=43;
 
 --
 -- AUTO_INCREMENT for table `tbl_delivery`
@@ -2890,19 +3047,19 @@ ALTER TABLE `tbl_delivery_items`
 -- AUTO_INCREMENT for table `tbl_discount`
 --
 ALTER TABLE `tbl_discount`
-  MODIFY `discount_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=32;
+  MODIFY `discount_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=33;
 
 --
 -- AUTO_INCREMENT for table `tbl_discount_notification`
 --
 ALTER TABLE `tbl_discount_notification`
-  MODIFY `notif_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=55;
+  MODIFY `notif_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=56;
 
 --
 -- AUTO_INCREMENT for table `tbl_discount_usage`
 --
 ALTER TABLE `tbl_discount_usage`
-  MODIFY `usage_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=20;
+  MODIFY `usage_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=21;
 
 --
 -- AUTO_INCREMENT for table `tbl_exception_schedules`
@@ -2914,7 +3071,7 @@ ALTER TABLE `tbl_exception_schedules`
 -- AUTO_INCREMENT for table `tbl_expenses`
 --
 ALTER TABLE `tbl_expenses`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=23;
 
 --
 -- AUTO_INCREMENT for table `tbl_inventory`
@@ -2938,25 +3095,25 @@ ALTER TABLE `tbl_login_history`
 -- AUTO_INCREMENT for table `tbl_overhead`
 --
 ALTER TABLE `tbl_overhead`
-  MODIFY `over_head_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `over_head_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
 
 --
 -- AUTO_INCREMENT for table `tbl_payment`
 --
 ALTER TABLE `tbl_payment`
-  MODIFY `payment_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=98;
+  MODIFY `payment_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=99;
 
 --
 -- AUTO_INCREMENT for table `tbl_products`
 --
 ALTER TABLE `tbl_products`
-  MODIFY `product_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=22;
+  MODIFY `product_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=23;
 
 --
 -- AUTO_INCREMENT for table `tbl_refund`
 --
 ALTER TABLE `tbl_refund`
-  MODIFY `refund_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=22;
+  MODIFY `refund_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=24;
 
 --
 -- AUTO_INCREMENT for table `tbl_servicesname`
@@ -2968,13 +3125,13 @@ ALTER TABLE `tbl_servicesname`
 -- AUTO_INCREMENT for table `tbl_service_price`
 --
 ALTER TABLE `tbl_service_price`
-  MODIFY `pricing_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
+  MODIFY `pricing_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
 
 --
 -- AUTO_INCREMENT for table `tbl_service_product`
 --
 ALTER TABLE `tbl_service_product`
-  MODIFY `service_product_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=23;
+  MODIFY `service_product_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=26;
 
 --
 -- AUTO_INCREMENT for table `tbl_settings`
@@ -2998,7 +3155,7 @@ ALTER TABLE `tbl_specialist`
 -- AUTO_INCREMENT for table `tbl_stylists`
 --
 ALTER TABLE `tbl_stylists`
-  MODIFY `stylist_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=25;
+  MODIFY `stylist_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=26;
 
 --
 -- AUTO_INCREMENT for table `tbl_stylist_schedules`
@@ -3028,13 +3185,13 @@ ALTER TABLE `tbl_supplier`
 -- AUTO_INCREMENT for table `tbl_tax`
 --
 ALTER TABLE `tbl_tax`
-  MODIFY `tax_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `tax_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
 
 --
 -- AUTO_INCREMENT for table `tbl_transaction`
 --
 ALTER TABLE `tbl_transaction`
-  MODIFY `transaction_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=45;
+  MODIFY `transaction_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=46;
 
 --
 -- AUTO_INCREMENT for table `tbl_unit_type`
@@ -3046,7 +3203,7 @@ ALTER TABLE `tbl_unit_type`
 -- AUTO_INCREMENT for table `tbl_users`
 --
 ALTER TABLE `tbl_users`
-  MODIFY `user_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=263;
+  MODIFY `user_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=278;
 
 --
 -- AUTO_INCREMENT for table `tbl_user_login`
