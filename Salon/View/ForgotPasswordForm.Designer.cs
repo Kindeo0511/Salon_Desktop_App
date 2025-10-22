@@ -45,6 +45,8 @@
             this.btn_reset = new MaterialSkin.Controls.MaterialButton();
             this.btn_back_to_step_1 = new MaterialSkin.Controls.MaterialButton();
             this.g_step_2 = new System.Windows.Forms.GroupBox();
+            this.txt_count_down = new MaterialSkin.Controls.MaterialLabel();
+            this.send_otp = new MaterialSkin.Controls.MaterialButton();
             this.materialLabel6 = new MaterialSkin.Controls.MaterialLabel();
             this.txt_otp = new MaterialSkin.Controls.MaterialTextBox();
             this.btn_cancel = new MaterialSkin.Controls.MaterialButton();
@@ -57,6 +59,8 @@
             this.tabPage3 = new System.Windows.Forms.TabPage();
             this.materialTabSelector1 = new MaterialSkin.Controls.MaterialTabSelector();
             this.errorProvider1 = new System.Windows.Forms.ErrorProvider(this.components);
+            this.otp_timer = new System.Windows.Forms.Timer(this.components);
+            this.chk_show_password = new MaterialSkin.Controls.MaterialCheckbox();
             this.g_step_1.SuspendLayout();
             this.g_step_3.SuspendLayout();
             this.g_step_2.SuspendLayout();
@@ -197,6 +201,7 @@
             // g_step_3
             // 
             this.g_step_3.AccessibleDescription = "";
+            this.g_step_3.Controls.Add(this.chk_show_password);
             this.g_step_3.Controls.Add(this.materialLabel3);
             this.g_step_3.Controls.Add(this.txt_confirm_password);
             this.g_step_3.Controls.Add(this.materialLabel2);
@@ -214,7 +219,7 @@
             this.materialLabel3.AutoSize = true;
             this.materialLabel3.Depth = 0;
             this.materialLabel3.Font = new System.Drawing.Font("Roboto", 14F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
-            this.materialLabel3.Location = new System.Drawing.Point(76, 177);
+            this.materialLabel3.Location = new System.Drawing.Point(66, 143);
             this.materialLabel3.MouseState = MaterialSkin.MouseState.HOVER;
             this.materialLabel3.Name = "materialLabel3";
             this.materialLabel3.Size = new System.Drawing.Size(136, 19);
@@ -229,7 +234,7 @@
             this.txt_confirm_password.Font = new System.Drawing.Font("Roboto", 16F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
             this.txt_confirm_password.Hint = "Enter confirm password";
             this.txt_confirm_password.LeadingIcon = null;
-            this.txt_confirm_password.Location = new System.Drawing.Point(79, 199);
+            this.txt_confirm_password.Location = new System.Drawing.Point(69, 165);
             this.txt_confirm_password.MaxLength = 50;
             this.txt_confirm_password.MouseState = MaterialSkin.MouseState.OUT;
             this.txt_confirm_password.Multiline = false;
@@ -244,7 +249,7 @@
             this.materialLabel2.AutoSize = true;
             this.materialLabel2.Depth = 0;
             this.materialLabel2.Font = new System.Drawing.Font("Roboto", 14F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
-            this.materialLabel2.Location = new System.Drawing.Point(76, 87);
+            this.materialLabel2.Location = new System.Drawing.Point(66, 53);
             this.materialLabel2.MouseState = MaterialSkin.MouseState.HOVER;
             this.materialLabel2.Name = "materialLabel2";
             this.materialLabel2.Size = new System.Drawing.Size(110, 19);
@@ -259,7 +264,7 @@
             this.txt_password.Font = new System.Drawing.Font("Roboto", 16F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
             this.txt_password.Hint = "Enter new password";
             this.txt_password.LeadingIcon = null;
-            this.txt_password.Location = new System.Drawing.Point(79, 109);
+            this.txt_password.Location = new System.Drawing.Point(69, 75);
             this.txt_password.MaxLength = 50;
             this.txt_password.MouseState = MaterialSkin.MouseState.OUT;
             this.txt_password.Multiline = false;
@@ -314,6 +319,8 @@
             // g_step_2
             // 
             this.g_step_2.AccessibleDescription = "";
+            this.g_step_2.Controls.Add(this.txt_count_down);
+            this.g_step_2.Controls.Add(this.send_otp);
             this.g_step_2.Controls.Add(this.materialLabel6);
             this.g_step_2.Controls.Add(this.txt_otp);
             this.g_step_2.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
@@ -323,6 +330,40 @@
             this.g_step_2.TabIndex = 7;
             this.g_step_2.TabStop = false;
             this.g_step_2.Text = "FORGOT PASSWORD     (STEP 2)";
+            // 
+            // txt_count_down
+            // 
+            this.txt_count_down.AutoSize = true;
+            this.txt_count_down.Depth = 0;
+            this.txt_count_down.Font = new System.Drawing.Font("Roboto", 14F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
+            this.txt_count_down.Location = new System.Drawing.Point(76, 191);
+            this.txt_count_down.MouseState = MaterialSkin.MouseState.HOVER;
+            this.txt_count_down.Name = "txt_count_down";
+            this.txt_count_down.Size = new System.Drawing.Size(32, 19);
+            this.txt_count_down.TabIndex = 10;
+            this.txt_count_down.Text = "0.00";
+            // 
+            // send_otp
+            // 
+            this.send_otp.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
+            this.send_otp.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.send_otp.Density = MaterialSkin.Controls.MaterialButton.MaterialButtonDensity.Default;
+            this.send_otp.Depth = 0;
+            this.send_otp.Enabled = false;
+            this.send_otp.HighEmphasis = true;
+            this.send_otp.Icon = null;
+            this.send_otp.Location = new System.Drawing.Point(79, 216);
+            this.send_otp.Margin = new System.Windows.Forms.Padding(4, 6, 4, 6);
+            this.send_otp.MouseState = MaterialSkin.MouseState.HOVER;
+            this.send_otp.Name = "send_otp";
+            this.send_otp.NoAccentTextColor = System.Drawing.Color.Empty;
+            this.send_otp.Size = new System.Drawing.Size(107, 36);
+            this.send_otp.TabIndex = 9;
+            this.send_otp.Text = "send again";
+            this.send_otp.Type = MaterialSkin.Controls.MaterialButton.MaterialButtonType.Contained;
+            this.send_otp.UseAccentColor = false;
+            this.send_otp.UseVisualStyleBackColor = true;
+            this.send_otp.Click += new System.EventHandler(this.send_otp_Click);
             // 
             // materialLabel6
             // 
@@ -512,6 +553,27 @@
             this.errorProvider1.BlinkStyle = System.Windows.Forms.ErrorBlinkStyle.NeverBlink;
             this.errorProvider1.ContainerControl = this;
             // 
+            // otp_timer
+            // 
+            this.otp_timer.Tick += new System.EventHandler(this.otp_timer_Tick);
+            // 
+            // chk_show_password
+            // 
+            this.chk_show_password.AutoSize = true;
+            this.chk_show_password.Depth = 0;
+            this.chk_show_password.Location = new System.Drawing.Point(69, 235);
+            this.chk_show_password.Margin = new System.Windows.Forms.Padding(0);
+            this.chk_show_password.MouseLocation = new System.Drawing.Point(-1, -1);
+            this.chk_show_password.MouseState = MaterialSkin.MouseState.HOVER;
+            this.chk_show_password.Name = "chk_show_password";
+            this.chk_show_password.ReadOnly = false;
+            this.chk_show_password.Ripple = true;
+            this.chk_show_password.Size = new System.Drawing.Size(148, 37);
+            this.chk_show_password.TabIndex = 4;
+            this.chk_show_password.Text = "Show password";
+            this.chk_show_password.UseVisualStyleBackColor = true;
+            this.chk_show_password.CheckedChanged += new System.EventHandler(this.chk_show_password_CheckedChanged);
+            // 
             // ForgotPasswordForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
@@ -526,6 +588,7 @@
             this.Padding = new System.Windows.Forms.Padding(3, 0, 0, 3);
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "ForgotPasswordForm";
+            this.Load += new System.EventHandler(this.ForgotPasswordForm_Load);
             this.g_step_1.ResumeLayout(false);
             this.g_step_1.PerformLayout();
             this.g_step_3.ResumeLayout(false);
@@ -574,5 +637,9 @@
         private MaterialSkin.Controls.MaterialTextBox txt_number;
         private MaterialSkin.Controls.MaterialLabel lbl_number;
         private System.Windows.Forms.ErrorProvider errorProvider1;
+        private MaterialSkin.Controls.MaterialButton send_otp;
+        private MaterialSkin.Controls.MaterialLabel txt_count_down;
+        private System.Windows.Forms.Timer otp_timer;
+        private MaterialSkin.Controls.MaterialCheckbox chk_show_password;
     }
 }

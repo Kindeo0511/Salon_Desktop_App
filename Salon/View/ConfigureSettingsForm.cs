@@ -464,5 +464,11 @@ namespace Salon.View
             txt_password.Hint = "Password";
             txt_confirm_password.Hint = "Confirm Password";
         }
+
+        private void ConfigureSettingsForm_Load(object sender, EventArgs e)
+        {
+            txt_password.Password = true;
+            txt_confirm_password.Password = true;
+        }
     }
 }

@@ -23,6 +23,7 @@ namespace Salon.View
         private void LoginForm_Load(object sender, EventArgs e)
         {
             this.BeginInvoke(new Action(() => txt_user_name.Focus()));
+            txt_password.Password = true;
         }
         private void btn_login_Click(object sender, EventArgs e)
         {

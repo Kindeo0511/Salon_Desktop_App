@@ -30,17 +30,17 @@
         {
             this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainForm));
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle12 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle13 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle14 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle15 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle16 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle17 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle18 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle19 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle20 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle21 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle22 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle4 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle5 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle6 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle7 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle8 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle9 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle10 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle11 = new System.Windows.Forms.DataGridViewCellStyle();
             this.materialTabControl1 = new MaterialSkin.Controls.MaterialTabControl();
             this.dashboardTab = new System.Windows.Forms.TabPage();
             this.tableLayoutPanel2 = new System.Windows.Forms.TableLayoutPanel();
@@ -516,8 +516,6 @@
             this.dgv_col_transaction__total_amount = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.dgv_col_transaction__status = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.col_transaction_btn_refund = new System.Windows.Forms.DataGridViewImageColumn();
-            this.ct_menu_strip_transaction = new System.Windows.Forms.ContextMenuStrip(this.components);
-            this.refundToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.panel13 = new System.Windows.Forms.Panel();
             this.btn_transaction_clear = new MaterialSkin.Controls.MaterialButton();
             this.btn_transaction_filter = new MaterialSkin.Controls.MaterialButton();
@@ -712,7 +710,6 @@
             this.transactionTab.SuspendLayout();
             this.materialCard36.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgv_transaction_history)).BeginInit();
-            this.ct_menu_strip_transaction.SuspendLayout();
             this.panel13.SuspendLayout();
             this.refundTab.SuspendLayout();
             this.materialCard38.SuspendLayout();
@@ -817,7 +814,6 @@
             // 
             // dgv_table_summary
             // 
-            this.dgv_table_summary.AllowDrop = true;
             this.dgv_table_summary.AllowUserToAddRows = false;
             this.dgv_table_summary.AllowUserToDeleteRows = false;
             this.dgv_table_summary.AllowUserToResizeColumns = false;
@@ -843,6 +839,7 @@
             this.dgv_table_summary.EnableHeadersVisualStyles = false;
             this.dgv_table_summary.Location = new System.Drawing.Point(14, 60);
             this.dgv_table_summary.Name = "dgv_table_summary";
+            this.dgv_table_summary.ReadOnly = true;
             this.dgv_table_summary.RowHeadersBorderStyle = System.Windows.Forms.DataGridViewHeaderBorderStyle.None;
             this.dgv_table_summary.RowHeadersVisible = false;
             this.dgv_table_summary.RowHeadersWidth = 51;
@@ -857,6 +854,7 @@
             this.col_db_app_id.HeaderText = "app_id";
             this.col_db_app_id.MinimumWidth = 6;
             this.col_db_app_id.Name = "col_db_app_id";
+            this.col_db_app_id.ReadOnly = true;
             this.col_db_app_id.Visible = false;
             // 
             // col_db_customer_id
@@ -865,6 +863,7 @@
             this.col_db_customer_id.HeaderText = "customer_id";
             this.col_db_customer_id.MinimumWidth = 6;
             this.col_db_customer_id.Name = "col_db_customer_id";
+            this.col_db_customer_id.ReadOnly = true;
             this.col_db_customer_id.Visible = false;
             // 
             // col_db_customer_name
@@ -873,6 +872,7 @@
             this.col_db_customer_name.HeaderText = "Client Name";
             this.col_db_customer_name.MinimumWidth = 6;
             this.col_db_customer_name.Name = "col_db_customer_name";
+            this.col_db_customer_name.ReadOnly = true;
             // 
             // col_db_stylist_id
             // 
@@ -880,6 +880,7 @@
             this.col_db_stylist_id.HeaderText = "stylist_id";
             this.col_db_stylist_id.MinimumWidth = 6;
             this.col_db_stylist_id.Name = "col_db_stylist_id";
+            this.col_db_stylist_id.ReadOnly = true;
             this.col_db_stylist_id.Visible = false;
             // 
             // col_db_stylist_name
@@ -888,6 +889,7 @@
             this.col_db_stylist_name.HeaderText = "Stylist Name";
             this.col_db_stylist_name.MinimumWidth = 6;
             this.col_db_stylist_name.Name = "col_db_stylist_name";
+            this.col_db_stylist_name.ReadOnly = true;
             // 
             // col_db_date
             // 
@@ -895,6 +897,7 @@
             this.col_db_date.HeaderText = "Date";
             this.col_db_date.MinimumWidth = 6;
             this.col_db_date.Name = "col_db_date";
+            this.col_db_date.ReadOnly = true;
             // 
             // col_db_start_time
             // 
@@ -902,6 +905,7 @@
             this.col_db_start_time.HeaderText = "Start Time";
             this.col_db_start_time.MinimumWidth = 6;
             this.col_db_start_time.Name = "col_db_start_time";
+            this.col_db_start_time.ReadOnly = true;
             // 
             // col_db_end_time
             // 
@@ -909,6 +913,7 @@
             this.col_db_end_time.HeaderText = "End TIme";
             this.col_db_end_time.MinimumWidth = 6;
             this.col_db_end_time.Name = "col_db_end_time";
+            this.col_db_end_time.ReadOnly = true;
             // 
             // col_db_status
             // 
@@ -916,6 +921,7 @@
             this.col_db_status.HeaderText = "Status";
             this.col_db_status.MinimumWidth = 6;
             this.col_db_status.Name = "col_db_status";
+            this.col_db_status.ReadOnly = true;
             this.col_db_status.Resizable = System.Windows.Forms.DataGridViewTriState.True;
             // 
             // col_db_payment_status
@@ -924,6 +930,7 @@
             this.col_db_payment_status.HeaderText = "Payment Status";
             this.col_db_payment_status.MinimumWidth = 6;
             this.col_db_payment_status.Name = "col_db_payment_status";
+            this.col_db_payment_status.ReadOnly = true;
             this.col_db_payment_status.Resizable = System.Windows.Forms.DataGridViewTriState.True;
             // 
             // col_db_booking_type
@@ -932,6 +939,7 @@
             this.col_db_booking_type.HeaderText = "Booking Type";
             this.col_db_booking_type.MinimumWidth = 6;
             this.col_db_booking_type.Name = "col_db_booking_type";
+            this.col_db_booking_type.ReadOnly = true;
             // 
             // col_db_assign_staff
             // 
@@ -941,6 +949,7 @@
             this.col_db_assign_staff.ImageLayout = System.Windows.Forms.DataGridViewImageCellLayout.Zoom;
             this.col_db_assign_staff.MinimumWidth = 6;
             this.col_db_assign_staff.Name = "col_db_assign_staff";
+            this.col_db_assign_staff.ReadOnly = true;
             // 
             // panel2
             // 
@@ -1674,9 +1683,9 @@
             // col_stylist_wage
             // 
             this.col_stylist_wage.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
-            dataGridViewCellStyle12.Format = "C2";
-            dataGridViewCellStyle12.NullValue = null;
-            this.col_stylist_wage.DefaultCellStyle = dataGridViewCellStyle12;
+            dataGridViewCellStyle1.Format = "C2";
+            dataGridViewCellStyle1.NullValue = null;
+            this.col_stylist_wage.DefaultCellStyle = dataGridViewCellStyle1;
             this.col_stylist_wage.HeaderText = "Daily Wage";
             this.col_stylist_wage.MinimumWidth = 6;
             this.col_stylist_wage.Name = "col_stylist_wage";
@@ -3271,9 +3280,9 @@
             // col_Unit
             // 
             this.col_Unit.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
-            dataGridViewCellStyle13.Format = "N1";
-            dataGridViewCellStyle13.NullValue = null;
-            this.col_Unit.DefaultCellStyle = dataGridViewCellStyle13;
+            dataGridViewCellStyle2.Format = "N1";
+            dataGridViewCellStyle2.NullValue = null;
+            this.col_Unit.DefaultCellStyle = dataGridViewCellStyle2;
             this.col_Unit.HeaderText = "Unit";
             this.col_Unit.MinimumWidth = 6;
             this.col_Unit.Name = "col_Unit";
@@ -3650,9 +3659,9 @@
             // startTime
             // 
             this.startTime.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
-            dataGridViewCellStyle14.Format = "t";
-            dataGridViewCellStyle14.NullValue = null;
-            this.startTime.DefaultCellStyle = dataGridViewCellStyle14;
+            dataGridViewCellStyle3.Format = "t";
+            dataGridViewCellStyle3.NullValue = null;
+            this.startTime.DefaultCellStyle = dataGridViewCellStyle3;
             this.startTime.HeaderText = "Start Time";
             this.startTime.MinimumWidth = 6;
             this.startTime.Name = "startTime";
@@ -3660,9 +3669,9 @@
             // endTime
             // 
             this.endTime.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
-            dataGridViewCellStyle15.Format = "t";
-            dataGridViewCellStyle15.NullValue = null;
-            this.endTime.DefaultCellStyle = dataGridViewCellStyle15;
+            dataGridViewCellStyle4.Format = "t";
+            dataGridViewCellStyle4.NullValue = null;
+            this.endTime.DefaultCellStyle = dataGridViewCellStyle4;
             this.endTime.HeaderText = "End TIme";
             this.endTime.MinimumWidth = 6;
             this.endTime.Name = "endTime";
@@ -5495,9 +5504,9 @@
             // col_customer_report_spend
             // 
             this.col_customer_report_spend.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
-            dataGridViewCellStyle16.Format = "C2";
-            dataGridViewCellStyle16.NullValue = null;
-            this.col_customer_report_spend.DefaultCellStyle = dataGridViewCellStyle16;
+            dataGridViewCellStyle5.Format = "C2";
+            dataGridViewCellStyle5.NullValue = null;
+            this.col_customer_report_spend.DefaultCellStyle = dataGridViewCellStyle5;
             this.col_customer_report_spend.HeaderText = "Total Spend";
             this.col_customer_report_spend.MinimumWidth = 6;
             this.col_customer_report_spend.Name = "col_customer_report_spend";
@@ -5796,9 +5805,9 @@
             // col_technician_report_sales
             // 
             this.col_technician_report_sales.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
-            dataGridViewCellStyle17.Format = "C2";
-            dataGridViewCellStyle17.NullValue = null;
-            this.col_technician_report_sales.DefaultCellStyle = dataGridViewCellStyle17;
+            dataGridViewCellStyle6.Format = "C2";
+            dataGridViewCellStyle6.NullValue = null;
+            this.col_technician_report_sales.DefaultCellStyle = dataGridViewCellStyle6;
             this.col_technician_report_sales.HeaderText = "Sales";
             this.col_technician_report_sales.MinimumWidth = 6;
             this.col_technician_report_sales.Name = "col_technician_report_sales";
@@ -6099,9 +6108,9 @@
             // col_delivery_report_price
             // 
             this.col_delivery_report_price.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
-            dataGridViewCellStyle18.Format = "C2";
-            dataGridViewCellStyle18.NullValue = null;
-            this.col_delivery_report_price.DefaultCellStyle = dataGridViewCellStyle18;
+            dataGridViewCellStyle7.Format = "C2";
+            dataGridViewCellStyle7.NullValue = null;
+            this.col_delivery_report_price.DefaultCellStyle = dataGridViewCellStyle7;
             this.col_delivery_report_price.HeaderText = "Price";
             this.col_delivery_report_price.MinimumWidth = 6;
             this.col_delivery_report_price.Name = "col_delivery_report_price";
@@ -6385,9 +6394,9 @@
             // col_discount_report_orig_price
             // 
             this.col_discount_report_orig_price.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
-            dataGridViewCellStyle19.Format = "C2";
-            dataGridViewCellStyle19.NullValue = null;
-            this.col_discount_report_orig_price.DefaultCellStyle = dataGridViewCellStyle19;
+            dataGridViewCellStyle8.Format = "C2";
+            dataGridViewCellStyle8.NullValue = null;
+            this.col_discount_report_orig_price.DefaultCellStyle = dataGridViewCellStyle8;
             this.col_discount_report_orig_price.HeaderText = "Original Price";
             this.col_discount_report_orig_price.MinimumWidth = 6;
             this.col_discount_report_orig_price.Name = "col_discount_report_orig_price";
@@ -6704,9 +6713,9 @@
             // col_audit_action
             // 
             this.col_audit_action.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
-            dataGridViewCellStyle20.Format = "C2";
-            dataGridViewCellStyle20.NullValue = null;
-            this.col_audit_action.DefaultCellStyle = dataGridViewCellStyle20;
+            dataGridViewCellStyle9.Format = "C2";
+            dataGridViewCellStyle9.NullValue = null;
+            this.col_audit_action.DefaultCellStyle = dataGridViewCellStyle9;
             this.col_audit_action.HeaderText = "Action";
             this.col_audit_action.MinimumWidth = 6;
             this.col_audit_action.Name = "col_audit_action";
@@ -6999,7 +7008,6 @@
             this.dgv_col_transaction__total_amount,
             this.dgv_col_transaction__status,
             this.col_transaction_btn_refund});
-            this.dgv_transaction_history.ContextMenuStrip = this.ct_menu_strip_transaction;
             this.dgv_transaction_history.Dock = System.Windows.Forms.DockStyle.Fill;
             this.dgv_transaction_history.EnableHeadersVisualStyles = false;
             this.dgv_transaction_history.Location = new System.Drawing.Point(14, 89);
@@ -7012,7 +7020,7 @@
             this.dgv_transaction_history.Size = new System.Drawing.Size(1800, 760);
             this.dgv_transaction_history.TabIndex = 2;
             this.dgv_transaction_history.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgv_transaction_history_CellClick);
-            this.dgv_transaction_history.MouseDown += new System.Windows.Forms.MouseEventHandler(this.dgv_transaction_history_MouseDown);
+
             // 
             // dgv_col_transaction_id
             // 
@@ -7121,22 +7129,6 @@
             this.col_transaction_btn_refund.Name = "col_transaction_btn_refund";
             this.col_transaction_btn_refund.ReadOnly = true;
             this.col_transaction_btn_refund.Width = 125;
-            // 
-            // ct_menu_strip_transaction
-            // 
-            this.ct_menu_strip_transaction.ImageScalingSize = new System.Drawing.Size(20, 20);
-            this.ct_menu_strip_transaction.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.refundToolStripMenuItem});
-            this.ct_menu_strip_transaction.Name = "ct_menu_strip_transaction";
-            this.ct_menu_strip_transaction.Size = new System.Drawing.Size(126, 28);
-            this.ct_menu_strip_transaction.Opening += new System.ComponentModel.CancelEventHandler(this.ct_menu_strip_transaction_Opening);
-            // 
-            // refundToolStripMenuItem
-            // 
-            this.refundToolStripMenuItem.Name = "refundToolStripMenuItem";
-            this.refundToolStripMenuItem.Size = new System.Drawing.Size(125, 24);
-            this.refundToolStripMenuItem.Text = "Refund";
-            this.refundToolStripMenuItem.Click += new System.EventHandler(this.refundToolStripMenuItem_Click);
             // 
             // panel13
             // 
@@ -7286,7 +7278,6 @@
             this.col_refund_reason,
             this.col_refund_date,
             this.col_refund_refunded_by});
-            this.dgv_refund.ContextMenuStrip = this.ct_menu_strip_transaction;
             this.dgv_refund.Dock = System.Windows.Forms.DockStyle.Fill;
             this.dgv_refund.EnableHeadersVisualStyles = false;
             this.dgv_refund.Location = new System.Drawing.Point(14, 89);
@@ -7505,14 +7496,14 @@
             this.dgv_discount.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.dgv_discount.CellBorderStyle = System.Windows.Forms.DataGridViewCellBorderStyle.None;
             this.dgv_discount.ColumnHeadersBorderStyle = System.Windows.Forms.DataGridViewHeaderBorderStyle.None;
-            dataGridViewCellStyle21.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            dataGridViewCellStyle21.BackColor = System.Drawing.SystemColors.Control;
-            dataGridViewCellStyle21.Font = new System.Drawing.Font("Microsoft Sans Serif", 13.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            dataGridViewCellStyle21.ForeColor = System.Drawing.SystemColors.WindowText;
-            dataGridViewCellStyle21.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle21.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle21.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.dgv_discount.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle21;
+            dataGridViewCellStyle10.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            dataGridViewCellStyle10.BackColor = System.Drawing.SystemColors.Control;
+            dataGridViewCellStyle10.Font = new System.Drawing.Font("Microsoft Sans Serif", 13.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle10.ForeColor = System.Drawing.SystemColors.WindowText;
+            dataGridViewCellStyle10.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle10.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle10.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.dgv_discount.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle10;
             this.dgv_discount.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dgv_discount.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.col_discount_id,
@@ -7531,15 +7522,15 @@
             this.dgv_discount.Name = "dgv_discount";
             this.dgv_discount.ReadOnly = true;
             this.dgv_discount.RowHeadersBorderStyle = System.Windows.Forms.DataGridViewHeaderBorderStyle.None;
-            dataGridViewCellStyle22.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            dataGridViewCellStyle22.BackColor = System.Drawing.SystemColors.Control;
-            dataGridViewCellStyle22.Font = new System.Drawing.Font("Microsoft Sans Serif", 13.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            dataGridViewCellStyle22.ForeColor = System.Drawing.SystemColors.WindowText;
-            dataGridViewCellStyle22.Padding = new System.Windows.Forms.Padding(5);
-            dataGridViewCellStyle22.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle22.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle22.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.dgv_discount.RowHeadersDefaultCellStyle = dataGridViewCellStyle22;
+            dataGridViewCellStyle11.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            dataGridViewCellStyle11.BackColor = System.Drawing.SystemColors.Control;
+            dataGridViewCellStyle11.Font = new System.Drawing.Font("Microsoft Sans Serif", 13.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle11.ForeColor = System.Drawing.SystemColors.WindowText;
+            dataGridViewCellStyle11.Padding = new System.Windows.Forms.Padding(5);
+            dataGridViewCellStyle11.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle11.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle11.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.dgv_discount.RowHeadersDefaultCellStyle = dataGridViewCellStyle11;
             this.dgv_discount.RowHeadersVisible = false;
             this.dgv_discount.RowHeadersWidth = 51;
             this.dgv_discount.RowTemplate.DefaultCellStyle.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
@@ -8096,7 +8087,6 @@
             this.col_deleted_date,
             this.col_deleted_by,
             this.col_restore});
-            this.dgv_deleted_record.ContextMenuStrip = this.ct_menu_strip_transaction;
             this.dgv_deleted_record.Dock = System.Windows.Forms.DockStyle.Fill;
             this.dgv_deleted_record.EnableHeadersVisualStyles = false;
             this.dgv_deleted_record.Location = new System.Drawing.Point(14, 89);
@@ -8497,7 +8487,6 @@
             this.transactionTab.ResumeLayout(false);
             this.materialCard36.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.dgv_transaction_history)).EndInit();
-            this.ct_menu_strip_transaction.ResumeLayout(false);
             this.panel13.ResumeLayout(false);
             this.panel13.PerformLayout();
             this.refundTab.ResumeLayout(false);
@@ -8927,8 +8916,6 @@
         private MaterialSkin.Controls.MaterialLabel lbl_total_result;
         private MaterialSkin.Controls.MaterialLabel lbl_current_page;
         private System.Windows.Forms.Panel panel15;
-        private System.Windows.Forms.ContextMenuStrip ct_menu_strip_transaction;
-        private System.Windows.Forms.ToolStripMenuItem refundToolStripMenuItem;
         private System.Windows.Forms.TabPage refundTab;
         private MaterialSkin.Controls.MaterialCard materialCard38;
         private System.Windows.Forms.DataGridView dgv_refund;

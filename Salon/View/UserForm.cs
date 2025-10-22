@@ -1,4 +1,8 @@
-﻿using Salon.Util;
+﻿using MaterialSkin.Controls;
+using Salon.Controller;
+using Salon.Models;
+using Salon.Repository;
+using Salon.Util;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -8,10 +12,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-using MaterialSkin.Controls;
-using Salon.Repository;
-using Salon.Controller;
-using Salon.Models;
+using static System.Windows.Forms.VisualStyles.VisualStyleElement.StartPanel;
 
 namespace Salon.View
 {
@@ -27,8 +28,15 @@ namespace Salon.View
             InitializeComponent();
             ThemeManager.ApplyTheme(this);
             this._mainForm = mainForm;
-            dtp_day_of_birth.MaxDate = DateTime.Today;
-            dtp_day_of_birth.MinDate = new DateTime(1960, 1, 1);
+            int currentYear = DateTime.Now.Year;
+
+            int minYear = currentYear - 65; // Oldest allowed: 65 years old
+            int maxYear = currentYear - 18; // Youngest allowed: 18 years old
+
+            dtp_day_of_birth.MinDate = new DateTime(minYear, 1, 1);      // e.g., Jan 1, 1960 if it's 2025
+            dtp_day_of_birth.MaxDate = new DateTime(maxYear, 12, 31);    // e.g., Dec 31, 2007 if it's 2025
+
+            btn_cancel.DialogResult = DialogResult.Cancel;
 
         }
         public UserForm(MainForm mainForm, UsersModel user)
@@ -37,8 +45,15 @@ namespace Salon.View
             ThemeManager.ApplyTheme(this);
             this._mainForm = mainForm;
             this._user = user;
-            dtp_day_of_birth.MaxDate = DateTime.Today;
-            dtp_day_of_birth.MinDate = new DateTime(1960, 1, 1);
+            int currentYear = DateTime.Now.Year;
+
+            int minYear = currentYear - 65; // Oldest allowed: 65 years old
+            int maxYear = currentYear - 18; // Youngest allowed: 18 years old
+
+            dtp_day_of_birth.MinDate = new DateTime(minYear, 1, 1);      // e.g., Jan 1, 1960 if it's 2025
+            dtp_day_of_birth.MaxDate = new DateTime(maxYear, 12, 31);    // e.g., Dec 31, 2007 if it's 2025
+
+
 
             if (_user != null)
             {
@@ -63,10 +78,10 @@ namespace Salon.View
                 btn_update.Visible = false;
             }
         }
-        private string HashPassword(string password) 
-        {
-            return BCrypt.Net.BCrypt.HashPassword(password);
-        }
+        //private string HashPassword(string password) 
+        //{
+        //    return BCrypt.Net.BCrypt.HashPassword(password);
+        //}
         public UserForm(MainForm mainForm, UsersModel user, bool isViewed)
         {
             InitializeComponent();
@@ -114,15 +129,15 @@ namespace Salon.View
         {
             var user = new UsersModel
             {
-                first_Name = txt_first_name.Text,
-                middle_Name = txt_middle_name.Text,
-                last_Name = txt_last_name.Text,
+                first_Name = txt_first_name.Text.Trim(),
+                middle_Name = txt_middle_name.Text.Trim(),
+                last_Name = txt_last_name.Text.Trim(),
                 birth_date = dtp_day_of_birth.Value,
-                phone_Number = txt_contact.Text,
-                email = txt_email.Text,
-                address = txt_address.Text,
-                userName = txt_username.Text,
-                userPassword = HashPassword(txt_password.Text.Trim()),
+                phone_Number = txt_contact.Text.Trim(),
+                email = txt_email.Text.Trim(),
+                address = txt_address.Text.Trim(),
+                //userName = txt_username.Text.Trim(),
+                //userPassword = HashPassword(txt_password.Text.Trim()),
                 Position = "Staff",
             };
             var _repo = new UserRepository();
@@ -136,15 +151,15 @@ namespace Salon.View
         {
             if (_user != null)
             {
-                _user.first_Name = txt_first_name.Text;
-                _user.middle_Name = txt_middle_name.Text;
-                _user.last_Name = txt_last_name.Text;
+                _user.first_Name = txt_first_name.Text.Trim();
+                _user.middle_Name = txt_middle_name.Text.Trim();
+                _user.last_Name = txt_last_name.Text.Trim();
                 _user.birth_date = dtp_day_of_birth.Value;
-                _user.phone_Number = txt_contact.Text;
-                _user.email = txt_email.Text;
-                _user.address = txt_address.Text;
-                _user.userName = txt_username.Text;
-                _user.userPassword = HashPassword(txt_password.Text.Trim());
+                _user.phone_Number = txt_contact.Text.Trim();
+                _user.email = txt_email.Text.Trim();
+                _user.address = txt_address.Text.Trim();
+                _user.userName = txt_username.Text.Trim();
+                //_user.userPassword = HashPassword(txt_password.Text.Trim());
                 var _repo = new UserRepository();
                 var userController = new UserController(_repo);
                 userController.UpdateUser(_user);
@@ -159,36 +174,60 @@ namespace Salon.View
             bool validated = true;
 
             // REQUIRED AND MIN LENGTH FIELD
-            if (!Validator.IsRequiredTextField(txt_first_name, errorProvider1, "First name is required."))
-            {
-                validated = false;
-            }
-            else if (!Validator.IsMinimumLength(txt_first_name, errorProvider1, "First name must be at least 3 characters.", 3))
-            {
-                validated = false;
-            }
+            string firstName = txt_first_name.Text.Trim();
 
+            // First Name
+            if (!Validator.IsRequiredTextField(txt_first_name, errorProvider1, "First name is required."))
+                validated = false;
+            else if (!Validator.IsMinimumLength(txt_first_name, errorProvider1, "First name must be at least 3 characters.", 3))
+                validated = false;
+            else if (!Validator.Pattern(
+                txt_first_name,
+                errorProvider1,
+                @"^[A-Za-z]+(?: [A-Za-z]+)*$",
+                "First name should only contain letters and no special characters."))
+                validated = false;
+
+            // Middle Name (optional)
             if (!string.IsNullOrWhiteSpace(txt_middle_name.Text))
             {
-                validated &= Validator.IsMinimumLength(txt_middle_name, errorProvider1, "Middle name must be at least 3 characters.", 3);
+                if (!Validator.IsMinimumLength(txt_middle_name, errorProvider1, "Middle name must be at least 2 characters.", 2))
+                    validated = false;
+                else if (!Validator.Pattern(
+                    txt_middle_name,
+                    errorProvider1,
+                    @"^[A-Za-z]+(?: [A-Za-z]+)*$",
+                    "Middle name should only contain letters and no special characters."))
+                    validated = false;
             }
 
+
+            // Last Name
             if (!Validator.IsRequiredTextField(txt_last_name, errorProvider1, "Last name is required."))
-            {
                 validated = false;
-            }
-            else if (!Validator.IsMinimumLength(txt_last_name, errorProvider1, "Last name must be at least 3 characters.", 3))
-            {
+            else if (!Validator.IsMinimumLength(txt_last_name, errorProvider1, "Last name must be at least 2 characters.", 2))
                 validated = false;
-            }
+            else if (!Validator.Pattern(
+                txt_last_name,
+                errorProvider1,
+                @"^[A-Za-z]+(?: [A-Za-z]+)*$",
+                "Last name should only contain letters and no special characters."))
+                validated = false;
+
+
+
 
             if (!Validator.IsRequired(txt_email, errorProvider1, "Email is required."))
             {
                 validated = false;
             }
-            else if (!Validator.IsValidEmail(txt_email, errorProvider1))
+            else if (!Validator.Pattern(
+                txt_email,
+                errorProvider1,
+                @"^(?![._\-])[A-Za-z0-9._\-]+@[A-Za-z0-9\-]+\.[A-Za-z]{2,}$",
+                "Email must be in a valid format (e.g., example@email.com) and not start/end with special characters."))
             {
-               validated = false;
+                validated = false;
             }
             else if (!Validator.IsEmailExists(txt_email, errorProvider1, "Email already exists.", excludeId))
             {
@@ -197,22 +236,26 @@ namespace Salon.View
 
 
 
+
+
+
             if (!Validator.IsRequiredTextField(txt_contact, errorProvider1, "Contact number is required."))
             {
                 validated = false;
             }
-            else if (!Validator.IsMinimumLength(txt_contact, errorProvider1, "Contact number must be at least 11 characters.", 11))
+            else if (!Validator.Pattern(
+                txt_contact,
+                errorProvider1,
+                @"^09\d{9}$",
+                "Contact number must start with '09' and be exactly 11 digits long with no spaces or symbols."))
             {
                 validated = false;
             }
-            else if (!Validator.IsValidPhone(txt_contact, errorProvider1))
+            else if (!Validator.IsPhoneExists(txt_contact, errorProvider1, "Contact number already exists.", excludeId))
             {
                 validated = false;
             }
-            else if (!Validator.IsPhoneExists(txt_contact, errorProvider1, "Contact number already exists.", excludeId)) 
-            {
-                validated = false;
-            }
+
 
 
             if (!Validator.IsAddressRequiredField(txt_address, errorProvider1, "Address is required."))
@@ -223,6 +266,15 @@ namespace Salon.View
             {
                 validated = false;
             }
+            else if (!Validator.MultiLinePattern(
+                txt_address,
+                errorProvider1,
+                @"^[A-Za-z0-9\s.,\-#]+$",
+                "Address may only contain letters, numbers, commas, periods, dashes, and #. Avoid special characters."))
+            {
+                validated = false;
+            }
+
 
             // Adjust if birthday hasn't occurred yet this year
             if (birthDate > DateTime.Now.AddYears(-age))
@@ -251,7 +303,15 @@ namespace Salon.View
             {
                 validated = false;
             }
-            else if (!Validator.IsMinimumLength(txt_username, errorProvider1, "Username must be at least 5 characters.", 5))
+            else if (!Validator.IsMinimumLength(txt_username, errorProvider1, "Username must be at least 4 characters.", 4))
+            {
+                validated = false;
+            }
+            else if (!Validator.Pattern(
+                txt_username,
+                errorProvider1,
+                @"^[A-Za-z0-9]+$",
+                "Username must only contain letters and numbers. No spaces or special characters allowed."))
             {
                 validated = false;
             }
@@ -261,6 +321,9 @@ namespace Salon.View
             }
 
 
+
+
+            //Password validation
             if (!Validator.IsRequiredTextField(txt_password, errorProvider1, "Password is required."))
             {
                 validated = false;
@@ -269,7 +332,22 @@ namespace Salon.View
             {
                 validated = false;
             }
+            else if (!Validator.DisallowSpaces(txt_password, errorProvider1, "Password should not contain spaces."))
+            {
 
+                validated = false;
+            }
+            else if (!Validator.Pattern(
+                txt_password,
+                errorProvider1,
+                @"^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@#$%^&*()_+\-=!?\u005F]).{8,}$",
+                "Password must include uppercase, lowercase, number, and a special character (@ # $ % ^ & * ( ) _ + - = ! ?)."))
+            {
+                validated = false;
+            }
+
+
+            // Confirm password validation
             if (!Validator.IsRequiredTextField(txt_confirm_password, errorProvider1, "Confirm password is required."))
             {
                 validated = false;
@@ -278,8 +356,19 @@ namespace Salon.View
             {
                 validated = false;
             }
+            else if (!Validator.DisallowSpaces(txt_confirm_password, errorProvider1, "Confirm password should not contain spaces."))
+            {
 
-           
+                validated = false;
+            }
+            else if (txt_password.Text != txt_confirm_password.Text)
+            {
+                errorProvider1.SetError(txt_confirm_password, "Passwords must match exactly.");
+                validated = false;
+            }
+
+
+
 
             //validated &= Validator.IsUserExists(txt_username, errorProvider1, "Username already exists.", excludeId);
             //if (emailValid)
@@ -295,23 +384,15 @@ namespace Salon.View
         }
         private void btn_save_Click(object sender, EventArgs e)
         {
-            _isSaving = true;
 
-            btn_save.Enabled = false;
 
             // Run validation on UI thread
-            if (!IsValid())
-            {
-               
-                btn_save.Enabled = true;
-                _isSaving = false;
+            if (!IsValid()) return;
 
-                return;
-            }
-          
+
 
             SaveUser();
-            string fullName = txt_first_name.Text +" "+ txt_last_name.Text;
+            string fullName = txt_first_name.Text + " " + txt_last_name.Text;
             Audit.AuditLog(DateTime.Now, "Create", UserSession.CurrentUser.first_Name, "Manage User", $"Created new user for {fullName} on {DateTime.Now:yyyy-MM-dd} at {DateTime.Now:HH:mm:ss}");
             _mainForm.LoadAuditTrail();
             Clear();
@@ -359,7 +440,10 @@ namespace Salon.View
 
         private void UserForm_Load(object sender, EventArgs e)
         {
-           
+            txt_password.Password = true;
+            txt_confirm_password.Password = true;
+
+
         }
 
         private void chk_show_password_CheckedChanged(object sender, EventArgs e)
@@ -369,21 +453,19 @@ namespace Salon.View
 
         private void chk_show_password_CheckedChanged_1(object sender, EventArgs e)
         {
+            txt_password.Hint = "";
+            txt_confirm_password.Hint = "";
             txt_password.Password = !chk_show_password.Checked;
             txt_confirm_password.Password = !chk_show_password.Checked;
+            txt_password.Hint = "Password";
+            txt_confirm_password.Hint = "Confirm Password";
 
         }
 
         private void btn_cancel_Click(object sender, EventArgs e)
         {
-            if (_isSaving)
-            {
-                MessageBox.Show("Please wait for the save operation to complete.");
-                return;
-            }
-
+          
             this.Close();
-
 
         }
         private void Clear() 

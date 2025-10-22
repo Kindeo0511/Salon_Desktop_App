@@ -117,7 +117,7 @@
             this.txt_contact.Hint = "Contact #";
             this.txt_contact.LeadingIcon = null;
             this.txt_contact.Location = new System.Drawing.Point(477, 39);
-            this.txt_contact.MaxLength = 50;
+            this.txt_contact.MaxLength = 11;
             this.txt_contact.MouseState = MaterialSkin.MouseState.OUT;
             this.txt_contact.Multiline = false;
             this.txt_contact.Name = "txt_contact";
@@ -147,7 +147,7 @@
             // 
             // txt_confirm_password
             // 
-            this.txt_confirm_password.AnimateReadOnly = true;
+            this.txt_confirm_password.AnimateReadOnly = false;
             this.txt_confirm_password.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.txt_confirm_password.Depth = 0;
             this.txt_confirm_password.Font = new System.Drawing.Font("Roboto", 16F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
@@ -158,7 +158,6 @@
             this.txt_confirm_password.MouseState = MaterialSkin.MouseState.OUT;
             this.txt_confirm_password.Multiline = false;
             this.txt_confirm_password.Name = "txt_confirm_password";
-            this.txt_confirm_password.Password = true;
             this.txt_confirm_password.Size = new System.Drawing.Size(400, 50);
             this.txt_confirm_password.TabIndex = 9;
             this.txt_confirm_password.Text = "";
@@ -166,7 +165,7 @@
             // 
             // txt_password
             // 
-            this.txt_password.AnimateReadOnly = true;
+            this.txt_password.AnimateReadOnly = false;
             this.txt_password.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.txt_password.Depth = 0;
             this.txt_password.Font = new System.Drawing.Font("Roboto", 16F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
@@ -177,7 +176,6 @@
             this.txt_password.MouseState = MaterialSkin.MouseState.OUT;
             this.txt_password.Multiline = false;
             this.txt_password.Name = "txt_password";
-            this.txt_password.Password = true;
             this.txt_password.Size = new System.Drawing.Size(400, 50);
             this.txt_password.TabIndex = 8;
             this.txt_password.Text = "";
@@ -240,7 +238,7 @@
             this.btn_update.Depth = 0;
             this.btn_update.HighEmphasis = true;
             this.btn_update.Icon = null;
-            this.btn_update.Location = new System.Drawing.Point(1286, 640);
+            this.btn_update.Location = new System.Drawing.Point(1100, 640);
             this.btn_update.Margin = new System.Windows.Forms.Padding(4, 6, 4, 6);
             this.btn_update.MouseState = MaterialSkin.MouseState.HOVER;
             this.btn_update.Name = "btn_update";
@@ -391,6 +389,7 @@
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.AutoValidate = System.Windows.Forms.AutoValidate.Disable;
+            this.CancelButton = this.btn_cancel;
             this.CausesValidation = false;
             this.ClientSize = new System.Drawing.Size(1600, 700);
             this.Controls.Add(this.btn_update);

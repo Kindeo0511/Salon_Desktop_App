@@ -21,8 +21,8 @@ namespace Salon
             //splash.ShowDialog(); // blocks until closed
 
             // Then launch login form as main window
-            //Application.Run(new LoginForm());
-            Application.Run(new Form1());
+            Application.Run(new LoginForm());
+            //Application.Run(new Form1());
 
         }
     }

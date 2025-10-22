@@ -370,7 +370,9 @@ namespace Salon.View
             using (var userForm = new UserForm(this))
             {
                 userForm.ShowDialog();
+               
             }
+
         }
 
         private void dgv_user_CellClick(object sender, DataGridViewCellEventArgs e)
@@ -3884,32 +3886,7 @@ namespace Salon.View
 
         }
 
-        private void dgv_transaction_history_MouseDown(object sender, MouseEventArgs e)
-        {
-            if (e.Button == MouseButtons.Right)
-            {
-                var hit = dgv_transaction_history.HitTest(e.X, e.Y);
-
-                if (hit.RowIndex >= 0)
-                {
-                    dgv_transaction_history.ClearSelection();
-                    dgv_transaction_history.Rows[hit.RowIndex].Selected = true;
-
-                    // Temporarily assign and show the menu
-                    dgv_transaction_history.ContextMenuStrip = ct_menu_strip_transaction;
-                    ct_menu_strip_transaction.Show(dgv_transaction_history, e.Location);
-
-                    // Detach immediately after showing
-                    dgv_transaction_history.ContextMenuStrip = null;
-                }
-                else
-                {
-                    dgv_transaction_history.ContextMenuStrip = null;
-                }
-            }
-        }
-
-
+      
         
 
         // REFUND 

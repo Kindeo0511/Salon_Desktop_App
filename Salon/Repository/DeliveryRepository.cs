@@ -36,8 +36,8 @@ namespace Salon.Repository
         {
             using (var con = Database.GetConnection())
             {
-                var sql = @"SELECT COUNT(*) FROM `tbl_delivery` WHERE invoice = 123;";
-                return con.ExecuteScalar<int>(sql) > 0;
+                var sql = @"SELECT COUNT(*) FROM `tbl_delivery` WHERE invoice = @invoice;";
+                return con.ExecuteScalar<int>(sql, new { invoice = invoice}) > 0;
             }
         }
         // DELIVERY REPORT

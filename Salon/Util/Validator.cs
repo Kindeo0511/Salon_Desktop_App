@@ -151,6 +151,7 @@ namespace Salon.Util
         {
             if (control is MaterialTextBox tb)
             {
+       
                 if (tb.TextLength < size)
                 {
                     ep.SetError(tb, message);

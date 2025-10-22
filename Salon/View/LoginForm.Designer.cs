@@ -90,7 +90,6 @@
             this.txt_password.MouseState = MaterialSkin.MouseState.OUT;
             this.txt_password.Multiline = false;
             this.txt_password.Name = "txt_password";
-            this.txt_password.Password = true;
             this.txt_password.Size = new System.Drawing.Size(400, 50);
             this.txt_password.TabIndex = 2;
             this.txt_password.Text = "";

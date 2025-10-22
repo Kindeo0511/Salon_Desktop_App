@@ -112,7 +112,17 @@ namespace Salon.View
 
         private void btn_assign_Click(object sender, EventArgs e)
         {
-            UpdateAppointment();
+            if (cmb_stylist.SelectedItem != null && cmb_stylist.SelectedIndex > 0) 
+            {
+                UpdateAppointment();
+            }
+            else 
+            {
+
+                errorProvider1.SetError(cmb_stylist, "Please select a stylist.");
+
+            }
+
         }
 
         private void btn_cancel_Click(object sender, EventArgs e)

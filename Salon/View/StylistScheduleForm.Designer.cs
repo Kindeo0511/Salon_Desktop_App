@@ -52,7 +52,6 @@
             this.rad_yes = new MaterialSkin.Controls.MaterialRadioButton();
             this.dtp_end_time = new System.Windows.Forms.DateTimePicker();
             this.dtp_start_time = new System.Windows.Forms.DateTimePicker();
-            this.txt_day = new MaterialSkin.Controls.MaterialTextBox();
             this.exceptionTab = new System.Windows.Forms.TabPage();
             this.dgv_exception_schedule = new System.Windows.Forms.DataGridView();
             this.exception_id = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -80,6 +79,7 @@
             this.dtp_exception_start_time = new System.Windows.Forms.DateTimePicker();
             this.materialTabSelector1 = new MaterialSkin.Controls.MaterialTabSelector();
             this.errorProvider1 = new System.Windows.Forms.ErrorProvider(this.components);
+            this.txt_day = new MaterialSkin.Controls.MaterialComboBox();
             this.materialTabControl1.SuspendLayout();
             this.weeklyTab.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgv_weekly_schedules)).BeginInit();
@@ -221,6 +221,7 @@
             // materialCard1
             // 
             this.materialCard1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
+            this.materialCard1.Controls.Add(this.txt_day);
             this.materialCard1.Controls.Add(this.btn_cancel);
             this.materialCard1.Controls.Add(this.btn_update);
             this.materialCard1.Controls.Add(this.btn_add);
@@ -231,7 +232,6 @@
             this.materialCard1.Controls.Add(this.rad_yes);
             this.materialCard1.Controls.Add(this.dtp_end_time);
             this.materialCard1.Controls.Add(this.dtp_start_time);
-            this.materialCard1.Controls.Add(this.txt_day);
             this.materialCard1.Depth = 0;
             this.materialCard1.Dock = System.Windows.Forms.DockStyle.Top;
             this.materialCard1.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(222)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
@@ -392,24 +392,6 @@
             this.dtp_start_time.ShowUpDown = true;
             this.dtp_start_time.Size = new System.Drawing.Size(200, 22);
             this.dtp_start_time.TabIndex = 1;
-            // 
-            // txt_day
-            // 
-            this.txt_day.AnimateReadOnly = false;
-            this.txt_day.BorderStyle = System.Windows.Forms.BorderStyle.None;
-            this.txt_day.Depth = 0;
-            this.txt_day.Font = new System.Drawing.Font("Roboto", 16F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
-            this.txt_day.Hint = "Day";
-            this.txt_day.LeadingIcon = null;
-            this.txt_day.Location = new System.Drawing.Point(39, 42);
-            this.txt_day.MaxLength = 50;
-            this.txt_day.MouseState = MaterialSkin.MouseState.OUT;
-            this.txt_day.Multiline = false;
-            this.txt_day.Name = "txt_day";
-            this.txt_day.Size = new System.Drawing.Size(400, 50);
-            this.txt_day.TabIndex = 0;
-            this.txt_day.Text = "";
-            this.txt_day.TrailingIcon = null;
             // 
             // exceptionTab
             // 
@@ -769,6 +751,36 @@
             // 
             this.errorProvider1.ContainerControl = this;
             // 
+            // txt_day
+            // 
+            this.txt_day.AutoResize = false;
+            this.txt_day.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
+            this.txt_day.Depth = 0;
+            this.txt_day.DrawMode = System.Windows.Forms.DrawMode.OwnerDrawVariable;
+            this.txt_day.DropDownHeight = 174;
+            this.txt_day.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.txt_day.DropDownWidth = 121;
+            this.txt_day.Font = new System.Drawing.Font("Roboto Medium", 14F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Pixel);
+            this.txt_day.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(222)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
+            this.txt_day.FormattingEnabled = true;
+            this.txt_day.IntegralHeight = false;
+            this.txt_day.ItemHeight = 43;
+            this.txt_day.Items.AddRange(new object[] {
+            "Monday",
+            "Tuesday",
+            "Thursday",
+            "Wednesday",
+            "Friday",
+            "Saturday",
+            "Sunday"});
+            this.txt_day.Location = new System.Drawing.Point(39, 39);
+            this.txt_day.MaxDropDownItems = 4;
+            this.txt_day.MouseState = MaterialSkin.MouseState.OUT;
+            this.txt_day.Name = "txt_day";
+            this.txt_day.Size = new System.Drawing.Size(400, 49);
+            this.txt_day.StartIndex = -1;
+            this.txt_day.TabIndex = 11;
+            // 
             // StylistScheduleForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
@@ -805,7 +817,6 @@
         private MaterialSkin.Controls.MaterialRadioButton rad_yes;
         private System.Windows.Forms.DateTimePicker dtp_end_time;
         private System.Windows.Forms.DateTimePicker dtp_start_time;
-        private MaterialSkin.Controls.MaterialTextBox txt_day;
         private MaterialSkin.Controls.MaterialLabel materialLabel3;
         private MaterialSkin.Controls.MaterialLabel materialLabel2;
         private MaterialSkin.Controls.MaterialButton btn_cancel;
@@ -845,5 +856,6 @@
         private System.Windows.Forms.DataGridViewImageColumn btn_weekly_update;
         private System.Windows.Forms.DataGridViewImageColumn btn_weekly_delete;
         private MaterialSkin.Controls.MaterialMultiLineTextBox2 txt_reason;
+        private MaterialSkin.Controls.MaterialComboBox txt_day;
     }
 }

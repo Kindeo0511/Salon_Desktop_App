@@ -240,7 +240,6 @@
             this.txt_password.MouseState = MaterialSkin.MouseState.OUT;
             this.txt_password.Multiline = false;
             this.txt_password.Name = "txt_password";
-            this.txt_password.Password = true;
             this.txt_password.Size = new System.Drawing.Size(400, 50);
             this.txt_password.TabIndex = 8;
             this.txt_password.Text = "";
@@ -259,7 +258,6 @@
             this.txt_confirm_password.MouseState = MaterialSkin.MouseState.OUT;
             this.txt_confirm_password.Multiline = false;
             this.txt_confirm_password.Name = "txt_confirm_password";
-            this.txt_confirm_password.Password = true;
             this.txt_confirm_password.Size = new System.Drawing.Size(400, 50);
             this.txt_confirm_password.TabIndex = 9;
             this.txt_confirm_password.Text = "";
@@ -718,6 +716,7 @@
             this.Name = "ConfigureSettingsForm";
             this.Padding = new System.Windows.Forms.Padding(0, 24, 0, 3);
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
+            this.Load += new System.EventHandler(this.ConfigureSettingsForm_Load);
             this.materialTabControl1.ResumeLayout(false);
             this.createAdminTab.ResumeLayout(false);
             this.materialCard1.ResumeLayout(false);
