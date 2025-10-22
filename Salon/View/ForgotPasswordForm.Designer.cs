@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
             this.txt_username = new MaterialSkin.Controls.MaterialTextBox();
             this.lbl_email = new MaterialSkin.Controls.MaterialLabel();
             this.g_step_1 = new System.Windows.Forms.GroupBox();
@@ -55,6 +56,7 @@
             this.tabPage2 = new System.Windows.Forms.TabPage();
             this.tabPage3 = new System.Windows.Forms.TabPage();
             this.materialTabSelector1 = new MaterialSkin.Controls.MaterialTabSelector();
+            this.errorProvider1 = new System.Windows.Forms.ErrorProvider(this.components);
             this.g_step_1.SuspendLayout();
             this.g_step_3.SuspendLayout();
             this.g_step_2.SuspendLayout();
@@ -62,6 +64,7 @@
             this.tabPage1.SuspendLayout();
             this.tabPage2.SuspendLayout();
             this.tabPage3.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.errorProvider1)).BeginInit();
             this.SuspendLayout();
             // 
             // txt_username
@@ -135,7 +138,7 @@
             this.txt_number.Hint = "Enter contact number";
             this.txt_number.LeadingIcon = null;
             this.txt_number.Location = new System.Drawing.Point(79, 175);
-            this.txt_number.MaxLength = 50;
+            this.txt_number.MaxLength = 11;
             this.txt_number.MouseState = MaterialSkin.MouseState.OUT;
             this.txt_number.Multiline = false;
             this.txt_number.Name = "txt_number";
@@ -342,7 +345,7 @@
             this.txt_otp.Hint = "Enter otp";
             this.txt_otp.LeadingIcon = null;
             this.txt_otp.Location = new System.Drawing.Point(79, 119);
-            this.txt_otp.MaxLength = 50;
+            this.txt_otp.MaxLength = 6;
             this.txt_otp.MouseState = MaterialSkin.MouseState.OUT;
             this.txt_otp.Multiline = false;
             this.txt_otp.Name = "txt_otp";
@@ -504,6 +507,11 @@
             this.materialTabSelector1.TabIndex = 11;
             this.materialTabSelector1.Text = "materialTabSelector1";
             // 
+            // errorProvider1
+            // 
+            this.errorProvider1.BlinkStyle = System.Windows.Forms.ErrorBlinkStyle.NeverBlink;
+            this.errorProvider1.ContainerControl = this;
+            // 
             // ForgotPasswordForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
@@ -531,6 +539,7 @@
             this.tabPage2.PerformLayout();
             this.tabPage3.ResumeLayout(false);
             this.tabPage3.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.errorProvider1)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -564,5 +573,6 @@
         private MaterialSkin.Controls.MaterialRadioButton rad_email;
         private MaterialSkin.Controls.MaterialTextBox txt_number;
         private MaterialSkin.Controls.MaterialLabel lbl_number;
+        private System.Windows.Forms.ErrorProvider errorProvider1;
     }
 }

@@ -9,6 +9,7 @@ namespace Salon.Models
     public class OtpEntryModel
     {
         public string Code { get; set; }
+        public bool IsUsed { get; set; }
         public DateTime Expiry { get; set; }
 
     }

@@ -1704,7 +1704,7 @@ namespace Salon.View
                 txt_water_bill.Text = utility.water_bill.ToString();
                 txt_internet_bill.Text = utility.internet_bill.ToString();
                 txt_other_bill.Text = utility.other_bill.ToString();
-                txt_bill_note.Text = utility.notes;
+                txt_bill_note.Text = utility.notes.ToString();
             }
             else 
             {

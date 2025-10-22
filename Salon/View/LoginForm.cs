@@ -40,11 +40,15 @@ namespace Salon.View
             {
                 validated = false;
             }
-            else if (!Validator.IsMinimumLength(txt_user_name, errorProvider1, "Username must be at least 3 characters.", 3))
+            else if (!Validator.DisallowSpaces(txt_user_name, errorProvider1, "Username should not contain spaces."))
             {
                 validated = false;
             }
-            else if (!Validator.Pattern(txt_user_name, errorProvider1, @"^[a-zA-Z0-9._]+$", "Username can only contain letters, numbers, dot, and underscore."))
+            else if (!Validator.IsMinimumLength(txt_user_name, errorProvider1, "Username must be at least 4 characters.", 4))
+            {
+                validated = false;
+            }
+            else if (!Validator.Pattern(txt_user_name, errorProvider1, @"^[a-zA-Z0-9]+$", "Username can only contain letters and numbers."))
             {
                 validated = false;
             }
@@ -62,11 +66,16 @@ namespace Salon.View
             {
                 validated = false;
             }
-            else if (!Validator.Pattern(txt_password, errorProvider1, @"^[\w@$!%*?&]{8,}$",
-                "Password must be at least 8 characters and may include letters, numbers, and @$!%*?&."))
+            else if (!Validator.Pattern(
+                     txt_password,
+                     errorProvider1,
+                     @"^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@#$%^&*()_+\-=!?])[a-zA-Z\d@#$%^&*()_+\-=!?]{8,}$",
+                     "Password must be at least 8 characters and include uppercase, lowercase, number, and special character (@#$%^&*()_+-=!?)."
+                 ))
             {
                 validated = false;
             }
+
 
 
 
@@ -117,7 +126,9 @@ namespace Salon.View
 
         private void chk_show_password_CheckedChanged(object sender, EventArgs e)
         {
+            txt_password.Hint = string.Empty;
             txt_password.Password = !chk_show_password.Checked;
+            txt_password.Hint = "Password";
         }
 
         private void btn_cancel_Click(object sender, EventArgs e)

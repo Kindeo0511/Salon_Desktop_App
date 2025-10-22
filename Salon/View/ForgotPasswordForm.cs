@@ -27,6 +27,58 @@ namespace Salon.View
             this.loginForm = loginForm;
         }
 
+        private bool IsValidEmailOrSMS() 
+        {
+            var validated = true;
+
+            if (rad_sms.Checked)
+            {
+                if (!Validator.IsRequiredTextField(txt_number, errorProvider1, "Phone number is required"))
+                {
+                    validated = false;
+                }
+                else if (!Validator.Pattern(txt_number, errorProvider1, @"^\d+$", "Phone number must contain digits only."))
+                {
+                    validated = false;
+                }
+                else if (!Validator.Pattern(txt_number, errorProvider1, @"^09\d{9}$", "Contact number should start with '09' and be 11 digits long."))
+                {
+                    validated = false;
+                }
+            }
+            else if (rad_email.Checked) 
+            {
+                if (!Validator.IsRequiredTextField(txt_username, errorProvider1, "Email address should not be empty."))
+                {
+                    validated = false;
+                }
+                else if (txt_username.Text.Contains(" "))
+                {
+                    errorProvider1.SetError(txt_username, "Email address should not contain spaces.");
+                    validated = false;
+                }
+                else if (txt_username.Text.Count(c => c == '@') != 1)
+                {
+                    errorProvider1.SetError(txt_username, "Email address must contain exactly one '@' symbol.");
+                    validated = false;
+                }
+                else if (!Validator.Pattern(
+                    txt_username,
+                    errorProvider1,
+                    @"^(?![._-])([a-zA-Z0-9]+[._-]?)*[a-zA-Z0-9]+@([a-zA-Z0-9]+[-]?)*[a-zA-Z0-9]+\.[a-zA-Z]{2,}$",
+                    "Email must be valid, contain '@' and a domain, and only allowed characters (letters, numbers, ., _, -)."
+                ))
+                {
+                    validated = false;
+                }
+
+
+            }
+
+
+
+            return validated;
+        }
         private bool GetUserByEmailOrPhone(string email, string phone, string method)
         {
             var repo = new UserRepository();
@@ -80,7 +132,7 @@ namespace Salon.View
 
             string method = rad_email.Checked ? "Email" :
                  rad_sms.Checked ? "SMS" : null;
-
+            if (!IsValidEmailOrSMS()) return;
 
             if (string.IsNullOrEmpty(method))
             {
@@ -94,12 +146,13 @@ namespace Salon.View
 
             if (userFound)
             {
+
                 forgotPasswordTabControl.Selecting -= forgotPasswordTabControl_Selecting;
                 forgotPasswordTabControl.SelectedIndex = 1;
                 forgotPasswordTabControl.Selecting += forgotPasswordTabControl_Selecting;
             }
 
-
+        
 
 
         }
@@ -118,6 +171,7 @@ namespace Salon.View
                 MessageBox.Show("OTP has expired.");
                 return false;
             }
+          
 
             if (input == currentOtp.Code)
             {
@@ -136,10 +190,32 @@ namespace Salon.View
             this.Close();
         }
 
+        private bool IsValidOTP() 
+        {
+            var validated = true;
+
+
+            if (!Validator.IsRequiredTextField(txt_otp, errorProvider1, "OTP is required."))
+            {
+                validated = false;
+            }
+            else if (!Validator.Pattern(
+                txt_otp,
+                errorProvider1,
+                @"^\d{6}$",
+                "OTP must be exactly 6 digits and contain digits only (0–9)."
+            ))
+            {
+                validated = false;
+            }
+
+
+            return validated;
+        }
         private void btn_confirm_Click(object sender, EventArgs e)
         {
             bool verified = VerifyOtp(txt_otp.Text);
-
+            currentOtp.IsUsed = true;
             if (verified)
             {
                 forgotPasswordTabControl.Selecting -= forgotPasswordTabControl_Selecting; // Temporarily allow switching

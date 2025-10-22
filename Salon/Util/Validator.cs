@@ -111,7 +111,7 @@ namespace Salon.Util
             string rawText = tb.Text?.Trim();
 
             if (string.IsNullOrWhiteSpace(rawText))
-            {
+            { 
                 ep.SetError(tb, requiredMessage);
                 return false;
             }

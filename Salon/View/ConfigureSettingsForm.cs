@@ -180,7 +180,7 @@ namespace Salon.View
             {
                 validated = false;
             }
-     
+
 
 
 
@@ -196,7 +196,7 @@ namespace Salon.View
             {
                 validated = false;
             }
-     
+
 
 
             if (!Validator.IsAddressRequiredField(txt_address, errorProvider1, "Address is required."))
@@ -235,13 +235,21 @@ namespace Salon.View
             {
                 validated = false;
             }
-            else if (!Validator.IsMinimumLength(txt_username, errorProvider1, "Username must be at least 5 characters.", 5))
+            else if (!Validator.IsMinimumLength(txt_username, errorProvider1, "Username must be at least 4 characters.", 4))
             {
                 validated = false;
             }
-        
+            else if (!Validator.DisallowSpaces(txt_username, errorProvider1, "Username should not contain spaces."))
+            {
+                validated = false;
+            }
+            else if (!Validator.Pattern(txt_username, errorProvider1, @"^[a-zA-Z0-9]+$", "Username can only contain letters and numbers."))
+            {
+                validated = false;
+            }
 
 
+            // PASSWORD
             if (!Validator.IsRequiredTextField(txt_password, errorProvider1, "Password is required."))
             {
                 validated = false;
@@ -250,6 +258,21 @@ namespace Salon.View
             {
                 validated = false;
             }
+            else if (!Validator.DisallowSpaces(txt_password, errorProvider1, "Password must not contain spaces."))
+            {
+                validated = false;
+            }
+            else if (!Validator.Pattern(
+                     txt_password,
+                     errorProvider1,
+                     @"^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@#$%^&*()_+\-=!?])[a-zA-Z\d@#$%^&*()_+\-=!?]{8,}$",
+                     "Password must be at least 8 characters and include uppercase, lowercase, number, and special character (@#$%^&*()_+-=!?)."
+                 ))
+            {
+                validated = false;
+            }
+
+            // CONFIRM PASS
 
             if (!Validator.IsRequiredTextField(txt_confirm_password, errorProvider1, "Confirm password is required."))
             {
@@ -259,20 +282,17 @@ namespace Salon.View
             {
                 validated = false;
             }
-
-
-
-            //validated &= Validator.IsUserExists(txt_username, errorProvider1, "Username already exists.", excludeId);
-            //if (emailValid)
-            //    validated &= Validator.IsEmailExists(txt_email, errorProvider1, "Email already exists.", excludeId);
-
-            //if (phoneValid)
-            //    validated &= Validator.IsPhoneExists(txt_contact, errorProvider1, "Contact number already exists.", excludeId);
+            else if (!Validator.DisallowSpaces(txt_confirm_password, errorProvider1, "Confrim password must not contain spaces."))
+            {
+                validated = false;
+            }
+            else if (txt_password.Text != txt_confirm_password.Text)
+            {
+                errorProvider1.SetError(txt_confirm_password, "Password does not match!");
+                validated = false;
+            }
 
             return validated;
-
-
-
         }
         private bool OverHeadValidated()
         {
@@ -431,6 +451,18 @@ namespace Salon.View
         private void txt_other_bill_TextChanged(object sender, EventArgs e)
         {
             CalculateTotal();
+        }
+
+        private void chk_show_password_CheckedChanged(object sender, EventArgs e)
+        {
+            txt_password.Hint = string.Empty;
+            txt_confirm_password.Hint = string.Empty;
+
+            txt_password.Password = !chk_show_password.Checked;
+            txt_confirm_password.Password = !chk_show_password.Checked;
+
+            txt_password.Hint = "Password";
+            txt_confirm_password.Hint = "Confirm Password";
         }
     }
 }

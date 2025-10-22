@@ -33,6 +33,8 @@
             this.materialTabControl1 = new MaterialSkin.Controls.MaterialTabControl();
             this.createAdminTab = new System.Windows.Forms.TabPage();
             this.materialCard1 = new MaterialSkin.Controls.MaterialCard();
+            this.btn_cancel = new MaterialSkin.Controls.MaterialButton();
+            this.btn_next = new MaterialSkin.Controls.MaterialButton();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
             this.chk_show_password = new MaterialSkin.Controls.MaterialCheckbox();
             this.txt_username = new MaterialSkin.Controls.MaterialTextBox();
@@ -49,6 +51,8 @@
             this.txt_email = new MaterialSkin.Controls.MaterialTextBox();
             this.settingsTab = new System.Windows.Forms.TabPage();
             this.materialCard2 = new MaterialSkin.Controls.MaterialCard();
+            this.txt_vat = new MaterialSkin.Controls.MaterialTextBox();
+            this.btn_back = new MaterialSkin.Controls.MaterialButton();
             this.btn_save = new MaterialSkin.Controls.MaterialButton();
             this.groupBox3 = new System.Windows.Forms.GroupBox();
             this.txt_bill_note = new MaterialSkin.Controls.MaterialMultiLineTextBox2();
@@ -60,10 +64,6 @@
             this.groupBox4 = new System.Windows.Forms.GroupBox();
             this.txt_working_hours = new MaterialSkin.Controls.MaterialTextBox();
             this.lbl_total_cost = new MaterialSkin.Controls.MaterialTextBox();
-            this.btn_back = new MaterialSkin.Controls.MaterialButton();
-            this.txt_vat = new MaterialSkin.Controls.MaterialTextBox();
-            this.btn_cancel = new MaterialSkin.Controls.MaterialButton();
-            this.btn_next = new MaterialSkin.Controls.MaterialButton();
             this.errorProvider1 = new System.Windows.Forms.ErrorProvider(this.components);
             this.materialTabControl1.SuspendLayout();
             this.createAdminTab.SuspendLayout();
@@ -135,6 +135,47 @@
             this.materialCard1.Size = new System.Drawing.Size(1474, 774);
             this.materialCard1.TabIndex = 0;
             // 
+            // btn_cancel
+            // 
+            this.btn_cancel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.btn_cancel.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
+            this.btn_cancel.Density = MaterialSkin.Controls.MaterialButton.MaterialButtonDensity.Default;
+            this.btn_cancel.Depth = 0;
+            this.btn_cancel.HighEmphasis = true;
+            this.btn_cancel.Icon = null;
+            this.btn_cancel.Location = new System.Drawing.Point(1325, 701);
+            this.btn_cancel.Margin = new System.Windows.Forms.Padding(4, 6, 4, 6);
+            this.btn_cancel.MouseState = MaterialSkin.MouseState.HOVER;
+            this.btn_cancel.Name = "btn_cancel";
+            this.btn_cancel.NoAccentTextColor = System.Drawing.Color.Empty;
+            this.btn_cancel.Size = new System.Drawing.Size(77, 36);
+            this.btn_cancel.TabIndex = 18;
+            this.btn_cancel.Text = "cancel";
+            this.btn_cancel.Type = MaterialSkin.Controls.MaterialButton.MaterialButtonType.Contained;
+            this.btn_cancel.UseAccentColor = false;
+            this.btn_cancel.UseVisualStyleBackColor = true;
+            // 
+            // btn_next
+            // 
+            this.btn_next.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.btn_next.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
+            this.btn_next.Density = MaterialSkin.Controls.MaterialButton.MaterialButtonDensity.Default;
+            this.btn_next.Depth = 0;
+            this.btn_next.HighEmphasis = true;
+            this.btn_next.Icon = null;
+            this.btn_next.Location = new System.Drawing.Point(1176, 701);
+            this.btn_next.Margin = new System.Windows.Forms.Padding(4, 6, 4, 6);
+            this.btn_next.MouseState = MaterialSkin.MouseState.HOVER;
+            this.btn_next.Name = "btn_next";
+            this.btn_next.NoAccentTextColor = System.Drawing.Color.Empty;
+            this.btn_next.Size = new System.Drawing.Size(64, 36);
+            this.btn_next.TabIndex = 17;
+            this.btn_next.Text = "Next";
+            this.btn_next.Type = MaterialSkin.Controls.MaterialButton.MaterialButtonType.Contained;
+            this.btn_next.UseAccentColor = false;
+            this.btn_next.UseVisualStyleBackColor = true;
+            this.btn_next.Click += new System.EventHandler(this.btn_next_Click);
+            // 
             // groupBox2
             // 
             this.groupBox2.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
@@ -166,6 +207,7 @@
             this.chk_show_password.TabIndex = 10;
             this.chk_show_password.Text = "Show Password";
             this.chk_show_password.UseVisualStyleBackColor = true;
+            this.chk_show_password.CheckedChanged += new System.EventHandler(this.chk_show_password_CheckedChanged);
             // 
             // txt_username
             // 
@@ -351,7 +393,7 @@
             this.txt_contact.Hint = "Contact #";
             this.txt_contact.LeadingIcon = null;
             this.txt_contact.Location = new System.Drawing.Point(477, 39);
-            this.txt_contact.MaxLength = 50;
+            this.txt_contact.MaxLength = 11;
             this.txt_contact.MouseState = MaterialSkin.MouseState.OUT;
             this.txt_contact.Multiline = false;
             this.txt_contact.Name = "txt_contact";
@@ -407,6 +449,46 @@
             this.materialCard2.Padding = new System.Windows.Forms.Padding(14);
             this.materialCard2.Size = new System.Drawing.Size(1324, 774);
             this.materialCard2.TabIndex = 0;
+            // 
+            // txt_vat
+            // 
+            this.txt_vat.AnimateReadOnly = false;
+            this.txt_vat.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            this.txt_vat.Depth = 0;
+            this.txt_vat.Font = new System.Drawing.Font("Roboto", 16F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
+            this.txt_vat.Hint = "Vat (%)";
+            this.txt_vat.LeadingIcon = null;
+            this.txt_vat.Location = new System.Drawing.Point(941, 86);
+            this.txt_vat.MaxLength = 50;
+            this.txt_vat.MouseState = MaterialSkin.MouseState.OUT;
+            this.txt_vat.Multiline = false;
+            this.txt_vat.Name = "txt_vat";
+            this.txt_vat.Size = new System.Drawing.Size(272, 50);
+            this.txt_vat.TabIndex = 49;
+            this.txt_vat.Text = "";
+            this.txt_vat.TrailingIcon = null;
+            // 
+            // btn_back
+            // 
+            this.btn_back.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.btn_back.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
+            this.btn_back.Density = MaterialSkin.Controls.MaterialButton.MaterialButtonDensity.Default;
+            this.btn_back.Depth = 0;
+            this.btn_back.HighEmphasis = true;
+            this.btn_back.Icon = null;
+            this.btn_back.Location = new System.Drawing.Point(957, 514);
+            this.btn_back.Margin = new System.Windows.Forms.Padding(4, 6, 4, 6);
+            this.btn_back.MouseState = MaterialSkin.MouseState.HOVER;
+            this.btn_back.Name = "btn_back";
+            this.btn_back.NoAccentTextColor = System.Drawing.Color.Empty;
+            this.btn_back.Size = new System.Drawing.Size(64, 36);
+            this.btn_back.TabIndex = 48;
+            this.btn_back.Text = "Back";
+            this.btn_back.Type = MaterialSkin.Controls.MaterialButton.MaterialButtonType.Contained;
+            this.btn_back.UseAccentColor = false;
+            this.btn_back.UseVisualStyleBackColor = true;
+            this.btn_back.Click += new System.EventHandler(this.btn_back_Click);
             // 
             // btn_save
             // 
@@ -620,87 +702,6 @@
             this.lbl_total_cost.TabIndex = 18;
             this.lbl_total_cost.Text = "";
             this.lbl_total_cost.TrailingIcon = null;
-            // 
-            // btn_back
-            // 
-            this.btn_back.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.btn_back.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
-            this.btn_back.Density = MaterialSkin.Controls.MaterialButton.MaterialButtonDensity.Default;
-            this.btn_back.Depth = 0;
-            this.btn_back.HighEmphasis = true;
-            this.btn_back.Icon = null;
-            this.btn_back.Location = new System.Drawing.Point(957, 514);
-            this.btn_back.Margin = new System.Windows.Forms.Padding(4, 6, 4, 6);
-            this.btn_back.MouseState = MaterialSkin.MouseState.HOVER;
-            this.btn_back.Name = "btn_back";
-            this.btn_back.NoAccentTextColor = System.Drawing.Color.Empty;
-            this.btn_back.Size = new System.Drawing.Size(64, 36);
-            this.btn_back.TabIndex = 48;
-            this.btn_back.Text = "Back";
-            this.btn_back.Type = MaterialSkin.Controls.MaterialButton.MaterialButtonType.Contained;
-            this.btn_back.UseAccentColor = false;
-            this.btn_back.UseVisualStyleBackColor = true;
-            this.btn_back.Click += new System.EventHandler(this.btn_back_Click);
-            // 
-            // txt_vat
-            // 
-            this.txt_vat.AnimateReadOnly = false;
-            this.txt_vat.BorderStyle = System.Windows.Forms.BorderStyle.None;
-            this.txt_vat.Depth = 0;
-            this.txt_vat.Font = new System.Drawing.Font("Roboto", 16F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
-            this.txt_vat.Hint = "Vat (%)";
-            this.txt_vat.LeadingIcon = null;
-            this.txt_vat.Location = new System.Drawing.Point(941, 86);
-            this.txt_vat.MaxLength = 50;
-            this.txt_vat.MouseState = MaterialSkin.MouseState.OUT;
-            this.txt_vat.Multiline = false;
-            this.txt_vat.Name = "txt_vat";
-            this.txt_vat.Size = new System.Drawing.Size(272, 50);
-            this.txt_vat.TabIndex = 49;
-            this.txt_vat.Text = "";
-            this.txt_vat.TrailingIcon = null;
-            // 
-            // btn_cancel
-            // 
-            this.btn_cancel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.btn_cancel.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
-            this.btn_cancel.Density = MaterialSkin.Controls.MaterialButton.MaterialButtonDensity.Default;
-            this.btn_cancel.Depth = 0;
-            this.btn_cancel.HighEmphasis = true;
-            this.btn_cancel.Icon = null;
-            this.btn_cancel.Location = new System.Drawing.Point(1325, 701);
-            this.btn_cancel.Margin = new System.Windows.Forms.Padding(4, 6, 4, 6);
-            this.btn_cancel.MouseState = MaterialSkin.MouseState.HOVER;
-            this.btn_cancel.Name = "btn_cancel";
-            this.btn_cancel.NoAccentTextColor = System.Drawing.Color.Empty;
-            this.btn_cancel.Size = new System.Drawing.Size(77, 36);
-            this.btn_cancel.TabIndex = 18;
-            this.btn_cancel.Text = "cancel";
-            this.btn_cancel.Type = MaterialSkin.Controls.MaterialButton.MaterialButtonType.Contained;
-            this.btn_cancel.UseAccentColor = false;
-            this.btn_cancel.UseVisualStyleBackColor = true;
-            // 
-            // btn_next
-            // 
-            this.btn_next.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.btn_next.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
-            this.btn_next.Density = MaterialSkin.Controls.MaterialButton.MaterialButtonDensity.Default;
-            this.btn_next.Depth = 0;
-            this.btn_next.HighEmphasis = true;
-            this.btn_next.Icon = null;
-            this.btn_next.Location = new System.Drawing.Point(1176, 701);
-            this.btn_next.Margin = new System.Windows.Forms.Padding(4, 6, 4, 6);
-            this.btn_next.MouseState = MaterialSkin.MouseState.HOVER;
-            this.btn_next.Name = "btn_next";
-            this.btn_next.NoAccentTextColor = System.Drawing.Color.Empty;
-            this.btn_next.Size = new System.Drawing.Size(64, 36);
-            this.btn_next.TabIndex = 17;
-            this.btn_next.Text = "Next";
-            this.btn_next.Type = MaterialSkin.Controls.MaterialButton.MaterialButtonType.Contained;
-            this.btn_next.UseAccentColor = false;
-            this.btn_next.UseVisualStyleBackColor = true;
-            this.btn_next.Click += new System.EventHandler(this.btn_next_Click);
             // 
             // errorProvider1
             // 
