@@ -22,6 +22,18 @@ namespace Salon.Repository
             }
 
         }
+        public async Task<IEnumerable<DeliveryModel>> GetAllDeliveryAsync() 
+        {
+            using (var con = Database.GetConnection())
+            {
+                var sql = @"SELECT d.delivery_id, s.supplier_id, s.supplier_name, d.date, d.invoice, d.received_by FROM tbl_delivery as d 
+                        LEFT JOIN tbl_supplier as s ON s.supplier_id = d.supplier_id;";
+
+                var result = await  con.QueryAsync<DeliveryModel>(sql);
+
+                return result;
+            }
+        }
         public int AddDelivery(DeliveryModel deliveryModel)
         {
             using (var con = Database.GetConnection()) 

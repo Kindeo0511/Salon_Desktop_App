@@ -19,8 +19,8 @@ namespace Salon.View
         public int duration { get; set; }
         public decimal price { get; set; }
 
-        public event EventHandler<ServiceModel> AddToCartClicked;
-        public ServiceModel BoundService { get; private set; }
+        public event EventHandler<ServicePriceModel> AddToCartClicked;
+        public ServicePriceModel BoundService { get; private set; }
 
 
         public event EventHandler SelectionChanged;
@@ -30,7 +30,7 @@ namespace Salon.View
 
 
         }
-        public void details(ServiceModel serviceModel)
+        public void details(ServicePriceModel serviceModel)
         {
             BoundService = serviceModel;
 

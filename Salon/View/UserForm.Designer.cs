@@ -201,7 +201,7 @@
             // 
             // dtp_day_of_birth
             // 
-            this.dtp_day_of_birth.Format = System.Windows.Forms.DateTimePickerFormat.Short;
+            this.dtp_day_of_birth.Format = System.Windows.Forms.DateTimePickerFormat.Custom;
             this.dtp_day_of_birth.Location = new System.Drawing.Point(477, 240);
             this.dtp_day_of_birth.Name = "dtp_day_of_birth";
             this.dtp_day_of_birth.Size = new System.Drawing.Size(400, 22);
@@ -214,6 +214,7 @@
             this.btn_cancel.Cursor = System.Windows.Forms.Cursors.Hand;
             this.btn_cancel.Density = MaterialSkin.Controls.MaterialButton.MaterialButtonDensity.Default;
             this.btn_cancel.Depth = 0;
+            this.btn_cancel.DialogResult = System.Windows.Forms.DialogResult.Cancel;
             this.btn_cancel.HighEmphasis = true;
             this.btn_cancel.Icon = null;
             this.btn_cancel.Location = new System.Drawing.Point(1479, 640);

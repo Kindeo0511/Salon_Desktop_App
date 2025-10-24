@@ -15,6 +15,7 @@ namespace Salon.Models
         public string phoneNumber { get; set; }
         public string email { get; set; }
         public string customer_name { get; set; }
+        public string customer_type { get; set; }
        
 
         public string status { get; set; }

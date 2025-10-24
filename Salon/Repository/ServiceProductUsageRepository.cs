@@ -24,6 +24,20 @@ namespace Salon.Repository
             }
                
         }
+        public async Task<IEnumerable<ServiceProductUsageModel>> GetAllServiceProductsAsync(int id) 
+        {
+            using (var con = Database.GetConnection())
+            {
+                var sql = @"SELECT sp.service_product_id, s.serviceName_id as service_id, s.serviceName, p.product_id, p.product_name,p.brand, p.usage_type, sp.usage_amount, sp.unit_per_volume, sp.total_usage_amount, sp.total_cost
+                        FROM  tbl_service_product as sp 
+                        LEFT JOIN tbl_servicesname as s ON s.serviceName_id = sp.service_id
+                        LEFT JOIN tbl_products as p ON p.product_id = sp.product_id
+                        WHERE s.serviceName_id = @id AND sp.is_deleted = 0;";
+                var result = await con.QueryAsync<ServiceProductUsageModel>(sql, new { id });
+
+                return result.ToList();
+            }
+        }
         public IEnumerable<ServiceProductUsageModel> GetTotalProductCost()
         {
             using (var con = Database.GetConnection())
@@ -80,14 +94,22 @@ namespace Salon.Repository
             }
         }
 
-        public bool ProductUsageExists(int product_id, int id = 0) 
+        public bool ProductUsageExists(int product_id, int service_id, int excludeId)
         {
-            using (var con = Database.GetConnection()) 
+            using (var con = Database.GetConnection())
             {
-                var sql = "SELECT COUNT(*) FROM tbl_service_product WHERE product_id = @product_id AND service_product_id != @id";
+                var sql = @"SELECT COUNT(*) 
+            FROM tbl_service_product 
+            WHERE product_id = @product_id 
+              AND service_id = @service_id 
+              AND is_deleted = 0 
+              AND service_product_id != @excludeId";
 
-                return con.ExecuteScalar<int>(sql, new { product_id, id }) > 0;
+
+                return con.ExecuteScalar<int>(sql, new { product_id, service_id, excludeId }) > 0;
             }
         }
+
+
     }
 }

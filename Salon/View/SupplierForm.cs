@@ -131,7 +131,7 @@ namespace Salon.View
                 contact = txt_contact.Text
             };
             controller.AddSupplier(model);
-            mainform.LoadSuppliers();
+           
             MessageBox.Show("Supplier added successfully!", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
             var fullName = txt_supplier_name.Text;
             Audit.AuditLog(DateTime.Now, "Create", UserSession.CurrentUser.first_Name, "Manage Supplier", $"Created supplier '{fullName}' on {DateTime.Now:yyyy-MM-dd} at {DateTime.Now:HH:mm:ss}");
@@ -147,7 +147,6 @@ namespace Salon.View
             supplierModel.email = txt_email.Text;
             supplierModel.contact = txt_contact.Text;
             controller.UpdateSupplier(supplierModel);
-            mainform.LoadSuppliers();
             MessageBox.Show("Supplier updated successfully!", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
             var fullName = txt_supplier_name.Text;
             Audit.AuditLog(DateTime.Now, "Update", UserSession.CurrentUser.first_Name, "Manage Supplier", $"Updated supplier '{fullName}' on {DateTime.Now:yyyy-MM-dd} at {DateTime.Now:HH:mm:ss}");
@@ -155,16 +154,20 @@ namespace Salon.View
         }
 
 
-        private void btn_save_Click(object sender, EventArgs e)
+        private async  void btn_save_Click(object sender, EventArgs e)
         {
             if (!IsValid()) return;
             AddSupplier();
+            await mainform.RefreshSupplierAsync();
         }
 
-        private void btn_update_Click(object sender, EventArgs e)
+        private async void btn_update_Click(object sender, EventArgs e)
         {
             if (!IsValid()) return;
             UpdateSupplier();
+
+            await mainform.RefreshSupplierAsync();
+
         }
 
         private void btn_cancel_Click(object sender, EventArgs e)

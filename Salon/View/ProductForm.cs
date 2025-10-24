@@ -150,8 +150,8 @@ namespace Salon.View
             };
             controller.addProduct(product);
             MessageBox.Show("Product added successfully!", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
-            mainForm.LoadProducts();
-            mainForm.LoadTotalProducts();
+   
+           
         }
         private void UpdateProduct() 
         {
@@ -165,24 +165,29 @@ namespace Salon.View
             productModel.unit_volume = Convert.ToInt32(txt_unit_volume.Text);
             controller.updateProduct(productModel);
             MessageBox.Show("Product updated successfully!", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
-            mainForm.LoadProducts();
+            
         }
 
-        private void btn_save_Click(object sender, EventArgs e)
+        private async void btn_save_Click(object sender, EventArgs e)
         {
             if (!IsValid()) return;
             AddProduct();
             var productName = txt_product_name.Text;
             Audit.AuditLog(DateTime.Now, "Create", UserSession.CurrentUser.first_Name, "Manage Products", $"Created product '{productName}' on {DateTime.Now:yyyy-MM-dd} at {DateTime.Now:HH:mm:ss}");
+
+            await mainForm.RefreshProductAsync();
+            await mainForm.RefreshTotalProduct();
             this.Close();
         }
 
-        private void btn_update_Click(object sender, EventArgs e)
+        private async void btn_update_Click(object sender, EventArgs e)
         {
             if (!IsValid()) return;
             UpdateProduct();
             var productName = txt_product_name.Text;
             Audit.AuditLog(DateTime.Now, "Update", UserSession.CurrentUser.first_Name, "Manage Products", $"Updated product '{productName}' on {DateTime.Now:yyyy-MM-dd} at {DateTime.Now:HH:mm:ss}");
+            await mainForm.RefreshProductAsync();
+
             this.Close();
         }
 

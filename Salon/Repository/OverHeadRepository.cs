@@ -19,6 +19,16 @@ namespace Salon.Repository
                 return con.Query<OverHeadModel>(sql).FirstOrDefault();
             }
         }
+        public async Task<OverHeadModel> GetOverHeadAsync() 
+        {
+            using (var con = Database.GetConnection())
+            {
+                var sql = "SELECT * FROM `tbl_overhead` WHERE 1";
+                var result = await con.QueryAsync<OverHeadModel>(sql);
+
+                return result.FirstOrDefault();
+            }
+        }
         public void AddOverHead(OverHeadModel overHead) 
         {
             using (var con = Database.GetConnection()) 

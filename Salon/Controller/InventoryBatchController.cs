@@ -23,6 +23,23 @@ namespace Salon.Controller
             return _repository.GetAllInventoryBatch();
 
         }
+
+        public async Task<IEnumerable<InventoryBatchModel>> GetAllInventoryBatchAsync() 
+        {
+            return await _repository.GetAllInventoryBatchAsync();
+        }
+        public int? GetAvailableBatchId(int productId, int requiredVolume) 
+        {
+            return _repository.GetAvailableBatchId(productId, requiredVolume);
+        }
+        public List<InventoryBatchModel> GetAvailableBatchesByProductId(int id) 
+        {
+            return _repository.GetAvailableBatches(id);
+        }
+        public void RecordBatchProductUsage(int id, double volume) 
+        {
+            _repository.RecordBatchUsage(id, volume);
+        }
         public InventoryBatchModel getByProductId(int product_id) 
         {
             return _repository.GetProductPriceByName(product_id);

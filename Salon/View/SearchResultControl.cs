@@ -31,6 +31,7 @@ namespace Salon.View
             lbl_Email.Text = customerModel.email;
             lbl_contact.Text = customerModel.phoneNumber;
             temp_id = Convert.ToInt32(customerModel.customer_id.ToString());
+            lbl_customer_type.Text = customerModel.customer_type.ToString();
         }
 
         public void searchResult(string key)
@@ -56,7 +57,9 @@ namespace Salon.View
                 customer_id = temp_id,
                 customer_name = lbl_FullName.Text,
                 email = lbl_Email.Text,
-                phoneNumber = lbl_contact.Text
+                phoneNumber = lbl_contact.Text,
+                customer_type = lbl_customer_type.Text
+                
             });
         }
 

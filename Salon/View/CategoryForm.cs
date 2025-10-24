@@ -88,7 +88,7 @@ namespace Salon.View
                 type = cmb_category_type.Text
             };
             controller.addCategory(newCategory);
-            mainForm.LoadCategory();
+        
         }
         private void updateCategory()
         {
@@ -98,9 +98,9 @@ namespace Salon.View
             category.categoryName = txt_category_name.Text;
             category.type = cmb_category_type.Text;
             controller.updateCategory(category);
-            mainForm.LoadCategory();
+      
         }
-        private void btn_save_Click(object sender, EventArgs e)
+        private async void btn_save_Click(object sender, EventArgs e)
         {
             if (!IsValid()) return;
 
@@ -108,16 +108,18 @@ namespace Salon.View
             MessageBox.Show("Category added successfully!", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
             var category = txt_category_name.Text;
             Audit.AuditLog(DateTime.Now, "Create", UserSession.CurrentUser.first_Name, "Manage Categories", $"Created category '{category}' on {DateTime.Now:yyyy-MM-dd} at {DateTime.Now:HH:mm:ss}");
+            await mainForm.RefreshCategoryAsync();
             this.Close();
         }
 
-        private void btn_update_Click(object sender, EventArgs e)
+        private async void btn_update_Click(object sender, EventArgs e)
         {
             if (!IsValid()) return;
             updateCategory();
             MessageBox.Show("Category updated successfully!", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
             var category = txt_category_name.Text;
             Audit.AuditLog(DateTime.Now, "Update", UserSession.CurrentUser.first_Name, "Manage Categories", $"Updated category '{category}' on {DateTime.Now:yyyy-MM-dd} at {DateTime.Now:HH:mm:ss}");
+            await mainForm.RefreshCategoryAsync();
             this.Close();
 
         }

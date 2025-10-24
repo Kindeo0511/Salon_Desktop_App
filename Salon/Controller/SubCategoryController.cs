@@ -21,6 +21,10 @@ namespace Salon.Controller
         {
             return repo.GetAllSubCategories();
         }
+        public async Task<IEnumerable<SubCategoryModel>> GetSubCategoryAsync() 
+        {
+            return await repo.GetAllSubCategoryAsync();
+        }
         public void addSubCategory(SubCategoryModel subCategory)
         {
             repo.AddSubCategory(subCategory);

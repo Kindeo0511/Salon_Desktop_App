@@ -10,6 +10,7 @@ namespace Salon.Repository
     public interface ISubCategory
     {
         IEnumerable<SubCategoryModel> GetAllSubCategories();
+        Task<IEnumerable<SubCategoryModel>> GetAllSubCategoryAsync();
         void AddSubCategory(SubCategoryModel subCategory);
         void UpdateSubCategory(SubCategoryModel subCategory);
         void DeleteSubCategory(int subCategoryId);

@@ -10,7 +10,7 @@ namespace Salon.Repository
     public interface IDiscount
     {
         IEnumerable<DiscountModel> GetAllDiscounts();
-
+        Task<IEnumerable<DiscountModel>> GetAllDiscountAsync();
         DiscountModel GetDiscountById(int id);
 
         void AddDiscounts(DiscountModel model);

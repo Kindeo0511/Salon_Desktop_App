@@ -10,7 +10,7 @@ namespace Salon.Repository
     public interface ICustomer
     {
         IEnumerable<CustomerModel> GetAllCustomers();
-
+        Task<IEnumerable<CustomerModel>> GetAllCustomersAsync();
         CustomerModel TotalCustomer();
         List<CustomerModel> GetCustomerBySearch(string key);
         CustomerModel GetCustomerById(int id);

@@ -32,6 +32,34 @@ namespace Salon.Repository
 
             }
         }
+
+        public async Task<IEnumerable<AuditModel>> AllAuditLogAsync(int pageNumber, int pageSize) 
+        {
+
+            using (var con = Database.GetConnection())
+            {
+                int offset = (pageNumber - 1) * pageSize;
+                var sql = "SELECT * FROM tbl_audit_trail ORDER BY id DESC LIMIT @PageSize OFFSET @Offset";
+                var result = await con.QueryAsync<AuditModel>(sql, new { PageSize = pageSize, Offset = offset });
+
+                return result.ToList();
+
+            }
+        }
+
+        public async Task<IEnumerable<AuditModel>> AllAuditLogAsync(DateTime start, DateTime end, int pageNumber, int pageSize)
+        {
+
+            using (var con = Database.GetConnection())
+            {
+                int offset = (pageNumber - 1) * pageSize;
+                var sql = "SELECT * FROM tbl_audit_trail WHERE timestamp BETWEEN @start AND @end ORDER BY id DESC LIMIT @PageSize OFFSET @Offset ";
+                var result = await con.QueryAsync<AuditModel>(sql, new { start, end, PageSize = pageSize, Offset = offset });
+
+                return result.ToList();
+
+            }
+        }
         public int TotalPages(int pageSize)
         {
             using (var con = Database.GetConnection())

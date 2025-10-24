@@ -12,6 +12,7 @@ namespace Salon.Repository
         void AddAppointmentService(AppointmentServicesModel appointmentServices);
         void ClearDeleteAllServicesForAppointment(int id);
         IEnumerable<AppointmentServicesModel> GetAll();
+        Task<IEnumerable<AppointmentServicesModel>> GetAllAsync();
         IEnumerable<AppointmentServicesModel> GetServicesByAppointmentId(int appointmentId);
 
         IEnumerable<AppointmentServicesModel> ServicesSelected(int id);

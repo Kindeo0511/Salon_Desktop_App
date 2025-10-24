@@ -21,6 +21,17 @@ namespace Salon.Repository
             }
                
         }
+        public async Task<IEnumerable<DiscountModel>> GetAllDiscountAsync() 
+        {
+            using (var con = Database.GetConnection())
+            {
+                var sql = "SELECT * FROM tbl_discount WHERE is_deleted = 0";
+                var result = await con.QueryAsync<DiscountModel>(sql);
+
+                return result;
+            }
+
+        }
         public IEnumerable<DiscountModel> Discounts() 
         {
             using (var con = Database.GetConnection())
@@ -30,7 +41,8 @@ namespace Salon.Repository
                           CONCAT(discount_type, ' ', promo_code) AS discount_and_promo_code,
                           discount_rate,
                           expiry_date,
-                          status
+                          status,
+                            vat_exempt
                         FROM tbl_discount
                         WHERE 
                           status != 'Expired' 
@@ -54,9 +66,9 @@ namespace Salon.Repository
             using (var con = Database.GetConnection())
             {
                 var sql = @"INSERT INTO tbl_discount 
-                    (discount_type, promo_code, discount_rate, expiry_date, max_usage, per_customer_limit, notif_on_create, notif_on_expired)
+                    (discount_type, promo_code, discount_rate, expiry_date, per_customer_limit, notif_on_create, notif_on_expired, vat_exempt)
                     VALUES 
-                    (@discount_type, @promo_code, @discount_rate, @expiry_date, @max_usage, @per_customer_limit, @notif_on_create, @notif_on_expired);
+                    (@discount_type, @promo_code, @discount_rate, @expiry_date, @per_customer_limit, @notif_on_create, @notif_on_expired, @vat_exempt);
                     SELECT LAST_INSERT_ID();";
 
                 return con.ExecuteScalar<int>(sql, model);
@@ -66,7 +78,7 @@ namespace Salon.Repository
         {
             using (var con = Database.GetConnection()) 
             {
-                var sql = @"UPDATE tbl_discount SET discount_type =@discount_type, promo_code =@promo_code, discount_rate=@discount_rate, expiry_date = @expiry_date WHERE discount_id = @discount_id";
+                var sql = @"UPDATE tbl_discount SET discount_type =@discount_type, promo_code =@promo_code, discount_rate=@discount_rate, expiry_date = @expiry_date, vat_exempt = @vat_exempt WHERE discount_id = @discount_id";
                 con.Execute(sql, model);
             }
                 
@@ -209,7 +221,7 @@ namespace Salon.Repository
             SELECT * FROM tbl_discount
             WHERE expiry_date IS NOT NULL
               AND expiry_date <= @threshold
-              AND status = 'Active'";
+              AND status != 'Expiredn'";
 
                 return con.Query<DiscountModel>(sql, new { threshold }).ToList();
             }

@@ -27,6 +27,16 @@ namespace Salon.Controller
             return repo.All(start , end);
         }
 
+        public async Task<IEnumerable<DeletedRecord>> GetAllDeletedRecordAsync() 
+        {
+            return await repo.AllAsync();
+        }
+
+
+        public async Task<IEnumerable<DeletedRecord>> GetAllDeletedRecordAsync(DateTime start, DateTime end)
+        {
+            return await repo.AllAsync(start, end);
+        }
         public void Add(DeletedRecord model) 
         {
             repo.Add(model);

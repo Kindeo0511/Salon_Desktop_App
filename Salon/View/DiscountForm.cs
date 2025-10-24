@@ -42,12 +42,11 @@ namespace Salon.View
                 cmb_discount_type.Hint = string.Empty;
                 cmb_discount_type.Text = discountModel.discount_type;
                 txt_discount.Text = discountModel.discount_rate.ToString("0.##");
-                txt_max_usage.Value = discountModel.max_usage;
                 txt_customer_limit.Value = discountModel.per_customer_limit;
                 sw_send_notif.Checked = discountModel.notif_on_create == 1;
                 sw_expiry_notif.Checked = discountModel.notif_on_expired == 1;
                 cmb_discount_type.Hint = "Select Discount Type";
-
+                chk_vat_exempt.Checked = (discountModel.vat_exempt == 1);
                 btn_add_discount.Visible = false;
                 btn_update_discount.Visible = true;
 
@@ -60,7 +59,17 @@ namespace Salon.View
                     materialLabel29.Visible = true;
 
                     txt_promo_code.Text = discountModel.promo_code ?? "";
-                    dtp_discount_expiry_date.Value = discountModel.expiry_date ?? DateTime.Now;
+                    // ✅ Safely assign expiry date
+                    DateTime expiry = discountModel.expiry_date ?? DateTime.Today;
+
+                    if (expiry >= dtp_discount_expiry_date.MinDate && expiry <= dtp_discount_expiry_date.MaxDate)
+                    {
+                        dtp_discount_expiry_date.Value = expiry;
+                    }
+                    else
+                    {
+                        dtp_discount_expiry_date.Value = dtp_discount_expiry_date.MinDate;
+                    }
                 }
                 else
                 {
@@ -78,15 +87,17 @@ namespace Salon.View
         }
 
 
-        private void btn_update_discount_Click(object sender, EventArgs e)
+        private async void btn_update_discount_Click(object sender, EventArgs e)
         {
             if (!IsValid()) return;
 
             UpdateDiscount();
+            await main.RefreshDiscountAsync();
             this.Close();
         }
         private void UpdateDiscount()
         {
+            int vat_exempt = chk_vat_exempt.Checked ? 1 : 0;
             var repo = new DiscountRepository();
             var discount_controller = new DiscountController(repo);
             var old = discount_controller.GetDiscountById(discountModel.discount_id);
@@ -116,7 +127,7 @@ namespace Salon.View
             discountModel.promo_code = promo_code;
             discountModel.discount_rate = Convert.ToInt32(txt_discount.Text);
             discountModel.expiry_date = expiration_date;
-            discountModel.max_usage = Convert.ToInt32(txt_max_usage.Value);
+            discountModel.vat_exempt = vat_exempt;
             discountModel.per_customer_limit = Convert.ToInt32(txt_customer_limit.Value);
             discountModel.notif_on_create = notifOnCreate;
             discountModel.notif_on_expired = notifOnExpiry;
@@ -132,7 +143,7 @@ namespace Salon.View
                 MessageBox.Show("Discount updated succesfully!", "success", MessageBoxButtons.OK, MessageBoxIcon.Information);
                
           
-                main.LoadDiscount();
+     
                 Audit.AuditLog(
                    DateTime.Now,
                    "Update",
@@ -155,6 +166,7 @@ namespace Salon.View
             DateTime? expiration_date;
             int notifOnCreate = sw_send_notif.Checked ? 1 : 0;
             int notifOnExpiry = sw_expiry_notif.Checked ? 1 : 0;
+            int vat_exempt = chk_vat_exempt.Checked ? 1 : 0;
             if (!string.IsNullOrWhiteSpace(txt_promo_code.Text))
             {
                 promo_code = txt_promo_code.Text.Trim();
@@ -176,7 +188,7 @@ namespace Salon.View
                 promo_code = promo_code,
                 discount_rate = Convert.ToInt32(txt_discount.Text),
                 expiry_date = expiration_date,
-                max_usage = Convert.ToInt32(txt_max_usage.Value),
+                vat_exempt = vat_exempt,
                 per_customer_limit = Convert.ToInt32(txt_customer_limit.Value),
                 notif_on_create = notifOnCreate,
                 notif_on_expired = notifOnExpiry
@@ -198,7 +210,7 @@ namespace Salon.View
                    "Vat/Discount",
                    $"Created discount '{cmb_discount_type.Text}' with rate ({txt_discount.Text}%) on {DateTime.Now:yyyy-MM-dd} at {DateTime.Now:HH:mm:ss}"
                );
-            main.LoadDiscount();
+       
 
         }
 
@@ -364,11 +376,12 @@ namespace Salon.View
 
 
         }
-        private void btn_add_discount_Click(object sender, EventArgs e)
+        private async void btn_add_discount_Click(object sender, EventArgs e)
         {
             if (!IsValid()) return;
             AddDiscount();
             clear_discount_fields();
+            await main.RefreshDiscountAsync();
             this.Close();
         }
 

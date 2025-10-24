@@ -40,7 +40,10 @@ namespace Salon.Controller
         {
             return repo.GetAll();
         }
-
+        public async Task<IEnumerable<AppointmentServicesModel>> GetPopulatServicesAsync() 
+        {
+            return await repo.GetAllAsync();
+        }
         public IEnumerable<Models.AppointmentServicesModel> GetServicesByAppointmentId(int appointmentId)
         {
             return repo.GetServicesByAppointmentId(appointmentId);

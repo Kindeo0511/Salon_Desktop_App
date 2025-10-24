@@ -21,6 +21,18 @@ namespace Salon.Repository
                 return con.Query<CustomerModel>(sql).ToList();
             }
         }
+        public async Task<IEnumerable<CustomerModel>> GetAllCustomersAsync() 
+        {
+            using (var con = Database.GetConnection())
+            {
+
+                var sql = "SELECT * FROM tbl_customer_account WHERE is_deleted = 0";
+                var result = await con.QueryAsync<CustomerModel>(sql);
+
+                return result.ToList();
+            }
+        }
+
         public CustomerModel TotalCustomer() 
         {
             using (var con = Database.GetConnection()) 
@@ -51,7 +63,7 @@ namespace Salon.Repository
         {
             using (var con = Database.GetConnection())
             {
-                var sql = "INSERT INTO tbl_customer_account (firstName, middleName, lastName, phoneNumber, email) VALUES (@firstName, @middleName, @lastName, @phoneNumber, @email)";
+                var sql = "INSERT INTO tbl_customer_account (firstName, middleName, lastName, phoneNumber, email, customer_type) VALUES (@firstName, @middleName, @lastName, @phoneNumber, @email, @customer_type)";
                 con.Execute(sql, customer);
             }
         }
@@ -59,7 +71,7 @@ namespace Salon.Repository
         {
             using (var con = Database.GetConnection())
             {
-                var sql = "UPDATE tbl_customer_account SET firstName = @firstName, middleName = @middleName, lastName = @lastName, phoneNumber = @phoneNumber, email = @email WHERE customer_id = @customer_id";
+                var sql = "UPDATE tbl_customer_account SET firstName = @firstName, middleName = @middleName, lastName = @lastName, phoneNumber = @phoneNumber, email = @email, customer_type =@customer_type WHERE customer_id = @customer_id";
                 con.Execute(sql, customer);
             }
         }

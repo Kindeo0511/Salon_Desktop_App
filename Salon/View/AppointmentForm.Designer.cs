@@ -52,8 +52,11 @@
             this.btn_check_available = new MaterialSkin.Controls.MaterialButton();
             this.errorProvider1 = new System.Windows.Forms.ErrorProvider(this.components);
             this.materialLabel1 = new MaterialSkin.Controls.MaterialLabel();
+            this.btn_create = new System.Windows.Forms.PictureBox();
+            this.txt_customer_type = new MaterialSkin.Controls.MaterialTextBox();
             ((System.ComponentModel.ISupportInitialize)(this.dgv_table)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.errorProvider1)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.btn_create)).BeginInit();
             this.SuspendLayout();
             // 
             // txt_Search
@@ -83,7 +86,7 @@
             this.txt_FullName.Font = new System.Drawing.Font("Roboto", 16F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
             this.txt_FullName.Hint = "Full Name";
             this.txt_FullName.LeadingIcon = null;
-            this.txt_FullName.Location = new System.Drawing.Point(25, 215);
+            this.txt_FullName.Location = new System.Drawing.Point(25, 204);
             this.txt_FullName.MaxLength = 50;
             this.txt_FullName.MouseState = MaterialSkin.MouseState.OUT;
             this.txt_FullName.Multiline = false;
@@ -102,7 +105,7 @@
             this.txt_Email.Font = new System.Drawing.Font("Roboto", 16F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
             this.txt_Email.Hint = "Email";
             this.txt_Email.LeadingIcon = null;
-            this.txt_Email.Location = new System.Drawing.Point(25, 310);
+            this.txt_Email.Location = new System.Drawing.Point(25, 299);
             this.txt_Email.MaxLength = 50;
             this.txt_Email.MouseState = MaterialSkin.MouseState.OUT;
             this.txt_Email.Multiline = false;
@@ -121,7 +124,7 @@
             this.txt_Contact.Font = new System.Drawing.Font("Roboto", 16F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
             this.txt_Contact.Hint = "Contact";
             this.txt_Contact.LeadingIcon = null;
-            this.txt_Contact.Location = new System.Drawing.Point(482, 215);
+            this.txt_Contact.Location = new System.Drawing.Point(482, 204);
             this.txt_Contact.MaxLength = 50;
             this.txt_Contact.MouseState = MaterialSkin.MouseState.OUT;
             this.txt_Contact.Multiline = false;
@@ -151,7 +154,7 @@
             "Walk-In",
             "Online",
             "Phone Call"});
-            this.cb_book_type.Location = new System.Drawing.Point(482, 311);
+            this.cb_book_type.Location = new System.Drawing.Point(482, 300);
             this.cb_book_type.MaxDropDownItems = 4;
             this.cb_book_type.MouseState = MaterialSkin.MouseState.OUT;
             this.cb_book_type.Name = "cb_book_type";
@@ -161,7 +164,7 @@
             // 
             // cmb_Date
             // 
-            this.cmb_Date.Location = new System.Drawing.Point(955, 338);
+            this.cmb_Date.Location = new System.Drawing.Point(955, 327);
             this.cmb_Date.Name = "cmb_Date";
             this.cmb_Date.Size = new System.Drawing.Size(400, 22);
             this.cmb_Date.TabIndex = 5;
@@ -181,7 +184,7 @@
             this.cb_Time.Hint = "Appointment Time";
             this.cb_Time.IntegralHeight = false;
             this.cb_Time.ItemHeight = 43;
-            this.cb_Time.Location = new System.Drawing.Point(955, 215);
+            this.cb_Time.Location = new System.Drawing.Point(955, 204);
             this.cb_Time.MaxDropDownItems = 4;
             this.cb_Time.MouseState = MaterialSkin.MouseState.OUT;
             this.cb_Time.Name = "cb_Time";
@@ -202,7 +205,7 @@
             this.lbl_ID.AutoSize = true;
             this.lbl_ID.Depth = 0;
             this.lbl_ID.Font = new System.Drawing.Font("Roboto", 14F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
-            this.lbl_ID.Location = new System.Drawing.Point(38, 281);
+            this.lbl_ID.Location = new System.Drawing.Point(38, 267);
             this.lbl_ID.MouseState = MaterialSkin.MouseState.HOVER;
             this.lbl_ID.Name = "lbl_ID";
             this.lbl_ID.Size = new System.Drawing.Size(16, 19);
@@ -218,7 +221,7 @@
             this.txt_search_services.Font = new System.Drawing.Font("Roboto", 16F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
             this.txt_search_services.Hint = "Search Services";
             this.txt_search_services.LeadingIcon = null;
-            this.txt_search_services.Location = new System.Drawing.Point(25, 455);
+            this.txt_search_services.Location = new System.Drawing.Point(25, 469);
             this.txt_search_services.MaxLength = 50;
             this.txt_search_services.MouseState = MaterialSkin.MouseState.OUT;
             this.txt_search_services.Multiline = false;
@@ -231,7 +234,7 @@
             // 
             // service_panel
             // 
-            this.service_panel.Location = new System.Drawing.Point(25, 511);
+            this.service_panel.Location = new System.Drawing.Point(25, 525);
             this.service_panel.Name = "service_panel";
             this.service_panel.Size = new System.Drawing.Size(700, 10);
             this.service_panel.TabIndex = 8;
@@ -372,18 +375,50 @@
             this.materialLabel1.AutoSize = true;
             this.materialLabel1.Depth = 0;
             this.materialLabel1.Font = new System.Drawing.Font("Roboto", 14F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
-            this.materialLabel1.Location = new System.Drawing.Point(956, 316);
+            this.materialLabel1.Location = new System.Drawing.Point(956, 305);
             this.materialLabel1.MouseState = MaterialSkin.MouseState.HOVER;
             this.materialLabel1.Name = "materialLabel1";
             this.materialLabel1.Size = new System.Drawing.Size(38, 19);
             this.materialLabel1.TabIndex = 15;
             this.materialLabel1.Text = "Date:";
             // 
+            // btn_create
+            // 
+            this.btn_create.Image = ((System.Drawing.Image)(resources.GetObject("btn_create.Image")));
+            this.btn_create.Location = new System.Drawing.Point(531, 99);
+            this.btn_create.Name = "btn_create";
+            this.btn_create.Size = new System.Drawing.Size(66, 50);
+            this.btn_create.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
+            this.btn_create.TabIndex = 16;
+            this.btn_create.TabStop = false;
+            this.btn_create.Click += new System.EventHandler(this.btn_create_Click);
+            // 
+            // txt_customer_type
+            // 
+            this.txt_customer_type.AnimateReadOnly = true;
+            this.txt_customer_type.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            this.txt_customer_type.Depth = 0;
+            this.txt_customer_type.Font = new System.Drawing.Font("Roboto", 16F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
+            this.txt_customer_type.Hint = "Customer Type";
+            this.txt_customer_type.LeadingIcon = null;
+            this.txt_customer_type.Location = new System.Drawing.Point(25, 392);
+            this.txt_customer_type.MaxLength = 50;
+            this.txt_customer_type.MouseState = MaterialSkin.MouseState.OUT;
+            this.txt_customer_type.Multiline = false;
+            this.txt_customer_type.Name = "txt_customer_type";
+            this.txt_customer_type.ReadOnly = true;
+            this.txt_customer_type.Size = new System.Drawing.Size(400, 50);
+            this.txt_customer_type.TabIndex = 17;
+            this.txt_customer_type.Text = "";
+            this.txt_customer_type.TrailingIcon = null;
+            // 
             // AppointmentForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1400, 900);
+            this.Controls.Add(this.txt_customer_type);
+            this.Controls.Add(this.btn_create);
             this.Controls.Add(this.materialLabel1);
             this.Controls.Add(this.btn_check_available);
             this.Controls.Add(this.btn_update);
@@ -409,6 +444,7 @@
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.AppointmentForm_FormClosing);
             ((System.ComponentModel.ISupportInitialize)(this.dgv_table)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.errorProvider1)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.btn_create)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -438,5 +474,7 @@
         private MaterialSkin.Controls.MaterialButton btn_check_available;
         private System.Windows.Forms.ErrorProvider errorProvider1;
         private MaterialSkin.Controls.MaterialLabel materialLabel1;
+        private System.Windows.Forms.PictureBox btn_create;
+        private MaterialSkin.Controls.MaterialTextBox txt_customer_type;
     }
 }

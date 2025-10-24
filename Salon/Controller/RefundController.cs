@@ -29,6 +29,16 @@ namespace Salon.Controller
         {
             return repo.Refunds(start , end);
         }
+
+        public async Task<IEnumerable<RefundModel>> GetRefundsAsync() 
+        {
+            return await repo.RefundsAsync();
+        }
+
+        public async Task<IEnumerable<RefundModel>> GetRefundsAsync(DateTime start, DateTime end)
+        {
+            return await repo.RefundsAsync(start, end);
+        }
         public void AddRefund(RefundModel model) 
         {
             repo.Add(model);

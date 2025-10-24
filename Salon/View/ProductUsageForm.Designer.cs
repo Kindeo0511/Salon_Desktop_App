@@ -463,6 +463,7 @@
             this.Sizable = false;
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "ProductUsageForm";
+            this.Load += new System.EventHandler(this.ProductUsageForm_Load);
             this.materialCard1.ResumeLayout(false);
             this.materialCard1.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgv_Service_Product)).EndInit();

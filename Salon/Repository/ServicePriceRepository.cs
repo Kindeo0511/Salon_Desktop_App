@@ -25,7 +25,22 @@ namespace Salon.Repository
                 return con.Query<ServicePriceModel>(sql).ToList();
             }
         }
+        public async Task<IEnumerable<ServicePriceModel>> GetAllServicePriceAsync() 
+        {
+            using (var con = Database.GetConnection())
+            {
+                var sql = @"SELECT tbl_service_price.pricing_id, tbl_servicesname.serviceName, tbl_service_product.service_product_id, tbl_service_price.product_cost, tbl_service_price.stylist_cost, tbl_service_price.overhead_cost, tbl_service_price.total_cost, tbl_service_price.selling_price, tbl_service_price.vat_amount	, tbl_service_price.net_price, tbl_service_price.net_profit, tbl_service_price.gross_profit, tbl_service_price.profit_percent
+                            FROM tbl_service_price
+                            LEFT JOIN tbl_service_product 
+                            ON tbl_service_product.service_product_id = tbl_service_price.service_product_id
+                            LEFT JOIN tbl_servicesname
+                            ON tbl_servicesname.serviceName_id = tbl_service_product.service_id
+                            WHERE tbl_service_price.is_deleted = 0;";
+                var result = await con.QueryAsync<ServicePriceModel>(sql);
 
+                return result.ToList();
+            }
+        }
         public IEnumerable<ServicePriceModel> GetAllServicesByName(string key = "") 
         {
             using (var con = Database.GetConnection()) 
@@ -37,9 +52,9 @@ namespace Salon.Repository
                             sn.duration,
                             sp.selling_price
                         FROM tbl_service_price sp
-                        LEFT JOIN tbl_service_product pr ON pr.service_product_id = sp.service_product_id
-                        LEFT JOIN tbl_servicesname sn ON sn.serviceName_id = pr.service_id
-                        LEFT JOIN tbl_subcategory sc ON sc.subCategory_id = sn.subCategory_id
+                        INNER JOIN tbl_service_product pr ON pr.service_product_id = sp.service_product_id
+                        INNER JOIN tbl_servicesname sn ON sn.serviceName_id = pr.service_id
+                        INNER JOIN tbl_subcategory sc ON sc.subCategory_id = sn.subCategory_id
                         WHERE sn.serviceName LIKE @key";
                 return con.Query<ServicePriceModel>(sql, new { key = $"%{key}%" }).ToList();
             }

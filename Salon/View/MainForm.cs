@@ -34,8 +34,8 @@ namespace Salon.View
 {
     public partial class MainForm : MaterialForm
     {
-       
 
+        private bool _isRefreshing = false;
         private UserControl _userControl;
         private VatModel vatModel;
         private DiscountModel discountModel;
@@ -104,11 +104,8 @@ namespace Salon.View
             ThemeManager.StyleDataGridView(dgv_deleted_record);
         }
 
-        public void LoadExpiringDiscount()
+        public void LowOrOutOfStock() 
         {
-            var discountRepo = new DiscountRepository();
-            var discountController = new DiscountController(discountRepo);
-
             var inventoryRepo = new InventoryRepository();
             var inventoryController = new InventoryController(inventoryRepo);
 
@@ -124,6 +121,19 @@ namespace Salon.View
                 message += $"⚠️ {lowOrOutCount} item(s) are low or out of stock.\n";
 
             }
+            if (!string.IsNullOrEmpty(message))
+            {
+                notifyIcon1.Visible = true;
+                notifyIcon1.BalloonTipText = message;
+                notifyIcon1.ShowBalloonTip(3000);
+            }
+        }
+        public void LoadExpiringDiscount()
+        {
+            var discountRepo = new DiscountRepository();
+            var discountController = new DiscountController(discountRepo);
+
+            string message = "";
 
             // ⏳ Check for expiring discounts
             var expiringSoon = discountController.GetExpiringDiscounts(DateTime.Today.AddDays(3));
@@ -154,49 +164,51 @@ namespace Salon.View
             }
 
         }
-        private void MainForm_Load(object sender, EventArgs e)
+        private async  void MainForm_Load(object sender, EventArgs e)
         {
             expiry_timer.Start();
+            LoadExpiringDiscount();
+            LowOrOutOfStock();
 
             UserAccess();
-            LoadExpiringDiscount();
 
 
-            LoadUser();
-            LoadStylist();
-            LoadCustomers();
-            LoadCategory();
-            LoadSubCategory();
-            LoadProducts();
-            LoadServices();
 
-            LoadVat();
-            LoadDiscount();
-            LoadSuppliers();
-            LoadDelivery();
-            LoadInventory();
-            LoadBatchInventory();
-            LoadAppointments();
-            LoadServicePrices();
-            LoadAllTransactions();
-            LoadRefund();
-            LoadAuditTrail();
+            await RefreshUsersAsync();
+            await RefreshStylistAsync();
+            await RefreshCustomers();
+            await RefreshCategoryAsync();
+            await RefreshSubCategoryAsync();
+            await RefreshProductAsync();
+            await RefreshServicesAsync();
 
-            FilterdDeletedRecords();
+            await RefreshVat();
+            await RefreshDiscountAsync();
+            await RefreshSupplierAsync();
+            await RefreshDeliveryAsync();
+            await RefreshInventoryAsync();
+            await RefreshBatchInventory();
+            await RefreshAppointmentAsync();
+            await RefreshServicePriceAsync();
+            await RefreshTransactionAsync();
+            await RefreshRefundAsync();
+            await RefreshAuditLog();
+
+            await FilterdDeletedRecords();
  
 
             // SUMMARY DASHBOARD
-            LoadTotalSales();
-            LoadTotalAppointments();
-            LoadTotalProducts();
-            LoadTotalServices();
+            await RefreshTotalSales();
+            await RefreshTotalAppointment();
+            await RefreshTotalProduct();
+            await RefreshTotalServices();
 
-            LoadPopularServices();
+            await RefreshPopularServices();
 
             // UTILITIES
             LoadUtility();
-            LoadRent();
-            LoadUtil();
+            await RefreshRentAsync();
+            await RefreshUtilAsync();
 
             // REPORTS
             FilterSalesReport();
@@ -234,7 +246,22 @@ namespace Salon.View
         }
 
         // DASHBOARD
+        public async Task RefreshTotalSales()
+        {
+            var repo = new TransactionRepository();
+            var controller = new TransactionController(repo);
+            var total_sales = await controller.GetTotalSalesAsync();
 
+            if (total_sales != null)
+            {
+                lbl_total_sales.Text = total_sales.TotalSales.ToString("C2");
+            }
+            else
+            {
+                lbl_total_sales.Text = "0.00";
+            }
+
+        }
         public void LoadTotalSales() 
         {
             var repo = new TransactionRepository();
@@ -252,6 +279,23 @@ namespace Salon.View
 
         }
 
+        public async Task RefreshTotalAppointment()
+        {
+
+
+            var controller = new AppointmentRepository();
+            var total_appointment = await controller.GetTotalAppointmentAsync();
+
+            if (total_appointment != null)
+            {
+                lbl_total_appointment.Text = total_appointment.TotalAppointment.ToString();
+            }
+            else
+            {
+                lbl_total_appointment.Text = "0.00";
+            }
+
+        }
         public void LoadTotalAppointments()
         {
             
@@ -266,6 +310,22 @@ namespace Salon.View
             else
             {
                 lbl_total_appointment.Text = "0.00";
+            }
+
+        }
+        public async Task RefreshTotalProduct()
+        {
+            var repo = new ProductRepository();
+            var controller = new ProductController(repo);
+            var total_products = await controller.GetTotalProductAsync();
+
+            if (total_products != null)
+            {
+                lbl_total_product.Text = total_products.TotalProduct.ToString();
+            }
+            else
+            {
+                lbl_total_product.Text = "0.00";
             }
 
         }
@@ -284,6 +344,22 @@ namespace Salon.View
                 lbl_total_product.Text = "0.00";
             }
 
+        }
+
+        public async Task RefreshTotalServices() 
+        {
+            var repo = new ServiceRepository();
+            var controller = new ServiceController(repo);
+            var total_services = await controller.TotalServicesAsync();
+
+            if (total_services != null)
+            {
+                lbl_total_services.Text = total_services.TotalService.ToString();
+            }
+            else
+            {
+                lbl_total_services.Text = "0.00";
+            }
         }
         public void LoadTotalServices()
         {
@@ -317,6 +393,25 @@ namespace Salon.View
             }
 
         }
+        public async Task RefreshPopularServices()
+        {
+            var repo = new AppointmentServiceRepository();
+            var controller = new AppointmentServiceController(repo);
+
+            foreach (var service in await controller.GetPopulatServicesAsync())
+            {
+                chart_popular_services.Series.Add(new PieSeries
+                {
+                    Title = service.ServiceName,
+                    Values = new ChartValues<int> { service.bookings },
+                    DataLabels = true,
+                    LabelPoint = chartPoint => $"{chartPoint.Y} ({chartPoint.Participation:P})"
+
+                });
+
+            }
+            chart_popular_services.LegendLocation = LegendLocation.Top;
+        }
 
         public void LoadPopularServices() 
         {
@@ -339,6 +434,28 @@ namespace Salon.View
         }
         // END OF DASHBOARD
 
+        public async Task RefreshUsersAsync() 
+        {
+            var controller = new UserController(new UserRepository());
+            var users = await controller.RefreshUsers();
+
+            dgv_user.AutoGenerateColumns = false;
+            col_id.DataPropertyName = "user_id";
+            col_first_name.DataPropertyName = "first_Name";
+            col_middle_name.DataPropertyName = "middle_Name";
+            col_last_name.DataPropertyName = "last_Name";
+            col_birth_date.DataPropertyName = "birth_date";
+            col_phone.DataPropertyName = "phone_Number";
+            col_email.DataPropertyName = "email";
+            col_address.DataPropertyName = "address";
+            col_username.DataPropertyName = "userName";
+            col_password.DataPropertyName = "password";
+            col_role.DataPropertyName = "Position";
+            col_user_status.DataPropertyName = "status";
+
+
+            dgv_user.DataSource = users;
+        }
         // USERS
         public void LoadUser()
         {
@@ -375,7 +492,7 @@ namespace Salon.View
 
         }
 
-        private void dgv_user_CellClick(object sender, DataGridViewCellEventArgs e)
+        private async void dgv_user_CellClick(object sender, DataGridViewCellEventArgs e)
         {
 
             if (e.RowIndex < 0) return;
@@ -417,15 +534,16 @@ namespace Salon.View
                 var user = dgv_user.Rows[e.RowIndex].DataBoundItem as UsersModel;
 
 
-                // Ask for confirmation before delete
+                if (user.Position.ToLower() == "admin") return;
+                // Ask for confirmation before delete 
                 if (MessageBox.Show($"Deactivate user {user.userName}?", "Confirm Deactivation", MessageBoxButtons.YesNo) == DialogResult.Yes)
                 {
                     var _repo = new UserRepository();
                     var userController = new UserController(_repo);
                     userController.DeleteUser(user.user_id);
                     InsertDeletedRecord(user.user_id, "Manage User", user.first_Name, UserSession.CurrentUser.first_Name, DateTime.Today);
-                    LoadDeletedRecords();
-                    LoadUser();
+                    await RefreshDeletedRecords();
+                    await RefreshUsersAsync();
                     var fullName = user.first_Name + " " + user.last_Name;
                     Audit.AuditLog(DateTime.Now, "Deactivate", UserSession.CurrentUser.first_Name, "Manage User", $"Deactivated user {fullName} on {DateTime.Now:yyyy-MM-dd} at {DateTime.Now:HH:mm:ss}");
 
@@ -472,6 +590,25 @@ namespace Salon.View
 
         // END OF USERS
 
+        public async Task RefreshStylistAsync()
+        {
+            var _repo = new StylistRepository();
+            var stylistController = new StylistController(_repo);
+            var stylists = await stylistController.RefreshStlyistAsync();
+            dgv_stylist.AutoGenerateColumns = false;
+            col_stylist_id.DataPropertyName = "stylist_id";
+            stylist_first_name.DataPropertyName = "firstName";
+            stylist_middle_name.DataPropertyName = "middleName";
+            stylist_last_name.DataPropertyName = "lastName";
+            stylist_day_of_birth.DataPropertyName = "birth_date";
+            stylist_contact.DataPropertyName = "contactNumber";
+            stylist_email.DataPropertyName = "email";
+            stylist_address.DataPropertyName = "address";
+            col_stylist_wage.DataPropertyName = "daily_wage";
+            col_stylist_status.DataPropertyName = "status";
+
+            dgv_stylist.DataSource = stylists;
+        }
         // STYLIST
         public void LoadStylist()
         {
@@ -500,7 +637,7 @@ namespace Salon.View
             }
         }
 
-        private void dgv_stylist_CellClick(object sender, DataGridViewCellEventArgs e)
+        private async void dgv_stylist_CellClick(object sender, DataGridViewCellEventArgs e)
         {
             if (e.RowIndex < 0) return;
             
@@ -552,8 +689,8 @@ namespace Salon.View
                     Audit.AuditLog(DateTime.Now, "Delete", UserSession.CurrentUser.first_Name, "Manage Stylist", $"Deleted stylist {fullName} on {DateTime.Now:yyyy-MM-dd} at {DateTime.Now:HH:mm:ss}");
                     stylistController.Delete(stylist.stylist_id);
                     InsertDeletedRecord(stylist.stylist_id,"Manage Stylist", fullName, UserSession.CurrentUser.first_Name, DateTime.Today);
-                    LoadStylist();
-                    LoadDeletedRecords();
+                    await RefreshStylistAsync();
+                    await RefreshDeletedRecords();
 
                 }
             }
@@ -595,7 +732,24 @@ namespace Salon.View
         // END OF STYLIST
 
         // CUSTOMERS
+        public async Task RefreshCustomers() 
+        {
+            var controller = new CustomerController(new CustomerRepository());
+            var customers = await controller.RefreshCustomerAsync();
 
+
+            dgv_customer.AutoGenerateColumns = false;
+
+            col_customer_id.DataPropertyName = "customer_id";
+            col_customer_first_name.DataPropertyName = "firstName";
+            col_customer_middle_name.DataPropertyName = "middleName";
+            col_customer_last_name.DataPropertyName = "lastName";
+            col_customer_contact.DataPropertyName = "phoneNumber";
+            col_customer_email.DataPropertyName = "email";
+            col_customer_status.DataPropertyName = "customer_type";
+
+            dgv_customer.DataSource = customers;
+        }
         public void LoadCustomers()
         {
             var repo = new CustomerRepository();
@@ -610,7 +764,7 @@ namespace Salon.View
             col_customer_last_name.DataPropertyName = "lastName";
             col_customer_contact.DataPropertyName = "phoneNumber";
             col_customer_email.DataPropertyName = "email";
-            col_customer_status.DataPropertyName = "status";
+            col_customer_status.DataPropertyName = "customer_type";
 
             dgv_customer.DataSource = customers;
 
@@ -625,7 +779,7 @@ namespace Salon.View
             }
         }
 
-        private void dgv_customer_CellClick(object sender, DataGridViewCellEventArgs e)
+        private async void dgv_customer_CellClick(object sender, DataGridViewCellEventArgs e)
         {
             if (e.RowIndex < 0) return;
 
@@ -665,8 +819,8 @@ namespace Salon.View
                     Audit.AuditLog(DateTime.Now, "Delete", UserSession.CurrentUser.first_Name, "Manage Customer", $"Deleted customer '{fullName}' on {DateTime.Now:yyyy-MM-dd} at {DateTime.Now:HH:mm:ss}");
                     customerController.DeleteCustomer(customer.customer_id);
                     InsertDeletedRecord(customer.customer_id, "Manage Customer", fullName, UserSession.CurrentUser.first_Name, DateTime.Today);
-                    LoadDeletedRecords();
-                    LoadCustomers();
+                    await RefreshDeletedRecords();
+                    await RefreshCustomers();
                 }
             }
         }
@@ -674,7 +828,18 @@ namespace Salon.View
         // END OF CUSTOMERS
 
         // CATEGORY
+        public async Task RefreshCategoryAsync()
+        {
+            var repo = new CategoryRepository();
+            var categoryController = new CategoryController(repo);
+            var categories = await categoryController.GetAllCategoryAsync();
 
+            dgv_category.AutoGenerateColumns = false;
+            col_category_id.DataPropertyName = "category_id";
+            col_category_name.DataPropertyName = "categoryName";
+            col_category_type.DataPropertyName = "type";
+            dgv_category.DataSource = categories;
+        }
         public void LoadCategory()
         {
             var repo = new CategoryRepository();
@@ -696,7 +861,7 @@ namespace Salon.View
             }
         }
 
-        private void dgv_category_CellClick(object sender, DataGridViewCellEventArgs e)
+        private async void dgv_category_CellClick(object sender, DataGridViewCellEventArgs e)
         {
             if (e.RowIndex < 0) return;
             if (e.RowIndex >= 0 && dgv_category.Columns[e.ColumnIndex].Name == "col_category_btn_update")
@@ -718,13 +883,25 @@ namespace Salon.View
                     Audit.AuditLog(DateTime.Now, "Delete", UserSession.CurrentUser.first_Name, "Manage Categories", $"Deleted category '{category.categoryName}' on {DateTime.Now:yyyy-MM-dd} at {DateTime.Now:HH:mm:ss}");
                     categoryController.deleteCategory(category.category_id);
                     InsertDeletedRecord(category.category_id, "Category", category.categoryName, UserSession.CurrentUser.first_Name, DateTime.Today);
-                    LoadCategory();
-                    LoadDeletedRecords();
+                    await RefreshCategoryAsync();
+                    await RefreshDeletedRecords();
                 }
             }
         }
         // END OF CATEGORY
+        public async Task RefreshSubCategoryAsync()
+        {
+            var repo = new SubCategoryRepository();
+            var subCategoryController = new SubCategoryController(repo);
+            var subCategories = await subCategoryController.GetSubCategoryAsync();
 
+            dgv_sub_category.AutoGenerateColumns = false;
+            col_subcategory_id.DataPropertyName = "subCategory_id";
+            col_sub_cid.DataPropertyName = "category_id";
+            col_sub_name.DataPropertyName = "subCategoryName";
+            col_sub_category_name.DataPropertyName = "categoryName";
+            dgv_sub_category.DataSource = subCategories;
+        }
         public void LoadSubCategory()
         {
             var repo = new SubCategoryRepository();
@@ -746,7 +923,7 @@ namespace Salon.View
             }
         }
 
-        private void dgv_sub_category_CellClick(object sender, DataGridViewCellEventArgs e)
+        private async void dgv_sub_category_CellClick(object sender, DataGridViewCellEventArgs e)
         {
             if (e.RowIndex < 0) return;
             if (e.RowIndex >= 0 && dgv_sub_category.Columns[e.ColumnIndex].Name == "col_sub_btn_update")
@@ -768,16 +945,34 @@ namespace Salon.View
                     Audit.AuditLog(DateTime.Now, "Delete", UserSession.CurrentUser.first_Name, "Manage Sub-Categories", $"Deleted sub-category '{subCategory.subCategoryName}' for ({subCategory.categoryName}) on {DateTime.Now:yyyy-MM-dd} at {DateTime.Now:HH:mm:ss}");
                     subCategoryController.deleteSubCategory(subCategory.subCategory_id);
                     InsertDeletedRecord(subCategory.subCategory_id, "Manage Sub-Categories", subCategory.subCategoryName, UserSession.CurrentUser.first_Name, DateTime.Today);
-                    FilterdDeletedRecords();
-                    LoadSubCategory();
+                    await FilterdDeletedRecords();
+                    await RefreshSubCategoryAsync();
                 }
             }
         }
 
         // END OF SUBCATEGORY
-
+        
         // PRODUCTS
-
+        public async Task RefreshProductAsync()
+        {
+            var repo = new ProductRepository();
+            var productController = new ProductController(repo);
+            var products = await productController.GetAllProductAsync();
+            dgv_product.AutoGenerateColumns = false;
+            col_product_id.DataPropertyName = "product_id";
+            col_product_name.DataPropertyName = "product_name";
+            col_product_brand.DataPropertyName = "brand";
+            col_product_category_id.DataPropertyName = "category_id";
+            col_product_category_name.DataPropertyName = "categoryName";
+            col_product_category_id.DataPropertyName = "category_id";
+            col_product_category_name.DataPropertyName = "categoryName";
+            col_product_unit_type.DataPropertyName = "unit_type";
+            col_product_usage_type.DataPropertyName = "usage_type";
+            col_product_unit_per_volume.DataPropertyName = "unit_volume";
+            dgv_product.DataSource = products;
+        }
+         
         public void LoadProducts()
         {
             var repo = new ProductRepository();
@@ -797,7 +992,7 @@ namespace Salon.View
             dgv_product.DataSource = products;
         }
 
-        private void dgv_product_CellClick(object sender, DataGridViewCellEventArgs e)
+        private async void dgv_product_CellClick(object sender, DataGridViewCellEventArgs e)
         {
             if (e.RowIndex < 0) return;
             if (e.RowIndex >= 0 && dgv_product.Columns[e.ColumnIndex].Name == "col_btn_product_update")
@@ -819,9 +1014,9 @@ namespace Salon.View
                     Audit.AuditLog(DateTime.Now, "Delete", UserSession.CurrentUser.first_Name, "Manage Products", $"Deleted product '{product.product_name}' on {DateTime.Now:yyyy-MM-dd} at {DateTime.Now:HH:mm:ss}");
                     controller.deleteProduct(product.product_id);
                     InsertDeletedRecord(product.product_id, "Manage Products", product.product_name, UserSession.CurrentUser.first_Name, DateTime.Today);
-                    FilterdDeletedRecords();
-                    LoadProducts();
-                    LoadTotalProducts();
+                    await FilterdDeletedRecords();
+                    await RefreshProductAsync();
+                    await RefreshTotalProduct();
                 }
             }
         }
@@ -836,7 +1031,22 @@ namespace Salon.View
         // END OF PRODUCTS
 
         // SERVICES
+        public async Task RefreshServicesAsync()
+        {
+            var repo = new ServiceRepository();
+            var serviceController = new ServiceController(repo);
+            var services = await serviceController.GetAllServicsAsync();
 
+            dgv_service.AutoGenerateColumns = false;
+            col_service_id.DataPropertyName = "service_id";
+            col_service_name.DataPropertyName = "serviceName";
+            col_service_sid.DataPropertyName = "subCategory_id";
+            col_service_subcategory.DataPropertyName = "subCategoryName";
+            col_service_duration.DataPropertyName = "duration";
+            col_service_status.DataPropertyName = "status";
+
+            dgv_service.DataSource = services;
+        }
         public void LoadServices()
         {
             var repo = new ServiceRepository();
@@ -860,7 +1070,7 @@ namespace Salon.View
             }
         }
 
-        private void dgv_service_CellClick(object sender, DataGridViewCellEventArgs e)
+        private async void dgv_service_CellClick(object sender, DataGridViewCellEventArgs e)
         {
             if (e.RowIndex < 0) return;
 
@@ -892,8 +1102,8 @@ namespace Salon.View
                     Audit.AuditLog(DateTime.Now, "Delete", UserSession.CurrentUser.first_Name, "Manage Services", $"Deleted service '{service.serviceName}' on {DateTime.Now:yyyy-MM-dd} at {DateTime.Now:HH:mm:ss}");
                     controller.deleteService(service.serviceName_id);
                     InsertDeletedRecord(service.serviceName_id, "Manage Services", service.serviceName, UserSession.CurrentUser.first_Name, DateTime.Today);
-                    FilterdDeletedRecords();
-                    LoadServices();
+                    await FilterdDeletedRecords();
+                    await RefreshServicesAsync();
                 }
             }
         }
@@ -902,6 +1112,26 @@ namespace Salon.View
 
 
         // VAT AND DISCOUNT
+        public async Task RefreshVat()
+        {
+            var _repo = new VatRepository();
+            var tax_controller = new VatController(_repo);
+            var tax = await tax_controller.LoadLatestTaxAsync();
+
+            if (tax != null)
+            {
+                vatModel = tax;
+
+                txt_vat.Text = tax.tax.ToString();
+            }
+            else
+            {
+
+                txt_vat.Text = string.Empty;
+            }
+
+        }
+
         private void LoadVat()
         {
             var _repo = new VatRepository();
@@ -933,6 +1163,32 @@ namespace Salon.View
 
 
         }
+
+        public async Task RefreshDiscountAsync()
+        {
+            var repo = new DiscountRepository();
+            var discount_controller = new DiscountController(repo);
+            var discounts = await discount_controller.GetAllDiscountAsync();
+            dgv_discount.AutoGenerateColumns = false;
+            col_discount_id.DataPropertyName = "discount_id";
+            col_discount_type.DataPropertyName = "discount_type";
+            col_promo_code.DataPropertyName = "promo_code";
+            col_discount_rate.DataPropertyName = "discount_rate";
+            col_discount_status.DataPropertyName = "status";
+            col_discount_max_usage.DataPropertyName = "vat_exempt";
+            col_discount_customer_limit.DataPropertyName = "per_customer_limit";
+            col_discount_expiry_date.DataPropertyName = "expiry_date";
+            dgv_discount.DataSource = discounts;
+
+            //dtp_discount_expiry_date.MinDate = DateTime.Today;
+            //dtp_discount_expiry_date.MaxDate =
+            //    new DateTime(DateTime.Today.Year, DateTime.Today.Month, 1) // First day of current month
+            //    .AddMonths(1)                                               // First day of next month
+            //    .AddDays(-1);                                               // Go back one day → last day of current month
+
+
+
+        }
         public void LoadDiscount()
         {
             var repo = new DiscountRepository();
@@ -944,7 +1200,7 @@ namespace Salon.View
             col_promo_code.DataPropertyName = "promo_code";
             col_discount_rate.DataPropertyName = "discount_rate";
             col_discount_status.DataPropertyName = "status";
-            col_discount_max_usage.DataPropertyName = "max_usage";
+            col_discount_max_usage.DataPropertyName = "vat_exempt";
             col_discount_customer_limit.DataPropertyName = "per_customer_limit";
             col_discount_expiry_date.DataPropertyName = "expiry_date";
             dgv_discount.DataSource = discounts;
@@ -985,7 +1241,7 @@ namespace Salon.View
                    "Vat/Discount",
                   $"Updated Vat with rate '{tax_rate}' on {DateTime.Now:yyyy-MM-dd} at {DateTime.Now:HH:mm:ss}"
                );
-                    LoadVat();
+                    
                 }
 
 
@@ -1005,16 +1261,18 @@ namespace Salon.View
                    "Vat/Discount",
                    $"Created Vat with rate '{tax_rate}' on {DateTime.Now:yyyy-MM-dd} at {DateTime.Now:HH:mm:ss}"
                );
-                LoadVat();
+              
 
 
             }
         }
-        private void btn_apply_Click(object sender, EventArgs e)
+        private async void btn_apply_Click(object sender, EventArgs e)
         {
             if (!VatValidated()) return;
 
             AddOrUpdateVat();
+
+            await RefreshVat();
         }
      
         
@@ -1031,7 +1289,7 @@ namespace Salon.View
       
 
       
-        private void dgv_discount_CellClick(object sender, DataGridViewCellEventArgs e)
+        private async void dgv_discount_CellClick(object sender, DataGridViewCellEventArgs e)
         {
             if (e.RowIndex < 0) return;
 
@@ -1082,8 +1340,8 @@ namespace Salon.View
                    );
                     controller.DeleteDiscount(discountModel.discount_id);
                     InsertDeletedRecord(discountModel.discount_id, "Vat/Discount", discountModel.discount_type + " " + discountModel.promo_code, UserSession.CurrentUser.first_Name, DateTime.Today);
-                    FilterdDeletedRecords();
-                    LoadDiscount();
+                    await FilterdDeletedRecords();
+                    await RefreshDiscountAsync();
                 
                 }
             }
@@ -1150,6 +1408,20 @@ namespace Salon.View
         // END OF VAT AND DISCOUNT
 
 
+        public async Task RefreshSupplierAsync() 
+        {
+            var controller = new SupplierController(new SupplierRepository());
+            var suppliers = await controller.RefreshSupplierAsync();
+
+            dgv_supplier.AutoGenerateColumns = false;
+            col_supplier_id.DataPropertyName = "supplier_id";
+            col_supplier_name.DataPropertyName = "supplier_name";
+            col_supplier_contact.DataPropertyName = "contact";
+            col_supplier_email.DataPropertyName = "email";
+            col_supplier_address.DataPropertyName = "address";
+
+            dgv_supplier.DataSource = suppliers;
+        }
         public void LoadSuppliers()
         {
             var repo = new SupplierRepository();
@@ -1171,7 +1443,7 @@ namespace Salon.View
             }
         }
 
-        private void dgv_supplier_CellClick(object sender, DataGridViewCellEventArgs e)
+        private async void dgv_supplier_CellClick(object sender, DataGridViewCellEventArgs e)
         {
             if (e.RowIndex < 0) return;
 
@@ -1196,8 +1468,8 @@ namespace Salon.View
                     Audit.AuditLog(DateTime.Now, "Delete", UserSession.CurrentUser.first_Name, "Manage Supplier", $"Deleted supplier '{supplier.supplier_name}' on {DateTime.Now:yyyy-MM-dd} at {DateTime.Now:HH:mm:ss}");
                     controller.DeleteSupplier(supplier.supplier_id);
                     InsertDeletedRecord(supplier.supplier_id, "Manage Supplier", supplier.supplier_name, UserSession.CurrentUser.first_Name, DateTime.Today);
-                    FilterdDeletedRecords(); 
-                    LoadSuppliers();
+                    await FilterdDeletedRecords();
+                    await RefreshSupplierAsync();
                 }
             }
         }
@@ -1205,7 +1477,23 @@ namespace Salon.View
         // END OF SUPPLIERS
 
         // DELIVERY
+        public async Task RefreshDeliveryAsync()
+        {
+            var repo = new DeliveryRepository();
+            var controller = new DeliveryController(repo);
+            var deliveries = await controller.GetDeliveryAsync();
 
+            dgv_delivery.AutoGenerateColumns = false;
+
+            col_delivery_id.DataPropertyName = "delivery_id";
+            col_delivery_supplier_id.DataPropertyName = "supplier_id";
+            col_delivery_supplier.DataPropertyName = "supplier_name";
+            col_delivery_date.DataPropertyName = "date";
+            col_delivery_invoice.DataPropertyName = "invoice";
+            col_delivery_received_by.DataPropertyName = "received_by";
+
+            dgv_delivery.DataSource = deliveries;
+        }
         public void LoadDelivery()
         {
             var repo = new DeliveryRepository();
@@ -1248,6 +1536,29 @@ namespace Salon.View
         // END OF DELIVERY
 
         // INVENTORY
+        public async Task RefreshInventoryAsync()
+        {
+
+            var repo = new InventoryRepository();
+            var inventoryController = new InventoryController(repo);
+            var inventory = await inventoryController.GetAllInventoryAsync();
+
+            dgv_inventory.AutoGenerateColumns = false;
+            col_InventoryID.DataPropertyName = "inventory_id";
+            col_ProductID.DataPropertyName = "product_id";
+            col_ProductName.DataPropertyName = "product_name";
+            col_Brand.DataPropertyName = "brand";
+            col_Category.DataPropertyName = "category";
+            col_Unit.DataPropertyName = "unit";
+            col_volume_per_unit.DataPropertyName = "volume_per_unit";
+            col_Volume.DataPropertyName = "volume";
+            col_Critical_Level.DataPropertyName = "critical_level";
+            col_Status.DataPropertyName = "status";
+
+
+            dgv_inventory.DataSource = inventory;
+        }
+
 
         public void LoadInventory()
         {
@@ -1271,6 +1582,31 @@ namespace Salon.View
             dgv_inventory.DataSource = inventory;
         }
 
+        public async Task RefreshBatchInventory()
+        {
+            dgv_BatchInventory.AutoGenerateColumns = false;
+
+            var _repo = new InventoryBatchRepository();
+            var inventoryBatchController = new InventoryBatchController(_repo);
+
+            col_BatchID.DataPropertyName = "batch_id";
+            col_DeliveryItemID.DataPropertyName = "delivery_item_id";
+            col_ProductID.DataPropertyName = "product_id";
+            col_ProdName.DataPropertyName = "product_name";
+            col_Quantity.DataPropertyName = "unit";
+            col_volume_per_qtn.DataPropertyName = "volume_per_unit";
+            col_used_volume.DataPropertyName = "used_volume";
+            col_vol.DataPropertyName = "volume";
+            col_price.DataPropertyName = "price";
+            col_total_price.DataPropertyName = "total_price";
+            col_notes.DataPropertyName = "notes";
+            col_DateReceived.DataPropertyName = "delivered_date";
+            col_ExpiryDate.DataPropertyName = "expiry_date";
+
+
+            dgv_BatchInventory.DataSource = await inventoryBatchController.GetAllInventoryBatchAsync();
+        }
+
         public void LoadBatchInventory()
         {
             dgv_BatchInventory.AutoGenerateColumns = false;
@@ -1284,6 +1620,7 @@ namespace Salon.View
             col_ProdName.DataPropertyName = "product_name";
             col_Quantity.DataPropertyName = "unit";
             col_volume_per_qtn.DataPropertyName = "volume_per_unit";
+            col_used_volume.DataPropertyName = "used_volume";
             col_vol.DataPropertyName = "volume";
             col_price.DataPropertyName = "price";
             col_total_price.DataPropertyName = "total_price";
@@ -1298,6 +1635,51 @@ namespace Salon.View
         // END OF INVENTORY
 
         // APPOINTMENT
+        public async Task RefreshAppointmentAsync()
+        {
+            var repo = new AppointmentRepository();
+            var controller = new AppointmentController(repo);
+            var appointments = await controller.GetAllAppointmentAsync(cmb_appointment_status.Text);
+            dgv_appointment.AutoGenerateColumns = false;
+            dgv_table_summary.AutoGenerateColumns = false;
+
+            appointment_id.DataPropertyName = "AppointmentId";
+            customer_id.DataPropertyName = "CustomerId";
+            customerName.DataPropertyName = "CustomerName";
+            col_appointment_services.DataPropertyName = "Services";
+            col_appointment_selling_price.DataPropertyName = "selling_price";
+            col_appointment_vat_amount.DataPropertyName = "vat_amount";
+            col_appointment_email.DataPropertyName = "Email";
+            col_appointment_number.DataPropertyName = "PhoneNumber";
+            stylist_id.DataPropertyName = "StylistId";
+            stylistName.DataPropertyName = "StylistName";
+            date.DataPropertyName = "AppointmentDate";
+            startTime.DataPropertyName = "StartTime";
+            endTime.DataPropertyName = "EndTime";
+            status.DataPropertyName = "Status";
+            paymentStatus.DataPropertyName = "PaymentStatus";
+            col_book_type.DataPropertyName = "BookingType";
+            col_customer_type.DataPropertyName = "Customer_type";
+            dgv_appointment.DataSource = appointments;
+
+
+            // DASHBOARD
+            col_db_app_id.DataPropertyName = "AppointmentId";
+            col_db_customer_id.DataPropertyName = "CustomerId";
+            col_db_customer_name.DataPropertyName = "CustomerName";
+            col_appointment_email.DataPropertyName = "Email";
+            col_appointment_number.DataPropertyName = "PhoneNumber";
+            col_db_stylist_id.DataPropertyName = "StylistId";
+            col_db_stylist_name.DataPropertyName = "StylistName";
+            col_db_date.DataPropertyName = "AppointmentDate";
+            col_db_start_time.DataPropertyName = "StartTime";
+            col_db_end_time.DataPropertyName = "EndTime";
+            col_db_status.DataPropertyName = "Status";
+            col_db_payment_status.DataPropertyName = "PaymentStatus";
+            col_db_booking_type.DataPropertyName = "BookingType";
+            col_customer_type.DataPropertyName = "Customer_type";
+            dgv_table_summary.DataSource = appointments;
+        }
 
         public void LoadAppointments()
         {
@@ -1323,6 +1705,7 @@ namespace Salon.View
             status.DataPropertyName = "Status";
             paymentStatus.DataPropertyName = "PaymentStatus";
             col_book_type.DataPropertyName = "BookingType";
+            col_customer_type.DataPropertyName = "Customer_type";
             dgv_appointment.DataSource = appointments;
         
 
@@ -1340,6 +1723,7 @@ namespace Salon.View
             col_db_status.DataPropertyName = "Status";
             col_db_payment_status.DataPropertyName = "PaymentStatus";
             col_db_booking_type.DataPropertyName = "BookingType";
+            col_customer_type.DataPropertyName = "Customer_type";
             dgv_table_summary.DataSource = appointments;
         }
 
@@ -1351,11 +1735,11 @@ namespace Salon.View
             }
         }
 
-        private void cmb_appointment_status_SelectedIndexChanged(object sender, EventArgs e)
+        private async void cmb_appointment_status_SelectedIndexChanged(object sender, EventArgs e)
         {
             if (cmb_appointment_status.Text != null)
             {
-                LoadAppointments();
+                await RefreshAppointmentAsync();
             }
         }
         private void dgv_appointment_CellClick(object sender, DataGridViewCellEventArgs e)
@@ -1406,7 +1790,7 @@ namespace Salon.View
 
 
         }
-        private void cancelledToolStripMenuItem_Click(object sender, EventArgs e)
+        private async void cancelledToolStripMenuItem_Click(object sender, EventArgs e)
         {
             if (dgv_appointment.SelectedRows.Count > 0)
             {
@@ -1439,7 +1823,7 @@ namespace Salon.View
                     "Appointment",
                     $"Cancelled Status for client '{name}' on {DateTime.Now:yyyy-MM-dd} at {DateTime.Now:HH:mm:ss}"
                     );
-                    LoadAppointments();
+                    await RefreshAppointmentAsync();
                 }
             }
             else
@@ -1453,7 +1837,7 @@ namespace Salon.View
             }
         }
 
-        private void noShowToolStripMenuItem_Click(object sender, EventArgs e)
+        private async void noShowToolStripMenuItem_Click(object sender, EventArgs e)
         {
             if (dgv_appointment.SelectedRows.Count > 0)
             {
@@ -1487,7 +1871,7 @@ namespace Salon.View
                         $"Marked client '{name}' as No Show on {DateTime.Now:yyyy-MM-dd} at {DateTime.Now:HH:mm:ss}"
                     );
 
-                    LoadAppointments();
+                    await RefreshAppointmentAsync();
                 }
             }
             else
@@ -1538,7 +1922,30 @@ namespace Salon.View
                 priceServiceForm.ShowDialog();
             }
         }
-        
+
+        public async Task RefreshServicePriceAsync()
+        {
+            var repo = new ServicePriceRepository();
+            var controller = new ServicePriceController(repo);
+            var services = await controller.GetAllServicePriceAsync();
+
+            dgv_service_price.AutoGenerateColumns = false;
+            col_price_id.DataPropertyName = "pricing_id";
+            col_service_price_name.DataPropertyName = "serviceName";
+            col_service_product_id.DataPropertyName = "service_product_id";
+            col_product_cost.DataPropertyName = "product_cost";
+            col_stylist_cost.DataPropertyName = "stylist_cost";
+            col_overhead_cost.DataPropertyName = "overhead_cost";
+            col_total_cost.DataPropertyName = "total_cost";
+            col_selling_price.DataPropertyName = "selling_price";
+            col_vat_amount.DataPropertyName = "vat_amount";
+            col_net_price.DataPropertyName = "net_price";
+            col_net_profit.DataPropertyName = "net_profit";
+            col_gross_profit.DataPropertyName = "gross_profit";
+            col_profit_percent.DataPropertyName = "profit_percent";
+            dgv_service_price.DataSource = services;
+        }
+
         public void LoadServicePrices() 
         {
             var repo = new ServicePriceRepository();
@@ -1562,7 +1969,7 @@ namespace Salon.View
             dgv_service_price.DataSource = services;
         }
 
-        private void dgv_service_price_CellClick(object sender, DataGridViewCellEventArgs e)
+        private async void dgv_service_price_CellClick(object sender, DataGridViewCellEventArgs e)
         {
             if (e.RowIndex < 0) return;
 
@@ -1592,9 +1999,9 @@ namespace Salon.View
                     );
                     controller.DeleteServicePrice(servicePrice.pricing_id);
                     InsertDeletedRecord(servicePrice.pricing_id, "Service Price", servicePrice.serviceName, UserSession.CurrentUser.first_Name, DateTime.Today);
-                    FilterdDeletedRecords();
+                    await FilterdDeletedRecords();
                     MessageBox.Show("Delete success", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                    LoadServicePrices();
+                    await RefreshServicePriceAsync();
 
                 }
             }
@@ -1717,7 +2124,56 @@ namespace Salon.View
                 txt_other_bill.Text = "0.00";
             }
         }
-       
+        private async Task RefreshUtilAsync()
+        {
+            var repo = new OverHeadRepository();
+            var controller = new OverHeadController(repo);
+
+            var utility = await controller.GetOverHeadAsync();
+
+            if (utility != null)
+            {
+                btn_add_bill.Visible = false;
+                txt_electric_bill.Text = utility.electricity_bill.ToString();
+                txt_water_bill.Text = utility.water_bill.ToString();
+                txt_internet_bill.Text = utility.internet_bill.ToString();
+                txt_other_bill.Text = utility.other_bill.ToString();
+                txt_bill_note.Text = utility.notes.ToString();
+            }
+            else
+            {
+                btn_add.Visible = true;
+                txt_electric_bill.Text = "0.00";
+                txt_water_bill.Text = "0.00";
+                txt_internet_bill.Text = "0.00";
+                txt_other_bill.Text = "0.00";
+            }
+        }
+        private async Task RefreshRentAsync()
+        {
+            var repo = new OverHeadRepository();
+            var controller = new OverHeadController(repo);
+            var overhead = await controller.GetOverHeadAsync();
+
+
+            if (overhead != null && overhead.monthly_rent != 0)
+            {
+                currentOverheadId = overhead.over_head_id; // 🔥 Store ID
+                txt_month_rent.Text = overhead.monthly_rent.ToString("N2");
+                txt_working_hours.Text = overhead.total_working_hours.ToString();
+
+            }
+            else
+            {
+                currentOverheadId = 0;
+
+                txt_month_rent.Text = "0.00";
+            }
+
+
+
+        }
+
         private void LoadRent() 
         {
             var repo = new OverHeadRepository();
@@ -1904,7 +2360,7 @@ namespace Salon.View
         }
  
 
-        private void btn_save_changes_Click(object sender, EventArgs e)
+        private async void btn_save_changes_Click(object sender, EventArgs e)
         {
             if (!OverHeadValidated()) return;
 
@@ -1948,9 +2404,10 @@ namespace Salon.View
             MessageBox.Show("Updated Success");
             controller.Update(model);
             AddOrUpdateExpense("Utilities", "Updated Monthly Rent & Bills", total_cost, UserSession.CurrentUser.first_Name, "", DateTime.Now);
-            LoadRent();
+            await RefreshRentAsync();
+            await RefreshUtilAsync();
         }
-        private void btn_add_bill_Click(object sender, EventArgs e)
+        private async void btn_add_bill_Click(object sender, EventArgs e)
         {
             if (!OverHeadValidated()) return;
             decimal total_util = 0;
@@ -1992,8 +2449,8 @@ namespace Salon.View
 
             controller.Add(model);
             AddOrUpdateExpense("Utilities", "Created Monthly Rent & Bills", total_cost, UserSession.CurrentUser.first_Name, "", DateTime.Now);
-            LoadRent();
-
+            await RefreshRentAsync();
+            await RefreshUtilAsync();
         }
         private void AddOrUpdateExpense(string category, string description, decimal amount, string paid_by, string notes, DateTime timestamp)
         {
@@ -2026,7 +2483,7 @@ namespace Salon.View
         // END OF UTILITIES
 
         // SALES REPORT
-        private void FilterSalesReport()
+        private async void FilterSalesReport()
         {
             DateTime startDate;
             DateTime endDate;
@@ -2068,8 +2525,54 @@ namespace Salon.View
                 dtp_report_end_date.Value = endDate;
             }
 
-            LoadSalesReports(startDate, endDate);
+            await RefreshSalesReportAsync(startDate, endDate);
         }
+
+        private async Task RefreshSalesReportAsync(DateTime? startDate = null, DateTime? endDate = null)
+        {
+            var repo = new TransactionRepository();
+            var controller = new TransactionController(repo);
+
+            var dgv_sales = (startDate.HasValue && endDate.HasValue)
+               ? await controller.ShowAllTransactionAsync(startDate.Value, endDate.Value)
+               : await controller.ShowAllTransactionAsync();
+
+            var sales_summary = (startDate.HasValue && endDate.HasValue)
+               ? controller.SalesReportSummary(startDate.Value, endDate.Value)
+               : controller.SalesReportSummary();
+
+            if (sales_summary != null && dgv_sales != null)
+            {
+                lbl_report_total_sales.Text = sales_summary.total_sales.ToString("C2");
+                lbl_report_total_vat.Text = sales_summary.total_vat.ToString("C2");
+                lbl_report_total_discount.Text = sales_summary.total_discount.ToString("C2");
+                lbl_report_total_transaction.Text = sales_summary.total_transaction.ToString("N2");
+                lbl_report_total_cash.Text = sales_summary.cash_total.ToString("C2");
+                lbl_report_total_gcash.Text = sales_summary.gcash_total.ToString("C2");
+
+
+                dgv_report_table.AutoGenerateColumns = false;
+                col_transaction_id.DataPropertyName = "transaction_id";
+                //col_report_appointment_id.DataPropertyName = "appointment_id";
+                col_report_amount_paid.DataPropertyName = "amount_paid";
+                col_report_vat_amount.DataPropertyName = "vat_amount";
+                col_report_discount_amount.DataPropertyName = "discount_amount";
+                col_report_payment_method.DataPropertyName = "payment_method";
+                col_report_date.DataPropertyName = "timestamp";
+                dgv_report_table.DataSource = dgv_sales;
+            }
+            else
+            {
+                lbl_report_total_sales.Text = "0.00";
+                lbl_report_total_vat.Text = "0.00";
+                lbl_report_total_discount.Text = "0.00";
+                lbl_report_total_transaction.Text = "0.00";
+                lbl_report_total_cash.Text = "0.00";
+                lbl_report_total_gcash.Text = "0.00";
+            }
+        }
+
+
 
         private void LoadSalesReports(DateTime? startDate = null, DateTime? endDate = null) 
         {
@@ -3466,39 +3969,70 @@ namespace Salon.View
 
         // AUDIT TRAIL
 
-        private void btn__audit_next_Click(object sender, EventArgs e)
+        private async void btn__audit_next_Click(object sender, EventArgs e)
         {
             currentPage++;
-            LoadAuditTrail();
+            await RefreshAuditLog();
 
         }
 
-        private void btn_audit_previous_Click(object sender, EventArgs e)
+        private async void btn_audit_previous_Click(object sender, EventArgs e)
         {
             if (currentPage > 1)
             {
                 currentPage--;
-                LoadAuditTrail();
+                await RefreshAuditLog();
             }
 
         }
 
-        private void btn_audit_filter_Click(object sender, EventArgs e)
+        private async void btn_audit_filter_Click(object sender, EventArgs e)
         {
             DateTime start = dtp_audit_start.Value;
             DateTime end = dtp_audit_end.Value;
 
-            LoadAuditTrail(start,end);
+            await RefreshAuditLog(start,end);
         }
-        private void btn_audit_clear_Click(object sender, EventArgs e)
+        private async void btn_audit_clear_Click(object sender, EventArgs e)
         {
             dtp_audit_start.Value = DateTime.Today;
             dtp_audit_end.Value = DateTime.Today;
 
-            LoadAuditTrail();
+            await RefreshAuditLog();
         }
 
+        public async Task RefreshAuditLog(DateTime? start = null, DateTime? end = null)
+        {
 
+
+            var repo = new AuditRepository();
+            var controller = new AuditController(repo);
+            var logs = (start.HasValue && end.HasValue) ? await controller.GetAllAuditAsync(start.Value, end.Value, currentPage, pageSize) : await controller.GetAllAuditAsync(currentPage, pageSize);
+
+            dgv_audit_report.AutoGenerateColumns = false;
+
+            col_audit_id.DataPropertyName = "id";
+            col_audit_date.DataPropertyName = "timestamp";
+            col_audit_user.DataPropertyName = "user";
+            col_audit_action.DataPropertyName = "action";
+            col_audit_module.DataPropertyName = "module";
+            col_audit_notes.DataPropertyName = "note";
+
+            if (logs.Any())
+                dgv_audit_report.DataSource = logs;
+            else
+                MessageBox.Show("No audit logs found for this page.", "Info", MessageBoxButtons.OK, MessageBoxIcon.Information);
+
+
+            totalPages = controller.GetTotalPages(pageSize);
+            lbl_current_page.Text = $"Page {currentPage}";
+
+            int totalRecords = controller.GetTotalRecordCount();
+            lbl_total_result.Text = $"Showing {logs.Count()} of {totalRecords} records";
+
+            btn_audit_previous.Enabled = currentPage > 1;
+            btn__audit_next.Enabled = currentPage < totalPages;
+        }
         public void LoadAuditTrail(DateTime? start = null, DateTime? end = null) 
         {
    
@@ -3648,6 +4182,30 @@ namespace Salon.View
         // END OF LOG OUT
 
         // TRANSACTION HISTORY
+        public async Task RefreshTransactionAsync(DateTime? start = null, DateTime? end = null)
+        {
+            var repo = new TransactionRepository();
+            var controller = new TransactionController(repo);
+            var transactions = (start.HasValue && end.HasValue)
+                             ? await controller.GetAllTransactionsAsync(start.Value, end.Value)
+                             : await controller.GetAllTransactionsAsync();
+            dgv_transaction_history.AutoGenerateColumns = false;
+
+            col_transaction_id.DataPropertyName = "transaction_id";
+            col_transaction_appointment_id.DataPropertyName = "appointment_id";
+            dgv_col_transaction_customer_name.DataPropertyName = "ClientName";
+            dgv_col_transaction_services.DataPropertyName = "Services";
+            dgv_col_transaction_staff_name.DataPropertyName = "StaffName";
+            dgv_col_transaction_payment_method.DataPropertyName = "payment_method";
+            dgv_col_transaction_sub_total.DataPropertyName = "sub_total";
+            dgv_col_transaction_discount_amount.DataPropertyName = "discount_amount";
+            dgv_col_transaction_vat.DataPropertyName = "vat_amount";
+            dgv_col_transaction__total_amount.DataPropertyName = "amount_paid";
+            dgv_col_transaction__status.DataPropertyName = "AppointmentStatus";
+            dgv_col_transaction_date.DataPropertyName = "timestamp";
+
+            dgv_transaction_history.DataSource = transactions;
+        }
 
         public void LoadAllTransactions(DateTime? start = null, DateTime? end = null) 
         {
@@ -3674,19 +4232,19 @@ namespace Salon.View
             dgv_transaction_history.DataSource = transactions;
         }
 
-        private void btn_transaction_filter_Click(object sender, EventArgs e)
+        private async void btn_transaction_filter_Click(object sender, EventArgs e)
         {
             DateTime start = dtp_transaction_start.Value;
             DateTime end = dtp_transaction_end.Value;
 
-            LoadAllTransactions(start, end);
+            await RefreshTransactionAsync(start, end);
         }
 
-        private void btn_transaction_clear_Click(object sender, EventArgs e)
+        private async void btn_transaction_clear_Click(object sender, EventArgs e)
         {
             dtp_transaction_start.Value = DateTime.Today;
             dtp_transaction_end.Value = DateTime.Today;
-            LoadAllTransactions();
+            await RefreshTransactionAsync();
         }
 
         private void inventoryTabControl_SelectedIndexChanged(object sender, EventArgs e)
@@ -3708,7 +4266,7 @@ namespace Salon.View
 
         }
 
-        private void reportsTabControl_SelectedIndexChanged(object sender, EventArgs e)
+        private async void reportsTabControl_SelectedIndexChanged(object sender, EventArgs e)
         {
 
             var selectedTab = reportsTabControl.SelectedTab;
@@ -3803,7 +4361,7 @@ namespace Salon.View
                         $"Viewed Aduit Report on {DateTime.Now:yyyy-MM-dd} at {DateTime.Now:HH:mm:ss}"
                     );
 
-                    LoadAuditTrail();
+                    await RefreshAuditLog();
                     break;
             }
         }
@@ -3886,11 +4444,28 @@ namespace Salon.View
 
         }
 
-      
-        
+
+
 
         // REFUND 
+        public async Task RefreshRefundAsync(DateTime? start = null, DateTime? end = null)
+        {
+            var repo = new RefundRepository();
+            var controller = new RefundController(repo);
 
+            var refund = (start.HasValue && end.HasValue) ? await controller.GetRefundsAsync(start.Value, end.Value) : await controller.GetRefundsAsync();
+
+            dgv_refund.AutoGenerateColumns = false;
+            col_refund_service_name.DataPropertyName = "Service_Name";
+            col_refund_price.DataPropertyName = "Original_Price";
+            col_refund_amount.DataPropertyName = "refund_amount";
+            col_refund_method.DataPropertyName = "refund_method";
+            col_refund_reason.DataPropertyName = "refund_reason";
+            col_refund_date.DataPropertyName = "refund_timestamp";
+            col_refund_refunded_by.DataPropertyName = "refunded_by";
+
+            dgv_refund.DataSource = refund;
+        }
         public void LoadRefund(DateTime? start = null, DateTime? end = null) 
         {
             var repo = new RefundRepository();
@@ -3915,20 +4490,20 @@ namespace Salon.View
 
         }
 
-        private void btn_refund_filter_Click(object sender, EventArgs e)
+        private async void btn_refund_filter_Click(object sender, EventArgs e)
         {
             DateTime start = dtp_refund_start.Value;
             DateTime end = dtp_refund_end.Value;
 
-            LoadRefund(start, end);
+            await RefreshRefundAsync(start, end);
         }
 
-        private void btn_refund_clear_Click(object sender, EventArgs e)
+        private async void btn_refund_clear_Click(object sender, EventArgs e)
         {
             dtp_refund_start.Value = DateTime.Today;
             dtp_refund_end.Value = DateTime.Today;
 
-            LoadRefund();
+            await RefreshRefundAsync();
         }
 
 
@@ -3966,7 +4541,7 @@ namespace Salon.View
             
 
         }
-        public void FilterdDeletedRecords() 
+        public async Task FilterdDeletedRecords() 
         {
             DateTime startDate;
             DateTime endDate;
@@ -4008,7 +4583,29 @@ namespace Salon.View
                 dtp_delete_record_end.Value = endDate;
             }
 
-            LoadDeletedRecords(startDate, endDate);
+           await RefreshDeletedRecords(startDate, endDate);
+
+        }
+        public async Task RefreshDeletedRecords(DateTime? start = null, DateTime? end = null)
+        {
+            var repo = new DeletedRecordRepository();
+            var controller = new DeletedRecordController(repo);
+            var records = (start.HasValue && end.HasValue) ? await controller.GetAllDeletedRecordAsync(start.Value, end.Value) : await controller.GetAllDeletedRecordAsync();
+
+            if (records != null)
+            {
+                dgv_deleted_record.AutoGenerateColumns = false;
+
+                col_deleted_id.DataPropertyName = "deleted_id";
+                col_deleted_record_id.DataPropertyName = "record_id";
+                col_deleted_module.DataPropertyName = "module";
+                col_deleted_name.DataPropertyName = "name";
+                col_deleted_by.DataPropertyName = "deleted_by";
+                col_deleted_date.DataPropertyName = "deleted_on";
+
+                dgv_deleted_record.DataSource = records;
+            }
+
 
         }
         public void LoadDeletedRecords(DateTime? start = null, DateTime? end = null) 
@@ -4125,7 +4722,7 @@ namespace Salon.View
             controller.RestoreExceptionSchedule (id);
         }
 
-        private void dgv_deleted_record_CellClick(object sender, DataGridViewCellEventArgs e)
+        private async void dgv_deleted_record_CellClick(object sender, DataGridViewCellEventArgs e)
         {
             if (e.RowIndex < 0) return;
 
@@ -4151,43 +4748,43 @@ namespace Salon.View
                             {
                                 case "Manage User":
                                     RestoreDeactivatedUserRecord(record.record_id);
-                                    LoadUser();
+                                    await RefreshUsersAsync();
                                     break;
                                 case "Category":
                                     RestoreDeletedCategoryRecord(record.record_id);
-                                    LoadCategory();
+                                    await RefreshCategoryAsync();
                                     break;
                                 case "Manage Stylist":
                                     RestoreDeletedStylistRecord(record.record_id);
-                                    LoadStylist();
+                                    await RefreshStylistAsync();
                                     break;
                                 case "Manage Customer":
                                     RestoreDeletedCustomerRecord(record.record_id);
-                                    LoadCustomers();
+                                    await RefreshCustomers();
                                     break;
                                 case "Manage Supplier":
                                     RestoreDeletedSupplierRecord(record.record_id);
-                                    LoadSuppliers();
+                                   await RefreshSupplierAsync();
                                     break;
                                 case "Manage Sub-Categories":
                                     RestoreDeletedSubCategoryRecord(record.record_id);
-                                    LoadSubCategory();
+                                    await RefreshSubCategoryAsync();
                                     break;
                                 case "Manage Products":
                                     RestoreDeletedProductRecord(record.record_id);
-                                    LoadProducts();
+                                    await RefreshProductAsync();
                                     break;
                                 case "Manage Services":
                                     RestoreDeletedServiceRecord(record.record_id);
-                                    LoadServices();
+                                    await RefreshServicesAsync();
                                     break;
                                 case "Service Price":
                                     RestoreDeletedServicePriceRecord(record.record_id);
-                                    LoadServicePrices();
+                                    await RefreshServicePriceAsync();
                                     break;
                                 case "Vat/Discount":
                                     RestoreDeletedDiscountRecord(record.record_id);
-                                    LoadDiscount();
+                                    await RefreshDiscountAsync();
                                     break;
                                 case "Manage Services, Product Usage":
                                     RestoreDeletedServiceProductRecord(record.record_id);                                 
@@ -4204,7 +4801,7 @@ namespace Salon.View
                            
                             MessageBox.Show("Record restored successfully!", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
 
-                            FilterdDeletedRecords();
+                            await FilterdDeletedRecords();
                         }
                         else
                         {
@@ -4216,31 +4813,31 @@ namespace Salon.View
 
         }
 
-        private void cmb_deleted_record_filter_SelectedIndexChanged(object sender, EventArgs e)
+        private async void cmb_deleted_record_filter_SelectedIndexChanged(object sender, EventArgs e)
         {
             if (cmb_deleted_record_filter.Text.Length > 0) 
             {
-                FilterdDeletedRecords();
+                await FilterdDeletedRecords();
             }
         }
 
-        private void btn_deleted_record_filter_Click(object sender, EventArgs e)
+        private async void btn_deleted_record_filter_Click(object sender, EventArgs e)
         {
             cmb_deleted_record_filter.Hint = string.Empty;
             cmb_deleted_record_filter.SelectedIndex = -1;
-            FilterdDeletedRecords();
+            await FilterdDeletedRecords(); 
 
             cmb_deleted_record_filter.Hint = "Select Filter";
         }
 
-        private void btn_deleted_record_clear_Click(object sender, EventArgs e)
+        private async void btn_deleted_record_clear_Click(object sender, EventArgs e)
         {
             cmb_deleted_record_filter.Hint = string.Empty;
             cmb_deleted_record_filter.SelectedIndex = -1;
             dtp_delete_record_start.Value = DateTime.Today;
             dtp_delete_record_end.Value = DateTime.Today;
-            FilterdDeletedRecords();
-              
+            await FilterdDeletedRecords();
+
             cmb_deleted_record_filter.Hint = "Select Filter";
         }
 
@@ -4289,10 +4886,10 @@ namespace Salon.View
 
             controller.UpdateExpiredProducts();
             InventoryBatchProcessed();
-            LoadExpiringDiscount();
-
 
 ;       }
+
+
         private void InventoryBatchProcessed() 
         {
             var repo = new InventoryBatchRepository();
@@ -4300,12 +4897,105 @@ namespace Salon.View
             controller.UpdateInventoryStatus();
         }
 
-        private void expiry_timer_Tick(object sender, EventArgs e)
+        private async void expiry_timer_Tick(object sender, EventArgs e)
         {
             if (!bgExpiryWorker.IsBusy)
                 bgExpiryWorker.RunWorkerAsync();
-            LoadInventory();
+            await RefreshInventoryAsync();
 
+        }
+
+        private void dgv_customer_CellBorderStyleChanged(object sender, EventArgs e)
+        {
+
+        }
+
+
+        private async void RefreshDataTimer_Tick(object sender, EventArgs e)
+        {
+            if (_isRefreshing) return;
+            _isRefreshing = true;
+
+            try
+            {
+                // Group 1: Core Data
+                var coreTasks = new[]
+                {
+            RefreshCategoryAsync(),
+            RefreshUsersAsync(),
+            RefreshStylistAsync(),
+            RefreshCustomers(),
+            RefreshSubCategoryAsync(),
+            RefreshProductAsync(),
+            RefreshServicesAsync()
+        };
+
+                // Group 2: Business Logic
+                var businessTasks = new[]
+                {
+            RefreshVat(),
+            RefreshDiscountAsync(),
+            RefreshSupplierAsync(),
+            RefreshDeliveryAsync(),
+            RefreshInventoryAsync(),
+            RefreshBatchInventory(),
+            RefreshAppointmentAsync(),
+            RefreshServicePriceAsync(),
+            RefreshTransactionAsync(),
+            RefreshRefundAsync(),
+            RefreshAuditLog()
+        };
+
+                // Group 3: Summary Dashboard
+                var summaryTasks = new[]
+                {
+            RefreshTotalSales(),
+            RefreshTotalAppointment(),
+            RefreshTotalProduct(),
+            RefreshTotalServices(),
+            RefreshPopularServices()
+        };
+
+                // Group 4: Utilities
+                var utilityTasks = new[]
+                {
+            RefreshRentAsync(),
+            RefreshUtilAsync()
+        };
+
+                // Run all groups in parallel
+                await Task.WhenAll(coreTasks);
+                await Task.WhenAll(businessTasks);
+                await Task.WhenAll(summaryTasks);
+                await Task.WhenAll(utilityTasks);
+
+                // Sync calls after async data is ready
+                LoadUtility();
+                await FilterdDeletedRecords();
+
+                // Reports
+                RefreshAllReports();
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine("Refresh error: " + ex.Message);
+            }
+            finally
+            {
+                _isRefreshing = false;
+            }
+        }
+
+        private void RefreshAllReports()
+        {
+            FilterSalesReport();
+            filterInventoryReport();
+            FilterExpenseReport();
+            FilterProfitAndLostReport();
+            FilteredCustomerReport();
+            FilteredStaffReport();
+            FilteredDeliveryReport();
+            FilteredDiscountReport();
         }
 
 

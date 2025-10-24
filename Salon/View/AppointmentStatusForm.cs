@@ -26,7 +26,7 @@ namespace Salon.View
             this.AppointmentModel = AppointmentModel;
         }
 
-        private void btn_save_Click(object sender, EventArgs e)
+        private async void btn_save_Click(object sender, EventArgs e)
         {
             if (string.IsNullOrWhiteSpace(cmb_status.Text))
             {
@@ -40,7 +40,7 @@ namespace Salon.View
 
             MessageBox.Show("Status updated successfully!", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
 
-            mainForm.LoadAppointments();
+            await mainForm.RefreshAppointmentAsync();
             this.Close();
         }
 

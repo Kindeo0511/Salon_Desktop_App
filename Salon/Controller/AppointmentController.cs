@@ -25,6 +25,11 @@ namespace Salon.Controller
         {
             return repo.ShowAllAppointmnets(filter);
         }
+
+        public async Task<IEnumerable<AppointmentModel>> GetAllAppointmentAsync(string status) 
+        {
+            return await repo.ShowAllAppointmentAsync(status);
+        }
         public IEnumerable<AppointmentModel> LoadAppointments()
         {
             return repo.GetAll();

@@ -37,6 +37,7 @@
             this.lbl_Services = new MaterialSkin.Controls.MaterialMultiLineTextBox2();
             this.btn_Confirm = new MaterialSkin.Controls.MaterialButton();
             this.btn_cancel = new MaterialSkin.Controls.MaterialButton();
+            this.txt_customer_type = new MaterialSkin.Controls.MaterialTextBox();
             this.SuspendLayout();
             // 
             // lbl_CustomerName
@@ -101,7 +102,7 @@
             this.lbl_book_type.Font = new System.Drawing.Font("Roboto", 16F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
             this.lbl_book_type.Hint = "Booking Type";
             this.lbl_book_type.LeadingIcon = null;
-            this.lbl_book_type.Location = new System.Drawing.Point(44, 394);
+            this.lbl_book_type.Location = new System.Drawing.Point(44, 479);
             this.lbl_book_type.MaxLength = 50;
             this.lbl_book_type.MouseState = MaterialSkin.MouseState.OUT;
             this.lbl_book_type.Multiline = false;
@@ -213,11 +214,30 @@
             this.btn_cancel.UseVisualStyleBackColor = true;
             this.btn_cancel.Click += new System.EventHandler(this.btn_cancel_Click);
             // 
+            // txt_customer_type
+            // 
+            this.txt_customer_type.AnimateReadOnly = false;
+            this.txt_customer_type.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            this.txt_customer_type.Depth = 0;
+            this.txt_customer_type.Font = new System.Drawing.Font("Roboto", 16F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
+            this.txt_customer_type.Hint = "Customer Type";
+            this.txt_customer_type.LeadingIcon = null;
+            this.txt_customer_type.Location = new System.Drawing.Point(44, 394);
+            this.txt_customer_type.MaxLength = 50;
+            this.txt_customer_type.MouseState = MaterialSkin.MouseState.OUT;
+            this.txt_customer_type.Multiline = false;
+            this.txt_customer_type.Name = "txt_customer_type";
+            this.txt_customer_type.Size = new System.Drawing.Size(400, 50);
+            this.txt_customer_type.TabIndex = 9;
+            this.txt_customer_type.Text = "";
+            this.txt_customer_type.TrailingIcon = null;
+            // 
             // ConfirmationBooking
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1000, 600);
+            this.Controls.Add(this.txt_customer_type);
             this.Controls.Add(this.btn_cancel);
             this.Controls.Add(this.btn_Confirm);
             this.Controls.Add(this.lbl_Services);
@@ -249,5 +269,6 @@
         private MaterialSkin.Controls.MaterialMultiLineTextBox2 lbl_Services;
         private MaterialSkin.Controls.MaterialButton btn_Confirm;
         private MaterialSkin.Controls.MaterialButton btn_cancel;
+        private MaterialSkin.Controls.MaterialTextBox txt_customer_type;
     }
 }

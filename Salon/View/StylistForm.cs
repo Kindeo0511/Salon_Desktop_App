@@ -97,7 +97,7 @@ namespace Salon.View
             
         }
 
-        private void btn_save_Click(object sender, EventArgs e)
+        private async  void btn_save_Click(object sender, EventArgs e)
         {
 
 
@@ -110,12 +110,12 @@ namespace Salon.View
             SaveStylist();
             var fullName = txt_first_name.Text + " " + txt_last_name.Text;
             Audit.AuditLog(DateTime.Now, "Create", UserSession.CurrentUser.first_Name, "Manage Stylist", $"Created stylist {fullName} on {DateTime.Now:yyyy-MM-dd} at {DateTime.Now:HH:mm:ss}");
-            _mainForm.LoadStylist();
+            await _mainForm.RefreshStylistAsync();
       
             this.Close();
         }
 
-        private void btn_update_Click(object sender, EventArgs e)
+        private async void btn_update_Click(object sender, EventArgs e)
         {
 
 
@@ -127,7 +127,7 @@ namespace Salon.View
             UpdateStylist();
             var fullName = txt_first_name.Text + " " + txt_last_name.Text;
             Audit.AuditLog(DateTime.Now, "Update", UserSession.CurrentUser.first_Name, "Manage Stylist", $"Updated stylist {fullName} on {DateTime.Now:yyyy-MM-dd} at {DateTime.Now:HH:mm:ss}");
-            _mainForm.LoadStylist();
+            await _mainForm.RefreshStylistAsync();
             this.Close();
         }
 

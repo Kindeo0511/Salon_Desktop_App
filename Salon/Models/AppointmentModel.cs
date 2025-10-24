@@ -14,6 +14,7 @@ namespace Salon.Models
         public string CustomerName { get; set; }
         public string Email { get; set; }
         public string PhoneNumber { get; set; }
+        public string Customer_Type { get; set; }
         public int StylistId { get; set; }
         public string StylistName { get; set; }
         public DateTime AppointmentDate { get; set; }

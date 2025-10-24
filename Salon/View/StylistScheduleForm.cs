@@ -62,29 +62,32 @@ namespace Salon.View
 
             bool validated = true;
             // REQUIRED FIELD
-            validated &= Validator.IsRequired(txt_day, errorProvider1, "Day is required.");
-           
 
-            validated &= Validator.IsTimeSelected(dtp_start_time, errorProvider1, "Start time is required.");
-            
-            validated &= Validator.IsTimeSelected(dtp_end_time, errorProvider1, "End time is required.");
-           
-            if (dtp_start_time.Value.TimeOfDay >= dtp_end_time.Value.TimeOfDay)
+            if (!Validator.IsComboBoxSelected(txt_day, weekly_error, "Day is Required"))
             {
-                errorProvider1.SetError(dtp_end_time, "End time must be after start time.");
                 validated = false;
             }
 
-            if (!rad_yes.Checked && !rad_no.Checked)
+
+            //validated &= Validator.IsTimeSelected(dtp_start_time, errorProvider1, "Start time is required.");
+
+            //validated &= Validator.IsTimeSelected(dtp_end_time, errorProvider1, "End time is required.");
+
+            if (dtp_start_time.Value.TimeOfDay >= dtp_end_time.Value.TimeOfDay)
             {
-                errorProvider1.SetError(rad_yes, "Availability is required.");
-                errorProvider1.SetError(rad_no, "Availability is required."); 
+                weekly_error.SetError(dtp_end_time, "End time must be after start time.");
+                validated = false;
+            }
+
+            if (!check_yes.Checked)
+            {
+                weekly_error.SetError(check_yes, "Availability is required.");
                 validated = false;
             }
             else
             {
-                errorProvider1.SetError(rad_yes, "");
-                errorProvider1.SetError(rad_no, "");
+                weekly_error.SetError(check_yes, "");
+        
             }
 
 
@@ -138,18 +141,11 @@ namespace Salon.View
             int exception_id = _exceptionSchedule?.id ?? 0;
   
             DateTime date = dtp_date.Value;
-            TimeSpan startTime = dtp_start_time.Value.TimeOfDay;
-            TimeSpan endTime = dtp_end_time.Value.TimeOfDay;
-    
-            validated &= Validator.IsExScheduleConflict(
-               new Control[] { dtp_date, dtp_start_time, dtp_end_time },
-               errorProvider1,
-               "Schedule already exists.",
-               _stylist.stylist_id,
-               startTime,
-               endTime,
-               exception_id
-           );
+
+            if (!Validator.IsExScheduleExists(dtp_date, errorProvider1, "Schedule already exists.", _stylist.stylist_id, exception_id, date)) 
+            {
+                validated = false;
+            }
 
 
 
@@ -163,10 +159,10 @@ namespace Salon.View
             var stylistSchedule = new StylistScheduleModel
             {
                 StylistId = _stylist.stylist_id,
-                DayOfWeek = txt_day.Text,
+                DayOfWeek = txt_day.SelectedItem.ToString(),
                 StartTime = dtp_start_time.Value.TimeOfDay,
                 EndTime = dtp_end_time.Value.TimeOfDay,
-                IsWorking = rad_yes.Checked,
+                IsWorking = check_yes.Checked,
 
             };
             var stylistSchedulesRepo = new StylistSchedulesRepository();
@@ -178,27 +174,19 @@ namespace Salon.View
         }
         private void UpdateSchedule()
         {
-            bool is_working = false;
-            if (_stylistSchedule.IsWorking)
-            {
-                is_working = rad_yes.Checked;
-            }
-            else
-            {
-                is_working = rad_no.Checked;
-            }
-            if (_stylistSchedule != null)
-            {
 
-                _stylistSchedule.StylistId = _stylist.stylist_id;
-                _stylistSchedule.DayOfWeek = txt_day.Text;
+            var stylistSchedulesRepo = new StylistSchedulesRepository();
+            var stylistSchedulesController = new StylistSchedulesController(stylistSchedulesRepo);
+
+
+                 _stylistSchedule.StylistId = _stylist.stylist_id;
+            _stylistSchedule.DayOfWeek = txt_day.SelectedItem.ToString();
                 _stylistSchedule.StartTime = dtp_start_time.Value.TimeOfDay;
                 _stylistSchedule.EndTime = dtp_end_time.Value.TimeOfDay;
-                _stylistSchedule.IsWorking = is_working;
+                _stylistSchedule.IsWorking = check_yes.Checked;
 
 
-                var stylistSchedulesRepo = new StylistSchedulesRepository();
-                var stylistSchedulesController = new StylistSchedulesController(stylistSchedulesRepo);
+         
                 stylistSchedulesController.UpdateSchedule(_stylistSchedule);
                 MessageBox.Show("Schedule updated successfully!");
                 LoadSchedules(_stylist.stylist_id);
@@ -206,7 +194,7 @@ namespace Salon.View
                 btn_add.Visible = true;
                 btn_update.Visible = false;
                 btn_cancel.Visible = false;
-            }
+            
 
 
 
@@ -217,8 +205,8 @@ namespace Salon.View
             txt_day.Text = "";
             dtp_start_time.Value = DateTime.Today;
             dtp_end_time.Value = DateTime.Today;
-            rad_yes.Checked = false;
-            rad_no.Checked = false;
+            check_yes.Checked = false;
+     
      ;
         }
         private void btn_add_Click(object sender, EventArgs e)
@@ -259,32 +247,31 @@ namespace Salon.View
             }
         }
 
-        private void dgv_weekly_schedules_CellClick(object sender, DataGridViewCellEventArgs e)
+        private async void dgv_weekly_schedules_CellClick(object sender, DataGridViewCellEventArgs e)
         {
             if (e.RowIndex < 0) return;
 
+            txt_day.Hint = string.Empty;
             if (e.RowIndex >= 0 && dgv_weekly_schedules.Columns[e.ColumnIndex].Name == "btn_weekly_update")
             {
                 _stylistSchedule = dgv_weekly_schedules.Rows[e.RowIndex].DataBoundItem as StylistScheduleModel;
 
                 //schedule_id = Convert.ToInt32(_stylistSchedule.ScheduleId.ToString());
-                txt_day.Text = _stylistSchedule.DayOfWeek;
+                txt_day.SelectedItem = _stylistSchedule.DayOfWeek;
                 dtp_start_time.Value = DateTime.Today.Add(_stylistSchedule.StartTime);
                 dtp_end_time.Value = DateTime.Today.Add(_stylistSchedule.EndTime);
-                if (_stylistSchedule.IsWorking)
-                {
-                    rad_yes.Checked = true;
-                }
-                else
-                {
-                    rad_no.Checked = true;
-                }
+                bool isWorking = _stylistSchedule.IsWorking;
+                chk_yes.Checked = isWorking;
+                chk_no.Checked = !isWorking;
+                check_yes.Checked = isWorking;
+
+
 
                 btn_add.Visible = false;
                 btn_update.Visible = true;
                 btn_cancel.Visible = true;
 
-
+                txt_day.Hint = "-- Select Day --";
 
 
             }
@@ -300,7 +287,7 @@ namespace Salon.View
                     MessageBox.Show("Schedule deleted successfully!");
                     LoadSchedules(_stylist.stylist_id);
                     mainForm.InsertDeletedRecord(schedules.ScheduleId, "Manage Stylist, Schedule", schedules.DayOfWeek, UserSession.CurrentUser.first_Name, DateTime.Today);
-                    mainForm.FilterdDeletedRecords();
+                    await mainForm.FilterdDeletedRecords();
                     var day = txt_day.Text;
                     Audit.AuditLog(DateTime.Now, "Delete", UserSession.CurrentUser.first_Name, "Manage Stylist, Schedule", $"Deleted schedule for '{day}' (Stylist: {_stylist.firstName}) on {DateTime.Now:yyyy-MM-dd} at {DateTime.Now:HH:mm:ss}");
                     clear();
@@ -320,13 +307,10 @@ namespace Salon.View
 
         private void btn_update_Click(object sender, EventArgs e)
         {
-            if (!WeeklyValidated())
-            {
-
-                return;
+            if (!WeeklyValidated()) return;
 
 
-            }
+            
             UpdateSchedule();
             var day = txt_day.Text;
             Audit.AuditLog(DateTime.Now, "Update", UserSession.CurrentUser.first_Name, "Manage Stylist, Schedule", $"Updated schedule for '{day}' (Stylist: {_stylist.firstName}) on {DateTime.Now:yyyy-MM-dd} at {DateTime.Now:HH:mm:ss}");
@@ -357,8 +341,6 @@ namespace Salon.View
             {
                 stylist_id = _stylist.stylist_id,
                 date = dtp_date.Value.Date,
-                start_time = dtp_exception_start_time.Value.TimeOfDay,
-                end_time = dtp_exception_end_time.Value.TimeOfDay,
                 is_available = chk_yes.Checked,
                 reason = txt_reason.Text
             };
@@ -391,6 +373,7 @@ namespace Salon.View
             var reason = txt_reason.Text;
             Audit.AuditLog(DateTime.Now, "Create", UserSession.CurrentUser.first_Name, "Manage Stylist, Exception Schedule", $"Created exception schedule for Stylist: '{_stylist.firstName}' (Reason: {reason}) on {DateTime.Now:yyyy-MM-dd} at {DateTime.Now:HH:mm:ss}");
             AddExceptionSchedule();
+            MessageBox.Show("Exception schedule added successfully!");
         }
 
         private void btn_update_exceptionSched_Click(object sender, EventArgs e)
@@ -399,9 +382,13 @@ namespace Salon.View
             var reason = txt_reason.Text;
             Audit.AuditLog(DateTime.Now, "Update", UserSession.CurrentUser.first_Name, "Manage Stylist, Exception Schedule", $"Updated exception schedule for Stylist: '{_stylist.firstName}' (Reason: {reason}) on {DateTime.Now:yyyy-MM-dd} at {DateTime.Now:HH:mm:ss}");
             UpdateExceptionSchedule();
+            btn_update_exceptionSched.Visible = false;
+            btn_add_ExceptionSched.Visible = true;
+            btn_cancel_exceptionSched.Visible = false;
+            MessageBox.Show("Exception schedule updated successfully!");
         }
 
-        private void dgv_exception_schedule_CellClick(object sender, DataGridViewCellEventArgs e)
+        private async void dgv_exception_schedule_CellClick(object sender, DataGridViewCellEventArgs e)
         {
             if (e.RowIndex < 0) return;
 
@@ -409,18 +396,43 @@ namespace Salon.View
             {
                 _exceptionSchedule = dgv_exception_schedule.Rows[e.RowIndex].DataBoundItem as ExceptionScheduleModel;
 
-                dtp_date.Value = _exceptionSchedule.date.Date;
-                dtp_exception_start_time.Value = DateTime.Today.Add(_exceptionSchedule.start_time);
-                dtp_exception_end_time.Value = DateTime.Today.Add(_exceptionSchedule.end_time);
-                if (_exceptionSchedule.is_available)
+                // Safely assign date
+                DateTime safeDate = _exceptionSchedule.date.Date;
+                if (safeDate >= dtp_date.MinDate && safeDate <= dtp_date.MaxDate)
                 {
-                    chk_yes.Checked = true;
+                    dtp_date.Value = safeDate;
                 }
                 else
                 {
-                    chk_no.Checked = true;
+                    dtp_date.Value = DateTime.Today; // fallback
                 }
+
+                // Safely assign start time
+                DateTime safeStart = DateTime.Today.Add(_exceptionSchedule.start_time);
+                if (safeStart >= dtp_exception_start_time.MinDate && safeStart <= dtp_exception_start_time.MaxDate)
+                {
+                    dtp_exception_start_time.Value = safeStart;
+                }
+                else
+                {
+                    dtp_exception_start_time.Value = DateTime.Today;
+                }
+
+                // Safely assign end time
+                DateTime safeEnd = DateTime.Today.Add(_exceptionSchedule.end_time);
+                if (safeEnd >= dtp_exception_end_time.MinDate && safeEnd <= dtp_exception_end_time.MaxDate)
+                {
+                    dtp_exception_end_time.Value = safeEnd;
+                }
+                else
+                {
+                    dtp_exception_end_time.Value = DateTime.Today;
+                }
+
+                chk_yes.Checked = _exceptionSchedule.is_available;
+                chk_no.Checked = !_exceptionSchedule.is_available;
                 txt_reason.Text = _exceptionSchedule.reason;
+
                 btn_add_ExceptionSched.Visible = false;
                 btn_update_exceptionSched.Visible = true;
                 btn_cancel_exceptionSched.Visible = true;
@@ -438,7 +450,7 @@ namespace Salon.View
                 MessageBox.Show("Schedule deleted successfully!");
                 LoadExceptionSchedules(_stylist.stylist_id);
                 mainForm.InsertDeletedRecord(schedules.id, "Manage Stylist, Exception Schedule",  _stylist.firstName + $"({schedules.date})", UserSession.CurrentUser.first_Name, DateTime.Today);
-                mainForm.FilterdDeletedRecords();
+                await mainForm.FilterdDeletedRecords();
                 var reason = txt_reason.Text;
                 Audit.AuditLog(DateTime.Now, "Create", UserSession.CurrentUser.first_Name, "Manage Stylist, Exception Schedule", $"Created exception schedule for Stylist: '{_stylist.firstName}' (Reason: {reason}) on {DateTime.Now:yyyy-MM-dd} at {DateTime.Now:HH:mm:ss}");
                 clear();
@@ -457,7 +469,7 @@ namespace Salon.View
                 }
             }
 
-            if (dgv_exception_schedule.Columns[e.ColumnIndex].Name == "available" && e.Value != null)
+            if (dgv_exception_schedule.Columns[e.ColumnIndex].Name == "ex_available" && e.Value != null)
             {
                 bool isAvailable = Convert.ToBoolean(e.Value);
                 e.Value = isAvailable ? "Yes" : "No";
@@ -480,6 +492,12 @@ namespace Salon.View
             chk_yes.Checked = false;
             chk_no.Checked = false;
             txt_reason.Text = "";
+        }
+
+        private void StylistScheduleForm_Load(object sender, EventArgs e)
+        {
+      
+
         }
     }
 }

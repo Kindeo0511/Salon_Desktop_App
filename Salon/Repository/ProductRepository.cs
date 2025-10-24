@@ -22,6 +22,19 @@ namespace Salon.Repository
                 return con.Query<ProductModel>(sql).ToList();
             }
         }
+        public async Task<IEnumerable<ProductModel>> GetAllProductAsync() 
+        {
+            using (var con = Database.GetConnection())
+            {
+                var sql = @"SELECT p.product_id, p.product_name, p.brand, p.category_id, c.categoryName AS categoryName, p.unit_type, p.usage_type, p.unit_volume
+                            FROM tbl_products p
+                            JOIN tbl_category c ON p.category_id = c.category_id
+                            WHERE p.is_deleted = 0";
+                var result = await con.QueryAsync<ProductModel>(sql);
+
+                return result.ToList();
+            }
+        }
         public ProductModel GetTotalProducts() 
         {
             using (var con = Database.GetConnection()) 
@@ -29,6 +42,19 @@ namespace Salon.Repository
                 var sql = "SELECT COUNT(*) AS TotalProduct FROM tbl_products";
 
                 return con.Query<ProductModel>(sql).FirstOrDefault();
+
+            }
+        }
+
+        public async Task<ProductModel> GetTotalProductAsync() 
+        {
+            using (var con = Database.GetConnection())
+            {
+                var sql = "SELECT COUNT(*) AS TotalProduct FROM tbl_products";
+
+                var result = await con.QueryAsync<ProductModel>(sql);
+
+                return result.FirstOrDefault();
 
             }
         }

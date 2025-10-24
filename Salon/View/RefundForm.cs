@@ -151,14 +151,14 @@ namespace Salon.View
                 }
             }
 
-            mainForm.LoadInventory();
+        
             return true;
         }
         private void UpdateAppointmentStatus(int id) 
         {
             var controller = new AppointmentController();
             controller.UpdateStatus("Refunded", id); 
-            mainForm.LoadAppointments();
+           
             
         }
         private void AddRefund() 
@@ -186,7 +186,7 @@ namespace Salon.View
 
             controller.UpdateTransactionStatus(model.transaction_id, "Refunded");
         }
-        private void btn_refund_Click(object sender, EventArgs e)
+        private async void btn_refund_Click(object sender, EventArgs e)
         {
             if (!IsValid()) return;
             AddRefund();
@@ -202,12 +202,15 @@ namespace Salon.View
                "Transaction History",
                $"Refunded services on {DateTime.Now:yyyy-MM-dd} at {DateTime.Now:HH:mm:ss}");
 
-            mainForm.LoadAllTransactions();
-            mainForm.LoadInventory();
-            mainForm.LoadRefund();
-            mainForm.LoadTotalSales();
+      
+            
+            await mainForm.RefreshRefundAsync();
+            await mainForm.RefreshTotalSales();
             UpdateAppointmentStatus(model.appointment_id);
-           this.Close();
+            await mainForm.RefreshAppointmentAsync();
+            await mainForm.RefreshInventoryAsync();
+            await mainForm.RefreshTransactionAsync();
+            this.Close();
         }
 
         private void btn_cancel_refund_Click(object sender, EventArgs e)

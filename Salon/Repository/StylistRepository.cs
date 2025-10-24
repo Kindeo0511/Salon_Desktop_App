@@ -20,6 +20,15 @@ namespace Salon.Repository
                 return con.Query<StylistModel>(sql).ToList();
             }
         }
+        public async Task<IEnumerable<StylistModel>> GetAllStylistAsync() 
+        {
+            using (var con = Database.GetConnection())
+            {
+                var sql = "SELECT * FROM tbl_stylists";
+                var result =  await con.QueryAsync<StylistModel>(sql);
+                return result.ToList();
+            }
+        }
         public IEnumerable<StylistModel> GetStylistWithFullName()
         {
             using (var con = Database.GetConnection())

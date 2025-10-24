@@ -21,6 +21,10 @@ namespace Salon.Controller
         {
             return _repo.GetAllStylist();
         }
+        public async Task<IEnumerable<StylistModel>> RefreshStlyistAsync() 
+        {
+            return await _repo.GetAllStylistAsync();
+        }
         public IEnumerable<StylistModel> StylistFullName() 
         {
             return _repo.GetStylistWithFullName();

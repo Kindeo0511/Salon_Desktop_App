@@ -7,6 +7,7 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
+using System.Diagnostics;
 using System.Drawing;
 using System.Drawing.Printing;
 using System.Drawing.Text;
@@ -77,7 +78,7 @@ namespace Salon.View
 
             }
             LoadDiscount();
-            LoadVat();
+           
             calculate();
 
             printDocument.PrintPage += new PrintPageEventHandler(printDocument1_PrintPage);
@@ -121,6 +122,31 @@ namespace Salon.View
         }
 
 
+        //private void cb_discount_SelectedIndexChanged(object sender, EventArgs e)
+        //{
+        //    if (cb_discount.SelectedIndex >= 0)
+        //    {
+        //        var selectedDiscount = cb_discount.SelectedItem as DiscountModel;
+        //        if (selectedDiscount != null)
+        //        {
+        //            discount_rate = selectedDiscount.discount_rate; // Set the actual rate
+        //            lbl_discount_type.Text = $"Discount ({discount_rate}%)";
+
+
+        //            calculate();
+        //        }
+        //    }
+        //    else
+        //    {
+
+        //        discount_rate = 0;
+        //        lbl_discount_type.Text = "Discount";
+        //        lbl_Discount.Text = "₱0.00";
+        //        calculate();
+        //    }
+
+
+        //}
         private void cb_discount_SelectedIndexChanged(object sender, EventArgs e)
         {
             if (cb_discount.SelectedIndex >= 0)
@@ -128,8 +154,12 @@ namespace Salon.View
                 var selectedDiscount = cb_discount.SelectedItem as DiscountModel;
                 if (selectedDiscount != null)
                 {
-                    discount_rate = selectedDiscount.discount_rate; // Set the actual rate
+                    discount_rate = selectedDiscount.discount_rate;
                     lbl_discount_type.Text = $"Discount ({discount_rate}%)";
+
+                    // ✅ Automatically check VAT exemption if applicable
+
+                    sw_exempt_vat.Checked = (selectedDiscount.vat_exempt == 1);
 
 
                     calculate();
@@ -137,15 +167,17 @@ namespace Salon.View
             }
             else
             {
-
                 discount_rate = 0;
                 lbl_discount_type.Text = "Discount";
                 lbl_Discount.Text = "₱0.00";
+
+                // ✅ Reset VAT exemption when no discount is selected
+                sw_exempt_vat.Checked = false;
+
                 calculate();
             }
-
-
         }
+
         private decimal ParseCurrency(string input)
         {
             string cleaned = input.Replace("₱", "").Trim();
@@ -203,8 +235,9 @@ namespace Salon.View
 
         }
 
-        private void PaymentForm_Load(object sender, EventArgs e)
+        private async  void PaymentForm_Load(object sender, EventArgs e)
         {
+            await mainForm.RefreshVat();
             calculate();
             DateTime startTime = DateTime.Today.Add(model.StartTime);
             DateTime endTime = DateTime.Today.Add(model.EndTime);
@@ -286,7 +319,7 @@ namespace Salon.View
    
             
         }
-        private void btn_confirm_payment_Click(object sender, EventArgs e)
+        private async void btn_confirm_payment_Click(object sender, EventArgs e)
         {
             if (!Validated()) return;
 
@@ -377,9 +410,11 @@ namespace Salon.View
                 $"Processed payment for client '{model.ClientName}' on {DateTime.Now:yyyy-MM-dd} at {DateTime.Now:HH:mm:ss}"
             );
 
-            mainForm.LoadAppointments();
-            mainForm.LoadTotalSales();
-            mainForm.LoadAllTransactions();
+            await mainForm.RefreshInventoryAsync();
+            await mainForm.RefreshBatchInventory();
+            await mainForm.RefreshAppointmentAsync();
+            await mainForm.RefreshTotalSales();
+            await mainForm.RefreshTransactionAsync();
             btn_invoice.Enabled = true;
             btn_confirm_payment.Enabled = false;
         }
@@ -492,6 +527,7 @@ namespace Salon.View
         private bool Product_Inventory()
         {
             var inventoryController = new InventoryController(new InventoryRepository());
+            var batchController = new InventoryBatchController(new InventoryBatchRepository());
             var serviceProductController = new ServiceProductUsageController(new ServiceProductUsageRepository());
             var appointmentService = new AppointmentServiceController(new AppointmentServiceRepository());
 
@@ -506,17 +542,14 @@ namespace Salon.View
             {
                 var serviceProducts = serviceProductController.GetAllServiceProducts(service.ServiceId)?.ToList();
                 if (serviceProducts == null || !serviceProducts.Any()) continue;
-
                 foreach (var product in serviceProducts)
                 {
                     var inventoryItem = inventoryProductList
                         .FirstOrDefault(inv => inv.product_id == product.product_id);
 
-                    if (inventoryItem == null) continue;
-
-                    if (inventoryItem.unit <= 0)
+                    if (inventoryItem == null || inventoryItem.unit <= 0)
                     {
-                        string productName = inventoryItem.product_name ?? "Unknown Product";
+                        string productName = inventoryItem?.product_name ?? "Unknown Product";
                         MessageBox.Show($"❌ \"{productName}\" has no available units in stock.", "Inventory Warning", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                         return false;
                     }
@@ -532,14 +565,72 @@ namespace Salon.View
                         return false;
                     }
 
+                    // 🔁 Deduct from batches
+                    var availableBatches = batchController.GetAvailableBatchesByProductId(product.product_id);
+                    double remainingUsage = usedVolume;
+
+
+                    foreach (var batch in availableBatches)
+                    {
+                        double available = batch.volume - batch.used_volume;
+                        if (available <= 0) continue;
+
+                        double toUse = Math.Min(available, remainingUsage);
+                        batchController.RecordBatchProductUsage(batch.batch_id, toUse);
+                        remainingUsage -= toUse;
+
+                        if (remainingUsage <= 0) break;
+                    }
+
+                    if (remainingUsage > 0)
+                    {
+                        string productName = inventoryItem.product_name ?? "Unknown Product";
+                        MessageBox.Show($"❌ Not enough batch inventory for \"{productName}\".\nMissing: {remainingUsage:N2} ml", "Inventory Warning", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                        return false;
+                    }
+
+                    // ✅ Update overall inventory
                     double remainingVolume = totalVolume - usedVolume;
                     double updatedUnitCount = remainingVolume / unitVolume;
 
                     inventoryController.UpdateInventoryByVolume(product.product_id, updatedUnitCount, usedVolume);
                 }
+
+                //foreach (var product in serviceProducts)
+                //{
+                //    var inventoryItem = inventoryProductList
+                //        .FirstOrDefault(inv => inv.product_id == product.product_id);
+
+                //    if (inventoryItem == null) continue;
+
+                //    if (inventoryItem.unit <= 0)
+                //    {
+                //        string productName = inventoryItem.product_name ?? "Unknown Product";
+                //        MessageBox.Show($"❌ \"{productName}\" has no available units in stock.", "Inventory Warning", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                //        return false;
+                //    }
+
+                //    double unitVolume = (double)inventoryItem.volume / inventoryItem.unit;
+                //    double totalVolume = unitVolume * inventoryItem.unit;
+                //    double usedVolume = product.total_usage_amount;
+
+                //    if (totalVolume < usedVolume)
+                //    {
+                //        string productName = inventoryItem.product_name ?? "Unknown Product";
+                //        MessageBox.Show($"❌ Insufficient stock for \"{productName}\".\nRequired: {usedVolume:N2} ml\nAvailable: {totalVolume:N2} ml", "Inventory Warning", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                //        return false;
+                //    }
+
+                //    double remainingVolume = totalVolume - usedVolume;
+                //    double updatedUnitCount = remainingVolume / unitVolume;
+
+                //    inventoryController.UpdateInventoryByVolume(product.product_id, updatedUnitCount, usedVolume);
+
+                //}
             }
 
-            mainForm.LoadInventory();
+           
+
             return true;
         }
 
@@ -593,13 +684,14 @@ namespace Salon.View
             });
 
             renderer.DrawSeparator();
-            renderer.DrawLabelValue("Service", "Price"); // Table header
+            renderer.DrawLabelValue("Service", "Price"); 
             renderer.DrawSeparator();
 
             // Service rows
             decimal subtotal = 0;
             foreach (var service in _serviceList)
             {
+              
                 renderer.DrawLabelValue(service.ServiceName, service.SellingPrice.ToString("C2"));
                 subtotal += service.SellingPrice;
             }

@@ -11,6 +11,7 @@ namespace Salon.Repository
     {
         IEnumerable<ServicePriceModel> GetAllServicesByName(string key = "");
         IEnumerable<ServicePriceModel> GetAllServicePrice();
+        Task<IEnumerable<ServicePriceModel>> GetAllServicePriceAsync();
         ServicePriceModel GetServicePrice(int SelectedServiceNameID);
         void AddServicePrice(ServicePriceModel servicePrice);
         void UpdateServicePrice(ServicePriceModel servicePrice);

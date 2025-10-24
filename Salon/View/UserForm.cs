@@ -36,6 +36,16 @@ namespace Salon.View
             dtp_day_of_birth.MinDate = new DateTime(minYear, 1, 1);      // e.g., Jan 1, 1960 if it's 2025
             dtp_day_of_birth.MaxDate = new DateTime(maxYear, 12, 31);    // e.g., Dec 31, 2007 if it's 2025
 
+            DateTime defaultDate = new DateTime(currentYear - 25, 1, 1); // e.g., 25 years old
+
+            if (defaultDate < dtp_day_of_birth.MinDate)
+                defaultDate = dtp_day_of_birth.MinDate;
+            else if (defaultDate > dtp_day_of_birth.MaxDate)
+                defaultDate = dtp_day_of_birth.MaxDate;
+
+            dtp_day_of_birth.Value = defaultDate;
+
+            this.AcceptButton = btn_save;
             btn_cancel.DialogResult = DialogResult.Cancel;
 
         }
@@ -78,10 +88,10 @@ namespace Salon.View
                 btn_update.Visible = false;
             }
         }
-        //private string HashPassword(string password) 
-        //{
-        //    return BCrypt.Net.BCrypt.HashPassword(password);
-        //}
+        private string HashPassword(string password)
+        {
+            return BCrypt.Net.BCrypt.HashPassword(password);
+        }
         public UserForm(MainForm mainForm, UsersModel user, bool isViewed)
         {
             InitializeComponent();
@@ -121,6 +131,9 @@ namespace Salon.View
                 btn_save.Visible = false;
                 btn_update.Visible = false;
                 btn_cancel.Visible = false;
+
+
+                this.AcceptButton = btn_update;
             }
 
         }
@@ -136,8 +149,8 @@ namespace Salon.View
                 phone_Number = txt_contact.Text.Trim(),
                 email = txt_email.Text.Trim(),
                 address = txt_address.Text.Trim(),
-                //userName = txt_username.Text.Trim(),
-                //userPassword = HashPassword(txt_password.Text.Trim()),
+                userName = txt_username.Text.Trim(),
+                userPassword = HashPassword(txt_password.Text.Trim()),
                 Position = "Staff",
             };
             var _repo = new UserRepository();
@@ -159,7 +172,7 @@ namespace Salon.View
                 _user.email = txt_email.Text.Trim();
                 _user.address = txt_address.Text.Trim();
                 _user.userName = txt_username.Text.Trim();
-                //_user.userPassword = HashPassword(txt_password.Text.Trim());
+                _user.userPassword = HashPassword(txt_password.Text.Trim());
                 var _repo = new UserRepository();
                 var userController = new UserController(_repo);
                 userController.UpdateUser(_user);
@@ -382,7 +395,7 @@ namespace Salon.View
 
 
         }
-        private void btn_save_Click(object sender, EventArgs e)
+        private async void btn_save_Click(object sender, EventArgs e)
         {
 
 
@@ -394,9 +407,10 @@ namespace Salon.View
             SaveUser();
             string fullName = txt_first_name.Text + " " + txt_last_name.Text;
             Audit.AuditLog(DateTime.Now, "Create", UserSession.CurrentUser.first_Name, "Manage User", $"Created new user for {fullName} on {DateTime.Now:yyyy-MM-dd} at {DateTime.Now:HH:mm:ss}");
-            _mainForm.LoadAuditTrail();
+            await _mainForm.RefreshAuditLog();
             Clear();
-            _mainForm.LoadUser();
+            MessageBox.Show("User added successfully!", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            await _mainForm.RefreshUsersAsync();
             this.Close();
             btn_save.Enabled = true;
             _isSaving = false;
@@ -406,7 +420,7 @@ namespace Salon.View
         }
 
 
-        private  void btn_update_Click(object sender, EventArgs e)
+        private async void btn_update_Click(object sender, EventArgs e)
         {
 
             btn_update.Enabled = false;
@@ -427,8 +441,9 @@ namespace Salon.View
             string fullName = txt_first_name.Text + " " + txt_last_name.Text;
             Audit.AuditLog(DateTime.Now, "Update", UserSession.CurrentUser.first_Name, "Manage User", $"Updated user {fullName} on {DateTime.Now:yyyy-MM-dd} at {DateTime.Now:HH:mm:ss}");
             Clear();
-            _mainForm.LoadUser();
-            _mainForm.LoadAuditTrail();
+            MessageBox.Show("User updated successfully!", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            await _mainForm.RefreshUsersAsync();
+            await _mainForm.RefreshAuditLog();
 
             this.Close();
 
@@ -473,7 +488,6 @@ namespace Salon.View
             txt_first_name.Text = string.Empty;
             txt_middle_name.Text = string.Empty;
             txt_last_name.Text = string.Empty;
-            dtp_day_of_birth.Value = DateTime.Today;
             txt_contact.Text = string.Empty;
             txt_email.Text = string.Empty;
             txt_address.Text = string.Empty;

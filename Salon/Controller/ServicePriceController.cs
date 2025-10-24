@@ -24,6 +24,12 @@ namespace Salon.Controller
         {
             return repo.GetAllServicePrice();
         }
+
+        public async Task<IEnumerable<ServicePriceModel>> GetAllServicePriceAsync()
+        {
+        
+            return await repo.GetAllServicePriceAsync();
+        }
         public ServicePriceModel GetServicePrice(int SelectedServiceNameID)
         {
             return repo.GetServicePrice(SelectedServiceNameID);

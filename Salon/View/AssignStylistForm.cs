@@ -98,7 +98,7 @@ namespace Salon.View
 
             MessageBox.Show("Stylist successfully assigned to the appointment!", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
 
-            mainForm.LoadAppointments();
+  
             Audit.AuditLog(
              DateTime.Now,
              "Assign",
@@ -110,11 +110,12 @@ namespace Salon.View
 
         }
 
-        private void btn_assign_Click(object sender, EventArgs e)
+        private async void btn_assign_Click(object sender, EventArgs e)
         {
             if (cmb_stylist.SelectedItem != null && cmb_stylist.SelectedIndex > 0) 
             {
                 UpdateAppointment();
+                await mainForm.RefreshAppointmentAsync();
             }
             else 
             {

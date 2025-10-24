@@ -20,6 +20,11 @@ namespace Salon.Controller
         {
             return repo.GetOverHead(); ;
         }
+
+        public async Task<OverHeadModel> GetOverHeadAsync() 
+        {
+            return await repo.GetOverHeadAsync(); 
+        }
         public void Add(OverHeadModel model) 
         {
             repo.AddOverHead(model);

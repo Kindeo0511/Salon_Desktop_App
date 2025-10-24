@@ -25,9 +25,19 @@ namespace Salon.Repository
         {
             using (var con = Database.GetConnection())
             {
-                var sql = "SELECT * FROM tbl_users WHERE Position != 'Admin'";
+                var sql = "SELECT * FROM tbl_users";
                 return con.Query<UsersModel>(sql).ToList();
             }
+        }
+        public async Task<IEnumerable<UsersModel>> GetAllCustomerAsync() 
+        {
+            using (var con = Database.GetConnection())
+            {
+                var sql = "SELECT * FROM tbl_users";
+                var result =  await con.QueryAsync<UsersModel>(sql);
+                return result.ToList();
+            }
+
         }
         public UsersModel GetUserByEmail(string email) 
         {

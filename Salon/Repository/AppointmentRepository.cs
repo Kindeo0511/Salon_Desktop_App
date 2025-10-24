@@ -28,6 +28,7 @@ namespace Salon.Repository
         COALESCE(CONCAT(s.firstName, ' ', s.middleName, ' ', s.lastName), 'Stylist not assigned yet') AS StylistName,
          c.email As Email,
          c.phoneNumber AS PhoneNumber,
+         c.customer_type AS Customer_Type,
         GROUP_CONCAT(DISTINCT sn.serviceName SEPARATOR ', ') AS Services,
         SUM(spr.selling_price) AS selling_price,
         SUM(spr.vat_amount) AS vat_amount,
@@ -62,6 +63,7 @@ namespace Salon.Repository
                 COALESCE(CONCAT(s.firstName, ' ', s.middleName, ' ', s.lastName), 'Stylist not assigned yet') AS StylistName,
                  c.email As Email,
                  c.phoneNumber AS PhoneNumber,
+             c.customer_type AS Customer_Type,
                 GROUP_CONCAT(DISTINCT sn.serviceName SEPARATOR ', ') AS Services,
                 SUM(spr.selling_price) AS selling_price,
                 SUM(spr.vat_amount) AS vat_amount,
@@ -78,13 +80,109 @@ namespace Salon.Repository
             LEFT JOIN tbl_servicesname sn ON aps.serviceName_id = sn.serviceName_id
             LEFT JOIN tbl_service_product spd ON spd.service_id = sn.serviceName_id
             LEFT JOIN tbl_service_price spr ON spr.service_product_id = spd.service_product_id
-            WHERE a.Status = @status;";
+            WHERE a.Status = @status
+          GROUP BY 
+                a.appointment_id,
+                a.customer_id,
+                a.stylist_id,
+                a.Date,
+                a.start_time,
+                a.end_time,
+                a.Status,
+                a.Payment_status,
+                a.booking_type;";
 
                 return con.Query<AppointmentModel>(sql, new { status}).ToList();
             }
 
         }
-        
+
+        public async Task<IEnumerable<AppointmentModel>> ShowAllAppointmentAsync(string status = "") 
+        {
+            using (var con = Database.GetConnection())
+            {
+
+                var sql = string.IsNullOrEmpty(status) || status == "All"
+      ? @"
+    SELECT 
+        a.appointment_id AS AppointmentId,
+        a.customer_id AS CustomerId,
+        CONCAT(c.firstName, ' ', c.middleName, ' ', c.lastName) AS CustomerName,
+        a.stylist_id AS StylistId,
+        COALESCE(CONCAT(s.firstName, ' ', s.middleName, ' ', s.lastName), 'Stylist not assigned yet') AS StylistName,
+         c.email As Email,
+         c.phoneNumber AS PhoneNumber,
+         c.customer_type AS Customer_Type,
+        GROUP_CONCAT(DISTINCT sn.serviceName SEPARATOR ', ') AS Services,
+        SUM(spr.selling_price) AS selling_price,
+        SUM(spr.vat_amount) AS vat_amount,
+        a.Date AS AppointmentDate,
+        a.start_time AS StartTime,
+        a.end_time AS EndTime,
+        a.Status,
+        a.Payment_status AS PaymentStatus,
+        a.booking_type AS BookingType
+    FROM tbl_appointment a
+    LEFT JOIN tbl_customer_account c ON a.customer_id = c.customer_id
+    LEFT JOIN tbl_stylists s ON a.stylist_id = s.stylist_id
+    LEFT JOIN tbl_appointment_services aps ON a.appointment_id = aps.appointment_id
+    LEFT JOIN tbl_servicesname sn ON aps.serviceName_id = sn.serviceName_id
+    LEFT JOIN tbl_service_product spd ON spd.service_id = sn.serviceName_id
+    LEFT JOIN tbl_service_price spr ON spr.service_product_id = spd.service_product_id
+    GROUP BY 
+        a.appointment_id,
+        a.customer_id,
+        a.stylist_id,
+        a.Date,
+        a.start_time,
+        a.end_time,
+        a.Status,
+        a.Payment_status,
+        a.booking_type;"
+                  : @"SELECT 
+                a.appointment_id AS AppointmentId,
+                a.customer_id AS CustomerId,
+                CONCAT(c.firstName, ' ', c.middleName, ' ', c.lastName) AS CustomerName,
+                a.stylist_id AS StylistId,
+                COALESCE(CONCAT(s.firstName, ' ', s.middleName, ' ', s.lastName), 'Stylist not assigned yet') AS StylistName,
+                 c.email As Email,
+                 c.phoneNumber AS PhoneNumber,
+             c.customer_type AS Customer_Type,
+                GROUP_CONCAT(DISTINCT sn.serviceName SEPARATOR ', ') AS Services,
+                SUM(spr.selling_price) AS selling_price,
+                SUM(spr.vat_amount) AS vat_amount,
+                a.Date AS AppointmentDate,
+                a.start_time AS StartTime,
+                a.end_time AS EndTime,
+                a.Status,
+                a.Payment_status AS PaymentStatus,
+                a.booking_type AS BookingType
+            FROM tbl_appointment a
+            LEFT JOIN tbl_customer_account c ON a.customer_id = c.customer_id
+            LEFT JOIN tbl_stylists s ON a.stylist_id = s.stylist_id
+            LEFT JOIN tbl_appointment_services aps ON a.appointment_id = aps.appointment_id
+            LEFT JOIN tbl_servicesname sn ON aps.serviceName_id = sn.serviceName_id
+            LEFT JOIN tbl_service_product spd ON spd.service_id = sn.serviceName_id
+            LEFT JOIN tbl_service_price spr ON spr.service_product_id = spd.service_product_id
+            WHERE a.Status = @status
+          GROUP BY 
+                a.appointment_id,
+                a.customer_id,
+                a.stylist_id,
+                a.Date,
+                a.start_time,
+                a.end_time,
+                a.Status,
+                a.Payment_status,
+                a.booking_type;";
+
+                var result = await con.QueryAsync<AppointmentModel>(sql, new { status });
+
+                return result.ToList();
+            }
+
+        }
+
         public IEnumerable<AppointmentModel> GetAllAppointments()
         {
             using (var con = Database.GetConnection())
@@ -192,7 +290,16 @@ GROUP BY a.appointment_id;";
                 return con.Query<AppointmentModel>(sql).FirstOrDefault();
             }
         }
+        public async Task<AppointmentModel> GetTotalAppointmentAsync() 
+        {
+            using (var con = Database.GetConnection())
+            {
+                var sql = "SELECT COUNT(*) AS TotalAppointment FROM tbl_appointment;";
+                var result =  await con.QueryAsync<AppointmentModel>(sql);
 
+                return result.FirstOrDefault();
+            }
+        }
         public List<AppointmentModel> GetAppointmentsByDate(DateTime date)
         {
             using (var con = Database.GetConnection())

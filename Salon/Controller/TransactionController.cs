@@ -25,6 +25,17 @@ namespace Salon.Controller
         {
             return repo.ShowAllTransactions(start, end);
         }
+
+        public async Task<IEnumerable<TransactionModel>> GetAllTransactionsAsync()
+        {
+            return await repo.ShowAllTransactionAsync();
+        }
+
+        public async Task<IEnumerable<TransactionModel>> GetAllTransactionsAsync(DateTime start, DateTime end)
+        {
+            return await repo.ShowAllTransactionAsync(start, end);
+        }
+
         public IEnumerable<TransactionModel> ShowAllTransactions() 
         {
             return repo.GetTransactions();
@@ -34,10 +45,23 @@ namespace Salon.Controller
             return repo.GetTransactions(start_date, end_date);
         }
 
+        public async Task<IEnumerable<TransactionModel>> ShowAllTransactionAsync() 
+        {
+            return await repo.GetTransactionAsync();
+        }
+
+        public async Task<IEnumerable<TransactionModel>> ShowAllTransactionAsync(DateTime start_date, DateTime end_date)
+        {
+            return await repo.GetTransactionAsync(start_date, end_date);
+        }
 
         public TransactionModel GetTotalSales()
         {
             return repo.GetTotalSales();
+        }
+        public async Task<TransactionModel> GetTotalSalesAsync() 
+        {
+            return await repo.GetTotalSalesAsync();
         }
         public TransactionModel SalesReportSummary(DateTime start_date, DateTime end_date) 
         {

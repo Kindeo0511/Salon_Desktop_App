@@ -13,6 +13,8 @@ namespace Salon.Repository
 
         IEnumerable<RefundModel> Refunds();
         IEnumerable<RefundModel> Refunds(DateTime start, DateTime end);
+        Task<IEnumerable<RefundModel>> RefundsAsync();
+        Task<IEnumerable<RefundModel>> RefundsAsync(DateTime start, DateTime end);
         void Add(RefundModel model);
 
     }

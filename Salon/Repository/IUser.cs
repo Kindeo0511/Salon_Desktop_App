@@ -13,6 +13,8 @@ namespace Salon.Repository
     {
         bool IsAdminExists();
         IEnumerable<UsersModel> GetAllUsers();
+
+        Task<IEnumerable<UsersModel>> GetAllCustomerAsync();
         UsersModel GetUserByEmail(string name);
         UsersModel GetUserByContactNumber(string number);
         UsersModel GetUserAndPassword(string user, string pass);

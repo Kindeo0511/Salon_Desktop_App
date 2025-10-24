@@ -303,10 +303,10 @@ namespace Salon.View
 
             controller.AddServicePrice(model);
             MessageBox.Show("Added Success", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
-            mainForm.LoadServicePrices();
+           
 
         }
-        private void btn_save_Click(object sender, EventArgs e)
+        private async void btn_save_Click(object sender, EventArgs e)
         {
             if (!IsValid()) return;
 
@@ -318,6 +318,8 @@ namespace Salon.View
             "Service Price",
             $"Created service '{cmb_services.Text}' with a price of ₱{txt_final_price.Text} on {DateTime.Now:yyyy-MM-dd} at {DateTime.Now:HH:mm:ss}"
         );
+
+            await mainForm.RefreshServicePriceAsync();
             this.Close();
         }
 
@@ -341,10 +343,10 @@ namespace Salon.View
 
             controller.UpdateServicePrice(priceModel);
             MessageBox.Show("Updated Success", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
-            mainForm.LoadServicePrices();
+        
 
         }
-        private void btn_update_Click(object sender, EventArgs e)
+        private async void btn_update_Click(object sender, EventArgs e)
         {
             if (!IsValid()) return;
 
@@ -357,6 +359,8 @@ namespace Salon.View
             "Service Price",
             $"Updated service '{cmb_services.Text}' with a price of ₱{txt_final_price.Text} on {DateTime.Now:yyyy-MM-dd} at {DateTime.Now:HH:mm:ss}"
         );
+
+            await mainForm.RefreshServicePriceAsync();
             this.Close();
         }
 

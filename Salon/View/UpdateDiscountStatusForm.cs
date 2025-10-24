@@ -39,11 +39,11 @@ namespace Salon.View
 
         }
 
-        private void btn_save_Click(object sender, EventArgs e)
+        private async void btn_save_Click(object sender, EventArgs e)
         {
             UpdateStatus();
             MessageBox.Show("Status Update Successfully!", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
-            mainForm.LoadDiscount();
+            await mainForm.RefreshDiscountAsync();
             this.Close();
         }
 

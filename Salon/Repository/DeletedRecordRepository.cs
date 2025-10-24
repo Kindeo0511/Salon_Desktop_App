@@ -29,6 +29,30 @@ namespace Salon.Repository
                 return con.Query<DeletedRecord>(sql, new { start = start , end = end });
             }
         }
+
+        public async Task<IEnumerable<DeletedRecord>> AllAsync() 
+        {
+            using (var con = Database.GetConnection())
+            {
+                var sql = "SELECT * FROM tbl_deleted_records";
+
+                var result = await con.QueryAsync<DeletedRecord>(sql);
+
+                return result;
+            }
+        }
+
+        public async Task<IEnumerable<DeletedRecord>> AllAsync(DateTime start, DateTime end)
+        {
+            using (var con = Database.GetConnection())
+            {
+                var sql = "SELECT * FROM tbl_deleted_records WHERE deleted_on BETWEEN @start AND @end";
+
+                var result = await con.QueryAsync<DeletedRecord>(sql, new { start = start, end = end });
+
+                return result;
+            }
+        }
         public void Add(DeletedRecord model) 
         {
             using (var con = Database.GetConnection())

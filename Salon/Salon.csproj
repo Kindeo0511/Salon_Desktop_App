@@ -501,6 +501,12 @@
     <Compile Include="View\RefundForm.Designer.cs">
       <DependentUpon>RefundForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="View\RegisterUserForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="View\RegisterUserForm.Designer.cs">
+      <DependentUpon>RegisterUserForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="View\SearchResultControl.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -647,6 +653,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="View\RefundForm.resx">
       <DependentUpon>RefundForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="View\RegisterUserForm.resx">
+      <DependentUpon>RegisterUserForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="View\SearchResultControl.resx">
       <DependentUpon>SearchResultControl.cs</DependentUpon>

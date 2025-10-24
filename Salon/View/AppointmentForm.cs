@@ -67,6 +67,7 @@ namespace Salon.View
             lbl_ID.Text = model.CustomerId.ToString();
             txt_Contact.Text = model.PhoneNumber;
             txt_Email.Text = model.Email;
+            txt_customer_type.Text = model.Customer_Type;
             cb_book_type.Text = model.BookingType;
             cb_Time.Text = DateTime.Today.Add(model.StartTime).ToString("hh:mm tt");
             cmb_Date.Value = model.AppointmentDate;
@@ -120,6 +121,7 @@ namespace Salon.View
             txt_FullName.Text = customer.customer_name;
             txt_Email.Text = customer.email;
             txt_Contact.Text = customer.phoneNumber;
+            txt_customer_type.Text = customer.customer_type;
         }
 
         private bool CustomerFieldMissing()
@@ -162,14 +164,14 @@ namespace Salon.View
 
         private void txt_search_services_TextChanged(object sender, EventArgs e)
         {
-            var repo = new ServiceRepository();
-            var serviceController = new ServiceController(repo);
+            var repo = new ServicePriceRepository();
+            var serviceController = new ServicePriceController(repo);
             service_panel.Controls.Clear();
 
             if (txt_search_services.TextLength >= 1)
             {
                 var getService = serviceController
-                    .getServiceByName(txt_search_services.Text.Trim())
+                    .GetServiceByName(txt_search_services.Text.Trim())
                     .Take(5);
 
                 foreach (var service in getService)
@@ -184,7 +186,7 @@ namespace Salon.View
             service_panel.Height = service_panel.Controls.Count * 100;
         }
 
-        private void OnAddToCart(object sender, ServiceModel service)
+        private void OnAddToCart(object sender, ServicePriceModel service)
         {
             txt_search_services.Text = string.Empty;
             // Optional: check for duplicates or validate
@@ -263,7 +265,9 @@ namespace Salon.View
                 customer_id = Convert.ToInt32(lbl_ID.Text),
                 customer_name = txt_FullName.Text,
                 email = txt_Email.Text,
-                phoneNumber = txt_Contact.Text
+                phoneNumber = txt_Contact.Text,
+                customer_type = txt_customer_type.Text
+                
             };
 
             var appointmentDate = cmb_Date.Value.Date;
@@ -405,11 +409,11 @@ namespace Salon.View
                 MessageBox.Show("Please select at least one service before confirming.", "No Services Selected", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 return;
             }
-            else if (CustomerFieldMissing())
-            {
-                MessageBox.Show("Please complete all required fields before confirming.", "Missing Information", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                return;
-            }
+            //else if (CustomerFieldMissing())
+            //{
+            //    MessageBox.Show("Please complete all required fields before confirming.", "Missing Information", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+            //    return;
+            //}
             else
             {
                 SaveAppointment(total_duration);
@@ -559,12 +563,12 @@ namespace Salon.View
             bool validated = true;
             
             // REQUIRED FIELD
-            validated &= Validator.IsRequired(txt_FullName, errorProvider1, "Full name is required.");
-            validated &= Validator.IsRequired(txt_Contact, errorProvider1, "Contact is required.");
-            validated &= Validator.IsRequired(txt_Email, errorProvider1, "Email is required.");
+            //validated &= Validator.IsRequired(txt_FullName, errorProvider1, "Full name is required.");
+            //validated &= Validator.IsRequired(txt_Contact, errorProvider1, "Contact is required.");
+            //validated &= Validator.IsRequired(txt_Email, errorProvider1, "Email is required.");
             validated &= Validator.IsRequired(cb_book_type, errorProvider1, "Booking Type is required.");
             validated &= Validator.IsRequired(cb_Time, errorProvider1, "Time is required.");
-            validated &= Validator.IsRequired(cmb_Date, errorProvider1, "Time is required.");
+            validated &= Validator.IsRequired(cmb_Date, errorProvider1, "Date is required.");
 
             DateTime selectedDate = cmb_Date.Value;
 
@@ -679,6 +683,14 @@ namespace Salon.View
             }
        
 
+        }
+
+        private void btn_create_Click(object sender, EventArgs e)
+        {
+            using (var form = new RegisterUserForm(mainForm)) 
+            {
+                form.ShowDialog();
+            }
         }
 
 

@@ -38,6 +38,7 @@
             this.btn_cancel = new MaterialSkin.Controls.MaterialButton();
             this.btn_save = new MaterialSkin.Controls.MaterialButton();
             this.errorProvider1 = new System.Windows.Forms.ErrorProvider(this.components);
+            this.cmb_customer_type = new MaterialSkin.Controls.MaterialComboBox();
             ((System.ComponentModel.ISupportInitialize)(this.errorProvider1)).BeginInit();
             this.SuspendLayout();
             // 
@@ -49,7 +50,7 @@
             this.txt_email.Font = new System.Drawing.Font("Roboto", 16F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
             this.txt_email.Hint = "Email";
             this.txt_email.LeadingIcon = null;
-            this.txt_email.Location = new System.Drawing.Point(468, 236);
+            this.txt_email.Location = new System.Drawing.Point(466, 295);
             this.txt_email.MaxLength = 50;
             this.txt_email.MouseState = MaterialSkin.MouseState.OUT;
             this.txt_email.Multiline = false;
@@ -67,7 +68,7 @@
             this.txt_contact.Font = new System.Drawing.Font("Roboto", 16F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
             this.txt_contact.Hint = "Contact #";
             this.txt_contact.LeadingIcon = null;
-            this.txt_contact.Location = new System.Drawing.Point(468, 131);
+            this.txt_contact.Location = new System.Drawing.Point(466, 190);
             this.txt_contact.MaxLength = 50;
             this.txt_contact.MouseState = MaterialSkin.MouseState.OUT;
             this.txt_contact.Multiline = false;
@@ -85,7 +86,7 @@
             this.txt_last_name.Font = new System.Drawing.Font("Roboto", 16F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
             this.txt_last_name.Hint = "Last Name";
             this.txt_last_name.LeadingIcon = null;
-            this.txt_last_name.Location = new System.Drawing.Point(25, 343);
+            this.txt_last_name.Location = new System.Drawing.Point(23, 402);
             this.txt_last_name.MaxLength = 50;
             this.txt_last_name.MouseState = MaterialSkin.MouseState.OUT;
             this.txt_last_name.Multiline = false;
@@ -103,7 +104,7 @@
             this.txt_middle_name.Font = new System.Drawing.Font("Roboto", 16F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
             this.txt_middle_name.Hint = "Middle Name";
             this.txt_middle_name.LeadingIcon = null;
-            this.txt_middle_name.Location = new System.Drawing.Point(25, 236);
+            this.txt_middle_name.Location = new System.Drawing.Point(23, 295);
             this.txt_middle_name.MaxLength = 50;
             this.txt_middle_name.MouseState = MaterialSkin.MouseState.OUT;
             this.txt_middle_name.Multiline = false;
@@ -121,7 +122,7 @@
             this.txt_first_name.Font = new System.Drawing.Font("Roboto", 16F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
             this.txt_first_name.Hint = "First Name";
             this.txt_first_name.LeadingIcon = null;
-            this.txt_first_name.Location = new System.Drawing.Point(25, 131);
+            this.txt_first_name.Location = new System.Drawing.Point(23, 190);
             this.txt_first_name.MaxLength = 50;
             this.txt_first_name.MouseState = MaterialSkin.MouseState.OUT;
             this.txt_first_name.Multiline = false;
@@ -138,7 +139,7 @@
             this.btn_update.Depth = 0;
             this.btn_update.HighEmphasis = true;
             this.btn_update.Icon = null;
-            this.btn_update.Location = new System.Drawing.Point(539, 451);
+            this.btn_update.Location = new System.Drawing.Point(543, 462);
             this.btn_update.Margin = new System.Windows.Forms.Padding(4, 6, 4, 6);
             this.btn_update.MouseState = MaterialSkin.MouseState.HOVER;
             this.btn_update.Name = "btn_update";
@@ -159,7 +160,7 @@
             this.btn_cancel.Depth = 0;
             this.btn_cancel.HighEmphasis = true;
             this.btn_cancel.Icon = null;
-            this.btn_cancel.Location = new System.Drawing.Point(748, 451);
+            this.btn_cancel.Location = new System.Drawing.Point(752, 462);
             this.btn_cancel.Margin = new System.Windows.Forms.Padding(4, 6, 4, 6);
             this.btn_cancel.MouseState = MaterialSkin.MouseState.HOVER;
             this.btn_cancel.Name = "btn_cancel";
@@ -179,7 +180,7 @@
             this.btn_save.Depth = 0;
             this.btn_save.HighEmphasis = true;
             this.btn_save.Icon = null;
-            this.btn_save.Location = new System.Drawing.Point(539, 451);
+            this.btn_save.Location = new System.Drawing.Point(543, 462);
             this.btn_save.Margin = new System.Windows.Forms.Padding(4, 6, 4, 6);
             this.btn_save.MouseState = MaterialSkin.MouseState.HOVER;
             this.btn_save.Name = "btn_save";
@@ -197,11 +198,39 @@
             this.errorProvider1.BlinkStyle = System.Windows.Forms.ErrorBlinkStyle.NeverBlink;
             this.errorProvider1.ContainerControl = this;
             // 
+            // cmb_customer_type
+            // 
+            this.cmb_customer_type.AutoResize = false;
+            this.cmb_customer_type.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
+            this.cmb_customer_type.Depth = 0;
+            this.cmb_customer_type.DrawMode = System.Windows.Forms.DrawMode.OwnerDrawVariable;
+            this.cmb_customer_type.DropDownHeight = 174;
+            this.cmb_customer_type.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cmb_customer_type.DropDownWidth = 121;
+            this.cmb_customer_type.Font = new System.Drawing.Font("Roboto Medium", 14F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Pixel);
+            this.cmb_customer_type.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(222)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
+            this.cmb_customer_type.FormattingEnabled = true;
+            this.cmb_customer_type.Hint = "Select Customer Type";
+            this.cmb_customer_type.IntegralHeight = false;
+            this.cmb_customer_type.ItemHeight = 43;
+            this.cmb_customer_type.Items.AddRange(new object[] {
+            "Registered",
+            "Walk-In"});
+            this.cmb_customer_type.Location = new System.Drawing.Point(18, 89);
+            this.cmb_customer_type.Margin = new System.Windows.Forms.Padding(25);
+            this.cmb_customer_type.MaxDropDownItems = 4;
+            this.cmb_customer_type.MouseState = MaterialSkin.MouseState.OUT;
+            this.cmb_customer_type.Name = "cmb_customer_type";
+            this.cmb_customer_type.Size = new System.Drawing.Size(650, 49);
+            this.cmb_customer_type.StartIndex = -1;
+            this.cmb_customer_type.TabIndex = 18;
+            // 
             // CustomerForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(900, 530);
+            this.Controls.Add(this.cmb_customer_type);
             this.Controls.Add(this.btn_update);
             this.Controls.Add(this.btn_cancel);
             this.Controls.Add(this.btn_save);
@@ -213,8 +242,9 @@
             this.MaximizeBox = false;
             this.MinimizeBox = false;
             this.Name = "CustomerForm";
+            this.Sizable = false;
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
-            this.Text = "CUSTOMER INFORMATION";
+            this.Text = " ";
             ((System.ComponentModel.ISupportInitialize)(this.errorProvider1)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
@@ -232,5 +262,6 @@
         private MaterialSkin.Controls.MaterialButton btn_cancel;
         private MaterialSkin.Controls.MaterialButton btn_save;
         private System.Windows.Forms.ErrorProvider errorProvider1;
+        private MaterialSkin.Controls.MaterialComboBox cmb_customer_type;
     }
 }

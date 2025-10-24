@@ -25,6 +25,16 @@ namespace Salon.Controller
         {
             return repo.AllAuditLog(start, end, pageNumber, pageSize);
         }
+
+        public async Task<IEnumerable<AuditModel>> GetAllAuditAsync(int pageNumber, int pageSize)
+        {
+            return await repo.AllAuditLogAsync(pageNumber, pageSize);
+        }
+
+        public async Task<IEnumerable<AuditModel>> GetAllAuditAsync(DateTime start, DateTime end, int pageNumber, int pageSize)
+        {
+            return await repo.AllAuditLogAsync(start, end, pageNumber, pageSize);
+        }
         public int GetTotalPages(int pageSize) 
         {
             return repo.TotalPages(pageSize);

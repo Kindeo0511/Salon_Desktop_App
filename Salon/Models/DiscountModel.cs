@@ -16,6 +16,7 @@ namespace Salon.Models
         public decimal discount_rate { get; set; }
         public DateTime? expiry_date { get; set; }
         public string status { get; set; }
+        public int vat_exempt { get; set; }
 
         public int max_usage { get; set; }
         public int per_customer_limit { get; set; }

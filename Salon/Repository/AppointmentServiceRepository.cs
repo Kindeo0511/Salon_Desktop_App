@@ -51,29 +51,68 @@ namespace Salon.Repository
                 return con.Query<AppointmentServicesModel>(sql).ToList();
             }
         }
+        public async Task<IEnumerable<AppointmentServicesModel>> GetAllAsync() 
+        {
+            using (var con = Database.GetConnection())
+            {
+                var sql = @"SELECT tbl_servicesname.serviceName, COUNT(*) AS bookings
+                            FROM tbl_appointment_services
+                            LEFT JOIN tbl_servicesname ON tbl_servicesname.serviceName_id = tbl_appointment_services.serviceName_id
+                            GROUP BY tbl_servicesname.serviceName;";
+                var result = await con.QueryAsync<AppointmentServicesModel>(sql);
+
+                return result.ToList();
+            }
+        }
         public IEnumerable<AppointmentServicesModel> GetServicesByAppointmentId(int appointmentId)
         {
-            using (var con = Database.GetConnection()) 
+            using (var con = Database.GetConnection())
             {
                 var sql = @"SELECT 
                     aps.appointment_service_id AS AppointmentServiceId,
                     aps.appointment_id AS AppointmentId,
                     aps.serviceName_id AS ServiceId,
                     sn.serviceName AS ServiceName,
-                    spr.selling_price AS SellingPrice,
-                    spr.vat_amount AS VatAmount
+                    MAX(spr.selling_price) AS SellingPrice,
+                    MAX(spr.vat_amount) AS VatAmount
                 FROM tbl_appointment_services aps
                 INNER JOIN tbl_servicesname sn ON sn.serviceName_id = aps.serviceName_id
                 LEFT JOIN tbl_service_product spd ON spd.service_id = sn.serviceName_id
                 LEFT JOIN tbl_service_price spr ON spr.service_product_id = spd.service_product_id
-                WHERE aps.appointment_id = @AppointmentId";
-    
+                WHERE aps.appointment_id = @AppointmentId
+                GROUP BY aps.appointment_service_id, aps.appointment_id, aps.serviceName_id, sn.serviceName;
+                ";
+
 
                 return con.Query<AppointmentServicesModel>(sql, new { AppointmentId = appointmentId }).ToList();
             }
 
-                
+
         }
+
+        //public IEnumerable<AppointmentServicesModel> GetServicesByAppointmentId(int appointmentId)
+        //{
+        //    using (var con = Database.GetConnection()) 
+        //    {
+        //        var sql = @"SELECT 
+        //            aps.appointment_service_id AS AppointmentServiceId,
+        //            aps.appointment_id AS AppointmentId,
+        //            aps.serviceName_id AS ServiceId,
+        //            sn.serviceName AS ServiceName,
+        //            spr.selling_price AS SellingPrice,
+        //            spr.vat_amount AS VatAmount
+        //        FROM tbl_appointment_services aps
+        //        INNER JOIN tbl_servicesname sn ON sn.serviceName_id = aps.serviceName_id
+        //        LEFT JOIN tbl_service_product spd ON spd.service_id = sn.serviceName_id
+        //        LEFT JOIN tbl_service_price spr ON spr.service_product_id = spd.service_product_id
+        //        WHERE aps.appointment_id = @AppointmentId";
+
+
+        //        return con.Query<AppointmentServicesModel>(sql, new { AppointmentId = appointmentId }).ToList();
+        //    }
+
+
+        //}
 
         public IEnumerable<AppointmentServicesModel> ServicesSelected(int id) 
         {

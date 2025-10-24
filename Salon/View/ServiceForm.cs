@@ -71,8 +71,8 @@ namespace Salon.View
             };
             controller.addService(service);
             MessageBox.Show("Service added successfully!", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
-            mainform.LoadServices();
-            mainform.LoadTotalServices(); 
+          
+    
 
         }
 
@@ -86,24 +86,29 @@ namespace Salon.View
             serviceModel.status = cmb_status.Text == "Active" ? Status.Active : Status.Inactive;
             controller.updateService(serviceModel);
             MessageBox.Show("Service updated successfully!", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
-            mainform.LoadServices();
+     
         }
 
-        private void btn_save_Click(object sender, EventArgs e)
+        private async void btn_save_Click(object sender, EventArgs e)
         {
             if (!IsValid()) return;
             AddService();
             var service = txt_service_name.Text;
             Audit.AuditLog(DateTime.Now, "Create", UserSession.CurrentUser.first_Name, "Manage Services", $"Created service '{service}' on {DateTime.Now:yyyy-MM-dd} at {DateTime.Now:HH:mm:ss}");
+
+            await mainform.RefreshServicesAsync();
+            await mainform.RefreshTotalServices();
             this.Close();
         }
 
-        private void btn_update_Click(object sender, EventArgs e)
+        private async void btn_update_Click(object sender, EventArgs e)
         {
             if (!IsValid()) return;
             UpdateService();
             var service = txt_service_name.Text;
             Audit.AuditLog(DateTime.Now, "Update", UserSession.CurrentUser.first_Name, "Manage Services", $"Updated service '{service}' on {DateTime.Now:yyyy-MM-dd} at {DateTime.Now:HH:mm:ss}");
+
+            await mainform.RefreshServicesAsync();
             this.Close();
         }
 

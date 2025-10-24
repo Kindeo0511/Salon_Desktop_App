@@ -459,7 +459,6 @@
             this.sw_exempt_vat.TabIndex = 24;
             this.sw_exempt_vat.Text = "Exempt VAT";
             this.sw_exempt_vat.UseVisualStyleBackColor = true;
-            this.sw_exempt_vat.Visible = false;
             this.sw_exempt_vat.CheckedChanged += new System.EventHandler(this.sw_exempt_vat_CheckedChanged);
             // 
             // PaymentForm

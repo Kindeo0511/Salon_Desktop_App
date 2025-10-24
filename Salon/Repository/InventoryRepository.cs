@@ -25,6 +25,21 @@ namespace Salon.Repository
             }
       
         }
+        public async Task<IEnumerable<InventoryViewModel>> GetAllInventoryAsync() 
+        {
+            using (var con = Database.GetConnection())
+            {
+                var sql = @"SELECT i.inventory_id, p.product_id, p.product_name, p.brand, c.categoryName as category,(i.volume / i.volume_per_unit) AS Unit,i.volume_per_unit, i.volume, i.critical_level, i.status, i.expiry_date 
+                        FROM tbl_inventory as i
+                        LEFT JOIN tbl_products as p ON p.product_id = i.product_id
+                        LEFT JOIN tbl_category as c ON c.category_id = p.category_id
+                        ;";
+                var result = await  con.QueryAsync<InventoryViewModel>(sql);
+
+                return result.ToList();
+            }
+
+        }
         public IEnumerable<InventoryViewModel> GetAllInventory(string status)
         {
             using (var con = Database.GetConnection())
@@ -132,21 +147,46 @@ namespace Salon.Repository
                 return con.ExecuteScalar<int>(sql); // returns actual count
             }
         }
-        public void UpdateExpiredInventory() 
+        //public void UpdateExpiredInventory() 
+        //{
+        //    using (var con = Database.GetConnection())
+        //    {
+        //        var sql = @"UPDATE tbl_inventory i
+        //        JOIN (
+        //         SELECT product_id, SUM(volume - used_volume) AS expired_volume
+        //        FROM tbl_inventory_batch
+        //        WHERE expiry_date < CURDATE()
+        //          AND is_expired_processed = FALSE
+        //          AND (volume - used_volume) > 0
+        //        GROUP BY product_id
+
+        //        ) expired ON i.product_id = expired.product_id
+        //        SET 
+        //          i.volume = GREATEST(i.volume - expired.expired_volume, 0),
+        //          i.unit = GREATEST(FLOOR((i.volume - expired.expired_volume) / i.volume_per_unit), 0);";
+        //                        con.Execute(sql);
+        //    }
+        //}
+
+        public void UpdateExpiredInventory()
         {
             using (var con = Database.GetConnection())
             {
-                var sql = @"UPDATE tbl_inventory i
-                JOIN (
-                  SELECT product_id, SUM(volume) AS expired_volume
-                  FROM tbl_inventory_batch
-                  WHERE expiry_date < CURDATE() AND is_expired_processed = FALSE
-                  GROUP BY product_id
-                ) expired ON i.product_id = expired.product_id
-                SET 
-                  i.volume = GREATEST(i.volume - expired.expired_volume, 0),
-                  i.unit = GREATEST(FLOOR((i.volume - expired.expired_volume) / i.volume_per_unit), 0);";
-                                con.Execute(sql);
+                var sql = @"
+                    UPDATE tbl_inventory i
+                    JOIN (
+                        SELECT product_id, SUM(volume - used_volume) AS expired_volume
+                        FROM tbl_inventory_batch
+                        WHERE expiry_date < CURDATE()
+                          AND is_expired_processed = FALSE
+                          AND (volume - used_volume) > 0
+                        GROUP BY product_id
+                    ) expired ON i.product_id = expired.product_id
+                    SET 
+                      i.volume = GREATEST(i.volume - expired.expired_volume, 0),
+                      i.unit = GREATEST(FLOOR((i.volume - expired.expired_volume) / i.volume_per_unit), 0);";
+
+                con.Execute(sql);
             }
         }
 

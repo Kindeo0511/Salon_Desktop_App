@@ -42,6 +42,17 @@ namespace Salon.Repository
                
 
         }
+        public async Task<IEnumerable<VatModel>> GetTaxAsync() 
+        {
+            using (var con = Database.GetConnection())
+            {
+                var sql = @"
+                  SELECT * FROM tbl_tax LIMIT 1;";
+                var result = await con.QueryAsync<VatModel>(sql);
+
+                return result.ToList();
+            }
+        }
         public int checkTax()
         {
             using (var con = Database.GetConnection()) 

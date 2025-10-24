@@ -30,6 +30,11 @@ namespace Salon.Controller
         {
             return _repo.GetUserByEmail(email);
         }
+
+        public async Task<IEnumerable<UsersModel>> RefreshUsers() 
+        {
+            return await _repo.GetAllCustomerAsync();
+        }
         public UsersModel GetUserByPhone(string phone)
         {
             return _repo.GetUserByContactNumber(phone);

@@ -40,7 +40,7 @@ namespace Salon.View
                 txt_last_name.Text = customer.lastName;
                 txt_contact.Text = customer.phoneNumber;
                 txt_email.Text = customer.email;
-
+                cmb_customer_type.Text = customer.customer_type;
                 btn_save.Visible = false;
                 btn_update.Visible = true;
                 
@@ -48,120 +48,119 @@ namespace Salon.View
         }
 
 
-        private void AddCustomer() 
+        private void AddCustomer(string first_name = null, string middle_name = null, string last_name = null, string email = null, string number = null, string customer_type = null) 
         {
             var repo = new CustomerRepository();
             var controller = new CustomerController(repo);
             var customer = new CustomerModel
             {
-                firstName = txt_first_name.Text,
-                middleName = txt_middle_name.Text,
-                lastName = txt_last_name.Text,
-                phoneNumber = txt_contact.Text,
-                email = txt_email.Text
+                firstName = first_name,
+                middleName = middle_name,
+                lastName = last_name,
+                email = email,
+                phoneNumber = number,
+                customer_type = customer_type
             };
 
             controller.AddCustomer(customer);
         }
-        private void UpdateCustomer() 
+        private void UpdateCustomer(string first_name = null, string middle_name = null, string last_name = null, string email = null, string number = null, string customer_type = null) 
         {
             var repo = new CustomerRepository();
             var controller = new CustomerController(repo);
-            customer.firstName = txt_first_name.Text;
-            customer.middleName = txt_middle_name.Text;
-            customer.lastName = txt_last_name.Text;
-            customer.phoneNumber = txt_contact.Text;
-            customer.email = txt_email.Text;
+            customer.firstName = first_name;
+            customer.middleName = middle_name;
+            customer.lastName = last_name;
+            customer.phoneNumber = number;
+            customer.email = email;
+            customer.customer_type = customer_type;
             controller.UpdateCustomer(customer);
         }
         private bool IsValid()
         {
-            
             int excludeId = customer?.customer_id ?? 0;
-
             bool validated = true;
 
-            // REQUIRED AND MIN LENGTH FIELD
+            // First name
             if (!Validator.IsRequiredTextField(txt_first_name, errorProvider1, "First name is required."))
-            {
                 validated = false;
-            }
             else if (!Validator.IsMinimumLength(txt_first_name, errorProvider1, "First name must be at least 3 characters.", 3))
-            {
                 validated = false;
-            }
 
+            // Middle name (optional)
             if (!string.IsNullOrWhiteSpace(txt_middle_name.Text))
             {
                 validated &= Validator.IsMinimumLength(txt_middle_name, errorProvider1, "Middle name must be at least 3 characters.", 3);
             }
+            else
+            {
+                errorProvider1.SetError(txt_middle_name, "");
+            }
 
+            // Last name
             if (!Validator.IsRequiredTextField(txt_last_name, errorProvider1, "Last name is required."))
-            {
                 validated = false;
-            }
             else if (!Validator.IsMinimumLength(txt_last_name, errorProvider1, "Last name must be at least 3 characters.", 3))
-            {
                 validated = false;
+
+            // Customer type logic
+            string customerType = cmb_customer_type.SelectedItem?.ToString();
+
+            if (customerType == "Registered")
+            {
+                // Email
+                if (!Validator.IsRequired(txt_email, errorProvider1, "Email is required."))
+                    validated = false;
+                else if (!Validator.IsValidEmail(txt_email, errorProvider1))
+                    validated = false;
+                else if (!Validator.IsCustomerEmailExists(txt_email, errorProvider1, "Email already exists.", excludeId))
+                    validated = false;
+
+                // Contact number
+                if (!Validator.IsRequiredTextField(txt_contact, errorProvider1, "Contact number is required."))
+                    validated = false;
+                else if (!Validator.IsMinimumLength(txt_contact, errorProvider1, "Contact number must be at least 11 characters.", 11))
+                    validated = false;
+                else if (!Validator.IsValidPhone(txt_contact, errorProvider1))
+                    validated = false;
+                else if (!Validator.IsCustomerPhoneExists(txt_contact, errorProvider1, "Contact number already exists.", excludeId))
+                    validated = false;
+            }
+            else if (customerType == "Walk-In")
+            {
+                // Walk-ins require only name fields (already validated above)
+                // You may optionally auto-fill email/contact with placeholders here
             }
 
-            if (!Validator.IsRequired(txt_email, errorProvider1, "Email is required."))
+            else
             {
+                MessageBox.Show("Please select a valid customer type (Registered or Walk-In).", "Missing Selection", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 validated = false;
             }
-            else if (!Validator.IsValidEmail(txt_email, errorProvider1))
-            {
-                validated = false;
-            }
-            else if (!Validator.IsCustomerEmailExists(txt_email, errorProvider1, "Email already exists.", excludeId))
-            {
-                validated = false;
-            }
-
-
-
-            if (!Validator.IsRequiredTextField(txt_contact, errorProvider1, "Contact number is required."))
-            {
-                validated = false;
-            }
-            else if (!Validator.IsMinimumLength(txt_contact, errorProvider1, "Contact number must be at least 11 characters.", 11))
-            {
-                validated = false;
-            }
-            else if (!Validator.IsValidPhone(txt_contact, errorProvider1))
-            {
-                validated = false;
-            }
-            else if (!Validator.IsCustomerPhoneExists(txt_contact, errorProvider1, "Contact number already exists.", excludeId))
-            {
-                validated = false;
-            }
-
-
-       
 
             return validated;
-
-
-
         }
-        private void btn_save_Click(object sender, EventArgs e)
+
+        private async void btn_save_Click(object sender, EventArgs e)
         {
             if (!IsValid()) return;
-            AddCustomer();
+
+            AddCustomer(txt_first_name.Text, txt_middle_name.Text, txt_last_name.Text, txt_email.Text, txt_contact.Text, cmb_customer_type.Text);
             var fullName = txt_first_name.Text +" "+ txt_last_name.Text;
             Audit.AuditLog(DateTime.Now, "Create", UserSession.CurrentUser.first_Name, "Manage Customer", $"Created customer '{fullName}' on {DateTime.Now:yyyy-MM-dd} at {DateTime.Now:HH:mm:ss}");
-            mainform.LoadCustomers();
+             await mainform.RefreshCustomers();
+            MessageBox.Show("Customer added successfully!", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
             this.Close();
         }
 
-        private void btn_update_Click(object sender, EventArgs e)
+        private async void btn_update_Click(object sender, EventArgs e)
         {
             if (!IsValid()) return;
-            UpdateCustomer();
+            UpdateCustomer(txt_first_name.Text, txt_middle_name.Text, txt_last_name.Text, txt_email.Text, txt_contact.Text, cmb_customer_type.Text);
             var fullName = txt_first_name.Text + " " + txt_last_name.Text;
             Audit.AuditLog(DateTime.Now, "Update", UserSession.CurrentUser.first_Name, "Manage Customer", $"Updated customer '{fullName}' on {DateTime.Now:yyyy-MM-dd} at {DateTime.Now:HH:mm:ss}");
-            mainform.LoadCustomers();
+            MessageBox.Show("Customer updated successfully!", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            await mainform.RefreshCustomers();
             this.Close();
         }
 

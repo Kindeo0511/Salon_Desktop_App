@@ -14,6 +14,8 @@ namespace Salon.Models
         public string product_name { get; set; }
         public int unit { get; set; }
         public int volume_per_unit { get; set; }
+        public int used_unit { get; set; }
+        public double used_volume { get; set; }
         public int volume { get; set; }
         public decimal price { get; set; }
         public decimal total_price { get; set; }

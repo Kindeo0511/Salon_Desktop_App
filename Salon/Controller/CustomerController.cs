@@ -21,6 +21,10 @@ namespace Salon.Controller
             return repo.GetAllCustomers();
         }
 
+        public async Task<IEnumerable<CustomerModel>> RefreshCustomerAsync() 
+        {
+            return await repo.GetAllCustomersAsync();
+        }
         public CustomerModel GetTotalCustomer() 
         {
             return repo.TotalCustomer();

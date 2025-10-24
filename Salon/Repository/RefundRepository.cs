@@ -53,6 +53,32 @@ namespace Salon.Repository
                 return con.Query<RefundModel>(sql).ToList();
             }
         }
+
+        public async Task<IEnumerable<RefundModel>> RefundsAsync() 
+        {
+            using (var con = Database.GetConnection())
+            {
+                var sql = @"SELECT 
+                        sn.serviceName AS Service_Name,
+                        spr.selling_price AS Original_Price,
+                        r.refund_amount,
+                        r.refund_method,
+                        r.refund_reason,
+                        r.refund_timestamp,
+                        r.refunded_by
+                    FROM tbl_refund r
+                    LEFT JOIN tbl_appointment a ON r.appointment_id = a.appointment_id
+                    LEFT JOIN tbl_appointment_services aps ON a.appointment_id = aps.appointment_id
+                    LEFT JOIN tbl_servicesname sn ON aps.serviceName_id = sn.serviceName_id
+                    LEFT JOIN tbl_service_product spd ON spd.service_id = sn.serviceName_id
+                    LEFT JOIN tbl_service_price spr ON spr.service_product_id = spd.service_product_id
+                    GROUP BY a.appointment_id
+                    ";
+                var result = await con.QueryAsync<RefundModel>(sql);
+
+                return result.ToList();
+            }
+        }
         public IEnumerable<RefundModel> Refunds(DateTime start, DateTime end)
         {
             using (var con = Database.GetConnection())
@@ -75,6 +101,34 @@ namespace Salon.Repository
                     GROUP BY a.appointment_id
                     ";
                 return con.Query<RefundModel>(sql, new { start, end}).ToList();
+            }
+        }
+
+        public async Task<IEnumerable<RefundModel>> RefundsAsync(DateTime start, DateTime end) 
+        {
+
+            using (var con = Database.GetConnection())
+            {
+                var sql = @"SELECT 
+                        sn.serviceName AS Service_Name,
+                        spr.selling_price AS Original_Price,
+                        r.refund_amount,
+                        r.refund_method,
+                        r.refund_reason,
+                        r.refund_timestamp,
+                        r.refunded_by
+                    FROM tbl_refund r
+                    LEFT JOIN tbl_appointment a ON r.appointment_id = a.appointment_id
+                    LEFT JOIN tbl_appointment_services aps ON a.appointment_id = aps.appointment_id
+                    LEFT JOIN tbl_servicesname sn ON aps.serviceName_id = sn.serviceName_id
+                    LEFT JOIN tbl_service_product spd ON spd.service_id = sn.serviceName_id
+                    LEFT JOIN tbl_service_price spr ON spr.service_product_id = spd.service_product_id
+                    WHERE r.refund_timestamp BETWEEN @start AND @end
+                    GROUP BY a.appointment_id
+                    ";
+                var result = await con.QueryAsync<RefundModel>(sql, new { start, end });
+
+                return result.ToList();
             }
         }
 

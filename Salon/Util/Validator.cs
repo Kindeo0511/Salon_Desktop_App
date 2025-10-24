@@ -190,6 +190,19 @@ namespace Salon.Util
             ep.SetError(tb, "");
             return true;
         }
+        public static bool IsRequiredTextField(MaterialTextBox2 tb, ErrorProvider ep, string message)
+        {
+            string input = tb.Text?.Trim();
+
+            if (string.IsNullOrWhiteSpace(input))
+            {
+                ep.SetError(tb, message);
+                return false;
+            }
+
+            ep.SetError(tb, "");
+            return true;
+        }
         public static bool IsComboBoxSelected(MaterialComboBox cmb, ErrorProvider ep, string message)
         {
             if (cmb.SelectedIndex < 0)
@@ -407,24 +420,21 @@ namespace Salon.Util
 
 
         // not done yet in validation
-         public static bool IsExScheduleConflict(Control[] controls, ErrorProvider ep, string message, int stylist_id, TimeSpan start, TimeSpan end, int id)
+          public static bool IsExScheduleExists(Control control, ErrorProvider ep, string message, int stylist_id, int id, DateTime date)
         {
             var repo = new ExceptionSchedulesRepository();
             var controller = new ExceptionSchedulesController(repo);
-            DateTime date = ((DateTimePicker)controls[0]).Value;
-            if (controller.GetIsExceptionScheduleConflict(stylist_id, date, start, end, id))
+
+            if (controller.GetIsExceptionScheduleConflict(stylist_id, date, id))
             {
-                foreach (var ctrl in controls)
-               
-                    ep.SetError(ctrl, message);
-      
+                ep.SetError(control, message);
                 return false;
             }
 
-            foreach (var ctrl in controls)
-                ep.SetError(ctrl, "");
+            ep.SetError(control, "");
             return true;
         }
+
 
         // not done yet stylist exceptio nvdalition
 
@@ -595,14 +605,14 @@ namespace Salon.Util
         // END OF SERVICE
 
         // SERVICE PRODUCT USAGE VALIDATION
-        public static bool IsProductUsageExists(Control control, ErrorProvider ep, string message, int pid, int id)
+        public static bool IsProductUsageExists(Control control, ErrorProvider ep, string message, int pid,int sid, int excludeId)
         {
             if (string.IsNullOrWhiteSpace(control.Text))
                 return false;
 
             var repo = new ServiceProductUsageRepository();
             var controller = new ServiceProductUsageController(repo);
-            if (controller.CheckProductUsageExists(pid, id))
+            if (controller.ProductUsageExists(pid,sid, excludeId))
             {
                 ep.SetError(control, message);
                 return false;

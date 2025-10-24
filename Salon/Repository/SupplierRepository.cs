@@ -20,6 +20,15 @@ namespace Salon.Repository
                 return con.Query<SupplierModel>(sql).ToList();
             }
         }
+        public async Task<IEnumerable<SupplierModel>> GetAllSuppliersAsync() 
+        {
+            using (var con = Database.GetConnection())
+            {
+                var sql = "SELECT * FROM tbl_supplier WHERE is_deleted = 0";
+                var result = await con.QueryAsync<SupplierModel>(sql);
+                return result.ToList(); 
+            }
+        }
         public void AddSupplier(SupplierModel supplier)
         {
             using (var con = Database.GetConnection())

@@ -19,9 +19,19 @@ namespace Salon.Controller
         {
             return repo.GetAllProducts();
         }
+
+        public async Task<IEnumerable<ProductModel>> GetAllProductAsync() 
+        {
+            return await repo.GetAllProductAsync();
+        }
         public ProductModel GetTotalProducts() 
         {
             return repo.GetTotalProducts();
+        }
+
+        public async Task<ProductModel> GetTotalProductAsync() 
+        {
+            return await repo.GetTotalProductAsync();
         }
         public void addProduct(ProductModel product)
         {

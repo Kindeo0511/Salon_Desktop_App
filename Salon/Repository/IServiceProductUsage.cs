@@ -10,6 +10,8 @@ namespace Salon.Repository
     public interface IServiceProductUsage
     {
         IEnumerable<ServiceProductUsageModel> GetAllServiceProducts(int id);
+
+        Task<IEnumerable<ServiceProductUsageModel>> GetAllServiceProductsAsync(int id);
         IEnumerable<ServiceProductUsageModel> GetTotalProductCost();
         void AddServiceProduct(ServiceProductUsageModel model);
         void UpdateServiceProduct(ServiceProductUsageModel model);
@@ -17,6 +19,6 @@ namespace Salon.Repository
         void RestoreServiceProduct(int id);
 
 
-        bool ProductUsageExists(int product_id, int id);
+        bool ProductUsageExists(int product_id,int service_id, int excludeId);
     }
 }

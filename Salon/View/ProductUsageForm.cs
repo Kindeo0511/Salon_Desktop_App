@@ -26,7 +26,7 @@ namespace Salon.View
             ThemeManager.ApplyTheme(this);
             ThemeManager.StyleDataGridView(dgv_Service_Product);
             LoadProducts();
-            LoadServiceProductUsage();
+       
         }
         public ProductUsageForm(MainForm mainForm, ServiceModel serviceModel)
         {
@@ -36,7 +36,7 @@ namespace Salon.View
             this.mainform = mainForm;
             this.serviceModel = serviceModel;
             LoadProducts();
-            LoadServiceProductUsage();
+           
         }
 
         private bool Validated()
@@ -63,15 +63,16 @@ namespace Salon.View
             {
                 validated = false;
             }
-            
-     
 
 
 
-            // EXISTS VALIDATION
-            //int excludeId = ServiceProductUsageModel?.service_product_id ?? 0;
-            //int product_id = Convert.ToInt32(cmb_product.SelectedValue);
-            //validated &= Validator.IsProductUsageExists(cmb_product, errorProvider1, "Product already exists.", product_id, excludeId);
+
+
+            //EXISTS VALIDATION
+            int excludeId = ServiceProductUsageModel?.service_product_id ?? 0;
+            int product_id = Convert.ToInt32(cmb_product.SelectedValue);
+            int sid = serviceModel?.serviceName_id ?? 0;
+            validated &= Validator.IsProductUsageExists(cmb_product, errorProvider1, "Product already exists.", product_id, sid, excludeId);
 
 
             return validated;
@@ -90,6 +91,25 @@ namespace Salon.View
 
          
          
+
+        }
+
+        public async Task RefreshServiceProductUsage()
+        {
+            var repo = new ServiceProductUsageRepository();
+            var controller = new ServiceProductUsageController(repo);
+            var serviceProducts = await controller.GetAllServiceProductsAsync(serviceModel.serviceName_id);
+
+            dgv_Service_Product.AutoGenerateColumns = false;
+            col_service_id.DataPropertyName = "service_id";
+            col_product_name.DataPropertyName = "product_name";
+            col_brand.DataPropertyName = "brand";
+            col_usage_type.DataPropertyName = "usage_type";
+            col_usage_amount.DataPropertyName = "usage_amount";
+            col_unit_volume.DataPropertyName = "unit_per_volume";
+            col_total_usage.DataPropertyName = "total_usage_amount";
+            col_total_cost.DataPropertyName = "total_cost";
+            dgv_Service_Product.DataSource = serviceProducts;
 
         }
         public void LoadServiceProductUsage()
@@ -202,7 +222,7 @@ namespace Salon.View
             };
             controller.AddServiceProduct(serviceProduct);
             MessageBox.Show("Product usage added successfully!", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
-            LoadServiceProductUsage();
+         
         }
         private void UpdateProductUsage()
         {
@@ -216,7 +236,7 @@ namespace Salon.View
             ServiceProductUsageModel.total_cost = decimal.Parse (txt_tota_cost.Text);
             controller.UpdateServiceProduct(ServiceProductUsageModel);
             MessageBox.Show("Product usage updated successfully!", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
-            LoadServiceProductUsage();
+       
             btn_add.Visible = true;
             btn_update_prodct_usage.Visible = false;
             btn_cancel.Visible = false;
@@ -243,22 +263,25 @@ namespace Salon.View
             Total_Product_Cost();
         }
 
-        private void btn_add_Click(object sender, EventArgs e)
+        private async void btn_add_Click(object sender, EventArgs e)
         {
             if (!Validated()) return;
             AddProductUsage();
             var product = cmb_product.Text;
             Audit.AuditLog(DateTime.Now, "Create", UserSession.CurrentUser.first_Name, "Manage Services, Product Usage", $"Created product usage '{product}' for ({serviceModel.serviceName}) on {DateTime.Now:yyyy-MM-dd} at {DateTime.Now:HH:mm:ss}");
             Clear();
+
+            await RefreshServiceProductUsage();
         }
 
-        private void btn_update_prodct_usage_Click(object sender, EventArgs e)
+        private async void btn_update_prodct_usage_Click(object sender, EventArgs e)
         {
             if (!Validated()) return;
             UpdateProductUsage();
             var product = cmb_product.Text;
             Audit.AuditLog(DateTime.Now, "Update", UserSession.CurrentUser.first_Name, "Manage Services, Product Usage", $"Updated product usage '{product}' for ({serviceModel.serviceName}) on {DateTime.Now:yyyy-MM-dd} at {DateTime.Now:HH:mm:ss}");
             Clear();
+            await RefreshServiceProductUsage();
         }
 
         private void btn_cancel_Click(object sender, EventArgs e)
@@ -281,7 +304,7 @@ namespace Salon.View
             cmb_product.Hint = "Select Product";
         }
 
-        private void dgv_Service_Product_CellClick(object sender, DataGridViewCellEventArgs e)
+        private async void dgv_Service_Product_CellClick(object sender, DataGridViewCellEventArgs e)
         {
             if (e.RowIndex < 0) return;
 
@@ -320,8 +343,8 @@ namespace Salon.View
                     Audit.AuditLog(DateTime.Now, "Delete", UserSession.CurrentUser.first_Name, "Manage Services, Product Usage", $"Deleted product usage '{product}' for ({serviceModel.serviceName}) on {DateTime.Now:yyyy-MM-dd} at {DateTime.Now:HH:mm:ss}");
                     controller.DeleteServiceProduct(ServiceProductUsageModel.service_product_id);
                     mainform.InsertDeletedRecord(ServiceProductUsageModel.service_product_id, "Manage Services, Product Usage", ServiceProductUsageModel.serviceName, UserSession.CurrentUser.first_Name, DateTime.Today);
-                    mainform.FilterdDeletedRecords();
-                    LoadServiceProductUsage();
+                    await mainform.FilterdDeletedRecords();
+                    await RefreshServiceProductUsage();
                 }
             }
         }
@@ -334,6 +357,11 @@ namespace Salon.View
         private void txt_tota_cost_TextChanged(object sender, EventArgs e)
         {
 
+        }
+
+        private async void ProductUsageForm_Load(object sender, EventArgs e)
+        {
+            await RefreshServiceProductUsage();
         }
     }
 }

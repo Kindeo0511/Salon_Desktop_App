@@ -313,7 +313,7 @@ namespace Salon.View
             Clear();
         }
 
-        private void btn_save_Click(object sender, EventArgs e)
+        private async void btn_save_Click(object sender, EventArgs e)
         {
             var _repo = new DeliveryRepository();
             var deliveryController = new DeliveryController(_repo);
@@ -434,9 +434,9 @@ namespace Salon.View
 
             }
             MessageBox.Show("Delivery has been added successfully.", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
-            mainform.LoadDelivery();
-            mainform.LoadInventory();
-            mainform.LoadBatchInventory();
+            await mainform.RefreshDeliveryAsync();
+            await mainform.RefreshInventoryAsync();
+            await mainform.RefreshBatchInventory();
             this.Close(); 
 
         }

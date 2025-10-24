@@ -21,6 +21,10 @@ namespace Salon.Controller
         {
             return _repository.GetAllServiceProducts(id);
         }
+        public async Task<IEnumerable<ServiceProductUsageModel>> GetAllServiceProductsAsync(int id) 
+        {
+            return await _repository.GetAllServiceProductsAsync(id);
+        }
         public IEnumerable<ServiceProductUsageModel> GetProductCost()
         {
             return _repository.GetTotalProductCost();
@@ -43,9 +47,10 @@ namespace Salon.Controller
         {
             _repository.RestoreServiceProduct(id);
         }
-        public bool CheckProductUsageExists(int p_id, int id = 0) 
+        public bool ProductUsageExists(int product_id, int service_id, int excludeId = 0)
+
         {
-            return _repository.ProductUsageExists(p_id, id);
+            return _repository.ProductUsageExists(product_id, service_id, excludeId);
         }
     }
 }

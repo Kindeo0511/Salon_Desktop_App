@@ -11,6 +11,7 @@ namespace Salon.Repository
     {
         IEnumerable<DeliveryModel> GetAllDelivery();
 
+        Task<IEnumerable<DeliveryModel>> GetAllDeliveryAsync();
         int AddDelivery(DeliveryModel delivery);
 
         bool DeliveryExists(string invoice);

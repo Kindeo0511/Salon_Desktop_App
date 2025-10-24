@@ -33,12 +33,14 @@
             this.lbl_ID = new MaterialSkin.Controls.MaterialLabel();
             this.lbl_Email = new MaterialSkin.Controls.MaterialLabel();
             this.lbl_FullName = new MaterialSkin.Controls.MaterialLabel();
+            this.lbl_customer_type = new MaterialSkin.Controls.MaterialLabel();
             this.materialCard1.SuspendLayout();
             this.SuspendLayout();
             // 
             // materialCard1
             // 
             this.materialCard1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
+            this.materialCard1.Controls.Add(this.lbl_customer_type);
             this.materialCard1.Controls.Add(this.lbl_contact);
             this.materialCard1.Controls.Add(this.lbl_ID);
             this.materialCard1.Controls.Add(this.lbl_Email);
@@ -105,6 +107,19 @@
             this.lbl_FullName.TabIndex = 0;
             this.lbl_FullName.Text = "fullname";
             // 
+            // lbl_customer_type
+            // 
+            this.lbl_customer_type.AutoSize = true;
+            this.lbl_customer_type.Depth = 0;
+            this.lbl_customer_type.Font = new System.Drawing.Font("Roboto", 14F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
+            this.lbl_customer_type.Location = new System.Drawing.Point(348, 14);
+            this.lbl_customer_type.MouseState = MaterialSkin.MouseState.HOVER;
+            this.lbl_customer_type.Name = "lbl_customer_type";
+            this.lbl_customer_type.Size = new System.Drawing.Size(31, 19);
+            this.lbl_customer_type.TabIndex = 4;
+            this.lbl_customer_type.Text = "type";
+            this.lbl_customer_type.Visible = false;
+            // 
             // SearchResultControl
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
@@ -125,5 +140,6 @@
         private MaterialSkin.Controls.MaterialLabel lbl_FullName;
         private MaterialSkin.Controls.MaterialLabel lbl_ID;
         private MaterialSkin.Controls.MaterialLabel lbl_contact;
+        private MaterialSkin.Controls.MaterialLabel lbl_customer_type;
     }
 }

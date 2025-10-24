@@ -37,14 +37,12 @@
             this.txt_promo_code = new MaterialSkin.Controls.MaterialTextBox();
             this.cmb_discount_type = new MaterialSkin.Controls.MaterialComboBox();
             this.txt_discount = new MaterialSkin.Controls.MaterialTextBox();
-            this.txt_max_usage = new System.Windows.Forms.NumericUpDown();
             this.txt_customer_limit = new System.Windows.Forms.NumericUpDown();
-            this.materialLabel1 = new MaterialSkin.Controls.MaterialLabel();
             this.materialLabel2 = new MaterialSkin.Controls.MaterialLabel();
             this.errorProvider1 = new System.Windows.Forms.ErrorProvider(this.components);
             this.sw_send_notif = new MaterialSkin.Controls.MaterialSwitch();
             this.sw_expiry_notif = new MaterialSkin.Controls.MaterialSwitch();
-            ((System.ComponentModel.ISupportInitialize)(this.txt_max_usage)).BeginInit();
+            this.chk_vat_exempt = new MaterialSkin.Controls.MaterialCheckbox();
             ((System.ComponentModel.ISupportInitialize)(this.txt_customer_limit)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.errorProvider1)).BeginInit();
             this.SuspendLayout();
@@ -208,34 +206,12 @@
             this.txt_discount.Text = "";
             this.txt_discount.TrailingIcon = null;
             // 
-            // txt_max_usage
-            // 
-            this.txt_max_usage.Location = new System.Drawing.Point(60, 371);
-            this.txt_max_usage.Name = "txt_max_usage";
-            this.txt_max_usage.Size = new System.Drawing.Size(350, 22);
-            this.txt_max_usage.TabIndex = 18;
-            this.txt_max_usage.Visible = false;
-            // 
             // txt_customer_limit
             // 
             this.txt_customer_limit.Location = new System.Drawing.Point(473, 371);
             this.txt_customer_limit.Name = "txt_customer_limit";
             this.txt_customer_limit.Size = new System.Drawing.Size(350, 22);
             this.txt_customer_limit.TabIndex = 19;
-            // 
-            // materialLabel1
-            // 
-            this.materialLabel1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.materialLabel1.AutoSize = true;
-            this.materialLabel1.Depth = 0;
-            this.materialLabel1.Font = new System.Drawing.Font("Roboto", 14F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
-            this.materialLabel1.Location = new System.Drawing.Point(57, 349);
-            this.materialLabel1.MouseState = MaterialSkin.MouseState.HOVER;
-            this.materialLabel1.Name = "materialLabel1";
-            this.materialLabel1.Size = new System.Drawing.Size(84, 19);
-            this.materialLabel1.TabIndex = 20;
-            this.materialLabel1.Text = "Max Usage:";
-            this.materialLabel1.Visible = false;
             // 
             // materialLabel2
             // 
@@ -286,17 +262,32 @@
             this.sw_expiry_notif.UseVisualStyleBackColor = true;
             this.sw_expiry_notif.Visible = false;
             // 
+            // chk_vat_exempt
+            // 
+            this.chk_vat_exempt.AutoSize = true;
+            this.chk_vat_exempt.Depth = 0;
+            this.chk_vat_exempt.Location = new System.Drawing.Point(60, 331);
+            this.chk_vat_exempt.Margin = new System.Windows.Forms.Padding(0);
+            this.chk_vat_exempt.MouseLocation = new System.Drawing.Point(-1, -1);
+            this.chk_vat_exempt.MouseState = MaterialSkin.MouseState.HOVER;
+            this.chk_vat_exempt.Name = "chk_vat_exempt";
+            this.chk_vat_exempt.ReadOnly = false;
+            this.chk_vat_exempt.Ripple = true;
+            this.chk_vat_exempt.Size = new System.Drawing.Size(138, 37);
+            this.chk_vat_exempt.TabIndex = 24;
+            this.chk_vat_exempt.Text = "Vat Exemption";
+            this.chk_vat_exempt.UseVisualStyleBackColor = true;
+            // 
             // DiscountForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(900, 600);
+            this.Controls.Add(this.chk_vat_exempt);
             this.Controls.Add(this.sw_expiry_notif);
             this.Controls.Add(this.sw_send_notif);
             this.Controls.Add(this.materialLabel2);
-            this.Controls.Add(this.materialLabel1);
             this.Controls.Add(this.txt_customer_limit);
-            this.Controls.Add(this.txt_max_usage);
             this.Controls.Add(this.materialLabel29);
             this.Controls.Add(this.dtp_discount_expiry_date);
             this.Controls.Add(this.btn_cancel_discount);
@@ -310,7 +301,6 @@
             this.Name = "DiscountForm";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Discount Information";
-            ((System.ComponentModel.ISupportInitialize)(this.txt_max_usage)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.txt_customer_limit)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.errorProvider1)).EndInit();
             this.ResumeLayout(false);
@@ -328,12 +318,11 @@
         private MaterialSkin.Controls.MaterialTextBox txt_promo_code;
         private MaterialSkin.Controls.MaterialComboBox cmb_discount_type;
         private MaterialSkin.Controls.MaterialTextBox txt_discount;
-        private System.Windows.Forms.NumericUpDown txt_max_usage;
         private System.Windows.Forms.NumericUpDown txt_customer_limit;
-        private MaterialSkin.Controls.MaterialLabel materialLabel1;
         private MaterialSkin.Controls.MaterialLabel materialLabel2;
         private System.Windows.Forms.ErrorProvider errorProvider1;
         private MaterialSkin.Controls.MaterialSwitch sw_send_notif;
         private MaterialSkin.Controls.MaterialSwitch sw_expiry_notif;
+        private MaterialSkin.Controls.MaterialCheckbox chk_vat_exempt;
     }
 }

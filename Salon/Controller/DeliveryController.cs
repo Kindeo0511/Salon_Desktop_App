@@ -21,7 +21,10 @@ namespace Salon.Controller
         {
             return delivery.GetAllDelivery();
         }
-
+        public async Task<IEnumerable<DeliveryModel>> GetDeliveryAsync() 
+        {
+            return await delivery.GetAllDeliveryAsync();
+        }
         public int AddDelivery(DeliveryModel deliveryModel)
         {
             var id = delivery.AddDelivery(deliveryModel);

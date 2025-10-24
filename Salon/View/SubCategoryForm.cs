@@ -112,7 +112,7 @@ namespace Salon.View
             };
             controller.addSubCategory(subCategory);
             MessageBox.Show("Sub-Category added successfully!", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
-            mainform.LoadSubCategory();
+            
         }
         private void UpdateSubCategory() 
         {
@@ -124,20 +124,22 @@ namespace Salon.View
 
             controller.updateSubCategory(subCategoryModel);
             MessageBox.Show("Sub-Category updated successfully!", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
-            mainform.LoadSubCategory();
+            
         }
 
-        private void btn_save_Click(object sender, EventArgs e)
+        private async  void btn_save_Click(object sender, EventArgs e)
         {
             if (!Validated()) return;
             AddSubCategory();
             var subCategory = txt_subcategory_name.Text;
             var category = cmb_category.Text;
             Audit.AuditLog(DateTime.Now, "Create", UserSession.CurrentUser.first_Name, "Manage Sub-Categories", $"Created sub-category '{subCategory}' for ({subCategory}) on {DateTime.Now:yyyy-MM-dd} at {DateTime.Now:HH:mm:ss}");
+
+            await mainform.RefreshSubCategoryAsync();
             this.Close();
         }
 
-        private void btn_update_Click(object sender, EventArgs e)
+        private async void btn_update_Click(object sender, EventArgs e)
         {
             if (!Validated()) return;
             UpdateSubCategory();
@@ -145,6 +147,8 @@ namespace Salon.View
             var subCategory = txt_subcategory_name.Text;
             var category = cmb_category.Text;
             Audit.AuditLog(DateTime.Now, "Update", UserSession.CurrentUser.first_Name, "Manage Sub-Categories", $"Updated sub-category '{subCategory}' for ({subCategory}) on {DateTime.Now:yyyy-MM-dd} at {DateTime.Now:HH:mm:ss}");
+
+            await mainform.RefreshSubCategoryAsync();
             this.Close();
         }
 

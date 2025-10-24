@@ -49,9 +49,10 @@ namespace Salon.View
             lbl_CustomerName.Text = summary.CustomerModel.customer_name;
             lbl_Contact.Text = summary.CustomerModel.phoneNumber;
             lbl_Email.Text = summary.CustomerModel.email;
-          
+            
             lbl_Time.Text = formattedStartTime + " - " + formattedEndTime;
             lbl_book_type.Text = summary.BookingType;
+            txt_customer_type.Text = summary.CustomerModel.customer_type;
             lbl_Date.Text = summary.AppointmentDate.ToString();
 
             foreach (var service in summary.SelectedServices)
@@ -131,18 +132,23 @@ namespace Salon.View
 
             try
             {
-                //await EmailMessage.SendNotificationEmailAsync(
-                //to: summary.CustomerModel.email,
-                //recipientName: summary.CustomerModel.customer_name,
-                //appointmentTime: $"{summary.AppointmentDate} at {formattedStartTime}",
-                //services: lbl_Services.Text,
-                //customMessage: "Your appointment has been confirmed. Please arrive 10 minutes early and bring your ID.");
+                if (txt_customer_type.Text.ToLower() == "registered") 
+                {
+                    await EmailMessage.SendNotificationEmailAsync(
+                    to: summary.CustomerModel.email,
+                    recipientName: summary.CustomerModel.customer_name,
+                    appointmentTime: $"{summary.AppointmentDate} at {formattedStartTime}",
+                    services: lbl_Services.Text,
+                    customMessage: "Your appointment has been confirmed. Please arrive 10 minutes early and bring your ID.");
 
-                //await SmsSender.SendSmsNotificationAsync(
-                //phone: summary.CustomerModel.phoneNumber,
-                //customerName: summary.CustomerModel.customer_name,
-                //appointmentDate: summary.AppointmentDate.ToString("MM/dd/yyyy"),
-                //startTime: formattedStartTime);
+                    await SmsSender.SendSmsNotificationAsync(
+                    phone: summary.CustomerModel.phoneNumber,
+                    customerName: summary.CustomerModel.customer_name,
+                    appointmentDate: summary.AppointmentDate.ToString("MM/dd/yyyy"),
+                    startTime: formattedStartTime);
+                }
+          
+
 
                 MessageBox.Show($"The appointment has been {(isUpdate ? "updated" : "booked")} successfully!",
                     "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
@@ -155,10 +161,10 @@ namespace Salon.View
 
 
 
-            mainForm.LoadAppointments();
-            mainForm.LoadTotalAppointments();
-            mainForm.LoadPopularServices();
-            mainForm.LoadAllTransactions();
+            
+            await mainForm.RefreshTotalAppointment();
+            await mainForm.RefreshPopularServices();
+            await mainForm.RefreshTransactionAsync();
             this.DialogResult = DialogResult.OK;
             this.Close();
             appointmentForm.Close();

@@ -24,7 +24,7 @@ namespace Salon.Repository
         {
             using (var connection = Database.GetConnection())
             {
-                connection.Execute("INSERT INTO tbl_exception_schedules (stylist_id, date, start_time, end_time, is_available, reason) VALUES (@stylist_id, @date, @start_time, @end_time, @is_available, @reason)", exceptionSchedule);
+                connection.Execute("INSERT INTO tbl_exception_schedules (stylist_id, date, is_available, reason) VALUES (@stylist_id, @date, @is_available, @reason)", exceptionSchedule);
 
 
             }
@@ -33,7 +33,7 @@ namespace Salon.Repository
         {
             using (var connection = Database.GetConnection())
             {
-                connection.Execute("UPDATE tbl_exception_schedules SET stylist_id = @stylist_id, date = @date, start_time = @start_time, end_time = @end_time, is_available = @is_available, reason = @reason WHERE id = @id", exceptionSchedule);
+                connection.Execute("UPDATE tbl_exception_schedules SET stylist_id = @stylist_id, date = @date, is_available = @is_available, reason = @reason WHERE id = @id", exceptionSchedule);
             }
         }
         public void DeleteExceptionSchedule(int exceptionScheduleId)
@@ -64,22 +64,23 @@ namespace Salon.Repository
                 return result > 0;
             }
         }
-        public bool IsExceptionScheduleConflict(int stylist_id, DateTime date, TimeSpan start, TimeSpan end, int id = 0)
+        public bool IsExceptionScheduleConflict(int stylist_id, DateTime date, int id = 0)
         {
-       
             using (var con = Database.GetConnection())
             {
-                var sql = @"SELECT COUNT(*) FROM tbl_exception_schedules
-WHERE stylist_id = @stylist_id AND date = @date AND id != @id
-AND (
-    (@start < end_time AND @end > start_time) OR
-    (start_time = @start AND end_time = @end)
-)";
+                var sql = @"SELECT COUNT(*) 
+                    FROM tbl_exception_schedules
+                    WHERE stylist_id = @stylist_id
+                      AND DATE(date) = DATE(@date)
+                      AND id != @id
+                      AND is_deleted = 0;";
 
-                var count = con.ExecuteScalar<int>(sql, new { stylist_id, date, start, end, id });
+                var count = con.ExecuteScalar<int>(sql, new { stylist_id, date = date.Date, id });
                 return count > 0;
             }
-
         }
+
+
+
     }
 }

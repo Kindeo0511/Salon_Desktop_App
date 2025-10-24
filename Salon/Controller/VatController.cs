@@ -20,7 +20,11 @@ namespace Salon.Controller
         {
             return _repo.getTax().FirstOrDefault();
         }
-
+        public async Task<VatModel> LoadLatestTaxAsync() 
+        {
+            var result = await _repo.GetTaxAsync();
+            return result.FirstOrDefault();
+        }
         public void CreateTax(VatModel taxModel)
         {
             _repo.addTax(taxModel);

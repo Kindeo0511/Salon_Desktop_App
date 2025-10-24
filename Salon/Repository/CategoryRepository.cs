@@ -19,6 +19,16 @@ namespace Salon.Repository
                 return con.Query<CategoryModel>(sql).ToList();
             }
         }
+        public async Task<IEnumerable<CategoryModel>> GetAllCategoryAsync() 
+        {
+            using (var con = Database.GetConnection())
+            {
+                var sql = "SELECT * FROM tbl_category WHERE is_deleted = 0";
+                var result = await con.QueryAsync<CategoryModel>(sql);
+
+                return result.ToList();
+            }
+        }
         public IEnumerable<CategoryModel> getAllCategoryByService() 
         {
             using (var con = Database.GetConnection())

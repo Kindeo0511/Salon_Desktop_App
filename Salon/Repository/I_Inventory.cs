@@ -11,7 +11,7 @@ namespace Salon.Repository
     {
         IEnumerable<InventoryViewModel> GetAllInventory();
         IEnumerable<InventoryViewModel> GetAllInventory(string status);
-
+        Task<IEnumerable<InventoryViewModel>> GetAllInventoryAsync();
         InventoryViewModel InventoryReportSummary();
         InventoryViewModel InventoryReportSummary(string status);
 
