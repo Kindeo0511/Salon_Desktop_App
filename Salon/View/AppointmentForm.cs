@@ -53,6 +53,7 @@ namespace Salon.View
             cmb_Date.MinDate = model.AppointmentDate.Date;
             cmb_Date.MaxDate = DateTime.Today.AddMonths(3);
 
+            
             for (int hour = 9; hour <= 21; hour++)
             {
                 DateTime time = new DateTime(1, 1, 1, hour, 0, 0);
@@ -634,12 +635,42 @@ namespace Salon.View
             mainForm.LoadPopularServices();
             this.Close();
         }
-        private void btn_update_Click(object sender, EventArgs e)
+        private async void btn_update_Click(object sender, EventArgs e)
         {
-            if (!Validated(totalDuration)) return;
-            UpdateAppointment();
+            {
+                if (!Validated(totalDuration)) return;
 
+                var repo = new AppointmentRepository();
+                var controller = new AppointmentController(repo);
+                var date = cmb_Date.Value.Date;
+                var startTime = DateTime.Parse(cb_Time.SelectedItem.ToString()).TimeOfDay;
+                var duration = TimeSpan.FromMinutes(totalDuration);
+                int id = Convert.ToInt32(lbl_ID.Text.ToString());
 
+                bool isCustomerAlreadyBooked = await controller.CustomerIsAlreadyBooked(date, startTime, duration, id);
+
+                string message;
+                MessageBoxIcon icon;
+
+                if (isCustomerAlreadyBooked)
+                {
+                    message = "❗This time slot is already booked.";
+                    icon = MessageBoxIcon.Warning;
+                   
+
+                    MessageBox.Show(message, "Slot Status", MessageBoxButtons.OK, icon);
+                    return; // ⛔ Exit early to prevent proceeding
+                }
+
+                message = "✅ Slot is available for this customer.";
+                icon = MessageBoxIcon.Information;
+              
+
+                MessageBox.Show(message, "Slot Status", MessageBoxButtons.OK, icon);
+
+                UpdateAppointment(); // ✅ Only called if slot is available
+
+            }
         }
         private bool Validated(int totalDuration)
         {

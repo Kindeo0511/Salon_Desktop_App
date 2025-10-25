@@ -134,6 +134,17 @@ namespace Salon.View
         private void cmb_customer_type_SelectedIndexChanged(object sender, EventArgs e)
         {
             EnableTextBox(cmb_customer_type.Text);
+
+            if (cmb_customer_type.Text.ToLower() == "registered")
+            {
+                txt_email.Visible = true;
+                txt_number.Visible = true;
+            }
+            else if (cmb_customer_type.Text.ToLower() == "walk-in") 
+            {
+                txt_email.Visible = false;
+                txt_number.Visible = false;
+            }
         }
 
         private async void btn_save_Click(object sender, EventArgs e)

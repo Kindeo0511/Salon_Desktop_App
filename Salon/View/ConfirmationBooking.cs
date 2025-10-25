@@ -22,7 +22,7 @@ namespace Salon.View
         private AppointmentForm appointmentForm;
         private bool isUpdate;
         private int existingAppointmentId;
-
+       
 
         public ConfirmationBooking(AppointmentForm appointment, MainForm mainForm, BookingSummary summary, bool isUpdate = false, int appointmentId = 0)
         {
@@ -45,7 +45,7 @@ namespace Salon.View
 
             string formattedStartTime = startTime.ToString("hh:mm tt");
             string formattedEndTime = endTime.ToString("hh:mm tt");
-
+            lbl_id.Text = summary.CustomerModel.customer_id.ToString();
             lbl_CustomerName.Text = summary.CustomerModel.customer_name;
             lbl_Contact.Text = summary.CustomerModel.phoneNumber;
             lbl_Email.Text = summary.CustomerModel.email;
@@ -66,7 +66,7 @@ namespace Salon.View
 
         private async void btn_Confirm_Click(object sender, EventArgs e)
         {
-
+            btn_Confirm.Enabled = false;
             DateTime startTime = DateTime.Today.Add(summary.AppointmentTime);
             string formattedStartTime = startTime.ToString("hh:mm tt");
 
@@ -134,18 +134,18 @@ namespace Salon.View
             {
                 if (txt_customer_type.Text.ToLower() == "registered") 
                 {
-                    await EmailMessage.SendNotificationEmailAsync(
-                    to: summary.CustomerModel.email,
-                    recipientName: summary.CustomerModel.customer_name,
-                    appointmentTime: $"{summary.AppointmentDate} at {formattedStartTime}",
-                    services: lbl_Services.Text,
-                    customMessage: "Your appointment has been confirmed. Please arrive 10 minutes early and bring your ID.");
+                    //await EmailMessage.SendNotificationEmailAsync(
+                    //to: summary.CustomerModel.email,
+                    //recipientName: summary.CustomerModel.customer_name,
+                    //appointmentTime: $"{summary.AppointmentDate} at {formattedStartTime}",
+                    //services: lbl_Services.Text,
+                    //customMessage: "Your appointment has been confirmed. Please arrive 10 minutes early and bring your ID.");
 
-                    await SmsSender.SendSmsNotificationAsync(
-                    phone: summary.CustomerModel.phoneNumber,
-                    customerName: summary.CustomerModel.customer_name,
-                    appointmentDate: summary.AppointmentDate.ToString("MM/dd/yyyy"),
-                    startTime: formattedStartTime);
+                    //await SmsSender.SendSmsNotificationAsync(
+                    //phone: summary.CustomerModel.phoneNumber,
+                    //customerName: summary.CustomerModel.customer_name,
+                    //appointmentDate: summary.AppointmentDate.ToString("MM/dd/yyyy"),
+                    //startTime: formattedStartTime);
                 }
           
 
@@ -161,13 +161,14 @@ namespace Salon.View
 
 
 
-            
+            btn_Confirm.Enabled = true;
+            await mainForm.RefreshAppointmentAsync();
             await mainForm.RefreshTotalAppointment();
             await mainForm.RefreshPopularServices();
             await mainForm.RefreshTransactionAsync();
             this.DialogResult = DialogResult.OK;
             this.Close();
-            appointmentForm.Close();
+            
         }
 
         private void btn_cancel_Click(object sender, EventArgs e)

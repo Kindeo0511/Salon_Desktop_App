@@ -211,7 +211,6 @@
             this.lbl_ID.Size = new System.Drawing.Size(16, 19);
             this.lbl_ID.TabIndex = 8;
             this.lbl_ID.Text = "ID";
-            this.lbl_ID.Visible = false;
             // 
             // txt_search_services
             // 
@@ -334,7 +333,7 @@
             this.btn_update.Depth = 0;
             this.btn_update.HighEmphasis = true;
             this.btn_update.Icon = null;
-            this.btn_update.Location = new System.Drawing.Point(1042, 552);
+            this.btn_update.Location = new System.Drawing.Point(1046, 552);
             this.btn_update.Margin = new System.Windows.Forms.Padding(4, 6, 4, 6);
             this.btn_update.MouseState = MaterialSkin.MouseState.HOVER;
             this.btn_update.Name = "btn_update";
@@ -355,7 +354,7 @@
             this.btn_check_available.Depth = 0;
             this.btn_check_available.HighEmphasis = true;
             this.btn_check_available.Icon = null;
-            this.btn_check_available.Location = new System.Drawing.Point(827, 552);
+            this.btn_check_available.Location = new System.Drawing.Point(846, 552);
             this.btn_check_available.Margin = new System.Windows.Forms.Padding(4, 6, 4, 6);
             this.btn_check_available.MouseState = MaterialSkin.MouseState.HOVER;
             this.btn_check_available.Name = "btn_check_available";
@@ -420,6 +419,7 @@
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1400, 900);
+            this.Controls.Add(this.customer_panel);
             this.Controls.Add(this.txt_customer_type);
             this.Controls.Add(this.btn_create);
             this.Controls.Add(this.materialLabel1);
@@ -430,7 +430,6 @@
             this.Controls.Add(this.dgv_table);
             this.Controls.Add(this.txt_search_services);
             this.Controls.Add(this.lbl_ID);
-            this.Controls.Add(this.customer_panel);
             this.Controls.Add(this.cb_Time);
             this.Controls.Add(this.cmb_Date);
             this.Controls.Add(this.cb_book_type);

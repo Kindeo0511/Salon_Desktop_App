@@ -57,7 +57,7 @@ namespace Salon.Util
 
                 var content = new StringContent(JsonConvert.SerializeObject(payload), Encoding.UTF8, "application/json");
 
-                var response = await client.PostAsync("http://192.168.100.31:8080/message", content);
+                var response = await client.PostAsync("http://100.104.201.251:8080/message", content);
 
                 if (!response.IsSuccessStatusCode)
                 {

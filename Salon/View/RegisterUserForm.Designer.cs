@@ -32,10 +32,10 @@
             this.flowLayoutPanel1 = new System.Windows.Forms.FlowLayoutPanel();
             this.cmb_customer_type = new MaterialSkin.Controls.MaterialComboBox();
             this.txt_first_name = new MaterialSkin.Controls.MaterialTextBox2();
-            this.txt_email = new MaterialSkin.Controls.MaterialTextBox2();
+            this.txt_last_name = new MaterialSkin.Controls.MaterialTextBox2();
             this.txt_middle_name = new MaterialSkin.Controls.MaterialTextBox2();
             this.txt_number = new MaterialSkin.Controls.MaterialTextBox2();
-            this.txt_last_name = new MaterialSkin.Controls.MaterialTextBox2();
+            this.txt_email = new MaterialSkin.Controls.MaterialTextBox2();
             this.panel1 = new System.Windows.Forms.Panel();
             this.btn_cancel = new MaterialSkin.Controls.MaterialButton();
             this.btn_save = new MaterialSkin.Controls.MaterialButton();
@@ -119,37 +119,36 @@
             this.txt_first_name.TrailingIcon = null;
             this.txt_first_name.UseSystemPasswordChar = false;
             // 
-            // txt_email
+            // txt_last_name
             // 
-            this.txt_email.AnimateReadOnly = false;
-            this.txt_email.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
-            this.txt_email.CharacterCasing = System.Windows.Forms.CharacterCasing.Normal;
-            this.txt_email.Depth = 0;
-            this.txt_email.Enabled = false;
-            this.txt_email.Font = new System.Drawing.Font("Roboto", 16F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
-            this.txt_email.HideSelection = true;
-            this.txt_email.Hint = "Enter email";
-            this.txt_email.LeadingIcon = null;
-            this.txt_email.Location = new System.Drawing.Point(50, 345);
-            this.txt_email.Margin = new System.Windows.Forms.Padding(25);
-            this.txt_email.MaxLength = 32767;
-            this.txt_email.MouseState = MaterialSkin.MouseState.OUT;
-            this.txt_email.Name = "txt_email";
-            this.txt_email.PasswordChar = '\0';
-            this.txt_email.PrefixSuffix = MaterialSkin.Controls.MaterialTextBox2.PrefixSuffixTypes.Prefix;
-            this.txt_email.PrefixSuffixText = "@";
-            this.txt_email.ReadOnly = false;
-            this.txt_email.RightToLeft = System.Windows.Forms.RightToLeft.No;
-            this.txt_email.SelectedText = "";
-            this.txt_email.SelectionLength = 0;
-            this.txt_email.SelectionStart = 0;
-            this.txt_email.ShortcutsEnabled = true;
-            this.txt_email.Size = new System.Drawing.Size(300, 48);
-            this.txt_email.TabIndex = 2;
-            this.txt_email.TabStop = false;
-            this.txt_email.TextAlign = System.Windows.Forms.HorizontalAlignment.Left;
-            this.txt_email.TrailingIcon = null;
-            this.txt_email.UseSystemPasswordChar = false;
+            this.txt_last_name.AnimateReadOnly = false;
+            this.txt_last_name.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
+            this.txt_last_name.CharacterCasing = System.Windows.Forms.CharacterCasing.Normal;
+            this.txt_last_name.Depth = 0;
+            this.txt_last_name.Enabled = false;
+            this.txt_last_name.Font = new System.Drawing.Font("Roboto", 16F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
+            this.txt_last_name.HideSelection = true;
+            this.txt_last_name.Hint = "Enter last name";
+            this.txt_last_name.LeadingIcon = null;
+            this.txt_last_name.Location = new System.Drawing.Point(400, 149);
+            this.txt_last_name.Margin = new System.Windows.Forms.Padding(25);
+            this.txt_last_name.MaxLength = 32767;
+            this.txt_last_name.MouseState = MaterialSkin.MouseState.OUT;
+            this.txt_last_name.Name = "txt_last_name";
+            this.txt_last_name.PasswordChar = '\0';
+            this.txt_last_name.PrefixSuffixText = null;
+            this.txt_last_name.ReadOnly = false;
+            this.txt_last_name.RightToLeft = System.Windows.Forms.RightToLeft.No;
+            this.txt_last_name.SelectedText = "";
+            this.txt_last_name.SelectionLength = 0;
+            this.txt_last_name.SelectionStart = 0;
+            this.txt_last_name.ShortcutsEnabled = true;
+            this.txt_last_name.Size = new System.Drawing.Size(300, 48);
+            this.txt_last_name.TabIndex = 5;
+            this.txt_last_name.TabStop = false;
+            this.txt_last_name.TextAlign = System.Windows.Forms.HorizontalAlignment.Left;
+            this.txt_last_name.TrailingIcon = null;
+            this.txt_last_name.UseSystemPasswordChar = false;
             // 
             // txt_middle_name
             // 
@@ -212,37 +211,40 @@
             this.txt_number.TextAlign = System.Windows.Forms.HorizontalAlignment.Left;
             this.txt_number.TrailingIcon = null;
             this.txt_number.UseSystemPasswordChar = false;
+            this.txt_number.Visible = false;
             // 
-            // txt_last_name
+            // txt_email
             // 
-            this.txt_last_name.AnimateReadOnly = false;
-            this.txt_last_name.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
-            this.txt_last_name.CharacterCasing = System.Windows.Forms.CharacterCasing.Normal;
-            this.txt_last_name.Depth = 0;
-            this.txt_last_name.Enabled = false;
-            this.txt_last_name.Font = new System.Drawing.Font("Roboto", 16F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
-            this.txt_last_name.HideSelection = true;
-            this.txt_last_name.Hint = "Enter last name";
-            this.txt_last_name.LeadingIcon = null;
-            this.txt_last_name.Location = new System.Drawing.Point(400, 149);
-            this.txt_last_name.Margin = new System.Windows.Forms.Padding(25);
-            this.txt_last_name.MaxLength = 32767;
-            this.txt_last_name.MouseState = MaterialSkin.MouseState.OUT;
-            this.txt_last_name.Name = "txt_last_name";
-            this.txt_last_name.PasswordChar = '\0';
-            this.txt_last_name.PrefixSuffixText = null;
-            this.txt_last_name.ReadOnly = false;
-            this.txt_last_name.RightToLeft = System.Windows.Forms.RightToLeft.No;
-            this.txt_last_name.SelectedText = "";
-            this.txt_last_name.SelectionLength = 0;
-            this.txt_last_name.SelectionStart = 0;
-            this.txt_last_name.ShortcutsEnabled = true;
-            this.txt_last_name.Size = new System.Drawing.Size(300, 48);
-            this.txt_last_name.TabIndex = 5;
-            this.txt_last_name.TabStop = false;
-            this.txt_last_name.TextAlign = System.Windows.Forms.HorizontalAlignment.Left;
-            this.txt_last_name.TrailingIcon = null;
-            this.txt_last_name.UseSystemPasswordChar = false;
+            this.txt_email.AnimateReadOnly = false;
+            this.txt_email.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
+            this.txt_email.CharacterCasing = System.Windows.Forms.CharacterCasing.Normal;
+            this.txt_email.Depth = 0;
+            this.txt_email.Enabled = false;
+            this.txt_email.Font = new System.Drawing.Font("Roboto", 16F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
+            this.txt_email.HideSelection = true;
+            this.txt_email.Hint = "Enter email";
+            this.txt_email.LeadingIcon = null;
+            this.txt_email.Location = new System.Drawing.Point(50, 345);
+            this.txt_email.Margin = new System.Windows.Forms.Padding(25);
+            this.txt_email.MaxLength = 32767;
+            this.txt_email.MouseState = MaterialSkin.MouseState.OUT;
+            this.txt_email.Name = "txt_email";
+            this.txt_email.PasswordChar = '\0';
+            this.txt_email.PrefixSuffix = MaterialSkin.Controls.MaterialTextBox2.PrefixSuffixTypes.Prefix;
+            this.txt_email.PrefixSuffixText = "@";
+            this.txt_email.ReadOnly = false;
+            this.txt_email.RightToLeft = System.Windows.Forms.RightToLeft.No;
+            this.txt_email.SelectedText = "";
+            this.txt_email.SelectionLength = 0;
+            this.txt_email.SelectionStart = 0;
+            this.txt_email.ShortcutsEnabled = true;
+            this.txt_email.Size = new System.Drawing.Size(300, 48);
+            this.txt_email.TabIndex = 2;
+            this.txt_email.TabStop = false;
+            this.txt_email.TextAlign = System.Windows.Forms.HorizontalAlignment.Left;
+            this.txt_email.TrailingIcon = null;
+            this.txt_email.UseSystemPasswordChar = false;
+            this.txt_email.Visible = false;
             // 
             // panel1
             // 

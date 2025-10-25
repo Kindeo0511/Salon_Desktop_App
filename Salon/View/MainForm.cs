@@ -5348,6 +5348,23 @@ namespace Salon.View
             dtp_delete_record_end.MinDate = dtp_delete_record_start.Value.Date;
         }
 
+        private void dgv_appointment_CellFormatting(object sender, DataGridViewCellFormattingEventArgs e)
+        {
+            var dgv = sender as DataGridView;
+
+            if (dgv.Columns[e.ColumnIndex].DataPropertyName == "StartTime" ||
+                dgv.Columns[e.ColumnIndex].DataPropertyName == "EndTime")
+            {
+                if (e.Value is TimeSpan timeSpan)
+                {
+                    // Convert TimeSpan to DateTime for formatting
+                    DateTime time = DateTime.Today.Add(timeSpan);
+                    e.Value = time.ToString("hh:mm tt"); // e.g., 02:30 PM
+                    e.FormattingApplied = true;
+                }
+            }
+        }
+
 
 
 

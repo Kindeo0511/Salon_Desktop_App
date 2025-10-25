@@ -13,6 +13,7 @@ namespace Salon.Models
         public int customer_id { get; set; }
         public string channel { get; set; }
         public string status { get; set; }
+        public string customer_type { get; set; }
         public DateTime scheduled_on { get; set; }
         public DateTime sent_on { get; set; }
         public string error_message { get; set; }

@@ -254,10 +254,14 @@ namespace Salon.View
           
             foreach (var notif in notifications) 
             {
-                var message = BuildPromoMessage(notif.discount_id);
-                var result = EmailMessage.SendEmailNotifDiscount(notif.customer_id, message); // or SendEmail()
-                var sms = SmsSender.SendDiscountNotifSMS(notif.customer_id, message);
-                controller.UpdateDiscountNotif(notif.notif_id);
+                if (notif.customer_type.ToLower() == "registered") 
+                {
+                    var message = BuildPromoMessage(notif.discount_id);
+                    var result = EmailMessage.SendEmailNotifDiscount(notif.customer_id, message); // or SendEmail()
+                    var sms = SmsSender.SendDiscountNotifSMS(notif.customer_id, message);
+                    controller.UpdateDiscountNotif(notif.notif_id);
+                }
+                
             }
         }
         private void btn_cancel_discount_Click(object sender, EventArgs e)

@@ -38,6 +38,7 @@
             this.btn_Confirm = new MaterialSkin.Controls.MaterialButton();
             this.btn_cancel = new MaterialSkin.Controls.MaterialButton();
             this.txt_customer_type = new MaterialSkin.Controls.MaterialTextBox();
+            this.lbl_id = new MaterialSkin.Controls.MaterialLabel();
             this.SuspendLayout();
             // 
             // lbl_CustomerName
@@ -232,11 +233,24 @@
             this.txt_customer_type.Text = "";
             this.txt_customer_type.TrailingIcon = null;
             // 
+            // lbl_id
+            // 
+            this.lbl_id.AutoSize = true;
+            this.lbl_id.Depth = 0;
+            this.lbl_id.Font = new System.Drawing.Font("Roboto", 14F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
+            this.lbl_id.Location = new System.Drawing.Point(495, 87);
+            this.lbl_id.MouseState = MaterialSkin.MouseState.HOVER;
+            this.lbl_id.Name = "lbl_id";
+            this.lbl_id.Size = new System.Drawing.Size(107, 19);
+            this.lbl_id.TabIndex = 10;
+            this.lbl_id.Text = "materialLabel1";
+            // 
             // ConfirmationBooking
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1000, 600);
+            this.Controls.Add(this.lbl_id);
             this.Controls.Add(this.txt_customer_type);
             this.Controls.Add(this.btn_cancel);
             this.Controls.Add(this.btn_Confirm);
@@ -270,5 +284,6 @@
         private MaterialSkin.Controls.MaterialButton btn_Confirm;
         private MaterialSkin.Controls.MaterialButton btn_cancel;
         private MaterialSkin.Controls.MaterialTextBox txt_customer_type;
+        private MaterialSkin.Controls.MaterialLabel lbl_id;
     }
 }

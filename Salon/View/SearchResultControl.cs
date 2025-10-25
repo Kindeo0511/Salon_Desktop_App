@@ -54,7 +54,7 @@ namespace Salon.View
             ResultClicked?.Invoke(this, new CustomerModel
             {
 
-                customer_id = temp_id,
+                customer_id = Convert.ToInt32(lbl_ID.Text.ToString()),
                 customer_name = lbl_FullName.Text,
                 email = lbl_Email.Text,
                 phoneNumber = lbl_contact.Text,
