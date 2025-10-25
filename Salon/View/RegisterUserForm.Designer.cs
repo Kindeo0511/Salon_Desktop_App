@@ -49,10 +49,10 @@
             // 
             this.flowLayoutPanel1.Controls.Add(this.cmb_customer_type);
             this.flowLayoutPanel1.Controls.Add(this.txt_first_name);
-            this.flowLayoutPanel1.Controls.Add(this.txt_email);
+            this.flowLayoutPanel1.Controls.Add(this.txt_last_name);
             this.flowLayoutPanel1.Controls.Add(this.txt_middle_name);
             this.flowLayoutPanel1.Controls.Add(this.txt_number);
-            this.flowLayoutPanel1.Controls.Add(this.txt_last_name);
+            this.flowLayoutPanel1.Controls.Add(this.txt_email);
             this.flowLayoutPanel1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.flowLayoutPanel1.Location = new System.Drawing.Point(20, 40);
             this.flowLayoutPanel1.Name = "flowLayoutPanel1";
@@ -130,7 +130,7 @@
             this.txt_email.HideSelection = true;
             this.txt_email.Hint = "Enter email";
             this.txt_email.LeadingIcon = null;
-            this.txt_email.Location = new System.Drawing.Point(400, 149);
+            this.txt_email.Location = new System.Drawing.Point(50, 345);
             this.txt_email.Margin = new System.Windows.Forms.Padding(25);
             this.txt_email.MaxLength = 32767;
             this.txt_email.MouseState = MaterialSkin.MouseState.OUT;
@@ -224,7 +224,7 @@
             this.txt_last_name.HideSelection = true;
             this.txt_last_name.Hint = "Enter last name";
             this.txt_last_name.LeadingIcon = null;
-            this.txt_last_name.Location = new System.Drawing.Point(50, 345);
+            this.txt_last_name.Location = new System.Drawing.Point(400, 149);
             this.txt_last_name.Margin = new System.Windows.Forms.Padding(25);
             this.txt_last_name.MaxLength = 32767;
             this.txt_last_name.MouseState = MaterialSkin.MouseState.OUT;

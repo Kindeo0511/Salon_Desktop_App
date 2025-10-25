@@ -60,6 +60,10 @@ namespace Salon.Controller
         {
             _repo.DeleteUser(userId);
         }
+        public void DeletePermanent(int id) 
+        {
+            _repo.PermanentDelete(id);
+        }
 
         public bool GetUserExistsAsync(string username, int id = 0) 
         {

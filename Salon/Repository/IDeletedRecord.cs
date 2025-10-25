@@ -16,5 +16,6 @@ namespace Salon.Repository
         Task<IEnumerable<DeletedRecord>> AllAsync(DateTime start, DateTime end);
         void Add(DeletedRecord model);
         void delete(int id);
+        void PermanentDelete(int id);
     }
 }

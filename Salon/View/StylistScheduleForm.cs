@@ -79,7 +79,7 @@ namespace Salon.View
                 validated = false;
             }
 
-            if (!check_yes.Checked)
+            if (!check_yes.Checked && !check_no.Checked)
             {
                 weekly_error.SetError(check_yes, "Availability is required.");
                 validated = false;
@@ -156,13 +156,15 @@ namespace Salon.View
         }
         private void AddSchedule()
         {
+            bool IscChecked = check_yes.Checked ? check_no.Checked : false;
+
             var stylistSchedule = new StylistScheduleModel
             {
                 StylistId = _stylist.stylist_id,
                 DayOfWeek = txt_day.SelectedItem.ToString(),
                 StartTime = dtp_start_time.Value.TimeOfDay,
                 EndTime = dtp_end_time.Value.TimeOfDay,
-                IsWorking = check_yes.Checked,
+                IsWorking = IscChecked,
 
             };
             var stylistSchedulesRepo = new StylistSchedulesRepository();
@@ -174,7 +176,7 @@ namespace Salon.View
         }
         private void UpdateSchedule()
         {
-
+            bool IscChecked = check_yes.Checked ? check_no.Checked : false;
             var stylistSchedulesRepo = new StylistSchedulesRepository();
             var stylistSchedulesController = new StylistSchedulesController(stylistSchedulesRepo);
 
@@ -183,7 +185,7 @@ namespace Salon.View
             _stylistSchedule.DayOfWeek = txt_day.SelectedItem.ToString();
                 _stylistSchedule.StartTime = dtp_start_time.Value.TimeOfDay;
                 _stylistSchedule.EndTime = dtp_end_time.Value.TimeOfDay;
-                _stylistSchedule.IsWorking = check_yes.Checked;
+                _stylistSchedule.IsWorking = IscChecked;
 
 
          
@@ -261,9 +263,9 @@ namespace Salon.View
                 dtp_start_time.Value = DateTime.Today.Add(_stylistSchedule.StartTime);
                 dtp_end_time.Value = DateTime.Today.Add(_stylistSchedule.EndTime);
                 bool isWorking = _stylistSchedule.IsWorking;
-                chk_yes.Checked = isWorking;
-                chk_no.Checked = !isWorking;
+        
                 check_yes.Checked = isWorking;
+                check_no.Checked = !isWorking;
 
 
 
@@ -337,11 +339,12 @@ namespace Salon.View
 
         private void AddExceptionSchedule()
         {
+            int isAvailable = chk_yes.Checked ? 0 : 1;
             var exceptionSchedule = new ExceptionScheduleModel
             {
                 stylist_id = _stylist.stylist_id,
                 date = dtp_date.Value.Date,
-                is_available = chk_yes.Checked,
+                is_available = isAvailable,
                 reason = txt_reason.Text
             };
             var stylistSchedulesRepo = new Repository.ExceptionSchedulesRepository();
@@ -354,10 +357,11 @@ namespace Salon.View
         {
             if (_exceptionSchedule != null)
             {
+                int isAvailable = chk_yes.Checked ? 1 : 0;
                 _exceptionSchedule.date = dtp_date.Value.Date;
                 _exceptionSchedule.start_time = dtp_exception_start_time.Value.TimeOfDay;
                 _exceptionSchedule.end_time = dtp_exception_end_time.Value.TimeOfDay;
-                _exceptionSchedule.is_available = chk_yes.Checked;
+                _exceptionSchedule.is_available = isAvailable;
                 _exceptionSchedule.reason = txt_reason.Text;
                 var stylistSchedulesRepo = new Repository.ExceptionSchedulesRepository();
                 var StylistSchedulesController = new ExceptionSchedulesController(stylistSchedulesRepo);
@@ -374,6 +378,7 @@ namespace Salon.View
             Audit.AuditLog(DateTime.Now, "Create", UserSession.CurrentUser.first_Name, "Manage Stylist, Exception Schedule", $"Created exception schedule for Stylist: '{_stylist.firstName}' (Reason: {reason}) on {DateTime.Now:yyyy-MM-dd} at {DateTime.Now:HH:mm:ss}");
             AddExceptionSchedule();
             MessageBox.Show("Exception schedule added successfully!");
+            this.Close(); 
         }
 
         private void btn_update_exceptionSched_Click(object sender, EventArgs e)
@@ -386,6 +391,7 @@ namespace Salon.View
             btn_add_ExceptionSched.Visible = true;
             btn_cancel_exceptionSched.Visible = false;
             MessageBox.Show("Exception schedule updated successfully!");
+            this.Close();
         }
 
         private async void dgv_exception_schedule_CellClick(object sender, DataGridViewCellEventArgs e)
@@ -428,9 +434,12 @@ namespace Salon.View
                 {
                     dtp_exception_end_time.Value = DateTime.Today;
                 }
+                int isWorking = _exceptionSchedule.is_available;
 
-                chk_yes.Checked = _exceptionSchedule.is_available;
-                chk_no.Checked = !_exceptionSchedule.is_available;
+                chk_yes.Checked = isWorking == 1;
+                chk_no.Checked = isWorking == 0;
+
+
                 txt_reason.Text = _exceptionSchedule.reason;
 
                 btn_add_ExceptionSched.Visible = false;
@@ -471,8 +480,8 @@ namespace Salon.View
 
             if (dgv_exception_schedule.Columns[e.ColumnIndex].Name == "ex_available" && e.Value != null)
             {
-                bool isAvailable = Convert.ToBoolean(e.Value);
-                e.Value = isAvailable ? "Yes" : "No";
+                int availability = Convert.ToInt32(e.Value);
+                e.Value = (availability == 0) ? "Yes" : "No"; // 0 = Available → "Yes"
                 e.FormattingApplied = true;
             }
         }

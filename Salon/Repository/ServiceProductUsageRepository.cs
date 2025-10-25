@@ -85,6 +85,14 @@ namespace Salon.Repository
             }
               
         }
+        public void PermanentDelete(int id) 
+        {
+            using (var con = Database.GetConnection())
+            {
+                var sql = "DELETE FROM tbl_service_product WHERE service_product_id = @service_product_id";
+                con.Execute(sql, new { service_product_id = id });
+            }
+        }
         public void RestoreServiceProduct(int id) 
         {
             using (var con = Database.GetConnection())

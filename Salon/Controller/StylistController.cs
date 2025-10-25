@@ -51,6 +51,11 @@ namespace Salon.Controller
             _repo.ActivateStylist(stylist_id);
         }
 
+        public void PermanentDeleteStylist(int id) 
+        {
+            _repo.PermanentDelete(id);
+        }
+
         // SUMMARY REPORT
 
         public StylistModel GetTotalStaff() 

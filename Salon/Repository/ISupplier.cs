@@ -16,6 +16,7 @@ namespace Salon.Repository
         void UpdateSupplier(SupplierModel supplier);
         void DeleteSupplier(int id);
         void ActivateSupplier(int id);
+        void PermanentDelete(int id);
         //void DeleteSupplierById(int id);
         //bool SupplierExists(int id);
         //bool SupplierExists(SupplierModel supplier);

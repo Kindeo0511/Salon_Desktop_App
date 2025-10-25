@@ -32,6 +32,10 @@ namespace Salon.Controller
         {
             return _repository.GetAvailableBatchId(productId, requiredVolume);
         }
+        public void RestoreBatchProductUsage(int id , double volume) 
+        {
+             _repository.RestoreBatchProductUsage(id, volume);
+        }
         public List<InventoryBatchModel> GetAvailableBatchesByProductId(int id) 
         {
             return _repository.GetAvailableBatches(id);

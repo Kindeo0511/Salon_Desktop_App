@@ -34,6 +34,11 @@ namespace Salon.Controller
             _repo.DeleteStylistSchedule(scheduleId);
         }
 
+        public void PermanetDeleteWeeklySchedule(int scheduleId) 
+        {
+            _repo.PermanentDelete(scheduleId);
+        }
+
         public void RestoreSchedule(int scheduleId)
         {
             _repo.RestoreStylistSchedule(scheduleId);

@@ -145,41 +145,68 @@ namespace Salon.View
         {
             DateTime birthDate = dtp_day_of_birth.Value;
             int age = DateTime.Now.Year - birthDate.Year;
+         
 
             bool validated = true;
 
             // REQUIRED AND MIN LENGTH FIELD
-            if (!Validator.IsRequiredTextField(txt_first_name, errorProvider1, "First name is required."))
-            {
-                validated = false;
-            }
-            else if (!Validator.IsMinimumLength(txt_first_name, errorProvider1, "First name must be at least 3 characters.", 3))
-            {
-                validated = false;
-            }
+            string firstName = txt_first_name.Text.Trim();
 
+            // First Name
+            if (!Validator.IsRequiredTextField(txt_first_name, errorProvider1, "First name is required."))
+                validated = false;
+            else if (!Validator.IsMinimumLength(txt_first_name, errorProvider1, "First name must be at least 3 characters.", 3))
+                validated = false;
+            else if (!Validator.Pattern(
+                txt_first_name,
+                errorProvider1,
+                @"^[A-Za-z]+(?: [A-Za-z]+)*$",
+                "First name should only contain letters and no special characters."))
+                validated = false;
+
+            // Middle Name (optional)
             if (!string.IsNullOrWhiteSpace(txt_middle_name.Text))
             {
-                validated &= Validator.IsMinimumLength(txt_middle_name, errorProvider1, "Middle name must be at least 3 characters.", 3);
+                if (!Validator.IsMinimumLength(txt_middle_name, errorProvider1, "Middle name must be at least 2 characters.", 2))
+                    validated = false;
+                else if (!Validator.Pattern(
+                    txt_middle_name,
+                    errorProvider1,
+                    @"^[A-Za-z]+(?: [A-Za-z]+)*$",
+                    "Middle name should only contain letters and no special characters."))
+                    validated = false;
             }
 
+
+            // Last Name
             if (!Validator.IsRequiredTextField(txt_last_name, errorProvider1, "Last name is required."))
-            {
                 validated = false;
-            }
-            else if (!Validator.IsMinimumLength(txt_last_name, errorProvider1, "Last name must be at least 3 characters.", 3))
-            {
+            else if (!Validator.IsMinimumLength(txt_last_name, errorProvider1, "Last name must be at least 2 characters.", 2))
                 validated = false;
-            }
+            else if (!Validator.Pattern(
+                txt_last_name,
+                errorProvider1,
+                @"^[A-Za-z]+(?: [A-Za-z]+)*$",
+                "Last name should only contain letters and no special characters."))
+                validated = false;
+
+
+
 
             if (!Validator.IsRequired(txt_email, errorProvider1, "Email is required."))
             {
                 validated = false;
             }
-            else if (!Validator.IsValidEmail(txt_email, errorProvider1))
+            else if (!Validator.Pattern(
+                txt_email,
+                errorProvider1,
+                @"^(?![._\-])[A-Za-z0-9._\-]+@[A-Za-z0-9\-]+\.[A-Za-z]{2,}$",
+                "Email must be in a valid format (e.g., example@email.com) and not start/end with special characters."))
             {
                 validated = false;
             }
+           
+
 
 
 
@@ -188,14 +215,15 @@ namespace Salon.View
             {
                 validated = false;
             }
-            else if (!Validator.IsMinimumLength(txt_contact, errorProvider1, "Contact number must be at least 11 characters.", 11))
+            else if (!Validator.Pattern(
+                txt_contact,
+                errorProvider1,
+                @"^09\d{9}$",
+                "Contact number must start with '09' and be exactly 11 digits long with no spaces or symbols."))
             {
                 validated = false;
             }
-            else if (!Validator.IsValidPhone(txt_contact, errorProvider1))
-            {
-                validated = false;
-            }
+           
 
 
 
@@ -207,6 +235,15 @@ namespace Salon.View
             {
                 validated = false;
             }
+            else if (!Validator.MultiLinePattern(
+                txt_address,
+                errorProvider1,
+                @"^[A-Za-z0-9\s.,\-#]+$",
+                "Address may only contain letters, numbers, commas, periods, dashes, and #. Avoid special characters."))
+            {
+                validated = false;
+            }
+
 
             // Adjust if birthday hasn't occurred yet this year
             if (birthDate > DateTime.Now.AddYears(-age))
@@ -239,17 +276,20 @@ namespace Salon.View
             {
                 validated = false;
             }
-            else if (!Validator.DisallowSpaces(txt_username, errorProvider1, "Username should not contain spaces."))
+            else if (!Validator.Pattern(
+                txt_username,
+                errorProvider1,
+                @"^[A-Za-z0-9]+$",
+                "Username must only contain letters and numbers. No spaces or special characters allowed."))
             {
                 validated = false;
             }
-            else if (!Validator.Pattern(txt_username, errorProvider1, @"^[a-zA-Z0-9]+$", "Username can only contain letters and numbers."))
-            {
-                validated = false;
-            }
+         
 
 
-            // PASSWORD
+
+
+            //Password validation
             if (!Validator.IsRequiredTextField(txt_password, errorProvider1, "Password is required."))
             {
                 validated = false;
@@ -258,22 +298,22 @@ namespace Salon.View
             {
                 validated = false;
             }
-            else if (!Validator.DisallowSpaces(txt_password, errorProvider1, "Password must not contain spaces."))
+            else if (!Validator.DisallowSpaces(txt_password, errorProvider1, "Password should not contain spaces."))
             {
+
                 validated = false;
             }
             else if (!Validator.Pattern(
-                     txt_password,
-                     errorProvider1,
-                     @"^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@#$%^&*()_+\-=!?])[a-zA-Z\d@#$%^&*()_+\-=!?]{8,}$",
-                     "Password must be at least 8 characters and include uppercase, lowercase, number, and special character (@#$%^&*()_+-=!?)."
-                 ))
+                txt_password,
+                errorProvider1,
+                @"^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@#$%^&*()_+\-=!?\u005F]).{8,}$",
+                "Password must include uppercase, lowercase, number, and a special character (@ # $ % ^ & * ( ) _ + - = ! ?)."))
             {
                 validated = false;
             }
 
-            // CONFIRM PASS
 
+            // Confirm password validation
             if (!Validator.IsRequiredTextField(txt_confirm_password, errorProvider1, "Confirm password is required."))
             {
                 validated = false;
@@ -282,18 +322,185 @@ namespace Salon.View
             {
                 validated = false;
             }
-            else if (!Validator.DisallowSpaces(txt_confirm_password, errorProvider1, "Confrim password must not contain spaces."))
+            else if (!Validator.DisallowSpaces(txt_confirm_password, errorProvider1, "Confirm password should not contain spaces."))
             {
+
                 validated = false;
             }
             else if (txt_password.Text != txt_confirm_password.Text)
             {
-                errorProvider1.SetError(txt_confirm_password, "Password does not match!");
+                errorProvider1.SetError(txt_confirm_password, "Passwords must match exactly.");
                 validated = false;
             }
 
+
+
+
+            //validated &= Validator.IsUserExists(txt_username, errorProvider1, "Username already exists.", excludeId);
+            //if (emailValid)
+            //    validated &= Validator.IsEmailExists(txt_email, errorProvider1, "Email already exists.", excludeId);
+
+            //if (phoneValid)
+            //    validated &= Validator.IsPhoneExists(txt_contact, errorProvider1, "Contact number already exists.", excludeId);
+
             return validated;
+
+
+
         }
+        //private bool IsValidUser()
+        //{
+        //    DateTime birthDate = dtp_day_of_birth.Value;
+        //    int age = DateTime.Now.Year - birthDate.Year;
+
+        //    bool validated = true;
+
+        //    // REQUIRED AND MIN LENGTH FIELD
+        //    if (!Validator.IsRequiredTextField(txt_first_name, errorProvider1, "First name is required."))
+        //    {
+        //        validated = false;
+        //    }
+        //    else if (!Validator.IsMinimumLength(txt_first_name, errorProvider1, "First name must be at least 3 characters.", 3))
+        //    {
+        //        validated = false;
+        //    }
+
+        //    if (!string.IsNullOrWhiteSpace(txt_middle_name.Text))
+        //    {
+        //        validated &= Validator.IsMinimumLength(txt_middle_name, errorProvider1, "Middle name must be at least 3 characters.", 3);
+        //    }
+
+        //    if (!Validator.IsRequiredTextField(txt_last_name, errorProvider1, "Last name is required."))
+        //    {
+        //        validated = false;
+        //    }
+        //    else if (!Validator.IsMinimumLength(txt_last_name, errorProvider1, "Last name must be at least 3 characters.", 3))
+        //    {
+        //        validated = false;
+        //    }
+
+        //    if (!Validator.IsRequired(txt_email, errorProvider1, "Email is required."))
+        //    {
+        //        validated = false;
+        //    }
+        //    else if (!Validator.IsValidEmail(txt_email, errorProvider1))
+        //    {
+        //        validated = false;
+        //    }
+
+
+
+
+        //    if (!Validator.IsRequiredTextField(txt_contact, errorProvider1, "Contact number is required."))
+        //    {
+        //        validated = false;
+        //    }
+        //    else if (!Validator.IsMinimumLength(txt_contact, errorProvider1, "Contact number must be at least 11 characters.", 11))
+        //    {
+        //        validated = false;
+        //    }
+        //    else if (!Validator.IsValidPhone(txt_contact, errorProvider1))
+        //    {
+        //        validated = false;
+        //    }
+
+
+
+        //    if (!Validator.IsAddressRequiredField(txt_address, errorProvider1, "Address is required."))
+        //    {
+        //        validated = false;
+        //    }
+        //    else if (!Validator.IsMinimumLength(txt_address, errorProvider1, "Address must be at least 10 characters.", 10))
+        //    {
+        //        validated = false;
+        //    }
+
+        //    // Adjust if birthday hasn't occurred yet this year
+        //    if (birthDate > DateTime.Now.AddYears(-age))
+        //    {
+        //        age--;
+        //    }
+
+        //    if (age < 18)
+        //    {
+        //        errorProvider1.SetError(dtp_day_of_birth, "Must be 18+ years old.");
+        //        validated = false;
+        //    }
+        //    else
+        //    {
+        //        errorProvider1.SetError(dtp_day_of_birth, "");
+        //    }
+
+
+
+
+
+
+
+        //    // ACCOUNT VALIDATION
+        //    if (!Validator.IsRequiredTextField(txt_username, errorProvider1, "Username is required."))
+        //    {
+        //        validated = false;
+        //    }
+        //    else if (!Validator.IsMinimumLength(txt_username, errorProvider1, "Username must be at least 4 characters.", 4))
+        //    {
+        //        validated = false;
+        //    }
+        //    else if (!Validator.DisallowSpaces(txt_username, errorProvider1, "Username should not contain spaces."))
+        //    {
+        //        validated = false;
+        //    }
+        //    else if (!Validator.Pattern(txt_username, errorProvider1, @"^[a-zA-Z0-9]+$", "Username can only contain letters and numbers."))
+        //    {
+        //        validated = false;
+        //    }
+
+
+        //    // PASSWORD
+        //    if (!Validator.IsRequiredTextField(txt_password, errorProvider1, "Password is required."))
+        //    {
+        //        validated = false;
+        //    }
+        //    else if (!Validator.IsMinimumLength(txt_password, errorProvider1, "Password must be at least 8 characters.", 8))
+        //    {
+        //        validated = false;
+        //    }
+        //    else if (!Validator.DisallowSpaces(txt_password, errorProvider1, "Password must not contain spaces."))
+        //    {
+        //        validated = false;
+        //    }
+        //    else if (!Validator.Pattern(
+        //             txt_password,
+        //             errorProvider1,
+        //             @"^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@#$%^&*()_+\-=!?])[a-zA-Z\d@#$%^&*()_+\-=!?]{8,}$",
+        //             "Password must be at least 8 characters and include uppercase, lowercase, number, and special character (@#$%^&*()_+-=!?)."
+        //         ))
+        //    {
+        //        validated = false;
+        //    }
+
+        //    // CONFIRM PASS
+
+        //    if (!Validator.IsRequiredTextField(txt_confirm_password, errorProvider1, "Confirm password is required."))
+        //    {
+        //        validated = false;
+        //    }
+        //    else if (!Validator.IsMinimumLength(txt_confirm_password, errorProvider1, "Confirm password must be at least 8 characters.", 8))
+        //    {
+        //        validated = false;
+        //    }
+        //    else if (!Validator.DisallowSpaces(txt_confirm_password, errorProvider1, "Confrim password must not contain spaces."))
+        //    {
+        //        validated = false;
+        //    }
+        //    else if (txt_password.Text != txt_confirm_password.Text)
+        //    {
+        //        errorProvider1.SetError(txt_confirm_password, "Password does not match!");
+        //        validated = false;
+        //    }
+
+        //    return validated;
+        //}
         private bool OverHeadValidated()
         {
 
@@ -363,10 +570,7 @@ namespace Salon.View
         {
             bool validated = true;
 
-            if (!Validator.IntOnly(txt_vat, errorProvider1, "Vat is required.", "No spaces allowed.", "Vat must be a whole number.", "Vat must be greater than zero."))
-            {
-                validated = false;
-            }
+            validated &= Validator.ValidateVAT(txt_vat.Text, txt_vat, errorProvider1);
 
             return validated;
         }
@@ -467,6 +671,16 @@ namespace Salon.View
 
         private void ConfigureSettingsForm_Load(object sender, EventArgs e)
         {
+            int currentYear = DateTime.Now.Year;
+
+            int minYear = currentYear - 65; // Oldest allowed: 65 years old
+            int maxYear = currentYear - 18; // Youngest allowed: 18 years old
+
+            dtp_day_of_birth.MinDate = new DateTime(minYear, 1, 1);      // e.g., Jan 1, 1960 if it's 2025
+            dtp_day_of_birth.MaxDate = new DateTime(maxYear, 12, 31);    // e.g., Dec 31, 2007 if it's 2025
+
+            DateTime defaultDate = new DateTime(currentYear - 25, 1, 1); // e.g., 25 years old
+
             txt_password.Password = true;
             txt_confirm_password.Password = true;
         }

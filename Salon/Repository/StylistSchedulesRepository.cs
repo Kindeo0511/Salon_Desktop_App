@@ -46,6 +46,13 @@ namespace Salon.Repository
             }
                 
         }
+        public void PermanentDelete(int scheduleId) 
+        {
+            using (var connection = Database.GetConnection())
+            {
+                connection.Execute("DELETE FROM tbl_stylist_schedules WHERE id = @Id", new { Id = scheduleId });
+            }
+        }
         public void RestoreStylistSchedule(int scheduleId) 
         {
             using (var connection = Database.GetConnection())

@@ -42,6 +42,8 @@
             this.btn_weekly_update = new System.Windows.Forms.DataGridViewImageColumn();
             this.btn_weekly_delete = new System.Windows.Forms.DataGridViewImageColumn();
             this.materialCard1 = new MaterialSkin.Controls.MaterialCard();
+            this.check_no = new MaterialSkin.Controls.MaterialCheckbox();
+            this.check_yes = new MaterialSkin.Controls.MaterialCheckbox();
             this.txt_day = new MaterialSkin.Controls.MaterialComboBox();
             this.btn_cancel = new MaterialSkin.Controls.MaterialButton();
             this.btn_update = new MaterialSkin.Controls.MaterialButton();
@@ -53,6 +55,15 @@
             this.dtp_start_time = new System.Windows.Forms.DateTimePicker();
             this.exceptionTab = new System.Windows.Forms.TabPage();
             this.dgv_exception_schedule = new System.Windows.Forms.DataGridView();
+            this.exception_id = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.ex_stylist_id = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.ex_date = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.ex_start_time = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.ex_end_time = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.ex_available = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.ex_reason = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.ex_btn_update = new System.Windows.Forms.DataGridViewImageColumn();
+            this.ex_btn_delete = new System.Windows.Forms.DataGridViewImageColumn();
             this.materialCard2 = new MaterialSkin.Controls.MaterialCard();
             this.txt_reason = new MaterialSkin.Controls.MaterialMultiLineTextBox2();
             this.materialLabel7 = new MaterialSkin.Controls.MaterialLabel();
@@ -70,16 +81,6 @@
             this.materialTabSelector1 = new MaterialSkin.Controls.MaterialTabSelector();
             this.errorProvider1 = new System.Windows.Forms.ErrorProvider(this.components);
             this.weekly_error = new System.Windows.Forms.ErrorProvider(this.components);
-            this.check_yes = new MaterialSkin.Controls.MaterialCheckbox();
-            this.exception_id = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.ex_stylist_id = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.ex_date = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.ex_start_time = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.ex_end_time = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.ex_available = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.ex_reason = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.ex_btn_update = new System.Windows.Forms.DataGridViewImageColumn();
-            this.ex_btn_delete = new System.Windows.Forms.DataGridViewImageColumn();
             this.materialTabControl1.SuspendLayout();
             this.weeklyTab.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgv_weekly_schedules)).BeginInit();
@@ -222,6 +223,7 @@
             // materialCard1
             // 
             this.materialCard1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
+            this.materialCard1.Controls.Add(this.check_no);
             this.materialCard1.Controls.Add(this.check_yes);
             this.materialCard1.Controls.Add(this.txt_day);
             this.materialCard1.Controls.Add(this.btn_cancel);
@@ -242,6 +244,38 @@
             this.materialCard1.Padding = new System.Windows.Forms.Padding(14);
             this.materialCard1.Size = new System.Drawing.Size(1336, 263);
             this.materialCard1.TabIndex = 0;
+            // 
+            // check_no
+            // 
+            this.check_no.AutoSize = true;
+            this.check_no.Depth = 0;
+            this.check_no.Location = new System.Drawing.Point(131, 167);
+            this.check_no.Margin = new System.Windows.Forms.Padding(0);
+            this.check_no.MouseLocation = new System.Drawing.Point(-1, -1);
+            this.check_no.MouseState = MaterialSkin.MouseState.HOVER;
+            this.check_no.Name = "check_no";
+            this.check_no.ReadOnly = false;
+            this.check_no.Ripple = true;
+            this.check_no.Size = new System.Drawing.Size(55, 37);
+            this.check_no.TabIndex = 13;
+            this.check_no.Text = "No";
+            this.check_no.UseVisualStyleBackColor = true;
+            // 
+            // check_yes
+            // 
+            this.check_yes.AutoSize = true;
+            this.check_yes.Depth = 0;
+            this.check_yes.Location = new System.Drawing.Point(41, 167);
+            this.check_yes.Margin = new System.Windows.Forms.Padding(0);
+            this.check_yes.MouseLocation = new System.Drawing.Point(-1, -1);
+            this.check_yes.MouseState = MaterialSkin.MouseState.HOVER;
+            this.check_yes.Name = "check_yes";
+            this.check_yes.ReadOnly = false;
+            this.check_yes.Ripple = true;
+            this.check_yes.Size = new System.Drawing.Size(61, 37);
+            this.check_yes.TabIndex = 12;
+            this.check_yes.Text = "Yes";
+            this.check_yes.UseVisualStyleBackColor = true;
             // 
             // txt_day
             // 
@@ -302,7 +336,7 @@
             this.btn_update.Depth = 0;
             this.btn_update.HighEmphasis = true;
             this.btn_update.Icon = null;
-            this.btn_update.Location = new System.Drawing.Point(1138, 42);
+            this.btn_update.Location = new System.Drawing.Point(1136, 39);
             this.btn_update.Margin = new System.Windows.Forms.Padding(4, 6, 4, 6);
             this.btn_update.MouseState = MaterialSkin.MouseState.HOVER;
             this.btn_update.Name = "btn_update";
@@ -368,9 +402,9 @@
             this.materialLabel1.Location = new System.Drawing.Point(36, 132);
             this.materialLabel1.MouseState = MaterialSkin.MouseState.HOVER;
             this.materialLabel1.Name = "materialLabel1";
-            this.materialLabel1.Size = new System.Drawing.Size(66, 19);
+            this.materialLabel1.Size = new System.Drawing.Size(79, 19);
             this.materialLabel1.TabIndex = 5;
-            this.materialLabel1.Text = "Available";
+            this.materialLabel1.Text = "Availability";
             // 
             // dtp_end_time
             // 
@@ -425,12 +459,93 @@
             this.dgv_exception_schedule.Location = new System.Drawing.Point(25, 288);
             this.dgv_exception_schedule.Name = "dgv_exception_schedule";
             this.dgv_exception_schedule.ReadOnly = true;
+            this.dgv_exception_schedule.RowHeadersVisible = false;
             this.dgv_exception_schedule.RowHeadersWidth = 51;
             this.dgv_exception_schedule.RowTemplate.Height = 24;
             this.dgv_exception_schedule.Size = new System.Drawing.Size(1336, 265);
             this.dgv_exception_schedule.TabIndex = 2;
             this.dgv_exception_schedule.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgv_exception_schedule_CellClick);
             this.dgv_exception_schedule.CellFormatting += new System.Windows.Forms.DataGridViewCellFormattingEventHandler(this.dgv_exception_schedule_CellFormatting);
+            // 
+            // exception_id
+            // 
+            this.exception_id.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
+            this.exception_id.HeaderText = "ID";
+            this.exception_id.MinimumWidth = 6;
+            this.exception_id.Name = "exception_id";
+            this.exception_id.ReadOnly = true;
+            this.exception_id.Visible = false;
+            // 
+            // ex_stylist_id
+            // 
+            this.ex_stylist_id.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
+            this.ex_stylist_id.HeaderText = "stylist_id";
+            this.ex_stylist_id.MinimumWidth = 6;
+            this.ex_stylist_id.Name = "ex_stylist_id";
+            this.ex_stylist_id.ReadOnly = true;
+            this.ex_stylist_id.Visible = false;
+            // 
+            // ex_date
+            // 
+            this.ex_date.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
+            this.ex_date.HeaderText = "Day";
+            this.ex_date.MinimumWidth = 6;
+            this.ex_date.Name = "ex_date";
+            this.ex_date.ReadOnly = true;
+            // 
+            // ex_start_time
+            // 
+            this.ex_start_time.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
+            this.ex_start_time.HeaderText = "Start Time";
+            this.ex_start_time.MinimumWidth = 6;
+            this.ex_start_time.Name = "ex_start_time";
+            this.ex_start_time.ReadOnly = true;
+            this.ex_start_time.Visible = false;
+            // 
+            // ex_end_time
+            // 
+            this.ex_end_time.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
+            this.ex_end_time.HeaderText = "End TIme";
+            this.ex_end_time.MinimumWidth = 6;
+            this.ex_end_time.Name = "ex_end_time";
+            this.ex_end_time.ReadOnly = true;
+            this.ex_end_time.Visible = false;
+            // 
+            // ex_available
+            // 
+            this.ex_available.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
+            this.ex_available.HeaderText = "Available";
+            this.ex_available.MinimumWidth = 6;
+            this.ex_available.Name = "ex_available";
+            this.ex_available.ReadOnly = true;
+            // 
+            // ex_reason
+            // 
+            this.ex_reason.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
+            this.ex_reason.HeaderText = "Reason";
+            this.ex_reason.MinimumWidth = 6;
+            this.ex_reason.Name = "ex_reason";
+            this.ex_reason.ReadOnly = true;
+            // 
+            // ex_btn_update
+            // 
+            this.ex_btn_update.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
+            this.ex_btn_update.HeaderText = "";
+            this.ex_btn_update.Image = ((System.Drawing.Image)(resources.GetObject("ex_btn_update.Image")));
+            this.ex_btn_update.ImageLayout = System.Windows.Forms.DataGridViewImageCellLayout.Zoom;
+            this.ex_btn_update.MinimumWidth = 6;
+            this.ex_btn_update.Name = "ex_btn_update";
+            this.ex_btn_update.ReadOnly = true;
+            // 
+            // ex_btn_delete
+            // 
+            this.ex_btn_delete.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
+            this.ex_btn_delete.HeaderText = "";
+            this.ex_btn_delete.Image = ((System.Drawing.Image)(resources.GetObject("ex_btn_delete.Image")));
+            this.ex_btn_delete.ImageLayout = System.Windows.Forms.DataGridViewImageCellLayout.Zoom;
+            this.ex_btn_delete.MinimumWidth = 6;
+            this.ex_btn_delete.Name = "ex_btn_delete";
+            this.ex_btn_delete.ReadOnly = true;
             // 
             // materialCard2
             // 
@@ -534,7 +649,7 @@
             this.btn_update_exceptionSched.Depth = 0;
             this.btn_update_exceptionSched.HighEmphasis = true;
             this.btn_update_exceptionSched.Icon = null;
-            this.btn_update_exceptionSched.Location = new System.Drawing.Point(1109, 114);
+            this.btn_update_exceptionSched.Location = new System.Drawing.Point(1109, 69);
             this.btn_update_exceptionSched.Margin = new System.Windows.Forms.Padding(4, 6, 4, 6);
             this.btn_update_exceptionSched.MouseState = MaterialSkin.MouseState.HOVER;
             this.btn_update_exceptionSched.Name = "btn_update_exceptionSched";
@@ -686,102 +801,6 @@
             this.weekly_error.BlinkStyle = System.Windows.Forms.ErrorBlinkStyle.NeverBlink;
             this.weekly_error.ContainerControl = this;
             // 
-            // check_yes
-            // 
-            this.check_yes.AutoSize = true;
-            this.check_yes.Depth = 0;
-            this.check_yes.Location = new System.Drawing.Point(41, 167);
-            this.check_yes.Margin = new System.Windows.Forms.Padding(0);
-            this.check_yes.MouseLocation = new System.Drawing.Point(-1, -1);
-            this.check_yes.MouseState = MaterialSkin.MouseState.HOVER;
-            this.check_yes.Name = "check_yes";
-            this.check_yes.ReadOnly = false;
-            this.check_yes.Ripple = true;
-            this.check_yes.Size = new System.Drawing.Size(61, 37);
-            this.check_yes.TabIndex = 12;
-            this.check_yes.Text = "Yes";
-            this.check_yes.UseVisualStyleBackColor = true;
-            // 
-            // exception_id
-            // 
-            this.exception_id.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
-            this.exception_id.HeaderText = "ID";
-            this.exception_id.MinimumWidth = 6;
-            this.exception_id.Name = "exception_id";
-            this.exception_id.ReadOnly = true;
-            this.exception_id.Visible = false;
-            // 
-            // ex_stylist_id
-            // 
-            this.ex_stylist_id.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
-            this.ex_stylist_id.HeaderText = "stylist_id";
-            this.ex_stylist_id.MinimumWidth = 6;
-            this.ex_stylist_id.Name = "ex_stylist_id";
-            this.ex_stylist_id.ReadOnly = true;
-            this.ex_stylist_id.Visible = false;
-            // 
-            // ex_date
-            // 
-            this.ex_date.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
-            this.ex_date.HeaderText = "Day";
-            this.ex_date.MinimumWidth = 6;
-            this.ex_date.Name = "ex_date";
-            this.ex_date.ReadOnly = true;
-            // 
-            // ex_start_time
-            // 
-            this.ex_start_time.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
-            this.ex_start_time.HeaderText = "Start Time";
-            this.ex_start_time.MinimumWidth = 6;
-            this.ex_start_time.Name = "ex_start_time";
-            this.ex_start_time.ReadOnly = true;
-            this.ex_start_time.Visible = false;
-            // 
-            // ex_end_time
-            // 
-            this.ex_end_time.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
-            this.ex_end_time.HeaderText = "End TIme";
-            this.ex_end_time.MinimumWidth = 6;
-            this.ex_end_time.Name = "ex_end_time";
-            this.ex_end_time.ReadOnly = true;
-            this.ex_end_time.Visible = false;
-            // 
-            // ex_available
-            // 
-            this.ex_available.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
-            this.ex_available.HeaderText = "Available";
-            this.ex_available.MinimumWidth = 6;
-            this.ex_available.Name = "ex_available";
-            this.ex_available.ReadOnly = true;
-            // 
-            // ex_reason
-            // 
-            this.ex_reason.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
-            this.ex_reason.HeaderText = "Reason";
-            this.ex_reason.MinimumWidth = 6;
-            this.ex_reason.Name = "ex_reason";
-            this.ex_reason.ReadOnly = true;
-            // 
-            // ex_btn_update
-            // 
-            this.ex_btn_update.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
-            this.ex_btn_update.HeaderText = "";
-            this.ex_btn_update.Image = ((System.Drawing.Image)(resources.GetObject("ex_btn_update.Image")));
-            this.ex_btn_update.ImageLayout = System.Windows.Forms.DataGridViewImageCellLayout.Zoom;
-            this.ex_btn_update.MinimumWidth = 6;
-            this.ex_btn_update.Name = "ex_btn_update";
-            this.ex_btn_update.ReadOnly = true;
-            // 
-            // ex_btn_delete
-            // 
-            this.ex_btn_delete.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
-            this.ex_btn_delete.HeaderText = "";
-            this.ex_btn_delete.Image = ((System.Drawing.Image)(resources.GetObject("ex_btn_delete.Image")));
-            this.ex_btn_delete.ImageLayout = System.Windows.Forms.DataGridViewImageCellLayout.Zoom;
-            this.ex_btn_delete.MinimumWidth = 6;
-            this.ex_btn_delete.Name = "ex_btn_delete";
-            this.ex_btn_delete.ReadOnly = true;
-            // 
             // StylistScheduleForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
@@ -860,5 +879,6 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn ex_reason;
         private System.Windows.Forms.DataGridViewImageColumn ex_btn_update;
         private System.Windows.Forms.DataGridViewImageColumn ex_btn_delete;
+        private MaterialSkin.Controls.MaterialCheckbox check_no;
     }
 }

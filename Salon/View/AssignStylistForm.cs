@@ -112,7 +112,7 @@ namespace Salon.View
 
         private async void btn_assign_Click(object sender, EventArgs e)
         {
-            if (cmb_stylist.SelectedItem != null && cmb_stylist.SelectedIndex > 0) 
+            if (cmb_stylist.SelectedValue != null) 
             {
                 UpdateAppointment();
                 await mainForm.RefreshAppointmentAsync();

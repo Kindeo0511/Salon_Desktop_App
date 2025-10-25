@@ -46,7 +46,10 @@ namespace Salon.Controller
         {
             discountRepository.DeleteDiscount(id);
         }
-
+        public void PermanentDeleteDiscount(int id) 
+        {
+            discountRepository.PermanentDelete(id);
+        }
         public void RestoreDiscount(int id) 
         {
             discountRepository.RestoreDiscount(id);

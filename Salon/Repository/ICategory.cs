@@ -18,7 +18,9 @@ namespace Salon.Repository
         void deleteCategory(int id);
 
         void restoreDeleted(int id);
-
+        void PermanentDelete(int id);
         bool CategoriesExist(string category, string type ,int id);
+        Task<CategoryModel> GetExistingCategoryAsync(string category, string type, int id);
+
     }
 }

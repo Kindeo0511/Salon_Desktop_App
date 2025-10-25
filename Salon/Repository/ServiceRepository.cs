@@ -20,7 +20,7 @@ tbl_subcategory.subCategoryName,tbl_servicesname.duration, tbl_servicesname.stat
                                         FROM tbl_servicesname
                                         LEFT JOIN tbl_subcategory ON tbl_subcategory.subcategory_id = tbl_servicesname.subcategory_id
                                         LEFT JOIN tbl_category ON tbl_category.category_id = tbl_subcategory.category_id
-                                        WHERE tbl_servicesname.is_deleted = 0";
+                                        WHERE tbl_servicesname.is_deleted = 0 AND tbl_category.is_deleted = 0 AND tbl_subcategory.is_deleted = 0";
                 return con.Query<ServiceModel>(sql).ToList();
             }
         }
@@ -33,7 +33,7 @@ tbl_subcategory.subCategoryName,tbl_servicesname.duration, tbl_servicesname.stat
                                         FROM tbl_servicesname
                                         LEFT JOIN tbl_subcategory ON tbl_subcategory.subcategory_id = tbl_servicesname.subcategory_id
                                         LEFT JOIN tbl_category ON tbl_category.category_id = tbl_subcategory.category_id
-                                        WHERE tbl_servicesname.is_deleted = 0";
+                                        WHERE tbl_servicesname.is_deleted = 0 AND tbl_category.is_deleted = 0 AND tbl_subcategory.is_deleted = 0";
                 var result = await con.QueryAsync<ServiceModel>(sql);
 
                 return result.ToList();
@@ -52,7 +52,7 @@ tbl_subcategory.subCategoryName,tbl_servicesname.duration, tbl_servicesname.stat
                             FROM tbl_servicesname
                             LEFT JOIN tbl_subcategory
                             ON tbl_servicesname.subCategory_id = tbl_subcategory.subCategory_id
-                            WHERE tbl_servicesname.serviceName LIKE @key ";
+                            WHERE tbl_servicesname.serviceName LIKE @key AND tbl_subcategory.is_deleted = 0 AND tbl_servicesname.is_deleted = 0 ";
                 return con.Query<ServiceModel>(sql, new {key =$"%{key}%" }).ToList();
             }
         }
@@ -109,6 +109,14 @@ tbl_subcategory.subCategoryName,tbl_servicesname.duration, tbl_servicesname.stat
             }
         }
 
+        public void PermanentDelete(int id) 
+        {
+            using (var con = Database.GetConnection())
+            {
+                var sql = "DELETE FROM tbl_servicesname WHERE serviceName_id = @id";
+                con.Execute(sql, new { id });
+            }
+        }
         public bool ServiceExists(string name, int s_cat_id, int id = 0) 
         {
             using (var con = Database.GetConnection()) 

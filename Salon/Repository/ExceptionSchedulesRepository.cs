@@ -51,6 +51,13 @@ namespace Salon.Repository
                 connection.Execute("UPDATE tbl_exception_schedules SET is_deleted = 0 WHERE id = @Id", new { Id = exceptionScheduleId });
             }
         }
+        public void PermanentDelete(int exceptionScheduleId) 
+        {
+            using (var connection = Database.GetConnection())
+            {
+                connection.Execute("DELETE FROM tbl_exception_schedules  WHERE id = @Id", new { Id = exceptionScheduleId });
+            }
+        }
 
         // VALIDATION
 

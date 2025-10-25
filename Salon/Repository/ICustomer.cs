@@ -17,7 +17,7 @@ namespace Salon.Repository
         void AddCustomer(CustomerModel customer);
         void UpdateCustomer(CustomerModel customer);
         void DeleteCustomer(int customerId);
-
+        void PermanentDelete(int customerId);
         void ActivateCustomer(int customerId);
 
         bool EmailExists(string email, int id = 0);

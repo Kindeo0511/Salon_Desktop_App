@@ -62,6 +62,10 @@ namespace Salon.Controller
         {
             inventoryRepository.UpdateInventoryVolume(id, unit, volume);
         }
+        public void RefundInventoryVolume(int id, double unit, double volume)
+        {
+            inventoryRepository.RefundInventoryVolume(id, unit, volume);
+        }
         public int GetLowOrOutOfStock() 
         {
             return inventoryRepository.LowOrOutOfStock();

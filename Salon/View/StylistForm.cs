@@ -148,11 +148,33 @@ namespace Salon.View
             {
                 validated = false;
             }
+            // Allows letters, spaces, hyphens, apostrophes, accented characters
+            else if (!Validator.Pattern(txt_first_name, errorProvider1, @"^[A-Za-zÀ-ÿ'’\- ]+$", "First Name contains invalid characters."))
+            {
+                validated = false;
+            } 
+            else if (!Validator.DisallowSpaces(txt_first_name, errorProvider1, "No Space Allowed"))
+            {
+                validated = false;
+            }
+
 
             if (!string.IsNullOrWhiteSpace(txt_middle_name.Text))
             {
-                validated &= Validator.IsMinimumLength(txt_middle_name, errorProvider1, "Middle name must be at least 3 characters.", 3);
+                if (!Validator.IsMinimumLength(txt_middle_name, errorProvider1, "Middle name must be at least 3 characters.", 3))
+                {
+                    validated = false;
+                }
+                else if (!Validator.Pattern(txt_middle_name, errorProvider1, @"^[A-Za-z]+$", "Middle name should only contain letters."))
+                {
+                    validated = false;
+                }
+                else if (!Validator.DisallowSpaces(txt_middle_name, errorProvider1, "No space allowed in middle name."))
+                {
+                    validated = false;
+                }
             }
+
 
             if (!Validator.IsRequiredTextField(txt_last_name, errorProvider1, "Last name is required."))
             {
@@ -162,12 +184,33 @@ namespace Salon.View
             {
                 validated = false;
             }
+            else if (!Validator.Pattern(txt_last_name, errorProvider1, @"^[A-Za-z]+$", "Last name should only contain letters."))
+            {
+                validated = false;
+            }
+            else if (!Validator.DisallowSpaces(txt_last_name, errorProvider1, "No Space Allowed"))
+            {
+                validated = false;
+            }
 
             if (!Validator.IsRequired(txt_email, errorProvider1, "Email is required."))
             {
                 validated = false;
             }
             else if (!Validator.IsValidEmail(txt_email, errorProvider1))
+            {
+                validated = false;
+            }
+            else if (txt_email.Text.Count(c => c == '@') != 1)
+            {
+                errorProvider1.SetError(txt_email, "Email must contain exactly one '@' symbol.");
+                validated = false;
+            }
+            else if (!Validator.Pattern(txt_email, errorProvider1, "@^[A-Za-z0-9](?!.*?[@]{2})[A-Za-z0-9._%+-]*@[A-Za-z0-9.-]+.[A-Za-z]{2,}$", "Email address should not start or end with a special character and must be valid."))
+            {
+                validated = false;
+            }
+            else if (!Validator.DisallowSpaces(txt_email, errorProvider1, "No Space Allowed"))
             {
                 validated = false;
             }
@@ -182,10 +225,17 @@ namespace Salon.View
             {
                 validated = false;
             }
-            else if (!Validator.IsMinimumLength(txt_contact, errorProvider1, "Contact number must be at least 11 characters.", 11))
+            else if (txt_contact.Text.Length != 11)
             {
+                errorProvider1.SetError(txt_contact, "Contact number must be exactly 11 digits.");
                 validated = false;
             }
+            else if (!txt_contact.Text.StartsWith("09"))
+            {
+                errorProvider1.SetError(txt_contact, "Contact number should start with '09'.");
+                validated = false;
+            }
+
             else if (!Validator.IsValidPhone(txt_contact, errorProvider1))
             {
                 validated = false;
@@ -204,9 +254,17 @@ namespace Salon.View
             {
                 validated = false;
             }
+            else if (!Validator.MultiLinePattern(txt_address, errorProvider1, @"^[A-Za-z0-9\s.,#-]+$", "Address contains invalid characters."))
+            {
+                validated = false;
+            }
 
 
             if (!Validator.IsRequiredTextField(txt_daily_wage, errorProvider1, "Daily wage is required."))
+            {
+                validated = false;
+            }
+            else if (!Validator.DisallowSpaces(txt_daily_wage, errorProvider1, "No Spaces Allowed")) 
             {
                 validated = false;
             }
@@ -219,9 +277,9 @@ namespace Salon.View
                         errorProvider1.SetError(txt_daily_wage, "Daily wage must be greater than zero.");
                         validated = false;
                     }
-                    else if (wage > 10000) 
+                    else if (wage > 500)
                     {
-                        errorProvider1.SetError(txt_daily_wage, "Daily wage seems unusually high. Please double-check.");
+                        errorProvider1.SetError(txt_daily_wage, "Daily wage should not exceed 500.");
                         validated = false;
                     }
                     else
@@ -236,7 +294,7 @@ namespace Salon.View
                 }
             }
 
-            // Adjust if birthday hasn't occurred yet this year
+         
             if (birthDate > DateTime.Now.AddYears(-age))
             {
                 age--;

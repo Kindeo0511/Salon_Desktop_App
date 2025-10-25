@@ -53,7 +53,14 @@ namespace Salon.Repository
                 con.Execute(sql, new { Id = id });
             }
         }
-
+        public void PermanentDelete(int id) 
+        {
+            using (var con = Database.GetConnection())
+            {
+                var sql = "DELETE FROM tbl_supplier WHERE supplier_id = @Id";
+                con.Execute(sql, new { Id = id });
+            }
+        }
         public void ActivateSupplier(int id)
         {
             using (var con = Database.GetConnection())

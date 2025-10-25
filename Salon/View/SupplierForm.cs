@@ -51,67 +51,23 @@ namespace Salon.View
             bool validated = true;
 
             // REQUIRED AND MIN LENGTH FIELD
-            if (!Validator.IsRequiredTextField(txt_supplier_name, errorProvider1, "First name is required."))
-            {
-                validated = false;
-            }
-            else if (!Validator.IsMinimumLength(txt_supplier_name, errorProvider1, "First name must be at least 3 characters.", 3))
-            {
-                validated = false;
-            }
-            else if (!Validator.IsSupplierEExists(txt_supplier_name, errorProvider1, "Supplier already exits.", excludeId))
-            {
-                validated = false;
-            }
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 
+            string supplierName = txt_supplier_name.Text.Trim();
+            string contact = txt_contact.Text.Trim();
+            string email = txt_email.Text.Trim();
+            string address = txt_address.Text.Trim();
 
+            validated &= Validator.ValidateSupplierName(supplierName, txt_supplier_name, errorProvider1);
+            validated &= Validator.ValidateContactNumber(contact, txt_contact, errorProvider1);
+            validated &= Validator.ValidateEmail(email, txt_email, errorProvider1);
+            validated &= Validator.ValidateAddress(address, txt_address, errorProvider1);
 
-            if (!Validator.IsRequired(txt_email, errorProvider1, "Email is required."))
-            {
-                validated = false;
-            }
-            else if (!Validator.IsValidEmail(txt_email, errorProvider1))
-            {
-                validated = false;
-            }
-            else if (!Validator.IsStylistEmailExists(txt_email, errorProvider1, "Email already exists.", excludeId))
+            if (!Validator.IsSupplierEExists(txt_supplier_name, errorProvider1, "Supplier name already exists.", excludeId))
             {
                 validated = false;
             }
 
 
 
-            if (!Validator.IsRequiredTextField(txt_contact, errorProvider1, "Contact number is required."))
-            {
-                validated = false;
-            }
-            else if (!Validator.IsMinimumLength(txt_contact, errorProvider1, "Contact number must be at least 11 characters.", 11))
-            {
-                validated = false;
-            }
-            else if (!Validator.IsValidPhone(txt_contact, errorProvider1))
-            {
-                validated = false;
-            }
-            else if (!Validator.IsStylistPhoneExists(txt_contact, errorProvider1, "Contact number already exists.", excludeId))
-            {
-                validated = false;
-            }
-
-
-            if (!Validator.IsAddressRequiredField(txt_address, errorProvider1, "Address is required."))
-            {
-                validated = false;
-            }
-            else if (!Validator.IsMinimumLength(txt_address, errorProvider1, "Address must be at least 10 characters.", 10))
-            {
-                validated = false;
-            }
-
-
-           
-
-          
 
             return validated;
 

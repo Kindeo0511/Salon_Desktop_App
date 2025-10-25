@@ -13,7 +13,7 @@ namespace Salon.Models
         public DateTime date { get; set; }
         public TimeSpan start_time { get; set; }
         public TimeSpan end_time { get; set; }
-        public bool is_available { get; set; }
+        public int is_available { get; set; }
         public string reason { get; set; }
 
 

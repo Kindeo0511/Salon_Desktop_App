@@ -243,6 +243,8 @@
             // 
             this.dgv_table.AllowUserToAddRows = false;
             this.dgv_table.AllowUserToDeleteRows = false;
+            this.dgv_table.AllowUserToResizeColumns = false;
+            this.dgv_table.AllowUserToResizeRows = false;
             this.dgv_table.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dgv_table.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.col_service_id,
@@ -253,6 +255,7 @@
             this.dgv_table.Location = new System.Drawing.Point(25, 597);
             this.dgv_table.Name = "dgv_table";
             this.dgv_table.ReadOnly = true;
+            this.dgv_table.RowHeadersVisible = false;
             this.dgv_table.RowHeadersWidth = 51;
             this.dgv_table.RowTemplate.Height = 24;
             this.dgv_table.Size = new System.Drawing.Size(1369, 226);

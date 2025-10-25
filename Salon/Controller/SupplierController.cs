@@ -42,6 +42,10 @@ namespace Salon.Controller
             repo.ActivateSupplier(id);
         }
 
+        public void PermanentDeleteSupplier(int id) 
+        {
+            repo.PermanentDelete(id);
+        }
         public bool CheckSupplierExists(string name , int id = 0) 
         {
             return repo.SupplierExists(name, id);

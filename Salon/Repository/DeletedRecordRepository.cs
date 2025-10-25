@@ -71,5 +71,9 @@ namespace Salon.Repository
                 con.Execute(sql, new { id = id});
             }
         }
+        public void PermanentDelete(int id) 
+        {
+        
+        }
     }
 }

@@ -55,67 +55,29 @@ namespace Salon.View
 
 
           
-            validated &= Validator.IsRequired(txt_unit_volume, errorProvider1, "Unit Volume is required.");
+
 
             // REQUIRED FIELD
+            string productName = txt_product_name.Text.Trim();
+            string brandName = txt_brand.Text.Trim();
+            string unitType = cmb_unit_type.Text.Trim();
+            string unitVolume = txt_unit_volume.Text.Trim();
 
-            // PRODUCT NAME
-            if (!Validator.IsRequiredTextField(txt_product_name, errorProvider1, "Category is required."))
-            {
-                validated = false;
-            }
-            else if (!Validator.IsMinimumLength(txt_product_name, errorProvider1, "Category must be at least 3 characters.", 3))
-            {
-                validated = false;
-            }
-            else if (!Validator.Pattern(txt_product_name, errorProvider1, @"^[A-Za-z0-9 _.\-&/]{3,50}$", "Product can only contain letters, numbers, spaces, underscores, and hyphens."))
-            {
-                validated = false;
-            }
+            validated &= Validator.ValidateProductName(productName, txt_product_name, errorProvider1);
+            validated &= Validator.ValidateBrandName(brandName, txt_brand, errorProvider1);
+            validated &= Validator.ValidateProductCategory(cmb_category, errorProvider1);
+            validated &= Validator.ValidateUnitType(cmb_unit_type, errorProvider1);
+            validated &= Validator.ValidateUnitVolume(unitVolume, txt_unit_volume, errorProvider1);
+            validated &= Validator.ValidateUsageType(cmb_usage_type, errorProvider1);
 
-            else if (!Validator.IsProductExists(txt_product_name, errorProvider1, "Product already exits.", cat_id, excludeId))
+            
+            if (!Validator.IsProductExists(txt_product_name, errorProvider1, "Product already exits.", cat_id, excludeId))
             {
                 validated = false;
             }
 
-            // BRAND NAME
-            if (!Validator.IsRequiredTextField(txt_brand, errorProvider1, "Brand is required."))
-            {
-                validated = false;
-            }
-            else if (!Validator.IsMinimumLength(txt_brand, errorProvider1, "Brand must be at least 3 characters.", 3))
-            {
-                validated = false;
-            }
-            else if (!Validator.Pattern(txt_brand, errorProvider1, @"^[A-Za-z0-9 _.\-&/]{3,50}$", "Brand can only contain letters, numbers, spaces, underscores, hyphens, dots, ampersands, and slashes"))
-            {
-                validated = false;
-            }
-
-            if (!Validator.IntOnly(txt_unit_volume,errorProvider1, "Unit Volume is Required", "Spaces are not allowed", "Unit volume must be a whole number.", "Value must be greater than zero.")) 
-            {
-                validated = false;
-            }
+           
         
-
-
-
-
-            if (!Validator.IsComboBoxSelected(cmb_category, errorProvider1, "Category Type is Required"))
-            {
-                validated = false;
-            }
-
-            if (!Validator.IsComboBoxSelected(cmb_unit_type, errorProvider1, "Unit Type is Required"))
-            {
-                validated = false;
-            }
-
-            if (!Validator.IsComboBoxSelected(cmb_usage_type, errorProvider1, "Usage Type is Required"))
-            {
-                validated = false;
-            }
-
 
 
 

@@ -24,7 +24,7 @@ namespace Salon.Repository
         {
             using (var con = Database.GetConnection())
             {
-                var sql = "SELECT * FROM tbl_stylists";
+                var sql = "SELECT * FROM tbl_stylists WHERE is_deleted = 0";
                 var result =  await con.QueryAsync<StylistModel>(sql);
                 return result.ToList();
             }
@@ -33,7 +33,7 @@ namespace Salon.Repository
         {
             using (var con = Database.GetConnection())
             {
-                var sql = "SELECT stylist_id, CONCAT(firstName,' ',middleName,' ',lastName) as fullName FROM tbl_stylists";
+                var sql = "SELECT stylist_id, CONCAT(firstName,' ',middleName,' ',lastName) as fullName FROM tbl_stylists WHERE is_deleted = 0";
                 return con.Query<StylistModel>(sql).ToList();
             }
         }
@@ -42,7 +42,7 @@ namespace Salon.Repository
             using (var con = Database.GetConnection())
             {
                 var sql = @"SELECT ROUND(AVG(daily_wage), 0) AS stylist_cost
-                            FROM tbl_stylists;
+                            FROM tbl_stylists WHERE is_deleted = 0;
                             ";
                 return con.Query<StylistModel>(sql).FirstOrDefault();
             }
@@ -82,6 +82,14 @@ namespace Salon.Repository
                 con.Execute(sql, new { stylist_id });
             }
         }
+        public void PermanentDelete(int stylist_id) 
+        {
+            using (var con = Database.GetConnection())
+            {
+                var sql = "DELETE FROM tbl_stylists WHERE stylist_id = @stylist_id";
+                con.Execute(sql, new { stylist_id });
+            }
+        }
 
         // SUMMARY STYLIST REPORT
 
@@ -90,7 +98,7 @@ namespace Salon.Repository
         {
             using (var con = Database.GetConnection())
             {
-                var sql = "SELECT COUNT(*) AS TotalStaff FROM tbl_stylists";
+                var sql = "SELECT COUNT(*) AS TotalStaff FROM tbl_stylists ";
 
                 return con.Query<StylistModel>(sql).FirstOrDefault();
             }
@@ -102,7 +110,7 @@ namespace Salon.Repository
             {
                 var sql = @"SELECT COUNT(*) AS TotalActive
                             FROM tbl_stylist_schedules 
-                            WHERE day_of_week = LOWER(DAYNAME(CURRENT_DATE)) AND is_working = 1;";
+                            WHERE day_of_week = LOWER(DAYNAME(CURRENT_DATE)) AND is_working = 1 AND is_deleted = 0;";
                 return con.Query<StylistModel>(sql).FirstOrDefault();
             }
         }
@@ -126,6 +134,7 @@ namespace Salon.Repository
                             FROM tbl_stylists s
                             JOIN tbl_appointment a ON s.stylist_id = a.stylist_id
                             JOIN tbl_payment p ON a.appointment_id = p.appointment_id
+    
                             GROUP BY s.stylist_id
                             ORDER BY TotalSales DESC
                             LIMIT 1;";

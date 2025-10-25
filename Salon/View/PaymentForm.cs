@@ -210,8 +210,32 @@ namespace Salon.View
             lbl_Discount.Text = _discountAmount > 0 ? $"₱ {_discountAmount:N2}" : "₱0.00";
             lbl_Total.Text = $"₱ {_totalWithVat:N2}";
 
-            // Step 6: Store for audit/export
-            _vatAmount = sw_exempt_vat.Checked ? 0 : vatPortion;
+            if (cb_PaymentMethod.Text.ToLower() == "gcash")
+            {
+                decimal amountPaid = ParseCurrency(lbl_Total.Text);
+                txt_amount_paid.Text = amountPaid.ToString();
+                txt_Reference.Enabled = true;
+                txt_amount_paid.ReadOnly = true;
+                txt_amount_paid.Enabled = true;
+            }
+            else if (cb_PaymentMethod.Text.ToLower() == "cash")
+            {
+
+                decimal amountPaid = ParseCurrency(txt_amount_paid.Text);
+                txt_amount_paid.Text = amountPaid.ToString();
+                txt_Reference.Text = string.Empty;
+                txt_Reference.Enabled = false;
+                txt_amount_paid.Enabled = true;
+                txt_amount_paid.ReadOnly = false;
+            }
+            else 
+            {
+                txt_amount_paid.Text = string.Empty;
+                txt_Reference.Text = string.Empty;
+                txt_amount_paid.ReadOnly = false;
+            }
+                // Step 6: Store for audit/export
+                _vatAmount = sw_exempt_vat.Checked ? 0 : vatPortion;
 
         }
 
@@ -237,7 +261,8 @@ namespace Salon.View
 
         private async  void PaymentForm_Load(object sender, EventArgs e)
         {
-            await mainForm.RefreshVat();
+       
+            LoadVat();
             calculate();
             DateTime startTime = DateTime.Today.Add(model.StartTime);
             DateTime endTime = DateTime.Today.Add(model.EndTime);
@@ -721,6 +746,54 @@ namespace Salon.View
         {
        
             calculate();
+        }
+
+        private void cb_PaymentMethod_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if (cb_PaymentMethod.Text.ToLower() == "gcash")
+            {
+                decimal amountPaid = ParseCurrency(lbl_Total.Text);
+                txt_amount_paid.Text = amountPaid.ToString();
+                txt_Reference.Enabled = true;
+                txt_amount_paid.ReadOnly = true;
+                txt_amount_paid.Enabled = true;
+            }
+            else if (cb_PaymentMethod.Text.ToLower() == "cash")
+            {
+
+                txt_Reference.Text = string.Empty;
+                txt_amount_paid.Enabled = true;
+                txt_Reference.Enabled = false;
+                txt_amount_paid.ReadOnly = false;
+            }
+            else
+            {
+                txt_amount_paid.Text = string.Empty;
+                txt_Reference.Text = string.Empty;
+                txt_amount_paid.ReadOnly = false;
+            }
+
+            //if (cb_PaymentMethod.Text.ToLower() == "cash")
+            //{
+            //    txt_Reference.Enabled = false;
+            //    txt_amount_paid
+            //}
+            //else if (cb_PaymentMethod.Text.ToLower() == "gcash")
+            //{
+            //    decimal amountPaid = ParseCurrency(lbl_Total.Text);
+            //    txt_amount_paid.Text = amountPaid.ToString();
+            //    txt_Reference.Enabled = true;
+            //}
+            //else 
+            //{
+            //    txt_Reference.Enabled = false;
+            //}
+
+        }
+
+        private void lbl_Total_Click(object sender, EventArgs e)
+        {
+
         }
 
 

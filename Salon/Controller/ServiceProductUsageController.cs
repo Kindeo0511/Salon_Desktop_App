@@ -43,6 +43,10 @@ namespace Salon.Controller
         {
             _repository.DeleteServiceProduct(id);
         }
+        public void PermanentDeleteServiceProductUsage(int id) 
+        {
+            _repository.PermanentDelete(id);
+        }
         public void RestoreServiceProduct(int id)
         {
             _repository.RestoreServiceProduct(id);

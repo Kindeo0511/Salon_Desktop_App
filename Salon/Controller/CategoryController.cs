@@ -51,9 +51,19 @@ namespace Salon.Controller
         {
             repo.restoreDeleted(id);
         }
+        public void PermanentDeleteCategory(int id) 
+        {
+            repo.PermanentDelete(id);
+        }
         public bool CheckCategoryExists(string category, string type, int id = 0) 
         {
            return repo.CategoriesExist(category,type, id);
         }
+
+        public async Task<CategoryModel> CheckCategoryExistsAsync(string category, string type, int excludeId = 0)
+        {
+            return await repo.GetExistingCategoryAsync(category, type, excludeId);
+        }
+
     }
 }

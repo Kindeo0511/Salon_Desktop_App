@@ -18,6 +18,8 @@ namespace Salon.Repository
         void DeleteStylist(int stylist_id);
         void ActivateStylist(int stylist_id);
 
+        void PermanentDelete(int id);
+
         // SUMMARY STYlIST REPORT
 
         StylistModel TotalStaff();

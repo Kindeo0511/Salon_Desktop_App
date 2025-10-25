@@ -25,7 +25,7 @@ namespace Salon.Repository
         {
             using (var con = Database.GetConnection())
             {
-                var sql = "SELECT * FROM tbl_users";
+                var sql = "SELECT * FROM tbl_users WHERE is_deactivate = 0";
                 return con.Query<UsersModel>(sql).ToList();
             }
         }
@@ -33,7 +33,7 @@ namespace Salon.Repository
         {
             using (var con = Database.GetConnection())
             {
-                var sql = "SELECT * FROM tbl_users";
+                var sql = "SELECT * FROM tbl_users WHERE is_deactivate = 0";
                 var result =  await con.QueryAsync<UsersModel>(sql);
                 return result.ToList();
             }
@@ -99,6 +99,14 @@ namespace Salon.Repository
             {
                 var sql = "UPDATE tbl_users SET status = 'Inactive', is_deactivate = 1 WHERE user_id = @userId";
                 con.Execute(sql, new { userId });
+            }
+        }
+        public void PermanentDelete(int id) 
+        {
+            using (var con = Database.GetConnection())
+            {
+                var sql = "DELETE FROM  tbl_users WHERE user_id = @id";
+                con.Execute(sql, new { id });
             }
         }
 

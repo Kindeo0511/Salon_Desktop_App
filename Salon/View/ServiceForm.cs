@@ -1,4 +1,8 @@
-﻿using Salon.Util;
+﻿using MaterialSkin.Controls;
+using Salon.Controller;
+using Salon.Models;
+using Salon.Repository;
+using Salon.Util;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -7,11 +11,9 @@ using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Controls;
 using System.Windows.Forms;
-using MaterialSkin.Controls;
-using Salon.Repository;
-using Salon.Controller;
-using Salon.Models;
+using static iText.StyledXmlParser.Jsoup.Select.Evaluator;
 
 namespace Salon.View
 {
@@ -121,36 +123,26 @@ namespace Salon.View
             int excludeId = serviceModel?.serviceName_id ?? 0;
             int scid = Convert.ToInt32(cmb_sub_category.SelectedValue);
             bool validated = true;
+            var repo = new ServiceRepository();
+            var controller = new ServiceController(repo);
+        
+            
 
-           
 
-            // REQUIRED FIELD
+                // REQUIRED FIELD
+            string serviceName = txt_service_name.Text.Trim();
+            validated &= Validator.ValidateServiceName(serviceName,txt_service_name,errorProvider1,name => controller.CheckServiceExists(name, scid, excludeId) );
+            validated &= Validator.ValidateServiceStatus(cmb_status, errorProvider1);
+            validated &= Validator.ValidateServiceCategory(cmb_sub_category, errorProvider1);
+            validated &= Validator.ValidateDuration(txt_duration, errorProvider1);
 
-            // SERVICE NAME
-            if (!Validator.IsRequiredTextField(txt_service_name, errorProvider1, "Service is required."))
-            {
-                validated = false;
-            }
-            else if (!Validator.IsMinimumLength(txt_service_name, errorProvider1, "Service must be at least 3 characters.", 3))
-            {
-                validated = false;
-            }
-            else if (!Validator.Pattern(txt_service_name, errorProvider1, @"^[A-Za-z0-9 _.\-&/]{3,50}$", "Service can only contain letters, numbers, spaces, underscores, and hyphens."))
-            {
-                validated = false;
-            }
+          
+            //if (!Validator.IsServicesExists(txt_service_name, errorProvider1, "Service already exits.", scid, excludeId))
+            //{
+            //    validated = false;
+            //}
 
-            else if (!Validator.IsServicesExists(txt_service_name, errorProvider1, "Service already exits.", scid, excludeId))
-            {
-                validated = false;
-            }
-
-            // BRAND NAME
-            if (!Validator.IsRequired(txt_duration, errorProvider1, "Duration is required."))
-            {
-                validated = false;
-            }
-      
+         
 
 
 

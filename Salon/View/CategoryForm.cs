@@ -1,4 +1,8 @@
-﻿using Salon.Util;
+﻿using MaterialSkin.Controls;
+using Salon.Controller;
+using Salon.Models;
+using Salon.Repository;
+using Salon.Util;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -8,10 +12,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-using MaterialSkin.Controls;
-using Salon.Models;
-using Salon.Repository;
-using Salon.Controller;
+using System.Windows.Input;
 namespace Salon.View
 {
     public partial class CategoryForm : MaterialForm
@@ -42,42 +43,58 @@ namespace Salon.View
             }
 
         }
-        private bool IsValid()
-        {
 
+        private async Task<CategoryModel> GetExistingCategory(string category, string type, int id = 0)
+        {
+            var controller = new CategoryController(new CategoryRepository());
+            return await controller.CheckCategoryExistsAsync(category, type, id);
+        }
+        private async Task<bool> IsValid()
+        {
             bool validated = true;
             int excludeId = category?.category_id ?? 0;
-          
-  
 
-            // REQUIRED AND MIN LENGTH FIELD
-            if (!Validator.IsRequiredTextField(txt_category_name, errorProvider1, "Category is required."))
-            {
-                validated = false;
-            }
-            else if (!Validator.IsMinimumLength(txt_category_name, errorProvider1, "Category must be at least 3 characters.", 3))
-            {
-                validated = false;
-            }
-            else if (!Validator.Pattern(txt_category_name, errorProvider1, @"^[A-Za-z0-9 _-]{3,50}$", "Category can only contain letters, numbers, spaces, underscores, and hyphens."))
-            {
-                validated = false;
-            }
+            string categoryName = txt_category_name.Text.Trim();
 
-            else if (!Validator.IsCategoryExists(txt_category_name, errorProvider1, "Category already exits.", cmb_category_type.Text, excludeId))
+            validated &= Validator.ValidateCategoryName(categoryName, txt_category_name, errorProvider1);
+            validated &= Validator.ValidateCategoryType(cmb_category_type, errorProvider1);
+            if (!Validator.IsCategoryExists(txt_category_name, errorProvider1, "Category already exists.",cmb_category_type.Text, excludeId))
             {
                 validated = false;
             }
+            //var existing = await GetExistingCategory(categoryName, cmb_category_type.Text, excludeId);
 
-            if (!Validator.IsComboBoxSelected(cmb_category_type,errorProvider1, "Category Type is Required")) 
-            {
-                validated = false;
-            }
+            //if (existing != null)
+            //{
+            //    if (existing.is_deleted)
+            //    {
+            //        var confirm = MessageBox.Show(
+            //            $"\"{existing.categoryName}\" exists but is inactive.\nRestore this category?",
+            //            "Restore Category",
+            //            MessageBoxButtons.YesNo,
+            //            MessageBoxIcon.Question
+            //        );
+
+            //        if (confirm == DialogResult.Yes)
+            //        {
+            //            existing.is_deleted = false;
+            //            mainForm.RestoreDeletedCategoryRecord(existing.category_id);
+            //            mainForm.DeleteDeletedRecord(existing.category_id);
+            //            MessageBox.Show("✅ Category restored.", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            //            await mainForm.RefreshCategoryAsync();
+
+            //        }
+
+            //        return false;
+            //    }
+
+            //    MessageBox.Show($"❌ Category already exists (ID: {existing.category_id}).", "Duplicate Category", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+            //    return false;
+            //}
 
             return validated;
-
-
         }
+
         private void addCategory()
         {
             var repo = new CategoryRepository();
@@ -102,7 +119,8 @@ namespace Salon.View
         }
         private async void btn_save_Click(object sender, EventArgs e)
         {
-            if (!IsValid()) return;
+            if (!await IsValid()) return;
+
 
             addCategory();
             MessageBox.Show("Category added successfully!", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
@@ -114,7 +132,8 @@ namespace Salon.View
 
         private async void btn_update_Click(object sender, EventArgs e)
         {
-            if (!IsValid()) return;
+            if (!await IsValid()) return;
+
             updateCategory();
             MessageBox.Show("Category updated successfully!", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
             var category = txt_category_name.Text;

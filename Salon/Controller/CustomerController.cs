@@ -53,6 +53,11 @@ namespace Salon.Controller
         {
             repo.ActivateCustomer(customerId);
         }
+
+        public void PermanentDeleteCustomer(int id) 
+        {
+            repo.PermanentDelete(id);
+        }
         public bool CheckEmailExists(string email, int id = 0) 
         {
             return repo.EmailExists(email, id);

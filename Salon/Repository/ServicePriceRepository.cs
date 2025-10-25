@@ -15,13 +15,30 @@ namespace Salon.Repository
         {
             using (var con = Database.GetConnection()) 
             {
-                var sql = @"SELECT tbl_service_price.pricing_id, tbl_servicesname.serviceName, tbl_service_product.service_product_id, tbl_service_price.product_cost, tbl_service_price.stylist_cost, tbl_service_price.overhead_cost, tbl_service_price.total_cost, tbl_service_price.selling_price, tbl_service_price.vat_amount	, tbl_service_price.net_price, tbl_service_price.net_profit, tbl_service_price.gross_profit, tbl_service_price.profit_percent
-                            FROM tbl_service_price
-                            LEFT JOIN tbl_service_product 
-                            ON tbl_service_product.service_product_id = tbl_service_price.service_product_id
-                            LEFT JOIN tbl_servicesname
-                            ON tbl_servicesname.serviceName_id = tbl_service_product.service_id
-                            WHERE tbl_service_price.is_deleted = 0;";
+                var sql = @"SELECT 
+    tbl_service_price.pricing_id, 
+    tbl_servicesname.serviceName, 
+    tbl_service_product.service_product_id, 
+    tbl_service_price.product_cost, 
+    tbl_service_price.stylist_cost, 
+    tbl_service_price.overhead_cost, 
+    tbl_service_price.total_cost, 
+    tbl_service_price.selling_price, 
+    tbl_service_price.vat_amount,   
+    tbl_service_price.net_price, 
+    tbl_service_price.net_profit, 
+    tbl_service_price.gross_profit, 
+    tbl_service_price.profit_percent
+FROM tbl_service_price
+LEFT JOIN tbl_service_product 
+    ON tbl_service_product.service_product_id = tbl_service_price.service_product_id
+LEFT JOIN tbl_servicesname
+    ON tbl_servicesname.serviceName_id = tbl_service_product.service_id
+WHERE 
+    tbl_service_price.is_deleted = 0 
+    AND tbl_servicesname.is_deleted = 0 
+    AND tbl_service_product.is_deleted = 0;
+;";
                 return con.Query<ServicePriceModel>(sql).ToList();
             }
         }
@@ -29,13 +46,30 @@ namespace Salon.Repository
         {
             using (var con = Database.GetConnection())
             {
-                var sql = @"SELECT tbl_service_price.pricing_id, tbl_servicesname.serviceName, tbl_service_product.service_product_id, tbl_service_price.product_cost, tbl_service_price.stylist_cost, tbl_service_price.overhead_cost, tbl_service_price.total_cost, tbl_service_price.selling_price, tbl_service_price.vat_amount	, tbl_service_price.net_price, tbl_service_price.net_profit, tbl_service_price.gross_profit, tbl_service_price.profit_percent
-                            FROM tbl_service_price
-                            LEFT JOIN tbl_service_product 
-                            ON tbl_service_product.service_product_id = tbl_service_price.service_product_id
-                            LEFT JOIN tbl_servicesname
-                            ON tbl_servicesname.serviceName_id = tbl_service_product.service_id
-                            WHERE tbl_service_price.is_deleted = 0;";
+                var sql = @"SELECT 
+    tbl_service_price.pricing_id, 
+    tbl_servicesname.serviceName, 
+    tbl_service_product.service_product_id, 
+    tbl_service_price.product_cost, 
+    tbl_service_price.stylist_cost, 
+    tbl_service_price.overhead_cost, 
+    tbl_service_price.total_cost, 
+    tbl_service_price.selling_price, 
+    tbl_service_price.vat_amount,   
+    tbl_service_price.net_price, 
+    tbl_service_price.net_profit, 
+    tbl_service_price.gross_profit, 
+    tbl_service_price.profit_percent
+FROM tbl_service_price
+LEFT JOIN tbl_service_product 
+    ON tbl_service_product.service_product_id = tbl_service_price.service_product_id
+LEFT JOIN tbl_servicesname
+    ON tbl_servicesname.serviceName_id = tbl_service_product.service_id
+WHERE 
+    tbl_service_price.is_deleted = 0 
+    AND tbl_servicesname.is_deleted = 0 
+    AND tbl_service_product.is_deleted = 0;
+";
                 var result = await con.QueryAsync<ServicePriceModel>(sql);
 
                 return result.ToList();
@@ -55,7 +89,7 @@ namespace Salon.Repository
                         INNER JOIN tbl_service_product pr ON pr.service_product_id = sp.service_product_id
                         INNER JOIN tbl_servicesname sn ON sn.serviceName_id = pr.service_id
                         INNER JOIN tbl_subcategory sc ON sc.subCategory_id = sn.subCategory_id
-                        WHERE sn.serviceName LIKE @key";
+                        WHERE sn.serviceName LIKE @key AND sn.is_deleted = 0 AND sc.is_deleted = 0";
                 return con.Query<ServicePriceModel>(sql, new { key = $"%{key}%" }).ToList();
             }
         }
@@ -69,7 +103,7 @@ namespace Salon.Repository
                     sp.net_price
                 FROM tbl_service_price sp
                 JOIN tbl_service_product sprod ON sprod.service_product_id = sp.service_product_id
-                WHERE sprod.service_id = @SelectedServiceNameID;";
+                WHERE sprod.service_id = @SelectedServiceNameID AND sp.is_deleted = 0 AND sprod.is_deleted = 0;";
                 return con.Query<ServicePriceModel>(sql, new { SelectedServiceNameID  = SelectedServiceNameID }).FirstOrDefault();
             }
         }
@@ -111,7 +145,14 @@ namespace Salon.Repository
                 con.Execute(sql, new { id = id});
             }
         }
-
+        public void PermanentDelete(int id) 
+        {
+            using (var con = Database.GetConnection())
+            {
+                var sql = "DELETE FROM tbl_service_price WHERE pricing_id = @id";
+                con.Execute(sql, new { id = id });
+            }
+        }
         public void RestoreServicePrice(int id)
         {
             using (var con = Database.GetConnection())

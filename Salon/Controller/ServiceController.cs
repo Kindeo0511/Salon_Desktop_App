@@ -53,6 +53,11 @@ namespace Salon.Controller
         {
             repo.RestoreService(id);
         }
+
+        public void PermanentDeleteService(int id) 
+        {
+            repo.PermanentDelete(id);
+        }
         public bool CheckServiceExists(string name, int scid, int id) 
         {
            return repo.ServiceExists(name, scid, id);

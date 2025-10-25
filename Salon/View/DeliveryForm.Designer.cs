@@ -480,6 +480,7 @@
             this.dgv_Items.Name = "dgv_Items";
             this.dgv_Items.ReadOnly = true;
             this.dgv_Items.RowHeadersBorderStyle = System.Windows.Forms.DataGridViewHeaderBorderStyle.None;
+            this.dgv_Items.RowHeadersVisible = false;
             this.dgv_Items.RowHeadersWidth = 51;
             this.dgv_Items.RowTemplate.Height = 24;
             this.dgv_Items.Size = new System.Drawing.Size(1560, 197);

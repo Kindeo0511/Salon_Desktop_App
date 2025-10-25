@@ -18,7 +18,7 @@ namespace Salon.Repository
                 var sql = @"SELECT p.product_id, p.product_name, p.brand, p.category_id, c.categoryName AS categoryName, p.unit_type, p.usage_type, p.unit_volume
                             FROM tbl_products p
                             JOIN tbl_category c ON p.category_id = c.category_id
-                            WHERE p.is_deleted = 0";
+                            WHERE p.is_deleted = 0 AND c.is_deleted = 0";
                 return con.Query<ProductModel>(sql).ToList();
             }
         }
@@ -29,7 +29,7 @@ namespace Salon.Repository
                 var sql = @"SELECT p.product_id, p.product_name, p.brand, p.category_id, c.categoryName AS categoryName, p.unit_type, p.usage_type, p.unit_volume
                             FROM tbl_products p
                             JOIN tbl_category c ON p.category_id = c.category_id
-                            WHERE p.is_deleted = 0";
+                            WHERE p.is_deleted = 0 AND c.is_deleted = 0 ";
                 var result = await con.QueryAsync<ProductModel>(sql);
 
                 return result.ToList();
@@ -98,7 +98,15 @@ namespace Salon.Repository
                 con.Execute(sql, new { productId });
             }
         }
-
+        public void PermanentDelete(int id) 
+        {
+            using (var con = Database.GetConnection())
+            {
+                var sql = "DELETE FROM tbl_product WHERE product_id = @id";
+                con.Execute(sql, new { id });
+            }
+        }
+        
         public bool ProductExists(string name, int cat_id, int id = 0) 
         {
             using (var con = Database.GetConnection()) 

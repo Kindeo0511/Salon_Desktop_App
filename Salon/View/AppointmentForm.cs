@@ -25,7 +25,7 @@ namespace Salon.View
         private CustomerModel customerModel;
         private List<ServiceItemSelected> serviceSelected;
         private int duration_temp = 0;
-
+        private int totalDuration = 0;
         public AppointmentForm(MainForm mainForm)
         {
             InitializeComponent();
@@ -50,7 +50,7 @@ namespace Salon.View
             ThemeManager.StyleDataGridView(dgv_table);
             this.mainForm = mainForm;
             this.model = model;
-            cmb_Date.MinDate = DateTime.Today;
+            cmb_Date.MinDate = model.AppointmentDate.Date;
             cmb_Date.MaxDate = DateTime.Today.AddMonths(3);
 
             for (int hour = 9; hour <= 21; hour++)
@@ -76,6 +76,14 @@ namespace Salon.View
             btn_check_available.Visible = false;
             reloadSelectedServices(model.AppointmentId);
 
+            foreach (DataGridViewRow row in dgv_table.Rows)
+            {
+                if (row.Cells["col_duration"].Value != null)
+                {
+                    int durationn = Convert.ToInt32(row.Cells["col_duration"].Value);
+                    totalDuration += durationn;
+                }
+            }
 
         }
         private void reloadSelectedServices(int id) 
@@ -461,8 +469,84 @@ namespace Salon.View
 
 
         }
+        private bool Product_Inventory()
+        {
+            var inventoryController = new InventoryController(new InventoryRepository());
+            var batchController = new InventoryBatchController(new InventoryBatchRepository());
+            var serviceProductController = new ServiceProductUsageController(new ServiceProductUsageRepository());
+            var appointmentService = new AppointmentServiceController(new AppointmentServiceRepository());
+
+            //int appointmentId = model.AppointmentId;
+            //var serviceList = appointmentService.GetServicesByAppointmentId(appointmentId)?.ToList();
+
+            //if (serviceList == null || !serviceList.Any()) return true; // No services, nothing to deduct
+
+            var inventoryProductList = inventoryController.GetAllInventory().ToList();
+            List<string> stockWarnings = new List<string>();
+            HashSet<int> flaggedProductIds = new HashSet<int>(); // ✅ Track duplicates
+
+            foreach (DataGridViewRow row in dgv_table.Rows)
+            {
+                int serviceId = Convert.ToInt32(row.Cells["col_service_id"].Value);
+                var serviceProducts = serviceProductController.GetAllServiceProducts(serviceId)?.ToList();
+                if (serviceProducts == null || !serviceProducts.Any()) continue;
+
+                foreach (var product in serviceProducts)
+                {
+                    int productId = product.product_id;
+
+                    // Skip if already flagged
+                    if (flaggedProductIds.Contains(productId)) continue;
+
+                    var inventoryItem = inventoryProductList
+                        .FirstOrDefault(inv => inv.product_id == productId);
+
+                    string productName = inventoryItem?.product_name ?? "Unknown Product";
+
+                    if (inventoryItem == null || inventoryItem.unit <= 0)
+                    {
+                        stockWarnings.Add($"❌ \"{productName}\" has no available units in stock.");
+                        flaggedProductIds.Add(productId);
+                        continue;
+                    }
+
+                    double unitVolume = (double)inventoryItem.volume / inventoryItem.unit;
+                    double totalVolume = unitVolume * inventoryItem.unit;
+                    double usedVolume = product.total_usage_amount;
+
+                    if (totalVolume < usedVolume)
+                    {
+                        stockWarnings.Add($"❌ Insufficient stock for \"{productName}\".\nRequired: {usedVolume:N2} ml\nAvailable: {totalVolume:N2} ml");
+                        flaggedProductIds.Add(productId);
+                    }
+                }
+            }
+
+            if (stockWarnings.Any())
+            {
+                string message = string.Join("\n\n", stockWarnings);
+                MessageBox.Show(message, "Inventory Warning", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return false;
+            }
+
+            return true;
+
+
+
+
+        }
+
+
+
+
         private void btn_confirm_Click(object sender, EventArgs e)
         {
+       
+            bool inventoryOk = Product_Inventory();
+            if (!inventoryOk)
+            {
+                return;
+            }
             if (model != null)
             {
 
@@ -552,51 +636,63 @@ namespace Salon.View
         }
         private void btn_update_Click(object sender, EventArgs e)
         {
-            if (!Validated()) return;
+            if (!Validated(totalDuration)) return;
             UpdateAppointment();
 
 
         }
-        private bool Validated()
+        private bool Validated(int totalDuration)
         {
-
             bool validated = true;
-            
-            // REQUIRED FIELD
-            //validated &= Validator.IsRequired(txt_FullName, errorProvider1, "Full name is required.");
+
+            // 1. Check if customer is selected
+            if (string.IsNullOrWhiteSpace(txt_FullName.Text))
+            {
+                MessageBox.Show("Please select a customer before checking availability.", "Missing Customer", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return false;
+            }
+
+            // 2. Check if at least one service is selected
+            if (totalDuration <= 0)
+            {
+                MessageBox.Show("Please select at least one service before checking availability.", "No Services Selected", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return false;
+            }
+
+            // 3. Required field validations
+            validated &= Validator.IsRequired(txt_FullName, errorProvider1, "Full name is required.");
             //validated &= Validator.IsRequired(txt_Contact, errorProvider1, "Contact is required.");
             //validated &= Validator.IsRequired(txt_Email, errorProvider1, "Email is required.");
             validated &= Validator.IsRequired(cb_book_type, errorProvider1, "Booking Type is required.");
             validated &= Validator.IsRequired(cb_Time, errorProvider1, "Time is required.");
             validated &= Validator.IsRequired(cmb_Date, errorProvider1, "Date is required.");
 
-            DateTime selectedDate = cmb_Date.Value;
+            // 4. Date validation
+            DateTime selectedDate = cmb_Date.Value.Date;
+            DateTime today = DateTime.Today;
 
-            // 1. Prevent past dates
-            if (selectedDate < DateTime.Today)
+            if (selectedDate < today)
             {
                 errorProvider1.SetError(cmb_Date, "Appointment date must be today or later.");
                 validated = false;
             }
-
-            // 2. Prevent booking too far in advance
-            else if (selectedDate > DateTime.Today.AddMonths(3))
+            else if (selectedDate > today.AddMonths(3))
             {
                 errorProvider1.SetError(cmb_Date, "Appointments can only be booked up to 3 months in advance.");
                 validated = false;
             }
-
-
-
+            else
+            {
+                errorProvider1.SetError(cmb_Date, "");
+            }
 
             return validated;
-
-
         }
+
         private async void btn_check_available_Click(object sender, EventArgs e)
         {
-            if (!Validated()) return;
-            int totalDuration = 0;
+           
+
 
             foreach (DataGridViewRow row in dgv_table.Rows)
             {
@@ -606,12 +702,9 @@ namespace Salon.View
                     totalDuration += durationn;
                 }
             }
-
-            if (totalDuration == 0)
-            {
-                MessageBox.Show("Please select at least one service before checking availability.", "No Services Selected", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                return;
-            }
+   
+            if (!Validated(totalDuration)) return;
+           
 
             var repo = new AppointmentRepository();
             var controller = new AppointmentController(repo);
@@ -647,7 +740,7 @@ namespace Salon.View
 
             if (isCustomerAlreadyBooked)
             {
-                message = "❗ This customer is already booked for this time slot.";
+                message = "❗This time slot is already booked.";
                 icon = MessageBoxIcon.Warning;
                 btn_confirm.Enabled = false;
             }

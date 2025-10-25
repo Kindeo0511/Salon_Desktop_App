@@ -92,6 +92,19 @@ namespace Salon.Repository
                 con.Execute(sql, new { batchId, volumeUsed });
             }
         }
+        public void RestoreBatchProductUsage(int batchId, double volumeToRestore)
+        {
+            using (var con = Database.GetConnection())
+            {
+                string sql = @"
+            UPDATE tbl_inventory_batch
+            SET used_volume = used_volume - @volume
+            WHERE batch_id = @batchId";
+
+                con.Execute(sql, new { volume = volumeToRestore, batchId });
+            }
+        }
+
         public InventoryBatchModel GetProductPriceByName(int product_id)
         {
             using (var con = Database.GetConnection())

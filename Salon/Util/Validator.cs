@@ -671,6 +671,662 @@ namespace Salon.Util
             return valid;
         }
 
+        public static bool ValidateSupplierName(string value, Control control, ErrorProvider errorProvider)
+        {
+            if (string.IsNullOrWhiteSpace(value))
+            {
+                errorProvider.SetError(control, "Supplier name should not be empty.");
+                return false;
+            }
+
+            if (value.Length < 2)
+            {
+                errorProvider.SetError(control, "Supplier name should be at least 2 characters long.");
+                return false;
+            }
+
+            if (value != value.Trim())
+            {
+                errorProvider.SetError(control, "Supplier name should not start or end with a space.");
+                return false;
+            }
+
+            // Allows letters, digits, and spaces only
+            if (!Regex.IsMatch(value, @"^[A-Za-z0-9 ]+$"))
+            {
+                errorProvider.SetError(control, "Supplier name should only contain letters, numbers, and spaces.");
+                return false;
+            }
+
+            errorProvider.SetError(control, "");
+            return true;
+        }
+
+        public static bool ValidateContactNumber(string value, Control control, ErrorProvider errorProvider)
+        {
+            if (string.IsNullOrWhiteSpace(value))
+            {
+                errorProvider.SetError(control, "Contact number should not be empty.");
+                return false;
+            }
+
+            if (!Regex.IsMatch(value, @"^09\d{9}$"))
+            {
+                errorProvider.SetError(control, "Contact number must start with '09' and be exactly 11 digits long.");
+                return false;
+            }
+
+            errorProvider.SetError(control, "");
+            return true;
+        }
+
+
+        public static bool ValidateEmail(string value, Control control, ErrorProvider errorProvider)
+        {
+            if (string.IsNullOrWhiteSpace(value))
+            {
+                errorProvider.SetError(control, "Email address should not be empty.");
+                return false;
+            }
+
+            if (value.Contains(" "))
+            {
+                errorProvider.SetError(control, "Email address should not contain spaces.");
+                return false;
+            }
+
+            if (value.Count(c => c == '@') != 1)
+            {
+                errorProvider.SetError(control, "Email address must contain exactly one '@' symbol.");
+                return false;
+            }
+
+            if (!Regex.IsMatch(value, @"^[A-Za-z0-9](?!.*@.*@)[A-Za-z0-9._-]*@[A-Za-z0-9.-]+\.[A-Za-z]{2,}$"))
+            {
+                errorProvider.SetError(control, "Email address format is invalid or starts/ends with a special character.");
+                return false;
+            }
+
+            errorProvider.SetError(control, "");
+            return true;
+        }
+
+        public static bool ValidateAddress(string value, Control control, ErrorProvider errorProvider)
+        {
+            if (string.IsNullOrWhiteSpace(value))
+            {
+                errorProvider.SetError(control, "Address should not be empty.");
+                return false;
+            }
+
+            // Allows letters, digits, space, comma, period, dash, hash
+            if (!Regex.IsMatch(value, @"^[A-Za-z0-9\s.,#-]+$"))
+            {
+                errorProvider.SetError(control, "Address contains invalid characters.");
+                return false;
+            }
+
+            errorProvider.SetError(control, "");
+            return true;
+        }
+
+        public static bool ValidateCategoryName(string value, Control control, ErrorProvider errorProvider)
+        {
+            if (string.IsNullOrWhiteSpace(value))
+            {
+                errorProvider.SetError(control, "Category name should not be empty.");
+                return false;
+            }
+
+            if (value.Length < 2)
+            {
+                errorProvider.SetError(control, "Category name should be at least 2 characters long.");
+                return false;
+            }
+
+            if (value != value.Trim())
+            {
+                errorProvider.SetError(control, "Category name should not start or end with a space.");
+                return false;
+            }
+
+            // Allows letters, digits, and spaces only
+            if (!Regex.IsMatch(value, @"^[A-Za-z0-9 ]+$"))
+            {
+                errorProvider.SetError(control, "Category name should only contain letters, numbers, and spaces.");
+                return false;
+            }
+
+            errorProvider.SetError(control, "");
+            return true;
+        }
+
+        public static bool ValidateCategoryType(ComboBox comboBox, ErrorProvider errorProvider)
+        {
+            if (comboBox.SelectedIndex < 0 || string.IsNullOrWhiteSpace(comboBox.Text))
+            {
+                errorProvider.SetError(comboBox, "Please select a category type.");
+                return false;
+            }
+
+            errorProvider.SetError(comboBox, "");
+            return true;
+        }
+        public static bool ValidateSubCategoryName(string value, Control control, ErrorProvider errorProvider)
+        {
+            if (string.IsNullOrWhiteSpace(value))
+            {
+                errorProvider.SetError(control, "Sub-Category name should not be empty.");
+                return false;
+            }
+
+            if (value.Length < 2)
+            {
+                errorProvider.SetError(control, "Sub-Category name should be at least 2 characters long.");
+                return false;
+            }
+
+            if (value != value.Trim())
+            {
+                errorProvider.SetError(control, "Sub-Category name should not start or end with a space.");
+                return false;
+            }
+
+            // Allows only letters, digits, and spaces
+            if (!Regex.IsMatch(value, @"^[A-Za-z0-9 ]+$"))
+            {
+                errorProvider.SetError(control, "Sub-Category name should only contain letters, numbers, and spaces.");
+                return false;
+            }
+
+            errorProvider.SetError(control, "");
+            return true;
+        }
+        public static bool ValidateSubCategoryType(ComboBox comboBox, ErrorProvider errorProvider)
+        {
+            if (comboBox.SelectedIndex < 0 || string.IsNullOrWhiteSpace(comboBox.Text))
+            {
+                errorProvider.SetError(comboBox, "Please select a sub-category type.");
+                return false;
+            }
+
+            errorProvider.SetError(comboBox, "");
+            return true;
+        }
+        public static bool ValidateProductName(string value, Control control, ErrorProvider errorProvider)
+        {
+            if (string.IsNullOrWhiteSpace(value))
+            {
+                errorProvider.SetError(control, "Product name should not be empty.");
+                return false;
+            }
+
+            if (value.Length < 2)
+            {
+                errorProvider.SetError(control, "Product name should be at least 2 characters long.");
+                return false;
+            }
+
+            if (value != value.Trim())
+            {
+                errorProvider.SetError(control, "Product name should not start or end with a space.");
+                return false;
+            }
+
+            if (!Regex.IsMatch(value, @"^[A-Za-z0-9 ]+$"))
+            {
+                errorProvider.SetError(control, "Product name should only contain letters, numbers, and spaces.");
+                return false;
+            }
+
+         
+
+            errorProvider.SetError(control, "");
+            return true;
+        }
+        public static bool ValidateBrandName(string value, Control control, ErrorProvider errorProvider)
+        {
+            if (string.IsNullOrWhiteSpace(value))
+            {
+                errorProvider.SetError(control, "Brand name should not be empty.");
+                return false;
+            }
+
+            if (value.Length < 2)
+            {
+                errorProvider.SetError(control, "Brand name should be at least 2 characters long.");
+                return false;
+            }
+
+            if (!Regex.IsMatch(value, @"^[A-Za-z0-9 ]+$"))
+            {
+                errorProvider.SetError(control, "Brand name should only contain letters, numbers, and spaces.");
+                return false;
+            }
+
+            errorProvider.SetError(control, "");
+            return true;
+        }
+        public static bool ValidateProductCategory(ComboBox comboBox, ErrorProvider errorProvider)
+        {
+            if (comboBox.SelectedIndex < 0 || string.IsNullOrWhiteSpace(comboBox.Text))
+            {
+                errorProvider.SetError(comboBox, "Please select a product category.");
+                return false;
+            }
+
+            errorProvider.SetError(comboBox, "");
+            return true;
+        }
+        public static bool ValidateUnitType(ComboBox comboBox, ErrorProvider errorProvider)
+        {
+            if (comboBox.SelectedIndex < 0)
+            {
+                errorProvider.SetError(comboBox, "Please select a unit type.");
+                return false;
+            }
+
+            errorProvider.SetError(comboBox, "");
+            return true;
+        }
+
+
+        public static bool ValidateUnitVolume(string value, Control control, ErrorProvider errorProvider)
+        {
+            if (string.IsNullOrWhiteSpace(value))
+            {
+                errorProvider.SetError(control, "Unit volume should not be empty.");
+                return false;
+            }
+
+            if (value.Contains(" "))
+            {
+                errorProvider.SetError(control, "Unit volume should not contain spaces.");
+                return false;
+            }
+
+            if (!Regex.IsMatch(value, @"^\d+$"))
+            {
+                errorProvider.SetError(control, "Please enter a valid numeric value for unit volume.");
+                return false;
+            }
+
+            errorProvider.SetError(control, "");
+            return true;
+        }
+        public static bool ValidateUsageType(ComboBox comboBox, ErrorProvider errorProvider)
+        {
+            if (comboBox.SelectedIndex < 0 || string.IsNullOrWhiteSpace(comboBox.Text))
+            {
+                errorProvider.SetError(comboBox, "Please select a usage type.");
+                return false;
+            }
+
+            errorProvider.SetError(comboBox, "");
+            return true;
+        }
+        public static bool ValidateServiceName(string value, Control control, ErrorProvider errorProvider, Func<string, bool> isDuplicateCheck)
+        {
+            if (string.IsNullOrWhiteSpace(value))
+            {
+                errorProvider.SetError(control, "Service name should not be empty.");
+                return false;
+            }
+
+            if (value.Length < 2)
+            {
+                errorProvider.SetError(control, "Service name should be at least 2 characters long.");
+                return false;
+            }
+
+            if (value != value.Trim())
+            {
+                errorProvider.SetError(control, "Service name should not start or end with a space.");
+                return false;
+            }
+
+            if (!Regex.IsMatch(value, @"^[A-Za-z0-9 ]+$"))
+            {
+                errorProvider.SetError(control, "Service name should only contain letters, numbers, and spaces.");
+                return false;
+            }
+
+            if (isDuplicateCheck(value))
+            {
+                errorProvider.SetError(control, "Service name already exists. Please enter a different name.");
+                return false;
+            }
+
+            errorProvider.SetError(control, "");
+            return true;
+        }
+        public static bool ValidateServiceStatus(ComboBox comboBox, ErrorProvider errorProvider)
+        {
+            if (comboBox.SelectedIndex < 0 || string.IsNullOrWhiteSpace(comboBox.Text))
+            {
+                errorProvider.SetError(comboBox, "Please select a service status.");
+                return false;
+            }
+
+            errorProvider.SetError(comboBox, "");
+            return true;
+        }
+        public static bool ValidateServiceCategory(ComboBox comboBox, ErrorProvider errorProvider)
+        {
+            if (comboBox.SelectedIndex < 0 || string.IsNullOrWhiteSpace(comboBox.Text))
+            {
+                errorProvider.SetError(comboBox, "Please select a category for this service.");
+                return false;
+            }
+
+            errorProvider.SetError(comboBox, "");
+            return true;
+        }
+        public static bool ValidateDuration(NumericUpDown control, ErrorProvider errorProvider)
+        {
+            int value = (int)control.Value;
+
+            if (value <= 0)
+            {
+                errorProvider.SetError(control, "Duration should be greater than 0.");
+                return false;
+            }
+
+            errorProvider.SetError(control, "");
+            return true;
+        }
+
+        public static bool ValidateUsageAmount(string value, Control control, ErrorProvider errorProvider)
+        {
+            if (string.IsNullOrWhiteSpace(value))
+            {
+                errorProvider.SetError(control, "Usage amount should not be empty.");
+                return false;
+            }
+
+            if (value.Contains(" "))
+            {
+                errorProvider.SetError(control, "Usage amount should not contain spaces.");
+                return false;
+            }
+
+            // Accepts whole numbers or decimals (e.g., 5, 5.25)
+            if (!Regex.IsMatch(value, @"^\d+(\.\d+)?$"))
+            {
+                errorProvider.SetError(control, "Usage amount should only contain numbers.");
+                return false;
+            }
+
+            if (decimal.TryParse(value, out decimal amount))
+            {
+                if (amount <= 0)
+                {
+                    errorProvider.SetError(control, "Usage amount should be greater than 0.");
+                    return false;
+                }
+            }
+            else
+            {
+                errorProvider.SetError(control, "Please enter a valid usage amount.");
+                return false;
+            }
+
+            errorProvider.SetError(control, "");
+            return true;
+        }
+        public static bool ValidateUnitPerVolume(string value, Control control, ErrorProvider errorProvider)
+        {
+            if (string.IsNullOrWhiteSpace(value))
+            {
+                errorProvider.SetError(control, "Unit per volume should not be empty.");
+                return false;
+            }
+
+            // Must be a number followed immediately by letters (e.g., 5ml, 10g)
+            if (!Regex.IsMatch(value, @"^[0-9]+[A-Za-z]+$"))
+            {
+                errorProvider.SetError(control, "Unit per volume should not contain special symbols or spaces between the number and unit.");
+                return false;
+            }
+
+            errorProvider.SetError(control, "");
+            return true;
+        }
+        public static bool ValidateDeliveredDate(DateTimePicker control, ErrorProvider errorProvider)
+        {
+            DateTime selected = control.Value.Date;
+            DateTime today = DateTime.Today;
+
+            if (selected == DateTime.MinValue)
+            {
+                errorProvider.SetError(control, "Delivered date should not be empty.");
+                return false;
+            }
+
+            if (selected > today)
+            {
+                errorProvider.SetError(control, "Delivered date cannot be a future date.");
+                return false;
+            }
+
+            errorProvider.SetError(control, "");
+            return true;
+        }
+
+        public static bool ValidateExpirationDate(DateTimePicker expiration, DateTimePicker delivered, ErrorProvider errorProvider)
+        {
+            DateTime exp = expiration.Value.Date;
+            DateTime del = delivered.Value.Date;
+
+            if (exp == DateTime.MinValue)
+            {
+                errorProvider.SetError(expiration, "Expiration date should not be empty.");
+                return false;
+            }
+
+            if (exp < del)
+            {
+                errorProvider.SetError(expiration, "Expiration date should not be earlier than the delivery date.");
+                return false;
+            }
+
+            errorProvider.SetError(expiration, "");
+            return true;
+        }
+        public static bool ValidateSupplier(ComboBox comboBox, ErrorProvider errorProvider)
+        {
+            if (comboBox.SelectedIndex < 0 || string.IsNullOrWhiteSpace(comboBox.Text))
+            {
+                errorProvider.SetError(comboBox, "Supplier is required before adding an item.");
+                return false;
+            }
+
+            errorProvider.SetError(comboBox, "");
+            return true;
+        }
+        public static bool ValidateProduct(ComboBox comboBox, ErrorProvider errorProvider)
+        {
+            if (comboBox.SelectedIndex < 0 || string.IsNullOrWhiteSpace(comboBox.Text))
+            {
+                errorProvider.SetError(comboBox, "Product selection is required.");
+                return false;
+            }
+
+            errorProvider.SetError(comboBox, "");
+            return true;
+        }
+        public static bool ValidateInvoice(string value, Control control, ErrorProvider errorProvider, Func<string, bool> isDuplicateCheck)
+        {
+            if (string.IsNullOrWhiteSpace(value))
+            {
+                errorProvider.SetError(control, "Invoice should not be empty.");
+                return false;
+            }
+
+            if (!Regex.IsMatch(value, @"^[A-Za-z0-9-]+$"))
+            {
+                errorProvider.SetError(control, "Invoice should only contain letters, numbers, and hyphens.");
+                return false;
+            }
+
+            if (isDuplicateCheck(value))
+            {
+                errorProvider.SetError(control, "Invoice number already exists. Please enter a different one.");
+                return false;
+            }
+
+            errorProvider.SetError(control, "");
+            return true;
+        }
+
+        public static bool ValidateQuantity(string value, Control control, ErrorProvider errorProvider)
+        {
+            if (string.IsNullOrWhiteSpace(value))
+            {
+                errorProvider.SetError(control, "Quantity should not be empty.");
+                return false;
+            }
+
+            if (!Regex.IsMatch(value, @"^[1-9]\d*$"))
+            {
+                errorProvider.SetError(control, "Quantity must be a positive whole number.");
+                return false;
+            }
+
+            errorProvider.SetError(control, "");
+            return true;
+        }
+
+        public static bool ValidateDecimalValue(string value, Control control, ErrorProvider errorProvider, string fieldName)
+        {
+            if (string.IsNullOrWhiteSpace(value))
+            {
+                errorProvider.SetError(control, $"{fieldName} should not be empty.");
+                return false;
+            }
+
+            if (value.Contains(" ") || !Regex.IsMatch(value, @"^\d+(\.\d+)?$"))
+            {
+                errorProvider.SetError(control, $"{fieldName} should only contain numbers and decimals.");
+                return false;
+            }
+
+            errorProvider.SetError(control, "");
+            return true;
+        }
+        public static bool ValidateNotes(string value, Control control, ErrorProvider errorProvider)
+        {
+            if (value.Length > 255)
+            {
+                errorProvider.SetError(control, "Notes should not exceed 255 characters.");
+                return false;
+            }
+
+            if (!Regex.IsMatch(value, @"^[A-Za-z0-9\s.,-]*$"))
+            {
+                errorProvider.SetError(control, "Notes should not contain special symbols.");
+                return false;
+            }
+
+            errorProvider.SetError(control, "");
+            return true;
+        }
+        public static bool ValidateSellingPrice(string value, Control control, ErrorProvider errorProvider)
+        {
+            return ValidateDecimalValue(value, control, errorProvider, "Selling price");
+        }
+        public static bool ValidateVAT(string vatText, Control control, ErrorProvider ep)
+        {
+            vatText = vatText.Trim();
+
+            if (string.IsNullOrWhiteSpace(vatText))
+            {
+                ep.SetError(control, "VAT is required.");
+                return false;
+            }
+
+            // Ensure it's a valid integer
+            if (!int.TryParse(vatText, out int vat))
+            {
+                ep.SetError(control, "VAT must be a whole number. Example: 12 for 12%.");
+                return false;
+            }
+
+            // Check range
+            if (vat < 0 || vat > 100)
+            {
+                ep.SetError(control, "VAT must be between 0 and 100.");
+                return false;
+            }
+
+            ep.SetError(control, "");
+            return true;
+        }
+
+        public static bool ValidateDiscount(string discountText, Control control, ErrorProvider ep)
+        {
+            discountText = discountText.Trim();
+
+            // Check for empty input
+            if (string.IsNullOrWhiteSpace(discountText))
+            {
+                ep.SetError(control, "Discount is required.");
+                return false;
+            }
+
+            // Check for spaces
+            if (discountText.Contains(" "))
+            {
+                ep.SetError(control, "Discount should not contain spaces.");
+                return false;
+            }
+
+            // Check for letters or symbols using regex
+            if (!Regex.IsMatch(discountText, @"^\d+(\.\d+)?$"))
+            {
+                ep.SetError(control, "Discount must be a positive number or decimal only. No letters or symbols allowed.");
+                return false;
+            }
+
+            // Parse and validate numeric range
+            if (!decimal.TryParse(discountText, out decimal discount) || discount < 0 || discount > 100)
+            {
+                ep.SetError(control, "Discount must be between 0 and 100.");
+                return false;
+            }
+
+            ep.SetError(control, "");
+            return true;
+        }
+
+
+        public static bool ValidatePromoCode(string promoText, Control control, ErrorProvider ep)
+        {
+            promoText = promoText.Trim();
+
+            if (string.IsNullOrWhiteSpace(promoText))
+            {
+                ep.SetError(control, "Promo code is required.");
+                return false;
+            }
+
+            if (promoText.Contains(" "))
+            {
+                ep.SetError(control, "Promo code should not contain spaces.");
+                return false;
+            }
+
+            // Check for non-alphanumeric characters
+            if (!Regex.IsMatch(promoText, @"^[a-zA-Z0-9]+$"))
+            {
+                ep.SetError(control, "Promo code must contain only letters and numbers. No symbols allowed.");
+                return false;
+            }
+
+            ep.SetError(control, "");
+            return true;
+        }
 
     }
+
 }

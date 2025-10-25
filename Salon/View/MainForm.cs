@@ -164,8 +164,105 @@ namespace Salon.View
             }
 
         }
+
+        private void MinAndMaxDate() 
+        {
+            var MinStartDate = DateTime.Today.AddYears(-2);
+            var MaxStartDate = DateTime.Today;
+
+            var MinEndDate = MinStartDate;
+            var MaxEndDate = DateTime.Today.AddMonths(3);
+
+
+            // SALES REPORT
+            dtp_report_start_date.MinDate = MinStartDate;
+            dtp_report_start_date.MaxDate = MaxStartDate;
+
+            dtp_report_end_date.MinDate = MinEndDate;
+            dtp_report_end_date.MaxDate = MaxEndDate;
+
+            // EXPENSES REPORT
+            dtp_expense_start_date.MinDate = MinStartDate;
+            dtp_expense_start_date.MaxDate = MaxStartDate;
+
+            dtp_expense_end_date.MinDate = MinEndDate;
+            dtp_expense_end_date.MaxDate = MaxEndDate;
+
+            // PROFIT AND LOST REPORT
+            dtp_profit_lost_start_date.MinDate = MinStartDate;
+            dtp_profit_lost_start_date.MaxDate = MaxStartDate;
+
+            dtp_profit_lost_end_time.MinDate = MinEndDate;
+            dtp_profit_lost_end_time.MaxDate = MaxEndDate;
+
+            // CUSTOMER REPORT
+            dtp_customer_report_start.MinDate = MinStartDate;
+            dtp_customer_report_start.MaxDate = MaxStartDate;
+
+            dtp_customer_report_end.MinDate = MinEndDate;
+            dtp_customer_report_end.MaxDate = MaxEndDate;
+
+            // TECHNICIAN REPORT
+            dtp_technician_report_start.MinDate = MinStartDate;
+            dtp_technician_report_start.MaxDate = MaxStartDate;
+
+            dtp_technician_report_end.MinDate = MinEndDate;
+            dtp_technician_report_end.MaxDate = MaxEndDate;
+
+
+            // DELIVERY REPORT
+            dtp_delivery_report_start.MinDate = MinStartDate;
+            dtp_delivery_report_start.MaxDate = MaxStartDate;
+
+            dtp_delivery_report_end.MinDate = MinEndDate;
+            dtp_delivery_report_end.MaxDate = MaxEndDate;
+
+
+
+            // DISCOUNT REPORT
+            dtp_discount_report_start.MinDate = MinStartDate;
+            dtp_discount_report_start.MaxDate = MaxStartDate;
+
+            dtp_discount_report_end.MinDate = MinEndDate;
+            dtp_discount_report_end.MaxDate = MaxEndDate;
+
+
+            // ADUIT REPORT
+            dtp_audit_start.MinDate = MinStartDate;
+            dtp_audit_start.MaxDate = MaxStartDate;
+
+            dtp_audit_end.MinDate = MinEndDate;
+            dtp_audit_end.MaxDate = MaxEndDate;
+
+            // TRANSACTION HISTORY
+            dtp_transaction_start.MinDate = MinStartDate;
+            dtp_transaction_start.MaxDate = MaxStartDate;
+
+            dtp_transaction_end.MinDate = MinEndDate;
+            dtp_transaction_end.MaxDate = MaxEndDate;
+
+
+            // REFUND HISTORY
+            dtp_refund_start.MinDate = MinStartDate;
+            dtp_refund_start.MaxDate = MaxStartDate;
+
+            dtp_refund_end.MinDate = MinEndDate;
+            dtp_refund_end.MaxDate = MaxEndDate;
+
+
+            // DELETED RECORD HISTORY
+            dtp_delete_record_start.MinDate = MinStartDate;
+            dtp_delete_record_start.MaxDate = MaxStartDate;
+
+            dtp_delete_record_end.MinDate = MinEndDate;
+            dtp_delete_record_end.MaxDate = MaxEndDate;
+
+
+        }
         private async  void MainForm_Load(object sender, EventArgs e)
         {
+
+            MinAndMaxDate();
             expiry_timer.Start();
             LoadExpiringDiscount();
             LowOrOutOfStock();
@@ -1156,9 +1253,9 @@ namespace Salon.View
 
             bool validated = true;
             // REQUIRED FIELD
-            validated &= Validator.IsRequired(txt_vat, errorProvider1, "Vat is required.");
-
-
+            //validated &= Validator.IsRequired(txt_vat, errorProvider1, "Vat is required.");
+            validated &= Validator.ValidateVAT(txt_vat.Text, txt_vat, errorProvider1);
+        
             return validated;
 
 
@@ -1230,9 +1327,9 @@ namespace Salon.View
 
                 vatModel.tax_id = tax_id;
                 vatModel.tax = tax_rate;
-                if (MessageBox.Show($"Are you sure you want to update {txt_vat.Text}?", "Confirm Update", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
+                if (MessageBox.Show($"Are you sure you want to update vat?", "Confirm Update", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
                 {
-                    MessageBox.Show("Tax updated succesfully!", "success", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    MessageBox.Show($"Vat updated succesfully!", "success", MessageBoxButtons.OK, MessageBoxIcon.Information);
                     tax_controller.UpdateTax(vatModel);
                     Audit.AuditLog(
                    DateTime.Now,
@@ -1271,8 +1368,9 @@ namespace Salon.View
             if (!VatValidated()) return;
 
             AddOrUpdateVat();
-
+            
             await RefreshVat();
+           
         }
      
         
@@ -2406,6 +2504,10 @@ namespace Salon.View
             AddOrUpdateExpense("Utilities", "Updated Monthly Rent & Bills", total_cost, UserSession.CurrentUser.first_Name, "", DateTime.Now);
             await RefreshRentAsync();
             await RefreshUtilAsync();
+            btn_edit_bill.Visible = true;
+            btn_save_changes.Visible = false;
+            btn_cancel_bill.Visible = false;
+
         }
         private async void btn_add_bill_Click(object sender, EventArgs e)
         {
@@ -4532,6 +4634,13 @@ namespace Salon.View
 
         }
 
+        public bool PermanentDelete(int record_id) 
+        {
+            var repo = new DeletedRecordRepository();
+            var controller = new DeletedRecordController(repo);
+
+            return controller.Delete(record_id);
+        }
         public bool DeleteDeletedRecord(int record_id) 
         {
             var repo = new DeletedRecordRepository();
@@ -4631,12 +4740,21 @@ namespace Salon.View
            
         }
 
+        // USER RECORD
         public void RestoreDeactivatedUserRecord(int id)
         {
             var repo = new UserRepository();
             var controller = new UserController(repo);
             controller.RestoreUser(id);
         }
+        public void DeleteUserRecord(int id) 
+        {
+            var repo = new UserRepository();
+            var controller = new UserController(repo);
+            controller.DeletePermanent (id);
+        }
+
+        // CATEGORY RECORD
         public void RestoreDeletedCategoryRecord(int id) 
         {
             var repo = new CategoryRepository();
@@ -4644,6 +4762,15 @@ namespace Salon.View
             controller.restoreCategory(id);
         }
 
+        public void DeleteCategoryRecord(int id)
+        {
+            var repo = new CategoryRepository();
+            var controller = new CategoryController(repo);
+            controller.PermanentDeleteCategory(id);
+        }
+
+
+        // STYLIST RECORD
         public void RestoreDeletedStylistRecord(int id)
         {
             var repo = new StylistRepository();
@@ -4651,6 +4778,14 @@ namespace Salon.View
             controller.restoreStylist(id);
         }
 
+        public void DeleteStylistRecord(int id) 
+        {
+            var repo = new StylistRepository();
+            var controller = new StylistController(repo);
+            controller.PermanentDeleteStylist(id);
+        }
+        
+        // CUSTOMER RECORD
         public void RestoreDeletedCustomerRecord(int id) 
         {
             var repo = new CustomerRepository();
@@ -4658,6 +4793,15 @@ namespace Salon.View
             controller.RestoreCustomer(id);
         }
 
+        public void DeleteCustomerRecord(int id)
+        {
+            var repo = new CustomerRepository();
+            var controller = new CustomerController(repo);
+            controller.PermanentDeleteCustomer(id);
+        }
+
+
+        // SUPPLIER RECORD
         public void RestoreDeletedSupplierRecord(int id) 
         {
             var repo = new SupplierRepository();
@@ -4665,7 +4809,15 @@ namespace Salon.View
             controller.RestoreSupplier(id);
 
         }
+        public void DeleteSupplierRecord(int id)
+        {
+            var repo = new SupplierRepository();
+            var controller = new SupplierController(repo);
+            controller.PermanentDeleteSupplier(id);
 
+        }
+
+        // SUBCATEGORY RECORD
         public void RestoreDeletedSubCategoryRecord(int id)
         {
             var repo = new SubCategoryRepository();
@@ -4673,7 +4825,15 @@ namespace Salon.View
             controller.RestoreSubCategory(id);
 
         }
+        public void DeleteSubCategoryRecord(int id)
+        {
+            var repo = new SubCategoryRepository();
+            var controller = new SubCategoryController(repo);
+            controller.PermanentDeleteSubCategory(id);
 
+        }
+
+        // PRODUCT RECORD
         public void RestoreDeletedProductRecord(int id) 
         {
             var repo = new ProductRepository();
@@ -4681,19 +4841,42 @@ namespace Salon.View
             controller.RestoreProduct(id);
         }
 
+        public void DeleteProductRecord(int id)
+        {
+            var repo = new ProductRepository();
+            var controller = new ProductController(repo);
+            controller.PermanentDeleteProduct(id);
+        }
+
+        // SERVICE RECORD
         public void RestoreDeletedServiceRecord(int id)
         {
             var repo = new ServiceRepository();
             var controller = new ServiceController(repo);
             controller.RestoreServices(id);
         }
+        public void DeleteServiceRecord(int id)
+        {
+            var repo = new ServiceRepository();
+            var controller = new ServiceController(repo);
+            controller.PermanentDeleteService(id);
+        }
+
+        // SERVICE PRICE RECORD
         public void RestoreDeletedServicePriceRecord(int id)
         {
             var repo = new ServicePriceRepository();
             var controller = new ServicePriceController(repo);
             controller.RestoreServicePrice(id);
         }
-
+        public void DeleteServicePriceRecord(int id)
+        {
+            var repo = new ServicePriceRepository();
+            var controller = new ServicePriceController(repo);
+            controller.PermanentDeleteServicePrice(id);
+        }
+        // DISCOUNT RECORD
+        
         public void RestoreDeletedDiscountRecord(int id)
         {
             var repo = new DiscountRepository();
@@ -4701,6 +4884,14 @@ namespace Salon.View
             controller.RestoreDiscount(id);
         }
 
+        public void DeleteDiscountRecord(int id)
+        {
+            var repo = new DiscountRepository();
+            var controller = new DiscountController(repo);
+            controller.PermanentDeleteDiscount(id);
+        }
+
+        // SERVICE PRODUCT USAGE
         public void RestoreDeletedServiceProductRecord(int id) 
         {
             var repo = new ServiceProductUsageRepository();
@@ -4708,18 +4899,39 @@ namespace Salon.View
             controller.RestoreServiceProduct(id);
         }
 
+        public void DeleteServiceProductUsage(int id)
+        {
+            var repo = new ServiceProductUsageRepository();
+            var controller = new ServiceProductUsageController(repo);
+            controller.PermanentDeleteServiceProductUsage(id);
+        }
+
+        // WEEKLY SCHEDULE
         public void RestoreDeletedWeeklySchedule(int id)
         {
             var repo = new StylistSchedulesRepository();
             var controller = new StylistSchedulesController(repo);
             controller.RestoreSchedule(id);
         }
+        public void DeleteWeeklySchedule(int id)
+        {
+            var repo = new StylistSchedulesRepository();
+            var controller = new StylistSchedulesController(repo);
+            controller.PermanetDeleteWeeklySchedule(id);
+        }
 
+        // EXCEPTION SCHEDULE
         public void RestoreDeletedExceptionSchedule(int id)
         {
             var repo = new ExceptionSchedulesRepository();
             var controller = new ExceptionSchedulesController(repo);
             controller.RestoreExceptionSchedule (id);
+        }
+        public void DeleteExSchedule(int id)
+        {
+            var repo = new ExceptionSchedulesRepository();
+            var controller = new ExceptionSchedulesController(repo);
+            controller.PermanentDeleteExSchedule(id);
         }
 
         private async void dgv_deleted_record_CellClick(object sender, DataGridViewCellEventArgs e)
@@ -4744,7 +4956,7 @@ namespace Salon.View
 
                         if (success)
                         {
-                            switch (record.module) 
+                            switch (record.module)
                             {
                                 case "Manage User":
                                     RestoreDeactivatedUserRecord(record.record_id);
@@ -4764,7 +4976,7 @@ namespace Salon.View
                                     break;
                                 case "Manage Supplier":
                                     RestoreDeletedSupplierRecord(record.record_id);
-                                   await RefreshSupplierAsync();
+                                    await RefreshSupplierAsync();
                                     break;
                                 case "Manage Sub-Categories":
                                     RestoreDeletedSubCategoryRecord(record.record_id);
@@ -4787,7 +4999,7 @@ namespace Salon.View
                                     await RefreshDiscountAsync();
                                     break;
                                 case "Manage Services, Product Usage":
-                                    RestoreDeletedServiceProductRecord(record.record_id);                                 
+                                    RestoreDeletedServiceProductRecord(record.record_id);
                                     break;
                                 case "Manage Stylist, Schedule":
                                     RestoreDeletedWeeklySchedule(record.record_id);
@@ -4798,7 +5010,90 @@ namespace Salon.View
 
 
                             }
-                           
+
+                            MessageBox.Show("Record restored successfully!", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
+
+                            await FilterdDeletedRecords();
+                        }
+                        else
+                        {
+                            MessageBox.Show("Restore failed. Please check logs.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        }
+                    }
+                }
+            }
+            else if (dgv_deleted_record.Columns[e.ColumnIndex].Name == "col_btn_deleted_record") 
+            {
+                var record = dgv_deleted_record.Rows[e.RowIndex].DataBoundItem as DeletedRecord;
+                if (record != null)
+                {
+                    var confirm = MessageBox.Show(
+                        $"Are you sure you want to permanently delete this {record.name} record?",
+                        "Warning",
+                        MessageBoxButtons.YesNo,
+                        MessageBoxIcon.Warning);
+
+                    if (confirm == DialogResult.Yes)
+                    {
+                        bool success = DeleteDeletedRecord(record.deleted_id);
+
+                        if (success)
+                        {
+                            switch (record.module)
+                            {
+                                case "Manage User":
+                                    DeleteUserRecord(record.record_id);
+                                    await RefreshUsersAsync();
+                                    break;
+                                case "Category":
+                                    DeleteCategoryRecord(record.record_id);
+                                    await RefreshCategoryAsync();
+                                    break;
+                                case "Manage Stylist":
+                                    DeleteStylistRecord(record.record_id);
+                                    await RefreshStylistAsync();
+                                    break;
+                                case "Manage Customer":
+                                    DeleteCustomerRecord(record.record_id);
+                                    await RefreshCustomers();
+                                    break;
+                                case "Manage Supplier":
+                                    DeleteSupplierRecord(record.record_id);
+                                    await RefreshSupplierAsync();
+                                    break;
+                                case "Manage Sub-Categories":
+                                    RestoreDeletedSubCategoryRecord(record.record_id);
+                                    await RefreshSubCategoryAsync();
+                                    break;
+                                case "Manage Products":
+                                    DeleteProductRecord(record.record_id);
+                                    await RefreshProductAsync();
+                                    break;
+                                case "Manage Services":
+                                    DeleteServiceRecord(record.record_id);
+                                    await RefreshServicesAsync();
+                                    break;
+                                case "Service Price":
+                                    DeleteServicePriceRecord(record.record_id);
+                                    await RefreshServicePriceAsync();
+                                    break;
+                                case "Vat/Discount":
+                                    DeleteDiscountRecord(record.record_id);
+                                    await RefreshDiscountAsync();
+                                    break;
+                                case "Manage Services, Product Usage":
+                                    DeleteServiceProductUsage(record.record_id);
+                                    break;
+                                case "Manage Stylist, Schedule":
+                                    DeleteWeeklySchedule(record.record_id);
+                                    break;
+                                case "Manage Stylist, Exception Schedule":
+                                    DeleteExSchedule(record.record_id);
+                                    break;
+
+
+                            }
+
                             MessageBox.Show("Record restored successfully!", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
 
                             await FilterdDeletedRecords();
@@ -4996,6 +5291,61 @@ namespace Salon.View
             FilteredStaffReport();
             FilteredDeliveryReport();
             FilteredDiscountReport();
+        }
+
+        private void dtp_report_start_date_ValueChanged(object sender, EventArgs e)
+        {
+            dtp_report_end_date.MinDate = dtp_report_start_date.Value.Date;
+        }
+
+        private void dtp_expense_start_date_ValueChanged(object sender, EventArgs e)
+        {
+            dtp_expense_end_date.MinDate = dtp_expense_start_date.Value.Date;
+        }
+
+        private void dtp_profit_lost_start_date_ValueChanged(object sender, EventArgs e)
+        {
+            dtp_profit_lost_end_time.MinDate = dtp_profit_lost_start_date.Value.Date;
+        }
+
+        private void dtp_customer_report_start_ValueChanged(object sender, EventArgs e)
+        {
+            dtp_customer_report_end.MinDate = dtp_customer_report_start.Value.Date;
+        }
+
+        private void dtp_technician_report_start_ValueChanged(object sender, EventArgs e)
+        {
+            dtp_technician_report_end.MinDate = dtp_technician_report_start.Value.Date;
+        }
+
+        private void dtp_delivery_report_start_ValueChanged(object sender, EventArgs e)
+        {
+            dtp_delivery_report_end.MinDate = dtp_delivery_report_start.Value.Date;
+        }
+
+        private void dtp_discount_report_start_ValueChanged(object sender, EventArgs e)
+        {
+            dtp_discount_report_end.MinDate = dtp_discount_report_start.Value.Date;
+        }
+
+        private void dtp_audit_start_ValueChanged(object sender, EventArgs e)
+        {
+            dtp_audit_end.MinDate = dtp_audit_start.Value.Date;
+        }
+
+        private void dtp_transaction_start_ValueChanged(object sender, EventArgs e)
+        {
+            dtp_transaction_end.MinDate = dtp_audit_start.Value.Date;
+        }
+
+        private void dtp_refund_start_ValueChanged(object sender, EventArgs e)
+        {
+            dtp_refund_end.MinDate = dtp_refund_start.Value.Date;
+        }
+
+        private void dtp_delete_record_start_ValueChanged(object sender, EventArgs e)
+        {
+            dtp_delete_record_end.MinDate = dtp_delete_record_start.Value.Date;
         }
 
 

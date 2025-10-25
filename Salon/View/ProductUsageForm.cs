@@ -45,19 +45,12 @@ namespace Salon.View
             bool validated = true;
 
             // REQUIRED FIELD
-            if (!Validator.IntOnly(txt_usage_amount, errorProvider1, "Usage amount is Required", "Spaces are not allowed", "Usage amount must be a whole number.", "Value must be greater than zero."))
-            {
-                validated = false;
-            }
+            string usageAmount = txt_usage_amount.Text.Trim();
+            string unitPerVolume = txt_unit_volume.Text.Trim();
 
-            if (!Validator.DecimalOnly(txt_unit_volume, errorProvider1,
-               "Unit Volume is required.",
-               "No spaces allowed.",
-               "Unit Volume must be a valid number.",
-               "PriUnit Volumece must be at least 1.00."))
-            {
-                validated = false;
-            }
+            validated &= Validator.ValidateUsageAmount(usageAmount, txt_usage_amount, errorProvider1);
+            validated &= Validator.ValidateUnitPerVolume(unitPerVolume, txt_unit_volume, errorProvider1);
+
 
             if (!Validator.IsComboBoxSelected(cmb_product, errorProvider1, "Service is required.")) 
             {

@@ -89,7 +89,7 @@ namespace Salon.View
 
         private async void btn_update_discount_Click(object sender, EventArgs e)
         {
-            if (!IsValid()) return;
+            if (!DiscountValidated()) return;
 
             UpdateDiscount();
             await main.RefreshDiscountAsync();
@@ -342,14 +342,15 @@ namespace Salon.View
 
             bool validated = true;
             // REQUIRED FIELD
-            validated &= Validator.IsRequired(cmb_discount_type, errorProvider1, "Discount type is required.");
-            validated &= Validator.IsRequired(txt_discount, errorProvider1, "Discount rate is required.");
-
+            validated &= Validator.IsComboBoxSelected(cmb_discount_type, errorProvider1, "Discount type is required.");
+            //validated &= Validator.IsRequired(txt_discount, errorProvider1, "Discount rate is required.");
+            validated &= Validator.ValidateDiscount(txt_discount.Text, txt_discount, errorProvider1);
 
 
             if (cmb_discount_type.Text == "Promo")
             {
                 validated &= Validator.IsRequired(txt_promo_code, errorProvider1, "Promo code is required.");
+                validated &= Validator.ValidatePromoCode(txt_promo_code.Text, txt_promo_code, errorProvider1);
 
             }
 
@@ -378,7 +379,7 @@ namespace Salon.View
         }
         private async void btn_add_discount_Click(object sender, EventArgs e)
         {
-            if (!IsValid()) return;
+            if (!DiscountValidated()) return;
             AddDiscount();
             clear_discount_fields();
             await main.RefreshDiscountAsync();

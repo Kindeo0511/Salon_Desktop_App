@@ -41,10 +41,20 @@ namespace Salon.View
 
         private async void btn_save_Click(object sender, EventArgs e)
         {
-            UpdateStatus();
-            MessageBox.Show("Status Update Successfully!", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
-            await mainForm.RefreshDiscountAsync();
-            this.Close();
+            if (cmb_status.SelectedItem != null && cmb_status.SelectedIndex > 0)
+            {
+                UpdateStatus();
+                MessageBox.Show("Status Update Successfully!", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                await mainForm.RefreshDiscountAsync();
+                this.Close();
+            }
+            else
+            {
+
+                errorProvider1.SetError(cmb_status, "Please select a status.");
+
+            }
+           
         }
 
         private void btn_cancel_Click(object sender, EventArgs e)

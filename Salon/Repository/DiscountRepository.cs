@@ -92,6 +92,15 @@ namespace Salon.Repository
             }
                 
         }
+
+       public void PermanentDelete(int id) 
+        {
+            using (var con = Database.GetConnection())
+            {
+                var sql = @"DELETE FROM tbl_discount WHERE discount_id = @discount_id";
+                con.Execute(sql, new { discount_id = id });
+            }
+        }
         public void RestoreDiscount(int id)
         {
             using (var con = Database.GetConnection())
@@ -248,13 +257,14 @@ namespace Salon.Repository
                 {
                     sql = @"SELECT COUNT(*) FROM tbl_discount 
                     WHERE promo_code = @code 
+                        AND discount_type = @type 
                       AND discount_id != @id";
                 }
                 else
                 {
-                    sql = @"SELECT COUNT(*) FROM tbl_discount 
-                    WHERE discount_type = @type 
-                      AND discount_rate = @rate 
+                        sql = @"
+                    SELECT COUNT(*) FROM tbl_discount 
+                    WHERE discount_type = @type
                       AND discount_id != @id";
                 }
 

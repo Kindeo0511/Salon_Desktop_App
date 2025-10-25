@@ -27,11 +27,14 @@ namespace Salon.View
             LoadSupplier();
             LoadProducts();
             this.mainform = mainform;
-            dtp_expiry.MinDate = DateTime.Today;
+            // Delivered date: allow up to 2 years back, but not future
+            dtp_delivery_date.MinDate = DateTime.Today.AddYears(-2);
+            dtp_delivery_date.MaxDate = DateTime.Today;
+
+            // Expiry date: must be on or after delivery, up to 10 years ahead
+            dtp_expiry.MinDate = dtp_delivery_date.Value.Date;
             dtp_expiry.MaxDate = DateTime.Today.AddYears(10);
 
-            dtp_delivery_date.MinDate = DateTime.Today;
-            dtp_delivery_date.MaxDate = DateTime.Today.AddYears(1); // or any reasonable future window
             txt_received_by.Text = UserSession.CurrentUser.first_Name.ToString();
         }
 
@@ -43,112 +46,133 @@ namespace Salon.View
             return controller.GetDeliveryExists(invoice);
         }
 
-        private bool IsValid()
+        private bool IsValid() 
         {
-          
             bool validated = true;
-            DateTime deliveredDate = dtp_delivery_date.Value;
-            DateTime expirationDate = dtp_expiry.Value;
-   
 
-            // REQUIRED FIELD
+            var repo = new DeliveryRepository();
+            var controller = new DeliveryController(repo);
+            
 
-            // INBOICE 
-            if (!Validator.IsRequiredTextField(txt_invoice, errorProvider1, "Invoice is required."))
-            {
-                validated = false;
-            }
-            else if (!Validator.IsMinimumLength(txt_invoice, errorProvider1, "Invoice must be at least 3 characters.", 3))
-            {
-                validated = false;
-            }
-            else if (!Validator.Pattern(txt_invoice, errorProvider1, @"^[A-Za-z0-9 _.\-&/]{3,50}$", "Invoice can only contain letters, numbers, spaces, dots, underscores, hyphens, ampersands, and slashes."))
-            {
-                validated = false;
-            }
-            else if (InvoiceExists(txt_invoice.Text.Trim()))
-            {
-                errorProvider1.SetError(txt_invoice, "Invoice already exists!");
-                validated = false;
-            }
-
-
-            // QTY 
-            if (!Validator.IntOnly(txt_qty, errorProvider1, "Quantity is required.", "No spaces allowed.", "Quantity must be a whole number.", "Quantity must be greater than zero."))
-            {
-                validated = false;
-            }
-
-            // PRICE
-            if (!Validator.DecimalOnly(txt_price, errorProvider1,
-                "Price is required.",
-                "No spaces allowed.",
-                "Price must be a valid number.",
-                "Price must be at least 1.00."))
-            {
-                validated = false;
-            }
-
-
-            if (!string.IsNullOrWhiteSpace(txt_notes.Text)) 
-            {
-                if (txt_notes.Text.Length < 10)
-                {
-                    errorProvider1.SetError(txt_notes, "Notes must be at least 10 characters..");
-                    validated = false;
-                }
-             
-                else if (!Validator.MultiLinePattern(txt_notes, errorProvider1,
-                    @"^[A-Za-z0-9\s.,!?()\-']+$""",
-                    "Notes can only contain letters, numbers, and common punctuation(. , ! ? ( ) - ')."))
-                {
-                    validated = false;
-                }
-                
-
-
-            }
-         
-
-
-            if (!Validator.IsComboBoxSelected(cb_product_names, errorProvider1, "Product is Required"))
-            {
-                validated = false;
-            }
-
-            if (!Validator.IsComboBoxSelected(cb_supplier_name, errorProvider1, "Supplier is Required"))
-            {
-                validated = false;
-            }
-
-            if (deliveredDate > DateTime.Now)
-            {
-                errorProvider1.SetError(dtp_delivery_date, "Delivered date cannot be in the future.");
-                validated = false;
-            }
-            else
-            {
-                errorProvider1.SetError(dtp_delivery_date, "");
-            }
-
-            if (expirationDate <= deliveredDate)
-            {
-                errorProvider1.SetError(dtp_expiry, "Expiration date must be after the delivered date.");
-                validated = false;
-            }
-            else
-            {
-                errorProvider1.SetError(dtp_expiry, "");
-            }
-
-
-
+            validated &= Validator.ValidateDeliveredDate(dtp_delivery_date, errorProvider1);
+            validated &= Validator.ValidateExpirationDate(dtp_expiry, dtp_delivery_date, errorProvider1);
+            validated &= Validator.ValidateSupplier(cb_supplier_name, errorProvider1);
+            validated &= Validator.ValidateProduct(cb_product_names, errorProvider1);
+            validated &= Validator.ValidateInvoice(txt_invoice.Text.Trim(), txt_invoice, errorProvider1, name => controller.GetDeliveryExists(txt_invoice.Text));
+            validated &= Validator.ValidateQuantity(txt_qty.Text.Trim(), txt_qty, errorProvider1);
+            validated &= Validator.ValidateDecimalValue(txt_price.Text.Trim(), txt_price, errorProvider1, "Price");
+            validated &= Validator.ValidateNotes(txt_notes.Text.Trim(), txt_notes, errorProvider1);
+            validated &= Validator.ValidateSellingPrice(txt_price.Text.Trim(), txt_price, errorProvider1);
 
             return validated;
 
-
         }
-        
+        //private bool IsValid()
+        //{
+
+        //    bool validated = true;
+        //    DateTime deliveredDate = dtp_delivery_date.Value;
+        //    DateTime expirationDate = dtp_expiry.Value;
+
+
+        //    // REQUIRED FIELD
+
+        //    // INBOICE 
+        //    if (!Validator.IsRequiredTextField(txt_invoice, errorProvider1, "Invoice is required."))
+        //    {
+        //        validated = false;
+        //    }
+        //    else if (!Validator.IsMinimumLength(txt_invoice, errorProvider1, "Invoice must be at least 3 characters.", 3))
+        //    {
+        //        validated = false;
+        //    }
+        //    else if (!Validator.Pattern(txt_invoice, errorProvider1, @"^[A-Za-z0-9 _.\-&/]{3,50}$", "Invoice can only contain letters, numbers, spaces, dots, underscores, hyphens, ampersands, and slashes."))
+        //    {
+        //        validated = false;
+        //    }
+        //    else if (InvoiceExists(txt_invoice.Text.Trim()))
+        //    {
+        //        errorProvider1.SetError(txt_invoice, "Invoice already exists!");
+        //        validated = false;
+        //    }
+
+
+        //    // QTY 
+        //    if (!Validator.IntOnly(txt_qty, errorProvider1, "Quantity is required.", "No spaces allowed.", "Quantity must be a whole number.", "Quantity must be greater than zero."))
+        //    {
+        //        validated = false;
+        //    }
+
+        //    // PRICE
+        //    if (!Validator.DecimalOnly(txt_price, errorProvider1,
+        //        "Price is required.",
+        //        "No spaces allowed.",
+        //        "Price must be a valid number.",
+        //        "Price must be at least 1.00."))
+        //    {
+        //        validated = false;
+        //    }
+
+
+        //    if (!string.IsNullOrWhiteSpace(txt_notes.Text)) 
+        //    {
+        //        if (txt_notes.Text.Length < 10)
+        //        {
+        //            errorProvider1.SetError(txt_notes, "Notes must be at least 10 characters..");
+        //            validated = false;
+        //        }
+
+        //        else if (!Validator.MultiLinePattern(txt_notes, errorProvider1,
+        //            @"^[A-Za-z0-9\s.,!?()\-']+$""",
+        //            "Notes can only contain letters, numbers, and common punctuation(. , ! ? ( ) - ')."))
+        //        {
+        //            validated = false;
+        //        }
+
+
+
+        //    }
+
+
+
+        //    if (!Validator.IsComboBoxSelected(cb_product_names, errorProvider1, "Product is Required"))
+        //    {
+        //        validated = false;
+        //    }
+
+        //    if (!Validator.IsComboBoxSelected(cb_supplier_name, errorProvider1, "Supplier is Required"))
+        //    {
+        //        validated = false;
+        //    }
+
+        //    if (deliveredDate > DateTime.Now)
+        //    {
+        //        errorProvider1.SetError(dtp_delivery_date, "Delivered date cannot be in the future.");
+        //        validated = false;
+        //    }
+        //    else
+        //    {
+        //        errorProvider1.SetError(dtp_delivery_date, "");
+        //    }
+
+        //    if (expirationDate <= deliveredDate)
+        //    {
+        //        errorProvider1.SetError(dtp_expiry, "Expiration date must be after the delivered date.");
+        //        validated = false;
+        //    }
+        //    else
+        //    {
+        //        errorProvider1.SetError(dtp_expiry, "");
+        //    }
+
+
+
+
+        //    return validated;
+
+
+        //}
+
         private void LoadSupplier() 
         {
             var repo = new SupplierRepository();
@@ -186,14 +210,12 @@ namespace Salon.View
                 txt_total.Text = total.ToString("N2");
                 
             }
-            else
-            {
-                txt_total.Text = "0.00";
-            }
+           
         }
         private void Clear()
         {
-
+            cb_product_names.Hint = string.Empty;
+            cb_supplier_name.Hint = string.Empty;
             cb_product_names.SelectedIndex = -1;
             txt_notes.Clear();
             txt_price.Clear();
@@ -202,6 +224,8 @@ namespace Salon.View
             txt_unit.Clear();
             txt_volume.Clear();
             totalVolume = 0;
+            cb_product_names.Hint = "Select Product";
+            cb_supplier_name.Hint = "Select Supplier";
 
 
         }
@@ -239,21 +263,36 @@ namespace Salon.View
         {
 
             if (!IsValid()) return;
+ 
 
-                   dgv_Items.Rows.Add(
-                   cb_product_names.SelectedValue,
-                   cb_product_names.Text,
-                   txt_qty.Text.Trim(),
-                   txt_unit.Text.Trim(),
-                   txt_volume.Text.Trim(),
-                   txt_price.Text.Trim(),
-                   totalVolume,
-                   txt_total.Text.Trim(),
-                   dtp_delivery_date.Value.ToShortDateString(),
-                   dtp_expiry.Value.ToShortDateString(),
-                   txt_notes.Text.Trim()
+            string productId = cb_product_names.SelectedValue.ToString();
+            bool isDuplicate = dgv_Items.Rows
+                .Cast<DataGridViewRow>()
+                .Any(row => row.Cells[0].Value?.ToString() == productId);
 
-                );
+            if (isDuplicate)
+            {
+                MessageBox.Show("Duplicate products are not allowed in the same delivery.", "Duplicate Product", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
+
+            dgv_Items.Rows.Add(
+                  cb_product_names.SelectedValue,
+                  cb_product_names.Text,
+                  txt_qty.Text.Trim(),
+                  txt_unit.Text.Trim(),
+                  txt_volume.Text.Trim(),
+                  txt_price.Text.Trim(),
+                  totalVolume,
+                  txt_total.Text.Trim(),
+                  dtp_delivery_date.Value.ToShortDateString(),
+                  dtp_expiry.Value.ToShortDateString(),
+                  txt_notes.Text.Trim()
+
+               );
+            btn_save.Enabled = dgv_Items.Rows.Count > 0;
+
+          
             if (dgv_Items.Rows.Count > 0)
             {
                 btn_save.Enabled = true;
@@ -310,7 +349,7 @@ namespace Salon.View
             btn_cancel.Visible = false;
             btn_update.Visible = false;
             btn_delete.Enabled = false;
-            Clear();
+            
         }
 
         private async void btn_save_Click(object sender, EventArgs e)

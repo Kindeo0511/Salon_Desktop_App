@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using static System.Windows.Forms.VisualStyles.VisualStyleElement.StartPanel;
 
 namespace Salon.Repository
 {
@@ -77,6 +78,14 @@ namespace Salon.Repository
                 con.Execute(sql, new { id });
             }
         }
+        public void PermanentDelete(int id) 
+        {
+            using (var con = Database.GetConnection())
+            {
+                var sql = "DELETE FROM tbl_category WHERE category_id = @id";
+                con.Execute(sql, new { id });
+            }
+        }
         public bool CategoriesExist(string category, string type, int id = 0) 
         {
             using (var con = Database.GetConnection()) 
@@ -85,5 +94,15 @@ namespace Salon.Repository
                return  con.ExecuteScalar<int>(sql, new {category, type, id }) > 0;
             }
         }
+        public async Task<CategoryModel> GetExistingCategoryAsync(string category, string type, int excludeId = 0)
+        {
+            using (var con = Database.GetConnection())
+            {
+                var sql = @"SELECT * FROM tbl_category WHERE categoryName = @category AND type = @type AND category_id != @excludeId";
+
+                return await con.QueryFirstOrDefaultAsync<CategoryModel>(sql, new { category, type, excludeId });
+            }
+        }
+
     }
 }

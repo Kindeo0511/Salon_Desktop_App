@@ -55,7 +55,7 @@ namespace Salon.View
             ThemeManager.ApplyTheme(this);
             this._mainForm = mainForm;
             this._user = user;
-            int currentYear = DateTime.Now.Year;
+            int currentYear = DateTime.Now.Year; 
 
             int minYear = currentYear - 65; // Oldest allowed: 65 years old
             int maxYear = currentYear - 18; // Youngest allowed: 18 years old
@@ -178,6 +178,7 @@ namespace Salon.View
                 userController.UpdateUser(_user);
             }
         }
+       
         private bool IsValid()
         {
             DateTime birthDate = dtp_day_of_birth.Value;

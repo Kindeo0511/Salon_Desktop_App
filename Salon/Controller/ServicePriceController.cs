@@ -48,6 +48,11 @@ namespace Salon.Controller
         {
             repo.DeleteServicePrice(id);
         }
+
+        public void PermanentDeleteServicePrice(int id)
+        {
+            repo.PermanentDelete(id);
+        }
         public void RestoreServicePrice(int id)
         {
             repo.RestoreServicePrice(id);

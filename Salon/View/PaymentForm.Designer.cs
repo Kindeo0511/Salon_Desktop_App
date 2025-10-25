@@ -121,6 +121,7 @@
             this.txt_Reference.AnimateReadOnly = false;
             this.txt_Reference.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.txt_Reference.Depth = 0;
+            this.txt_Reference.Enabled = false;
             this.txt_Reference.Font = new System.Drawing.Font("Roboto", 16F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
             this.txt_Reference.Hint = " Reference No.";
             this.txt_Reference.LeadingIcon = null;
@@ -136,9 +137,10 @@
             // 
             // txt_amount_paid
             // 
-            this.txt_amount_paid.AnimateReadOnly = false;
+            this.txt_amount_paid.AnimateReadOnly = true;
             this.txt_amount_paid.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.txt_amount_paid.Depth = 0;
+            this.txt_amount_paid.Enabled = false;
             this.txt_amount_paid.Font = new System.Drawing.Font("Roboto", 16F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
             this.txt_amount_paid.Hint = "Amount Paid";
             this.txt_amount_paid.LeadingIcon = null;
@@ -197,6 +199,7 @@
             this.cb_PaymentMethod.Size = new System.Drawing.Size(300, 49);
             this.cb_PaymentMethod.StartIndex = -1;
             this.cb_PaymentMethod.TabIndex = 7;
+            this.cb_PaymentMethod.SelectedIndexChanged += new System.EventHandler(this.cb_PaymentMethod_SelectedIndexChanged);
             // 
             // lbl_Services
             // 
@@ -307,6 +310,7 @@
             this.lbl_Total.Size = new System.Drawing.Size(31, 19);
             this.lbl_Total.TabIndex = 17;
             this.lbl_Total.Text = "0,00";
+            this.lbl_Total.Click += new System.EventHandler(this.lbl_Total_Click);
             // 
             // lbl_Vat
             // 
@@ -459,6 +463,7 @@
             this.sw_exempt_vat.TabIndex = 24;
             this.sw_exempt_vat.Text = "Exempt VAT";
             this.sw_exempt_vat.UseVisualStyleBackColor = true;
+            this.sw_exempt_vat.Visible = false;
             this.sw_exempt_vat.CheckedChanged += new System.EventHandler(this.sw_exempt_vat_CheckedChanged);
             // 
             // PaymentForm

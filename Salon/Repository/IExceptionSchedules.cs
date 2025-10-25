@@ -15,7 +15,7 @@ namespace Salon.Repository
         void UpdateExceptionSchedule(ExceptionScheduleModel exceptionSchedule);
         void DeleteExceptionSchedule(int exceptionScheduleId);
         void RestoreExceptionSchedule(int exceptionScheduleId);
-
+        void PermanentDelete(int exceptionScheduleId);
 
         // VALIDATION
         bool CheckExceptionSchedule(DateTime date);

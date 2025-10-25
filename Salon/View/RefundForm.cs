@@ -41,7 +41,7 @@ namespace Salon.View
             bool validated = true;
 
             // REQUIRED AND MIN LENGTH FIELD
-            if (!Validator.IsAddressRequiredField(txt_reason, errorProvider1, "Reasonis required."))
+            if (!Validator.IsAddressRequiredField(txt_reason, errorProvider1, "Reason is required."))
             {
                 validated = false;
             }
@@ -107,10 +107,10 @@ namespace Salon.View
 
             lbl_refund_amount.Text = Math.Round(totalRefund, 2).ToString("N2");
         }
-
         private bool Refund_Inventory()
         {
             var inventoryController = new InventoryController(new InventoryRepository());
+            var batchController = new InventoryBatchController(new InventoryBatchRepository());
             var serviceProductController = new ServiceProductUsageController(new ServiceProductUsageRepository());
             var appointmentService = new AppointmentServiceController(new AppointmentServiceRepository());
 
@@ -120,7 +120,6 @@ namespace Salon.View
 
             var inventoryProductList = inventoryController.GetAllInventory().ToList();
 
-            // Get selected service names
             var selectedServiceNames = servicesPanel.Controls
                 .OfType<MaterialCheckbox>()
                 .Where(cb => cb.Checked && cb.Tag is RefundModel)
@@ -141,19 +140,95 @@ namespace Salon.View
 
                     if (inventoryItem == null) continue;
 
+
                     double unitVolume = (double)inventoryItem.volume / inventoryItem.unit;
                     double usedVolume = product.total_usage_amount;
 
                     double restoredVolume = inventoryItem.volume + usedVolume;
                     double restoredUnitCount = restoredVolume / unitVolume;
 
-                    inventoryController.UpdateInventoryByVolume(product.product_id, restoredUnitCount, -usedVolume);
+                    // ✅ Restore inventory volume only (unit count optional)
+                    inventoryController.RefundInventoryVolume(product.product_id, restoredUnitCount, usedVolume);
+
+                    // ✅ Restore batch usage
+                    var usedBatches = batchController.GetAvailableBatchesByProductId(product.product_id);
+                    double remainingToRestore = usedVolume;
+
+                    foreach (var batch in usedBatches)
+                    {
+                        double usedInBatch = batch.used_volume;
+                        if (usedInBatch <= 0) continue;
+
+                        double toRestore = Math.Min(usedInBatch, remainingToRestore);
+                        batchController.RestoreBatchProductUsage(batch.batch_id, toRestore);
+                        remainingToRestore -= toRestore;
+
+                        if (remainingToRestore <= 0) break;
+                    }
+
+                    if (remainingToRestore > 0)
+                    {
+                        string productName = inventoryItem.product_name ?? "Unknown Product";
+                        MessageBox.Show($"❌ Not enough batch usage to refund \"{productName}\".\nUnrestored: {remainingToRestore:N2} ml", "Inventory Warning", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                        return false;
+                    }
                 }
             }
 
-        
             return true;
         }
+
+
+        //private bool Refund_Inventory()
+        //{
+        //    var inventoryController = new InventoryController(new InventoryRepository());
+        //    var batchController = new InventoryBatchController(new InventoryBatchRepository());
+        //    var serviceProductController = new ServiceProductUsageController(new ServiceProductUsageRepository());
+        //    var appointmentService = new AppointmentServiceController(new AppointmentServiceRepository());
+
+        //    int appointmentId = model.appointment_id;
+        //    var serviceList = appointmentService.GetServicesByAppointmentId(appointmentId)?.ToList();
+        //    if (serviceList == null || !serviceList.Any()) return true;
+
+        //    var inventoryProductList = inventoryController.GetAllInventory().ToList();
+
+        //    // Get selected service names
+        //    var selectedServiceNames = servicesPanel.Controls
+        //        .OfType<MaterialCheckbox>()
+        //        .Where(cb => cb.Checked && cb.Tag is RefundModel)
+        //        .Select(cb => ((RefundModel)cb.Tag).Services)
+        //        .ToList();
+
+        //    foreach (var service in serviceList)
+        //    {
+        //        if (!selectedServiceNames.Contains(service.ServiceName)) continue;
+
+        //        var serviceProducts = serviceProductController.GetAllServiceProducts(service.ServiceId)?.ToList();
+        //        if (serviceProducts == null || !serviceProducts.Any()) continue;
+
+        //        foreach (var product in serviceProducts)
+        //        {
+        //            var inventoryItem = inventoryProductList
+        //                .FirstOrDefault(inv => inv.product_id == product.product_id);
+
+        //            if (inventoryItem == null) continue;
+
+        //            double unitVolume = (double)inventoryItem.volume / inventoryItem.unit;
+        //            double usedVolume = product.total_usage_amount;
+
+        //            double restoredVolume = inventoryItem.volume + usedVolume;
+        //            double restoredUnitCount = restoredVolume / unitVolume;
+
+        //            inventoryController.UpdateInventoryByVolume(product.product_id, restoredUnitCount, -usedVolume);
+
+
+        //        }
+
+        //    }
+
+
+        //    return true;
+        //}
         private void UpdateAppointmentStatus(int id) 
         {
             var controller = new AppointmentController();

@@ -128,6 +128,21 @@ namespace Salon.Repository
         con.Execute(sql, new { id, unit, volume });
     }
 }
+        public void RefundInventoryVolume(int id, double unit, double volume)
+        {
+            unit = double.IsNaN(unit) ? 0 : unit;
+            volume = double.IsNaN(volume) ? 0 : volume;
+
+            using (var con = Database.GetConnection())
+            {
+                var sql = @"UPDATE tbl_inventory 
+                    SET unit = unit + @unit, 
+                        volume = volume + @volume 
+                    WHERE product_id = @id";
+                con.Execute(sql, new { id, unit, volume });
+            }
+        }
+
         //public void UpdateInventoryVolume(int id, double unit, double volume)
         //{
 
@@ -136,7 +151,7 @@ namespace Salon.Repository
         //        var sql = "UPDATE tbl_inventory SET unit = @unit, volume = volume - @volume WHERE product_id = @id";
         //        con.Execute(sql, new { id, unit, volume });
         //    }
-              
+
         //}
         public int LowOrOutOfStock()
         {
