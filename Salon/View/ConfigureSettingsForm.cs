@@ -21,6 +21,22 @@ namespace Salon.View
         {
             InitializeComponent();
             ThemeManager.ApplyTheme(this);
+            int currentYear = DateTime.Now.Year;
+
+            int minYear = currentYear - 65; // Oldest allowed: 65 years old
+            int maxYear = currentYear - 18; // Youngest allowed: 18 years old
+
+            dtp_day_of_birth.MinDate = new DateTime(minYear, 1, 1);      // e.g., Jan 1, 1960 if it's 2025
+            dtp_day_of_birth.MaxDate = new DateTime(maxYear, 12, 31);    // e.g., Dec 31, 2007 if it's 2025
+
+            DateTime defaultDate = new DateTime(currentYear - 25, 1, 1); // e.g., 25 years old
+
+            if (defaultDate < dtp_day_of_birth.MinDate)
+                defaultDate = dtp_day_of_birth.MinDate;
+            else if (defaultDate > dtp_day_of_birth.MaxDate)
+                defaultDate = dtp_day_of_birth.MaxDate;
+
+            dtp_day_of_birth.Value = defaultDate;
         }
 
         private void materialTabControl1_Selecting(object sender, TabControlCancelEventArgs e)
@@ -145,7 +161,7 @@ namespace Salon.View
         {
             DateTime birthDate = dtp_day_of_birth.Value;
             int age = DateTime.Now.Year - birthDate.Year;
-         
+    
 
             bool validated = true;
 
@@ -198,15 +214,15 @@ namespace Salon.View
                 validated = false;
             }
             else if (!Validator.Pattern(
-                txt_email,
-                errorProvider1,
-                @"^(?![._\-])[A-Za-z0-9._\-]+@[A-Za-z0-9\-]+\.[A-Za-z]{2,}$",
-                "Email must be in a valid format (e.g., example@email.com) and not start/end with special characters."))
+              txt_email,
+              errorProvider1,
+              @"^[^@\s]+@[^@\s]+\.[^@\s]+$",
+              "Please enter a valid email address."))
             {
                 validated = false;
             }
-           
 
+            
 
 
 
@@ -284,9 +300,7 @@ namespace Salon.View
             {
                 validated = false;
             }
-         
-
-
+           
 
 
             //Password validation

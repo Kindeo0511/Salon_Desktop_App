@@ -19,6 +19,7 @@ namespace Salon.View
     {
         private MainForm mainForm;
         private CategoryModel category;
+
         public CategoryForm(MainForm mainForm)
         {
             InitializeComponent();
@@ -35,6 +36,7 @@ namespace Salon.View
 
             if (category != null) 
             {
+                
                 txt_category_name.Text = category.categoryName;
                 cmb_category_type.Text = category.type;
 

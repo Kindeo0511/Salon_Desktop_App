@@ -4208,10 +4208,13 @@ namespace Salon.View
 
 
         // LOGOUT
-        private void materialTabControl1_SelectedIndexChanged(object sender, EventArgs e)
+        private async void materialTabControl1_SelectedIndexChanged(object sender, EventArgs e)
         {
             var selectedTab = materialTabControl1.SelectedTab;
-
+            if (selectedTab == categoriesTab) 
+            {
+                await RefreshCategoryAsync();
+            }
             if (selectedTab == logoutTab)
             {
                 LogOut();
@@ -4384,15 +4387,20 @@ namespace Salon.View
                         $"Viewed Sales Report on {DateTime.Now:yyyy-MM-dd} at {DateTime.Now:HH:mm:ss}"
                     );
                     break;
+                    
+                case var tab when tab == categoriesTab:
 
-                case var tab when tab == inventoryTabPage:
-                    Audit.AuditLog(
-                        DateTime.Now,
-                        "View",
-                        UserSession.CurrentUser.first_Name,
-                        "Inventory Report",
-                        $"Viewed Inventory Report on {DateTime.Now:yyyy-MM-dd} at {DateTime.Now:HH:mm:ss}"
-                    );
+                    await RefreshCategoryAsync();
+                     break;
+
+                    case var tab when tab == inventoryTabPage:
+                Audit.AuditLog(
+                    DateTime.Now,
+                    "View",
+                    UserSession.CurrentUser.first_Name,
+                    "Inventory Report",
+                    $"Viewed Inventory Report on {DateTime.Now:yyyy-MM-dd} at {DateTime.Now:HH:mm:ss}"
+                );
                     break;
 
                 case var tab when tab == expenseTabPage:
@@ -5208,89 +5216,89 @@ namespace Salon.View
 
         private async void RefreshDataTimer_Tick(object sender, EventArgs e)
         {
-            if (_isRefreshing) return;
-            _isRefreshing = true;
+        //    if (_isRefreshing) return;
+        //    _isRefreshing = true;
 
-            try
-            {
-                // Group 1: Core Data
-                var coreTasks = new[]
-                {
-            RefreshCategoryAsync(),
-            RefreshUsersAsync(),
-            RefreshStylistAsync(),
-            RefreshCustomers(),
-            RefreshSubCategoryAsync(),
-            RefreshProductAsync(),
-            RefreshServicesAsync()
-        };
+        //    try
+        //    {
+        //        // Group 1: Core Data
+        //        var coreTasks = new[]
+        //        {
+        //    RefreshCategoryAsync(),
+        //    RefreshUsersAsync(),
+        //    RefreshStylistAsync(),
+        //    RefreshCustomers(),
+        //    RefreshSubCategoryAsync(),
+        //    RefreshProductAsync(),
+        //    RefreshServicesAsync()
+        //};
 
-                // Group 2: Business Logic
-                var businessTasks = new[]
-                {
-            RefreshVat(),
-            RefreshDiscountAsync(),
-            RefreshSupplierAsync(),
-            RefreshDeliveryAsync(),
-            RefreshInventoryAsync(),
-            RefreshBatchInventory(),
-            RefreshAppointmentAsync(),
-            RefreshServicePriceAsync(),
-            RefreshTransactionAsync(),
-            RefreshRefundAsync(),
-            RefreshAuditLog()
-        };
+        //        // Group 2: Business Logic
+        //        var businessTasks = new[]
+        //        {
+        //    RefreshVat(),
+        //    RefreshDiscountAsync(),
+        //    RefreshSupplierAsync(),
+        //    RefreshDeliveryAsync(),
+        //    RefreshInventoryAsync(),
+        //    RefreshBatchInventory(),
+        //    RefreshAppointmentAsync(),
+        //    RefreshServicePriceAsync(),
+        //    RefreshTransactionAsync(),
+        //    RefreshRefundAsync(),
+        //    RefreshAuditLog()
+        //};
 
-                // Group 3: Summary Dashboard
-                var summaryTasks = new[]
-                {
-            RefreshTotalSales(),
-            RefreshTotalAppointment(),
-            RefreshTotalProduct(),
-            RefreshTotalServices(),
-            RefreshPopularServices()
-        };
+        //        // Group 3: Summary Dashboard
+        //        var summaryTasks = new[]
+        //        {
+        //    RefreshTotalSales(),
+        //    RefreshTotalAppointment(),
+        //    RefreshTotalProduct(),
+        //    RefreshTotalServices(),
+        //    RefreshPopularServices()
+        //};
 
-                // Group 4: Utilities
-                var utilityTasks = new[]
-                {
-            RefreshRentAsync(),
-            RefreshUtilAsync()
-        };
+        //        // Group 4: Utilities
+        //        var utilityTasks = new[]
+        //        {
+        //    RefreshRentAsync(),
+        //    RefreshUtilAsync()
+        //};
 
-                // Run all groups in parallel
-                await Task.WhenAll(coreTasks);
-                await Task.WhenAll(businessTasks);
-                await Task.WhenAll(summaryTasks);
-                await Task.WhenAll(utilityTasks);
+        //        // Run all groups in parallel
+        //        await Task.WhenAll(coreTasks);
+        //        await Task.WhenAll(businessTasks);
+        //        await Task.WhenAll(summaryTasks);
+        //        await Task.WhenAll(utilityTasks);
 
-                // Sync calls after async data is ready
-                LoadUtility();
-                await FilterdDeletedRecords();
+        //        // Sync calls after async data is ready
+        //        LoadUtility();
+        //        await FilterdDeletedRecords();
 
-                // Reports
-                RefreshAllReports();
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine("Refresh error: " + ex.Message);
-            }
-            finally
-            {
-                _isRefreshing = false;
-            }
+        //        // Reports
+        //        RefreshAllReports();
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        Console.WriteLine("Refresh error: " + ex.Message);
+        //    }
+        //    finally
+        //    {
+        //        _isRefreshing = false;
+        //    }
         }
 
         private void RefreshAllReports()
         {
-            FilterSalesReport();
-            filterInventoryReport();
-            FilterExpenseReport();
-            FilterProfitAndLostReport();
-            FilteredCustomerReport();
-            FilteredStaffReport();
-            FilteredDeliveryReport();
-            FilteredDiscountReport();
+            //FilterSalesReport();
+            //filterInventoryReport();
+            //FilterExpenseReport();
+            //FilterProfitAndLostReport();
+            //FilteredCustomerReport();
+            //FilteredStaffReport();
+            //FilteredDeliveryReport();
+            //FilteredDiscountReport();
         }
 
         private void dtp_report_start_date_ValueChanged(object sender, EventArgs e)
@@ -5363,6 +5371,76 @@ namespace Salon.View
                     e.FormattingApplied = true;
                 }
             }
+        }
+
+        private async void btn_refresh_data_Click(object sender, EventArgs e)
+        {
+            await RefreshCategoryAsync();
+        }
+
+        private async  void btn_refresh_user_Click(object sender, EventArgs e)
+        {
+            await RefreshUsersAsync();
+        }
+
+        private async void btn_refresh_stylist_Click(object sender, EventArgs e)
+        {
+            await RefreshStylistAsync();
+        }
+
+        private async void btn_refresh_customer_Click(object sender, EventArgs e)
+        {
+            await RefreshCustomers();
+        }
+
+        private async void btn_refresh_supplier_Click(object sender, EventArgs e)
+        {
+            await RefreshSupplierAsync();
+        }
+
+        private async void btn_refresh_subcategory_Click(object sender, EventArgs e)
+        {
+            await RefreshSubCategoryAsync();
+        }
+
+        private async void btn_refresh_product_Click(object sender, EventArgs e)
+        {
+            await RefreshProductAsync();
+        }
+
+        private async void btn_refresh_services_Click(object sender, EventArgs e)
+        {
+            await RefreshServicesAsync();
+        }
+
+        private async void btn_refresh_service_price_Click(object sender, EventArgs e)
+        {
+            await RefreshServicePriceAsync();
+        }
+
+        private async void btn_refresh_appointment_Click(object sender, EventArgs e)
+        {
+            await RefreshAppointmentAsync();
+        }
+
+        private async void btn_refresh_transaction_Click(object sender, EventArgs e)
+        {
+            await RefreshTransactionAsync();
+        }
+
+        private async void btn_refresh_refund_Click(object sender, EventArgs e)
+        {
+            await RefreshRefundAsync();
+        }
+
+        private async void btn_refresh_data_recovery_Click(object sender, EventArgs e)
+        {
+            await RefreshDeletedRecords();
+        }
+
+        private async void btn_refresh_discount_Click(object sender, EventArgs e)
+        {
+            await RefreshDiscountAsync();
         }
 
 

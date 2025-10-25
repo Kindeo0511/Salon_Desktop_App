@@ -87,6 +87,17 @@ namespace Salon.Repository
             }
         }
 
+        public List<int> GetUnavailableStylistIds(DateTime date)
+        {
+            using (var con = Database.GetConnection())
+            {
+                var sql = @"SELECT stylist_id 
+                    FROM tbl_exception_schedules 
+                    WHERE date = @date AND is_available = 0 AND is_deleted = 0";
+
+                return con.Query<int>(sql, new { date }).ToList();
+            }
+        }
 
 
     }

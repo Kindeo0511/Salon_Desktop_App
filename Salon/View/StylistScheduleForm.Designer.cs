@@ -42,17 +42,15 @@
             this.btn_weekly_update = new System.Windows.Forms.DataGridViewImageColumn();
             this.btn_weekly_delete = new System.Windows.Forms.DataGridViewImageColumn();
             this.materialCard1 = new MaterialSkin.Controls.MaterialCard();
-            this.check_no = new MaterialSkin.Controls.MaterialCheckbox();
-            this.check_yes = new MaterialSkin.Controls.MaterialCheckbox();
+            this.rad_week_no = new MaterialSkin.Controls.MaterialRadioButton();
+            this.rad_week_yes = new MaterialSkin.Controls.MaterialRadioButton();
+            this.cmb_end_time = new MaterialSkin.Controls.MaterialComboBox();
+            this.cmb_start_time = new MaterialSkin.Controls.MaterialComboBox();
             this.txt_day = new MaterialSkin.Controls.MaterialComboBox();
             this.btn_cancel = new MaterialSkin.Controls.MaterialButton();
             this.btn_update = new MaterialSkin.Controls.MaterialButton();
             this.btn_add = new MaterialSkin.Controls.MaterialButton();
-            this.materialLabel3 = new MaterialSkin.Controls.MaterialLabel();
-            this.materialLabel2 = new MaterialSkin.Controls.MaterialLabel();
             this.materialLabel1 = new MaterialSkin.Controls.MaterialLabel();
-            this.dtp_end_time = new System.Windows.Forms.DateTimePicker();
-            this.dtp_start_time = new System.Windows.Forms.DateTimePicker();
             this.exceptionTab = new System.Windows.Forms.TabPage();
             this.dgv_exception_schedule = new System.Windows.Forms.DataGridView();
             this.exception_id = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -223,17 +221,15 @@
             // materialCard1
             // 
             this.materialCard1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
-            this.materialCard1.Controls.Add(this.check_no);
-            this.materialCard1.Controls.Add(this.check_yes);
+            this.materialCard1.Controls.Add(this.rad_week_no);
+            this.materialCard1.Controls.Add(this.rad_week_yes);
+            this.materialCard1.Controls.Add(this.cmb_end_time);
+            this.materialCard1.Controls.Add(this.cmb_start_time);
             this.materialCard1.Controls.Add(this.txt_day);
             this.materialCard1.Controls.Add(this.btn_cancel);
             this.materialCard1.Controls.Add(this.btn_update);
             this.materialCard1.Controls.Add(this.btn_add);
-            this.materialCard1.Controls.Add(this.materialLabel3);
-            this.materialCard1.Controls.Add(this.materialLabel2);
             this.materialCard1.Controls.Add(this.materialLabel1);
-            this.materialCard1.Controls.Add(this.dtp_end_time);
-            this.materialCard1.Controls.Add(this.dtp_start_time);
             this.materialCard1.Depth = 0;
             this.materialCard1.Dock = System.Windows.Forms.DockStyle.Top;
             this.materialCard1.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(222)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
@@ -245,37 +241,83 @@
             this.materialCard1.Size = new System.Drawing.Size(1336, 263);
             this.materialCard1.TabIndex = 0;
             // 
-            // check_no
+            // rad_week_no
             // 
-            this.check_no.AutoSize = true;
-            this.check_no.Depth = 0;
-            this.check_no.Location = new System.Drawing.Point(131, 167);
-            this.check_no.Margin = new System.Windows.Forms.Padding(0);
-            this.check_no.MouseLocation = new System.Drawing.Point(-1, -1);
-            this.check_no.MouseState = MaterialSkin.MouseState.HOVER;
-            this.check_no.Name = "check_no";
-            this.check_no.ReadOnly = false;
-            this.check_no.Ripple = true;
-            this.check_no.Size = new System.Drawing.Size(55, 37);
-            this.check_no.TabIndex = 13;
-            this.check_no.Text = "No";
-            this.check_no.UseVisualStyleBackColor = true;
+            this.rad_week_no.AutoSize = true;
+            this.rad_week_no.Depth = 0;
+            this.rad_week_no.Location = new System.Drawing.Point(158, 187);
+            this.rad_week_no.Margin = new System.Windows.Forms.Padding(0);
+            this.rad_week_no.MouseLocation = new System.Drawing.Point(-1, -1);
+            this.rad_week_no.MouseState = MaterialSkin.MouseState.HOVER;
+            this.rad_week_no.Name = "rad_week_no";
+            this.rad_week_no.Ripple = true;
+            this.rad_week_no.Size = new System.Drawing.Size(55, 37);
+            this.rad_week_no.TabIndex = 17;
+            this.rad_week_no.TabStop = true;
+            this.rad_week_no.Text = "No";
+            this.rad_week_no.UseVisualStyleBackColor = true;
             // 
-            // check_yes
+            // rad_week_yes
             // 
-            this.check_yes.AutoSize = true;
-            this.check_yes.Depth = 0;
-            this.check_yes.Location = new System.Drawing.Point(41, 167);
-            this.check_yes.Margin = new System.Windows.Forms.Padding(0);
-            this.check_yes.MouseLocation = new System.Drawing.Point(-1, -1);
-            this.check_yes.MouseState = MaterialSkin.MouseState.HOVER;
-            this.check_yes.Name = "check_yes";
-            this.check_yes.ReadOnly = false;
-            this.check_yes.Ripple = true;
-            this.check_yes.Size = new System.Drawing.Size(61, 37);
-            this.check_yes.TabIndex = 12;
-            this.check_yes.Text = "Yes";
-            this.check_yes.UseVisualStyleBackColor = true;
+            this.rad_week_yes.AutoSize = true;
+            this.rad_week_yes.Depth = 0;
+            this.rad_week_yes.Location = new System.Drawing.Point(52, 187);
+            this.rad_week_yes.Margin = new System.Windows.Forms.Padding(0);
+            this.rad_week_yes.MouseLocation = new System.Drawing.Point(-1, -1);
+            this.rad_week_yes.MouseState = MaterialSkin.MouseState.HOVER;
+            this.rad_week_yes.Name = "rad_week_yes";
+            this.rad_week_yes.Ripple = true;
+            this.rad_week_yes.Size = new System.Drawing.Size(61, 37);
+            this.rad_week_yes.TabIndex = 16;
+            this.rad_week_yes.TabStop = true;
+            this.rad_week_yes.Text = "Yes";
+            this.rad_week_yes.UseVisualStyleBackColor = true;
+            // 
+            // cmb_end_time
+            // 
+            this.cmb_end_time.AutoResize = false;
+            this.cmb_end_time.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
+            this.cmb_end_time.Depth = 0;
+            this.cmb_end_time.DrawMode = System.Windows.Forms.DrawMode.OwnerDrawVariable;
+            this.cmb_end_time.DropDownHeight = 174;
+            this.cmb_end_time.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cmb_end_time.DropDownWidth = 121;
+            this.cmb_end_time.Font = new System.Drawing.Font("Roboto Medium", 14F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Pixel);
+            this.cmb_end_time.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(222)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
+            this.cmb_end_time.FormattingEnabled = true;
+            this.cmb_end_time.Hint = "End Time";
+            this.cmb_end_time.IntegralHeight = false;
+            this.cmb_end_time.ItemHeight = 43;
+            this.cmb_end_time.Location = new System.Drawing.Point(598, 176);
+            this.cmb_end_time.MaxDropDownItems = 4;
+            this.cmb_end_time.MouseState = MaterialSkin.MouseState.OUT;
+            this.cmb_end_time.Name = "cmb_end_time";
+            this.cmb_end_time.Size = new System.Drawing.Size(277, 49);
+            this.cmb_end_time.StartIndex = 0;
+            this.cmb_end_time.TabIndex = 15;
+            // 
+            // cmb_start_time
+            // 
+            this.cmb_start_time.AutoResize = false;
+            this.cmb_start_time.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
+            this.cmb_start_time.Depth = 0;
+            this.cmb_start_time.DrawMode = System.Windows.Forms.DrawMode.OwnerDrawVariable;
+            this.cmb_start_time.DropDownHeight = 174;
+            this.cmb_start_time.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cmb_start_time.DropDownWidth = 121;
+            this.cmb_start_time.Font = new System.Drawing.Font("Roboto Medium", 14F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Pixel);
+            this.cmb_start_time.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(222)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
+            this.cmb_start_time.FormattingEnabled = true;
+            this.cmb_start_time.Hint = "Start Time";
+            this.cmb_start_time.IntegralHeight = false;
+            this.cmb_start_time.ItemHeight = 43;
+            this.cmb_start_time.Location = new System.Drawing.Point(598, 39);
+            this.cmb_start_time.MaxDropDownItems = 4;
+            this.cmb_start_time.MouseState = MaterialSkin.MouseState.OUT;
+            this.cmb_start_time.Name = "cmb_start_time";
+            this.cmb_start_time.Size = new System.Drawing.Size(277, 49);
+            this.cmb_start_time.StartIndex = 0;
+            this.cmb_start_time.TabIndex = 14;
             // 
             // txt_day
             // 
@@ -370,63 +412,17 @@
             this.btn_add.UseVisualStyleBackColor = true;
             this.btn_add.Click += new System.EventHandler(this.btn_add_Click);
             // 
-            // materialLabel3
-            // 
-            this.materialLabel3.AutoSize = true;
-            this.materialLabel3.Depth = 0;
-            this.materialLabel3.Font = new System.Drawing.Font("Roboto", 14F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
-            this.materialLabel3.Location = new System.Drawing.Point(599, 140);
-            this.materialLabel3.MouseState = MaterialSkin.MouseState.HOVER;
-            this.materialLabel3.Name = "materialLabel3";
-            this.materialLabel3.Size = new System.Drawing.Size(68, 19);
-            this.materialLabel3.TabIndex = 7;
-            this.materialLabel3.Text = "End Time";
-            // 
-            // materialLabel2
-            // 
-            this.materialLabel2.AutoSize = true;
-            this.materialLabel2.Depth = 0;
-            this.materialLabel2.Font = new System.Drawing.Font("Roboto", 14F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
-            this.materialLabel2.Location = new System.Drawing.Point(599, 42);
-            this.materialLabel2.MouseState = MaterialSkin.MouseState.HOVER;
-            this.materialLabel2.Name = "materialLabel2";
-            this.materialLabel2.Size = new System.Drawing.Size(75, 19);
-            this.materialLabel2.TabIndex = 6;
-            this.materialLabel2.Text = "Start Time";
-            // 
             // materialLabel1
             // 
             this.materialLabel1.AutoSize = true;
             this.materialLabel1.Depth = 0;
             this.materialLabel1.Font = new System.Drawing.Font("Roboto", 14F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
-            this.materialLabel1.Location = new System.Drawing.Point(36, 132);
+            this.materialLabel1.Location = new System.Drawing.Point(49, 143);
             this.materialLabel1.MouseState = MaterialSkin.MouseState.HOVER;
             this.materialLabel1.Name = "materialLabel1";
             this.materialLabel1.Size = new System.Drawing.Size(79, 19);
             this.materialLabel1.TabIndex = 5;
             this.materialLabel1.Text = "Availability";
-            // 
-            // dtp_end_time
-            // 
-            this.dtp_end_time.CustomFormat = "hh:mm tt";
-            this.dtp_end_time.Format = System.Windows.Forms.DateTimePickerFormat.Custom;
-            this.dtp_end_time.Location = new System.Drawing.Point(599, 167);
-            this.dtp_end_time.Name = "dtp_end_time";
-            this.dtp_end_time.ShowUpDown = true;
-            this.dtp_end_time.Size = new System.Drawing.Size(200, 22);
-            this.dtp_end_time.TabIndex = 2;
-            this.dtp_end_time.Value = new System.DateTime(2025, 10, 23, 0, 0, 0, 0);
-            // 
-            // dtp_start_time
-            // 
-            this.dtp_start_time.CustomFormat = "hh:mm tt";
-            this.dtp_start_time.Format = System.Windows.Forms.DateTimePickerFormat.Custom;
-            this.dtp_start_time.Location = new System.Drawing.Point(599, 64);
-            this.dtp_start_time.Name = "dtp_start_time";
-            this.dtp_start_time.ShowUpDown = true;
-            this.dtp_start_time.Size = new System.Drawing.Size(200, 22);
-            this.dtp_start_time.TabIndex = 1;
-            this.dtp_start_time.Value = new System.DateTime(2025, 10, 23, 0, 0, 0, 0);
             // 
             // exceptionTab
             // 
@@ -649,7 +645,7 @@
             this.btn_update_exceptionSched.Depth = 0;
             this.btn_update_exceptionSched.HighEmphasis = true;
             this.btn_update_exceptionSched.Icon = null;
-            this.btn_update_exceptionSched.Location = new System.Drawing.Point(1109, 69);
+            this.btn_update_exceptionSched.Location = new System.Drawing.Point(1109, 91);
             this.btn_update_exceptionSched.Margin = new System.Windows.Forms.Padding(4, 6, 4, 6);
             this.btn_update_exceptionSched.MouseState = MaterialSkin.MouseState.HOVER;
             this.btn_update_exceptionSched.Name = "btn_update_exceptionSched";
@@ -835,10 +831,6 @@
         private MaterialSkin.Controls.MaterialTabSelector materialTabSelector1;
         private MaterialSkin.Controls.MaterialCard materialCard1;
         private MaterialSkin.Controls.MaterialLabel materialLabel1;
-        private System.Windows.Forms.DateTimePicker dtp_end_time;
-        private System.Windows.Forms.DateTimePicker dtp_start_time;
-        private MaterialSkin.Controls.MaterialLabel materialLabel3;
-        private MaterialSkin.Controls.MaterialLabel materialLabel2;
         private MaterialSkin.Controls.MaterialButton btn_cancel;
         private MaterialSkin.Controls.MaterialButton btn_update;
         private MaterialSkin.Controls.MaterialButton btn_add;
@@ -858,18 +850,9 @@
         private System.Windows.Forms.DateTimePicker dtp_exception_end_time;
         private System.Windows.Forms.DateTimePicker dtp_exception_start_time;
         private System.Windows.Forms.ErrorProvider errorProvider1;
-        private System.Windows.Forms.DataGridViewTextBoxColumn id;
-        private System.Windows.Forms.DataGridViewTextBoxColumn col_stylist_id;
-        private System.Windows.Forms.DataGridViewTextBoxColumn day;
-        private System.Windows.Forms.DataGridViewTextBoxColumn start_time;
-        private System.Windows.Forms.DataGridViewTextBoxColumn end_time;
-        private System.Windows.Forms.DataGridViewTextBoxColumn is_working;
-        private System.Windows.Forms.DataGridViewImageColumn btn_weekly_update;
-        private System.Windows.Forms.DataGridViewImageColumn btn_weekly_delete;
         private MaterialSkin.Controls.MaterialMultiLineTextBox2 txt_reason;
         private MaterialSkin.Controls.MaterialComboBox txt_day;
         private System.Windows.Forms.ErrorProvider weekly_error;
-        private MaterialSkin.Controls.MaterialCheckbox check_yes;
         private System.Windows.Forms.DataGridViewTextBoxColumn exception_id;
         private System.Windows.Forms.DataGridViewTextBoxColumn ex_stylist_id;
         private System.Windows.Forms.DataGridViewTextBoxColumn ex_date;
@@ -879,6 +862,17 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn ex_reason;
         private System.Windows.Forms.DataGridViewImageColumn ex_btn_update;
         private System.Windows.Forms.DataGridViewImageColumn ex_btn_delete;
-        private MaterialSkin.Controls.MaterialCheckbox check_no;
+        private MaterialSkin.Controls.MaterialComboBox cmb_end_time;
+        private MaterialSkin.Controls.MaterialComboBox cmb_start_time;
+        private MaterialSkin.Controls.MaterialRadioButton rad_week_no;
+        private MaterialSkin.Controls.MaterialRadioButton rad_week_yes;
+        private System.Windows.Forms.DataGridViewTextBoxColumn id;
+        private System.Windows.Forms.DataGridViewTextBoxColumn col_stylist_id;
+        private System.Windows.Forms.DataGridViewTextBoxColumn day;
+        private System.Windows.Forms.DataGridViewTextBoxColumn start_time;
+        private System.Windows.Forms.DataGridViewTextBoxColumn end_time;
+        private System.Windows.Forms.DataGridViewTextBoxColumn is_working;
+        private System.Windows.Forms.DataGridViewImageColumn btn_weekly_update;
+        private System.Windows.Forms.DataGridViewImageColumn btn_weekly_delete;
     }
 }

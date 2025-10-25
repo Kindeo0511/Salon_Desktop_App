@@ -432,5 +432,10 @@ namespace Salon.View
             txt_password.Password = !chk_show_password.Checked;
             txt_confirm_password.Password = !chk_show_password.Checked;
         }
+
+        private void g_step_1_Enter(object sender, EventArgs e)
+        {
+
+        }
     }
 }

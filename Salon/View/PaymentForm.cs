@@ -296,10 +296,25 @@ namespace Salon.View
             validated &= Validator.IsRequired(cb_PaymentMethod, errorProvider1, "Payment Method is required.");
             validated &= Validator.IsRequired(txt_amount_paid, errorProvider1, "Amount is required.");
 
-            if (cb_PaymentMethod.Text.ToLower() == "gcash") 
+            if (cb_PaymentMethod.Text.ToLower() == "gcash")
             {
                 validated &= Validator.IsRequired(txt_Reference, errorProvider1, "Reference No. is required.");
+
+                // Validate 13-digit numeric format
+                string reference = txt_Reference.Text.Trim();
+                bool isValidFormat = reference.Length == 13 && reference.All(char.IsDigit);
+
+                if (!isValidFormat)
+                {
+                    errorProvider1.SetError(txt_Reference, "Reference No. must be exactly 13 digits.");
+                    validated = false;
+                }
+                else
+                {
+                    errorProvider1.SetError(txt_Reference, "");
+                }
             }
+
 
 
             return validated;

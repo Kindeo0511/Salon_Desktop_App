@@ -395,24 +395,21 @@ namespace Salon.Util
         // END OF STYLIST VALIDATION
 
         // STYLIST SCHEDULE
-        public static bool IsScheduleConflict(Control[] controls, ErrorProvider ep, string message, int stylist_id, TimeSpan start, TimeSpan end, int id)
+        public static bool IsScheduleConflict(MaterialComboBox txt, ErrorProvider ep, string message, int stylist_id, TimeSpan start, TimeSpan end, int id)
         {
             var repo = new StylistSchedulesRepository();
             var controller = new StylistSchedulesController(repo);
 
-            if (controller.GetIsScheduleConflict(stylist_id, controls[0].Text, start, end, id))
+            if (controller.GetIsScheduleConflict(stylist_id, txt.Text, start, end, id))
             {
-                foreach (var ctrl in controls)
-               
-                    ep.SetError(ctrl, message);
-      
+                ep.SetError(txt, message);
                 return false;
             }
 
-            foreach (var ctrl in controls)
-                ep.SetError(ctrl, "");
+            ep.SetError(txt, "");
             return true;
         }
+
 
         // END OF STYLIST SCHEDULE
 
@@ -420,7 +417,7 @@ namespace Salon.Util
 
 
         // not done yet in validation
-          public static bool IsExScheduleExists(Control control, ErrorProvider ep, string message, int stylist_id, int id, DateTime date)
+        public static bool IsExScheduleExists(Control control, ErrorProvider ep, string message, int stylist_id, int id, DateTime date)
         {
             var repo = new ExceptionSchedulesRepository();
             var controller = new ExceptionSchedulesController(repo);
@@ -741,9 +738,9 @@ namespace Salon.Util
                 return false;
             }
 
-            if (!Regex.IsMatch(value, @"^[A-Za-z0-9](?!.*@.*@)[A-Za-z0-9._-]*@[A-Za-z0-9.-]+\.[A-Za-z]{2,}$"))
+            if (!Regex.IsMatch(value, @"^[^@\s]+@[^@\s]+\.[^@\s]+$"))
             {
-                errorProvider.SetError(control, "Email address format is invalid or starts/ends with a special character.");
+                errorProvider.SetError(control, "Please enter a valid email address.");
                 return false;
             }
 

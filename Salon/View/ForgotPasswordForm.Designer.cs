@@ -38,6 +38,7 @@
             this.rad_sms = new MaterialSkin.Controls.MaterialRadioButton();
             this.materialLabel4 = new MaterialSkin.Controls.MaterialLabel();
             this.g_step_3 = new System.Windows.Forms.GroupBox();
+            this.chk_show_password = new MaterialSkin.Controls.MaterialCheckbox();
             this.materialLabel3 = new MaterialSkin.Controls.MaterialLabel();
             this.txt_confirm_password = new MaterialSkin.Controls.MaterialTextBox();
             this.materialLabel2 = new MaterialSkin.Controls.MaterialLabel();
@@ -60,7 +61,6 @@
             this.materialTabSelector1 = new MaterialSkin.Controls.MaterialTabSelector();
             this.errorProvider1 = new System.Windows.Forms.ErrorProvider(this.components);
             this.otp_timer = new System.Windows.Forms.Timer(this.components);
-            this.chk_show_password = new MaterialSkin.Controls.MaterialCheckbox();
             this.g_step_1.SuspendLayout();
             this.g_step_3.SuspendLayout();
             this.g_step_2.SuspendLayout();
@@ -119,6 +119,7 @@
             this.g_step_1.TabIndex = 4;
             this.g_step_1.TabStop = false;
             this.g_step_1.Text = "FORGOT PASSWORD     (STEP 1)";
+            this.g_step_1.Enter += new System.EventHandler(this.g_step_1_Enter);
             // 
             // lbl_number
             // 
@@ -213,6 +214,23 @@
             this.g_step_3.TabIndex = 5;
             this.g_step_3.TabStop = false;
             this.g_step_3.Text = "FORGOT PASSWORD     (STEP 3)";
+            // 
+            // chk_show_password
+            // 
+            this.chk_show_password.AutoSize = true;
+            this.chk_show_password.Depth = 0;
+            this.chk_show_password.Location = new System.Drawing.Point(69, 235);
+            this.chk_show_password.Margin = new System.Windows.Forms.Padding(0);
+            this.chk_show_password.MouseLocation = new System.Drawing.Point(-1, -1);
+            this.chk_show_password.MouseState = MaterialSkin.MouseState.HOVER;
+            this.chk_show_password.Name = "chk_show_password";
+            this.chk_show_password.ReadOnly = false;
+            this.chk_show_password.Ripple = true;
+            this.chk_show_password.Size = new System.Drawing.Size(148, 37);
+            this.chk_show_password.TabIndex = 4;
+            this.chk_show_password.Text = "Show password";
+            this.chk_show_password.UseVisualStyleBackColor = true;
+            this.chk_show_password.CheckedChanged += new System.EventHandler(this.chk_show_password_CheckedChanged);
             // 
             // materialLabel3
             // 
@@ -556,23 +574,6 @@
             // otp_timer
             // 
             this.otp_timer.Tick += new System.EventHandler(this.otp_timer_Tick);
-            // 
-            // chk_show_password
-            // 
-            this.chk_show_password.AutoSize = true;
-            this.chk_show_password.Depth = 0;
-            this.chk_show_password.Location = new System.Drawing.Point(69, 235);
-            this.chk_show_password.Margin = new System.Windows.Forms.Padding(0);
-            this.chk_show_password.MouseLocation = new System.Drawing.Point(-1, -1);
-            this.chk_show_password.MouseState = MaterialSkin.MouseState.HOVER;
-            this.chk_show_password.Name = "chk_show_password";
-            this.chk_show_password.ReadOnly = false;
-            this.chk_show_password.Ripple = true;
-            this.chk_show_password.Size = new System.Drawing.Size(148, 37);
-            this.chk_show_password.TabIndex = 4;
-            this.chk_show_password.Text = "Show password";
-            this.chk_show_password.UseVisualStyleBackColor = true;
-            this.chk_show_password.CheckedChanged += new System.EventHandler(this.chk_show_password_CheckedChanged);
             // 
             // ForgotPasswordForm
             // 

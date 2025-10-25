@@ -31,6 +31,7 @@
             this.lbl_ServiceName = new MaterialSkin.Controls.MaterialLabel();
             this.category = new MaterialSkin.Controls.MaterialLabel();
             this.btn_add_to_cart = new MaterialSkin.Controls.MaterialButton();
+            this.materialCard1 = new MaterialSkin.Controls.MaterialCard();
             this.SuspendLayout();
             // 
             // lbl_ServiceName
@@ -77,6 +78,20 @@
             this.btn_add_to_cart.UseVisualStyleBackColor = true;
             this.btn_add_to_cart.Click += new System.EventHandler(this.btn_add_to_cart_Click_1);
             // 
+            // materialCard1
+            // 
+            this.materialCard1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
+            this.materialCard1.Depth = 0;
+            this.materialCard1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.materialCard1.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(222)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
+            this.materialCard1.Location = new System.Drawing.Point(0, 0);
+            this.materialCard1.Margin = new System.Windows.Forms.Padding(14);
+            this.materialCard1.MouseState = MaterialSkin.MouseState.HOVER;
+            this.materialCard1.Name = "materialCard1";
+            this.materialCard1.Padding = new System.Windows.Forms.Padding(14);
+            this.materialCard1.Size = new System.Drawing.Size(700, 80);
+            this.materialCard1.TabIndex = 3;
+            // 
             // ServicesCard
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
@@ -84,6 +99,7 @@
             this.Controls.Add(this.btn_add_to_cart);
             this.Controls.Add(this.category);
             this.Controls.Add(this.lbl_ServiceName);
+            this.Controls.Add(this.materialCard1);
             this.Name = "ServicesCard";
             this.Size = new System.Drawing.Size(700, 80);
             this.Load += new System.EventHandler(this.ServicesCard_Load);
@@ -97,5 +113,6 @@
         private MaterialSkin.Controls.MaterialLabel lbl_ServiceName;
         private MaterialSkin.Controls.MaterialLabel category;
         private MaterialSkin.Controls.MaterialButton btn_add_to_cart;
+        private MaterialSkin.Controls.MaterialCard materialCard1;
     }
 }

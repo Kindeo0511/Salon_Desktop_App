@@ -8,6 +8,12 @@ namespace Salon.Models
 {
     public class StylistModel
     {
+        public int StylistId { get; set; }
+        public string DayOfWeek { get; set; }
+        public string StartTime { get; set; } // "09:00 AM"
+        public string EndTime { get; set; }   // "05:00 PM"
+        public bool IsWorking { get; set; }
+
         public int stylist_id { get; set; }
         public string firstName { get; set; }
         public string middleName { get; set; }

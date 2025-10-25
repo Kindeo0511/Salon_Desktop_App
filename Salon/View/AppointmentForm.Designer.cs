@@ -37,8 +37,6 @@
             this.cb_book_type = new MaterialSkin.Controls.MaterialComboBox();
             this.cmb_Date = new System.Windows.Forms.DateTimePicker();
             this.cb_Time = new MaterialSkin.Controls.MaterialComboBox();
-            this.customer_panel = new System.Windows.Forms.FlowLayoutPanel();
-            this.lbl_ID = new MaterialSkin.Controls.MaterialLabel();
             this.txt_search_services = new MaterialSkin.Controls.MaterialTextBox();
             this.service_panel = new System.Windows.Forms.FlowLayoutPanel();
             this.dgv_table = new System.Windows.Forms.DataGridView();
@@ -52,8 +50,10 @@
             this.btn_check_available = new MaterialSkin.Controls.MaterialButton();
             this.errorProvider1 = new System.Windows.Forms.ErrorProvider(this.components);
             this.materialLabel1 = new MaterialSkin.Controls.MaterialLabel();
-            this.btn_create = new System.Windows.Forms.PictureBox();
             this.txt_customer_type = new MaterialSkin.Controls.MaterialTextBox();
+            this.lbl_ID = new MaterialSkin.Controls.MaterialLabel();
+            this.btn_create = new System.Windows.Forms.PictureBox();
+            this.customer_panel = new System.Windows.Forms.FlowLayoutPanel();
             ((System.ComponentModel.ISupportInitialize)(this.dgv_table)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.errorProvider1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.btn_create)).BeginInit();
@@ -66,7 +66,7 @@
             this.txt_Search.Depth = 0;
             this.txt_Search.Font = new System.Drawing.Font("Roboto", 16F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
             this.txt_Search.Hint = "Search Customer";
-            this.txt_Search.LeadingIcon = null;
+            this.txt_Search.LeadingIcon = ((System.Drawing.Image)(resources.GetObject("txt_Search.LeadingIcon")));
             this.txt_Search.Location = new System.Drawing.Point(25, 99);
             this.txt_Search.MaxLength = 50;
             this.txt_Search.MouseState = MaterialSkin.MouseState.OUT;
@@ -193,25 +193,6 @@
             this.cb_Time.TabIndex = 6;
             this.cb_Time.SelectedIndexChanged += new System.EventHandler(this.cb_Time_SelectedIndexChanged);
             // 
-            // customer_panel
-            // 
-            this.customer_panel.Location = new System.Drawing.Point(25, 155);
-            this.customer_panel.Name = "customer_panel";
-            this.customer_panel.Size = new System.Drawing.Size(500, 10);
-            this.customer_panel.TabIndex = 7;
-            // 
-            // lbl_ID
-            // 
-            this.lbl_ID.AutoSize = true;
-            this.lbl_ID.Depth = 0;
-            this.lbl_ID.Font = new System.Drawing.Font("Roboto", 14F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
-            this.lbl_ID.Location = new System.Drawing.Point(38, 267);
-            this.lbl_ID.MouseState = MaterialSkin.MouseState.HOVER;
-            this.lbl_ID.Name = "lbl_ID";
-            this.lbl_ID.Size = new System.Drawing.Size(16, 19);
-            this.lbl_ID.TabIndex = 8;
-            this.lbl_ID.Text = "ID";
-            // 
             // txt_search_services
             // 
             this.txt_search_services.AnimateReadOnly = false;
@@ -219,8 +200,8 @@
             this.txt_search_services.Depth = 0;
             this.txt_search_services.Font = new System.Drawing.Font("Roboto", 16F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
             this.txt_search_services.Hint = "Search Services";
-            this.txt_search_services.LeadingIcon = null;
-            this.txt_search_services.Location = new System.Drawing.Point(25, 469);
+            this.txt_search_services.LeadingIcon = ((System.Drawing.Image)(resources.GetObject("txt_search_services.LeadingIcon")));
+            this.txt_search_services.Location = new System.Drawing.Point(25, 507);
             this.txt_search_services.MaxLength = 50;
             this.txt_search_services.MouseState = MaterialSkin.MouseState.OUT;
             this.txt_search_services.Multiline = false;
@@ -233,7 +214,7 @@
             // 
             // service_panel
             // 
-            this.service_panel.Location = new System.Drawing.Point(25, 525);
+            this.service_panel.Location = new System.Drawing.Point(25, 563);
             this.service_panel.Name = "service_panel";
             this.service_panel.Size = new System.Drawing.Size(700, 10);
             this.service_panel.TabIndex = 8;
@@ -251,13 +232,13 @@
             this.col_category_name,
             this.col_duration,
             this.col_btn_delete});
-            this.dgv_table.Location = new System.Drawing.Point(25, 597);
+            this.dgv_table.Location = new System.Drawing.Point(25, 579);
             this.dgv_table.Name = "dgv_table";
             this.dgv_table.ReadOnly = true;
             this.dgv_table.RowHeadersVisible = false;
             this.dgv_table.RowHeadersWidth = 51;
             this.dgv_table.RowTemplate.Height = 24;
-            this.dgv_table.Size = new System.Drawing.Size(1369, 226);
+            this.dgv_table.Size = new System.Drawing.Size(1352, 226);
             this.dgv_table.TabIndex = 10;
             this.dgv_table.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgv_table_CellClick);
             // 
@@ -268,6 +249,7 @@
             this.col_service_id.MinimumWidth = 6;
             this.col_service_id.Name = "col_service_id";
             this.col_service_id.ReadOnly = true;
+            this.col_service_id.Visible = false;
             // 
             // col_service_name
             // 
@@ -313,7 +295,7 @@
             this.btn_confirm.Enabled = false;
             this.btn_confirm.HighEmphasis = true;
             this.btn_confirm.Icon = null;
-            this.btn_confirm.Location = new System.Drawing.Point(1225, 552);
+            this.btn_confirm.Location = new System.Drawing.Point(1223, 521);
             this.btn_confirm.Margin = new System.Windows.Forms.Padding(4, 6, 4, 6);
             this.btn_confirm.MouseState = MaterialSkin.MouseState.HOVER;
             this.btn_confirm.Name = "btn_confirm";
@@ -333,7 +315,7 @@
             this.btn_update.Depth = 0;
             this.btn_update.HighEmphasis = true;
             this.btn_update.Icon = null;
-            this.btn_update.Location = new System.Drawing.Point(1046, 552);
+            this.btn_update.Location = new System.Drawing.Point(1052, 521);
             this.btn_update.Margin = new System.Windows.Forms.Padding(4, 6, 4, 6);
             this.btn_update.MouseState = MaterialSkin.MouseState.HOVER;
             this.btn_update.Name = "btn_update";
@@ -354,7 +336,7 @@
             this.btn_check_available.Depth = 0;
             this.btn_check_available.HighEmphasis = true;
             this.btn_check_available.Icon = null;
-            this.btn_check_available.Location = new System.Drawing.Point(846, 552);
+            this.btn_check_available.Location = new System.Drawing.Point(848, 521);
             this.btn_check_available.Margin = new System.Windows.Forms.Padding(4, 6, 4, 6);
             this.btn_check_available.MouseState = MaterialSkin.MouseState.HOVER;
             this.btn_check_available.Name = "btn_check_available";
@@ -384,17 +366,6 @@
             this.materialLabel1.TabIndex = 15;
             this.materialLabel1.Text = "Date:";
             // 
-            // btn_create
-            // 
-            this.btn_create.Image = ((System.Drawing.Image)(resources.GetObject("btn_create.Image")));
-            this.btn_create.Location = new System.Drawing.Point(531, 99);
-            this.btn_create.Name = "btn_create";
-            this.btn_create.Size = new System.Drawing.Size(66, 50);
-            this.btn_create.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
-            this.btn_create.TabIndex = 16;
-            this.btn_create.TabStop = false;
-            this.btn_create.Click += new System.EventHandler(this.btn_create_Click);
-            // 
             // txt_customer_type
             // 
             this.txt_customer_type.AnimateReadOnly = true;
@@ -413,6 +384,37 @@
             this.txt_customer_type.TabIndex = 17;
             this.txt_customer_type.Text = "";
             this.txt_customer_type.TrailingIcon = null;
+            // 
+            // lbl_ID
+            // 
+            this.lbl_ID.AutoSize = true;
+            this.lbl_ID.Depth = 0;
+            this.lbl_ID.Font = new System.Drawing.Font("Roboto", 14F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
+            this.lbl_ID.Location = new System.Drawing.Point(38, 267);
+            this.lbl_ID.MouseState = MaterialSkin.MouseState.HOVER;
+            this.lbl_ID.Name = "lbl_ID";
+            this.lbl_ID.Size = new System.Drawing.Size(16, 19);
+            this.lbl_ID.TabIndex = 8;
+            this.lbl_ID.Text = "ID";
+            this.lbl_ID.Visible = false;
+            // 
+            // btn_create
+            // 
+            this.btn_create.Image = ((System.Drawing.Image)(resources.GetObject("btn_create.Image")));
+            this.btn_create.Location = new System.Drawing.Point(531, 99);
+            this.btn_create.Name = "btn_create";
+            this.btn_create.Size = new System.Drawing.Size(66, 50);
+            this.btn_create.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
+            this.btn_create.TabIndex = 16;
+            this.btn_create.TabStop = false;
+            this.btn_create.Click += new System.EventHandler(this.btn_create_Click);
+            // 
+            // customer_panel
+            // 
+            this.customer_panel.Location = new System.Drawing.Point(25, 155);
+            this.customer_panel.Name = "customer_panel";
+            this.customer_panel.Size = new System.Drawing.Size(500, 10);
+            this.customer_panel.TabIndex = 7;
             // 
             // AppointmentForm
             // 
@@ -461,22 +463,22 @@
         private MaterialSkin.Controls.MaterialComboBox cb_book_type;
         private System.Windows.Forms.DateTimePicker cmb_Date;
         private MaterialSkin.Controls.MaterialComboBox cb_Time;
-        private System.Windows.Forms.FlowLayoutPanel customer_panel;
-        private MaterialSkin.Controls.MaterialLabel lbl_ID;
         private MaterialSkin.Controls.MaterialTextBox txt_search_services;
         private System.Windows.Forms.FlowLayoutPanel service_panel;
         private System.Windows.Forms.DataGridView dgv_table;
         private MaterialSkin.Controls.MaterialButton btn_confirm;
         private MaterialSkin.Controls.MaterialButton btn_update;
+        private MaterialSkin.Controls.MaterialButton btn_check_available;
+        private System.Windows.Forms.ErrorProvider errorProvider1;
+        private MaterialSkin.Controls.MaterialLabel materialLabel1;
+        private MaterialSkin.Controls.MaterialTextBox txt_customer_type;
         private System.Windows.Forms.DataGridViewTextBoxColumn col_service_id;
         private System.Windows.Forms.DataGridViewTextBoxColumn col_service_name;
         private System.Windows.Forms.DataGridViewTextBoxColumn col_category_name;
         private System.Windows.Forms.DataGridViewTextBoxColumn col_duration;
         private System.Windows.Forms.DataGridViewImageColumn col_btn_delete;
-        private MaterialSkin.Controls.MaterialButton btn_check_available;
-        private System.Windows.Forms.ErrorProvider errorProvider1;
-        private MaterialSkin.Controls.MaterialLabel materialLabel1;
         private System.Windows.Forms.PictureBox btn_create;
-        private MaterialSkin.Controls.MaterialTextBox txt_customer_type;
+        private System.Windows.Forms.FlowLayoutPanel customer_panel;
+        private MaterialSkin.Controls.MaterialLabel lbl_ID;
     }
 }

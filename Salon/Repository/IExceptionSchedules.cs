@@ -21,5 +21,8 @@ namespace Salon.Repository
         bool CheckExceptionSchedule(DateTime date);
 
         bool IsExceptionScheduleConflict(int stylist_id, DateTime date, int id);
+
+
+        List<int> GetUnavailableStylistIds(DateTime date);
     }
 }

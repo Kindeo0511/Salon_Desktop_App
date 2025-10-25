@@ -39,6 +39,16 @@ namespace Salon.View
 
             LoadExceptionSchedules(_stylist.stylist_id);
         }
+        private List<string> GenerateHourlySlots12Hour()
+        {
+            var times = new List<string>();
+            for (int hour = 9; hour <= 21; hour++) // 9 AM to 9 PM
+            {
+                var time = new DateTime(1, 1, 1, hour, 0, 0);
+                times.Add(time.ToString("hh:mm tt"));
+            }
+            return times;
+        }
         // WEEKLY SCHEDULES
         private void LoadSchedules(int stylist_id)
         {
@@ -59,7 +69,7 @@ namespace Salon.View
         }
         private bool WeeklyValidated()
         {
-
+    
             bool validated = true;
             // REQUIRED FIELD
 
@@ -68,37 +78,78 @@ namespace Salon.View
                 validated = false;
             }
 
-
-            //validated &= Validator.IsTimeSelected(dtp_start_time, errorProvider1, "Start time is required.");
-
-            //validated &= Validator.IsTimeSelected(dtp_end_time, errorProvider1, "End time is required.");
-
-            if (dtp_start_time.Value.TimeOfDay >= dtp_end_time.Value.TimeOfDay)
+            if (cmb_start_time.SelectedItem == null)
             {
-                weekly_error.SetError(dtp_end_time, "End time must be after start time.");
-                validated = false;
+                weekly_error.SetError(cmb_start_time, "Start must be selected.");
+                return false;
+            }
+            else
+            {
+                weekly_error.SetError(cmb_start_time, "");
             }
 
-            if (!check_yes.Checked && !check_no.Checked)
+            if (cmb_end_time.SelectedItem == null)
             {
-                weekly_error.SetError(check_yes, "Availability is required.");
+                weekly_error.SetError(cmb_end_time, "End time must be selected.");
+                return false;
+            }
+            else
+            {
+                weekly_error.SetError(cmb_end_time, "");
+            }
+
+
+            TimeSpan startTime = DateTime.Parse(cmb_start_time.SelectedItem.ToString()).TimeOfDay;
+            TimeSpan endTime = DateTime.Parse(cmb_end_time.SelectedItem.ToString()).TimeOfDay;
+
+      
+            if (startTime >= endTime)
+            {
+                weekly_error.SetError(cmb_start_time, "End time must be after start time.");
                 validated = false;
             }
             else
             {
-                weekly_error.SetError(check_yes, "");
-        
+                weekly_error.SetError(cmb_start_time, "");
+            }
+
+            // ✅ New 8-hour duration check
+            //TimeSpan duration = endTime - startTime;
+            //if (duration.TotalHours != 8)
+            //{
+            //    weekly_error.SetError(cmb_end_time, "Schedule must be exactly 8 hours.");
+            //    validated = false;
+            //}
+            //else
+            //{
+            //    weekly_error.SetError(cmb_end_time, "");
+            //}
+
+            if (DateTime.Parse(cmb_start_time.SelectedItem.ToString()).TimeOfDay >= DateTime.Parse(cmb_end_time.SelectedItem.ToString()).TimeOfDay)
+            {
+                weekly_error.SetError(cmb_start_time, "End time must be after start time.");
+                validated = false;
+            }
+
+            if (!rad_week_yes.Checked && !rad_week_no.Checked)
+            {
+                weekly_error.SetError(materialLabel1, "Availability is required.");
+                validated = false;
+            }
+            else
+            {
+                weekly_error.SetError(materialLabel1, "");
+
             }
 
 
             // EXISTS VALIDATION
-      
+
             int weekly_id = _stylistSchedule?.ScheduleId ?? 0;
-            TimeSpan startTime = dtp_start_time.Value.TimeOfDay;
-            TimeSpan endTime = dtp_end_time.Value.TimeOfDay;
+
 
             validated &= Validator.IsScheduleConflict(
-              new Control[] { txt_day, dtp_start_time, dtp_end_time }, 
+              txt_day,
               errorProvider1,
               "Schedule already exists.",
               _stylist.stylist_id,
@@ -107,7 +158,8 @@ namespace Salon.View
               weekly_id
           );
 
-           
+
+
 
 
             return validated;
@@ -156,17 +208,26 @@ namespace Salon.View
         }
         private void AddSchedule()
         {
-            bool IscChecked = check_yes.Checked ? check_no.Checked : false;
+            bool IscChecked = false;
 
-            var stylistSchedule = new StylistScheduleModel
+            if (rad_week_yes.Checked)
             {
-                StylistId = _stylist.stylist_id,
-                DayOfWeek = txt_day.SelectedItem.ToString(),
-                StartTime = dtp_start_time.Value.TimeOfDay,
-                EndTime = dtp_end_time.Value.TimeOfDay,
-                IsWorking = IscChecked,
+                IscChecked = true;
+            }
+            else if (rad_week_no.Checked) 
+            {
+                IscChecked = false;
+            }
 
-            };
+                var stylistSchedule = new StylistScheduleModel
+                {
+                    StylistId = _stylist.stylist_id,
+                    DayOfWeek = txt_day.SelectedItem.ToString(),
+                    StartTime = DateTime.Parse(cmb_start_time.SelectedItem.ToString()).TimeOfDay,
+                    EndTime = DateTime.Parse(cmb_end_time.SelectedItem.ToString()).TimeOfDay,
+                    IsWorking = IscChecked,
+
+                };
             var stylistSchedulesRepo = new StylistSchedulesRepository();
             var stylistSchedulesController = new StylistSchedulesController(stylistSchedulesRepo);
             stylistSchedulesController.AddSchedule(stylistSchedule);
@@ -176,15 +237,24 @@ namespace Salon.View
         }
         private void UpdateSchedule()
         {
-            bool IscChecked = check_yes.Checked ? check_no.Checked : false;
+            bool IscChecked = false;
+
+            if (rad_week_yes.Checked)
+            {
+                IscChecked = true;
+            }
+            else if (rad_week_no.Checked)
+            {
+                IscChecked = false;
+            }
             var stylistSchedulesRepo = new StylistSchedulesRepository();
             var stylistSchedulesController = new StylistSchedulesController(stylistSchedulesRepo);
 
 
                  _stylistSchedule.StylistId = _stylist.stylist_id;
             _stylistSchedule.DayOfWeek = txt_day.SelectedItem.ToString();
-                _stylistSchedule.StartTime = dtp_start_time.Value.TimeOfDay;
-                _stylistSchedule.EndTime = dtp_end_time.Value.TimeOfDay;
+            _stylistSchedule.StartTime = DateTime.Parse(cmb_start_time.SelectedItem.ToString()).TimeOfDay;
+            _stylistSchedule.EndTime = DateTime.Parse(cmb_end_time.SelectedItem.ToString()).TimeOfDay;
                 _stylistSchedule.IsWorking = IscChecked;
 
 
@@ -204,10 +274,10 @@ namespace Salon.View
 
         private void clear()
         {
-            txt_day.Text = "";
-            dtp_start_time.Value = DateTime.Today;
-            dtp_end_time.Value = DateTime.Today;
-            check_yes.Checked = false;
+            //txt_day.Text = "";
+            //cmb_start_time.Value = DateTime.Today;
+            //dtp_end_time.Value = DateTime.Today;
+            //check_yes.Checked = false;
      
      ;
         }
@@ -259,13 +329,17 @@ namespace Salon.View
                 _stylistSchedule = dgv_weekly_schedules.Rows[e.RowIndex].DataBoundItem as StylistScheduleModel;
 
                 //schedule_id = Convert.ToInt32(_stylistSchedule.ScheduleId.ToString());
+                cmb_start_time.Hint = string.Empty;
+                cmb_end_time.Hint = string.Empty;
                 txt_day.SelectedItem = _stylistSchedule.DayOfWeek;
-                dtp_start_time.Value = DateTime.Today.Add(_stylistSchedule.StartTime);
-                dtp_end_time.Value = DateTime.Today.Add(_stylistSchedule.EndTime);
+                cmb_start_time.SelectedItem = DateTime.Today.Add(_stylistSchedule.StartTime).ToString("hh:mm tt");
+                cmb_end_time.SelectedItem = DateTime.Today.Add(_stylistSchedule.EndTime).ToString("hh:mm tt");
+                cmb_start_time.Hint = "Start time";
+                cmb_end_time.Hint = "End time";
                 bool isWorking = _stylistSchedule.IsWorking;
         
-                check_yes.Checked = isWorking;
-                check_no.Checked = !isWorking;
+                rad_week_yes.Checked = isWorking;
+                rad_week_no.Checked = !isWorking;
 
 
 
@@ -339,7 +413,17 @@ namespace Salon.View
 
         private void AddExceptionSchedule()
         {
-            int isAvailable = chk_yes.Checked ? 0 : 1;
+            bool isAvailable = false;
+            if (chk_yes.Checked)
+            {
+                isAvailable = true;
+                
+            }
+            else if (chk_no.Checked) 
+            {
+                isAvailable = false;
+              
+            }
             var exceptionSchedule = new ExceptionScheduleModel
             {
                 stylist_id = _stylist.stylist_id,
@@ -357,7 +441,15 @@ namespace Salon.View
         {
             if (_exceptionSchedule != null)
             {
-                int isAvailable = chk_yes.Checked ? 1 : 0;
+                bool isAvailable = false;
+                if (chk_yes.Checked)
+                {
+                    isAvailable = true;
+                }
+                else if (chk_no.Checked)
+                {
+                    isAvailable = true;
+                }
                 _exceptionSchedule.date = dtp_date.Value.Date;
                 _exceptionSchedule.start_time = dtp_exception_start_time.Value.TimeOfDay;
                 _exceptionSchedule.end_time = dtp_exception_end_time.Value.TimeOfDay;
@@ -378,7 +470,7 @@ namespace Salon.View
             Audit.AuditLog(DateTime.Now, "Create", UserSession.CurrentUser.first_Name, "Manage Stylist, Exception Schedule", $"Created exception schedule for Stylist: '{_stylist.firstName}' (Reason: {reason}) on {DateTime.Now:yyyy-MM-dd} at {DateTime.Now:HH:mm:ss}");
             AddExceptionSchedule();
             MessageBox.Show("Exception schedule added successfully!");
-            this.Close(); 
+        
         }
 
         private void btn_update_exceptionSched_Click(object sender, EventArgs e)
@@ -391,7 +483,7 @@ namespace Salon.View
             btn_add_ExceptionSched.Visible = true;
             btn_cancel_exceptionSched.Visible = false;
             MessageBox.Show("Exception schedule updated successfully!");
-            this.Close();
+       
         }
 
         private async void dgv_exception_schedule_CellClick(object sender, DataGridViewCellEventArgs e)
@@ -434,10 +526,10 @@ namespace Salon.View
                 {
                     dtp_exception_end_time.Value = DateTime.Today;
                 }
-                int isWorking = _exceptionSchedule.is_available;
+                bool isWorking = _exceptionSchedule.is_available;
 
-                chk_yes.Checked = isWorking == 1;
-                chk_no.Checked = isWorking == 0;
+                chk_yes.Checked = isWorking;
+                chk_no.Checked = !isWorking;
 
 
                 txt_reason.Text = _exceptionSchedule.reason;
@@ -481,7 +573,7 @@ namespace Salon.View
             if (dgv_exception_schedule.Columns[e.ColumnIndex].Name == "ex_available" && e.Value != null)
             {
                 int availability = Convert.ToInt32(e.Value);
-                e.Value = (availability == 0) ? "Yes" : "No"; // 0 = Available → "Yes"
+                e.Value = (availability == 1) ? "Yes" : "No"; // 0 = Available → "Yes"
                 e.FormattingApplied = true;
             }
         }
@@ -505,7 +597,11 @@ namespace Salon.View
 
         private void StylistScheduleForm_Load(object sender, EventArgs e)
         {
-      
+            var timeSlots = GenerateHourlySlots12Hour();
+            cmb_start_time.DataSource = new List<string>(timeSlots);
+            cmb_end_time.DataSource = new List<string>(timeSlots);
+            cmb_start_time.SelectedIndex = -1;
+            cmb_end_time.SelectedIndex = -1;
 
         }
     }

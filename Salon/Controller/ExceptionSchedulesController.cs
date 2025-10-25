@@ -50,5 +50,11 @@ namespace Salon.Controller
         {
             return _repo.IsExceptionScheduleConflict(stylist_id, date, id);
         }
+
+        public List<int> GetUnavailableStylistIds(DateTime date)
+        {
+            return _repo.GetUnavailableStylistIds(date);
+        }
+
     }
 }

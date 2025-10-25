@@ -26,6 +26,7 @@ namespace Salon.View
         public UserForm(MainForm mainForm)
         {
             InitializeComponent();
+         
             ThemeManager.ApplyTheme(this);
             this._mainForm = mainForm;
             int currentYear = DateTime.Now.Year;
@@ -236,13 +237,14 @@ namespace Salon.View
                 validated = false;
             }
             else if (!Validator.Pattern(
-                txt_email,
-                errorProvider1,
-                @"^(?![._\-])[A-Za-z0-9._\-]+@[A-Za-z0-9\-]+\.[A-Za-z]{2,}$",
-                "Email must be in a valid format (e.g., example@email.com) and not start/end with special characters."))
+              txt_email,
+              errorProvider1,
+              @"^[^@\s]+@[^@\s]+\.[^@\s]+$",
+              "Please enter a valid email address."))
             {
                 validated = false;
             }
+
             else if (!Validator.IsEmailExists(txt_email, errorProvider1, "Email already exists.", excludeId))
             {
                 validated = false;

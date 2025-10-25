@@ -156,10 +156,16 @@ namespace Salon.View
                     errorProvider1.SetError(txt_email, "Email must contain exactly one '@' symbol.");
                     validated = false;
                 }
-                //else if (!Validator.Pattern(txt_email, errorProvider1, "@^[A-Za-z0-9](?!.*?[@]{2})[A-Za-z0-9._%+-]*@[A-Za-z0-9.-]+.[A-Za-z]{2,}$", "Email address should not start or end with a special character and must be valid.")) 
-                //{
-                //    validated = false;
-                //}
+                else if (!Validator.Pattern(
+                  txt_email,
+                  errorProvider1,
+                  @"^[^@\s]+@[^@\s]+\.[^@\s]+$",
+                  "Please enter a valid email address."))
+                {
+                    validated = false;
+                }
+
+
 
                 else if (!Validator.IsCustomerEmailExists(txt_email, errorProvider1, "Email already exists.", excludeId))
                 {

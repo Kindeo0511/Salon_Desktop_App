@@ -288,6 +288,7 @@
             this.Padding = new System.Windows.Forms.Padding(40, 64, 40, 3);
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "STYLIST INFORMATION";
+            this.Load += new System.EventHandler(this.StylistForm_Load);
             ((System.ComponentModel.ISupportInitialize)(this.errorProvider1)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();

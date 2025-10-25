@@ -240,5 +240,20 @@ namespace Salon.Repository
                 return con.ExecuteScalar<int>(sql, new { contact, id }) > 0;
             }
         }
+
+        public List<int> GetAssignedStylistIds(DateTime date, TimeSpan start, TimeSpan end)
+        {
+            using (var con = Database.GetConnection())
+            {
+                var sql = @"SELECT stylist_id 
+                        FROM tbl_appointments 
+                        WHERE appointment_date = @date 
+                          AND start_time < @end 
+                          AND end_time > @start 
+                          AND is_deleted = 0";
+
+                return con.Query<int>(sql, new { date, start, end }).ToList();
+            }
+        }
     }
 }

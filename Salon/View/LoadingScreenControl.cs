@@ -22,11 +22,7 @@ namespace Salon.View
         {
 
         }
-        public string StatusText
-        {
-            get => lblStatus.Text;
-            set => lblStatus.Text = value;
-        }
+  
 
         public void ShowOverlay()
         {
@@ -39,5 +35,9 @@ namespace Salon.View
             this.Visible = false;
         }
 
+        private void pictureBox1_Click(object sender, EventArgs e)
+        {
+
+        }
     }
 }

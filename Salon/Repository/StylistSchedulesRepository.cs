@@ -3,6 +3,7 @@ using Laundry.Data;
 using Salon.Models;
 using System;
 using System.Collections.Generic;
+using System.Data.SqlClient;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -60,6 +61,39 @@ namespace Salon.Repository
                 connection.Execute("UPDATE tbl_stylist_schedules SET is_deleted = 0 WHERE id = @Id", new { Id = scheduleId });
             }
         }
+        public async Task SaveStylistScheduleAsync(List<StylistModel> schedules)
+        {
+            using (var connection = Database.GetConnection())
+            {
+                foreach (var item in schedules)
+                {
+                    var query = @"
+                MERGE INTO StylistSchedule AS target
+                USING (SELECT @StylistId AS StylistId, @DayOfWeek AS DayOfWeek) AS source
+                ON target.stylist_id = source.StylistId AND target.day_of_week = source.DayOfWeek
+                WHEN MATCHED THEN
+                    UPDATE SET 
+                        start_time = @StartTime,
+                        end_time = @EndTime,
+                        is_working = @IsWorking
+                        is_deleted = 0
+                WHEN NOT MATCHED THEN
+                    INSERT (stylist_id, day_of_week, start_time, end_time, is_working, notes, is_deleted)
+                    VALUES (@StylistId, @DayOfWeek, @StartTime, @EndTime, @IsWorking, @Notes, 0);";
+
+                    await connection.ExecuteAsync(query, new
+                    {
+                        StylistId = item.StylistId,
+                        DayOfWeek = item.DayOfWeek,
+                        StartTime = DateTime.Parse(item.StartTime).TimeOfDay,
+                        EndTime = DateTime.Parse(item.EndTime).TimeOfDay,
+                        IsWorking = item.IsWorking
+                       
+                    });
+                }
+            }
+        }
+
 
         // VALIDATION
 
@@ -90,6 +124,19 @@ namespace Salon.Repository
                 return count > 0;
 
 
+            }
+        }
+
+        public List<StylistModel> GetSchedulesByDate(DateTime date)
+        {
+            using (var con = Database.GetConnection())
+            {
+                var sql = @"SELECT * 
+                        FROM tbl_stylist_schedules 
+                        WHERE day_of_week = @dayOfWeek AND is_deleted = 0";
+
+                var dayOfWeek = date.DayOfWeek.ToString();
+                return con.Query<StylistModel>(sql, new { dayOfWeek }).ToList();
             }
         }
     }

@@ -811,10 +811,15 @@ namespace Salon.View
 
         private void btn_create_Click(object sender, EventArgs e)
         {
-            using (var form = new RegisterUserForm(mainForm)) 
+            using (var form = new CustomerForm(mainForm)) 
             {
                 form.ShowDialog();
             }
+        }
+
+        private void panel1_Paint(object sender, PaintEventArgs e)
+        {
+
         }
 
 

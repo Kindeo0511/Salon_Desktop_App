@@ -134,18 +134,21 @@ namespace Salon.View
             {
                 if (txt_customer_type.Text.ToLower() == "registered") 
                 {
-                    //await EmailMessage.SendNotificationEmailAsync(
-                    //to: summary.CustomerModel.email,
-                    //recipientName: summary.CustomerModel.customer_name,
-                    //appointmentTime: $"{summary.AppointmentDate} at {formattedStartTime}",
-                    //services: lbl_Services.Text,
-                    //customMessage: "Your appointment has been confirmed. Please arrive 10 minutes early and bring your ID.");
+                    var loading = new LoadingScreenEmail();
+                    loading.Show();
+                    await EmailMessage.SendNotificationEmailAsync(
+                    to: summary.CustomerModel.email,
+                    recipientName: summary.CustomerModel.customer_name,
+                    appointmentTime: $"{summary.AppointmentDate} at {formattedStartTime}",
+                    services: lbl_Services.Text,
+                    customMessage: "Your appointment has been confirmed. Please arrive 10 minutes early and bring your ID.");
 
-                    //await SmsSender.SendSmsNotificationAsync(
-                    //phone: summary.CustomerModel.phoneNumber,
-                    //customerName: summary.CustomerModel.customer_name,
-                    //appointmentDate: summary.AppointmentDate.ToString("MM/dd/yyyy"),
-                    //startTime: formattedStartTime);
+                    await SmsSender.SendSmsNotificationAsync(
+                    phone: summary.CustomerModel.phoneNumber,
+                    customerName: summary.CustomerModel.customer_name,
+                    appointmentDate: summary.AppointmentDate.ToString("MM/dd/yyyy"),
+                    startTime: formattedStartTime);
+                    loading.Close();
                 }
           
 
