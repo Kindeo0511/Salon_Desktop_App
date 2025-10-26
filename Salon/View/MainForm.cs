@@ -1847,10 +1847,10 @@ namespace Salon.View
             if (e.RowIndex >= 0 && dgv_appointment.Columns[e.ColumnIndex].Name == "col_assign_staff")
             {
                 var appointment = dgv_appointment.Rows[e.RowIndex].DataBoundItem as AppointmentModel;
-                if (appointment.StylistId != 0 ) 
-                {
-                    return;
-                }
+                //if (appointment.StylistId != 0 ) 
+                //{
+                //    return;
+                //}
                 using (var assignStylistForm = new AssignStylistForm(this, appointment))
                 {
                     assignStylistForm.ShowDialog();
@@ -5441,6 +5441,11 @@ namespace Salon.View
         private async void btn_refresh_discount_Click(object sender, EventArgs e)
         {
             await RefreshDiscountAsync();
+        }
+
+        private void dgv_appointment_CellContentClick(object sender, DataGridViewCellEventArgs e)
+        {
+
         }
 
 

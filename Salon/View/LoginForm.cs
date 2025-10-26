@@ -80,8 +80,6 @@ namespace Salon.View
 
 
 
-
-
             return validated;
         }
 
@@ -120,8 +118,6 @@ namespace Salon.View
                 // ❌ Failure: show error
                 MessageBox.Show("Invalid username or password.", "Login Failed", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
-
-
 
         }
 

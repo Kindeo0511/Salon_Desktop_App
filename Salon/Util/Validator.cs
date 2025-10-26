@@ -1079,16 +1079,17 @@ namespace Salon.Util
                 return false;
             }
 
-            // Must be a number followed immediately by letters (e.g., 5ml, 10g)
-            if (!Regex.IsMatch(value, @"^[0-9]+[A-Za-z]+$"))
+            // Allow only whole numbers or decimals (e.g., 5, 3.5, 0.75)
+            if (!Regex.IsMatch(value, @"^\d+(\.\d+)?$"))
             {
-                errorProvider.SetError(control, "Unit per volume should not contain special symbols or spaces between the number and unit.");
+                errorProvider.SetError(control, "Please enter a valid number (whole or decimal) without any letters or symbols.");
                 return false;
             }
 
             errorProvider.SetError(control, "");
             return true;
         }
+
         public static bool ValidateDeliveredDate(DateTimePicker control, ErrorProvider errorProvider)
         {
             DateTime selected = control.Value.Date;

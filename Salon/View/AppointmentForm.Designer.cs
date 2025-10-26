@@ -54,6 +54,7 @@
             this.lbl_ID = new MaterialSkin.Controls.MaterialLabel();
             this.btn_create = new System.Windows.Forms.PictureBox();
             this.customer_panel = new System.Windows.Forms.FlowLayoutPanel();
+            this.btn_check_stylist_avail = new MaterialSkin.Controls.MaterialButton();
             ((System.ComponentModel.ISupportInitialize)(this.dgv_table)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.errorProvider1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.btn_create)).BeginInit();
@@ -416,11 +417,33 @@
             this.customer_panel.Size = new System.Drawing.Size(500, 10);
             this.customer_panel.TabIndex = 7;
             // 
+            // btn_check_stylist_avail
+            // 
+            this.btn_check_stylist_avail.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
+            this.btn_check_stylist_avail.Density = MaterialSkin.Controls.MaterialButton.MaterialButtonDensity.Default;
+            this.btn_check_stylist_avail.Depth = 0;
+            this.btn_check_stylist_avail.HighEmphasis = true;
+            this.btn_check_stylist_avail.Icon = null;
+            this.btn_check_stylist_avail.Location = new System.Drawing.Point(848, 462);
+            this.btn_check_stylist_avail.Margin = new System.Windows.Forms.Padding(4, 6, 4, 6);
+            this.btn_check_stylist_avail.MouseState = MaterialSkin.MouseState.HOVER;
+            this.btn_check_stylist_avail.Name = "btn_check_stylist_avail";
+            this.btn_check_stylist_avail.NoAccentTextColor = System.Drawing.Color.Empty;
+            this.btn_check_stylist_avail.Size = new System.Drawing.Size(167, 36);
+            this.btn_check_stylist_avail.TabIndex = 18;
+            this.btn_check_stylist_avail.Text = "Check Available Stylist";
+            this.btn_check_stylist_avail.Type = MaterialSkin.Controls.MaterialButton.MaterialButtonType.Contained;
+            this.btn_check_stylist_avail.UseAccentColor = false;
+            this.btn_check_stylist_avail.UseVisualStyleBackColor = true;
+            this.btn_check_stylist_avail.Visible = false;
+            this.btn_check_stylist_avail.Click += new System.EventHandler(this.btn_check_stylist_avail_Click);
+            // 
             // AppointmentForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1400, 900);
+            this.Controls.Add(this.btn_check_stylist_avail);
             this.Controls.Add(this.customer_panel);
             this.Controls.Add(this.txt_customer_type);
             this.Controls.Add(this.btn_create);
@@ -480,5 +503,6 @@
         private System.Windows.Forms.PictureBox btn_create;
         private System.Windows.Forms.FlowLayoutPanel customer_panel;
         private MaterialSkin.Controls.MaterialLabel lbl_ID;
+        private MaterialSkin.Controls.MaterialButton btn_check_stylist_avail;
     }
 }

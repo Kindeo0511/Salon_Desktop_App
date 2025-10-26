@@ -360,6 +360,7 @@
             this.txt_count_down.Size = new System.Drawing.Size(32, 19);
             this.txt_count_down.TabIndex = 10;
             this.txt_count_down.Text = "0.00";
+            this.txt_count_down.Visible = false;
             // 
             // send_otp
             // 

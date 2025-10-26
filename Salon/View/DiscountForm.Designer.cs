@@ -68,6 +68,7 @@
             this.dtp_discount_expiry_date.Name = "dtp_discount_expiry_date";
             this.dtp_discount_expiry_date.Size = new System.Drawing.Size(350, 22);
             this.dtp_discount_expiry_date.TabIndex = 16;
+            this.dtp_discount_expiry_date.Visible = false;
             // 
             // btn_cancel_discount
             // 

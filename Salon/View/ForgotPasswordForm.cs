@@ -64,14 +64,13 @@ namespace Salon.View
                     validated = false;
                 }
                 else if (!Validator.Pattern(
-                    txt_username,
-                    errorProvider1,
-                    @"^(?![._-])([a-zA-Z0-9]+[._-]?)*[a-zA-Z0-9]+@([a-zA-Z0-9]+[-]?)*[a-zA-Z0-9]+\.[a-zA-Z]{2,}$",
-                    "Email must be valid, contain '@' and a domain, and only allowed characters (letters, numbers, ., _, -)."
-                ))
-                {
-                    validated = false;
-                }
+                  txt_username,
+                  errorProvider1,
+                  @"^[^@\s]+@[^@\s]+\.[^@\s]+$",
+                  "Please enter a valid email address."))
+                    {
+                        validated = false;
+                    }
 
 
             }
@@ -366,7 +365,7 @@ namespace Salon.View
             MessageBox.Show("Password updated successfully!");
 
             loginForm.Show();
-            this.Close();
+            this.Hide();
         }
 
         private void send_otp_Click(object sender, EventArgs e)
@@ -400,6 +399,7 @@ namespace Salon.View
             txt_count_down.Text = countdown.ToString();
             otp_timer.Interval = 1000; 
             otp_timer.Start();
+            lbl_number.Visible = true;
         }
 
         private void otp_timer_Tick(object sender, EventArgs e)
@@ -410,6 +410,7 @@ namespace Salon.View
             if (countdown <= 0)
             {
                 otp_timer.Stop();
+                lbl_number.Visible = false;
                 send_otp.Enabled = true;
                 txt_count_down.Visible = false;
                 btn_confirm.Enabled = true; // Re-enable if verification failed
@@ -429,8 +430,13 @@ namespace Salon.View
 
         private void chk_show_password_CheckedChanged(object sender, EventArgs e)
         {
+            txt_password.Hint = string.Empty;
+            txt_confirm_password.Hint= string.Empty;
             txt_password.Password = !chk_show_password.Checked;
             txt_confirm_password.Password = !chk_show_password.Checked;
+
+            txt_password.Hint = "Enter new password";
+            txt_confirm_password.Hint = "Enter confirm password";
         }
 
         private void g_step_1_Enter(object sender, EventArgs e)

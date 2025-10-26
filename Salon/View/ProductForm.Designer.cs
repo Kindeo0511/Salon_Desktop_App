@@ -198,11 +198,7 @@
             this.cmb_unit_type.Items.AddRange(new object[] {
             "ml",
             "g",
-            "pc",
-            "kg",
-            "L",
-            "pack",
-            "box"});
+            "kg"});
             this.cmb_unit_type.Location = new System.Drawing.Point(534, 235);
             this.cmb_unit_type.MaxDropDownItems = 4;
             this.cmb_unit_type.MouseState = MaterialSkin.MouseState.OUT;
@@ -229,8 +225,7 @@
             this.cmb_usage_type.Items.AddRange(new object[] {
             "Pump",
             "Scoop",
-            "Spray",
-            "Drop"});
+            "Spray"});
             this.cmb_usage_type.Location = new System.Drawing.Point(534, 342);
             this.cmb_usage_type.MaxDropDownItems = 4;
             this.cmb_usage_type.MouseState = MaterialSkin.MouseState.OUT;

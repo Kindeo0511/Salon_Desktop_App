@@ -26,7 +26,7 @@ namespace Salon.View
             this.appointment = appointment;
             StylistExceptionSchedules();
 
-       
+
         }
         private void StylistExceptionSchedules()
         {

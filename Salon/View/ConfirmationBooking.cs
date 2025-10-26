@@ -63,10 +63,11 @@ namespace Salon.View
 
 
         }
-
         private async void btn_Confirm_Click(object sender, EventArgs e)
         {
             btn_Confirm.Enabled = false;
+            btn_cancel.Enabled = false;
+
             DateTime startTime = DateTime.Today.Add(summary.AppointmentTime);
             string formattedStartTime = startTime.ToString("hh:mm tt");
 
@@ -82,6 +83,16 @@ namespace Salon.View
                 BookingType = summary.BookingType
             };
 
+            // ✅ Check stylist availability before confirming
+            var stylistController = new StylistController(new StylistRepository());
+            var assignedStylists = stylistController.GetAssignedStylist(
+                model.AppointmentDate,
+                model.StartTime,
+                model.EndTime
+            );
+
+           
+
             var repo = new AppointmentRepository();
             var appointmentController = new AppointmentController(repo);
             int appointmentId;
@@ -95,24 +106,25 @@ namespace Salon.View
                 serviceController.ClearDeleteAllServicesForAppointment(appointmentId);
 
                 Audit.AuditLog(
-                DateTime.Now,
-                "Update",
-                UserSession.CurrentUser.first_Name,
-                "Appointment",
-                $"Updated appointment for '{summary.CustomerModel.customer_name}' on {DateTime.Now:yyyy-MM-dd} at {DateTime.Now:HH:mm:ss}");
+                    DateTime.Now,
+                    "Reschedule",
+                    UserSession.CurrentUser.first_Name,
+                    "Appointment",
+                    $"Rescheduled appointment for '{summary.CustomerModel.customer_name}' to {model.AppointmentDate:yyyy-MM-dd} at {formattedStartTime}");
             }
             else
             {
                 appointmentId = appointmentController.CreateAppointment(model);
 
                 Audit.AuditLog(
-                DateTime.Now,
-                "Create",
-                UserSession.CurrentUser.first_Name,
-                "Appointment",
-                 $"Created appointment for '{summary.CustomerModel.customer_name}' on {DateTime.Now:yyyy-MM-dd} at {DateTime.Now:HH:mm:ss}");
+                    DateTime.Now,
+                    "Create",
+                    UserSession.CurrentUser.first_Name,
+                    "Appointment",
+                    $"Created appointment for '{summary.CustomerModel.customer_name}' on {DateTime.Now:yyyy-MM-dd} at {DateTime.Now:HH:mm:ss}");
             }
 
+            // ✅ Save selected services
             foreach (var service in summary.SelectedServices)
             {
                 var appointmentService = new AppointmentServicesModel
@@ -125,53 +137,204 @@ namespace Salon.View
                 appointmentServiceRepo.AddAppointmentService(appointmentService);
             }
 
-
-
-
-
-
+            // ✅ Send notifications if registered
             try
             {
-                if (txt_customer_type.Text.ToLower() == "registered") 
+                if (txt_customer_type.Text.ToLower() == "registered")
                 {
                     var loading = new LoadingScreenEmail();
                     loading.Show();
-                    await EmailMessage.SendNotificationEmailAsync(
-                    to: summary.CustomerModel.email,
-                    recipientName: summary.CustomerModel.customer_name,
-                    appointmentTime: $"{summary.AppointmentDate} at {formattedStartTime}",
-                    services: lbl_Services.Text,
-                    customMessage: "Your appointment has been confirmed. Please arrive 10 minutes early and bring your ID.");
+                    Application.DoEvents();
 
-                    await SmsSender.SendSmsNotificationAsync(
-                    phone: summary.CustomerModel.phoneNumber,
-                    customerName: summary.CustomerModel.customer_name,
-                    appointmentDate: summary.AppointmentDate.ToString("MM/dd/yyyy"),
-                    startTime: formattedStartTime);
-                    loading.Close();
+                    try
+                    {
+                        await SendNotificationsAsync(summary, formattedStartTime, lbl_Services.Text, isUpdate ? "Rescheduled" : "Booked");
+                    }
+                    finally
+                    {
+                        if (loading.InvokeRequired)
+                            loading.Invoke(new Action(() => loading.Close()));
+                        else
+                            loading.Close();
+                    }
                 }
-          
 
-
-                MessageBox.Show($"The appointment has been {(isUpdate ? "updated" : "booked")} successfully!",
+                MessageBox.Show($"The appointment has been {(isUpdate ? "rescheduled" : "booked")} successfully!",
                     "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
             }
             catch (Exception ex)
             {
-                MessageBox.Show($"Error: {ex.Message}");
+                if (ex is System.Net.WebException || ex.Message.Contains("network") || ex.Message.Contains("internet"))
+                {
+                    MessageBox.Show("Failed to send confirmation. Please check your internet connection and try again.",
+                        "Network Error", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                }
+                else if (ex.Message.Contains("SMS") || ex.Message.Contains("gateway") || ex.Message.Contains("connection refused"))
+                {
+                    MessageBox.Show("Unable to connect to the SMS gateway. Please verify your SMS service configuration.",
+                        "SMS Gateway Error", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                }
+                else
+                {
+                    MessageBox.Show("An unexpected error occurred while sending the confirmation. Please try again or contact support.",
+                        "Notification Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
             }
 
-
-
-
+            // ✅ Final UI refresh and close
             btn_Confirm.Enabled = true;
+            btn_cancel.Enabled = true;
             await mainForm.RefreshAppointmentAsync();
             await mainForm.RefreshTotalAppointment();
             await mainForm.RefreshPopularServices();
             await mainForm.RefreshTransactionAsync();
             this.DialogResult = DialogResult.OK;
             this.Close();
-            
+        }
+
+        //private async void btn_Confirm_Click(object sender, EventArgs e)
+        //{
+        //    btn_Confirm.Enabled = false;
+        //    btn_cancel.Enabled = false;
+        //    DateTime startTime = DateTime.Today.Add(summary.AppointmentTime);
+        //    string formattedStartTime = startTime.ToString("hh:mm tt");
+
+        //    var model = new AppointmentModel
+        //    {
+        //        AppointmentId = isUpdate ? existingAppointmentId : 0,
+        //        CustomerId = summary.CustomerModel.customer_id,
+        //        AppointmentDate = summary.AppointmentDate,
+        //        StartTime = summary.AppointmentTime,
+        //        EndTime = summary.AppointmentEndTime,
+        //        Status = "Scheduled",
+        //        PaymentStatus = "Unpaid",
+        //        BookingType = summary.BookingType
+        //    };
+
+        //    var repo = new AppointmentRepository();
+        //    var appointmentController = new AppointmentController(repo);
+        //    int appointmentId;
+
+        //    if (isUpdate)
+        //    {
+        //        appointmentId = appointmentController.UpdatingTheAppointment(model);
+
+        //        var serviceRepo = new AppointmentServiceRepository();
+        //        var serviceController = new AppointmentServiceController(serviceRepo);
+        //        serviceController.ClearDeleteAllServicesForAppointment(appointmentId);
+
+        //        Audit.AuditLog(
+        //        DateTime.Now,
+        //        "Update",
+        //        UserSession.CurrentUser.first_Name,
+        //        "Appointment",
+        //        $"Updated appointment for '{summary.CustomerModel.customer_name}' on {DateTime.Now:yyyy-MM-dd} at {DateTime.Now:HH:mm:ss}");
+        //    }
+        //    else
+        //    {
+        //        appointmentId = appointmentController.CreateAppointment(model);
+
+        //        Audit.AuditLog(
+        //        DateTime.Now,
+        //        "Create",
+        //        UserSession.CurrentUser.first_Name,
+        //        "Appointment",
+        //         $"Created appointment for '{summary.CustomerModel.customer_name}' on {DateTime.Now:yyyy-MM-dd} at {DateTime.Now:HH:mm:ss}");
+        //    }
+
+        //    foreach (var service in summary.SelectedServices)
+        //    {
+        //        var appointmentService = new AppointmentServicesModel
+        //        {
+        //            AppointmentId = appointmentId,
+        //            ServiceId = service.service_id
+        //        };
+
+        //        var appointmentServiceRepo = new AppointmentServiceRepository();
+        //        appointmentServiceRepo.AddAppointmentService(appointmentService);
+        //    }
+
+
+
+
+
+
+        //    try
+        //    {
+        //        if (txt_customer_type.Text.ToLower() == "registered")
+        //        {
+        //            var loading = new LoadingScreenEmail();
+        //            loading.Show();
+        //            Application.DoEvents(); // ✅ Forces UI to render
+
+        //            try
+        //            {
+        //                await SendNotificationsAsync(summary, formattedStartTime, lbl_Services.Text);
+        //            }
+        //            finally
+        //            {
+        //                // ✅ Ensure this runs on UI thread
+        //                if (loading.InvokeRequired)
+        //                    loading.Invoke(new Action(() => loading.Close()));
+        //                else
+        //                    loading.Close();
+        //            }
+        //        }
+
+        //        MessageBox.Show($"The appointment has been {(isUpdate ? "updated" : "booked")} successfully!",
+        //            "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        if (ex is System.Net.WebException || ex.Message.Contains("network") || ex.Message.Contains("internet"))
+        //        {
+        //            MessageBox.Show("Failed to send confirmation. Please check your internet connection and try again.",
+        //                "Network Error", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+        //        }
+        //        else if (ex.Message.Contains("SMS") || ex.Message.Contains("gateway") || ex.Message.Contains("connection refused"))
+        //        {
+        //            MessageBox.Show("Unable to connect to the SMS gateway. Please verify your SMS service configuration.",
+        //                "SMS Gateway Error", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+        //        }
+        //        else
+        //        {
+        //            MessageBox.Show("An unexpected error occurred while sending the confirmation. Please try again or contact support.",
+        //                "Notification Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+        //        }
+        //    }
+
+
+
+
+
+        //    btn_Confirm.Enabled = true;
+        //    btn_Confirm.Enabled = true;
+        //    await mainForm.RefreshAppointmentAsync();
+        //    await mainForm.RefreshTotalAppointment();
+        //    await mainForm.RefreshPopularServices();
+        //    await mainForm.RefreshTransactionAsync();
+        //    this.DialogResult = DialogResult.OK;
+        //    this.Close();
+
+        //}
+        private async Task SendNotificationsAsync(BookingSummary summary, string formattedStartTime, string servicesText, string bookingStatus)
+        {
+            await EmailMessage.SendNotificationEmailAsync(
+             to: summary.CustomerModel.email,
+             recipientName: summary.CustomerModel.customer_name,
+             appointmentTime: $"{summary.AppointmentDate} at {formattedStartTime}",
+             services: servicesText,
+             customMessage: $"Your appointment has been {bookingStatus.ToLower()}. Please arrive 10 minutes early and bring your ID.");
+
+           
+            await SmsSender.SendSmsNotificationAsync(
+            phone: summary.CustomerModel.phoneNumber,
+            customerName: summary.CustomerModel.customer_name,
+            appointmentDate: summary.AppointmentDate.ToString("MM/dd/yyyy"),
+            startTime: formattedStartTime,
+            status: bookingStatus.ToLower()
+            );
+
         }
 
         private void btn_cancel_Click(object sender, EventArgs e)

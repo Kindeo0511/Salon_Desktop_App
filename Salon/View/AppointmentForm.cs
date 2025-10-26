@@ -822,6 +822,61 @@ namespace Salon.View
 
         }
 
+        private void btn_check_stylist_avail_Click(object sender, EventArgs e)
+        {
+            var appointmentRepo = new AppointmentRepository();
+            var appointmentController = new AppointmentController(appointmentRepo);
+
+            // Get the appointment you're checking (e.g., selected from a grid or form)
+            var appointments = appointmentController.GetAllShowAppointments("");
+            var appointment = appointments.FirstOrDefault(); // Replace with actual selected appointment
+
+            if (appointment == null)
+            {
+                MessageBox.Show("No appointment selected.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
+
+            // Load stylists who are marked unavailable on this date
+            var exceptionRepo = new ExceptionSchedulesRepository();
+            var exceptionController = new ExceptionSchedulesController(exceptionRepo);
+            var unavailableStylists = exceptionController.GetUnavailableStylistIds(appointment.AppointmentDate);
+
+            // Load stylists who are scheduled to work on this day
+            var scheduleRepo = new StylistSchedulesRepository();
+            var scheduleController = new StylistSchedulesController(scheduleRepo);
+            var scheduledStylists = scheduleController.CheckStylistSchedule(appointment.AppointmentDate);
+
+            // Load stylists already assigned to appointments during this time
+            var stylistRepo = new StylistRepository();
+            var stylistController = new StylistController(stylistRepo);
+            var assignedStylists = stylistController.GetAssignedStylist(
+                appointment.AppointmentDate,
+                appointment.StartTime,
+                appointment.EndTime
+            );
+
+            // Filter out unavailable stylists
+            var availableStylists = scheduledStylists
+                .Where(s => !unavailableStylists.Contains(s.StylistId))
+                .Where(s => !assignedStylists.Contains(s.StylistId))
+                .ToList();
+
+            // Show result
+            if (!availableStylists.Any())
+            {
+                MessageBox.Show("No stylist is available at the selected time. Please choose a different time or check for cancellations.",
+                    "Stylist Unavailable", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+            }
+            else
+            {
+                MessageBox.Show($"{availableStylists.Count} stylist(s) are available for this time slot.",
+                    "Stylist Availability", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            }
+        }
+
+
+
 
 
 

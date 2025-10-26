@@ -17,9 +17,9 @@ namespace Salon.Util
     {
         private static readonly HttpClient client = new HttpClient();
         // 🔔 Appointment notification
-        public static async Task SendSmsNotificationAsync(string phone, string customerName, string appointmentDate, string startTime)
+        public static async Task SendSmsNotificationAsync(string phone, string customerName, string appointmentDate, string startTime, string status)
         {
-            string message = $"Hi {customerName}, your appointment is confirmed on {appointmentDate} at {startTime}. Please arrive 10 minutes early.";
+            string message = $"Hi {customerName}, your appointment {status} on {appointmentDate} at {startTime}. Please arrive 10 minutes early.";
             await SendSmsAsync(phone, message);
         }
         public static async Task SendDiscountNotifSMS(int customerId, string message)
@@ -57,7 +57,7 @@ namespace Salon.Util
 
                 var content = new StringContent(JsonConvert.SerializeObject(payload), Encoding.UTF8, "application/json");
 
-                var response = await client.PostAsync("http://100.104.201.251:8080/message", content);
+                var response = await client.PostAsync("http://192.168.1.15:8080/message", content);
 
                 if (!response.IsSuccessStatusCode)
                 {
