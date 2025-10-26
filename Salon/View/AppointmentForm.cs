@@ -875,6 +875,54 @@ namespace Salon.View
             }
         }
 
+        private void txt_Search_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            MaterialTextBox txt = sender as MaterialTextBox;
+            char c = e.KeyChar;
+
+            // Allow control keys (Backspace, Delete, etc.)
+            if (char.IsControl(c))
+                return;
+
+            // Block space if it's the first character
+            if (char.IsWhiteSpace(c) && txt != null && txt.SelectionStart == 0)
+            {
+                e.Handled = true;
+                return;
+            }
+
+            // Allow letters, digits, space, hyphen, apostrophe, ampersand, parentheses, dot, at-sign
+            if (char.IsLetterOrDigit(c) || char.IsWhiteSpace(c) || c == '-' || c == '\'' || c == '&' || c == '(' || c == ')' || c == '.' || c == '@')
+                return;
+
+            // Block everything else
+            e.Handled = true;
+        }
+
+        private void txt_search_services_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            MaterialTextBox txt = sender as MaterialTextBox;
+            char c = e.KeyChar;
+
+            // Allow control keys (Backspace, Delete, etc.)
+            if (char.IsControl(c))
+                return;
+
+            // Block space if it's the first character
+            if (char.IsWhiteSpace(c) && txt != null && txt.SelectionStart == 0)
+            {
+                e.Handled = true;
+                return;
+            }
+
+            // Allow letters, space, ampersand, hyphen, apostrophe, parentheses
+            if (char.IsLetter(c) || char.IsWhiteSpace(c) || c == '&' || c == '-' || c == '\'' || c == '(' || c == ')')
+                return;
+
+            // Block everything else
+            e.Handled = true;
+        }
+
 
 
 

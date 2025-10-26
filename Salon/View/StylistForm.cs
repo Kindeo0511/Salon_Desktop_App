@@ -330,5 +330,125 @@ namespace Salon.View
         {
 
         }
+
+        private void txt_first_name_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            TextBox txt = sender as TextBox;
+            char c = e.KeyChar;
+
+            // Allow control keys (Backspace, etc.)
+            if (char.IsControl(c))
+                return;
+
+            // Block space if it's the first character
+            if (char.IsWhiteSpace(c) && txt != null && txt.Text.Length == 0)
+            {
+                e.Handled = true;
+                return;
+            }
+
+            // Allow only letters and spaces
+            if (!char.IsLetter(c) && !char.IsWhiteSpace(c))
+            {
+                e.Handled = true;
+            }
+        }
+
+        private void txt_middle_name_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            TextBox txt = sender as TextBox;
+            char c = e.KeyChar;
+
+            // Allow control keys (Backspace, etc.)
+            if (char.IsControl(c))
+                return;
+
+            // Block space if it's the first character
+            if (char.IsWhiteSpace(c) && txt != null && txt.Text.Length == 0)
+            {
+                e.Handled = true;
+                return;
+            }
+
+            // Allow only letters and spaces
+            if (!char.IsLetter(c) && !char.IsWhiteSpace(c))
+            {
+                e.Handled = true;
+            }
+        }
+
+        private void txt_last_name_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            TextBox txt = sender as TextBox;
+            char c = e.KeyChar;
+
+            // Allow control keys (Backspace, etc.)
+            if (char.IsControl(c))
+                return;
+
+            // Block space if it's the first character
+            if (char.IsWhiteSpace(c) && txt != null && txt.Text.Length == 0)
+            {
+                e.Handled = true;
+                return;
+            }
+
+            // Allow only letters and spaces
+            if (!char.IsLetter(c) && !char.IsWhiteSpace(c))
+            {
+                e.Handled = true;
+            }
+        }
+
+        private void txt_contact_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            char c = e.KeyChar;
+
+            if (char.IsControl(c))
+                return;
+
+            if (!char.IsDigit(c))
+            {
+                e.Handled = true;
+                return;
+            }
+        }
+
+        private void txt_email_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            char c = e.KeyChar;
+            string allowed = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789@._-";
+
+            if (!char.IsControl(c) && !allowed.Contains(c))
+                e.Handled = true;
+        }
+
+        private void txt_daily_wage_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            MaterialTextBox txt = sender as MaterialTextBox;
+            char c = e.KeyChar;
+
+            // Allow control keys (Backspace, Delete, etc.)
+            if (char.IsControl(c))
+                return;
+
+            // Allow digits
+            if (char.IsDigit(c))
+                return;
+
+            // Allow one decimal point, but not as the first character
+            if (c == '.' && txt != null)
+            {
+                if (!txt.Text.Contains(".") && txt.Text.Length > 0)
+                    return;
+
+                e.Handled = true; // Block if already has a decimal or it's first character
+                return;
+            }
+
+            // Block everything else
+            e.Handled = true;
+        }
+
     }
 }

@@ -59,6 +59,8 @@
             this.txt_email.TabIndex = 14;
             this.txt_email.Text = "";
             this.txt_email.TrailingIcon = null;
+            this.txt_email.Visible = false;
+            this.txt_email.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txt_email_KeyPress);
             // 
             // txt_contact
             // 
@@ -68,7 +70,7 @@
             this.txt_contact.Font = new System.Drawing.Font("Roboto", 16F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
             this.txt_contact.Hint = "Contact #";
             this.txt_contact.LeadingIcon = null;
-            this.txt_contact.Location = new System.Drawing.Point(466, 190);
+            this.txt_contact.Location = new System.Drawing.Point(23, 385);
             this.txt_contact.MaxLength = 50;
             this.txt_contact.MouseState = MaterialSkin.MouseState.OUT;
             this.txt_contact.Multiline = false;
@@ -77,6 +79,8 @@
             this.txt_contact.TabIndex = 13;
             this.txt_contact.Text = "";
             this.txt_contact.TrailingIcon = null;
+            this.txt_contact.Visible = false;
+            this.txt_contact.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txt_contact_KeyPress);
             // 
             // txt_last_name
             // 
@@ -86,7 +90,7 @@
             this.txt_last_name.Font = new System.Drawing.Font("Roboto", 16F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
             this.txt_last_name.Hint = "Last Name";
             this.txt_last_name.LeadingIcon = null;
-            this.txt_last_name.Location = new System.Drawing.Point(23, 402);
+            this.txt_last_name.Location = new System.Drawing.Point(18, 295);
             this.txt_last_name.MaxLength = 50;
             this.txt_last_name.MouseState = MaterialSkin.MouseState.OUT;
             this.txt_last_name.Multiline = false;
@@ -95,6 +99,8 @@
             this.txt_last_name.TabIndex = 12;
             this.txt_last_name.Text = "";
             this.txt_last_name.TrailingIcon = null;
+            this.txt_last_name.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txt_last_name_KeyPress);
+            this.txt_last_name.KeyUp += new System.Windows.Forms.KeyEventHandler(this.txt_last_name_KeyUp);
             // 
             // txt_middle_name
             // 
@@ -104,7 +110,7 @@
             this.txt_middle_name.Font = new System.Drawing.Font("Roboto", 16F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
             this.txt_middle_name.Hint = "Middle Name";
             this.txt_middle_name.LeadingIcon = null;
-            this.txt_middle_name.Location = new System.Drawing.Point(23, 295);
+            this.txt_middle_name.Location = new System.Drawing.Point(466, 190);
             this.txt_middle_name.MaxLength = 50;
             this.txt_middle_name.MouseState = MaterialSkin.MouseState.OUT;
             this.txt_middle_name.Multiline = false;
@@ -113,6 +119,7 @@
             this.txt_middle_name.TabIndex = 11;
             this.txt_middle_name.Text = "";
             this.txt_middle_name.TrailingIcon = null;
+            this.txt_middle_name.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txt_middle_name_KeyPress);
             // 
             // txt_first_name
             // 
@@ -131,6 +138,7 @@
             this.txt_first_name.TabIndex = 10;
             this.txt_first_name.Text = "";
             this.txt_first_name.TrailingIcon = null;
+            this.txt_first_name.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txt_first_name_KeyPress);
             // 
             // btn_update
             // 
@@ -224,6 +232,7 @@
             this.cmb_customer_type.Size = new System.Drawing.Size(650, 49);
             this.cmb_customer_type.StartIndex = -1;
             this.cmb_customer_type.TabIndex = 18;
+            this.cmb_customer_type.SelectedIndexChanged += new System.EventHandler(this.cmb_customer_type_SelectedIndexChanged);
             // 
             // CustomerForm
             // 
@@ -244,7 +253,7 @@
             this.Name = "CustomerForm";
             this.Sizable = false;
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
-            this.Text = " ";
+            this.Text = "CUSTOMER INFORMATION";
             ((System.ComponentModel.ISupportInitialize)(this.errorProvider1)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();

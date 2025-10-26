@@ -86,6 +86,7 @@
             this.txt_product_cost.MouseState = MaterialSkin.MouseState.OUT;
             this.txt_product_cost.Multiline = false;
             this.txt_product_cost.Name = "txt_product_cost";
+            this.txt_product_cost.ReadOnly = true;
             this.txt_product_cost.Size = new System.Drawing.Size(279, 50);
             this.txt_product_cost.TabIndex = 1;
             this.txt_product_cost.Text = "";
@@ -105,6 +106,7 @@
             this.txt_stylist_cost.MouseState = MaterialSkin.MouseState.OUT;
             this.txt_stylist_cost.Multiline = false;
             this.txt_stylist_cost.Name = "txt_stylist_cost";
+            this.txt_stylist_cost.ReadOnly = true;
             this.txt_stylist_cost.Size = new System.Drawing.Size(279, 50);
             this.txt_stylist_cost.TabIndex = 2;
             this.txt_stylist_cost.Text = "";
@@ -124,6 +126,7 @@
             this.txt_overhead_cost.MouseState = MaterialSkin.MouseState.OUT;
             this.txt_overhead_cost.Multiline = false;
             this.txt_overhead_cost.Name = "txt_overhead_cost";
+            this.txt_overhead_cost.ReadOnly = true;
             this.txt_overhead_cost.Size = new System.Drawing.Size(279, 50);
             this.txt_overhead_cost.TabIndex = 3;
             this.txt_overhead_cost.Text = "";
@@ -144,6 +147,7 @@
             this.txt_total_cost.MouseState = MaterialSkin.MouseState.OUT;
             this.txt_total_cost.Multiline = false;
             this.txt_total_cost.Name = "txt_total_cost";
+            this.txt_total_cost.ReadOnly = true;
             this.txt_total_cost.Size = new System.Drawing.Size(279, 50);
             this.txt_total_cost.TabIndex = 4;
             this.txt_total_cost.Text = "0.00";
@@ -167,6 +171,7 @@
             this.txt_final_price.Text = "";
             this.txt_final_price.TrailingIcon = null;
             this.txt_final_price.TextChanged += new System.EventHandler(this.txt_final_price_TextChanged);
+            this.txt_final_price.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txt_final_price_KeyPress);
             // 
             // txt_percent
             // 
@@ -182,6 +187,7 @@
             this.txt_percent.MouseState = MaterialSkin.MouseState.OUT;
             this.txt_percent.Multiline = false;
             this.txt_percent.Name = "txt_percent";
+            this.txt_percent.ReadOnly = true;
             this.txt_percent.Size = new System.Drawing.Size(279, 50);
             this.txt_percent.TabIndex = 7;
             this.txt_percent.Text = "";
@@ -202,6 +208,7 @@
             this.txt_margin_peso.MouseState = MaterialSkin.MouseState.OUT;
             this.txt_margin_peso.Multiline = false;
             this.txt_margin_peso.Name = "txt_margin_peso";
+            this.txt_margin_peso.ReadOnly = true;
             this.txt_margin_peso.Size = new System.Drawing.Size(279, 50);
             this.txt_margin_peso.TabIndex = 8;
             this.txt_margin_peso.Text = "";
@@ -274,7 +281,6 @@
             this.txt_duration.AnimateReadOnly = true;
             this.txt_duration.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.txt_duration.Depth = 0;
-            this.txt_duration.Enabled = false;
             this.txt_duration.Font = new System.Drawing.Font("Roboto", 16F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
             this.txt_duration.Hint = "Duration (mins)";
             this.txt_duration.LeadingIcon = null;
@@ -283,6 +289,7 @@
             this.txt_duration.MouseState = MaterialSkin.MouseState.OUT;
             this.txt_duration.Multiline = false;
             this.txt_duration.Name = "txt_duration";
+            this.txt_duration.ReadOnly = true;
             this.txt_duration.Size = new System.Drawing.Size(279, 50);
             this.txt_duration.TabIndex = 12;
             this.txt_duration.Text = "";
@@ -302,6 +309,7 @@
             this.txt_vat.MouseState = MaterialSkin.MouseState.OUT;
             this.txt_vat.Multiline = false;
             this.txt_vat.Name = "txt_vat";
+            this.txt_vat.ReadOnly = true;
             this.txt_vat.Size = new System.Drawing.Size(279, 50);
             this.txt_vat.TabIndex = 13;
             this.txt_vat.Text = "";
@@ -321,6 +329,7 @@
             this.txt_net_price.MouseState = MaterialSkin.MouseState.OUT;
             this.txt_net_price.Multiline = false;
             this.txt_net_price.Name = "txt_net_price";
+            this.txt_net_price.ReadOnly = true;
             this.txt_net_price.Size = new System.Drawing.Size(279, 50);
             this.txt_net_price.TabIndex = 14;
             this.txt_net_price.Text = "";
@@ -340,6 +349,7 @@
             this.txt_net_profit.MouseState = MaterialSkin.MouseState.OUT;
             this.txt_net_profit.Multiline = false;
             this.txt_net_profit.Name = "txt_net_profit";
+            this.txt_net_profit.ReadOnly = true;
             this.txt_net_profit.Size = new System.Drawing.Size(279, 50);
             this.txt_net_profit.TabIndex = 15;
             this.txt_net_profit.Text = "";
@@ -373,8 +383,9 @@
             this.MaximizeBox = false;
             this.MinimizeBox = false;
             this.Name = "PricingServiceForm";
+            this.Sizable = false;
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
-            this.Text = " ";
+            this.Text = "SERVICE PRICE INFORMATION";
             ((System.ComponentModel.ISupportInitialize)(this.errorProvider1)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();

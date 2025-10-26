@@ -131,6 +131,7 @@
             this.txt_email.TabIndex = 19;
             this.txt_email.Text = "";
             this.txt_email.TrailingIcon = null;
+            this.txt_email.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txt_email_KeyPress);
             // 
             // txt_contact
             // 
@@ -149,6 +150,7 @@
             this.txt_contact.TabIndex = 18;
             this.txt_contact.Text = "";
             this.txt_contact.TrailingIcon = null;
+            this.txt_contact.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txt_contact_KeyPress);
             // 
             // txt_last_name
             // 
@@ -167,6 +169,7 @@
             this.txt_last_name.TabIndex = 16;
             this.txt_last_name.Text = "";
             this.txt_last_name.TrailingIcon = null;
+            this.txt_last_name.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txt_last_name_KeyPress);
             // 
             // txt_middle_name
             // 
@@ -185,6 +188,7 @@
             this.txt_middle_name.TabIndex = 15;
             this.txt_middle_name.Text = "";
             this.txt_middle_name.TrailingIcon = null;
+            this.txt_middle_name.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txt_middle_name_KeyPress);
             // 
             // txt_first_name
             // 
@@ -203,6 +207,7 @@
             this.txt_first_name.TabIndex = 14;
             this.txt_first_name.Text = "";
             this.txt_first_name.TrailingIcon = null;
+            this.txt_first_name.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txt_first_name_KeyPress);
             // 
             // txt_daily_wage
             // 
@@ -221,6 +226,7 @@
             this.txt_daily_wage.TabIndex = 28;
             this.txt_daily_wage.Text = "";
             this.txt_daily_wage.TrailingIcon = null;
+            this.txt_daily_wage.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txt_daily_wage_KeyPress);
             // 
             // txt_address
             // 
@@ -286,6 +292,7 @@
             this.MinimizeBox = false;
             this.Name = "StylistForm";
             this.Padding = new System.Windows.Forms.Padding(40, 64, 40, 3);
+            this.Sizable = false;
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "STYLIST INFORMATION";
             this.Load += new System.EventHandler(this.StylistForm_Load);

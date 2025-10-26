@@ -29,7 +29,6 @@
         private void InitializeComponent()
         {
             this.dgv_items = new System.Windows.Forms.DataGridView();
-            this.materialCard1 = new MaterialSkin.Controls.MaterialCard();
             this.col_DeliveryItemId = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.col_DeliveryId = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.col_ProductId = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -38,6 +37,7 @@
             this.col_TotalPrice = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.col_ExpiryDate = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.col_notes = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.materialCard1 = new MaterialSkin.Controls.MaterialCard();
             ((System.ComponentModel.ISupportInitialize)(this.dgv_items)).BeginInit();
             this.materialCard1.SuspendLayout();
             this.SuspendLayout();
@@ -70,23 +70,8 @@
             this.dgv_items.RowHeadersVisible = false;
             this.dgv_items.RowHeadersWidth = 51;
             this.dgv_items.RowTemplate.Height = 24;
-            this.dgv_items.Size = new System.Drawing.Size(844, 383);
+            this.dgv_items.Size = new System.Drawing.Size(944, 483);
             this.dgv_items.TabIndex = 0;
-            // 
-            // materialCard1
-            // 
-            this.materialCard1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
-            this.materialCard1.Controls.Add(this.dgv_items);
-            this.materialCard1.Depth = 0;
-            this.materialCard1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.materialCard1.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(222)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
-            this.materialCard1.Location = new System.Drawing.Point(3, 64);
-            this.materialCard1.Margin = new System.Windows.Forms.Padding(20);
-            this.materialCard1.MouseState = MaterialSkin.MouseState.HOVER;
-            this.materialCard1.Name = "materialCard1";
-            this.materialCard1.Padding = new System.Windows.Forms.Padding(25);
-            this.materialCard1.Size = new System.Drawing.Size(894, 433);
-            this.materialCard1.TabIndex = 1;
             // 
             // col_DeliveryItemId
             // 
@@ -154,11 +139,26 @@
             this.col_notes.Name = "col_notes";
             this.col_notes.ReadOnly = true;
             // 
+            // materialCard1
+            // 
+            this.materialCard1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
+            this.materialCard1.Controls.Add(this.dgv_items);
+            this.materialCard1.Depth = 0;
+            this.materialCard1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.materialCard1.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(222)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
+            this.materialCard1.Location = new System.Drawing.Point(3, 64);
+            this.materialCard1.Margin = new System.Windows.Forms.Padding(20);
+            this.materialCard1.MouseState = MaterialSkin.MouseState.HOVER;
+            this.materialCard1.Name = "materialCard1";
+            this.materialCard1.Padding = new System.Windows.Forms.Padding(25);
+            this.materialCard1.Size = new System.Drawing.Size(994, 533);
+            this.materialCard1.TabIndex = 1;
+            // 
             // DeliveryAddStockForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(900, 500);
+            this.ClientSize = new System.Drawing.Size(1000, 600);
             this.Controls.Add(this.materialCard1);
             this.MaximizeBox = false;
             this.MinimizeBox = false;

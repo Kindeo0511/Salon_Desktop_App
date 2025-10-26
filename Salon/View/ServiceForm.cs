@@ -166,6 +166,34 @@ namespace Salon.View
 
 
         }
-      
+
+        private void ServiceForm_KeyPress(object sender, KeyPressEventArgs e)
+        {
+           
+        }
+
+        private void txt_service_name_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            MaterialTextBox txt = sender as MaterialTextBox;
+            char c = e.KeyChar;
+
+            // Allow control keys (Backspace, Delete, etc.)
+            if (char.IsControl(c))
+                return;
+
+            // Block space if it's the first character
+            if (char.IsWhiteSpace(c) && txt != null && txt.SelectionStart == 0)
+            {
+                e.Handled = true;
+                return;
+            }
+
+            // Allow letters, space, ampersand, hyphen, apostrophe, parentheses
+            if (char.IsLetter(c) || char.IsWhiteSpace(c) || c == '&' || c == '-' || c == '\'' || c == '(' || c == ')')
+                return;
+
+            // Block everything else
+            e.Handled = true;
+        }
     }
 }

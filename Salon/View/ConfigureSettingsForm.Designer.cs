@@ -226,6 +226,7 @@
             this.txt_username.TabIndex = 7;
             this.txt_username.Text = "";
             this.txt_username.TrailingIcon = null;
+            this.txt_username.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txt_username_KeyPress);
             // 
             // txt_password
             // 
@@ -244,6 +245,8 @@
             this.txt_password.TabIndex = 8;
             this.txt_password.Text = "";
             this.txt_password.TrailingIcon = null;
+            this.txt_password.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txt_password_KeyPress);
+            this.txt_password.Validating += new System.ComponentModel.CancelEventHandler(this.txt_password_Validating);
             // 
             // txt_confirm_password
             // 
@@ -262,6 +265,7 @@
             this.txt_confirm_password.TabIndex = 9;
             this.txt_confirm_password.Text = "";
             this.txt_confirm_password.TrailingIcon = null;
+            this.txt_confirm_password.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txt_confirm_password_KeyPress);
             // 
             // groupBox1
             // 
@@ -319,6 +323,7 @@
             this.txt_address.TabStop = false;
             this.txt_address.TextAlign = System.Windows.Forms.HorizontalAlignment.Left;
             this.txt_address.UseSystemPasswordChar = false;
+            this.txt_address.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txt_address_KeyPress);
             // 
             // txt_first_name
             // 
@@ -337,6 +342,7 @@
             this.txt_first_name.TabIndex = 0;
             this.txt_first_name.Text = "";
             this.txt_first_name.TrailingIcon = null;
+            this.txt_first_name.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txt_first_name_KeyPress);
             // 
             // txt_middle_name
             // 
@@ -355,6 +361,7 @@
             this.txt_middle_name.TabIndex = 1;
             this.txt_middle_name.Text = "";
             this.txt_middle_name.TrailingIcon = null;
+            this.txt_middle_name.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txt_middle_name_KeyPress);
             // 
             // txt_last_name
             // 
@@ -373,6 +380,7 @@
             this.txt_last_name.TabIndex = 2;
             this.txt_last_name.Text = "";
             this.txt_last_name.TrailingIcon = null;
+            this.txt_last_name.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txt_last_name_KeyPress);
             // 
             // dtp_day_of_birth
             // 
@@ -399,6 +407,7 @@
             this.txt_contact.TabIndex = 3;
             this.txt_contact.Text = "";
             this.txt_contact.TrailingIcon = null;
+            this.txt_contact.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txt_contact_KeyPress);
             // 
             // txt_email
             // 
@@ -417,6 +426,7 @@
             this.txt_email.TabIndex = 4;
             this.txt_email.Text = "";
             this.txt_email.TrailingIcon = null;
+            this.txt_email.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txt_email_KeyPress);
             // 
             // settingsTab
             // 
@@ -550,6 +560,7 @@
             this.txt_bill_note.TabStop = false;
             this.txt_bill_note.TextAlign = System.Windows.Forms.HorizontalAlignment.Left;
             this.txt_bill_note.UseSystemPasswordChar = false;
+            this.txt_bill_note.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txt_bill_note_KeyPress);
             // 
             // txt_internet_bill
             // 
@@ -570,6 +581,7 @@
             this.txt_internet_bill.Text = "";
             this.txt_internet_bill.TrailingIcon = null;
             this.txt_internet_bill.TextChanged += new System.EventHandler(this.txt_internet_bill_TextChanged);
+            this.txt_internet_bill.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txt_internet_bill_KeyPress);
             // 
             // txt_other_bill
             // 
@@ -590,6 +602,7 @@
             this.txt_other_bill.Text = "";
             this.txt_other_bill.TrailingIcon = null;
             this.txt_other_bill.TextChanged += new System.EventHandler(this.txt_other_bill_TextChanged);
+            this.txt_other_bill.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txt_other_bill_KeyPress);
             // 
             // txt_month_rent
             // 
@@ -610,6 +623,7 @@
             this.txt_month_rent.Text = "";
             this.txt_month_rent.TrailingIcon = null;
             this.txt_month_rent.TextChanged += new System.EventHandler(this.txt_month_rent_TextChanged);
+            this.txt_month_rent.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txt_month_rent_KeyPress);
             // 
             // txt_water_bill
             // 
@@ -630,6 +644,7 @@
             this.txt_water_bill.Text = "";
             this.txt_water_bill.TrailingIcon = null;
             this.txt_water_bill.TextChanged += new System.EventHandler(this.txt_water_bill_TextChanged);
+            this.txt_water_bill.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txt_water_bill_KeyPress);
             // 
             // txt_electric_bill
             // 
@@ -650,6 +665,7 @@
             this.txt_electric_bill.Text = "";
             this.txt_electric_bill.TrailingIcon = null;
             this.txt_electric_bill.TextChanged += new System.EventHandler(this.txt_electric_bill_TextChanged);
+            this.txt_electric_bill.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txt_electric_bill_KeyPress);
             // 
             // groupBox4
             // 
@@ -680,6 +696,7 @@
             this.txt_working_hours.TabIndex = 17;
             this.txt_working_hours.Text = "";
             this.txt_working_hours.TrailingIcon = null;
+            this.txt_working_hours.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txt_working_hours_KeyPress);
             // 
             // lbl_total_cost
             // 
@@ -715,6 +732,7 @@
             this.FormStyle = MaterialSkin.Controls.MaterialForm.FormStyles.ActionBar_None;
             this.Name = "ConfigureSettingsForm";
             this.Padding = new System.Windows.Forms.Padding(0, 24, 0, 3);
+            this.Sizable = false;
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Load += new System.EventHandler(this.ConfigureSettingsForm_Load);
             this.materialTabControl1.ResumeLayout(false);

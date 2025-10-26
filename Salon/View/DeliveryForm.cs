@@ -557,5 +557,80 @@ namespace Salon.View
             btn_update.Visible = false;
             Clear();
         }
+
+        private void txt_invoice_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            MaterialTextBox txt = sender as MaterialTextBox;
+            char c = e.KeyChar;
+
+            // Allow control keys (Backspace, Delete, etc.)
+            if (char.IsControl(c))
+                return;
+
+            // Allow uppercase letters, digits, hyphen, slash
+            if (char.IsLetterOrDigit(c) || c == '-' || c == '/')
+                return;
+
+            // Block everything else
+            e.Handled = true;
+        }
+
+        private void txt_qty_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            char c = e.KeyChar;
+
+            // Allow control keys (Backspace, Delete, etc.)
+            if (char.IsControl(c))
+                return;
+
+            // Allow digits only
+            if (char.IsDigit(c))
+                return;
+
+            // Block everything else
+            e.Handled = true;
+        }
+
+        private void txt_price_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            MaterialTextBox txt = sender as MaterialTextBox;
+            char c = e.KeyChar;
+
+            // Allow control keys (Backspace, Delete, etc.)
+            if (char.IsControl(c))
+                return;
+
+            // Allow digits
+            if (char.IsDigit(c))
+                return;
+
+            // Allow one decimal point, not at the start
+            if (c == '.' && txt != null)
+            {
+                if (!txt.Text.Contains(".") && txt.SelectionStart > 0)
+                    return;
+
+                e.Handled = true;
+                return;
+            }
+
+            // Block everything else
+            e.Handled = true;
+        }
+
+        private void txt_notes_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            MaterialMultiLineTextBox2 txt = sender as MaterialMultiLineTextBox2;
+            if (txt == null || string.IsNullOrWhiteSpace(txt.Text))
+                return;
+
+            // Trim leading/trailing spaces and normalize spacing
+            string cleaned = txt.Text.Trim();
+
+            // Optional: replace multiple spaces with single space
+            cleaned = System.Text.RegularExpressions.Regex.Replace(cleaned, @"\s{2,}", " ");
+
+            txt.Text = cleaned;
+        }
     }
 }

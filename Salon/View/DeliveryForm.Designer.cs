@@ -144,6 +144,7 @@
             this.txt_price.Text = "";
             this.txt_price.TrailingIcon = null;
             this.txt_price.TextChanged += new System.EventHandler(this.txt_price_TextChanged);
+            this.txt_price.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txt_price_KeyPress);
             // 
             // txt_invoice
             // 
@@ -154,7 +155,7 @@
             this.txt_invoice.Hint = "Invoice";
             this.txt_invoice.LeadingIcon = null;
             this.txt_invoice.Location = new System.Drawing.Point(507, 118);
-            this.txt_invoice.MaxLength = 50;
+            this.txt_invoice.MaxLength = 16;
             this.txt_invoice.MouseState = MaterialSkin.MouseState.OUT;
             this.txt_invoice.Multiline = false;
             this.txt_invoice.Name = "txt_invoice";
@@ -162,6 +163,7 @@
             this.txt_invoice.TabIndex = 4;
             this.txt_invoice.Text = "";
             this.txt_invoice.TrailingIcon = null;
+            this.txt_invoice.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txt_invoice_KeyPress);
             // 
             // txt_volume
             // 
@@ -200,6 +202,7 @@
             this.txt_qty.Text = "";
             this.txt_qty.TrailingIcon = null;
             this.txt_qty.TextChanged += new System.EventHandler(this.txt_qty_TextChanged);
+            this.txt_qty.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txt_qty_KeyPress);
             // 
             // cb_supplier_name
             // 
@@ -290,6 +293,7 @@
             this.txt_notes.TextAlign = System.Windows.Forms.HorizontalAlignment.Left;
             this.txt_notes.UseSystemPasswordChar = false;
             this.txt_notes.Click += new System.EventHandler(this.txt_notes_Click);
+            this.txt_notes.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txt_notes_KeyPress);
             // 
             // materialLabel1
             // 

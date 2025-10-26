@@ -158,5 +158,36 @@ namespace Salon.View
         {
           
         }
+
+        private void txt_user_name_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            char c = e.KeyChar;
+
+            // Allow control keys (e.g., Backspace)
+            if (char.IsControl(c))
+                return;
+
+            // Allow only letters and digits
+            if (!char.IsLetterOrDigit(c))
+            {
+                e.Handled = true; // Block the key
+            }
+        }
+
+        private void txt_password_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            char c = e.KeyChar;
+
+            // Allow control keys (Backspace, etc.)
+            if (char.IsControl(c))
+                return;
+
+            // Allow letters, digits, and allowed special characters
+            string allowedSpecials = "@#$%^&*()_+-=!?";
+            if (!char.IsLetterOrDigit(c) && !allowedSpecials.Contains(c))
+            {
+                e.Handled = true; // Block the key
+            }
+        }
     }
 }

@@ -509,5 +509,189 @@ namespace Salon.View
            
 
         }
+
+        private void txt_first_name_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            MaterialTextBox txt = sender as MaterialTextBox;
+            char c = e.KeyChar;
+
+            // Allow control keys (Backspace, etc.)
+            if (char.IsControl(c))
+                return;
+
+            // Block space if it's the first character
+            if (char.IsWhiteSpace(c) && txt != null && txt.Text.Length == 0)
+            {
+                e.Handled = true;
+                return;
+            }
+
+            // Allow only letters and spaces
+            if (!char.IsLetter(c) && !char.IsWhiteSpace(c))
+            {
+                e.Handled = true;
+            }
+        }
+
+        private void txt_middle_name_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            MaterialTextBox txt = sender as MaterialTextBox;
+            char c = e.KeyChar;
+
+            // Allow control keys (Backspace, etc.)
+            if (char.IsControl(c))
+                return;
+
+            // Block space if it's the first character
+            if (char.IsWhiteSpace(c) && txt != null && txt.Text.Length == 0)
+            {
+                e.Handled = true;
+                return;
+            }
+
+            // Allow only letters and spaces
+            if (!char.IsLetter(c) && !char.IsWhiteSpace(c))
+            {
+                e.Handled = true;
+            }
+        }
+
+        private void txt_last_name_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            MaterialTextBox txt = sender as MaterialTextBox;
+            char c = e.KeyChar;
+
+            // Allow control keys (Backspace, etc.)
+            if (char.IsControl(c))
+                return;
+
+            // Block space if it's the first character
+            if (char.IsWhiteSpace(c) && txt != null && txt.Text.Length == 0)
+            {
+                e.Handled = true;
+                return;
+            }
+
+            // Allow only letters and spaces
+            if (!char.IsLetter(c) && !char.IsWhiteSpace(c))
+            {
+                e.Handled = true;
+            }
+        }
+
+        private void txt_address_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            char c = e.KeyChar;
+            string allowed = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789 .,-";
+
+            if (!char.IsControl(c) && !allowed.Contains(c))
+                e.Handled = true;
+        }
+
+        private void txt_contact_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            char c = e.KeyChar;
+
+            if (char.IsControl(c))
+                return;
+
+            if (!char.IsDigit(c))
+            {
+                e.Handled = true;
+                return;
+            }
+        }
+
+        private void txt_email_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            char c = e.KeyChar;
+            string allowed = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789@._-";
+
+            if (!char.IsControl(c) && !allowed.Contains(c))
+                e.Handled = true;
+        }
+
+        private void txt_username_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            char c = e.KeyChar;
+
+            // Allow control keys (Backspace, Delete, etc.)
+            if (char.IsControl(c))
+                return;
+
+            // Allow letters, digits, underscore, hyphen, dot
+            if (char.IsLetterOrDigit(c) || c == '_' || c == '-' || c == '.')
+                return;
+
+            // Block everything else
+            e.Handled = true;
+        }
+
+        private void txt_password_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            char c = e.KeyChar;
+
+            // Allow control keys (Backspace, Delete, etc.)
+            if (char.IsControl(c))
+                return;
+
+            // Block space
+            if (char.IsWhiteSpace(c))
+            {
+                e.Handled = true;
+                return;
+            }
+
+            // Allow letters, digits, and common symbols
+            if (char.IsLetterOrDigit(c) || "!@#$%^&*()-_=+[]{}|;:',.<>?/".Contains(c))
+                return;
+
+            // Block everything else
+            e.Handled = true;
+        }
+
+        private void txt_confirm_password_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            char c = e.KeyChar;
+
+            // Allow control keys (Backspace, Delete, etc.)
+            if (char.IsControl(c))
+                return;
+
+            // Block space
+            if (char.IsWhiteSpace(c))
+            {
+                e.Handled = true;
+                return;
+            }
+
+            // Allow letters, digits, and common symbols
+            if (char.IsLetterOrDigit(c) || "!@#$%^&*()-_=+[]{}|;:',.<>?/".Contains(c))
+                return;
+
+            // Block everything else
+            e.Handled = true;
+        }
+
+        private void txt_password_Validating(object sender, CancelEventArgs e)
+        {
+            TextBox txt = sender as TextBox;
+            if (txt == null || string.IsNullOrWhiteSpace(txt.Text))
+            {
+                errorProvider1.SetError(txt, "Password is required.");
+                e.Cancel = true;
+                return;
+            }
+
+            if (txt.Text.Length < 8)
+            {
+                errorProvider1.SetError(txt, "Password must be at least 8 characters.");
+                e.Cancel = true;
+            }
+            else
+            {
+                errorProvider1.SetError(txt, ""); // Clear error
+            }
+        }
     }
 }

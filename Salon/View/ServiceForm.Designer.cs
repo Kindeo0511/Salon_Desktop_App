@@ -123,6 +123,7 @@
             this.txt_service_name.TabIndex = 18;
             this.txt_service_name.Text = "";
             this.txt_service_name.TrailingIcon = null;
+            this.txt_service_name.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txt_service_name_KeyPress);
             // 
             // cmb_sub_category
             // 
@@ -217,6 +218,7 @@
             this.Sizable = false;
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "SERVICE INFORMATION";
+            this.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.ServiceForm_KeyPress);
             ((System.ComponentModel.ISupportInitialize)(this.txt_duration)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.errorProvider1)).EndInit();
             this.ResumeLayout(false);

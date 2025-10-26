@@ -95,6 +95,7 @@
             this.txt_password.Text = "";
             this.txt_password.TrailingIcon = null;
             this.txt_password.TextChanged += new System.EventHandler(this.txt_password_TextChanged);
+            this.txt_password.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txt_password_KeyPress);
             // 
             // txt_user_name
             // 
@@ -114,6 +115,7 @@
             this.txt_user_name.Text = "";
             this.txt_user_name.TrailingIcon = null;
             this.txt_user_name.TextChanged += new System.EventHandler(this.txt_user_name_TextChanged);
+            this.txt_user_name.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txt_user_name_KeyPress);
             // 
             // btn_cancel
             // 

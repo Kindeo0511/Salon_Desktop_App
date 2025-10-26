@@ -326,11 +326,17 @@ namespace Salon.View
             if (UserSession.CurrentUser.Position == "Staff")
             {
                 HideTab(materialTabControl1, userTab);
+                HideTab(materialTabControl1, stylistTab);
                 HideTab(materialTabControl1, supplierTab);
                 HideTab(materialTabControl1, categoriesTab);
                 HideTab(materialTabControl1, subCategoryTab);
-                HideTab(materialTabControl1, deliveryTab);
+                HideTab(materialTabControl1, productsTab);
+                HideTab(materialTabControl1, servicesTab);
+                HideTab(materialTabControl1, priceTab);
+                HideTab(materialTabControl1, reportsTab);
+                HideTab(materialTabControl1, dataRecoveryTab);
                 HideTab(materialTabControl1, settingsTab);
+
             }
         }
         private void HideTab(MaterialTabControl tabControl, TabPage tabPage) 
@@ -1847,10 +1853,10 @@ namespace Salon.View
             if (e.RowIndex >= 0 && dgv_appointment.Columns[e.ColumnIndex].Name == "col_assign_staff")
             {
                 var appointment = dgv_appointment.Rows[e.RowIndex].DataBoundItem as AppointmentModel;
-                //if (appointment.StylistId != 0 ) 
-                //{
-                //    return;
-                //}
+                if (appointment.Status.ToLower() != "scheduled")
+                {
+                    return;
+                }
                 using (var assignStylistForm = new AssignStylistForm(this, appointment))
                 {
                     assignStylistForm.ShowDialog();
@@ -1863,6 +1869,11 @@ namespace Salon.View
 
                 if (appointment.PaymentStatus.ToLower() == "paid")
                 {
+                    return;
+                }
+                if (appointment.StylistId == null || appointment.StylistId == 0)
+                {
+                    MessageBox.Show("Please assign a stylist before proceeding with payment.", "Stylist Required", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                     return;
                 }
                 using (var paymentForm = new PaymentForm(this, appointment))
@@ -5446,6 +5457,211 @@ namespace Salon.View
         private void dgv_appointment_CellContentClick(object sender, DataGridViewCellEventArgs e)
         {
 
+        }
+
+        private void txt_vat_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            MaterialTextBox txt = sender as MaterialTextBox;
+            char c = e.KeyChar;
+
+            // Allow control keys (Backspace, Delete, etc.)
+            if (char.IsControl(c))
+                return;
+
+            // Allow digits
+            if (char.IsDigit(c))
+                return;
+
+            // Allow one decimal point, not at the start
+            if (c == '.' && txt != null)
+            {
+                if (!txt.Text.Contains(".") && txt.SelectionStart > 0)
+                    return;
+
+                e.Handled = true;
+                return;
+            }
+
+            // Block everything else
+            e.Handled = true;
+        }
+
+        private void txt_month_rent_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            MaterialTextBox txt = sender as MaterialTextBox;
+            char c = e.KeyChar;
+
+            // Allow control keys
+            if (char.IsControl(c))
+                return;
+
+            // Allow digits
+            if (char.IsDigit(c))
+                return;
+
+            // Allow one decimal point, not at the start
+            if (c == '.' && txt != null)
+            {
+                if (!txt.Text.Contains(".") && txt.SelectionStart > 0)
+                    return;
+
+                e.Handled = true;
+                return;
+            }
+
+            // Block everything else
+            e.Handled = true;
+        }
+
+        private void txt_electric_bill_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            MaterialTextBox txt = sender as MaterialTextBox;
+            char c = e.KeyChar;
+
+            // Allow control keys
+            if (char.IsControl(c))
+                return;
+
+            // Allow digits
+            if (char.IsDigit(c))
+                return;
+
+            // Allow one decimal point, not at the start
+            if (c == '.' && txt != null)
+            {
+                if (!txt.Text.Contains(".") && txt.SelectionStart > 0)
+                    return;
+
+                e.Handled = true;
+                return;
+            }
+
+            // Block everything else
+            e.Handled = true;
+        }
+
+        private void txt_water_bill_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            MaterialTextBox txt = sender as MaterialTextBox;
+            char c = e.KeyChar;
+
+            // Allow control keys
+            if (char.IsControl(c))
+                return;
+
+            // Allow digits
+            if (char.IsDigit(c))
+                return;
+
+            // Allow one decimal point, not at the start
+            if (c == '.' && txt != null)
+            {
+                if (!txt.Text.Contains(".") && txt.SelectionStart > 0)
+                    return;
+
+                e.Handled = true;
+                return;
+            }
+
+            // Block everything else
+            e.Handled = true;
+        }
+
+        private void txt_internet_bill_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            MaterialTextBox txt = sender as MaterialTextBox;
+            char c = e.KeyChar;
+
+            // Allow control keys
+            if (char.IsControl(c))
+                return;
+
+            // Allow digits
+            if (char.IsDigit(c))
+                return;
+
+            // Allow one decimal point, not at the start
+            if (c == '.' && txt != null)
+            {
+                if (!txt.Text.Contains(".") && txt.SelectionStart > 0)
+                    return;
+
+                e.Handled = true;
+                return;
+            }
+
+            // Block everything else
+            e.Handled = true;
+        }
+
+        private void txt_other_bill_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            MaterialTextBox txt = sender as MaterialTextBox;
+            char c = e.KeyChar;
+
+            // Allow control keys
+            if (char.IsControl(c))
+                return;
+
+            // Allow digits
+            if (char.IsDigit(c))
+                return;
+
+            // Allow one decimal point, not at the start
+            if (c == '.' && txt != null)
+            {
+                if (!txt.Text.Contains(".") && txt.SelectionStart > 0)
+                    return;
+
+                e.Handled = true;
+                return;
+            }
+
+            // Block everything else
+            e.Handled = true;
+        }
+
+        private void txt_bill_note_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            MaterialTextBox txt = sender as MaterialTextBox;
+            char c = e.KeyChar;
+
+            // Allow control keys
+            if (char.IsControl(c))
+                return;
+
+            // Allow digits
+            if (char.IsDigit(c))
+                return;
+
+            // Allow one decimal point, not at the start
+            if (c == '.' && txt != null)
+            {
+                if (!txt.Text.Contains(".") && txt.SelectionStart > 0)
+                    return;
+
+                e.Handled = true;
+                return;
+            }
+
+            // Block everything else
+            e.Handled = true;
+        }
+
+        private void txt_working_hours_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            char c = e.KeyChar;
+
+            // Allow control keys (Backspace, Delete, etc.)
+            if (char.IsControl(c))
+                return;
+
+            // Allow digits only
+            if (char.IsDigit(c))
+                return;
+
+            // Block everything else
+            e.Handled = true;
         }
 
 

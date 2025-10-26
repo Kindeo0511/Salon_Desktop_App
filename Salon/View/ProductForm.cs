@@ -157,6 +157,81 @@ namespace Salon.View
         {
             this.Close();
         }
+
+        private void txt_product_name_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            TextBox txt = sender as TextBox;
+            char c = e.KeyChar;
+
+            // Allow control keys (Backspace, Delete, etc.)
+            if (char.IsControl(c))
+                return;
+
+            // Block space if it's the first character
+            if (char.IsWhiteSpace(c) && txt != null && txt.SelectionStart == 0)
+            {
+                e.Handled = true;
+                return;
+            }
+
+            // Allow letters, space, ampersand, hyphen, apostrophe, parentheses
+            if (char.IsLetter(c) || char.IsWhiteSpace(c) || c == '&' || c == '-' || c == '\'' || c == '(' || c == ')')
+                return;
+
+            // Block everything else
+            e.Handled = true;
+        }
+
+        private void txt_brand_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            TextBox txt = sender as TextBox;
+            char c = e.KeyChar;
+
+            // Allow control keys (Backspace, Delete, etc.)
+            if (char.IsControl(c))
+                return;
+
+            // Block space if it's the first character
+            if (char.IsWhiteSpace(c) && txt != null && txt.SelectionStart == 0)
+            {
+                e.Handled = true;
+                return;
+            }
+
+            // Allow letters, space, ampersand, hyphen, apostrophe, parentheses
+            if (char.IsLetter(c) || char.IsWhiteSpace(c) || c == '&' || c == '-' || c == '\'' || c == '(' || c == ')')
+                return;
+
+            // Block everything else
+            e.Handled = true;
+        }
+
+        private void txt_unit_volume_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            MaterialTextBox txt = sender as MaterialTextBox;
+            char c = e.KeyChar;
+
+            // Allow control keys (Backspace, Delete, etc.)
+            if (char.IsControl(c))
+                return;
+
+            // Allow digits
+            if (char.IsDigit(c))
+                return;
+
+            // Allow one decimal point, but not as the first character
+            if (c == '.' && txt != null)
+            {
+                if (!txt.Text.Contains(".") && txt.SelectionStart > 0)
+                    return;
+
+                e.Handled = true;
+                return;
+            }
+
+            // Block everything else
+            e.Handled = true;
+        }
         // END OF PRODUCTS
 
 

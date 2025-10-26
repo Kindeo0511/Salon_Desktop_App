@@ -120,6 +120,7 @@
             this.txt_unit_volume.TabIndex = 20;
             this.txt_unit_volume.Text = "";
             this.txt_unit_volume.TrailingIcon = null;
+            this.txt_unit_volume.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txt_unit_volume_KeyPress);
             // 
             // txt_brand
             // 
@@ -138,6 +139,7 @@
             this.txt_brand.TabIndex = 19;
             this.txt_brand.Text = "";
             this.txt_brand.TrailingIcon = null;
+            this.txt_brand.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txt_brand_KeyPress);
             // 
             // txt_product_name
             // 
@@ -156,6 +158,7 @@
             this.txt_product_name.TabIndex = 18;
             this.txt_product_name.Text = "";
             this.txt_product_name.TrailingIcon = null;
+            this.txt_product_name.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txt_product_name_KeyPress);
             // 
             // cmb_category
             // 
@@ -256,6 +259,7 @@
             this.MaximizeBox = false;
             this.MinimizeBox = false;
             this.Name = "ProductForm";
+            this.Sizable = false;
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "PRODUCT INFORMATION";
             ((System.ComponentModel.ISupportInitialize)(this.errorProvider1)).EndInit();

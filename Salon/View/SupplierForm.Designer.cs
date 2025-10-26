@@ -118,6 +118,7 @@
             this.txt_email.TabIndex = 22;
             this.txt_email.Text = "";
             this.txt_email.TrailingIcon = null;
+            this.txt_email.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txt_email_KeyPress);
             // 
             // txt_contact
             // 
@@ -128,7 +129,7 @@
             this.txt_contact.Hint = "Contact #";
             this.txt_contact.LeadingIcon = null;
             this.txt_contact.Location = new System.Drawing.Point(468, 213);
-            this.txt_contact.MaxLength = 50;
+            this.txt_contact.MaxLength = 11;
             this.txt_contact.MouseState = MaterialSkin.MouseState.OUT;
             this.txt_contact.Multiline = false;
             this.txt_contact.Name = "txt_contact";
@@ -136,6 +137,7 @@
             this.txt_contact.TabIndex = 21;
             this.txt_contact.Text = "";
             this.txt_contact.TrailingIcon = null;
+            this.txt_contact.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txt_contact_KeyPress);
             // 
             // txt_supplier_name
             // 
@@ -154,6 +156,7 @@
             this.txt_supplier_name.TabIndex = 18;
             this.txt_supplier_name.Text = "";
             this.txt_supplier_name.TrailingIcon = null;
+            this.txt_supplier_name.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txt_supplier_name_KeyPress);
             // 
             // errorProvider1
             // 
@@ -170,7 +173,7 @@
             this.txt_address.HideSelection = true;
             this.txt_address.Hint = "Address";
             this.txt_address.Location = new System.Drawing.Point(27, 182);
-            this.txt_address.MaxLength = 32767;
+            this.txt_address.MaxLength = 255;
             this.txt_address.MouseState = MaterialSkin.MouseState.OUT;
             this.txt_address.Name = "txt_address";
             this.txt_address.PasswordChar = '\0';
@@ -185,6 +188,7 @@
             this.txt_address.TabStop = false;
             this.txt_address.TextAlign = System.Windows.Forms.HorizontalAlignment.Left;
             this.txt_address.UseSystemPasswordChar = false;
+            this.txt_address.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txt_address_KeyPress);
             // 
             // SupplierForm
             // 
@@ -201,8 +205,9 @@
             this.MaximizeBox = false;
             this.MinimizeBox = false;
             this.Name = "SupplierForm";
+            this.Sizable = false;
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
-            this.Text = "SupplierForm";
+            this.Text = "SUPPLIER INFORMATION";
             ((System.ComponentModel.ISupportInitialize)(this.errorProvider1)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();

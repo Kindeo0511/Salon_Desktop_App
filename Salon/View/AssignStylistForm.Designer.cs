@@ -115,6 +115,7 @@
             this.MaximizeBox = false;
             this.MinimizeBox = false;
             this.Name = "AssignStylistForm";
+            this.Sizable = false;
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Assign Stylist";
             ((System.ComponentModel.ISupportInitialize)(this.errorProvider1)).EndInit();

@@ -53,7 +53,7 @@
             this.materialLabel29.AutoSize = true;
             this.materialLabel29.Depth = 0;
             this.materialLabel29.Font = new System.Drawing.Font("Roboto", 14F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
-            this.materialLabel29.Location = new System.Drawing.Point(470, 245);
+            this.materialLabel29.Location = new System.Drawing.Point(660, 245);
             this.materialLabel29.MouseState = MaterialSkin.MouseState.HOVER;
             this.materialLabel29.Name = "materialLabel29";
             this.materialLabel29.Size = new System.Drawing.Size(113, 19);
@@ -64,7 +64,7 @@
             // 
             this.dtp_discount_expiry_date.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.dtp_discount_expiry_date.Format = System.Windows.Forms.DateTimePickerFormat.Short;
-            this.dtp_discount_expiry_date.Location = new System.Drawing.Point(473, 267);
+            this.dtp_discount_expiry_date.Location = new System.Drawing.Point(663, 267);
             this.dtp_discount_expiry_date.Name = "dtp_discount_expiry_date";
             this.dtp_discount_expiry_date.Size = new System.Drawing.Size(350, 22);
             this.dtp_discount_expiry_date.TabIndex = 16;
@@ -79,7 +79,7 @@
             this.btn_cancel_discount.Depth = 0;
             this.btn_cancel_discount.HighEmphasis = true;
             this.btn_cancel_discount.Icon = null;
-            this.btn_cancel_discount.Location = new System.Drawing.Point(736, 504);
+            this.btn_cancel_discount.Location = new System.Drawing.Point(936, 504);
             this.btn_cancel_discount.Margin = new System.Windows.Forms.Padding(4, 6, 4, 6);
             this.btn_cancel_discount.MouseState = MaterialSkin.MouseState.HOVER;
             this.btn_cancel_discount.Name = "btn_cancel_discount";
@@ -101,7 +101,7 @@
             this.btn_update_discount.Depth = 0;
             this.btn_update_discount.HighEmphasis = true;
             this.btn_update_discount.Icon = null;
-            this.btn_update_discount.Location = new System.Drawing.Point(499, 504);
+            this.btn_update_discount.Location = new System.Drawing.Point(699, 504);
             this.btn_update_discount.Margin = new System.Windows.Forms.Padding(4, 6, 4, 6);
             this.btn_update_discount.MouseState = MaterialSkin.MouseState.HOVER;
             this.btn_update_discount.Name = "btn_update_discount";
@@ -124,7 +124,7 @@
             this.btn_add_discount.Depth = 0;
             this.btn_add_discount.HighEmphasis = true;
             this.btn_add_discount.Icon = null;
-            this.btn_add_discount.Location = new System.Drawing.Point(499, 504);
+            this.btn_add_discount.Location = new System.Drawing.Point(699, 504);
             this.btn_add_discount.Margin = new System.Windows.Forms.Padding(4, 6, 4, 6);
             this.btn_add_discount.MouseState = MaterialSkin.MouseState.HOVER;
             this.btn_add_discount.Name = "btn_add_discount";
@@ -147,7 +147,7 @@
             this.txt_promo_code.Font = new System.Drawing.Font("Roboto", 16F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
             this.txt_promo_code.Hint = "Promo Code";
             this.txt_promo_code.LeadingIcon = null;
-            this.txt_promo_code.Location = new System.Drawing.Point(60, 239);
+            this.txt_promo_code.Location = new System.Drawing.Point(60, 237);
             this.txt_promo_code.MaxLength = 50;
             this.txt_promo_code.MouseState = MaterialSkin.MouseState.OUT;
             this.txt_promo_code.Multiline = false;
@@ -157,6 +157,7 @@
             this.txt_promo_code.Text = "";
             this.txt_promo_code.TrailingIcon = null;
             this.txt_promo_code.Visible = false;
+            this.txt_promo_code.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txt_promo_code_KeyPress);
             // 
             // cmb_discount_type
             // 
@@ -178,7 +179,7 @@
             this.cmb_discount_type.Items.AddRange(new object[] {
             "Senior/PWD",
             "Promo"});
-            this.cmb_discount_type.Location = new System.Drawing.Point(60, 126);
+            this.cmb_discount_type.Location = new System.Drawing.Point(60, 124);
             this.cmb_discount_type.MaxDropDownItems = 4;
             this.cmb_discount_type.MouseState = MaterialSkin.MouseState.OUT;
             this.cmb_discount_type.Name = "cmb_discount_type";
@@ -197,7 +198,7 @@
             this.txt_discount.Font = new System.Drawing.Font("Roboto", 16F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
             this.txt_discount.Hint = "Disocunt (%)";
             this.txt_discount.LeadingIcon = null;
-            this.txt_discount.Location = new System.Drawing.Point(473, 126);
+            this.txt_discount.Location = new System.Drawing.Point(663, 126);
             this.txt_discount.MaxLength = 50;
             this.txt_discount.MouseState = MaterialSkin.MouseState.OUT;
             this.txt_discount.Multiline = false;
@@ -206,10 +207,11 @@
             this.txt_discount.TabIndex = 10;
             this.txt_discount.Text = "";
             this.txt_discount.TrailingIcon = null;
+            this.txt_discount.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txt_discount_KeyPress);
             // 
             // txt_customer_limit
             // 
-            this.txt_customer_limit.Location = new System.Drawing.Point(473, 371);
+            this.txt_customer_limit.Location = new System.Drawing.Point(663, 371);
             this.txt_customer_limit.Name = "txt_customer_limit";
             this.txt_customer_limit.Size = new System.Drawing.Size(350, 22);
             this.txt_customer_limit.TabIndex = 19;
@@ -220,7 +222,7 @@
             this.materialLabel2.AutoSize = true;
             this.materialLabel2.Depth = 0;
             this.materialLabel2.Font = new System.Drawing.Font("Roboto", 14F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
-            this.materialLabel2.Location = new System.Drawing.Point(470, 349);
+            this.materialLabel2.Location = new System.Drawing.Point(660, 338);
             this.materialLabel2.MouseState = MaterialSkin.MouseState.HOVER;
             this.materialLabel2.Name = "materialLabel2";
             this.materialLabel2.Size = new System.Drawing.Size(113, 19);
@@ -267,23 +269,24 @@
             // 
             this.chk_vat_exempt.AutoSize = true;
             this.chk_vat_exempt.Depth = 0;
-            this.chk_vat_exempt.Location = new System.Drawing.Point(60, 331);
+            this.chk_vat_exempt.Enabled = false;
+            this.chk_vat_exempt.Location = new System.Drawing.Point(60, 356);
             this.chk_vat_exempt.Margin = new System.Windows.Forms.Padding(0);
             this.chk_vat_exempt.MouseLocation = new System.Drawing.Point(-1, -1);
             this.chk_vat_exempt.MouseState = MaterialSkin.MouseState.HOVER;
             this.chk_vat_exempt.Name = "chk_vat_exempt";
             this.chk_vat_exempt.ReadOnly = false;
             this.chk_vat_exempt.Ripple = true;
-            this.chk_vat_exempt.Size = new System.Drawing.Size(138, 37);
+            this.chk_vat_exempt.Size = new System.Drawing.Size(187, 37);
             this.chk_vat_exempt.TabIndex = 24;
-            this.chk_vat_exempt.Text = "Vat Exemption";
+            this.chk_vat_exempt.Text = "Apply VAT exemption";
             this.chk_vat_exempt.UseVisualStyleBackColor = true;
             // 
             // DiscountForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(900, 600);
+            this.ClientSize = new System.Drawing.Size(1100, 600);
             this.Controls.Add(this.chk_vat_exempt);
             this.Controls.Add(this.sw_expiry_notif);
             this.Controls.Add(this.sw_send_notif);
@@ -300,8 +303,9 @@
             this.MaximizeBox = false;
             this.MinimizeBox = false;
             this.Name = "DiscountForm";
+            this.Sizable = false;
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
-            this.Text = "Discount Information";
+            this.Text = "DISCOUNT INFORMATION";
             ((System.ComponentModel.ISupportInitialize)(this.txt_customer_limit)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.errorProvider1)).EndInit();
             this.ResumeLayout(false);

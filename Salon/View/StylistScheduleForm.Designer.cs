@@ -595,6 +595,7 @@
             this.txt_reason.TabStop = false;
             this.txt_reason.TextAlign = System.Windows.Forms.HorizontalAlignment.Left;
             this.txt_reason.UseSystemPasswordChar = false;
+            this.txt_reason.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txt_reason_KeyPress);
             // 
             // materialLabel7
             // 
@@ -645,7 +646,7 @@
             this.btn_update_exceptionSched.Depth = 0;
             this.btn_update_exceptionSched.HighEmphasis = true;
             this.btn_update_exceptionSched.Icon = null;
-            this.btn_update_exceptionSched.Location = new System.Drawing.Point(1109, 91);
+            this.btn_update_exceptionSched.Location = new System.Drawing.Point(1109, 69);
             this.btn_update_exceptionSched.Margin = new System.Windows.Forms.Padding(4, 6, 4, 6);
             this.btn_update_exceptionSched.MouseState = MaterialSkin.MouseState.HOVER;
             this.btn_update_exceptionSched.Name = "btn_update_exceptionSched";
@@ -805,6 +806,7 @@
             this.Controls.Add(this.materialTabControl1);
             this.Controls.Add(this.materialTabSelector1);
             this.Name = "StylistScheduleForm";
+            this.Sizable = false;
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "SCHEDULE";
             this.Load += new System.EventHandler(this.StylistScheduleForm_Load);

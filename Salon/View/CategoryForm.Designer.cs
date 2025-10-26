@@ -55,6 +55,7 @@
             this.txt_category_name.TabIndex = 12;
             this.txt_category_name.Text = "";
             this.txt_category_name.TrailingIcon = null;
+            this.txt_category_name.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txt_category_name_KeyPress);
             // 
             // btn_update
             // 
@@ -161,8 +162,9 @@
             this.MaximizeBox = false;
             this.MinimizeBox = false;
             this.Name = "CategoryForm";
+            this.Sizable = false;
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
-            this.Text = "CategoryForm";
+            this.Text = "CATEGORY INFORMATION";
             ((System.ComponentModel.ISupportInitialize)(this.errorProvider1)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();

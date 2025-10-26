@@ -140,6 +140,7 @@
             this.txt_usage_amount.Text = "";
             this.txt_usage_amount.TrailingIcon = null;
             this.txt_usage_amount.TextChanged += new System.EventHandler(this.txt_usage_amount_TextChanged);
+            this.txt_usage_amount.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txt_usage_amount_KeyPress);
             // 
             // txt_unit_volume
             // 
@@ -159,6 +160,7 @@
             this.txt_unit_volume.Text = "";
             this.txt_unit_volume.TrailingIcon = null;
             this.txt_unit_volume.TextChanged += new System.EventHandler(this.txt_unit_volume_TextChanged);
+            this.txt_unit_volume.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txt_unit_volume_KeyPress);
             // 
             // txt_total_usage
             // 
@@ -462,7 +464,7 @@
             this.Name = "ProductUsageForm";
             this.Sizable = false;
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
-            this.Text = "ProductUsageForm";
+            this.Text = "PRODUCT USAGE INFORMATION";
             this.Load += new System.EventHandler(this.ProductUsageForm_Load);
             this.materialCard1.ResumeLayout(false);
             this.materialCard1.PerformLayout();

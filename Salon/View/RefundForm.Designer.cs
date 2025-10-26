@@ -195,6 +195,7 @@
             this.txt_reason.TabStop = false;
             this.txt_reason.TextAlign = System.Windows.Forms.HorizontalAlignment.Left;
             this.txt_reason.UseSystemPasswordChar = false;
+            this.txt_reason.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txt_reason_KeyPress);
             // 
             // cmb_refund_method
             // 

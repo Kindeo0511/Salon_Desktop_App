@@ -89,6 +89,7 @@
             this.txt_username.Text = "";
             this.txt_username.TrailingIcon = null;
             this.txt_username.Visible = false;
+            this.txt_username.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txt_username_KeyPress);
             // 
             // lbl_email
             // 
@@ -152,6 +153,8 @@
             this.txt_number.Text = "";
             this.txt_number.TrailingIcon = null;
             this.txt_number.Visible = false;
+            this.txt_number.Enter += new System.EventHandler(this.txt_number_Enter);
+            this.txt_number.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txt_number_KeyPress);
             // 
             // rad_email
             // 
@@ -261,6 +264,7 @@
             this.txt_confirm_password.TabIndex = 2;
             this.txt_confirm_password.Text = "";
             this.txt_confirm_password.TrailingIcon = null;
+            this.txt_confirm_password.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txt_confirm_password_KeyPress);
             // 
             // materialLabel2
             // 
@@ -291,6 +295,7 @@
             this.txt_password.TabIndex = 0;
             this.txt_password.Text = "";
             this.txt_password.TrailingIcon = null;
+            this.txt_password.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txt_password_KeyPress);
             // 
             // btn_reset
             // 
@@ -413,6 +418,7 @@
             this.txt_otp.TabIndex = 0;
             this.txt_otp.Text = "";
             this.txt_otp.TrailingIcon = null;
+            this.txt_otp.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txt_otp_KeyPress);
             // 
             // btn_cancel
             // 
@@ -588,6 +594,7 @@
             this.MinimizeBox = false;
             this.Name = "ForgotPasswordForm";
             this.Padding = new System.Windows.Forms.Padding(3, 0, 0, 3);
+            this.Sizable = false;
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "ForgotPasswordForm";
             this.Load += new System.EventHandler(this.ForgotPasswordForm_Load);

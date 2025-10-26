@@ -248,5 +248,127 @@ namespace Salon.View
         {
             this.Close();
         }
+
+        private void txt_first_name_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            TextBox txt = sender as TextBox;
+            char c = e.KeyChar;
+
+            // Allow control keys (Backspace, etc.)
+            if (char.IsControl(c))
+                return;
+
+            // Block space if it's the first character
+            if (char.IsWhiteSpace(c) && txt != null && txt.Text.Length == 0)
+            {
+                e.Handled = true;
+                return;
+            }
+
+            // Allow only letters and spaces
+            if (!char.IsLetter(c) && !char.IsWhiteSpace(c))
+            {
+                e.Handled = true;
+            }
+        }
+
+        private void txt_middle_name_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            TextBox txt = sender as TextBox;
+            char c = e.KeyChar;
+
+            // Allow control keys (Backspace, etc.)
+            if (char.IsControl(c))
+                return;
+
+            // Block space if it's the first character
+            if (char.IsWhiteSpace(c) && txt != null && txt.Text.Length == 0)
+            {
+                e.Handled = true;
+                return;
+            }
+
+            // Allow only letters and spaces
+            if (!char.IsLetter(c) && !char.IsWhiteSpace(c))
+            {
+                e.Handled = true;
+            }
+        }
+
+        private void txt_last_name_KeyUp(object sender, KeyEventArgs e)
+        {
+          
+        }
+
+        private void txt_email_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            char c = e.KeyChar;
+            string allowed = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789@._-";
+
+            if (!char.IsControl(c) && !allowed.Contains(c))
+                e.Handled = true;
+        }
+
+        private void txt_contact_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            char c = e.KeyChar;
+
+            if (char.IsControl(c))
+                return;
+
+            if (!char.IsDigit(c))
+            {
+                e.Handled = true;
+                return;
+            }
+        }
+
+        private void txt_last_name_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            TextBox txt = sender as TextBox;
+            char c = e.KeyChar;
+
+            // Allow control keys (Backspace, etc.)
+            if (char.IsControl(c))
+                return;
+
+            // Block space if it's the first character
+            if (char.IsWhiteSpace(c) && txt != null && txt.Text.Length == 0)
+            {
+                e.Handled = true;
+                return;
+            }
+
+            // Allow only letters and spaces
+            if (!char.IsLetter(c) && !char.IsWhiteSpace(c))
+            {
+                e.Handled = true;
+            }
+        }
+
+        private void cmb_customer_type_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if (cmb_customer_type.Text == "Registered")
+            {
+
+
+                txt_contact.Visible = true;
+                txt_email.Visible = true;
+              
+            }
+            else if (cmb_customer_type.Text == "Walk-In")
+            {
+
+                txt_contact.Visible = false;
+                txt_email.Visible = false;
+            }
+
+            else
+            {
+
+                txt_contact.Visible = false;
+                txt_email.Visible = false;
+            }
+        }
     }
 }

@@ -356,5 +356,59 @@ namespace Salon.View
         {
             await RefreshServiceProductUsage();
         }
+
+        private void txt_usage_amount_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            MaterialTextBox txt = sender as MaterialTextBox;
+            char c = e.KeyChar;
+
+            // Allow control keys (Backspace, Delete, etc.)
+            if (char.IsControl(c))
+                return;
+
+            // Allow digits
+            if (char.IsDigit(c))
+                return;
+
+            // Allow one decimal point, not at the start
+            if (c == '.' && txt != null)
+            {
+                if (!txt.Text.Contains(".") && txt.SelectionStart > 0)
+                    return;
+
+                e.Handled = true;
+                return;
+            }
+
+            // Block everything else
+            e.Handled = true;
+        }
+
+        private void txt_unit_volume_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            MaterialTextBox txt = sender as MaterialTextBox;
+            char c = e.KeyChar;
+
+            // Allow control keys (Backspace, Delete, etc.)
+            if (char.IsControl(c))
+                return;
+
+            // Allow digits
+            if (char.IsDigit(c))
+                return;
+
+            // Allow one decimal point, not at the start
+            if (c == '.' && txt != null)
+            {
+                if (!txt.Text.Contains(".") && txt.SelectionStart > 0)
+                    return;
+
+                e.Handled = true;
+                return;
+            }
+
+            // Block everything else
+            e.Handled = true;
+        }
     }
 }

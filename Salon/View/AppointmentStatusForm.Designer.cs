@@ -133,6 +133,7 @@
             this.MinimizeBox = false;
             this.Name = "AppointmentStatusForm";
             this.Padding = new System.Windows.Forms.Padding(0);
+            this.Sizable = false;
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "AppointmentStatusForm";
             this.materialCard1.ResumeLayout(false);

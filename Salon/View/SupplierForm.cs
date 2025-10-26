@@ -130,5 +130,61 @@ namespace Salon.View
         {
             this.Close();
         }
+
+        private void txt_supplier_name_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            MaterialTextBox txt = sender as MaterialTextBox;
+            char c = e.KeyChar;
+
+            // Allow control keys (Backspace, Delete, etc.)
+            if (char.IsControl(c))
+                return;
+
+            if (char.IsWhiteSpace(c) && txt != null && txt.Text.Length == 0)
+            {
+                e.Handled = true;
+                return;
+            }
+
+            // Allow letters, space, hyphen, apostrophe
+            if (char.IsLetter(c) || char.IsWhiteSpace(c) || c == '-' || c == '\'')
+                return;
+
+            // Block everything else
+            e.Handled = true;
+        }
+
+        private void txt_address_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            char c = e.KeyChar;
+            string allowed = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789 .,-";
+
+            if (!char.IsControl(c) && !allowed.Contains(c))
+                e.Handled = true;
+        }
+
+        private void txt_email_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            char c = e.KeyChar;
+            string allowed = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789@._-";
+
+            if (!char.IsControl(c) && !allowed.Contains(c))
+                e.Handled = true;
+        }
+
+        private void txt_contact_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            char c = e.KeyChar;
+
+            if (char.IsControl(c))
+                return;
+
+            if (!char.IsDigit(c))
+            {
+                e.Handled = true;
+                return;
+            }
+
+        }
     }
 }

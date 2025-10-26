@@ -296,24 +296,24 @@ namespace Salon.View
             validated &= Validator.IsRequired(cb_PaymentMethod, errorProvider1, "Payment Method is required.");
             validated &= Validator.IsRequired(txt_amount_paid, errorProvider1, "Amount is required.");
 
-            if (cb_PaymentMethod.Text.ToLower() == "gcash")
-            {
-                validated &= Validator.IsRequired(txt_Reference, errorProvider1, "Reference No. is required.");
+            //if (cb_PaymentMethod.Text.ToLower() == "gcash")
+            //{
+            //    validated &= Validator.IsRequired(txt_Reference, errorProvider1, "Reference No. is required.");
 
-                // Validate 13-digit numeric format
-                string reference = txt_Reference.Text.Trim();
-                bool isValidFormat = reference.Length == 13 && reference.All(char.IsDigit);
+            //    // Validate 13-digit numeric format
+            //    string reference = txt_Reference.Text.Trim();
+            //    bool isValidFormat = reference.Length == 13 && reference.All(char.IsDigit);
 
-                if (!isValidFormat)
-                {
-                    errorProvider1.SetError(txt_Reference, "Reference No. must be exactly 13 digits.");
-                    validated = false;
-                }
-                else
-                {
-                    errorProvider1.SetError(txt_Reference, "");
-                }
-            }
+            //    if (!isValidFormat)
+            //    {
+            //        errorProvider1.SetError(txt_Reference, "Reference No. must be exactly 13 digits.");
+            //        validated = false;
+            //    }
+            //    else
+            //    {
+            //        errorProvider1.SetError(txt_Reference, "");
+            //    }
+            //}
 
 
 
@@ -676,20 +676,25 @@ namespace Salon.View
 
         private void btn_invoice_Click(object sender, EventArgs e)
         {
-            PrintDialog printDialog = new PrintDialog();
-            printDialog.Document = printDocument;
-
-            if (printDialog.ShowDialog() == DialogResult.OK)
+            if (ValidateChildren())
             {
-                printDocument.Print();
-                Audit.AuditLog(
-                DateTime.Now,
-                "Generate Invoice",
-                UserSession.CurrentUser.first_Name,
-                "Appointment",
-                $"Generated Invoice for client '{model.ClientName}' on {DateTime.Now:yyyy-MM-dd} at {DateTime.Now:HH:mm:ss}"
-                );
+                PrintDialog printDialog = new PrintDialog();
+                printDialog.Document = printDocument;
+
+                if (printDialog.ShowDialog() == DialogResult.OK)
+                {
+                    printDocument.Print();
+                    Audit.AuditLog(
+                    DateTime.Now,
+                    "Generate Invoice",
+                    UserSession.CurrentUser.first_Name,
+                    "Appointment",
+                    $"Generated Invoice for client '{model.ClientName}' on {DateTime.Now:yyyy-MM-dd} at {DateTime.Now:HH:mm:ss}"
+                    );
+                }
             }
+
+         
         }
 
         private void btn_cancel_Click(object sender, EventArgs e)
@@ -810,6 +815,60 @@ namespace Salon.View
         {
 
         }
+
+        private void txt_Reference_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            char c = e.KeyChar;
+
+            // Allow control keys (Backspace, Delete, etc.)
+            if (char.IsControl(c))
+                return;
+
+            // Allow letters and digits
+            if (char.IsLetterOrDigit(c))
+                return;
+
+            // Allow hyphen (optional, depends on format)
+            if (c == '-')
+                return;
+
+            // Block everything else
+            e.Handled = true;
+        }
+
+        private void txt_Reference_Validating(object sender, CancelEventArgs e)
+        {
+            MaterialTextBox txt = sender as MaterialTextBox;
+            if (txt == null)
+                return;
+
+            // Only validate if GCash is selected
+            if (cb_PaymentMethod.Text.Trim().ToLower() == "gcash")
+            {
+                string input = txt.Text.Trim();
+
+                if (string.IsNullOrEmpty(input))
+                {
+                    errorProvider1.SetError(txt, "Reference number is required.");
+                    e.Cancel = true;
+                }
+                else if (input.Length != 13)
+                {
+                    errorProvider1.SetError(txt, "Reference number must be exactly 13 characters.");
+                    e.Cancel = true;
+                }
+                else
+                {
+                    errorProvider1.SetError(txt, ""); // Clear error
+                }
+            }
+            else
+            {
+                // Clear error if not GCash
+                errorProvider1.SetError(txt, "");
+            }
+        }
+
 
 
         // TRANSACTION

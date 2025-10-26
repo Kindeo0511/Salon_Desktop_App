@@ -122,7 +122,7 @@
             this.Name = "UpdateDiscountStatusForm";
             this.Sizable = false;
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
-            this.Text = "Discount Status";
+            this.Text = "DISCOUNT STATUS";
             ((System.ComponentModel.ISupportInitialize)(this.errorProvider1)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();

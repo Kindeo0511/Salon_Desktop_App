@@ -139,6 +139,7 @@
             this.txt_subcategory_name.TabIndex = 22;
             this.txt_subcategory_name.Text = "";
             this.txt_subcategory_name.TrailingIcon = null;
+            this.txt_subcategory_name.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txt_subcategory_name_KeyPress);
             // 
             // errorProvider1
             // 
@@ -158,8 +159,9 @@
             this.MaximizeBox = false;
             this.MinimizeBox = false;
             this.Name = "SubCategoryForm";
+            this.Sizable = false;
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
-            this.Text = "SubCategoryForm";
+            this.Text = "SUB-CATEGORY INFORMATION";
             ((System.ComponentModel.ISupportInitialize)(this.errorProvider1)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();

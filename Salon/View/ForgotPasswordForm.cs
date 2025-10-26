@@ -148,13 +148,13 @@ namespace Salon.View
 
             if (userFound)
             {
-
                 forgotPasswordTabControl.Selecting -= forgotPasswordTabControl_Selecting;
                 forgotPasswordTabControl.SelectedIndex = 1;
                 forgotPasswordTabControl.Selecting += forgotPasswordTabControl_Selecting;
+
             }
 
-        
+            
 
 
         }
@@ -223,7 +223,7 @@ namespace Salon.View
         {
             btn_confirm.Enabled = false; // Disable to prevent multiple clicks
             bool verified = VerifyOtp(txt_otp.Text);
-   
+
             if (verified)
             {
                 currentOtp.IsUsed = true;
@@ -238,11 +238,11 @@ namespace Salon.View
             else
             {
                 btn_confirm.Enabled = true; // Re-enable if verification failed
+
+                
+
             }
-
-
         }
-
         private void btn_back_to_step_1_Click(object sender, EventArgs e)
         {
 
@@ -442,6 +442,106 @@ namespace Salon.View
         private void g_step_1_Enter(object sender, EventArgs e)
         {
 
+        }
+
+        private void txt_number_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            char c = e.KeyChar;
+
+            // Allow control keys (e.g., Backspace)
+            if (char.IsControl(c))
+                return;
+
+            // Block non-digit characters
+            if (!char.IsDigit(c))
+            {
+                e.Handled = true;
+                return;
+            }
+
+           
+        }
+
+        private void txt_number_Enter(object sender, EventArgs e)
+        {
+           
+        }
+
+        private void txt_otp_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            char c = e.KeyChar;
+
+            // Allow control keys (e.g., Backspace)
+            if (char.IsControl(c))
+                return;
+
+            // Block non-digit characters
+            if (!char.IsDigit(c))
+            {
+                e.Handled = true;
+                return;
+            }
+        }
+
+        private void txt_username_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            char c = e.KeyChar;
+
+            // Allow control keys (Backspace, Delete, etc.)
+            if (char.IsControl(c))
+                return;
+
+            // Allow letters, digits, and common email characters
+            string allowed = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789@._-";
+
+            if (!allowed.Contains(c))
+            {
+                e.Handled = true; // Block the key
+            }
+        }
+
+        private void txt_password_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            char c = e.KeyChar;
+
+            // Allow control keys (Backspace, Delete, etc.)
+            if (char.IsControl(c))
+                return;
+
+            // Allow letters, digits, and allowed special characters
+            string allowedSpecials = "@#$%^&*()_+-=!?";
+            if (!char.IsLetterOrDigit(c) && !allowedSpecials.Contains(c))
+            {
+                e.Handled = true; // Block the key
+            }
+
+            // Optional: block spaces
+            if (char.IsWhiteSpace(c))
+            {
+                e.Handled = true;
+            }
+        }
+
+        private void txt_confirm_password_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            char c = e.KeyChar;
+
+            // Allow control keys (Backspace, Delete, etc.)
+            if (char.IsControl(c))
+                return;
+
+            // Allow letters, digits, and allowed special characters
+            string allowedSpecials = "@#$%^&*()_+-=!?";
+            if (!char.IsLetterOrDigit(c) && !allowedSpecials.Contains(c))
+            {
+                e.Handled = true; // Block the key
+            }
+
+            // Optional: block spaces
+            if (char.IsWhiteSpace(c))
+            {
+                e.Handled = true;
+            }
         }
     }
 }

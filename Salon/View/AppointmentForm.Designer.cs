@@ -78,6 +78,7 @@
             this.txt_Search.Text = "";
             this.txt_Search.TrailingIcon = null;
             this.txt_Search.TextChanged += new System.EventHandler(this.txt_Search_TextChanged);
+            this.txt_Search.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txt_Search_KeyPress);
             // 
             // txt_FullName
             // 
@@ -212,6 +213,7 @@
             this.txt_search_services.Text = "";
             this.txt_search_services.TrailingIcon = null;
             this.txt_search_services.TextChanged += new System.EventHandler(this.txt_search_services_TextChanged);
+            this.txt_search_services.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txt_search_services_KeyPress);
             // 
             // service_panel
             // 
@@ -429,7 +431,7 @@
             this.btn_check_stylist_avail.MouseState = MaterialSkin.MouseState.HOVER;
             this.btn_check_stylist_avail.Name = "btn_check_stylist_avail";
             this.btn_check_stylist_avail.NoAccentTextColor = System.Drawing.Color.Empty;
-            this.btn_check_stylist_avail.Size = new System.Drawing.Size(167, 36);
+            this.btn_check_stylist_avail.Size = new System.Drawing.Size(209, 36);
             this.btn_check_stylist_avail.TabIndex = 18;
             this.btn_check_stylist_avail.Text = "Check Available Stylist";
             this.btn_check_stylist_avail.Type = MaterialSkin.Controls.MaterialButton.MaterialButtonType.Contained;

@@ -126,7 +126,7 @@
             this.txt_Reference.Hint = " Reference No.";
             this.txt_Reference.LeadingIcon = null;
             this.txt_Reference.Location = new System.Drawing.Point(47, 457);
-            this.txt_Reference.MaxLength = 50;
+            this.txt_Reference.MaxLength = 13;
             this.txt_Reference.MouseState = MaterialSkin.MouseState.OUT;
             this.txt_Reference.Multiline = false;
             this.txt_Reference.Name = "txt_Reference";
@@ -134,6 +134,8 @@
             this.txt_Reference.TabIndex = 4;
             this.txt_Reference.Text = "";
             this.txt_Reference.TrailingIcon = null;
+            this.txt_Reference.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txt_Reference_KeyPress);
+            this.txt_Reference.Validating += new System.ComponentModel.CancelEventHandler(this.txt_Reference_Validating);
             // 
             // txt_amount_paid
             // 
@@ -498,8 +500,9 @@
             this.MaximizeBox = false;
             this.MinimizeBox = false;
             this.Name = "PaymentForm";
+            this.Sizable = false;
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
-            this.Text = "PaymentForm";
+            this.Text = "PAYMENT INFORMATION";
             this.Load += new System.EventHandler(this.PaymentForm_Load);
             ((System.ComponentModel.ISupportInitialize)(this.dgv_Table)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.errorProvider1)).EndInit();

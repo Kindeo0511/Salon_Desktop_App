@@ -34,9 +34,9 @@ namespace Salon.View
             this.mainForm = mainForm;
             this.category = category;
 
-            if (category != null) 
+            if (category != null)
             {
-                
+
                 txt_category_name.Text = category.categoryName;
                 cmb_category_type.Text = category.type;
 
@@ -60,7 +60,7 @@ namespace Salon.View
 
             validated &= Validator.ValidateCategoryName(categoryName, txt_category_name, errorProvider1);
             validated &= Validator.ValidateCategoryType(cmb_category_type, errorProvider1);
-            if (!Validator.IsCategoryExists(txt_category_name, errorProvider1, "Category already exists.",cmb_category_type.Text, excludeId))
+            if (!Validator.IsCategoryExists(txt_category_name, errorProvider1, "Category already exists.", cmb_category_type.Text, excludeId))
             {
                 validated = false;
             }
@@ -107,7 +107,7 @@ namespace Salon.View
                 type = cmb_category_type.Text
             };
             controller.addCategory(newCategory);
-        
+
         }
         private void updateCategory()
         {
@@ -117,7 +117,7 @@ namespace Salon.View
             category.categoryName = txt_category_name.Text;
             category.type = cmb_category_type.Text;
             controller.updateCategory(category);
-      
+
         }
         private async void btn_save_Click(object sender, EventArgs e)
         {
@@ -148,6 +148,30 @@ namespace Salon.View
         private void btn_cancel_Click(object sender, EventArgs e)
         {
             this.Close();
+        }
+
+        private void txt_category_name_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            MaterialTextBox txt = sender as MaterialTextBox;
+            char c = e.KeyChar;
+
+            // Allow control keys (Backspace, Delete, etc.)
+            if (char.IsControl(c))
+                return;
+
+            // Block space if it's the first character
+            if (char.IsWhiteSpace(c) && txt != null && txt.SelectionStart == 0)
+            {
+                e.Handled = true;
+                return;
+            }
+
+            // Allow letters, space, ampersand, hyphen, open and close parentheses
+            if (char.IsLetter(c) || char.IsWhiteSpace(c) || c == '&' || c == '-' || c == '(' || c == ')')
+                return;
+
+            // Block everything else
+            e.Handled = true;
         }
     }
 }

@@ -389,23 +389,111 @@ namespace Salon.View
             await main.RefreshDiscountAsync();
             this.Close();
         }
-
         private void cmb_discount_type_SelectedIndexChanged(object sender, EventArgs e)
         {
-            if (cmb_discount_type.Text.ToLower() == "promo")
+            if (cmb_discount_type.SelectedItem == null) 
             {
-                txt_promo_code.Visible = true;
-                dtp_discount_expiry_date.Visible = true;
-                materialLabel29.Visible = true;
-
+                chk_vat_exempt.Checked = false;
+                chk_vat_exempt.Enabled = false;
+                chk_vat_exempt.Text = "VAT exemption not applicable";
+                return;
             }
-            else
+           
+       
+
+            string selectedType = cmb_discount_type.SelectedItem.ToString().ToLower();
+
+            // Handle VAT Exemption logic
+            switch (selectedType)
             {
-                txt_promo_code.Visible = false;
-                dtp_discount_expiry_date.Visible = false;
-                materialLabel29.Visible = false;
+                case "promo":
+                    chk_vat_exempt.Checked = false;
+                    chk_vat_exempt.Enabled = false;
+                    chk_vat_exempt.Text = "VAT exemption not applicable for Promo";
+                    break;
 
+                case "senior/pwd":
+                    chk_vat_exempt.Enabled = true;
+                    chk_vat_exempt.Text = "Apply VAT exemption";
+                    break;
+
+                default:
+                    chk_vat_exempt.Checked = false;
+                    chk_vat_exempt.Enabled = false;
+                    chk_vat_exempt.Text = "VAT exemption not applicable";
+                    break;
             }
+
+            // Handle Promo-specific fields visibility
+            bool isPromo = selectedType == "promo";
+
+            txt_promo_code.Visible = isPromo;
+            dtp_discount_expiry_date.Visible = isPromo;
+            materialLabel29.Visible = isPromo;
+
+        }
+
+        //private void cmb_discount_type_SelectedIndexChanged(object sender, EventArgs e)
+        //{
+
+        //    if (cmb_discount_type.Text.ToLower() == "promo")
+        //    {
+        //        txt_promo_code.Visible = true;
+        //        dtp_discount_expiry_date.Visible = true;
+        //        materialLabel29.Visible = true;
+
+        //    }
+        //    else
+        //    {
+        //        txt_promo_code.Visible = false;
+        //        dtp_discount_expiry_date.Visible = false;
+        //        materialLabel29.Visible = false;
+
+        //    }
+        //}
+
+        private void txt_promo_code_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            MaterialTextBox txt = sender as MaterialTextBox;
+            char c = e.KeyChar;
+
+            // Allow control keys
+            if (char.IsControl(c))
+                return;
+
+            // Allow letters, digits, hyphen, underscore
+            if (char.IsLetterOrDigit(c) || c == '-' || c == '_')
+                return;
+
+            // Block everything else
+            e.Handled = true;
+        }
+
+        private void txt_discount_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            MaterialTextBox txt = sender as MaterialTextBox;
+            char c = e.KeyChar;
+
+            // Allow control keys
+            if (char.IsControl(c))
+                return;
+
+            // Allow digits
+            if (char.IsDigit(c))
+                return;
+
+            // Allow one decimal point, not at the start
+            if (c == '.' && txt != null)
+            {
+                if (!txt.Text.Contains(".") && txt.SelectionStart > 0)
+                    return;
+
+                e.Handled = true;
+                return;
+            }
+
+            // Block everything else
+            e.Handled = true;
         }
     }
 }

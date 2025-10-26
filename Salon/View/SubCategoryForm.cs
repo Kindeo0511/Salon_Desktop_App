@@ -142,5 +142,29 @@ namespace Salon.View
         {
             this.Close();
         }
+
+        private void txt_subcategory_name_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            MaterialTextBox txt = sender as MaterialTextBox;
+            char c = e.KeyChar;
+
+            // Allow control keys (Backspace, Delete, etc.)
+            if (char.IsControl(c))
+                return;
+
+            // Block space if it's the first character
+            if (char.IsWhiteSpace(c) && txt != null && txt.SelectionStart == 0)
+            {
+                e.Handled = true;
+                return;
+            }
+
+            // Allow letters, space, ampersand, hyphen, open and close parentheses
+            if (char.IsLetter(c) || char.IsWhiteSpace(c) || c == '&' || c == '-' || c == '(' || c == ')')
+                return;
+
+            // Block everything else
+            e.Handled = true;
+        }
     }
 }
