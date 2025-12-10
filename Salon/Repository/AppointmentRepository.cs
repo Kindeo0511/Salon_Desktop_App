@@ -29,8 +29,10 @@ namespace Salon.Repository
          c.email As Email,
          c.phoneNumber AS PhoneNumber,
          c.customer_type AS Customer_Type,
+        sn.subCategory_id AS SubCategoryId,
+         sn.servicename_id As ServiceId,
         GROUP_CONCAT(DISTINCT sn.serviceName SEPARATOR ', ') AS Services,
-        SUM(spr.selling_price) AS selling_price,
+        (sn.servicePrice) AS selling_price,
         SUM(spr.vat_amount) AS vat_amount,
         a.Date AS AppointmentDate,
         a.start_time AS StartTime,
@@ -42,7 +44,7 @@ namespace Salon.Repository
     LEFT JOIN tbl_customer_account c ON a.customer_id = c.customer_id
     LEFT JOIN tbl_stylists s ON a.stylist_id = s.stylist_id
     LEFT JOIN tbl_appointment_services aps ON a.appointment_id = aps.appointment_id
-    LEFT JOIN tbl_servicesname sn ON aps.serviceName_id = sn.serviceName_id
+    LEFT JOIN tbl_servicesname sn ON a.serviceName_id = sn.serviceName_id
     LEFT JOIN tbl_service_product spd ON spd.service_id = sn.serviceName_id
     LEFT JOIN tbl_service_price spr ON spr.service_product_id = spd.service_product_id
     GROUP BY 
@@ -64,8 +66,10 @@ namespace Salon.Repository
                  c.email As Email,
                  c.phoneNumber AS PhoneNumber,
              c.customer_type AS Customer_Type,
+                sn.subCategory_id AS SubCategoryId,
+                 sn.servicename_id As ServiceId,
                 GROUP_CONCAT(DISTINCT sn.serviceName SEPARATOR ', ') AS Services,
-                SUM(spr.selling_price) AS selling_price,
+                (sn.servicePrice) AS selling_price,
                 SUM(spr.vat_amount) AS vat_amount,
                 a.Date AS AppointmentDate,
                 a.start_time AS StartTime,
@@ -77,7 +81,7 @@ namespace Salon.Repository
             LEFT JOIN tbl_customer_account c ON a.customer_id = c.customer_id
             LEFT JOIN tbl_stylists s ON a.stylist_id = s.stylist_id
             LEFT JOIN tbl_appointment_services aps ON a.appointment_id = aps.appointment_id
-            LEFT JOIN tbl_servicesname sn ON aps.serviceName_id = sn.serviceName_id
+            LEFT JOIN tbl_servicesname sn ON a.serviceName_id = sn.serviceName_id
             LEFT JOIN tbl_service_product spd ON spd.service_id = sn.serviceName_id
             LEFT JOIN tbl_service_price spr ON spr.service_product_id = spd.service_product_id
             WHERE a.Status = @status
@@ -113,8 +117,10 @@ namespace Salon.Repository
          c.email As Email,
          c.phoneNumber AS PhoneNumber,
          c.customer_type AS Customer_Type,
+        sn.subCategory_id AS SubCategoryId,
+         sn.servicename_id As ServiceId,
         GROUP_CONCAT(DISTINCT sn.serviceName SEPARATOR ', ') AS Services,
-        SUM(spr.selling_price) AS selling_price,
+       (sn.servicePrice) AS selling_price,
         SUM(spr.vat_amount) AS vat_amount,
         a.Date AS AppointmentDate,
         a.start_time AS StartTime,
@@ -126,7 +132,7 @@ namespace Salon.Repository
     LEFT JOIN tbl_customer_account c ON a.customer_id = c.customer_id
     LEFT JOIN tbl_stylists s ON a.stylist_id = s.stylist_id
     LEFT JOIN tbl_appointment_services aps ON a.appointment_id = aps.appointment_id
-    LEFT JOIN tbl_servicesname sn ON aps.serviceName_id = sn.serviceName_id
+    LEFT JOIN tbl_servicesname sn ON a.serviceName_id = sn.serviceName_id
     LEFT JOIN tbl_service_product spd ON spd.service_id = sn.serviceName_id
     LEFT JOIN tbl_service_price spr ON spr.service_product_id = spd.service_product_id
     GROUP BY 
@@ -148,8 +154,10 @@ namespace Salon.Repository
                  c.email As Email,
                  c.phoneNumber AS PhoneNumber,
              c.customer_type AS Customer_Type,
+                sn.subCategory_id AS SubCategoryId,
+                 sn.servicename_id As ServiceId,
                 GROUP_CONCAT(DISTINCT sn.serviceName SEPARATOR ', ') AS Services,
-                SUM(spr.selling_price) AS selling_price,
+                (sn.servicePrice) AS selling_price,
                 SUM(spr.vat_amount) AS vat_amount,
                 a.Date AS AppointmentDate,
                 a.start_time AS StartTime,
@@ -161,7 +169,7 @@ namespace Salon.Repository
             LEFT JOIN tbl_customer_account c ON a.customer_id = c.customer_id
             LEFT JOIN tbl_stylists s ON a.stylist_id = s.stylist_id
             LEFT JOIN tbl_appointment_services aps ON a.appointment_id = aps.appointment_id
-            LEFT JOIN tbl_servicesname sn ON aps.serviceName_id = sn.serviceName_id
+            LEFT JOIN tbl_servicesname sn ON a.serviceName_id = sn.serviceName_id
             LEFT JOIN tbl_service_product spd ON spd.service_id = sn.serviceName_id
             LEFT JOIN tbl_service_price spr ON spr.service_product_id = spd.service_product_id
             WHERE a.Status = @status
@@ -195,6 +203,8 @@ namespace Salon.Repository
     CONCAT(c.firstName, ' ', c.middleName, ' ', c.lastName) AS CustomerName,
     a.stylist_id AS StylistId,
     COALESCE(CONCAT(s.firstName, ' ', s.middleName, ' ', s.lastName), 'Stylist not assigned yet') AS StylistName,
+    sn.subCategory_id AS SubCategoryId,
+     sn.servicename_id As ServiceId,
     sn.serviceName AS Services,
     a.Date AS AppointmentDate,
     a.start_time AS StartTime,
@@ -226,8 +236,10 @@ LEFT JOIN tbl_servicesname sn ON aps.serviceName_id = sn.serviceName_id;";
     c.phoneNumber AS PhoneNumber,
     a.stylist_id AS StylistId,
     COALESCE(CONCAT(s.firstName, ' ', s.middleName, ' ', s.lastName), 'Stylist not assigned yet') AS StylistName,
+    sn.subCategory_id AS SubCategoryId,
+    sn.servicename_id As ServiceId,
     GROUP_CONCAT(DISTINCT sn.serviceName SEPARATOR ', ') AS Services,
-    SUM(spr.selling_price) AS selling_price,
+    sn.servicePrice) AS selling_price,
     SUM(spr.vat_amount) AS vat_amount,
     a.Date AS AppointmentDate,
     a.start_time AS StartTime,
@@ -239,7 +251,7 @@ FROM tbl_appointment a
 LEFT JOIN tbl_customer_account c ON a.customer_id = c.customer_id
 LEFT JOIN tbl_stylists s ON a.stylist_id = s.stylist_id
 LEFT JOIN tbl_appointment_services aps ON a.appointment_id = aps.appointment_id
-LEFT JOIN tbl_servicesname sn ON aps.serviceName_id = sn.serviceName_id
+LEFT JOIN tbl_servicesname sn ON a.serviceName_id = sn.serviceName_id
 LEFT JOIN tbl_service_product spd ON spd.service_id = sn.serviceName_id
 LEFT JOIN tbl_service_price spr ON spr.service_product_id = spd.service_product_id
 GROUP BY a.appointment_id;";
@@ -332,20 +344,45 @@ GROUP BY a.appointment_id;";
         {
             using (var con = Database.GetConnection())
             {
-                var sql = @"INSERT INTO tbl_appointment (customer_id, Date, start_time, end_time, Status, payment_status,booking_type)
-                VALUES (@CustomerId, @AppointmentDate, @StartTime, @EndTime, @Status, @PaymentStatus, @BookingType);
-                SELECT LAST_INSERT_ID();";
+                var sql = @"
+            INSERT INTO tbl_appointment 
+                (customer_id, stylist_id, Date, start_time, end_time, Status, payment_status,booking_type)
+            VALUES 
+                (@CustomerId, @StylistId, @AppointmentDate, @StartTime, @EndTime, @Status, @PaymentStatus, @BookingType);
+            SELECT LAST_INSERT_ID();
+        ";
 
-                return con.QuerySingle<int>(sql, appointment);
+                // QuerySingle will return the new ID
+                int newId = con.QuerySingle<int>(sql, appointment);
+                return newId;
             }
-
         }
+        public int AddWalkIn(AppointmentModel appointment)
+        {
+            using (var con = Database.GetConnection())
+            {
+                var sql = @"
+            INSERT INTO tbl_appointment 
+                (stylist_id, Date, start_time, end_time, Status, payment_status,booking_type)
+            VALUES 
+                (@StylistId, @AppointmentDate, @StartTime, @EndTime, @Status, @PaymentStatus, @BookingType);
+            SELECT LAST_INSERT_ID();
+        ";
+
+                // QuerySingle will return the new ID
+                int newId = con.QuerySingle<int>(sql, appointment);
+                return newId;
+            }
+        }
+
         public int Update(AppointmentModel appointment) 
         {
             using (var con = Database.GetConnection())
             {
                 var sql = @"UPDATE tbl_appointment 
-                    SET customer_id = @CustomerId, 
+                    SET customer_id = @CustomerId,
+                        stylist_id = @StylistId,
+                        serviceName_id = @ServiceId,
                         Date = @AppointmentDate, 
                         start_time = @StartTime, 
                         end_time = @EndTime, 

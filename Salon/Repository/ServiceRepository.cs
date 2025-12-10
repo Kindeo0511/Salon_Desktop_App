@@ -15,7 +15,7 @@ namespace Salon.Repository
         {
             using (var con = Database.GetConnection()) 
             {
-                var sql = @"SELECT tbl_servicesname.serviceName_id,tbl_servicesname.serviceName, tbl_subcategory.category_id, tbl_servicesname.subcategory_id, tbl_category.categoryName,
+                var sql = @"SELECT tbl_servicesname.serviceName_id,tbl_servicesname.serviceName, tbl_servicesname.servicePrice, tbl_subcategory.category_id, tbl_servicesname.subcategory_id, tbl_category.categoryName,
 tbl_subcategory.subCategoryName,tbl_servicesname.duration, tbl_servicesname.status
                                         FROM tbl_servicesname
                                         LEFT JOIN tbl_subcategory ON tbl_subcategory.subcategory_id = tbl_servicesname.subcategory_id
@@ -28,7 +28,7 @@ tbl_subcategory.subCategoryName,tbl_servicesname.duration, tbl_servicesname.stat
         {
             using (var con = Database.GetConnection())
             {
-                var sql = @"SELECT tbl_servicesname.serviceName_id,tbl_servicesname.serviceName, tbl_subcategory.category_id, tbl_servicesname.subcategory_id, tbl_category.categoryName,
+                var sql = @"SELECT tbl_servicesname.serviceName_id,tbl_servicesname.serviceName, tbl_servicesname.servicePrice, tbl_subcategory.category_id, tbl_servicesname.subcategory_id, tbl_category.categoryName,
 tbl_subcategory.subCategoryName,tbl_servicesname.duration, tbl_servicesname.status
                                         FROM tbl_servicesname
                                         LEFT JOIN tbl_subcategory ON tbl_subcategory.subcategory_id = tbl_servicesname.subcategory_id
@@ -56,6 +56,23 @@ tbl_subcategory.subCategoryName,tbl_servicesname.duration, tbl_servicesname.stat
                 return con.Query<ServiceModel>(sql, new {key =$"%{key}%" }).ToList();
             }
         }
+        public List<ServiceModel> GetAllServicesbySubcategoryId(int id)
+        {
+            using (var con = Database.GetConnection())
+            {
+                var sql = @"SELECT tbl_servicesname.serviceName_id,
+	                        tbl_subcategory.subCategoryName,
+                            tbl_servicesname.serviceName,
+                            tbl_servicesname.servicePrice,
+	                        tbl_servicesname.duration,
+                            tbl_servicesname.status
+                            FROM tbl_servicesname
+                            LEFT JOIN tbl_subcategory
+                            ON tbl_servicesname.subCategory_id = tbl_subcategory.subCategory_id
+                            WHERE tbl_subcategory.subCategory_id = @id AND tbl_subcategory.is_deleted = 0 AND tbl_servicesname.is_deleted = 0 ";
+                return con.Query<ServiceModel>(sql, new { id = id }).ToList();
+            }
+        }
         public ServiceModel GetTotalServices() 
         {
             using (var con = Database.GetConnection()) 
@@ -79,7 +96,7 @@ tbl_subcategory.subCategoryName,tbl_servicesname.duration, tbl_servicesname.stat
         {
            using (var con = Database.GetConnection())
             {
-                var sql = "INSERT INTO tbl_servicesname (subCategory_id, serviceName, duration, status) VALUES (@subCategory_id, @serviceName, @duration, @status)";
+                var sql = "INSERT INTO tbl_servicesname (subCategory_id, serviceName, servicePrice, duration, status) VALUES (@subCategory_id, @serviceName, @servicePrice, @duration, @status)";
                 con.Execute(sql, service);
             }
         }
@@ -87,7 +104,7 @@ tbl_subcategory.subCategoryName,tbl_servicesname.duration, tbl_servicesname.stat
         {
             using (var con = Database.GetConnection())
             {
-                var sql = "UPDATE tbl_servicesname SET subCategory_id = @subCategory_id, serviceName = @serviceName, duration = @duration, status = @status WHERE serviceName_id = @serviceName_id";
+                var sql = "UPDATE tbl_servicesname SET subCategory_id = @subCategory_id, serviceName = @serviceName, servicePrice =@servicePrice, duration = @duration, status = @status WHERE serviceName_id = @serviceName_id";
                 con.Execute(sql, service);
             }
         }
@@ -97,6 +114,15 @@ tbl_subcategory.subCategoryName,tbl_servicesname.duration, tbl_servicesname.stat
             {
                 var sql = "UPDATE tbl_servicesname SET is_deleted = 1 WHERE serviceName_id = @id";
                 con.Execute(sql, new { id });
+            
+            }
+        }
+        public bool ServiceIsUsed(int id) 
+        {
+            using (var con = Database.GetConnection()) 
+            {
+                var sql = "SELECT COUNT(*) FROM tbl_appointment WHERE serviceName_id = @id";
+                return con.ExecuteScalar<int>(sql, new { id }) > 0;
             }
         }
 

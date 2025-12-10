@@ -55,6 +55,10 @@ namespace Salon.Controller
         {
             repo.PermanentDelete(id);
         }
+        public bool IsCategoryBeingUsed(int id) 
+        {
+            return repo.CategoryIsUsed(id);
+        }
         public bool CheckCategoryExists(string category, string type, int id = 0) 
         {
            return repo.CategoriesExist(category,type, id);

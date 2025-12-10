@@ -26,8 +26,9 @@ namespace Salon.Models
 
         public string status { get; set; }
 
-        public string fullName { get; set; }
-        public decimal daily_wage { get; set; }
+        public string FullName => $"{firstName} {lastName}";
+
+
         public decimal stylist_cost { get; set; }
 
 

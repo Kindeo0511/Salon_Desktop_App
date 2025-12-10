@@ -22,6 +22,14 @@ namespace Salon.Repository
             }
                 
         }
+        public void UpdateAppointmentService(AppointmentServicesModel model) 
+        {
+            using (var con = Database.GetConnection()) 
+            {
+                var sql = "UPDATE tbl_appointment_services SET serviceName_id = @ServiceId WHERE appointment_id = @AppointmentId";
+                con.Execute(sql, model);
+            }
+        }
         public void ClearDeleteAllServicesForAppointment(int id) 
         {
             using (var con = Database.GetConnection())

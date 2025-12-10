@@ -31,14 +31,14 @@
             this.lbl_CustomerName = new MaterialSkin.Controls.MaterialTextBox();
             this.lbl_Contact = new MaterialSkin.Controls.MaterialTextBox();
             this.lbl_Email = new MaterialSkin.Controls.MaterialTextBox();
-            this.lbl_book_type = new MaterialSkin.Controls.MaterialTextBox();
             this.lbl_Date = new MaterialSkin.Controls.MaterialTextBox();
             this.lbl_Time = new MaterialSkin.Controls.MaterialTextBox();
             this.lbl_Services = new MaterialSkin.Controls.MaterialMultiLineTextBox2();
             this.btn_Confirm = new MaterialSkin.Controls.MaterialButton();
             this.btn_cancel = new MaterialSkin.Controls.MaterialButton();
-            this.txt_customer_type = new MaterialSkin.Controls.MaterialTextBox();
+            this.txt_stylist = new MaterialSkin.Controls.MaterialTextBox();
             this.lbl_id = new MaterialSkin.Controls.MaterialLabel();
+            this.btn_add_another = new MaterialSkin.Controls.MaterialButton();
             this.SuspendLayout();
             // 
             // lbl_CustomerName
@@ -94,24 +94,6 @@
             this.lbl_Email.TabIndex = 2;
             this.lbl_Email.Text = "";
             this.lbl_Email.TrailingIcon = null;
-            // 
-            // lbl_book_type
-            // 
-            this.lbl_book_type.AnimateReadOnly = false;
-            this.lbl_book_type.BorderStyle = System.Windows.Forms.BorderStyle.None;
-            this.lbl_book_type.Depth = 0;
-            this.lbl_book_type.Font = new System.Drawing.Font("Roboto", 16F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
-            this.lbl_book_type.Hint = "Booking Type";
-            this.lbl_book_type.LeadingIcon = null;
-            this.lbl_book_type.Location = new System.Drawing.Point(44, 479);
-            this.lbl_book_type.MaxLength = 50;
-            this.lbl_book_type.MouseState = MaterialSkin.MouseState.OUT;
-            this.lbl_book_type.Multiline = false;
-            this.lbl_book_type.Name = "lbl_book_type";
-            this.lbl_book_type.Size = new System.Drawing.Size(400, 50);
-            this.lbl_book_type.TabIndex = 4;
-            this.lbl_book_type.Text = "";
-            this.lbl_book_type.TrailingIcon = null;
             // 
             // lbl_Date
             // 
@@ -182,7 +164,7 @@
             this.btn_Confirm.Depth = 0;
             this.btn_Confirm.HighEmphasis = true;
             this.btn_Confirm.Icon = null;
-            this.btn_Confirm.Location = new System.Drawing.Point(735, 524);
+            this.btn_Confirm.Location = new System.Drawing.Point(498, 524);
             this.btn_Confirm.Margin = new System.Windows.Forms.Padding(4, 6, 4, 6);
             this.btn_Confirm.MouseState = MaterialSkin.MouseState.HOVER;
             this.btn_Confirm.Name = "btn_Confirm";
@@ -215,23 +197,23 @@
             this.btn_cancel.UseVisualStyleBackColor = true;
             this.btn_cancel.Click += new System.EventHandler(this.btn_cancel_Click);
             // 
-            // txt_customer_type
+            // txt_stylist
             // 
-            this.txt_customer_type.AnimateReadOnly = false;
-            this.txt_customer_type.BorderStyle = System.Windows.Forms.BorderStyle.None;
-            this.txt_customer_type.Depth = 0;
-            this.txt_customer_type.Font = new System.Drawing.Font("Roboto", 16F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
-            this.txt_customer_type.Hint = "Customer Type";
-            this.txt_customer_type.LeadingIcon = null;
-            this.txt_customer_type.Location = new System.Drawing.Point(44, 394);
-            this.txt_customer_type.MaxLength = 50;
-            this.txt_customer_type.MouseState = MaterialSkin.MouseState.OUT;
-            this.txt_customer_type.Multiline = false;
-            this.txt_customer_type.Name = "txt_customer_type";
-            this.txt_customer_type.Size = new System.Drawing.Size(400, 50);
-            this.txt_customer_type.TabIndex = 9;
-            this.txt_customer_type.Text = "";
-            this.txt_customer_type.TrailingIcon = null;
+            this.txt_stylist.AnimateReadOnly = false;
+            this.txt_stylist.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            this.txt_stylist.Depth = 0;
+            this.txt_stylist.Font = new System.Drawing.Font("Roboto", 16F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
+            this.txt_stylist.Hint = "Stylist Name";
+            this.txt_stylist.LeadingIcon = null;
+            this.txt_stylist.Location = new System.Drawing.Point(44, 394);
+            this.txt_stylist.MaxLength = 50;
+            this.txt_stylist.MouseState = MaterialSkin.MouseState.OUT;
+            this.txt_stylist.Multiline = false;
+            this.txt_stylist.Name = "txt_stylist";
+            this.txt_stylist.Size = new System.Drawing.Size(400, 50);
+            this.txt_stylist.TabIndex = 9;
+            this.txt_stylist.Text = "";
+            this.txt_stylist.TrailingIcon = null;
             // 
             // lbl_id
             // 
@@ -244,20 +226,41 @@
             this.lbl_id.Size = new System.Drawing.Size(107, 19);
             this.lbl_id.TabIndex = 10;
             this.lbl_id.Text = "materialLabel1";
+            this.lbl_id.Visible = false;
+            // 
+            // btn_add_another
+            // 
+            this.btn_add_another.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
+            this.btn_add_another.Density = MaterialSkin.Controls.MaterialButton.MaterialButtonDensity.Default;
+            this.btn_add_another.Depth = 0;
+            this.btn_add_another.HighEmphasis = true;
+            this.btn_add_another.Icon = null;
+            this.btn_add_another.Location = new System.Drawing.Point(621, 524);
+            this.btn_add_another.Margin = new System.Windows.Forms.Padding(4, 6, 4, 6);
+            this.btn_add_another.MouseState = MaterialSkin.MouseState.HOVER;
+            this.btn_add_another.Name = "btn_add_another";
+            this.btn_add_another.NoAccentTextColor = System.Drawing.Color.Empty;
+            this.btn_add_another.Size = new System.Drawing.Size(224, 36);
+            this.btn_add_another.TabIndex = 11;
+            this.btn_add_another.Text = "confirm and add another";
+            this.btn_add_another.Type = MaterialSkin.Controls.MaterialButton.MaterialButtonType.Contained;
+            this.btn_add_another.UseAccentColor = false;
+            this.btn_add_another.UseVisualStyleBackColor = true;
+            this.btn_add_another.Click += new System.EventHandler(this.btn_add_another_Click);
             // 
             // ConfirmationBooking
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1000, 600);
+            this.Controls.Add(this.btn_add_another);
             this.Controls.Add(this.lbl_id);
-            this.Controls.Add(this.txt_customer_type);
+            this.Controls.Add(this.txt_stylist);
             this.Controls.Add(this.btn_cancel);
             this.Controls.Add(this.btn_Confirm);
             this.Controls.Add(this.lbl_Services);
             this.Controls.Add(this.lbl_Time);
             this.Controls.Add(this.lbl_Date);
-            this.Controls.Add(this.lbl_book_type);
             this.Controls.Add(this.lbl_Email);
             this.Controls.Add(this.lbl_Contact);
             this.Controls.Add(this.lbl_CustomerName);
@@ -277,13 +280,13 @@
         private MaterialSkin.Controls.MaterialTextBox lbl_CustomerName;
         private MaterialSkin.Controls.MaterialTextBox lbl_Contact;
         private MaterialSkin.Controls.MaterialTextBox lbl_Email;
-        private MaterialSkin.Controls.MaterialTextBox lbl_book_type;
         private MaterialSkin.Controls.MaterialTextBox lbl_Date;
         private MaterialSkin.Controls.MaterialTextBox lbl_Time;
         private MaterialSkin.Controls.MaterialMultiLineTextBox2 lbl_Services;
         private MaterialSkin.Controls.MaterialButton btn_Confirm;
         private MaterialSkin.Controls.MaterialButton btn_cancel;
-        private MaterialSkin.Controls.MaterialTextBox txt_customer_type;
+        private MaterialSkin.Controls.MaterialTextBox txt_stylist;
         private MaterialSkin.Controls.MaterialLabel lbl_id;
+        private MaterialSkin.Controls.MaterialButton btn_add_another;
     }
 }

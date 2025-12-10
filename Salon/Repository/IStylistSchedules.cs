@@ -10,7 +10,7 @@ namespace Salon.Repository
     public interface IStylistSchedules
     {
         IEnumerable<StylistScheduleModel> GetStylistSchedules(int stylistId);
-        void AddStylistSchedule(StylistScheduleModel stylistSchedules);
+        void AddStylistSchedule(List<StylistScheduleModel> stylistSchedules);
         void UpdateStylistSchedule(StylistScheduleModel stylistSchedules);
         void DeleteStylistSchedule(int scheduleId);
         void RestoreStylistSchedule(int scheduleId);

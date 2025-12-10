@@ -38,6 +38,7 @@
             this.txt_duration = new System.Windows.Forms.NumericUpDown();
             this.materialLabel1 = new MaterialSkin.Controls.MaterialLabel();
             this.errorProvider1 = new System.Windows.Forms.ErrorProvider(this.components);
+            this.txt_price = new MaterialSkin.Controls.MaterialTextBox();
             ((System.ComponentModel.ISupportInitialize)(this.txt_duration)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.errorProvider1)).BeginInit();
             this.SuspendLayout();
@@ -140,7 +141,7 @@
             this.cmb_sub_category.Hint = "Select Category";
             this.cmb_sub_category.IntegralHeight = false;
             this.cmb_sub_category.ItemHeight = 43;
-            this.cmb_sub_category.Location = new System.Drawing.Point(44, 245);
+            this.cmb_sub_category.Location = new System.Drawing.Point(44, 215);
             this.cmb_sub_category.MaxDropDownItems = 4;
             this.cmb_sub_category.MouseState = MaterialSkin.MouseState.OUT;
             this.cmb_sub_category.Name = "cmb_sub_category";
@@ -166,20 +167,21 @@
             this.cmb_status.Items.AddRange(new object[] {
             "Active",
             "Inactive"});
-            this.cmb_status.Location = new System.Drawing.Point(561, 99);
+            this.cmb_status.Location = new System.Drawing.Point(44, 340);
             this.cmb_status.MaxDropDownItems = 4;
             this.cmb_status.MouseState = MaterialSkin.MouseState.OUT;
             this.cmb_status.Name = "cmb_status";
             this.cmb_status.Size = new System.Drawing.Size(400, 49);
             this.cmb_status.StartIndex = -1;
             this.cmb_status.TabIndex = 27;
+            this.cmb_status.SelectedIndexChanged += new System.EventHandler(this.cmb_status_SelectedIndexChanged);
             // 
             // txt_duration
             // 
             this.txt_duration.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.txt_duration.Location = new System.Drawing.Point(572, 272);
+            this.txt_duration.Location = new System.Drawing.Point(547, 242);
             this.txt_duration.Name = "txt_duration";
-            this.txt_duration.Size = new System.Drawing.Size(212, 22);
+            this.txt_duration.Size = new System.Drawing.Size(400, 22);
             this.txt_duration.TabIndex = 28;
             // 
             // materialLabel1
@@ -187,7 +189,7 @@
             this.materialLabel1.AutoSize = true;
             this.materialLabel1.Depth = 0;
             this.materialLabel1.Font = new System.Drawing.Font("Roboto", 14F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
-            this.materialLabel1.Location = new System.Drawing.Point(569, 245);
+            this.materialLabel1.Location = new System.Drawing.Point(544, 215);
             this.materialLabel1.MouseState = MaterialSkin.MouseState.HOVER;
             this.materialLabel1.Name = "materialLabel1";
             this.materialLabel1.Size = new System.Drawing.Size(116, 19);
@@ -199,11 +201,31 @@
             this.errorProvider1.BlinkStyle = System.Windows.Forms.ErrorBlinkStyle.NeverBlink;
             this.errorProvider1.ContainerControl = this;
             // 
+            // txt_price
+            // 
+            this.txt_price.AnimateReadOnly = false;
+            this.txt_price.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            this.txt_price.Depth = 0;
+            this.txt_price.Font = new System.Drawing.Font("Roboto", 16F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
+            this.txt_price.Hint = "Price";
+            this.txt_price.LeadingIcon = null;
+            this.txt_price.Location = new System.Drawing.Point(547, 107);
+            this.txt_price.MaxLength = 50;
+            this.txt_price.MouseState = MaterialSkin.MouseState.OUT;
+            this.txt_price.Multiline = false;
+            this.txt_price.Name = "txt_price";
+            this.txt_price.Size = new System.Drawing.Size(400, 50);
+            this.txt_price.TabIndex = 30;
+            this.txt_price.Text = "";
+            this.txt_price.TrailingIcon = null;
+            // 
             // ServiceForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.AutoScroll = true;
             this.ClientSize = new System.Drawing.Size(1000, 450);
+            this.Controls.Add(this.txt_price);
             this.Controls.Add(this.materialLabel1);
             this.Controls.Add(this.txt_duration);
             this.Controls.Add(this.cmb_status);
@@ -237,5 +259,6 @@
         private System.Windows.Forms.NumericUpDown txt_duration;
         private MaterialSkin.Controls.MaterialLabel materialLabel1;
         private System.Windows.Forms.ErrorProvider errorProvider1;
+        private MaterialSkin.Controls.MaterialTextBox txt_price;
     }
 }

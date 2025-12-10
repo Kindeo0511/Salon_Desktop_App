@@ -13,7 +13,7 @@ namespace Salon.Models
         public string DayOfWeek { get; set; }
         public TimeSpan StartTime { get; set; }
         public TimeSpan EndTime { get; set; }
-        public bool IsWorking { get; set; }
+        public string Status { get; set; }
         public string Notes { get; set; }
 
     }

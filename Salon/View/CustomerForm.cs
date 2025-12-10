@@ -40,7 +40,7 @@ namespace Salon.View
                 txt_last_name.Text = customer.lastName;
                 txt_contact.Text = customer.phoneNumber;
                 txt_email.Text = customer.email;
-                cmb_customer_type.Text = customer.customer_type;
+             
                 btn_save.Visible = false;
                 btn_update.Visible = true;
                 
@@ -136,87 +136,7 @@ namespace Salon.View
                 validated = false;
             }
 
-            // Customer type logic
-            string customerType = cmb_customer_type.SelectedItem?.ToString();
-
-            if (customerType == "Registered")
-            {
-                // Email
-                if (!Validator.IsRequired(txt_email, errorProvider1, "Email is required."))
-                {
-                    validated = false;
-                }
-
-                else if (!Validator.IsValidEmail(txt_email, errorProvider1))
-                {
-                    validated = false;
-                }
-                else if (txt_email.Text.Count(c => c == '@') != 1)
-                {
-                    errorProvider1.SetError(txt_email, "Email must contain exactly one '@' symbol.");
-                    validated = false;
-                }
-                else if (!Validator.Pattern(
-                  txt_email,
-                  errorProvider1,
-                  @"^[^@\s]+@[^@\s]+\.[^@\s]+$",
-                  "Please enter a valid email address."))
-                {
-                    validated = false;
-                }
-
-
-
-                else if (!Validator.IsCustomerEmailExists(txt_email, errorProvider1, "Email already exists.", excludeId))
-                {
-                    validated = false;
-                }
-                else if (!Validator.DisallowSpaces(txt_email, errorProvider1, "No spaces allowed"))
-                {
-                    validated = false;
-                }
-
-                // Contact number
-                if (!Validator.IsRequiredTextField(txt_contact, errorProvider1, "Contact number is required."))
-                {
-                    validated = false;
-                }
-                else if (!Validator.DisallowSpaces(txt_contact, errorProvider1, "No spaces allowed")) 
-                {
-                    validated = false;
-                }
-                else if (txt_contact.Text.Length != 11)
-                {
-                    errorProvider1.SetError(txt_contact, "Contact number must be exactly 11 digits.");
-                    validated = false;
-                }
-                else if (!txt_contact.Text.StartsWith("09"))
-                {
-                    errorProvider1.SetError(txt_contact, "Contact number should start with '09'.");
-                    validated = false;
-                }
-                else if (!Validator.IsValidPhone(txt_contact, errorProvider1))
-                {
-                    validated = false;
-                }
-
-                else if (!Validator.IsCustomerPhoneExists(txt_contact, errorProvider1, "Contact number already exists.", excludeId))
-                {
-                    validated = false;
-                }
-                    
-            }
-            else if (customerType == "Walk-In")
-            {
-                // Walk-ins require only name fields (already validated above)
-                // You may optionally auto-fill email/contact with placeholders here
-            }
-
-            else
-            {
-                MessageBox.Show("Please select a valid customer type (Registered or Walk-In).", "Missing Selection", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                validated = false;
-            }
+          
 
             return validated;
         }
@@ -225,7 +145,7 @@ namespace Salon.View
         {
             if (!IsValid()) return;
 
-            AddCustomer(txt_first_name.Text, txt_middle_name.Text, txt_last_name.Text, txt_email.Text, txt_contact.Text, cmb_customer_type.Text);
+            AddCustomer(txt_first_name.Text, txt_middle_name.Text, txt_last_name.Text, txt_email.Text, txt_contact.Text, "Registered");
             var fullName = txt_first_name.Text +" "+ txt_last_name.Text;
             Audit.AuditLog(DateTime.Now, "Create", UserSession.CurrentUser.first_Name, "Manage Customer", $"Created customer '{fullName}' on {DateTime.Now:yyyy-MM-dd} at {DateTime.Now:HH:mm:ss}");
              await mainform.RefreshCustomers();
@@ -236,7 +156,7 @@ namespace Salon.View
         private async void btn_update_Click(object sender, EventArgs e)
         {
             if (!IsValid()) return;
-            UpdateCustomer(txt_first_name.Text, txt_middle_name.Text, txt_last_name.Text, txt_email.Text, txt_contact.Text, cmb_customer_type.Text);
+            UpdateCustomer(txt_first_name.Text, txt_middle_name.Text, txt_last_name.Text, txt_email.Text, txt_contact.Text);
             var fullName = txt_first_name.Text + " " + txt_last_name.Text;
             Audit.AuditLog(DateTime.Now, "Update", UserSession.CurrentUser.first_Name, "Manage Customer", $"Updated customer '{fullName}' on {DateTime.Now:yyyy-MM-dd} at {DateTime.Now:HH:mm:ss}");
             MessageBox.Show("Customer updated successfully!", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
@@ -346,29 +266,6 @@ namespace Salon.View
             }
         }
 
-        private void cmb_customer_type_SelectedIndexChanged(object sender, EventArgs e)
-        {
-            if (cmb_customer_type.Text == "Registered")
-            {
-
-
-                txt_contact.Visible = true;
-                txt_email.Visible = true;
-              
-            }
-            else if (cmb_customer_type.Text == "Walk-In")
-            {
-
-                txt_contact.Visible = false;
-                txt_email.Visible = false;
-            }
-
-            else
-            {
-
-                txt_contact.Visible = false;
-                txt_email.Visible = false;
-            }
-        }
+      
     }
 }

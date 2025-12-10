@@ -78,6 +78,7 @@ namespace Salon.View
                 txt_username.Text = _user.userName;
                 txt_password.Text = _user.userPassword;
                 txt_confirm_password.Text = _user.userPassword;
+                cmb_role.Text = _user.Position;
 
                 btn_save.Visible = false;
                 btn_update.Visible = true;
@@ -117,6 +118,7 @@ namespace Salon.View
                 btn_save.Visible = false;
                 btn_update.Visible = false;
                 chk_show_password.Enabled = false;
+                cmb_role.Enabled = false;
 
                 txt_first_name.Text = _user.first_Name;
                 txt_middle_name.Text = _user.middle_Name;
@@ -128,6 +130,7 @@ namespace Salon.View
                 txt_username.Text = _user.userName;
                 txt_password.Text = _user.userPassword;
                 txt_confirm_password.Text = _user.userPassword;
+                cmb_role.Text = _user.Position;
 
                 btn_save.Visible = false;
                 btn_update.Visible = false;
@@ -152,7 +155,7 @@ namespace Salon.View
                 address = txt_address.Text.Trim(),
                 userName = txt_username.Text.Trim(),
                 userPassword = HashPassword(txt_password.Text.Trim()),
-                Position = "Staff",
+                Position = cmb_role.Text,
             };
             var _repo = new UserRepository();
             var userController = new UserController(_repo);
@@ -174,6 +177,7 @@ namespace Salon.View
                 _user.address = txt_address.Text.Trim();
                 _user.userName = txt_username.Text.Trim();
                 _user.userPassword = HashPassword(txt_password.Text.Trim());
+                _user.Position = cmb_role.Text;
                 var _repo = new UserRepository();
                 var userController = new UserController(_repo);
                 userController.UpdateUser(_user);

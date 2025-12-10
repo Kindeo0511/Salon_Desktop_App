@@ -29,18 +29,15 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            this.lbl_CustomerName = new MaterialSkin.Controls.MaterialTextBox();
             this.lbl_Time = new MaterialSkin.Controls.MaterialTextBox();
             this.lbl_Date = new MaterialSkin.Controls.MaterialTextBox();
             this.txt_Reference = new MaterialSkin.Controls.MaterialTextBox();
             this.txt_amount_paid = new MaterialSkin.Controls.MaterialTextBox();
             this.lbl_book_type = new MaterialSkin.Controls.MaterialTextBox();
             this.cb_PaymentMethod = new MaterialSkin.Controls.MaterialComboBox();
-            this.lbl_Services = new MaterialSkin.Controls.MaterialMultiLineTextBox2();
             this.materialLabel1 = new MaterialSkin.Controls.MaterialLabel();
             this.lbl_discount_type = new MaterialSkin.Controls.MaterialLabel();
             this.lbl_tax_rate = new MaterialSkin.Controls.MaterialLabel();
-            this.materialLabel4 = new MaterialSkin.Controls.MaterialLabel();
             this.materialLabel5 = new MaterialSkin.Controls.MaterialLabel();
             this.lbl_change_amount = new MaterialSkin.Controls.MaterialLabel();
             this.lbl_Total = new MaterialSkin.Controls.MaterialLabel();
@@ -50,33 +47,29 @@
             this.btn_confirm_payment = new MaterialSkin.Controls.MaterialButton();
             this.btn_cancel = new MaterialSkin.Controls.MaterialButton();
             this.cb_discount = new MaterialSkin.Controls.MaterialComboBox();
-            this.btn_invoice = new MaterialSkin.Controls.MaterialButton();
             this.printDocument = new System.Drawing.Printing.PrintDocument();
             this.dgv_Table = new System.Windows.Forms.DataGridView();
+            this.col_service = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.col_price = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.col_duration = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.col_qty = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.errorProvider1 = new System.Windows.Forms.ErrorProvider(this.components);
             this.sw_exempt_vat = new MaterialSkin.Controls.MaterialSwitch();
+            this.txt_name = new MaterialSkin.Controls.MaterialTextBox();
+            this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.groupBox2 = new System.Windows.Forms.GroupBox();
+            this.groupBox3 = new System.Windows.Forms.GroupBox();
+            this.materialLabel2 = new MaterialSkin.Controls.MaterialLabel();
+            this.groupBox4 = new System.Windows.Forms.GroupBox();
+            this.panel1 = new System.Windows.Forms.Panel();
             ((System.ComponentModel.ISupportInitialize)(this.dgv_Table)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.errorProvider1)).BeginInit();
+            this.groupBox1.SuspendLayout();
+            this.groupBox2.SuspendLayout();
+            this.groupBox3.SuspendLayout();
+            this.groupBox4.SuspendLayout();
+            this.panel1.SuspendLayout();
             this.SuspendLayout();
-            // 
-            // lbl_CustomerName
-            // 
-            this.lbl_CustomerName.AnimateReadOnly = true;
-            this.lbl_CustomerName.BorderStyle = System.Windows.Forms.BorderStyle.None;
-            this.lbl_CustomerName.Depth = 0;
-            this.lbl_CustomerName.Font = new System.Drawing.Font("Roboto", 16F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
-            this.lbl_CustomerName.Hint = "Customer Name";
-            this.lbl_CustomerName.LeadingIcon = null;
-            this.lbl_CustomerName.Location = new System.Drawing.Point(47, 96);
-            this.lbl_CustomerName.MaxLength = 50;
-            this.lbl_CustomerName.MouseState = MaterialSkin.MouseState.OUT;
-            this.lbl_CustomerName.Multiline = false;
-            this.lbl_CustomerName.Name = "lbl_CustomerName";
-            this.lbl_CustomerName.ReadOnly = true;
-            this.lbl_CustomerName.Size = new System.Drawing.Size(300, 50);
-            this.lbl_CustomerName.TabIndex = 0;
-            this.lbl_CustomerName.Text = "";
-            this.lbl_CustomerName.TrailingIcon = null;
             // 
             // lbl_Time
             // 
@@ -86,13 +79,13 @@
             this.lbl_Time.Font = new System.Drawing.Font("Roboto", 16F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
             this.lbl_Time.Hint = "Time";
             this.lbl_Time.LeadingIcon = null;
-            this.lbl_Time.Location = new System.Drawing.Point(47, 281);
+            this.lbl_Time.Location = new System.Drawing.Point(539, 123);
             this.lbl_Time.MaxLength = 50;
             this.lbl_Time.MouseState = MaterialSkin.MouseState.OUT;
             this.lbl_Time.Multiline = false;
             this.lbl_Time.Name = "lbl_Time";
             this.lbl_Time.ReadOnly = true;
-            this.lbl_Time.Size = new System.Drawing.Size(300, 50);
+            this.lbl_Time.Size = new System.Drawing.Size(400, 50);
             this.lbl_Time.TabIndex = 1;
             this.lbl_Time.Text = "";
             this.lbl_Time.TrailingIcon = null;
@@ -105,13 +98,13 @@
             this.lbl_Date.Font = new System.Drawing.Font("Roboto", 16F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
             this.lbl_Date.Hint = "Appointment Date";
             this.lbl_Date.LeadingIcon = null;
-            this.lbl_Date.Location = new System.Drawing.Point(47, 184);
+            this.lbl_Date.Location = new System.Drawing.Point(33, 123);
             this.lbl_Date.MaxLength = 50;
             this.lbl_Date.MouseState = MaterialSkin.MouseState.OUT;
             this.lbl_Date.Multiline = false;
             this.lbl_Date.Name = "lbl_Date";
             this.lbl_Date.ReadOnly = true;
-            this.lbl_Date.Size = new System.Drawing.Size(300, 50);
+            this.lbl_Date.Size = new System.Drawing.Size(400, 50);
             this.lbl_Date.TabIndex = 2;
             this.lbl_Date.Text = "";
             this.lbl_Date.TrailingIcon = null;
@@ -125,12 +118,12 @@
             this.txt_Reference.Font = new System.Drawing.Font("Roboto", 16F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
             this.txt_Reference.Hint = " Reference No.";
             this.txt_Reference.LeadingIcon = null;
-            this.txt_Reference.Location = new System.Drawing.Point(47, 457);
+            this.txt_Reference.Location = new System.Drawing.Point(539, 118);
             this.txt_Reference.MaxLength = 13;
             this.txt_Reference.MouseState = MaterialSkin.MouseState.OUT;
             this.txt_Reference.Multiline = false;
             this.txt_Reference.Name = "txt_Reference";
-            this.txt_Reference.Size = new System.Drawing.Size(300, 50);
+            this.txt_Reference.Size = new System.Drawing.Size(400, 50);
             this.txt_Reference.TabIndex = 4;
             this.txt_Reference.Text = "";
             this.txt_Reference.TrailingIcon = null;
@@ -144,14 +137,14 @@
             this.txt_amount_paid.Depth = 0;
             this.txt_amount_paid.Enabled = false;
             this.txt_amount_paid.Font = new System.Drawing.Font("Roboto", 16F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
-            this.txt_amount_paid.Hint = "Amount Paid";
+            this.txt_amount_paid.Hint = "Amount Received";
             this.txt_amount_paid.LeadingIcon = null;
-            this.txt_amount_paid.Location = new System.Drawing.Point(407, 457);
+            this.txt_amount_paid.Location = new System.Drawing.Point(47, 118);
             this.txt_amount_paid.MaxLength = 50;
             this.txt_amount_paid.MouseState = MaterialSkin.MouseState.OUT;
             this.txt_amount_paid.Multiline = false;
             this.txt_amount_paid.Name = "txt_amount_paid";
-            this.txt_amount_paid.Size = new System.Drawing.Size(300, 50);
+            this.txt_amount_paid.Size = new System.Drawing.Size(400, 50);
             this.txt_amount_paid.TabIndex = 5;
             this.txt_amount_paid.Text = "";
             this.txt_amount_paid.TrailingIcon = null;
@@ -165,13 +158,13 @@
             this.lbl_book_type.Font = new System.Drawing.Font("Roboto", 16F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
             this.lbl_book_type.Hint = "Booking Type:";
             this.lbl_book_type.LeadingIcon = null;
-            this.lbl_book_type.Location = new System.Drawing.Point(407, 95);
+            this.lbl_book_type.Location = new System.Drawing.Point(539, 39);
             this.lbl_book_type.MaxLength = 50;
             this.lbl_book_type.MouseState = MaterialSkin.MouseState.OUT;
             this.lbl_book_type.Multiline = false;
             this.lbl_book_type.Name = "lbl_book_type";
             this.lbl_book_type.ReadOnly = true;
-            this.lbl_book_type.Size = new System.Drawing.Size(300, 50);
+            this.lbl_book_type.Size = new System.Drawing.Size(400, 50);
             this.lbl_book_type.TabIndex = 6;
             this.lbl_book_type.Text = "";
             this.lbl_book_type.TrailingIcon = null;
@@ -194,50 +187,25 @@
             this.cb_PaymentMethod.Items.AddRange(new object[] {
             "Cash",
             "Gcash"});
-            this.cb_PaymentMethod.Location = new System.Drawing.Point(47, 372);
+            this.cb_PaymentMethod.Location = new System.Drawing.Point(47, 38);
             this.cb_PaymentMethod.MaxDropDownItems = 4;
             this.cb_PaymentMethod.MouseState = MaterialSkin.MouseState.OUT;
             this.cb_PaymentMethod.Name = "cb_PaymentMethod";
-            this.cb_PaymentMethod.Size = new System.Drawing.Size(300, 49);
+            this.cb_PaymentMethod.Size = new System.Drawing.Size(400, 49);
             this.cb_PaymentMethod.StartIndex = -1;
             this.cb_PaymentMethod.TabIndex = 7;
             this.cb_PaymentMethod.SelectedIndexChanged += new System.EventHandler(this.cb_PaymentMethod_SelectedIndexChanged);
-            // 
-            // lbl_Services
-            // 
-            this.lbl_Services.AnimateReadOnly = true;
-            this.lbl_Services.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
-            this.lbl_Services.CharacterCasing = System.Windows.Forms.CharacterCasing.Normal;
-            this.lbl_Services.Cursor = System.Windows.Forms.Cursors.IBeam;
-            this.lbl_Services.Depth = 0;
-            this.lbl_Services.HideSelection = true;
-            this.lbl_Services.Hint = "Services";
-            this.lbl_Services.Location = new System.Drawing.Point(407, 175);
-            this.lbl_Services.MaxLength = 32767;
-            this.lbl_Services.MouseState = MaterialSkin.MouseState.OUT;
-            this.lbl_Services.Name = "lbl_Services";
-            this.lbl_Services.PasswordChar = '\0';
-            this.lbl_Services.ReadOnly = true;
-            this.lbl_Services.ScrollBars = System.Windows.Forms.ScrollBars.None;
-            this.lbl_Services.SelectedText = "";
-            this.lbl_Services.SelectionLength = 0;
-            this.lbl_Services.SelectionStart = 0;
-            this.lbl_Services.ShortcutsEnabled = true;
-            this.lbl_Services.Size = new System.Drawing.Size(300, 100);
-            this.lbl_Services.TabIndex = 8;
-            this.lbl_Services.TabStop = false;
-            this.lbl_Services.TextAlign = System.Windows.Forms.HorizontalAlignment.Left;
-            this.lbl_Services.UseSystemPasswordChar = false;
             // 
             // materialLabel1
             // 
             this.materialLabel1.AutoSize = true;
             this.materialLabel1.Depth = 0;
-            this.materialLabel1.Font = new System.Drawing.Font("Roboto", 14F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
-            this.materialLabel1.Location = new System.Drawing.Point(851, 161);
+            this.materialLabel1.Font = new System.Drawing.Font("Roboto Medium", 20F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Pixel);
+            this.materialLabel1.FontType = MaterialSkin.MaterialSkinManager.fontType.H6;
+            this.materialLabel1.Location = new System.Drawing.Point(84, 40);
             this.materialLabel1.MouseState = MaterialSkin.MouseState.HOVER;
             this.materialLabel1.Name = "materialLabel1";
-            this.materialLabel1.Size = new System.Drawing.Size(61, 19);
+            this.materialLabel1.Size = new System.Drawing.Size(76, 24);
             this.materialLabel1.TabIndex = 9;
             this.materialLabel1.Text = "Subtotal";
             // 
@@ -245,11 +213,12 @@
             // 
             this.lbl_discount_type.AutoSize = true;
             this.lbl_discount_type.Depth = 0;
-            this.lbl_discount_type.Font = new System.Drawing.Font("Roboto", 14F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
-            this.lbl_discount_type.Location = new System.Drawing.Point(851, 232);
+            this.lbl_discount_type.Font = new System.Drawing.Font("Roboto Medium", 20F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Pixel);
+            this.lbl_discount_type.FontType = MaterialSkin.MaterialSkinManager.fontType.H6;
+            this.lbl_discount_type.Location = new System.Drawing.Point(84, 107);
             this.lbl_discount_type.MouseState = MaterialSkin.MouseState.HOVER;
             this.lbl_discount_type.Name = "lbl_discount_type";
-            this.lbl_discount_type.Size = new System.Drawing.Size(64, 19);
+            this.lbl_discount_type.Size = new System.Drawing.Size(79, 24);
             this.lbl_discount_type.TabIndex = 10;
             this.lbl_discount_type.Text = "Discount";
             // 
@@ -257,35 +226,25 @@
             // 
             this.lbl_tax_rate.AutoSize = true;
             this.lbl_tax_rate.Depth = 0;
-            this.lbl_tax_rate.Font = new System.Drawing.Font("Roboto", 14F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
-            this.lbl_tax_rate.Location = new System.Drawing.Point(851, 291);
+            this.lbl_tax_rate.Font = new System.Drawing.Font("Roboto Medium", 20F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Pixel);
+            this.lbl_tax_rate.FontType = MaterialSkin.MaterialSkinManager.fontType.H6;
+            this.lbl_tax_rate.Location = new System.Drawing.Point(84, 72);
             this.lbl_tax_rate.MouseState = MaterialSkin.MouseState.HOVER;
             this.lbl_tax_rate.Name = "lbl_tax_rate";
-            this.lbl_tax_rate.Size = new System.Drawing.Size(25, 19);
+            this.lbl_tax_rate.Size = new System.Drawing.Size(32, 24);
             this.lbl_tax_rate.TabIndex = 11;
             this.lbl_tax_rate.Text = "Vat";
-            // 
-            // materialLabel4
-            // 
-            this.materialLabel4.AutoSize = true;
-            this.materialLabel4.Depth = 0;
-            this.materialLabel4.Font = new System.Drawing.Font("Roboto", 14F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
-            this.materialLabel4.Location = new System.Drawing.Point(851, 347);
-            this.materialLabel4.MouseState = MaterialSkin.MouseState.HOVER;
-            this.materialLabel4.Name = "materialLabel4";
-            this.materialLabel4.Size = new System.Drawing.Size(102, 19);
-            this.materialLabel4.TabIndex = 12;
-            this.materialLabel4.Text = "Total Amount:";
             // 
             // materialLabel5
             // 
             this.materialLabel5.AutoSize = true;
             this.materialLabel5.Depth = 0;
-            this.materialLabel5.Font = new System.Drawing.Font("Roboto", 14F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
-            this.materialLabel5.Location = new System.Drawing.Point(851, 410);
+            this.materialLabel5.Font = new System.Drawing.Font("Roboto Medium", 20F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Pixel);
+            this.materialLabel5.FontType = MaterialSkin.MaterialSkinManager.fontType.H6;
+            this.materialLabel5.Location = new System.Drawing.Point(43, 203);
             this.materialLabel5.MouseState = MaterialSkin.MouseState.HOVER;
             this.materialLabel5.Name = "materialLabel5";
-            this.materialLabel5.Size = new System.Drawing.Size(59, 19);
+            this.materialLabel5.Size = new System.Drawing.Size(74, 24);
             this.materialLabel5.TabIndex = 13;
             this.materialLabel5.Text = "Change:";
             // 
@@ -293,11 +252,12 @@
             // 
             this.lbl_change_amount.AutoSize = true;
             this.lbl_change_amount.Depth = 0;
-            this.lbl_change_amount.Font = new System.Drawing.Font("Roboto", 14F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
-            this.lbl_change_amount.Location = new System.Drawing.Point(1075, 410);
+            this.lbl_change_amount.Font = new System.Drawing.Font("Roboto Medium", 20F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Pixel);
+            this.lbl_change_amount.FontType = MaterialSkin.MaterialSkinManager.fontType.H6;
+            this.lbl_change_amount.Location = new System.Drawing.Point(305, 203);
             this.lbl_change_amount.MouseState = MaterialSkin.MouseState.HOVER;
             this.lbl_change_amount.Name = "lbl_change_amount";
-            this.lbl_change_amount.Size = new System.Drawing.Size(31, 19);
+            this.lbl_change_amount.Size = new System.Drawing.Size(38, 24);
             this.lbl_change_amount.TabIndex = 18;
             this.lbl_change_amount.Text = "0,00";
             // 
@@ -305,11 +265,12 @@
             // 
             this.lbl_Total.AutoSize = true;
             this.lbl_Total.Depth = 0;
-            this.lbl_Total.Font = new System.Drawing.Font("Roboto", 14F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
-            this.lbl_Total.Location = new System.Drawing.Point(1075, 347);
+            this.lbl_Total.Font = new System.Drawing.Font("Roboto Medium", 20F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Pixel);
+            this.lbl_Total.FontType = MaterialSkin.MaterialSkinManager.fontType.H6;
+            this.lbl_Total.Location = new System.Drawing.Point(787, 144);
             this.lbl_Total.MouseState = MaterialSkin.MouseState.HOVER;
             this.lbl_Total.Name = "lbl_Total";
-            this.lbl_Total.Size = new System.Drawing.Size(31, 19);
+            this.lbl_Total.Size = new System.Drawing.Size(38, 24);
             this.lbl_Total.TabIndex = 17;
             this.lbl_Total.Text = "0,00";
             this.lbl_Total.Click += new System.EventHandler(this.lbl_Total_Click);
@@ -318,11 +279,12 @@
             // 
             this.lbl_Vat.AutoSize = true;
             this.lbl_Vat.Depth = 0;
-            this.lbl_Vat.Font = new System.Drawing.Font("Roboto", 14F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
-            this.lbl_Vat.Location = new System.Drawing.Point(1075, 291);
+            this.lbl_Vat.Font = new System.Drawing.Font("Roboto Medium", 20F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Pixel);
+            this.lbl_Vat.FontType = MaterialSkin.MaterialSkinManager.fontType.H6;
+            this.lbl_Vat.Location = new System.Drawing.Point(787, 72);
             this.lbl_Vat.MouseState = MaterialSkin.MouseState.HOVER;
             this.lbl_Vat.Name = "lbl_Vat";
-            this.lbl_Vat.Size = new System.Drawing.Size(31, 19);
+            this.lbl_Vat.Size = new System.Drawing.Size(38, 24);
             this.lbl_Vat.TabIndex = 16;
             this.lbl_Vat.Text = "0,00";
             // 
@@ -330,11 +292,12 @@
             // 
             this.lbl_Discount.AutoSize = true;
             this.lbl_Discount.Depth = 0;
-            this.lbl_Discount.Font = new System.Drawing.Font("Roboto", 14F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
-            this.lbl_Discount.Location = new System.Drawing.Point(1075, 232);
+            this.lbl_Discount.Font = new System.Drawing.Font("Roboto Medium", 20F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Pixel);
+            this.lbl_Discount.FontType = MaterialSkin.MaterialSkinManager.fontType.H6;
+            this.lbl_Discount.Location = new System.Drawing.Point(787, 107);
             this.lbl_Discount.MouseState = MaterialSkin.MouseState.HOVER;
             this.lbl_Discount.Name = "lbl_Discount";
-            this.lbl_Discount.Size = new System.Drawing.Size(31, 19);
+            this.lbl_Discount.Size = new System.Drawing.Size(38, 24);
             this.lbl_Discount.TabIndex = 15;
             this.lbl_Discount.Text = "0,00";
             // 
@@ -342,11 +305,12 @@
             // 
             this.lbl_Subtotal.AutoSize = true;
             this.lbl_Subtotal.Depth = 0;
-            this.lbl_Subtotal.Font = new System.Drawing.Font("Roboto", 14F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
-            this.lbl_Subtotal.Location = new System.Drawing.Point(1075, 162);
+            this.lbl_Subtotal.Font = new System.Drawing.Font("Roboto Medium", 20F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Pixel);
+            this.lbl_Subtotal.FontType = MaterialSkin.MaterialSkinManager.fontType.H6;
+            this.lbl_Subtotal.Location = new System.Drawing.Point(787, 40);
             this.lbl_Subtotal.MouseState = MaterialSkin.MouseState.HOVER;
             this.lbl_Subtotal.Name = "lbl_Subtotal";
-            this.lbl_Subtotal.Size = new System.Drawing.Size(31, 19);
+            this.lbl_Subtotal.Size = new System.Drawing.Size(38, 24);
             this.lbl_Subtotal.TabIndex = 14;
             this.lbl_Subtotal.Text = "0,00";
             // 
@@ -357,7 +321,7 @@
             this.btn_confirm_payment.Depth = 0;
             this.btn_confirm_payment.HighEmphasis = true;
             this.btn_confirm_payment.Icon = null;
-            this.btn_confirm_payment.Location = new System.Drawing.Point(795, 558);
+            this.btn_confirm_payment.Location = new System.Drawing.Point(174, 19);
             this.btn_confirm_payment.Margin = new System.Windows.Forms.Padding(4, 6, 4, 6);
             this.btn_confirm_payment.MouseState = MaterialSkin.MouseState.HOVER;
             this.btn_confirm_payment.Name = "btn_confirm_payment";
@@ -377,7 +341,7 @@
             this.btn_cancel.Depth = 0;
             this.btn_cancel.HighEmphasis = true;
             this.btn_cancel.Icon = null;
-            this.btn_cancel.Location = new System.Drawing.Point(1047, 558);
+            this.btn_cancel.Location = new System.Drawing.Point(595, 19);
             this.btn_cancel.Margin = new System.Windows.Forms.Padding(4, 6, 4, 6);
             this.btn_cancel.MouseState = MaterialSkin.MouseState.HOVER;
             this.btn_cancel.Name = "btn_cancel";
@@ -405,46 +369,62 @@
             this.cb_discount.Hint = "Choose Discount";
             this.cb_discount.IntegralHeight = false;
             this.cb_discount.ItemHeight = 43;
-            this.cb_discount.Location = new System.Drawing.Point(407, 371);
+            this.cb_discount.Location = new System.Drawing.Point(539, 38);
             this.cb_discount.MaxDropDownItems = 4;
             this.cb_discount.MouseState = MaterialSkin.MouseState.OUT;
             this.cb_discount.Name = "cb_discount";
-            this.cb_discount.Size = new System.Drawing.Size(300, 49);
+            this.cb_discount.Size = new System.Drawing.Size(400, 49);
             this.cb_discount.StartIndex = 0;
             this.cb_discount.TabIndex = 21;
             this.cb_discount.SelectedIndexChanged += new System.EventHandler(this.cb_discount_SelectedIndexChanged);
             // 
-            // btn_invoice
-            // 
-            this.btn_invoice.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
-            this.btn_invoice.Density = MaterialSkin.Controls.MaterialButton.MaterialButtonDensity.Default;
-            this.btn_invoice.Depth = 0;
-            this.btn_invoice.Enabled = false;
-            this.btn_invoice.HighEmphasis = true;
-            this.btn_invoice.Icon = null;
-            this.btn_invoice.Location = new System.Drawing.Point(548, 558);
-            this.btn_invoice.Margin = new System.Windows.Forms.Padding(4, 6, 4, 6);
-            this.btn_invoice.MouseState = MaterialSkin.MouseState.HOVER;
-            this.btn_invoice.Name = "btn_invoice";
-            this.btn_invoice.NoAccentTextColor = System.Drawing.Color.Empty;
-            this.btn_invoice.Size = new System.Drawing.Size(155, 36);
-            this.btn_invoice.TabIndex = 22;
-            this.btn_invoice.Text = "Generate Invoice";
-            this.btn_invoice.Type = MaterialSkin.Controls.MaterialButton.MaterialButtonType.Contained;
-            this.btn_invoice.UseAccentColor = false;
-            this.btn_invoice.UseVisualStyleBackColor = true;
-            this.btn_invoice.Click += new System.EventHandler(this.btn_invoice_Click);
-            // 
             // dgv_Table
             // 
             this.dgv_Table.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dgv_Table.Location = new System.Drawing.Point(1268, 67);
+            this.dgv_Table.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
+            this.col_service,
+            this.col_price,
+            this.col_duration,
+            this.col_qty});
+            this.dgv_Table.Dock = System.Windows.Forms.DockStyle.Top;
+            this.dgv_Table.Location = new System.Drawing.Point(3, 18);
             this.dgv_Table.Name = "dgv_Table";
             this.dgv_Table.RowHeadersWidth = 51;
             this.dgv_Table.RowTemplate.Height = 24;
-            this.dgv_Table.Size = new System.Drawing.Size(16, 17);
+            this.dgv_Table.Size = new System.Drawing.Size(974, 226);
             this.dgv_Table.TabIndex = 23;
-            this.dgv_Table.Visible = false;
+            this.dgv_Table.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgv_Table_CellContentClick);
+            // 
+            // col_service
+            // 
+            this.col_service.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
+            this.col_service.HeaderText = "Service";
+            this.col_service.MinimumWidth = 6;
+            this.col_service.Name = "col_service";
+            // 
+            // col_price
+            // 
+            this.col_price.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
+            this.col_price.HeaderText = "Price";
+            this.col_price.MinimumWidth = 6;
+            this.col_price.Name = "col_price";
+            this.col_price.Width = 67;
+            // 
+            // col_duration
+            // 
+            this.col_duration.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
+            this.col_duration.HeaderText = "Duration";
+            this.col_duration.MinimumWidth = 6;
+            this.col_duration.Name = "col_duration";
+            this.col_duration.Width = 86;
+            // 
+            // col_qty
+            // 
+            this.col_qty.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
+            this.col_qty.HeaderText = "Qty";
+            this.col_qty.MinimumWidth = 6;
+            this.col_qty.Name = "col_qty";
+            this.col_qty.Width = 56;
             // 
             // errorProvider1
             // 
@@ -455,7 +435,7 @@
             // 
             this.sw_exempt_vat.AutoSize = true;
             this.sw_exempt_vat.Depth = 0;
-            this.sw_exempt_vat.Location = new System.Drawing.Point(838, 109);
+            this.sw_exempt_vat.Location = new System.Drawing.Point(57, 818);
             this.sw_exempt_vat.Margin = new System.Windows.Forms.Padding(0);
             this.sw_exempt_vat.MouseLocation = new System.Drawing.Point(-1, -1);
             this.sw_exempt_vat.MouseState = MaterialSkin.MouseState.HOVER;
@@ -468,63 +448,151 @@
             this.sw_exempt_vat.Visible = false;
             this.sw_exempt_vat.CheckedChanged += new System.EventHandler(this.sw_exempt_vat_CheckedChanged);
             // 
+            // txt_name
+            // 
+            this.txt_name.AnimateReadOnly = false;
+            this.txt_name.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            this.txt_name.Depth = 0;
+            this.txt_name.Font = new System.Drawing.Font("Roboto", 16F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
+            this.txt_name.Hint = "Customer Name";
+            this.txt_name.LeadingIcon = null;
+            this.txt_name.Location = new System.Drawing.Point(33, 39);
+            this.txt_name.MaxLength = 50;
+            this.txt_name.MouseState = MaterialSkin.MouseState.OUT;
+            this.txt_name.Multiline = false;
+            this.txt_name.Name = "txt_name";
+            this.txt_name.Size = new System.Drawing.Size(400, 50);
+            this.txt_name.TabIndex = 26;
+            this.txt_name.Text = "";
+            this.txt_name.TrailingIcon = null;
+            // 
+            // groupBox1
+            // 
+            this.groupBox1.Controls.Add(this.txt_name);
+            this.groupBox1.Controls.Add(this.lbl_book_type);
+            this.groupBox1.Controls.Add(this.lbl_Date);
+            this.groupBox1.Controls.Add(this.lbl_Time);
+            this.groupBox1.Dock = System.Windows.Forms.DockStyle.Top;
+            this.groupBox1.Location = new System.Drawing.Point(10, 84);
+            this.groupBox1.Name = "groupBox1";
+            this.groupBox1.Size = new System.Drawing.Size(980, 234);
+            this.groupBox1.TabIndex = 27;
+            this.groupBox1.TabStop = false;
+            this.groupBox1.Text = "CUSTOMER INFORMATION";
+            // 
+            // groupBox2
+            // 
+            this.groupBox2.Controls.Add(this.dgv_Table);
+            this.groupBox2.Dock = System.Windows.Forms.DockStyle.Top;
+            this.groupBox2.Location = new System.Drawing.Point(10, 318);
+            this.groupBox2.Name = "groupBox2";
+            this.groupBox2.Size = new System.Drawing.Size(980, 264);
+            this.groupBox2.TabIndex = 28;
+            this.groupBox2.TabStop = false;
+            this.groupBox2.Text = "SERVICES";
+            // 
+            // groupBox3
+            // 
+            this.groupBox3.Controls.Add(this.materialLabel2);
+            this.groupBox3.Controls.Add(this.lbl_Subtotal);
+            this.groupBox3.Controls.Add(this.lbl_Vat);
+            this.groupBox3.Controls.Add(this.materialLabel1);
+            this.groupBox3.Controls.Add(this.lbl_Discount);
+            this.groupBox3.Controls.Add(this.lbl_Total);
+            this.groupBox3.Controls.Add(this.lbl_tax_rate);
+            this.groupBox3.Controls.Add(this.lbl_discount_type);
+            this.groupBox3.Dock = System.Windows.Forms.DockStyle.Top;
+            this.groupBox3.Location = new System.Drawing.Point(10, 582);
+            this.groupBox3.Name = "groupBox3";
+            this.groupBox3.Size = new System.Drawing.Size(980, 182);
+            this.groupBox3.TabIndex = 29;
+            this.groupBox3.TabStop = false;
+            this.groupBox3.Text = "PAYMENT SUMMARY";
+            // 
+            // materialLabel2
+            // 
+            this.materialLabel2.AutoSize = true;
+            this.materialLabel2.Depth = 0;
+            this.materialLabel2.Font = new System.Drawing.Font("Roboto Medium", 20F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Pixel);
+            this.materialLabel2.FontType = MaterialSkin.MaterialSkinManager.fontType.H6;
+            this.materialLabel2.Location = new System.Drawing.Point(83, 144);
+            this.materialLabel2.MouseState = MaterialSkin.MouseState.HOVER;
+            this.materialLabel2.Name = "materialLabel2";
+            this.materialLabel2.Size = new System.Drawing.Size(106, 24);
+            this.materialLabel2.TabIndex = 17;
+            this.materialLabel2.Text = "Grand Total";
+            // 
+            // groupBox4
+            // 
+            this.groupBox4.Controls.Add(this.cb_PaymentMethod);
+            this.groupBox4.Controls.Add(this.cb_discount);
+            this.groupBox4.Controls.Add(this.txt_amount_paid);
+            this.groupBox4.Controls.Add(this.lbl_change_amount);
+            this.groupBox4.Controls.Add(this.txt_Reference);
+            this.groupBox4.Controls.Add(this.materialLabel5);
+            this.groupBox4.Dock = System.Windows.Forms.DockStyle.Bottom;
+            this.groupBox4.Location = new System.Drawing.Point(10, 779);
+            this.groupBox4.Name = "groupBox4";
+            this.groupBox4.Size = new System.Drawing.Size(980, 252);
+            this.groupBox4.TabIndex = 30;
+            this.groupBox4.TabStop = false;
+            this.groupBox4.Text = "PAYMENT DETAILS";
+            // 
+            // panel1
+            // 
+            this.panel1.Controls.Add(this.btn_confirm_payment);
+            this.panel1.Controls.Add(this.btn_cancel);
+            this.panel1.Dock = System.Windows.Forms.DockStyle.Bottom;
+            this.panel1.Location = new System.Drawing.Point(10, 1031);
+            this.panel1.Name = "panel1";
+            this.panel1.Size = new System.Drawing.Size(980, 61);
+            this.panel1.TabIndex = 31;
+            // 
             // PaymentForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1300, 628);
+            this.AutoSize = true;
+            this.ClientSize = new System.Drawing.Size(1000, 1102);
+            this.Controls.Add(this.groupBox4);
+            this.Controls.Add(this.groupBox3);
+            this.Controls.Add(this.groupBox2);
             this.Controls.Add(this.sw_exempt_vat);
-            this.Controls.Add(this.dgv_Table);
-            this.Controls.Add(this.btn_invoice);
-            this.Controls.Add(this.cb_discount);
-            this.Controls.Add(this.btn_cancel);
-            this.Controls.Add(this.btn_confirm_payment);
-            this.Controls.Add(this.lbl_change_amount);
-            this.Controls.Add(this.lbl_Total);
-            this.Controls.Add(this.lbl_Vat);
-            this.Controls.Add(this.lbl_Discount);
-            this.Controls.Add(this.lbl_Subtotal);
-            this.Controls.Add(this.materialLabel5);
-            this.Controls.Add(this.materialLabel4);
-            this.Controls.Add(this.lbl_tax_rate);
-            this.Controls.Add(this.lbl_discount_type);
-            this.Controls.Add(this.materialLabel1);
-            this.Controls.Add(this.lbl_Services);
-            this.Controls.Add(this.cb_PaymentMethod);
-            this.Controls.Add(this.lbl_book_type);
-            this.Controls.Add(this.txt_amount_paid);
-            this.Controls.Add(this.txt_Reference);
-            this.Controls.Add(this.lbl_Date);
-            this.Controls.Add(this.lbl_Time);
-            this.Controls.Add(this.lbl_CustomerName);
+            this.Controls.Add(this.groupBox1);
+            this.Controls.Add(this.panel1);
             this.MaximizeBox = false;
             this.MinimizeBox = false;
             this.Name = "PaymentForm";
+            this.Padding = new System.Windows.Forms.Padding(10, 84, 10, 10);
             this.Sizable = false;
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "PAYMENT INFORMATION";
             this.Load += new System.EventHandler(this.PaymentForm_Load);
             ((System.ComponentModel.ISupportInitialize)(this.dgv_Table)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.errorProvider1)).EndInit();
+            this.groupBox1.ResumeLayout(false);
+            this.groupBox2.ResumeLayout(false);
+            this.groupBox3.ResumeLayout(false);
+            this.groupBox3.PerformLayout();
+            this.groupBox4.ResumeLayout(false);
+            this.groupBox4.PerformLayout();
+            this.panel1.ResumeLayout(false);
+            this.panel1.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
         }
 
         #endregion
-
-        private MaterialSkin.Controls.MaterialTextBox lbl_CustomerName;
         private MaterialSkin.Controls.MaterialTextBox lbl_Time;
         private MaterialSkin.Controls.MaterialTextBox lbl_Date;
         private MaterialSkin.Controls.MaterialTextBox txt_Reference;
         private MaterialSkin.Controls.MaterialTextBox txt_amount_paid;
         private MaterialSkin.Controls.MaterialTextBox lbl_book_type;
         private MaterialSkin.Controls.MaterialComboBox cb_PaymentMethod;
-        private MaterialSkin.Controls.MaterialMultiLineTextBox2 lbl_Services;
         private MaterialSkin.Controls.MaterialLabel materialLabel1;
         private MaterialSkin.Controls.MaterialLabel lbl_discount_type;
         private MaterialSkin.Controls.MaterialLabel lbl_tax_rate;
-        private MaterialSkin.Controls.MaterialLabel materialLabel4;
         private MaterialSkin.Controls.MaterialLabel materialLabel5;
         private MaterialSkin.Controls.MaterialLabel lbl_change_amount;
         private MaterialSkin.Controls.MaterialLabel lbl_Total;
@@ -534,10 +602,20 @@
         private MaterialSkin.Controls.MaterialButton btn_confirm_payment;
         private MaterialSkin.Controls.MaterialButton btn_cancel;
         private MaterialSkin.Controls.MaterialComboBox cb_discount;
-        private MaterialSkin.Controls.MaterialButton btn_invoice;
         private System.Drawing.Printing.PrintDocument printDocument;
         private System.Windows.Forms.DataGridView dgv_Table;
         private System.Windows.Forms.ErrorProvider errorProvider1;
         private MaterialSkin.Controls.MaterialSwitch sw_exempt_vat;
+        private MaterialSkin.Controls.MaterialTextBox txt_name;
+        private System.Windows.Forms.GroupBox groupBox1;
+        private System.Windows.Forms.GroupBox groupBox2;
+        private System.Windows.Forms.DataGridViewTextBoxColumn col_service;
+        private System.Windows.Forms.DataGridViewTextBoxColumn col_price;
+        private System.Windows.Forms.DataGridViewTextBoxColumn col_duration;
+        private System.Windows.Forms.DataGridViewTextBoxColumn col_qty;
+        private System.Windows.Forms.GroupBox groupBox3;
+        private MaterialSkin.Controls.MaterialLabel materialLabel2;
+        private System.Windows.Forms.GroupBox groupBox4;
+        private System.Windows.Forms.Panel panel1;
     }
 }

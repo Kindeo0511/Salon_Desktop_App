@@ -10,8 +10,13 @@ namespace Salon.Models
     public class AppointmentModel
     {
         public int AppointmentId { get; set; }
-        public int CustomerId { get; set; }
+        public int? CustomerId { get; set; }
         public string CustomerName { get; set; }
+        public string DisplayCustomerName
+        {
+            get { return CustomerId.HasValue ? CustomerName : $"W-{AppointmentId.ToString().PadLeft(4, '0')}"; }
+        }
+        
         public string Email { get; set; }
         public string PhoneNumber { get; set; }
         public string Customer_Type { get; set; }
@@ -23,6 +28,8 @@ namespace Salon.Models
         public string Status { get; set; } // e.g., Scheduled, Completed, Canceled
         public string PaymentStatus { get; set; } // e.g., Paid, Unpaid
         public int Durations { get; set; }
+        public int ServiceId { get; set; }
+        public int SubCategoryId { get; set; }
         public string Services { get; set; }
         public decimal TotalPrice { get; set; }
         public string BookingType { get; set; }

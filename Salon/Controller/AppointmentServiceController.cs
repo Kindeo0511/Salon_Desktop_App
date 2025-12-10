@@ -27,6 +27,10 @@ namespace Salon.Controller
             repo.AddAppointmentService(appointmentService);
         }
 
+        public void UpdateServicesAppointment(AppointmentServicesModel model) 
+        {
+            repo.UpdateAppointmentService(model);
+        } 
         public void ClearDeleteAllServicesForAppointment(int id) 
         {
              repo.ClearDeleteAllServicesForAppointment(id);

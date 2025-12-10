@@ -38,7 +38,6 @@
             this.txt_last_name = new MaterialSkin.Controls.MaterialTextBox();
             this.txt_middle_name = new MaterialSkin.Controls.MaterialTextBox();
             this.txt_first_name = new MaterialSkin.Controls.MaterialTextBox();
-            this.txt_daily_wage = new MaterialSkin.Controls.MaterialTextBox();
             this.txt_address = new MaterialSkin.Controls.MaterialMultiLineTextBox2();
             this.materialLabel1 = new MaterialSkin.Controls.MaterialLabel();
             this.errorProvider1 = new System.Windows.Forms.ErrorProvider(this.components);
@@ -209,25 +208,6 @@
             this.txt_first_name.TrailingIcon = null;
             this.txt_first_name.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txt_first_name_KeyPress);
             // 
-            // txt_daily_wage
-            // 
-            this.txt_daily_wage.AnimateReadOnly = false;
-            this.txt_daily_wage.BorderStyle = System.Windows.Forms.BorderStyle.None;
-            this.txt_daily_wage.Depth = 0;
-            this.txt_daily_wage.Font = new System.Drawing.Font("Roboto", 16F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
-            this.txt_daily_wage.Hint = "Daily Wage";
-            this.txt_daily_wage.LeadingIcon = null;
-            this.txt_daily_wage.Location = new System.Drawing.Point(557, 341);
-            this.txt_daily_wage.MaxLength = 50;
-            this.txt_daily_wage.MouseState = MaterialSkin.MouseState.OUT;
-            this.txt_daily_wage.Multiline = false;
-            this.txt_daily_wage.Name = "txt_daily_wage";
-            this.txt_daily_wage.Size = new System.Drawing.Size(400, 50);
-            this.txt_daily_wage.TabIndex = 28;
-            this.txt_daily_wage.Text = "";
-            this.txt_daily_wage.TrailingIcon = null;
-            this.txt_daily_wage.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txt_daily_wage_KeyPress);
-            // 
             // txt_address
             // 
             this.txt_address.AnimateReadOnly = false;
@@ -237,7 +217,7 @@
             this.txt_address.Depth = 0;
             this.txt_address.HideSelection = true;
             this.txt_address.Hint = "Address";
-            this.txt_address.Location = new System.Drawing.Point(46, 505);
+            this.txt_address.Location = new System.Drawing.Point(557, 337);
             this.txt_address.MaxLength = 32767;
             this.txt_address.MouseState = MaterialSkin.MouseState.OUT;
             this.txt_address.Name = "txt_address";
@@ -278,7 +258,6 @@
             this.ClientSize = new System.Drawing.Size(1000, 700);
             this.Controls.Add(this.materialLabel1);
             this.Controls.Add(this.txt_address);
-            this.Controls.Add(this.txt_daily_wage);
             this.Controls.Add(this.btn_update);
             this.Controls.Add(this.btn_cancel);
             this.Controls.Add(this.btn_save);
@@ -313,7 +292,6 @@
         private MaterialSkin.Controls.MaterialTextBox txt_last_name;
         private MaterialSkin.Controls.MaterialTextBox txt_middle_name;
         private MaterialSkin.Controls.MaterialTextBox txt_first_name;
-        private MaterialSkin.Controls.MaterialTextBox txt_daily_wage;
         private MaterialSkin.Controls.MaterialMultiLineTextBox2 txt_address;
         private MaterialSkin.Controls.MaterialLabel materialLabel1;
         private System.Windows.Forms.ErrorProvider errorProvider1;

@@ -16,7 +16,7 @@ namespace Salon.Repository
         void addCategory(CategoryModel category);
         void updateCategory(CategoryModel category);
         void deleteCategory(int id);
-
+        bool CategoryIsUsed(int id);
         void restoreDeleted(int id);
         void PermanentDelete(int id);
         bool CategoriesExist(string category, string type ,int id);

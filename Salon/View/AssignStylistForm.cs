@@ -31,15 +31,11 @@ namespace Salon.View
         private void StylistExceptionSchedules()
         {
             // Load stylists who are marked unavailable on this date
-            var exceptionRepo = new ExceptionSchedulesRepository();
-            var exceptionController = new ExceptionSchedulesController(exceptionRepo);
-            var unavailableStylists = exceptionController.GetUnavailableStylistIds(appointment.AppointmentDate);
+
 
 
             // Load stylists who are scheduled to work on this day
-            var scheduleRepo = new StylistSchedulesRepository();
-            var scheduleController = new StylistSchedulesController(scheduleRepo);
-            var scheduledStylists = scheduleController.CheckStylistSchedule(appointment.AppointmentDate);
+ 
 
             // Load stylists already assigned to appointments during this time
             var stylistRepo = new StylistRepository();
@@ -50,26 +46,9 @@ namespace Salon.View
                 appointment.EndTime
             );
 
-            // Filter out stylists who are either assigned or on leave
-            var freeStylists = scheduledStylists
-                .Where(s => !assignedStylists.Contains(s.stylist_id) && !unavailableStylists.Contains(s.stylist_id))
-                .ToList();
+          
 
-            if (freeStylists.Count > 0) 
-            {
-                LoadStylist(freeStylists);
-                cmb_stylist.Enabled = true;
-                btn_assign.Enabled = true;
-            }
-            else
-            {
-                cmb_stylist.DataSource = null;
-                cmb_stylist.Items.Clear();
-                cmb_stylist.Items.Add("No Available Stylist");
-                cmb_stylist.SelectedIndex = 0;
-                cmb_stylist.Enabled = false;
-                btn_assign.Enabled = false;
-            }
+          
         }
 
         //private void StylistExceptionSchedules()

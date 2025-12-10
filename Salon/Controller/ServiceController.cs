@@ -36,6 +36,10 @@ namespace Salon.Controller
         {
             return repo.GetAllServicesByName(key);
         }
+        public List<ServiceModel> getServicesById(int id)
+        {
+            return repo.GetAllServicesbySubcategoryId(id);
+        }
         public void addService(ServiceModel service)
         {
             repo.addService(service);
@@ -47,6 +51,10 @@ namespace Salon.Controller
         public void deleteService(int id)
         {
             repo.deleteService(id);
+        }
+        public bool IsServiceUsed(int id) 
+        {
+            return repo.ServiceIsUsed(id);
         }
 
         public void RestoreServices(int id) 

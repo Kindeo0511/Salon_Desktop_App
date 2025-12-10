@@ -14,7 +14,7 @@ namespace Salon.Models
         public string subCategoryName { get; set; }
         public int duration { get; set; }
         public  Status status { get; set; }
-
+        public decimal servicePrice { get; set; }
         public int TotalService { get; set; }
 
 }

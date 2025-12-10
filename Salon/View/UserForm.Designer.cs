@@ -48,6 +48,7 @@
             this.chk_show_password = new MaterialSkin.Controls.MaterialCheckbox();
             this.materialCard1 = new MaterialSkin.Controls.MaterialCard();
             this.errorProvider1 = new System.Windows.Forms.ErrorProvider(this.components);
+            this.cmb_role = new MaterialSkin.Controls.MaterialComboBox();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
             this.materialCard1.SuspendLayout();
@@ -287,6 +288,7 @@
             // groupBox1
             // 
             this.groupBox1.BackColor = System.Drawing.Color.Transparent;
+            this.groupBox1.Controls.Add(this.cmb_role);
             this.groupBox1.Controls.Add(this.materialLabel1);
             this.groupBox1.Controls.Add(this.txt_address);
             this.groupBox1.Controls.Add(this.txt_first_name);
@@ -335,7 +337,7 @@
             this.txt_address.SelectionLength = 0;
             this.txt_address.SelectionStart = 0;
             this.txt_address.ShortcutsEnabled = true;
-            this.txt_address.Size = new System.Drawing.Size(666, 122);
+            this.txt_address.Size = new System.Drawing.Size(400, 122);
             this.txt_address.TabIndex = 6;
             this.txt_address.TabStop = false;
             this.txt_address.TextAlign = System.Windows.Forms.HorizontalAlignment.Left;
@@ -395,6 +397,31 @@
             this.errorProvider1.BlinkStyle = System.Windows.Forms.ErrorBlinkStyle.NeverBlink;
             this.errorProvider1.ContainerControl = this;
             // 
+            // cmb_role
+            // 
+            this.cmb_role.AutoResize = false;
+            this.cmb_role.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
+            this.cmb_role.Depth = 0;
+            this.cmb_role.DrawMode = System.Windows.Forms.DrawMode.OwnerDrawVariable;
+            this.cmb_role.DropDownHeight = 174;
+            this.cmb_role.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cmb_role.DropDownWidth = 121;
+            this.cmb_role.Font = new System.Drawing.Font("Roboto Medium", 14F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Pixel);
+            this.cmb_role.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(222)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
+            this.cmb_role.FormattingEnabled = true;
+            this.cmb_role.IntegralHeight = false;
+            this.cmb_role.ItemHeight = 43;
+            this.cmb_role.Items.AddRange(new object[] {
+            "Admin",
+            "Staff"});
+            this.cmb_role.Location = new System.Drawing.Point(477, 322);
+            this.cmb_role.MaxDropDownItems = 4;
+            this.cmb_role.MouseState = MaterialSkin.MouseState.OUT;
+            this.cmb_role.Name = "cmb_role";
+            this.cmb_role.Size = new System.Drawing.Size(400, 49);
+            this.cmb_role.StartIndex = 0;
+            this.cmb_role.TabIndex = 11;
+            // 
             // UserForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
@@ -447,5 +474,6 @@
         private MaterialSkin.Controls.MaterialCard materialCard1;
         private System.Windows.Forms.ErrorProvider errorProvider1;
         private MaterialSkin.Controls.MaterialLabel materialLabel1;
+        private MaterialSkin.Controls.MaterialComboBox cmb_role;
     }
 }

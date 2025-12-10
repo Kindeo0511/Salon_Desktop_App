@@ -42,10 +42,15 @@ namespace Salon.Controller
         {
             repo.RestoreDeletedSubCategories(id);
         }
-
+         
         public void PermanentDeleteSubCategory(int id) 
         {
             repo.PermanentDelete(id);
+        }
+
+        public bool IsSubCategoryUsed(int subCategoryId)
+        {
+            return repo.SubCategoryIsUsed(subCategoryId);
         }
         public bool CheckSubCategoryExists(string name, int category_id, int id) 
         {

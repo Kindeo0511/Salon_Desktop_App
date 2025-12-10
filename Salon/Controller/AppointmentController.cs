@@ -41,7 +41,12 @@ namespace Salon.Controller
         public int CreateAppointment(AppointmentModel model)
         {
            
-            return repo.Add(model);
+             return repo.Add(model);
+        }
+        public int CreateWalkInAppointment(AppointmentModel model)
+        {
+
+            return repo.AddWalkIn(model);
         }
         public int UpdatingTheAppointment(AppointmentModel model) 
         {

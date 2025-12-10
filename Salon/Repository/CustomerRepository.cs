@@ -55,7 +55,7 @@ namespace Salon.Repository
         {
             using (var con = Database.GetConnection())
             {
-                var sql = "SELECT * FROM tbl_customer_account WHERE firstName LIKE @Key OR middleName LIKE @Key OR lastName LIKE @Key OR email LIKE @Key AND is_deleted = 0";
+                var sql = "SELECT * FROM tbl_customer_account WHERE (firstName LIKE @Key OR middleName LIKE @Key OR lastName LIKE @Key OR email LIKE @Key) AND is_deleted = 0";
                 return con.Query<CustomerModel>(sql, new { Key = $"%{key}%" }).ToList();
             }
         }

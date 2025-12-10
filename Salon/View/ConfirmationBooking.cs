@@ -20,19 +20,74 @@ namespace Salon.View
         private MainForm mainForm;
         private BookingSummary summary;
         private AppointmentForm appointmentForm;
+        private AppointmentModel model;
         private bool isUpdate;
         private int existingAppointmentId;
-       
 
-        public ConfirmationBooking(AppointmentForm appointment, MainForm mainForm, BookingSummary summary, bool isUpdate = false, int appointmentId = 0)
+        private int customer_id;
+        private int stylist_id;
+        private int service_id;
+        private string email;
+        private string contact;
+        private DateTime date;
+        private TimeSpan start_time;
+        private TimeSpan end_time;
+        private string stylist_name;
+        private string services;
+        private int invoice_id;
+
+        public ConfirmationBooking(AppointmentModel model, MainForm mainForm, AppointmentForm appointmentForm)
+        {
+            InitializeComponent();
+            ThemeManager.ApplyTheme(this);
+
+            this.model = model;
+            this.mainForm = mainForm;
+            this.appointmentForm = appointmentForm;
+
+            lbl_CustomerName.Text = model.CustomerName;
+            lbl_Email.Text = model.Email;
+            lbl_Contact.Text = model.PhoneNumber;
+
+            // Format the date as Month/Day/Year
+            lbl_Date.Text = model.AppointmentDate.ToString("MMMM dd, yyyy");
+            // Example: "November 21, 2025"
+
+            // Format the time as 12-hour with AM/PM
+            lbl_Time.Text = DateTime.Today.Add(model.StartTime).ToString("hh:mm tt")
+               + " - "
+               + DateTime.Today.Add(model.EndTime).ToString("hh:mm tt");
+            // Example: "02:00 PM - 03:00 PM"
+
+            lbl_Services.Text = model.Services;
+            txt_stylist.Text = model.StylistName;
+
+
+            customer_id = model.CustomerId ?? 0;
+            service_id = model.ServiceId;
+            stylist_id = model.StylistId;
+            date = model.AppointmentDate;
+            start_time = model.StartTime;
+            end_time = model.EndTime;
+            services = model.Services;
+            stylist_name = model.StylistName;
+
+
+
+        }
+        public ConfirmationBooking(AppointmentForm appointment, MainForm mainForm, AppointmentModel model, bool isUpdate )
         {
             InitializeComponent();
             ThemeManager.ApplyTheme(this);
             this.mainForm = mainForm;
-            this.summary = summary;
+            this.existingAppointmentId = model.AppointmentId;
+            lbl_id.Text = model.CustomerId.ToString();
+            txt_stylist.Tag = model.StylistId;
+            lbl_Services.Tag = model.ServiceId;
+    
             this.appointmentForm = appointment;
             this.isUpdate = isUpdate;
-            this.existingAppointmentId = appointmentId;
+            this.model = model;
             DisplaySummary();
 
         }
@@ -40,58 +95,164 @@ namespace Salon.View
         private void DisplaySummary()
         {
 
-            DateTime startTime = DateTime.Today.Add(summary.AppointmentTime);
-            DateTime endTime = DateTime.Today.Add(summary.AppointmentEndTime);
+            DateTime startTime = DateTime.Today.Add(model.StartTime);
+            DateTime endTime = DateTime.Today.Add(model.EndTime);
 
             string formattedStartTime = startTime.ToString("hh:mm tt");
             string formattedEndTime = endTime.ToString("hh:mm tt");
-            lbl_id.Text = summary.CustomerModel.customer_id.ToString();
-            lbl_CustomerName.Text = summary.CustomerModel.customer_name;
-            lbl_Contact.Text = summary.CustomerModel.phoneNumber;
-            lbl_Email.Text = summary.CustomerModel.email;
+            lbl_id.Text = model.CustomerId.ToString();
+            lbl_CustomerName.Text = model.CustomerName;
+            lbl_Contact.Text = model.PhoneNumber;
+            lbl_Email.Text = model.Email;
             
             lbl_Time.Text = formattedStartTime + " - " + formattedEndTime;
-            lbl_book_type.Text = summary.BookingType;
-            txt_customer_type.Text = summary.CustomerModel.customer_type;
-            lbl_Date.Text = summary.AppointmentDate.ToString();
+      
+            txt_stylist.Text = model.StylistName;
+            lbl_Date.Text = model.AppointmentDate.ToString();
 
-            foreach (var service in summary.SelectedServices)
+            foreach (var service in appointmentForm.selectedServices)
             {
-                lbl_Services.Text += $"- {service.service_name}\n";
+                lbl_Services.Text += service.ItemName + ", ";
             }
-
+           
+      
 
 
         }
-        private async void btn_Confirm_Click(object sender, EventArgs e)
+        public bool DeleteServiceFromCart(int invoice_id)
+        {
+            var repo = new InvoiceServiceRepository();
+            var controller = new InvoiceServiceCartController(repo);
+            return controller.DeleteServiceFromInvoiceCart(invoice_id);
+
+
+        }
+        private int SaveInvoice(InvoiceModel model) 
+        {
+            var repo = new InvoiceRepository();
+            var invoiceController = new InvoiceController(repo);
+            var invoice_id = invoiceController.AddInvoice(model);
+
+            return invoice_id;
+        }
+        private void SaveInvoiceServices(ServiceCart cart) 
+        {
+            var repo = new InvoiceServiceRepository();
+            var serviceController = new InvoiceServiceCartController(repo);
+            serviceController.AddServiceToInvoiceCart(cart);
+
+        }
+        private void SaveAppointment(AppointmentModel model)
+        {
+            var repo = new AppointmentRepository();
+            var appointmentController = new AppointmentController(repo);
+
+            int appointment_id = model.BookingType == "Appointment"
+                ? appointmentController.CreateAppointment(model)
+                : appointmentController.CreateWalkInAppointment(model);
+
+            var invoiceModel = new InvoiceModel
+            {
+                AppointmentID = appointment_id,
+                TotalAmount = 0,
+                VATAmount = 0,
+                DiscountAmount = 0,
+                PaymentMethod = "Unpaid",
+                Timestamp = null,
+                CustomerID = model.BookingType == "Appointment" ? model.CustomerId : (int?)null
+            };
+
+            int invoice_id = SaveInvoice(invoiceModel);
+
+            foreach (var service in appointmentForm.cartItem)
+            {
+                var invoiceServiceCart = new ServiceCart
+                {
+                    InvoiceId = invoice_id,
+                    ItemId = service.ItemId,
+                    Quantity = 1,
+                    Price = service.Price,
+                    Duration = service.Duration
+                };
+                SaveInvoiceServices(invoiceServiceCart);
+            }
+        }
+
+        private void UpdateAppointment(AppointmentModel model) 
+        {
+            var repo = new AppointmentRepository();
+            var appointmentController = new AppointmentController(repo);
+
+            //int appointment_id = model.BookingType == "Appointment"
+            //    ? appointmentController.CreateAppointment(model)
+            //    : appointmentController.CreateWalkInAppointment(model);
+
+            //var invoiceModel = new InvoiceModel
+            //{
+            //    AppointmentID = appointment_id,
+            //    TotalAmount = 0,
+            //    VATAmount = 0,
+            //    DiscountAmount = 0,
+            //    PaymentMethod = "Unpaid",
+            //    Timestamp = null,
+            //    CustomerID = model.BookingType == "Appointment" ? model.CustomerId : (int?)null
+            //};
+
+            //int invoice_id = SaveInvoice(invoiceModel);
+            int invoice_id = appointmentForm.GetInvoiceId(existingAppointmentId);
+            DeleteServiceFromCart(invoice_id);
+
+            foreach (var service in appointmentForm.cartItem)
+            {
+                var invoiceServiceCart = new ServiceCart
+                {
+                    InvoiceId = invoice_id,
+                    ItemId = service.ItemId,
+                    Quantity = service.Quantity,
+                    Price = service.Price, 
+                    Duration = service.Duration
+                };
+
+                MessageBox.Show("Invoice ID: "+ invoice_id +"Item ID: "+ service.ItemId +"QTY: "+ service.Quantity, "PRICE: " + service.Price + "Duration: " + service.Duration);
+                SaveInvoiceServices(invoiceServiceCart);
+            }
+        }
+        private void Clear()
+        {
+            lbl_id.Text = string.Empty;
+            lbl_CustomerName.Text = string.Empty;
+            lbl_Contact.Text = string.Empty;
+            lbl_Email.Text = string.Empty;
+            lbl_Time.Text = string.Empty;
+            txt_stylist.Text = string.Empty;
+
+        }
+        private async void ConfirmBooking() 
         {
             btn_Confirm.Enabled = false;
             btn_cancel.Enabled = false;
 
-            DateTime startTime = DateTime.Today.Add(summary.AppointmentTime);
-            string formattedStartTime = startTime.ToString("hh:mm tt");
 
-            var model = new AppointmentModel
+
+
+            //var model = new AppointmentModel
+            //{
+            //    AppointmentId = isUpdate ? existingAppointmentId : 0,
+            //    StylistId = Convert.ToInt32(txt_stylist.Tag),
+            //    CustomerId = Convert.ToInt32(lbl_id.Text),
+            //    AppointmentDate = date,
+            //    StartTime = start_time,
+            //    EndTime = end_time,
+            //    Status = "Scheduled",
+            //    PaymentStatus = "Unpaid",
+
+            //};
+
+            var services = new AppointmentServicesModel
             {
-                AppointmentId = isUpdate ? existingAppointmentId : 0,
-                CustomerId = summary.CustomerModel.customer_id,
-                AppointmentDate = summary.AppointmentDate,
-                StartTime = summary.AppointmentTime,
-                EndTime = summary.AppointmentEndTime,
-                Status = "Scheduled",
-                PaymentStatus = "Unpaid",
-                BookingType = summary.BookingType
+                AppointmentId = existingAppointmentId,
+                ServiceId = Convert.ToInt32(lbl_Services.Tag),
             };
-
-            // ✅ Check stylist availability before confirming
-            var stylistController = new StylistController(new StylistRepository());
-            var assignedStylists = stylistController.GetAssignedStylist(
-                model.AppointmentDate,
-                model.StartTime,
-                model.EndTime
-            );
-
-           
 
             var repo = new AppointmentRepository();
             var appointmentController = new AppointmentController(repo);
@@ -103,64 +264,62 @@ namespace Salon.View
 
                 var serviceRepo = new AppointmentServiceRepository();
                 var serviceController = new AppointmentServiceController(serviceRepo);
-                serviceController.ClearDeleteAllServicesForAppointment(appointmentId);
+                serviceController.UpdateServicesAppointment(services);
+                MessageBox.Show($"The appointment has been updated successfully!",
+            "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
 
                 Audit.AuditLog(
                     DateTime.Now,
-                    "Reschedule",
+                    "Update",
                     UserSession.CurrentUser.first_Name,
                     "Appointment",
-                    $"Rescheduled appointment for '{summary.CustomerModel.customer_name}' to {model.AppointmentDate:yyyy-MM-dd} at {formattedStartTime}");
+                    $"Updated the appointment for '{lbl_CustomerName.Text}' to {model.AppointmentDate:yyyy-MM-dd} at {start_time}");
             }
             else
             {
-                appointmentId = appointmentController.CreateAppointment(model);
+               
 
                 Audit.AuditLog(
                     DateTime.Now,
                     "Create",
                     UserSession.CurrentUser.first_Name,
                     "Appointment",
-                    $"Created appointment for '{summary.CustomerModel.customer_name}' on {DateTime.Now:yyyy-MM-dd} at {DateTime.Now:HH:mm:ss}");
+                    $"Created appointment for '{lbl_CustomerName.Text}' on {DateTime.Now:yyyy-MM-dd} at {DateTime.Now:HH:mm:ss}");
             }
 
-            // ✅ Save selected services
-            foreach (var service in summary.SelectedServices)
+
+            var appointmentService = new AppointmentServicesModel
             {
-                var appointmentService = new AppointmentServicesModel
-                {
-                    AppointmentId = appointmentId,
-                    ServiceId = service.service_id
-                };
+              
+            };
 
-                var appointmentServiceRepo = new AppointmentServiceRepository();
-                appointmentServiceRepo.AddAppointmentService(appointmentService);
-            }
+            var appointmentServiceRepo = new AppointmentServiceRepository();
+            appointmentServiceRepo.AddAppointmentService(appointmentService);
 
             // ✅ Send notifications if registered
             try
             {
-                if (txt_customer_type.Text.ToLower() == "registered")
-                {
-                    var loading = new LoadingScreenEmail();
-                    loading.Show();
-                    Application.DoEvents();
+                //    if (txt_stylist.Text.ToLower() == "registered")
+                //    {
+                //        var loading = new LoadingScreenEmail();
+                //        loading.Show();
+                //        Application.DoEvents();
 
-                    try
-                    {
-                        await SendNotificationsAsync(summary, formattedStartTime, lbl_Services.Text, isUpdate ? "Rescheduled" : "Booked");
-                    }
-                    finally
-                    {
-                        if (loading.InvokeRequired)
-                            loading.Invoke(new Action(() => loading.Close()));
-                        else
-                            loading.Close();
-                    }
-                }
+                //        try
+                //        {
+                //            await SendNotificationsAsync(summary, formattedStartTime, lbl_Services.Text, isUpdate ? "Rescheduled" : "Booked");
+                //        }
+                //        finally
+                //        {
+                //            if (loading.InvokeRequired)
+                //                loading.Invoke(new Action(() => loading.Close()));
+                //            else
+                //                loading.Close();
+                //        }
+                //   }
 
-                MessageBox.Show($"The appointment has been {(isUpdate ? "rescheduled" : "booked")} successfully!",
-                    "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                //MessageBox.Show($"The appointment has been {(isUpdate ? "rescheduled" : "booked")} successfully!",
+                //    "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
             }
             catch (Exception ex)
             {
@@ -188,8 +347,39 @@ namespace Salon.View
             await mainForm.RefreshTotalAppointment();
             await mainForm.RefreshPopularServices();
             await mainForm.RefreshTransactionAsync();
+        
+        }
+        private void btn_Confirm_Click(object sender, EventArgs e)
+        {
+            if (isUpdate)
+            {
+
+            
+                
+                    UpdateAppointment(model);
+                    MessageBox.Show($"The appointment has been updated successfully!",
+                "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                
+
+
+                //     UpdateAppointment(model);
+                //     MessageBox.Show($"The appointment has been updated successfully!",
+                //"Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
+
+            }
+            else
+            {
+                SaveAppointment(model);
+                MessageBox.Show($"The appointment has been booked successfully!",
+           "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            }
+
+
+
             this.DialogResult = DialogResult.OK;
             this.Close();
+            appointmentForm.Close();
+            mainForm.LoadAppointments();
         }
 
         //private async void btn_Confirm_Click(object sender, EventArgs e)
@@ -341,5 +531,19 @@ namespace Salon.View
         {
             this.Close();
         }
+
+        private void btn_add_another_Click(object sender, EventArgs e)
+        {
+            //ConfirmBooking();
+
+            MessageBox.Show($"The appointment has been booked successfully!",
+                  "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
+
+            this.Close();
+            appointmentForm.Clear();
+
+       
+        }
+       
     }
 }

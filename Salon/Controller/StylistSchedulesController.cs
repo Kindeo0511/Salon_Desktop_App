@@ -21,7 +21,7 @@ namespace Salon.Controller
         {
             return _repo.GetStylistSchedules(stylistId);
         }
-        public void AddSchedule(StylistScheduleModel stylistSchedules)
+        public void AddSchedule(List<StylistScheduleModel> stylistSchedules)
         {
             _repo.AddStylistSchedule(stylistSchedules);
         }

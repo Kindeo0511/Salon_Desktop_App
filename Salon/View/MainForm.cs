@@ -70,7 +70,7 @@ namespace Salon.View
 
 
 
-
+            LoadPaymentMethod();
         }
 
         private void DataGridViewTheme() 
@@ -87,8 +87,8 @@ namespace Salon.View
             ThemeManager.StyleDataGridView(dgv_delivery);
             ThemeManager.StyleDataGridView(dgv_inventory);
             ThemeManager.StyleDataGridView(dgv_BatchInventory);
+            ThemeManager.StyleDataGridView(dgv_walk_in);
             ThemeManager.StyleDataGridView(dgv_appointment);
-            ThemeManager.StyleDataGridView(dgv_service_price);
             ThemeManager.StyleDataGridView(dgv_table_summary);
             ThemeManager.StyleDataGridView(dgv_report_table);
             ThemeManager.StyleDataGridView(dgv_inventory_report);
@@ -100,7 +100,6 @@ namespace Salon.View
             ThemeManager.StyleDataGridView(dgv_discount_report);
             ThemeManager.StyleDataGridView(dgv_transaction_history);
             ThemeManager.StyleDataGridView(dgv_audit_report);
-            ThemeManager.StyleDataGridView(dgv_refund);
             ThemeManager.StyleDataGridView(dgv_deleted_record);
         }
 
@@ -242,13 +241,6 @@ namespace Salon.View
             dtp_transaction_end.MaxDate = MaxEndDate;
 
 
-            // REFUND HISTORY
-            dtp_refund_start.MinDate = MinStartDate;
-            dtp_refund_start.MaxDate = MaxStartDate;
-
-            dtp_refund_end.MinDate = MinEndDate;
-            dtp_refund_end.MaxDate = MaxEndDate;
-
 
             // DELETED RECORD HISTORY
             dtp_delete_record_start.MinDate = MinStartDate;
@@ -285,10 +277,10 @@ namespace Salon.View
             await RefreshDeliveryAsync();
             await RefreshInventoryAsync();
             await RefreshBatchInventory();
+            LoadWalkIn();
             await RefreshAppointmentAsync();
-            await RefreshServicePriceAsync();
+  
             await RefreshTransactionAsync();
-            await RefreshRefundAsync();
             await RefreshAuditLog();
 
             await FilterdDeletedRecords();
@@ -302,10 +294,6 @@ namespace Salon.View
 
             await RefreshPopularServices();
 
-            // UTILITIES
-            LoadUtility();
-            await RefreshRentAsync();
-            await RefreshUtilAsync();
 
             // REPORTS
             FilterSalesReport();
@@ -332,12 +320,13 @@ namespace Salon.View
                 HideTab(materialTabControl1, subCategoryTab);
                 HideTab(materialTabControl1, productsTab);
                 HideTab(materialTabControl1, servicesTab);
-                HideTab(materialTabControl1, priceTab);
                 HideTab(materialTabControl1, reportsTab);
                 HideTab(materialTabControl1, dataRecoveryTab);
                 HideTab(materialTabControl1, settingsTab);
+                
 
             }
+            HideTab(materialTabControl1, walk_in_Tab);
         }
         private void HideTab(MaterialTabControl tabControl, TabPage tabPage) 
         {
@@ -797,18 +786,7 @@ namespace Salon.View
 
                 }
             }
-            else if (e.RowIndex >= 0 && dgv_stylist.Columns[e.ColumnIndex].Name == "col_view_schedules")
-            {
-
-
-
-                var stylist = dgv_stylist.Rows[e.RowIndex].DataBoundItem as StylistModel;
-
-                using (var stylistScheduleForm = new StylistScheduleForm(this, stylist))
-                {
-                    stylistScheduleForm.ShowDialog();
-                }
-            }
+           
 
 
         }
@@ -982,12 +960,29 @@ namespace Salon.View
                 {
                     var repo = new CategoryRepository();
                     var categoryController = new CategoryController(repo);
-              
-                    Audit.AuditLog(DateTime.Now, "Delete", UserSession.CurrentUser.first_Name, "Manage Categories", $"Deleted category '{category.categoryName}' on {DateTime.Now:yyyy-MM-dd} at {DateTime.Now:HH:mm:ss}");
-                    categoryController.deleteCategory(category.category_id);
-                    InsertDeletedRecord(category.category_id, "Category", category.categoryName, UserSession.CurrentUser.first_Name, DateTime.Today);
-                    await RefreshCategoryAsync();
-                    await RefreshDeletedRecords();
+
+                    if (categoryController.IsCategoryBeingUsed(category.category_id))
+                    {
+                        MessageBox.Show(
+                            "This category cannot be deleted because it is still linked to one or more subcategories.",
+                            "Delete Blocked",
+                            MessageBoxButtons.OK,
+                            MessageBoxIcon.Warning
+                        );
+
+            
+                        return;
+                    }
+                    else 
+                    {
+                        Audit.AuditLog(DateTime.Now, "Delete", UserSession.CurrentUser.first_Name, "Manage Categories", $"Deleted category '{category.categoryName}' on {DateTime.Now:yyyy-MM-dd} at {DateTime.Now:HH:mm:ss}");
+                        categoryController.deleteCategory(category.category_id);
+                        InsertDeletedRecord(category.category_id, "Category", category.categoryName, UserSession.CurrentUser.first_Name, DateTime.Today);
+                        await RefreshCategoryAsync();
+                        await RefreshDeletedRecords();
+                    }
+
+                    
                 }
             }
         }
@@ -1044,12 +1039,26 @@ namespace Salon.View
                 {
                     var repo = new SubCategoryRepository();
                     var subCategoryController = new SubCategoryController(repo);
-                   
-                    Audit.AuditLog(DateTime.Now, "Delete", UserSession.CurrentUser.first_Name, "Manage Sub-Categories", $"Deleted sub-category '{subCategory.subCategoryName}' for ({subCategory.categoryName}) on {DateTime.Now:yyyy-MM-dd} at {DateTime.Now:HH:mm:ss}");
-                    subCategoryController.deleteSubCategory(subCategory.subCategory_id);
-                    InsertDeletedRecord(subCategory.subCategory_id, "Manage Sub-Categories", subCategory.subCategoryName, UserSession.CurrentUser.first_Name, DateTime.Today);
-                    await FilterdDeletedRecords();
-                    await RefreshSubCategoryAsync();
+
+                    if (subCategoryController.IsSubCategoryUsed(subCategory.subCategory_id))
+                    {
+                        MessageBox.Show(
+                            "This sub-category cannot be deleted because it is still linked to one or more services.",
+                            "Delete Blocked",
+                            MessageBoxButtons.OK,
+                            MessageBoxIcon.Warning
+                        );
+                        return;
+                    }
+                    else 
+                    {
+                        Audit.AuditLog(DateTime.Now, "Delete", UserSession.CurrentUser.first_Name, "Manage Sub-Categories", $"Deleted sub-category '{subCategory.subCategoryName}' for ({subCategory.categoryName}) on {DateTime.Now:yyyy-MM-dd} at {DateTime.Now:HH:mm:ss}");
+                        subCategoryController.deleteSubCategory(subCategory.subCategory_id);
+                        InsertDeletedRecord(subCategory.subCategory_id, "Manage Sub-Categories", subCategory.subCategoryName, UserSession.CurrentUser.first_Name, DateTime.Today);
+                        await FilterdDeletedRecords();
+                        await RefreshSubCategoryAsync();
+                    }
+                       
                 }
             }
         }
@@ -1143,6 +1152,7 @@ namespace Salon.View
             dgv_service.AutoGenerateColumns = false;
             col_service_id.DataPropertyName = "service_id";
             col_service_name.DataPropertyName = "serviceName";
+            col_service_price.DataPropertyName = "servicePrice";
             col_service_sid.DataPropertyName = "subCategory_id";
             col_service_subcategory.DataPropertyName = "subCategoryName";
             col_service_duration.DataPropertyName = "duration";
@@ -1158,6 +1168,7 @@ namespace Salon.View
             dgv_service.AutoGenerateColumns = false;
             col_service_id.DataPropertyName = "service_id";
             col_service_name.DataPropertyName = "serviceName";
+            col_service_price.DataPropertyName = "servicePrice";
             col_service_sid.DataPropertyName = "subCategory_id";
             col_service_subcategory.DataPropertyName = "subCategoryName";
             col_service_duration.DataPropertyName = "duration";
@@ -1202,11 +1213,25 @@ namespace Salon.View
                     var repo = new ServiceRepository();
                     var controller = new ServiceController(repo);
 
-                    Audit.AuditLog(DateTime.Now, "Delete", UserSession.CurrentUser.first_Name, "Manage Services", $"Deleted service '{service.serviceName}' on {DateTime.Now:yyyy-MM-dd} at {DateTime.Now:HH:mm:ss}");
-                    controller.deleteService(service.serviceName_id);
-                    InsertDeletedRecord(service.serviceName_id, "Manage Services", service.serviceName, UserSession.CurrentUser.first_Name, DateTime.Today);
-                    await FilterdDeletedRecords();
-                    await RefreshServicesAsync();
+                    if (controller.IsServiceUsed(service.serviceName_id))
+                    {
+                        MessageBox.Show(
+                            "This service cannot be deleted because it is still linked to one or more appointment.",
+                            "Delete Blocked",
+                            MessageBoxButtons.OK,
+                            MessageBoxIcon.Warning
+                        );
+                        return;
+                    }
+                    else 
+                    {
+                        Audit.AuditLog(DateTime.Now, "Delete", UserSession.CurrentUser.first_Name, "Manage Services", $"Deleted service '{service.serviceName}' on {DateTime.Now:yyyy-MM-dd} at {DateTime.Now:HH:mm:ss}");
+                        controller.deleteService(service.serviceName_id);
+                        InsertDeletedRecord(service.serviceName_id, "Manage Services", service.serviceName, UserSession.CurrentUser.first_Name, DateTime.Today);
+                        await FilterdDeletedRecords();
+                        await RefreshServicesAsync();
+                    }
+                       
                 }
             }
         }
@@ -1738,6 +1763,45 @@ namespace Salon.View
 
         // END OF INVENTORY
 
+
+        // WALK IN
+
+        public void LoadWalkIn() 
+        {
+            var repo = new WalkInRepository();
+            var controller = new Walk_In_Controller(repo);
+            var walk_ins =  controller.GetWalkIn();
+
+            dgv_walk_in.AutoGenerateColumns = false;
+            col_walk_in_id.DataPropertyName = "id";
+            col_walk_in_code.DataPropertyName = "name";
+            col_walk_in_stylist_id.DataPropertyName = "stylist_id";
+            col_walk_in_stylist_name.DataPropertyName = "StylistName";
+            col_walk_in_subcategory_id.DataPropertyName = "subCategory_id";
+            col_walk_in_service_id.DataPropertyName = "serviceName_id";
+            col_walk_in_service.DataPropertyName = "serviceName";
+            col_walk_in_price.DataPropertyName = "selling_price";
+            col_walk_in_date.DataPropertyName = "date";
+            col_walk_in_start_time.DataPropertyName = "start_time";
+            col_walk_in_end_time.DataPropertyName = "end_time";
+            col_walk_in_status.DataPropertyName = "status";
+            col_walk_in_payment_status.DataPropertyName = "payment_status";
+
+            dgv_walk_in.DataSource = walk_ins;
+        }
+
+
+        private void btn_walk_in_Click(object sender, EventArgs e)
+        {
+            using (var form = new Walk_In_Form(this))
+            {
+                form.ShowDialog();
+            }
+        }
+
+        // END OF WALK IN
+
+
         // APPOINTMENT
         public async Task RefreshAppointmentAsync()
         {
@@ -1749,7 +1813,7 @@ namespace Salon.View
 
             appointment_id.DataPropertyName = "AppointmentId";
             customer_id.DataPropertyName = "CustomerId";
-            customerName.DataPropertyName = "CustomerName";
+            customerName.DataPropertyName = "DisplayCustomerName";
             col_appointment_services.DataPropertyName = "Services";
             col_appointment_selling_price.DataPropertyName = "selling_price";
             col_appointment_vat_amount.DataPropertyName = "vat_amount";
@@ -1763,14 +1827,13 @@ namespace Salon.View
             status.DataPropertyName = "Status";
             paymentStatus.DataPropertyName = "PaymentStatus";
             col_book_type.DataPropertyName = "BookingType";
-            col_customer_type.DataPropertyName = "Customer_type";
             dgv_appointment.DataSource = appointments;
 
 
             // DASHBOARD
             col_db_app_id.DataPropertyName = "AppointmentId";
             col_db_customer_id.DataPropertyName = "CustomerId";
-            col_db_customer_name.DataPropertyName = "CustomerName";
+            customerName.DataPropertyName = "DisplayCustomerName";
             col_appointment_email.DataPropertyName = "Email";
             col_appointment_number.DataPropertyName = "PhoneNumber";
             col_db_stylist_id.DataPropertyName = "StylistId";
@@ -1781,7 +1844,6 @@ namespace Salon.View
             col_db_status.DataPropertyName = "Status";
             col_db_payment_status.DataPropertyName = "PaymentStatus";
             col_db_booking_type.DataPropertyName = "BookingType";
-            col_customer_type.DataPropertyName = "Customer_type";
             dgv_table_summary.DataSource = appointments;
         }
 
@@ -1795,7 +1857,9 @@ namespace Salon.View
           
             appointment_id.DataPropertyName = "AppointmentId";
             customer_id.DataPropertyName = "CustomerId";
-            customerName.DataPropertyName = "CustomerName";
+            customerName.DataPropertyName = "DisplayCustomerName";
+            col_app_subcat_id.DataPropertyName = "SubCategoryId";   
+            col_appointment_service_id.DataPropertyName = "ServiceId";
             col_appointment_services.DataPropertyName = "Services";
             col_appointment_selling_price.DataPropertyName = "selling_price";
             col_appointment_vat_amount.DataPropertyName = "vat_amount";
@@ -1809,14 +1873,14 @@ namespace Salon.View
             status.DataPropertyName = "Status";
             paymentStatus.DataPropertyName = "PaymentStatus";
             col_book_type.DataPropertyName = "BookingType";
-            col_customer_type.DataPropertyName = "Customer_type";
+       
             dgv_appointment.DataSource = appointments;
         
 
             // DASHBOARD
             col_db_app_id.DataPropertyName = "AppointmentId";
             col_db_customer_id.DataPropertyName = "CustomerId";
-            col_db_customer_name.DataPropertyName = "CustomerName";
+            col_db_customer_name.DataPropertyName = "DisplayCustomerName";
             col_appointment_email.DataPropertyName = "Email";
             col_appointment_number.DataPropertyName = "PhoneNumber";
             col_db_stylist_id.DataPropertyName = "StylistId";
@@ -1827,7 +1891,7 @@ namespace Salon.View
             col_db_status.DataPropertyName = "Status";
             col_db_payment_status.DataPropertyName = "PaymentStatus";
             col_db_booking_type.DataPropertyName = "BookingType";
-            col_customer_type.DataPropertyName = "Customer_type";
+
             dgv_table_summary.DataSource = appointments;
         }
 
@@ -1850,32 +1914,16 @@ namespace Salon.View
         {
             if (e.RowIndex < 0) return;
 
-            if (e.RowIndex >= 0 && dgv_appointment.Columns[e.ColumnIndex].Name == "col_assign_staff")
-            {
-                var appointment = dgv_appointment.Rows[e.RowIndex].DataBoundItem as AppointmentModel;
-                if (appointment.Status.ToLower() != "scheduled")
-                {
-                    return;
-                }
-                using (var assignStylistForm = new AssignStylistForm(this, appointment))
-                {
-                    assignStylistForm.ShowDialog();
-                }
-
-            }
-            else if (e.RowIndex >= 0 && dgv_appointment.Columns[e.ColumnIndex].Name == "col_pay")
+      
+            if (e.RowIndex >= 0 && dgv_appointment.Columns[e.ColumnIndex].Name == "col_pay")
             {
                 var appointment = dgv_appointment.Rows[e.RowIndex].DataBoundItem as AppointmentModel;
 
                 if (appointment.PaymentStatus.ToLower() == "paid")
-                {
+                { 
                     return;
                 }
-                if (appointment.StylistId == null || appointment.StylistId == 0)
-                {
-                    MessageBox.Show("Please assign a stylist before proceeding with payment.", "Stylist Required", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                    return;
-                }
+               
                 using (var paymentForm = new PaymentForm(this, appointment))
                 {
                     paymentForm.ShowDialog();
@@ -1889,7 +1937,7 @@ namespace Salon.View
                 {
                     return;
                 }
-                using (var appointmentForm = new AppointmentForm(this, appointment))
+                using (var appointmentForm = new AppointmentForm(this, appointment, true))
                 {
                     appointmentForm.ShowDialog();
                 }
@@ -2022,578 +2070,11 @@ namespace Salon.View
 
         // END OF APPOINTMENT
 
-        // PRICE MAINTENANCE
+      
 
-        private void btn_add_price_Click(object sender, EventArgs e)
-        {
-            using (var priceServiceForm = new PricingServiceForm(this)) 
-            {
-                priceServiceForm.ShowDialog();
-            }
-        }
-
-        public async Task RefreshServicePriceAsync()
-        {
-            var repo = new ServicePriceRepository();
-            var controller = new ServicePriceController(repo);
-            var services = await controller.GetAllServicePriceAsync();
-
-            dgv_service_price.AutoGenerateColumns = false;
-            col_price_id.DataPropertyName = "pricing_id";
-            col_service_price_name.DataPropertyName = "serviceName";
-            col_service_product_id.DataPropertyName = "service_product_id";
-            col_product_cost.DataPropertyName = "product_cost";
-            col_stylist_cost.DataPropertyName = "stylist_cost";
-            col_overhead_cost.DataPropertyName = "overhead_cost";
-            col_total_cost.DataPropertyName = "total_cost";
-            col_selling_price.DataPropertyName = "selling_price";
-            col_vat_amount.DataPropertyName = "vat_amount";
-            col_net_price.DataPropertyName = "net_price";
-            col_net_profit.DataPropertyName = "net_profit";
-            col_gross_profit.DataPropertyName = "gross_profit";
-            col_profit_percent.DataPropertyName = "profit_percent";
-            dgv_service_price.DataSource = services;
-        }
-
-        public void LoadServicePrices() 
-        {
-            var repo = new ServicePriceRepository();
-            var controller = new ServicePriceController(repo);
-            var services = controller.ShowAllServices();
-
-            dgv_service_price.AutoGenerateColumns = false;
-            col_price_id.DataPropertyName = "pricing_id";
-            col_service_price_name.DataPropertyName = "serviceName";
-            col_service_product_id.DataPropertyName = "service_product_id";
-            col_product_cost.DataPropertyName = "product_cost";
-            col_stylist_cost.DataPropertyName = "stylist_cost";
-            col_overhead_cost.DataPropertyName = "overhead_cost";
-            col_total_cost.DataPropertyName = "total_cost";
-            col_selling_price.DataPropertyName = "selling_price";
-            col_vat_amount.DataPropertyName = "vat_amount";
-            col_net_price.DataPropertyName = "net_price";
-            col_net_profit.DataPropertyName = "net_profit";
-            col_gross_profit.DataPropertyName = "gross_profit";
-            col_profit_percent.DataPropertyName = "profit_percent";
-            dgv_service_price.DataSource = services;
-        }
-
-        private async void dgv_service_price_CellClick(object sender, DataGridViewCellEventArgs e)
-        {
-            if (e.RowIndex < 0) return;
-
-            if (e.RowIndex >= 0 && dgv_service_price.Columns[e.ColumnIndex].Name == "col_price_update")
-            {
-                var servicePrice = dgv_service_price.Rows[e.RowIndex].DataBoundItem as ServicePriceModel;
-                using (var priceServiceForm = new PricingServiceForm(this, servicePrice))
-                {
-                    priceServiceForm.ShowDialog();
-                }
-
-            }
-            else if (e.RowIndex >= 0 && dgv_service_price.Columns[e.ColumnIndex].Name == "col_price_delete")
-            {
-                var servicePrice = dgv_service_price.Rows[e.RowIndex].DataBoundItem as ServicePriceModel;
-
-                if (MessageBox.Show($"Are you sure you want to delete {servicePrice.serviceName}?","Warning",MessageBoxButtons.YesNo, MessageBoxIcon.Warning) == DialogResult.Yes) 
-                {
-                    var repo = new ServicePriceRepository();
-                    var controller = new ServicePriceController(repo);
-                    Audit.AuditLog(
-                        DateTime.Now,
-                        "Delete",
-                        UserSession.CurrentUser.first_Name,
-                        "Service Price",
-                        $"Deleted service '{servicePrice.serviceName}' with a price of ₱{servicePrice.selling_price} on {DateTime.Now:yyyy-MM-dd} at {DateTime.Now:HH:mm:ss}"
-                    );
-                    controller.DeleteServicePrice(servicePrice.pricing_id);
-                    InsertDeletedRecord(servicePrice.pricing_id, "Service Price", servicePrice.serviceName, UserSession.CurrentUser.first_Name, DateTime.Today);
-                    await FilterdDeletedRecords();
-                    MessageBox.Show("Delete success", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                    await RefreshServicePriceAsync();
-
-                }
-            }
-          
-        }
-        // END OF SERVICE PRICE
-
-
-        // UTILITIES
-        private void btn_add_utility_Click(object sender, EventArgs e)
-        {
-            using (var utilityForm = new UtilityForm(this)) 
-            {
-                utilityForm.ShowDialog();
-            }
-        }
-
-        public void LoadUtility()
-        {
-            CheckTotalUtil();
-           
-            var repo = new UtilityRepository();
-            var controller = new UtilController(repo);
-            var utility = controller.GetAllUtility();
-
-            decimal total = 0;
-
-            foreach (var util in utility)
-            {
-                total += util.util_text;
-                // Create a container panel
-             
-
-                // Create the textbox
-                MaterialTextBox txtAmount = new MaterialTextBox
-                {
-                    Hint = util.util_name,
-                    Text = util.util_text.ToString("N2"),
-                    Width = 300,
-                    Height = 50,
-                    Location = new Point(0, 5)
-                };
-
-                // Create the update button
-                MaterialButton btnUpdate = new MaterialButton
-                {
-                    Text = "Update",
-                    Width = 50,
-                    Height = 50,
-                    Location = new Point(txtAmount.Right + 25, 10)
-                };
-
-                // Create the remove button
-                MaterialButton btnRemove = new MaterialButton
-                {
-                    Text = "Remove",
-                    Width = 50,
-                    Height = 50,
-                    Location = new Point(btnUpdate.Right + 50, 10)
-                };
-
-                // Wire up remove logic
-                btnRemove.Click += (s, e) =>
-                {
-                    var confirm = MessageBox.Show("Remove this utility?", "Confirm", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
-                    if (confirm == DialogResult.Yes)
-                    {
-                        controller.RemoveUtility(util.util_id);
-                        LoadUtility();
-                    }
-                };
-
-                // Wire up update logic
-                btnUpdate.Click += (s, e) =>
-                {
-                    if (decimal.TryParse(txtAmount.Text, out decimal newAmount))
-                    {
-                        util.util_text = newAmount; // 🔥 Update the model with new value
-
-                        using (var utilityForm = new UtilityForm(this, util))
-                        {
-                            utilityForm.ShowDialog();
-                        }
-                    }
-
-                   
-                };
-
-               
-                // Add panel to flow layout
-               
-            }// End of forloop
 
      
-
-
-        }
-        private void LoadUtil() 
-        {
-            var repo = new OverHeadRepository();
-            var controller = new OverHeadController(repo);
-
-            var utility = controller.GetOverHeadTotal();
-
-            if (utility != null)
-            {
-                btn_add_bill.Visible = false;
-                txt_electric_bill.Text = utility.electricity_bill.ToString();
-                txt_water_bill.Text = utility.water_bill.ToString();
-                txt_internet_bill.Text = utility.internet_bill.ToString();
-                txt_other_bill.Text = utility.other_bill.ToString();
-                txt_bill_note.Text = utility.notes.ToString();
-            }
-            else 
-            {
-                btn_add.Visible = true;
-                txt_electric_bill.Text = "0.00";
-                txt_water_bill.Text = "0.00";
-                txt_internet_bill.Text = "0.00";
-                txt_other_bill.Text = "0.00";
-            }
-        }
-        private async Task RefreshUtilAsync()
-        {
-            var repo = new OverHeadRepository();
-            var controller = new OverHeadController(repo);
-
-            var utility = await controller.GetOverHeadAsync();
-
-            if (utility != null)
-            {
-                btn_add_bill.Visible = false;
-                txt_electric_bill.Text = utility.electricity_bill.ToString();
-                txt_water_bill.Text = utility.water_bill.ToString();
-                txt_internet_bill.Text = utility.internet_bill.ToString();
-                txt_other_bill.Text = utility.other_bill.ToString();
-                txt_bill_note.Text = utility.notes.ToString();
-            }
-            else
-            {
-                btn_add.Visible = true;
-                txt_electric_bill.Text = "0.00";
-                txt_water_bill.Text = "0.00";
-                txt_internet_bill.Text = "0.00";
-                txt_other_bill.Text = "0.00";
-            }
-        }
-        private async Task RefreshRentAsync()
-        {
-            var repo = new OverHeadRepository();
-            var controller = new OverHeadController(repo);
-            var overhead = await controller.GetOverHeadAsync();
-
-
-            if (overhead != null && overhead.monthly_rent != 0)
-            {
-                currentOverheadId = overhead.over_head_id; // 🔥 Store ID
-                txt_month_rent.Text = overhead.monthly_rent.ToString("N2");
-                txt_working_hours.Text = overhead.total_working_hours.ToString();
-
-            }
-            else
-            {
-                currentOverheadId = 0;
-
-                txt_month_rent.Text = "0.00";
-            }
-
-
-
-        }
-
-        private void LoadRent() 
-        {
-            var repo = new OverHeadRepository();
-            var controller = new OverHeadController(repo);
-            var overhead = controller.GetOverHeadTotal();
-
-         
-            if (overhead != null && overhead.monthly_rent != 0)
-            {
-                currentOverheadId = overhead.over_head_id; // 🔥 Store ID
-                txt_month_rent.Text = overhead.monthly_rent.ToString("N2");
-                txt_working_hours.Text = overhead.total_working_hours.ToString();
-                
-            }
-            else
-            {
-                currentOverheadId = 0;
-                
-                txt_month_rent.Text = "0.00";
-            }
-
-
-
-        }
-        private void CheckTotalUtil() 
-        {
-            var repo = new UtilityRepository();
-            var controller = new UtilController(repo);
-            var total_utility = controller.TotalUtility();
-
-            if (total_utility.total_util >= 7)
-            {
-               
-            }
-            else 
-            {
-           
-            }
-        }
-
-        private bool OverHeadValidated()
-        {
-
-            bool validated = true;
-            // REQUIRED FIELD
-
-            // PRICE
-            if (!Validator.DecimalOnly(txt_month_rent, errorProvider1,
-                "Monthly rent is required.",
-                "No spaces allowed.",
-                "Monthly rent must be a valid number.",
-                "Monthly rent must be at least 1.00."))
-            {
-                validated = false;
-            }
-            if (!Validator.DecimalOnly(txt_electric_bill, errorProvider1,
-            "Electric bill is required.",
-            "No spaces allowed.",
-            "Electric bill must be a valid number.",
-            "Electric bill must be at least 1.00."))
-            {
-                validated = false;
-            }
-            if (!Validator.DecimalOnly(txt_water_bill, errorProvider1,
-            "Water bill is required.",
-            "No spaces allowed.",
-            "Water bill be a valid number.",
-            "Water bill be at least 1.00."))
-            {
-                validated = false;
-            }
-            if (!Validator.DecimalOnly(txt_internet_bill, errorProvider1,
-            "Internet bill is required.",
-            "No spaces allowed.",
-            "Internet bill must be a valid number.",
-            "Internet bill must be at least 1.00."))
-            {
-                validated = false;
-            }
-          
-            if (!Validator.IntOnly(txt_working_hours, errorProvider1, "Working hours is required.", "No spaces allowed.", "Working hours must be a whole number.", "Working hours must be greater than zero."))
-            {
-                validated = false;
-            }
-
-            if (!string.IsNullOrWhiteSpace(txt_bill_note.Text)) 
-            {
-                if (!Validator.IsMinimumLength(txt_bill_note, errorProvider1, "Notes must be at least 5 characters.", 5))
-                {
-                    validated = false;
-                }
-                else if (!Validator.MultiLinePattern(txt_bill_note, errorProvider1,@"^[A-Za-z0-9\s]+$","Notes can only contain letters, numbers, and spaces."))
-                {
-                    validated = false;
-                }
-
-            }
-
-
-
-
-            return validated;
-
-
-        }
-        private void CalculateTotal()
-        {
-            decimal total_util = 0;
-            decimal month_rent = 0;
-            decimal electric_bill = 0;
-            decimal water_bill = 0;
-            decimal internet_bill = 0;
-            decimal other_bill = 0;
-
-            decimal.TryParse(txt_month_rent.Text, out month_rent);
-            decimal.TryParse(txt_electric_bill.Text, out electric_bill);
-            decimal.TryParse(txt_water_bill.Text, out water_bill);
-            decimal.TryParse(txt_internet_bill.Text, out internet_bill);
-            decimal.TryParse(txt_other_bill.Text, out other_bill);
-
-            total_util = electric_bill + water_bill + internet_bill + other_bill;
-            decimal total_cost = month_rent + total_util;
-            lbl_total_cost.Text = total_cost.ToString("N2");
-        }
-        private void txt_electric_bill_TextChanged(object sender, EventArgs e)
-        {
-            CalculateTotal();
-        }
-
-        private void txt_water_bill_TextChanged(object sender, EventArgs e)
-        {
-            CalculateTotal();
-        }
-
-        private void txt_internet_bill_TextChanged(object sender, EventArgs e)
-        {
-            CalculateTotal();
-        }
-
-        private void txt_other_bill_TextChanged(object sender, EventArgs e)
-        {
-            CalculateTotal();
-        }
-        private void txt_month_rent_TextChanged_1(object sender, EventArgs e)
-        {
-            CalculateTotal();
-        }
-
-        private void txt_total_utility_TextChanged_1(object sender, EventArgs e)
-        {
-            CalculateTotal();
-        }
-        private void btn_edit_bill_Click_1(object sender, EventArgs e)
-        {
-            txt_month_rent.Enabled = true;
-            txt_electric_bill.Enabled = true;
-            txt_water_bill.Enabled = true;
-            txt_internet_bill.Enabled = true;
-            txt_other_bill.Enabled = true;
-            txt_bill_note.Enabled = true;
-            txt_working_hours.Enabled = true;
-            lbl_total_cost.Enabled = true;
-
-
-            txt_month_rent.ReadOnly = false;
-            txt_electric_bill.ReadOnly = false;
-            txt_water_bill.ReadOnly = false;
-            txt_internet_bill.ReadOnly = false;
-            txt_other_bill.ReadOnly = false;
-            txt_bill_note.ReadOnly = false ;
-            txt_working_hours.ReadOnly = false;
-        
-
-            btn_edit_bill.Visible = false;
-            btn_save_changes.Visible = true;
-            btn_cancel_bill.Visible = true;
-        }
-        private void btn_cancel_bill_Click_1(object sender, EventArgs e)
-        {
  
-            btn_edit_bill.Visible = true;
-            btn_save_changes.Visible = false;
-            btn_cancel_bill.Visible = false;
-        }
- 
-
-        private async void btn_save_changes_Click(object sender, EventArgs e)
-        {
-            if (!OverHeadValidated()) return;
-
-            decimal total_util = 0;
-            decimal month_rent = 0;
-            decimal electric_bill = 0;
-            decimal water_bill = 0;
-            decimal internet_bill = 0;
-            decimal other_bill = 0;
-            string notes_bill = "";
-            decimal total_cost = 0;
-            int total_working_hrs = 0;
-
-            decimal.TryParse(txt_month_rent.Text, out month_rent);
-            decimal.TryParse(txt_electric_bill.Text, out electric_bill);
-            decimal.TryParse(txt_water_bill.Text, out water_bill);
-            decimal.TryParse(txt_internet_bill.Text, out internet_bill);
-            decimal.TryParse(txt_other_bill.Text, out other_bill);
-            decimal.TryParse(lbl_total_cost.Text, out total_cost);
-            int.TryParse(txt_working_hours.Text, out total_working_hrs);
-
-            notes_bill = txt_bill_note.Text;
-
-            var repo = new OverHeadRepository();
-            var controller = new OverHeadController(repo);
-
-            var model = new OverHeadModel
-            {
-                over_head_id = currentOverheadId,
-                monthly_rent = month_rent,
-                electricity_bill = electric_bill,
-                water_bill = water_bill,
-                internet_bill = internet_bill,
-                other_bill = other_bill,
-                notes = notes_bill,
-                total_over_head = total_cost,
-                total_working_hours = total_working_hrs,
-
-            };
-
-            MessageBox.Show("Updated Success");
-            controller.Update(model);
-            AddOrUpdateExpense("Utilities", "Updated Monthly Rent & Bills", total_cost, UserSession.CurrentUser.first_Name, "", DateTime.Now);
-            await RefreshRentAsync();
-            await RefreshUtilAsync();
-            btn_edit_bill.Visible = true;
-            btn_save_changes.Visible = false;
-            btn_cancel_bill.Visible = false;
-
-        }
-        private async void btn_add_bill_Click(object sender, EventArgs e)
-        {
-            if (!OverHeadValidated()) return;
-            decimal total_util = 0;
-            decimal month_rent = 0;
-            decimal electric_bill = 0;
-            decimal water_bill = 0;
-            decimal internet_bill = 0;
-            decimal other_bill = 0;
-            string notes_bill = "";
-            decimal total_cost = 0;
-            int total_working_hrs = 0;
-
-       
-            decimal.TryParse(txt_month_rent.Text, out month_rent);
-            decimal.TryParse(txt_electric_bill.Text, out electric_bill);
-            decimal.TryParse(txt_water_bill.Text, out water_bill);
-            decimal.TryParse(txt_internet_bill.Text, out internet_bill);
-            decimal.TryParse(txt_other_bill.Text, out other_bill);
-            decimal.TryParse(lbl_total_cost.Text, out total_cost);
-            int.TryParse(txt_working_hours.Text, out total_working_hrs);
-
-            notes_bill = txt_bill_note.Text;
-
-            var repo = new OverHeadRepository();
-            var controller = new OverHeadController(repo);
-
-            var model = new OverHeadModel
-            {
-                monthly_rent = month_rent,
-                electricity_bill = electric_bill,
-                water_bill = water_bill,
-                internet_bill = internet_bill,
-                other_bill = other_bill,
-                notes = notes_bill,
-                total_over_head = total_cost,
-                total_working_hours = total_working_hrs,
-
-            };
-
-            controller.Add(model);
-            AddOrUpdateExpense("Utilities", "Created Monthly Rent & Bills", total_cost, UserSession.CurrentUser.first_Name, "", DateTime.Now);
-            await RefreshRentAsync();
-            await RefreshUtilAsync();
-        }
-        private void AddOrUpdateExpense(string category, string description, decimal amount, string paid_by, string notes, DateTime timestamp)
-        {
-            var repo = new ExpensesRepository();
-            var controller = new ExpensesController(repo);
-
-            var model = new ExpensesModel
-            {
-                category = category,
-                description = description,
-                amount = amount,
-                paid_by = paid_by,
-                notes = notes,
-                timestamp = timestamp
-            };
-
-            if (controller.Is_UtilityExists(category))
-            {
-                controller.UpdateExpense(model);
-            }
-            else 
-            {
-                controller.AddExpenses(model);
-            }
-
-        }
-
-       
-
-        // END OF UTILITIES
 
         // SALES REPORT
         private async void FilterSalesReport()
@@ -3029,6 +2510,7 @@ namespace Salon.View
 
             if (expenseSummary != null)
             {
+              
                 lbl_expense_total.Text = expenseSummary.TotalExpense.ToString("C2");
                 lbl_expense_inventory_total.Text = expenseSummary.TotalPurchaseInventory.ToString("C2");
                 lbl_expense_utility_total.Text = expenseSummary.TotalUtilities.ToString("C2");
@@ -4488,25 +3970,7 @@ namespace Salon.View
         }
         private void dgv_transaction_history_CellClick(object sender, DataGridViewCellEventArgs e)
         {
-            if (e.RowIndex < 0) return;
-
-           
-
-            if (e.RowIndex >= 0 && dgv_transaction_history.Columns[e.ColumnIndex].Name == "col_transaction_btn_refund")
-            {
-                var transaction = dgv_transaction_history.Rows[e.RowIndex].DataBoundItem as TransactionModel;
-
-                if (transaction.AppointmentStatus.ToLower() == "refunded")
-                {
-                    return;
-                }
-                using (var form = new RefundForm(this, transaction))
-                {
-                    form.ShowDialog();
-                }
-
-               
-            }  
+          
         }
 
         private void refundToolStripMenuItem_Click(object sender, EventArgs e)
@@ -4535,23 +3999,7 @@ namespace Salon.View
                         MessageBoxIcon.Question
                     );
 
-                if (confirm == DialogResult.Yes)
-                {
-                    using (var form = new RefundForm(this, transaction))
-                    {
-                        form.ShowDialog();
-                    }
-
-                    Audit.AuditLog(
-                        DateTime.Now,
-                        "Cancel Status",
-                        UserSession.CurrentUser.first_Name,
-                        "Appointment",
-                        $"Cancelled Status for client '{transaction.ClientName}' on {DateTime.Now:yyyy-MM-dd} at {DateTime.Now:HH:mm:ss}"
-                    );
-
-                    
-                }
+              
             }
             else
             {
@@ -4566,72 +4014,6 @@ namespace Salon.View
         }
 
 
-
-
-        // REFUND 
-        public async Task RefreshRefundAsync(DateTime? start = null, DateTime? end = null)
-        {
-            var repo = new RefundRepository();
-            var controller = new RefundController(repo);
-
-            var refund = (start.HasValue && end.HasValue) ? await controller.GetRefundsAsync(start.Value, end.Value) : await controller.GetRefundsAsync();
-
-            dgv_refund.AutoGenerateColumns = false;
-            col_refund_service_name.DataPropertyName = "Service_Name";
-            col_refund_price.DataPropertyName = "Original_Price";
-            col_refund_amount.DataPropertyName = "refund_amount";
-            col_refund_method.DataPropertyName = "refund_method";
-            col_refund_reason.DataPropertyName = "refund_reason";
-            col_refund_date.DataPropertyName = "refund_timestamp";
-            col_refund_refunded_by.DataPropertyName = "refunded_by";
-
-            dgv_refund.DataSource = refund;
-        }
-        public void LoadRefund(DateTime? start = null, DateTime? end = null) 
-        {
-            var repo = new RefundRepository();
-            var controller = new RefundController(repo);
-
-            var refund = (start.HasValue && end.HasValue) ? controller.GetRefunds(start.Value, end.Value) : controller.GetRefunds();
-
-            dgv_refund.AutoGenerateColumns = false;
-            col_refund_service_name.DataPropertyName = "Service_Name";
-            col_refund_price.DataPropertyName = "Original_Price";
-            col_refund_amount.DataPropertyName = "refund_amount";
-            col_refund_method.DataPropertyName = "refund_method";
-            col_refund_reason.DataPropertyName = "refund_reason";
-            col_refund_date.DataPropertyName = "refund_timestamp";
-            col_refund_refunded_by.DataPropertyName = "refunded_by";
-
-            dgv_refund.DataSource = refund;
-        }
-
-        private void ct_menu_strip_transaction_Opening(object sender, CancelEventArgs e)
-        {
-
-        }
-
-        private async void btn_refund_filter_Click(object sender, EventArgs e)
-        {
-            DateTime start = dtp_refund_start.Value;
-            DateTime end = dtp_refund_end.Value;
-
-            await RefreshRefundAsync(start, end);
-        }
-
-        private async void btn_refund_clear_Click(object sender, EventArgs e)
-        {
-            dtp_refund_start.Value = DateTime.Today;
-            dtp_refund_end.Value = DateTime.Today;
-
-            await RefreshRefundAsync();
-        }
-
-
-
-
-
-        // END OF REFUMD
 
         // DELETED RECORDS
 
@@ -4925,33 +4307,7 @@ namespace Salon.View
             controller.PermanentDeleteServiceProductUsage(id);
         }
 
-        // WEEKLY SCHEDULE
-        public void RestoreDeletedWeeklySchedule(int id)
-        {
-            var repo = new StylistSchedulesRepository();
-            var controller = new StylistSchedulesController(repo);
-            controller.RestoreSchedule(id);
-        }
-        public void DeleteWeeklySchedule(int id)
-        {
-            var repo = new StylistSchedulesRepository();
-            var controller = new StylistSchedulesController(repo);
-            controller.PermanetDeleteWeeklySchedule(id);
-        }
-
-        // EXCEPTION SCHEDULE
-        public void RestoreDeletedExceptionSchedule(int id)
-        {
-            var repo = new ExceptionSchedulesRepository();
-            var controller = new ExceptionSchedulesController(repo);
-            controller.RestoreExceptionSchedule (id);
-        }
-        public void DeleteExSchedule(int id)
-        {
-            var repo = new ExceptionSchedulesRepository();
-            var controller = new ExceptionSchedulesController(repo);
-            controller.PermanentDeleteExSchedule(id);
-        }
+      
 
         private async void dgv_deleted_record_CellClick(object sender, DataGridViewCellEventArgs e)
         {
@@ -5009,10 +4365,6 @@ namespace Salon.View
                                     RestoreDeletedServiceRecord(record.record_id);
                                     await RefreshServicesAsync();
                                     break;
-                                case "Service Price":
-                                    RestoreDeletedServicePriceRecord(record.record_id);
-                                    await RefreshServicePriceAsync();
-                                    break;
                                 case "Vat/Discount":
                                     RestoreDeletedDiscountRecord(record.record_id);
                                     await RefreshDiscountAsync();
@@ -5020,12 +4372,7 @@ namespace Salon.View
                                 case "Manage Services, Product Usage":
                                     RestoreDeletedServiceProductRecord(record.record_id);
                                     break;
-                                case "Manage Stylist, Schedule":
-                                    RestoreDeletedWeeklySchedule(record.record_id);
-                                    break;
-                                case "Manage Stylist, Exception Schedule":
-                                    RestoreDeletedExceptionSchedule(record.record_id);
-                                    break;
+                             
 
 
                             }
@@ -5092,10 +4439,6 @@ namespace Salon.View
                                     DeleteServiceRecord(record.record_id);
                                     await RefreshServicesAsync();
                                     break;
-                                case "Service Price":
-                                    DeleteServicePriceRecord(record.record_id);
-                                    await RefreshServicePriceAsync();
-                                    break;
                                 case "Vat/Discount":
                                     DeleteDiscountRecord(record.record_id);
                                     await RefreshDiscountAsync();
@@ -5103,12 +4446,7 @@ namespace Salon.View
                                 case "Manage Services, Product Usage":
                                     DeleteServiceProductUsage(record.record_id);
                                     break;
-                                case "Manage Stylist, Schedule":
-                                    DeleteWeeklySchedule(record.record_id);
-                                    break;
-                                case "Manage Stylist, Exception Schedule":
-                                    DeleteExSchedule(record.record_id);
-                                    break;
+                               
 
 
                             }
@@ -5357,10 +4695,7 @@ namespace Salon.View
             dtp_transaction_end.MinDate = dtp_audit_start.Value.Date;
         }
 
-        private void dtp_refund_start_ValueChanged(object sender, EventArgs e)
-        {
-            dtp_refund_end.MinDate = dtp_refund_start.Value.Date;
-        }
+       
 
         private void dtp_delete_record_start_ValueChanged(object sender, EventArgs e)
         {
@@ -5424,11 +4759,7 @@ namespace Salon.View
             await RefreshServicesAsync();
         }
 
-        private async void btn_refresh_service_price_Click(object sender, EventArgs e)
-        {
-            await RefreshServicePriceAsync();
-        }
-
+      
         private async void btn_refresh_appointment_Click(object sender, EventArgs e)
         {
             await RefreshAppointmentAsync();
@@ -5437,11 +4768,6 @@ namespace Salon.View
         private async void btn_refresh_transaction_Click(object sender, EventArgs e)
         {
             await RefreshTransactionAsync();
-        }
-
-        private async void btn_refresh_refund_Click(object sender, EventArgs e)
-        {
-            await RefreshRefundAsync();
         }
 
         private async void btn_refresh_data_recovery_Click(object sender, EventArgs e)
@@ -5664,30 +4990,71 @@ namespace Salon.View
             e.Handled = true;
         }
 
+        private void materialCard4_Paint(object sender, PaintEventArgs e)
+        {
 
+        }
 
+        private void dgv_walk_in_CellContentClick(object sender, DataGridViewCellEventArgs e)
+        {
+            if (e.RowIndex < 0) return;
 
+            if (e.RowIndex >= 0 && dgv_walk_in.Columns[e.ColumnIndex].Name == "btn_walk_in_update")
+            {
+                var walk_in_data = dgv_walk_in.Rows[e.RowIndex].DataBoundItem as WalkInModel;
 
+                using (var form = new Walk_In_Form(this, walk_in_data))
+                {
+                    form.ShowDialog();
+                }
+            }
+            else if (e.RowIndex >= 0 && dgv_walk_in.Columns[e.ColumnIndex].Name == "btn_walk_in_payment") 
+            {
+                var walk_in_data = dgv_walk_in.Rows[e.RowIndex].DataBoundItem as WalkInModel;
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+                using (var form = new Process_Walk_In_Payment_Form(this, walk_in_data))
+                {
+                    form.ShowDialog();
+                }
+            }
+        }
 
 
         // END OF DELETED RECORD
+
+        // POS SYSTEM
+
+        private void LoadPaymentMethod() 
+        {
+           var repo = new PaymentMethodRepository();
+           var controller = new PaymentMethodController(repo);
+           var paymentMethod = controller.GetAllPaymentMethod();
+      
+            cb_payment_method.Items.Clear();
+
+            cb_payment_method.DisplayMember = "name";
+            cb_payment_method.ValueMember = "id";
+            cb_payment_method.DataSource = paymentMethod;
+            cb_payment_method.SelectedIndex = -1;
+
+        }
+
+        private void btn_discount_Click(object sender, EventArgs e)
+        {
+            using (var discountForm = new DiscountModelForm())
+            {
+                if (discountForm.ShowDialog() == DialogResult.OK)
+                {
+                    // Get the selected discount rate from the discount form
+                    lbl_discount_name.Text =$"DISCOUNT ({discountForm.discountName}%)";
+                    lbl_discount_rate.Text = discountForm.discountRate.ToString("N2");
+                   
+                }
+            }
+
+        }
+
+        // END OF POS SYSTEM
     }
 }
 

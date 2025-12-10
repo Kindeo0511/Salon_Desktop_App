@@ -11,9 +11,9 @@ using System.Windows.Forms;
 using MaterialSkin.Controls;
 namespace Salon.View
 {
-    public partial class InvoiceForm : MaterialForm
+    public partial class TestBookingForm : MaterialForm
     {
-        public InvoiceForm()
+        public TestBookingForm()
         {
             InitializeComponent();
             ThemeManager.ApplyTheme(this);

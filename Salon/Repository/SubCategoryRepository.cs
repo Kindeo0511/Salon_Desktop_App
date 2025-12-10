@@ -76,6 +76,14 @@ namespace Salon.Repository
                 con.Execute(sql, new { id = id });
             }
         }
+        public bool SubCategoryIsUsed(int subCategoryId)
+        {
+            using (var con = Database.GetConnection())
+            {
+                var sql = "SELECT COUNT(*) FROM tbl_servicesname WHERE subCategory_id = @subCategory_id";
+                return con.ExecuteScalar<int>(sql, new { subCategory_id = subCategoryId }) > 0;
+            }
+        }
         public bool SubCategoriesExist(string name, int category_id, int id = 0) 
         {
             using (var con = Database.GetConnection())

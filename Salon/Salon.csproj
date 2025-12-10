@@ -233,10 +233,12 @@
     <Compile Include="Controller\ExpensesController.cs" />
     <Compile Include="Controller\InventoryBatchController.cs" />
     <Compile Include="Controller\InventoryController.cs" />
+    <Compile Include="Controller\InvoiceController.cs" />
+    <Compile Include="Controller\InvoiceServiceCartController.cs" />
     <Compile Include="Controller\OverHeadController.cs" />
     <Compile Include="Controller\PaymentController.cs" />
+    <Compile Include="Controller\PaymentMethodController.cs" />
     <Compile Include="Controller\ProductController.cs" />
-    <Compile Include="Controller\RefundController.cs" />
     <Compile Include="Controller\ServiceController.cs" />
     <Compile Include="Controller\ServicePriceController.cs" />
     <Compile Include="Controller\ServiceProductUsageController.cs" />
@@ -249,6 +251,7 @@
     <Compile Include="Controller\UserController.cs" />
     <Compile Include="Controller\UtilController.cs" />
     <Compile Include="Controller\VatController.cs" />
+    <Compile Include="Controller\Walk_In_Controller.cs" />
     <Compile Include="Data\Database.cs" />
     <Compile Include="Data\DatabaseConnection.cs" />
     <Compile Include="Form1.cs">
@@ -275,11 +278,15 @@
     <Compile Include="Models\ExpensesModel.cs" />
     <Compile Include="Models\InventoryBatchModel.cs" />
     <Compile Include="Models\InventoryViewModel.cs" />
+    <Compile Include="Models\InvoiceModel.cs" />
+    <Compile Include="Models\InvoiceServicesCart.cs" />
     <Compile Include="Models\OtpEntryModel.cs" />
     <Compile Include="Models\OverHeadModel.cs" />
+    <Compile Include="Models\PaymentMethodModel.cs" />
     <Compile Include="Models\PaymentModel.cs" />
     <Compile Include="Models\ProductModel.cs" />
     <Compile Include="Models\RefundModel.cs" />
+    <Compile Include="Models\ServiceCart.cs" />
     <Compile Include="Models\ServiceItemSelected.cs" />
     <Compile Include="Models\ServiceModel.cs" />
     <Compile Include="Models\ServicePriceModel.cs" />
@@ -293,6 +300,7 @@
     <Compile Include="Models\UsersModel.cs" />
     <Compile Include="Models\UtilityModel.cs" />
     <Compile Include="Models\VatModel.cs" />
+    <Compile Include="Models\WalkInModel.cs" />
     <Compile Include="Models\WeeklySchedule.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -309,7 +317,6 @@
     <Compile Include="Repository\DiscountNotificationRepository.cs" />
     <Compile Include="Repository\DiscountRepository.cs" />
     <Compile Include="Repository\DiscountUsageRepository.cs" />
-    <Compile Include="Repository\ExceptionSchedulesRepository.cs" />
     <Compile Include="Repository\ExpensesRepository.cs" />
     <Compile Include="Repository\IAppointment.cs" />
     <Compile Include="Repository\IAppointmentServiceRepository.cs" />
@@ -326,10 +333,11 @@
     <Compile Include="Repository\IExpenses.cs" />
     <Compile Include="Repository\InventoryBatchRepository.cs" />
     <Compile Include="Repository\InventoryRepository.cs" />
+    <Compile Include="Repository\InvoiceRepository.cs" />
+    <Compile Include="Repository\InvoiceServiceRepository.cs" />
     <Compile Include="Repository\IOverHead.cs" />
     <Compile Include="Repository\IPaymentRepository.cs" />
     <Compile Include="Repository\IProduct.cs" />
-    <Compile Include="Repository\IRefund.cs" />
     <Compile Include="Repository\IService.cs" />
     <Compile Include="Repository\IServicePrice.cs" />
     <Compile Include="Repository\IServiceProductUsage.cs" />
@@ -341,23 +349,27 @@
     <Compile Include="Repository\IUser.cs" />
     <Compile Include="Repository\IUtility.cs" />
     <Compile Include="Repository\IVat.cs" />
+    <Compile Include="Repository\IWalkIn.cs" />
     <Compile Include="Repository\I_Inventory.cs" />
     <Compile Include="Repository\I_InventoryBatches.cs" />
+    <Compile Include="Repository\I_Invoice.cs" />
+    <Compile Include="Repository\I_InvoiceServiceCart.cs" />
+    <Compile Include="Repository\I_PaymentMethod.cs" />
     <Compile Include="Repository\OverHeadRepository.cs" />
+    <Compile Include="Repository\PaymentMethodRepository.cs" />
     <Compile Include="Repository\PaymentRepository.cs" />
     <Compile Include="Repository\ProductRepository.cs" />
-    <Compile Include="Repository\RefundRepository.cs" />
     <Compile Include="Repository\ServicePriceRepository.cs" />
     <Compile Include="Repository\ServiceProductUsageRepository.cs" />
     <Compile Include="Repository\ServiceRepository.cs" />
     <Compile Include="Repository\StylistRepository.cs" />
-    <Compile Include="Repository\StylistSchedulesRepository.cs" />
     <Compile Include="Repository\SubCategoryRepository.cs" />
     <Compile Include="Repository\SupplierRepository.cs" />
     <Compile Include="Repository\TransactionRepository.cs" />
     <Compile Include="Repository\UserRepository.cs" />
     <Compile Include="Repository\UtilityRepository.cs" />
     <Compile Include="Repository\VatRepository.cs" />
+    <Compile Include="Repository\WalkInRepository.cs" />
     <Compile Include="Services\TimeSlotGenerator.cs" />
     <Compile Include="Util\Audit.cs" />
     <Compile Include="Util\EmailMessage.cs" />
@@ -430,6 +442,12 @@
     <Compile Include="View\DiscountForm.Designer.cs">
       <DependentUpon>DiscountForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="View\DiscountModelForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="View\DiscountModelForm.Designer.cs">
+      <DependentUpon>DiscountModelForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="View\ForgotPasswordForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -441,12 +459,6 @@
     </Compile>
     <Compile Include="View\Form1.Designer.cs">
       <DependentUpon>Form1.cs</DependentUpon>
-    </Compile>
-    <Compile Include="View\InvoiceForm.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="View\InvoiceForm.Designer.cs">
-      <DependentUpon>InvoiceForm.cs</DependentUpon>
     </Compile>
     <Compile Include="View\LoadingScreenControl.cs">
       <SubType>UserControl</SubType>
@@ -472,23 +484,23 @@
     <Compile Include="View\MainForm.Designer.cs">
       <DependentUpon>MainForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="View\OverHeadAndTotalWorkingHoursForm.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="View\OverHeadAndTotalWorkingHoursForm.Designer.cs">
-      <DependentUpon>OverHeadAndTotalWorkingHoursForm.cs</DependentUpon>
-    </Compile>
     <Compile Include="View\PaymentForm.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="View\PaymentForm.Designer.cs">
       <DependentUpon>PaymentForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="View\PricingServiceForm.cs">
+    <Compile Include="View\POS_Form.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="View\PricingServiceForm.Designer.cs">
-      <DependentUpon>PricingServiceForm.cs</DependentUpon>
+    <Compile Include="View\POS_Form.Designer.cs">
+      <DependentUpon>POS_Form.cs</DependentUpon>
+    </Compile>
+    <Compile Include="View\Process_Walk_In_Payment_Form.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="View\Process_Walk_In_Payment_Form.Designer.cs">
+      <DependentUpon>Process_Walk_In_Payment_Form.cs</DependentUpon>
     </Compile>
     <Compile Include="View\ProductForm.cs">
       <SubType>Form</SubType>
@@ -502,17 +514,17 @@
     <Compile Include="View\ProductUsageForm.Designer.cs">
       <DependentUpon>ProductUsageForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="View\RefundForm.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="View\RefundForm.Designer.cs">
-      <DependentUpon>RefundForm.cs</DependentUpon>
-    </Compile>
     <Compile Include="View\RegisterUserForm.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="View\RegisterUserForm.Designer.cs">
       <DependentUpon>RegisterUserForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="View\SearchCustomerForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="View\SearchCustomerForm.Designer.cs">
+      <DependentUpon>SearchCustomerForm.cs</DependentUpon>
     </Compile>
     <Compile Include="View\SearchResultControl.cs">
       <SubType>UserControl</SubType>
@@ -538,12 +550,6 @@
     <Compile Include="View\StylistForm.Designer.cs">
       <DependentUpon>StylistForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="View\StylistScheduleForm.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="View\StylistScheduleForm.Designer.cs">
-      <DependentUpon>StylistScheduleForm.cs</DependentUpon>
-    </Compile>
     <Compile Include="View\SubCategoryForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -555,6 +561,12 @@
     </Compile>
     <Compile Include="View\SupplierForm.Designer.cs">
       <DependentUpon>SupplierForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="View\TestBookingForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="View\TestBookingForm.Designer.cs">
+      <DependentUpon>TestBookingForm.cs</DependentUpon>
     </Compile>
     <Compile Include="View\UpdateAppointmentForm.cs">
       <SubType>Form</SubType>
@@ -580,11 +592,11 @@
     <Compile Include="View\UsersControl.Designer.cs">
       <DependentUpon>UsersControl.cs</DependentUpon>
     </Compile>
-    <Compile Include="View\UtilityForm.cs">
+    <Compile Include="View\Walk_In_Form.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="View\UtilityForm.Designer.cs">
-      <DependentUpon>UtilityForm.cs</DependentUpon>
+    <Compile Include="View\Walk_In_Form.Designer.cs">
+      <DependentUpon>Walk_In_Form.cs</DependentUpon>
     </Compile>
     <EmbeddedResource Include="Form1.resx">
       <DependentUpon>Form1.cs</DependentUpon>
@@ -628,6 +640,9 @@
     <EmbeddedResource Include="View\DiscountForm.resx">
       <DependentUpon>DiscountForm.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="View\DiscountModelForm.resx">
+      <DependentUpon>DiscountModelForm.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="View\ForgotPasswordForm.resx">
       <DependentUpon>ForgotPasswordForm.cs</DependentUpon>
     </EmbeddedResource>
@@ -646,14 +661,14 @@
     <EmbeddedResource Include="View\MainForm.resx">
       <DependentUpon>MainForm.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="View\OverHeadAndTotalWorkingHoursForm.resx">
-      <DependentUpon>OverHeadAndTotalWorkingHoursForm.cs</DependentUpon>
-    </EmbeddedResource>
     <EmbeddedResource Include="View\PaymentForm.resx">
       <DependentUpon>PaymentForm.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="View\PricingServiceForm.resx">
-      <DependentUpon>PricingServiceForm.cs</DependentUpon>
+    <EmbeddedResource Include="View\POS_Form.resx">
+      <DependentUpon>POS_Form.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="View\Process_Walk_In_Payment_Form.resx">
+      <DependentUpon>Process_Walk_In_Payment_Form.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="View\ProductForm.resx">
       <DependentUpon>ProductForm.cs</DependentUpon>
@@ -661,11 +676,11 @@
     <EmbeddedResource Include="View\ProductUsageForm.resx">
       <DependentUpon>ProductUsageForm.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="View\RefundForm.resx">
-      <DependentUpon>RefundForm.cs</DependentUpon>
-    </EmbeddedResource>
     <EmbeddedResource Include="View\RegisterUserForm.resx">
       <DependentUpon>RegisterUserForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="View\SearchCustomerForm.resx">
+      <DependentUpon>SearchCustomerForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="View\SearchResultControl.resx">
       <DependentUpon>SearchResultControl.cs</DependentUpon>
@@ -679,14 +694,14 @@
     <EmbeddedResource Include="View\StylistForm.resx">
       <DependentUpon>StylistForm.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="View\StylistScheduleForm.resx">
-      <DependentUpon>StylistScheduleForm.cs</DependentUpon>
-    </EmbeddedResource>
     <EmbeddedResource Include="View\SubCategoryForm.resx">
       <DependentUpon>SubCategoryForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="View\SupplierForm.resx">
       <DependentUpon>SupplierForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="View\TestBookingForm.resx">
+      <DependentUpon>TestBookingForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="View\UpdateAppointmentForm.resx">
       <DependentUpon>UpdateAppointmentForm.cs</DependentUpon>
@@ -700,8 +715,8 @@
     <EmbeddedResource Include="View\UsersControl.resx">
       <DependentUpon>UsersControl.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="View\UtilityForm.resx">
-      <DependentUpon>UtilityForm.cs</DependentUpon>
+    <EmbeddedResource Include="View\Walk_In_Form.resx">
+      <DependentUpon>Walk_In_Form.cs</DependentUpon>
     </EmbeddedResource>
     <None Include="packages.config" />
     <None Include="Properties\Settings.settings">

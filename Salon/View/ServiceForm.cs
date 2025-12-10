@@ -21,12 +21,18 @@ namespace Salon.View
     {
         private readonly MainForm mainform;
         private ServiceModel serviceModel;
+
+
         public ServiceForm(MainForm mainform)
         {
             InitializeComponent();
             ThemeManager.ApplyTheme(this);
             this.mainform = mainform;
             LoadSubCategory();
+
+         
+   
+            
         }
         public ServiceForm(MainForm mainform, ServiceModel serviceModel)
         {
@@ -42,10 +48,12 @@ namespace Salon.View
                 txt_duration.Value = serviceModel.duration;
                 cmb_sub_category.SelectedValue = serviceModel.subCategory_id;
                 cmb_status.SelectedItem = serviceModel.status == Status.Active ? "Active" : "Inactive";
-
+                txt_price.Text = serviceModel.servicePrice.ToString("F2");
                 btn_save.Visible= false;
                 btn_update.Visible= true;
             }
+
+     
         }
 
         private void LoadSubCategory() 
@@ -62,12 +70,14 @@ namespace Salon.View
 
         private void AddService() 
         {
+
             var repo = new ServiceRepository();
             var controller = new ServiceController(repo);
             var service = new ServiceModel()
             {
                 subCategory_id = (int)cmb_sub_category.SelectedValue,
                 serviceName = txt_service_name.Text,
+                servicePrice = Convert.ToDecimal(txt_price.Text),
                 duration = (int)txt_duration.Value,
                 status = cmb_status.Text == "Active" ? Status.Active : Status.Inactive,
             };
@@ -84,6 +94,7 @@ namespace Salon.View
             var controller = new ServiceController(repo);
             serviceModel.subCategory_id = (int)cmb_sub_category.SelectedValue;
             serviceModel.serviceName = txt_service_name.Text;
+            serviceModel.servicePrice = Convert.ToDecimal(txt_price.Text);
             serviceModel.duration = (int)txt_duration.Value;
             serviceModel.status = cmb_status.Text == "Active" ? Status.Active : Status.Inactive;
             controller.updateService(serviceModel);
@@ -194,6 +205,11 @@ namespace Salon.View
 
             // Block everything else
             e.Handled = true;
+        }
+
+        private void cmb_status_SelectedIndexChanged(object sender, EventArgs e)
+        {
+
         }
     }
 }

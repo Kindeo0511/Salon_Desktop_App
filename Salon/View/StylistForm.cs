@@ -44,7 +44,7 @@ namespace Salon.View
                 txt_contact.Text = _stylist.contactNumber;
                 txt_email.Text = _stylist.email;
                 txt_address.Text = _stylist.address;
-                txt_daily_wage.Text = _stylist.daily_wage.ToString();
+
 
                 btn_save.Visible = false;
                 btn_update.Visible = true;
@@ -70,7 +70,7 @@ namespace Salon.View
                 contactNumber = txt_contact.Text,
                 email = txt_email.Text,
                 address = txt_address.Text,
-                daily_wage = Convert.ToDecimal(txt_daily_wage.Text)
+     
                 
                 };
 
@@ -88,7 +88,7 @@ namespace Salon.View
             _stylist.contactNumber = txt_contact.Text;
             _stylist.email = txt_email.Text;
             _stylist.address = txt_address.Text;
-            _stylist.daily_wage = Convert.ToDecimal(txt_daily_wage.Text);
+
 
             var repo = new StylistRepository();
             var stylistController = new Controller.StylistController(repo);
@@ -264,39 +264,7 @@ namespace Salon.View
             }
 
 
-            if (!Validator.IsRequiredTextField(txt_daily_wage, errorProvider1, "Daily wage is required."))
-            {
-                validated = false;
-            }
-            else if (!Validator.DisallowSpaces(txt_daily_wage, errorProvider1, "No Spaces Allowed")) 
-            {
-                validated = false;
-            }
-            else
-            {
-                if (decimal.TryParse(txt_daily_wage.Text.Trim(), out decimal wage))
-                {
-                    if (wage <= 0)
-                    {
-                        errorProvider1.SetError(txt_daily_wage, "Daily wage must be greater than zero.");
-                        validated = false;
-                    }
-                    else if (wage > 500)
-                    {
-                        errorProvider1.SetError(txt_daily_wage, "Daily wage should not exceed 500.");
-                        validated = false;
-                    }
-                    else
-                    {
-                        errorProvider1.SetError(txt_daily_wage, "");
-                    }
-                }
-                else
-                {
-                    errorProvider1.SetError(txt_daily_wage, "Daily wage must be a valid number.");
-                    validated = false;
-                }
-            }
+        
 
          
             if (birthDate > DateTime.Now.AddYears(-age))

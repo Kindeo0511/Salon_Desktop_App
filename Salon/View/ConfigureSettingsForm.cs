@@ -37,6 +37,7 @@ namespace Salon.View
                 defaultDate = dtp_day_of_birth.MaxDate;
 
             dtp_day_of_birth.Value = defaultDate;
+
         }
 
         private void materialTabControl1_Selecting(object sender, TabControlCancelEventArgs e)
@@ -864,23 +865,7 @@ namespace Salon.View
 
         private void txt_password_Validating(object sender, CancelEventArgs e)
         {
-            TextBox txt = sender as TextBox;
-            if (txt == null || string.IsNullOrWhiteSpace(txt.Text))
-            {
-                errorProvider1.SetError(txt, "Password is required.");
-                e.Cancel = true;
-                return;
-            }
-
-            if (txt.Text.Length < 8)
-            {
-                errorProvider1.SetError(txt, "Password must be at least 8 characters.");
-                e.Cancel = true;
-            }
-            else
-            {
-                errorProvider1.SetError(txt, ""); // Clear error
-            }
+            
         }
 
         private void txt_month_rent_KeyPress(object sender, KeyPressEventArgs e)

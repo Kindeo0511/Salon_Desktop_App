@@ -395,21 +395,7 @@ namespace Salon.Util
         // END OF STYLIST VALIDATION
 
         // STYLIST SCHEDULE
-        public static bool IsScheduleConflict(MaterialComboBox txt, ErrorProvider ep, string message, int stylist_id, TimeSpan start, TimeSpan end, int id)
-        {
-            var repo = new StylistSchedulesRepository();
-            var controller = new StylistSchedulesController(repo);
-
-            if (controller.GetIsScheduleConflict(stylist_id, txt.Text, start, end, id))
-            {
-                ep.SetError(txt, message);
-                return false;
-            }
-
-            ep.SetError(txt, "");
-            return true;
-        }
-
+     
 
         // END OF STYLIST SCHEDULE
 
@@ -417,20 +403,7 @@ namespace Salon.Util
 
 
         // not done yet in validation
-        public static bool IsExScheduleExists(Control control, ErrorProvider ep, string message, int stylist_id, int id, DateTime date)
-        {
-            var repo = new ExceptionSchedulesRepository();
-            var controller = new ExceptionSchedulesController(repo);
-
-            if (controller.GetIsExceptionScheduleConflict(stylist_id, date, id))
-            {
-                ep.SetError(control, message);
-                return false;
-            }
-
-            ep.SetError(control, "");
-            return true;
-        }
+       
 
 
         // not done yet stylist exceptio nvdalition

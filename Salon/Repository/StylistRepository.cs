@@ -51,8 +51,8 @@ namespace Salon.Repository
         {
             using (var con = Database.GetConnection())
             {
-                var sql = @"INSERT INTO tbl_stylists (firstName, middleName, lastName, birth_date, contactNumber, email, address, daily_wage) 
-                            VALUES (@firstName, @middleName, @lastName, @birth_date, @contactNumber, @email, @address, @daily_wage)";
+                var sql = @"INSERT INTO tbl_stylists (firstName, middleName, lastName, birth_date, contactNumber, email, address) 
+                            VALUES (@firstName, @middleName, @lastName, @birth_date, @contactNumber, @email, @address)";
                 con.Execute(sql, stylist);
             }
         }
@@ -61,7 +61,7 @@ namespace Salon.Repository
             using (var con = Database.GetConnection())
             {
                 var sql = @"UPDATE tbl_stylists SET firstName = @firstName, middleName = @middleName, lastName = @lastName, 
-                            birth_date = @birth_date, contactNumber = @contactNumber, email = @email, address = @address, daily_wage = @daily_wage
+                            birth_date = @birth_date, contactNumber = @contactNumber, email = @email, address = @address
                             WHERE stylist_id = @stylist_id";
                 con.Execute(sql, stylist);
             }
@@ -110,7 +110,7 @@ namespace Salon.Repository
             {
                 var sql = @"SELECT COUNT(*) AS TotalActive
                             FROM tbl_stylist_schedules 
-                            WHERE day_of_week = LOWER(DAYNAME(CURRENT_DATE)) AND is_working = 1 AND is_deleted = 0;";
+                            WHERE day_of_week = LOWER(DAYNAME(CURRENT_DATE)) AND is_deleted = 0;";
                 return con.Query<StylistModel>(sql).FirstOrDefault();
             }
         }

@@ -16,6 +16,7 @@ namespace Salon.Repository
         void DeleteSubCategory(int subCategoryId);
         void RestoreDeletedSubCategories(int id);
         void PermanentDelete(int id);
+        bool SubCategoryIsUsed(int subCategoryId);
         bool SubCategoriesExist(string name, int category_id, int id = 0);
     }
 }
