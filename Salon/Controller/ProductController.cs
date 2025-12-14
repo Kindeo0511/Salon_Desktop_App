@@ -15,6 +15,11 @@ namespace Salon.Controller
         {
             this.repo = repo;
         }
+
+        public IEnumerable<ProductModel> GetRetailProduct()
+        {
+            return repo.GetRetailProduct();
+        }
         public IEnumerable<ProductModel> getAllProduct()
         {
             return repo.GetAllProducts();

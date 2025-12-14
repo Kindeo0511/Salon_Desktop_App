@@ -15,7 +15,9 @@ namespace Salon.Models
         public string SubCategoryname { get; set; }
         public int Duration { get; set; }
         public decimal Price { get; set; }
-
+        public int item_id { get; set; }
+        public string name { get; set; }
+        public decimal price { get; set; }
         public decimal SellingPrice { get; set; }
         public decimal VatAmount { get; set; }
 

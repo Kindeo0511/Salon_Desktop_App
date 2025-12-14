@@ -17,6 +17,10 @@ namespace Salon.Controller
             this._repository = _repository;
         }
 
+        public int GetProductUsageCount(int id) 
+        {
+            return _repository.GetProductUsageCount(id);
+        }
         public IEnumerable<ServiceProductUsageModel> GetAllServiceProducts(int id)
         {
             return _repository.GetAllServiceProducts(id);

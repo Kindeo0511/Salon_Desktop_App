@@ -18,9 +18,19 @@ namespace Salon.Repository
             using (var con = Database.GetConnection())
             {
                 var sql = @"
-                  SELECT sn.serviceName_id AS ItemId,sc.invoice_id AS InvoiceId, sn.serviceName AS ItemName, sc.unit_price AS Price, sc.qty AS Quantity, sc.duration AS Duration FROM tbl_invoice_service_cart AS sc
-                 LEFT JOIN tbl_servicesname AS sn ON sn.serviceName_id = sc.serviceName_id
-                 WHERE invoice_id = @InvoiceId;";
+                  SELECT isc.invoice_id AS InvoiceId,
+                       isc.product_id AS ProductId,
+                       p.product_name AS ItemName,
+                       isc.service_id AS ServiceId,
+                       sn.serviceName AS ItemName,
+                       isc.unit_price AS Price,
+                       isc.qty AS Quantity,
+                       isc.duration AS Duration
+                FROM tbl_invoice_service_cart AS isc
+                LEFT JOIN tbl_products AS p ON isc.product_id = p.product_id
+                LEFT JOIN tbl_servicesname AS sn ON isc.service_id = sn.serviceName_id
+                WHERE isc.invoice_id = @InvoiceId;
+                ";
                 var result = con.Query<ServiceCart>(sql, new { InvoiceId = invoiceId }).ToList();
                 return new BindingList<ServiceCart>(result);
 
@@ -32,8 +42,8 @@ namespace Salon.Repository
            using (var con = Database.GetConnection())
            {
                 var sql = @"
-                INSERT INTO tbl_invoice_service_cart (invoice_id, serviceName_id, qty, unit_price, total_price, duration)
-                VALUES (@InvoiceId, @ItemId, @Quantity, @Price, @TotalPrice, @Duration);";
+                INSERT INTO tbl_invoice_service_cart (invoice_id, product_id, service_id, qty, unit_price, total_price, duration)
+                VALUES (@InvoiceId, @ProductId, @ServiceId, @Quantity, @Price, @TotalPrice, @Duration);";
                 con.Execute(sql, model);
             }
         }

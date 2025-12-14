@@ -122,25 +122,16 @@ namespace Salon.Repository
 
         //}
 
-        public IEnumerable<AppointmentServicesModel> ServicesSelected(int id) 
+        public IEnumerable<AppointmentServicesModel>  ServicesSelected(int id) 
         {
             using (var con = Database.GetConnection()) 
             {
-                var sql = @"SELECT 
-                        sn.serviceName_id AS ServiceId,
-                        sn.serviceName AS ServiceName,
-                        sn.subCategory_id,
-                        sc.subCategoryName AS SubCategoryname,
-                        sn.duration AS Duration
-                    FROM tbl_appointment_services aps
-                    LEFT JOIN tbl_appointment a ON a.appointment_id = aps.appointment_id
-                    LEFT JOIN tbl_servicesname sn ON aps.serviceName_id = sn.serviceName_id
-                    LEFT JOIN tbl_subcategory sc ON sn.subCategory_id = sc.subCategory_id
-                    WHERE aps.appointment_id = @id;";
+                var sql = @"SELECT * FROM  tbl_item WHERE item_id= @id;";
                 return con.Query<AppointmentServicesModel>(sql, new { id = id}).ToList();
             }
         }
 
 
     }
+
 }

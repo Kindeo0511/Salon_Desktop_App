@@ -293,7 +293,50 @@ GROUP BY a.appointment_id;";
 
 
         }
-
+        public IEnumerable<AppointmentModel> GetTodayAppointment() 
+        {
+            using (var con = Database.GetConnection())
+            {
+                var sql = @"SELECT 
+                    a.appointment_id AS AppointmentId,
+                    a.customer_id AS CustomerId,
+                    CONCAT(c.firstName, ' ', c.middleName, ' ', c.lastName) AS CustomerName,
+                    a.stylist_id AS StylistId,
+                    COALESCE(CONCAT(s.firstName, ' ', s.middleName, ' ', s.lastName), 'Stylist not assigned yet') AS StylistName,
+                    c.email AS Email,
+                    c.phoneNumber AS PhoneNumber,
+                    c.customer_type AS Customer_Type,
+                    GROUP_CONCAT(DISTINCT sn.serviceName SEPARATOR ', ') AS Services,
+                    SUM(sn.servicePrice) AS TotalSellingPrice,
+                    SUM(spr.vat_amount) AS TotalVatAmount,
+                    a.Date AS AppointmentDate,
+                    a.start_time AS StartTime,
+                    a.end_time AS EndTime,
+                    a.Status,
+                    a.Payment_status AS PaymentStatus,
+                    a.booking_type AS BookingType
+                FROM tbl_appointment a
+                LEFT JOIN tbl_customer_account c ON a.customer_id = c.customer_id
+                LEFT JOIN tbl_stylists s ON a.stylist_id = s.stylist_id
+                LEFT JOIN tbl_appointment_services aps ON a.appointment_id = aps.appointment_id
+                LEFT JOIN tbl_servicesname sn ON aps.serviceName_id = sn.serviceName_id
+                LEFT JOIN tbl_service_product spd ON spd.service_id = sn.serviceName_id
+                LEFT JOIN tbl_service_price spr ON spr.service_product_id = spd.service_product_id
+                WHERE a.Date = CURRENT_DATE() AND a.payment_status != 'Paid'
+                GROUP BY 
+                    a.appointment_id,
+                    a.customer_id,
+                    a.stylist_id,
+                    a.Date,
+                    a.start_time,
+                    a.end_time,
+                    a.Status,
+                    a.Payment_status,
+                    a.booking_type;
+                ";
+                return con.Query<AppointmentModel>(sql).ToList();
+            }
+        }
         public AppointmentModel GetTotalAppointment()
         {
             using (var con = Database.GetConnection())
@@ -374,7 +417,32 @@ GROUP BY a.appointment_id;";
                 return newId;
             }
         }
-
+        public void UpdateAppointment(AppointmentModel appointment) 
+        {
+            using (var con = Database.GetConnection()) 
+            {
+                var sql = @"UPDATE tbl_appointment
+                        SET stylist_id = @StylistId,
+                        Date = @AppointmentDate,
+                        start_time = @StartTime,
+                        end_time = @EndTime
+                        WHERE appointment_id = @AppointmentId";
+                con.Execute(sql, appointment);
+            }
+        }
+        public void UpdateWalkin(AppointmentModel appointment)
+        {
+            using (var con = Database.GetConnection())
+            {
+                var sql = @"UPDATE tbl_appointment
+                        SET stylist_id = @StylistId,
+                        Date = @AppointmentDate,
+                        start_time = @StartTime,
+                        end_time = @EndTime
+                        WHERE appointment_id = @AppointmentId";
+                con.Execute(sql, appointment);
+            }
+        }
         public int Update(AppointmentModel appointment) 
         {
             using (var con = Database.GetConnection())

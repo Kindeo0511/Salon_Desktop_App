@@ -35,6 +35,7 @@ namespace Salon.View
             ThemeManager.StyleDataGridView(dgv_Service_Product);
             this.mainform = mainForm;
             this.serviceModel = serviceModel;
+            txt_service.Text = serviceModel.serviceName;
             LoadProducts();
            
         }
@@ -45,10 +46,10 @@ namespace Salon.View
             bool validated = true;
 
             // REQUIRED FIELD
-            string usageAmount = txt_usage_amount.Text.Trim();
+  
        
 
-            validated &= Validator.ValidateUsageAmount(usageAmount, txt_usage_amount, errorProvider1);
+
 
 
 
@@ -98,7 +99,6 @@ namespace Salon.View
             col_product_name.DataPropertyName = "product_name";
             col_brand.DataPropertyName = "brand";
             col_usage_type.DataPropertyName = "usage_type";
-            col_usage_amount.DataPropertyName = "usage_amount";
             col_total_usage.DataPropertyName = "total_usage_amount";
             dgv_Service_Product.DataSource = serviceProducts;
 
@@ -114,7 +114,6 @@ namespace Salon.View
             col_product_name.DataPropertyName = "product_name";
             col_brand.DataPropertyName = "brand";
             col_usage_type.DataPropertyName = "usage_type";
-            col_usage_amount.DataPropertyName = "usage_amount";
             col_total_usage.DataPropertyName = "total_usage_amount";
             dgv_Service_Product.DataSource = serviceProducts;
 
@@ -155,7 +154,6 @@ namespace Salon.View
             {
                 service_id = serviceModel.serviceName_id,
                 product_id = (int)cmb_product.SelectedValue,
-                usage_amount = double.Parse(txt_usage_amount.Text), 
                 total_usage_amount = double.Parse(txt_total_usage.Text),
            
             };
@@ -169,8 +167,6 @@ namespace Salon.View
             var controller = new ServiceProductUsageController(repo);
 
             ServiceProductUsageModel.product_id = (int)cmb_product.SelectedValue;
-            ServiceProductUsageModel.usage_amount = double.Parse(txt_usage_amount.Text);
-     
             ServiceProductUsageModel.total_usage_amount = double.Parse(txt_total_usage.Text);
        
             controller.UpdateServiceProduct(ServiceProductUsageModel);
@@ -234,7 +230,6 @@ namespace Salon.View
             cmb_product.Hint = string.Empty;
             cmb_product.SelectedIndex = -1;
             txt_total_usage.Text = string.Empty;
-            txt_usage_amount.Text = string.Empty;
             txt_usage_type.Text = string.Empty;
             txt_brand.Text = string.Empty;
             cmb_product.Hint = "Select Product";
@@ -254,7 +249,6 @@ namespace Salon.View
                  
                     cmb_product.Hint = string.Empty;
                     cmb_product.SelectedValue = ServiceProductUsageModel.product_id;
-                    txt_usage_amount.Text = ServiceProductUsageModel.usage_amount.ToString();
                     txt_total_usage.Text = ServiceProductUsageModel.total_usage_amount.ToString();
 
 

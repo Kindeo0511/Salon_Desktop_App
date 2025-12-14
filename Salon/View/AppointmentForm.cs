@@ -66,6 +66,9 @@ namespace Salon.View
         {
             InitializeComponent();
             ThemeManager.ApplyTheme(this);
+            ThemeManager.StyleDataGridView(dgv_appointment_product);
+            ThemeManager.StyleDataGridView(dgv_cart);
+            ThemeManager.StyleDataGridView(dgv_services);
             this.mainForm = mainForm;
             cmb_Date.MinDate = DateTime.Today;
             cmb_Date.MaxDate = DateTime.Today.AddMonths(3);
@@ -73,8 +76,72 @@ namespace Salon.View
 
 
             LoadServices();
-
+            LoadProducts();
             LoadStylist();
+        }
+        public AppointmentForm(MainForm mainForm, AppointmentModel model, bool isUpdate)
+        {
+            InitializeComponent();
+            ThemeManager.ApplyTheme(this);
+            ThemeManager.StyleDataGridView(dgv_appointment_product);
+            ThemeManager.StyleDataGridView(dgv_cart);
+            ThemeManager.StyleDataGridView(dgv_services);
+            this.mainForm = mainForm;
+            this.model = model;
+            AppointmentId = model.AppointmentId;
+            cmb_Date.MinDate = model.AppointmentDate.Date;
+            cmb_Date.MaxDate = DateTime.Today.AddMonths(3);
+            btn_search.Enabled = false;
+            btn_register_customer.Enabled = false;
+            rad_guest.Enabled = false;
+            rad_exists.Enabled = false;
+            this.isUpdate = isUpdate;
+            if (model.CustomerId == null)
+            {
+                rad_guest.Checked = true;
+            }
+            else
+            {
+                rad_exists.Checked = true;
+            }
+            //customerModel.customer_name = model.CustomerName;
+            //customerModel.phoneNumber = model.PhoneNumber;
+            //customerModel.email = model.Email;
+            //customerModel.customer_id = model.CustomerId;
+            txt_FullName.Text = model.DisplayCustomerName;
+            lbl_ID.Text = model.CustomerId.ToString();
+            txt_Contact.Text = model.PhoneNumber;
+            txt_Email.Text = model.Email;
+            btn_update.Visible = true;
+
+            cmb_Date.Value = model.AppointmentDate;
+
+            btn_confirm.Visible = false;
+
+            //reloadSelectedServices(model.AppointmentId);
+
+
+
+            LoadServices();
+            LoadProducts();
+            LoadStylist();
+
+
+            cmb_stylist.SelectedValue = model.StylistId;
+            LoadTimeSlots(model.StartTime != null ? model.AppointmentDate.Date + model.StartTime : (DateTime?)null);
+
+            //foreach (DataGridViewRow row in dgv_table.Rows)
+            //{
+            //    if (row.Cells["col_duration"].Value != null)
+            //    {
+            //        int durationn = Convert.ToInt32(row.Cells["col_duration"].Value);
+            //        totalDuration += durationn;
+            //    }
+            //}
+            invoice_id = GetInvoiceId(this.model.AppointmentId);
+
+            LoadCart(invoice_id);
+
         }
         public void Clear() 
         {
@@ -198,7 +265,25 @@ namespace Salon.View
 
 
         }
-      
+        private void LoadProducts()
+        {
+            var repo = new ProductRepository();
+            var controller = new ProductController(repo);
+            var products = controller.GetRetailProduct();
+
+
+            dgv_appointment_product.AutoGenerateColumns = false;
+
+            col_app_product_id.DataPropertyName = "product_id";
+            col_app_product_name.DataPropertyName = "product_name";
+            col_app_product_brand.DataPropertyName = "brand";
+            col_app_product_unit_type.DataPropertyName = "unit_type";
+            col_app_product_price.DataPropertyName = "price";
+
+            dgv_appointment_product.DataSource = products;
+
+
+        }
         private void LoadStylist()
         {
             var repo = new StylistRepository();
@@ -269,65 +354,7 @@ namespace Salon.View
 
         }
 
-        public AppointmentForm(MainForm mainForm, AppointmentModel model, bool isUpdate)
-        {
-            InitializeComponent();
-            ThemeManager.ApplyTheme(this);
-            this.mainForm = mainForm;
-            this.model = model;
-            AppointmentId = model.AppointmentId;
-            cmb_Date.MinDate = model.AppointmentDate.Date;
-            cmb_Date.MaxDate = DateTime.Today.AddMonths(3);
-            btn_search.Visible = false;
-            btn_register_customer.Visible = false;
-            this.isUpdate = isUpdate;
-            if (model.CustomerId == null)
-            {
-                rad_guest.Checked = true;
-            }
-            else 
-            {
-                rad_exists.Checked = true;
-            }
-                //customerModel.customer_name = model.CustomerName;
-                //customerModel.phoneNumber = model.PhoneNumber;
-                //customerModel.email = model.Email;
-                //customerModel.customer_id = model.CustomerId;
-                txt_FullName.Text = model.DisplayCustomerName;
-            lbl_ID.Text = model.CustomerId.ToString();
-            txt_Contact.Text = model.PhoneNumber;
-            txt_Email.Text = model.Email;
-            btn_update.Visible = true;
-
-            cmb_Date.Value = model.AppointmentDate;
-
-            btn_confirm.Visible = false;
-
-            reloadSelectedServices(model.AppointmentId);
-
-
-
-            LoadServices();
-
-            LoadStylist();
-
-          
-            cmb_stylist.SelectedValue = model.StylistId;
-            LoadTimeSlots(model.StartTime != null ? model.AppointmentDate.Date + model.StartTime : (DateTime?)null);
-
-            //foreach (DataGridViewRow row in dgv_table.Rows)
-            //{
-            //    if (row.Cells["col_duration"].Value != null)
-            //    {
-            //        int durationn = Convert.ToInt32(row.Cells["col_duration"].Value);
-            //        totalDuration += durationn;
-            //    }
-            //}
-           invoice_id = GetInvoiceId(this.model.AppointmentId);
-      
-            LoadCart(invoice_id);
-
-        }
+       
 
   
        
@@ -734,7 +761,8 @@ namespace Salon.View
 
                 ServiceCart cartItem = new ServiceCart
                 {
-                    ItemId = Convert.ToInt32(row.Cells["col_item_id"].Value),
+                    ProductId = Convert.ToInt32(row.Cells["col_item_product_id"].Value),
+                    ServiceId = Convert.ToInt32(row.Cells["col_item_service_id"].Value),
                     ItemName = row.Cells["col_item"].Value.ToString(),
                     Price = Convert.ToDecimal(row.Cells["col_item_price"].Value),
                     Duration = Convert.ToInt32(row.Cells["col_item_duration"].Value),
@@ -1317,7 +1345,7 @@ namespace Salon.View
             {
                 model = new AppointmentModel
                 {
-                      AppointmentId = model.AppointmentId,
+                    AppointmentId = model.AppointmentId,
                     CustomerId = Convert.ToInt32(lbl_ID.Text),
                     CustomerName = txt_FullName.Text,
                     Email = txt_Email.Text,
@@ -1345,9 +1373,12 @@ namespace Salon.View
             dgv_cart.AutoGenerateColumns = false;
          
 
-            col_item_id.DataPropertyName = "ItemId";
+
             col_item_invoice_id.DataPropertyName = "InvoiceId";
+            col_item_product_id.DataPropertyName = "ProductID";
+            col_item_service_id.DataPropertyName = "ServiceID";
             col_item.DataPropertyName = "ItemName";
+            col_item_type.DataPropertyName = "ItemType";
             col_item_price.DataPropertyName = "Price";
             col_item_duration.DataPropertyName = "Duration";
             col_item_qty.DataPropertyName = "Quantity";
@@ -1396,7 +1427,7 @@ namespace Salon.View
 
                 ServiceCart items = new ServiceCart
                 {
-                    ItemId = Convert.ToInt32(row.Cells["col_service_id"].Value),
+                    ServiceId = Convert.ToInt32(row.Cells["col_service_id"].Value),
                     ItemName = row.Cells["col_service"].Value.ToString(),
                     Price = Convert.ToDecimal(row.Cells["col_price"].Value),
                     Duration = Convert.ToInt32(row.Cells["col_duration"].Value),
@@ -1416,18 +1447,64 @@ namespace Salon.View
         {
             if (e.RowIndex < 0) return;
 
-            if (dgv_cart.Columns[e.ColumnIndex].Name == "col_btn_remove")
-            {
-                var item = dgv_cart.Rows[e.RowIndex].DataBoundItem as ServiceCart;
-                if (cartItem != null)
+           
+           
+                if (dgv_cart.Columns[e.ColumnIndex].Name == "col_btn_remove")
                 {
-                    cartItem.Remove(item); // ✅ removes from BindingList, grid updates automatically
+                    var item = dgv_cart.Rows[e.RowIndex].DataBoundItem as ServiceCart;
+                    if (cartItem != null)
+                    {
+                        cartItem.Remove(item); // ✅ removes from BindingList, grid updates automatically
+                    }
+                }
+            
+           
+
+
+
+
+        }
+
+        private void dgv_appointment_product_CellClick(object sender, DataGridViewCellEventArgs e)
+        {
+            if (e.RowIndex < 0) return;
+
+            if (dgv_appointment_product.Columns[e.ColumnIndex].Name == "col_app_btn_product_add")
+            {
+                DataGridViewRow row = dgv_appointment_product.Rows[e.RowIndex];
+
+
+                ServiceCart items = new ServiceCart
+                {
+                    ProductId = Convert.ToInt32(row.Cells["col_app_product_id"].Value),
+                    ItemName = row.Cells["col_app_product_name"].Value.ToString(),
+                    ItemType = "Product",
+                    Price = Convert.ToDecimal(row.Cells["col_app_product_price"].Value),
+                    Duration = 0,
+                    Quantity = 1
+                };
+
+                cartItem.Add(items); // ✅ adds to BindingList, grid updates automatically
+            }
+        }
+
+        private void dgv_cart_CellBeginEdit(object sender, DataGridViewCellCancelEventArgs e)
+        {
+            var row = dgv_cart.Rows[e.RowIndex];
+            var itemType = row.Cells["col_item_type"].Value?.ToString();
+
+            // Only allow editing Quantity if it's a Product
+            if (dgv_cart.Columns[e.ColumnIndex].Name == "col_item_qty")
+            {
+                if (itemType != "Product")
+                {
+                    e.Cancel = true; // block editing
                 }
             }
-
-
-
-
+            else
+            {
+                e.Cancel = true; // block editing for all other columns
+            }
         }
 
 

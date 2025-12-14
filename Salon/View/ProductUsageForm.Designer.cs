@@ -33,7 +33,6 @@
             this.cmb_product = new MaterialSkin.Controls.MaterialComboBox();
             this.txt_brand = new MaterialSkin.Controls.MaterialTextBox();
             this.txt_usage_type = new MaterialSkin.Controls.MaterialTextBox();
-            this.txt_usage_amount = new MaterialSkin.Controls.MaterialTextBox();
             this.txt_total_usage = new MaterialSkin.Controls.MaterialTextBox();
             this.materialCard1 = new MaterialSkin.Controls.MaterialCard();
             this.btn_cancel = new MaterialSkin.Controls.MaterialButton();
@@ -45,10 +44,10 @@
             this.col_product_name = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.col_brand = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.col_usage_type = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.col_usage_amount = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.col_total_usage = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.btn_update = new System.Windows.Forms.DataGridViewImageColumn();
             this.btn_delete = new System.Windows.Forms.DataGridViewImageColumn();
+            this.txt_service = new MaterialSkin.Controls.MaterialTextBox();
             this.materialCard1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgv_Service_Product)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.errorProvider1)).BeginInit();
@@ -69,7 +68,7 @@
             this.cmb_product.Hint = "Select Product";
             this.cmb_product.IntegralHeight = false;
             this.cmb_product.ItemHeight = 43;
-            this.cmb_product.Location = new System.Drawing.Point(30, 31);
+            this.cmb_product.Location = new System.Drawing.Point(30, 129);
             this.cmb_product.MaxDropDownItems = 4;
             this.cmb_product.MouseState = MaterialSkin.MouseState.OUT;
             this.cmb_product.Name = "cmb_product";
@@ -83,15 +82,15 @@
             this.txt_brand.AnimateReadOnly = true;
             this.txt_brand.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.txt_brand.Depth = 0;
-            this.txt_brand.Enabled = false;
             this.txt_brand.Font = new System.Drawing.Font("Roboto", 16F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
             this.txt_brand.Hint = "Brand";
             this.txt_brand.LeadingIcon = null;
-            this.txt_brand.Location = new System.Drawing.Point(30, 143);
+            this.txt_brand.Location = new System.Drawing.Point(30, 255);
             this.txt_brand.MaxLength = 50;
             this.txt_brand.MouseState = MaterialSkin.MouseState.OUT;
             this.txt_brand.Multiline = false;
             this.txt_brand.Name = "txt_brand";
+            this.txt_brand.ReadOnly = true;
             this.txt_brand.Size = new System.Drawing.Size(263, 50);
             this.txt_brand.TabIndex = 1;
             this.txt_brand.Text = "";
@@ -102,39 +101,19 @@
             this.txt_usage_type.AnimateReadOnly = true;
             this.txt_usage_type.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.txt_usage_type.Depth = 0;
-            this.txt_usage_type.Enabled = false;
             this.txt_usage_type.Font = new System.Drawing.Font("Roboto", 16F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
             this.txt_usage_type.Hint = "Usage Type";
             this.txt_usage_type.LeadingIcon = null;
-            this.txt_usage_type.Location = new System.Drawing.Point(30, 269);
+            this.txt_usage_type.Location = new System.Drawing.Point(385, 131);
             this.txt_usage_type.MaxLength = 50;
             this.txt_usage_type.MouseState = MaterialSkin.MouseState.OUT;
             this.txt_usage_type.Multiline = false;
             this.txt_usage_type.Name = "txt_usage_type";
+            this.txt_usage_type.ReadOnly = true;
             this.txt_usage_type.Size = new System.Drawing.Size(263, 50);
             this.txt_usage_type.TabIndex = 2;
             this.txt_usage_type.Text = "";
             this.txt_usage_type.TrailingIcon = null;
-            // 
-            // txt_usage_amount
-            // 
-            this.txt_usage_amount.AnimateReadOnly = false;
-            this.txt_usage_amount.BorderStyle = System.Windows.Forms.BorderStyle.None;
-            this.txt_usage_amount.Depth = 0;
-            this.txt_usage_amount.Font = new System.Drawing.Font("Roboto", 16F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
-            this.txt_usage_amount.Hint = "Usage Amount";
-            this.txt_usage_amount.LeadingIcon = null;
-            this.txt_usage_amount.Location = new System.Drawing.Point(398, 33);
-            this.txt_usage_amount.MaxLength = 50;
-            this.txt_usage_amount.MouseState = MaterialSkin.MouseState.OUT;
-            this.txt_usage_amount.Multiline = false;
-            this.txt_usage_amount.Name = "txt_usage_amount";
-            this.txt_usage_amount.Size = new System.Drawing.Size(263, 50);
-            this.txt_usage_amount.TabIndex = 3;
-            this.txt_usage_amount.Text = "";
-            this.txt_usage_amount.TrailingIcon = null;
-            this.txt_usage_amount.TextChanged += new System.EventHandler(this.txt_usage_amount_TextChanged);
-            this.txt_usage_amount.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txt_usage_amount_KeyPress);
             // 
             // txt_total_usage
             // 
@@ -142,9 +121,9 @@
             this.txt_total_usage.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.txt_total_usage.Depth = 0;
             this.txt_total_usage.Font = new System.Drawing.Font("Roboto", 16F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
-            this.txt_total_usage.Hint = "Total Usage Amount";
+            this.txt_total_usage.Hint = "Quantity";
             this.txt_total_usage.LeadingIcon = null;
-            this.txt_total_usage.Location = new System.Drawing.Point(398, 143);
+            this.txt_total_usage.Location = new System.Drawing.Point(385, 255);
             this.txt_total_usage.MaxLength = 50;
             this.txt_total_usage.MouseState = MaterialSkin.MouseState.OUT;
             this.txt_total_usage.Multiline = false;
@@ -158,11 +137,11 @@
             // materialCard1
             // 
             this.materialCard1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
+            this.materialCard1.Controls.Add(this.txt_service);
             this.materialCard1.Controls.Add(this.btn_cancel);
             this.materialCard1.Controls.Add(this.btn_update_prodct_usage);
             this.materialCard1.Controls.Add(this.btn_add);
             this.materialCard1.Controls.Add(this.txt_total_usage);
-            this.materialCard1.Controls.Add(this.txt_usage_amount);
             this.materialCard1.Controls.Add(this.txt_usage_type);
             this.materialCard1.Controls.Add(this.txt_brand);
             this.materialCard1.Controls.Add(this.cmb_product);
@@ -179,6 +158,7 @@
             // 
             // btn_cancel
             // 
+            this.btn_cancel.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
             this.btn_cancel.Density = MaterialSkin.Controls.MaterialButton.MaterialButtonDensity.Default;
             this.btn_cancel.Depth = 0;
             this.btn_cancel.HighEmphasis = true;
@@ -188,7 +168,7 @@
             this.btn_cancel.MouseState = MaterialSkin.MouseState.HOVER;
             this.btn_cancel.Name = "btn_cancel";
             this.btn_cancel.NoAccentTextColor = System.Drawing.Color.Empty;
-            this.btn_cancel.Size = new System.Drawing.Size(129, 36);
+            this.btn_cancel.Size = new System.Drawing.Size(77, 36);
             this.btn_cancel.TabIndex = 8;
             this.btn_cancel.Text = "cancel";
             this.btn_cancel.Type = MaterialSkin.Controls.MaterialButton.MaterialButtonType.Contained;
@@ -204,7 +184,7 @@
             this.btn_update_prodct_usage.Depth = 0;
             this.btn_update_prodct_usage.HighEmphasis = true;
             this.btn_update_prodct_usage.Icon = null;
-            this.btn_update_prodct_usage.Location = new System.Drawing.Point(1075, 44);
+            this.btn_update_prodct_usage.Location = new System.Drawing.Point(1075, 75);
             this.btn_update_prodct_usage.Margin = new System.Windows.Forms.Padding(4, 6, 4, 6);
             this.btn_update_prodct_usage.MouseState = MaterialSkin.MouseState.HOVER;
             this.btn_update_prodct_usage.Name = "btn_update_prodct_usage";
@@ -253,7 +233,6 @@
             this.col_product_name,
             this.col_brand,
             this.col_usage_type,
-            this.col_usage_amount,
             this.col_total_usage,
             this.btn_update,
             this.btn_delete});
@@ -301,47 +280,62 @@
             // 
             // col_usage_type
             // 
-            this.col_usage_type.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
+            this.col_usage_type.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
             this.col_usage_type.HeaderText = "Usage Type";
             this.col_usage_type.MinimumWidth = 6;
             this.col_usage_type.Name = "col_usage_type";
             this.col_usage_type.ReadOnly = true;
-            // 
-            // col_usage_amount
-            // 
-            this.col_usage_amount.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
-            this.col_usage_amount.HeaderText = "Usage Amount";
-            this.col_usage_amount.MinimumWidth = 6;
-            this.col_usage_amount.Name = "col_usage_amount";
-            this.col_usage_amount.ReadOnly = true;
+            this.col_usage_type.Width = 112;
             // 
             // col_total_usage
             // 
-            this.col_total_usage.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
-            this.col_total_usage.HeaderText = "Total Usage Amount";
+            this.col_total_usage.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
+            this.col_total_usage.HeaderText = "Quantity";
             this.col_total_usage.MinimumWidth = 6;
             this.col_total_usage.Name = "col_total_usage";
             this.col_total_usage.ReadOnly = true;
+            this.col_total_usage.Width = 84;
             // 
             // btn_update
             // 
-            this.btn_update.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
+            this.btn_update.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
             this.btn_update.HeaderText = "";
             this.btn_update.Image = ((System.Drawing.Image)(resources.GetObject("btn_update.Image")));
             this.btn_update.ImageLayout = System.Windows.Forms.DataGridViewImageCellLayout.Zoom;
             this.btn_update.MinimumWidth = 6;
             this.btn_update.Name = "btn_update";
             this.btn_update.ReadOnly = true;
+            this.btn_update.Width = 6;
             // 
             // btn_delete
             // 
-            this.btn_delete.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
+            this.btn_delete.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
             this.btn_delete.HeaderText = "";
             this.btn_delete.Image = ((System.Drawing.Image)(resources.GetObject("btn_delete.Image")));
             this.btn_delete.ImageLayout = System.Windows.Forms.DataGridViewImageCellLayout.Zoom;
             this.btn_delete.MinimumWidth = 6;
             this.btn_delete.Name = "btn_delete";
             this.btn_delete.ReadOnly = true;
+            this.btn_delete.Width = 6;
+            // 
+            // txt_service
+            // 
+            this.txt_service.AnimateReadOnly = true;
+            this.txt_service.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            this.txt_service.Depth = 0;
+            this.txt_service.Font = new System.Drawing.Font("Roboto", 16F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
+            this.txt_service.Hint = "Selected Service";
+            this.txt_service.LeadingIcon = null;
+            this.txt_service.Location = new System.Drawing.Point(30, 30);
+            this.txt_service.MaxLength = 50;
+            this.txt_service.MouseState = MaterialSkin.MouseState.OUT;
+            this.txt_service.Multiline = false;
+            this.txt_service.Name = "txt_service";
+            this.txt_service.ReadOnly = true;
+            this.txt_service.Size = new System.Drawing.Size(618, 50);
+            this.txt_service.TabIndex = 9;
+            this.txt_service.Text = "";
+            this.txt_service.TrailingIcon = null;
             // 
             // ProductUsageForm
             // 
@@ -370,7 +364,6 @@
         private MaterialSkin.Controls.MaterialComboBox cmb_product;
         private MaterialSkin.Controls.MaterialTextBox txt_brand;
         private MaterialSkin.Controls.MaterialTextBox txt_usage_type;
-        private MaterialSkin.Controls.MaterialTextBox txt_usage_amount;
         private MaterialSkin.Controls.MaterialTextBox txt_total_usage;
         private MaterialSkin.Controls.MaterialCard materialCard1;
         private System.Windows.Forms.DataGridView dgv_Service_Product;
@@ -382,9 +375,9 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn col_product_name;
         private System.Windows.Forms.DataGridViewTextBoxColumn col_brand;
         private System.Windows.Forms.DataGridViewTextBoxColumn col_usage_type;
-        private System.Windows.Forms.DataGridViewTextBoxColumn col_usage_amount;
         private System.Windows.Forms.DataGridViewTextBoxColumn col_total_usage;
         private System.Windows.Forms.DataGridViewImageColumn btn_update;
         private System.Windows.Forms.DataGridViewImageColumn btn_delete;
+        private MaterialSkin.Controls.MaterialTextBox txt_service;
     }
 }

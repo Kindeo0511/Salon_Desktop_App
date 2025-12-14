@@ -142,6 +142,14 @@ namespace Salon.View
             serviceController.AddServiceToInvoiceCart(cart);
 
         }
+        private int GetIdAfterSaveItem(ItemModel model) 
+        {
+            var repo = new ItemRepository();
+            var itemController = new ItemController(repo);
+            var item_id = itemController.AddItem(model);
+
+            return item_id;
+        }
         private void SaveAppointment(AppointmentModel model)
         {
             var repo = new AppointmentRepository();
@@ -166,11 +174,14 @@ namespace Salon.View
 
             foreach (var service in appointmentForm.cartItem)
             {
+              
+
                 var invoiceServiceCart = new ServiceCart
                 {
                     InvoiceId = invoice_id,
-                    ItemId = service.ItemId,
-                    Quantity = 1,
+                    ProductId = service.ProductId,
+                    ServiceId = service.ServiceId,
+                    Quantity = service.Quantity,
                     Price = service.Price,
                     Duration = service.Duration
                 };
@@ -178,27 +189,18 @@ namespace Salon.View
             }
         }
 
-        private void UpdateAppointment(AppointmentModel model) 
+        private void UpdateAppointment(AppointmentModel model)
         {
             var repo = new AppointmentRepository();
             var appointmentController = new AppointmentController(repo);
 
-            //int appointment_id = model.BookingType == "Appointment"
-            //    ? appointmentController.CreateAppointment(model)
-            //    : appointmentController.CreateWalkInAppointment(model);
+            // Call the right update method based on booking type
+            if (model.BookingType == "Appointment")
+                appointmentController.UpdateTheAppointment(model);
+            else
+                appointmentController.UpdateWalkin(model);
 
-            //var invoiceModel = new InvoiceModel
-            //{
-            //    AppointmentID = appointment_id,
-            //    TotalAmount = 0,
-            //    VATAmount = 0,
-            //    DiscountAmount = 0,
-            //    PaymentMethod = "Unpaid",
-            //    Timestamp = null,
-            //    CustomerID = model.BookingType == "Appointment" ? model.CustomerId : (int?)null
-            //};
-
-            //int invoice_id = SaveInvoice(invoiceModel);
+            // Shared logic
             int invoice_id = appointmentForm.GetInvoiceId(existingAppointmentId);
             DeleteServiceFromCart(invoice_id);
 
@@ -207,16 +209,19 @@ namespace Salon.View
                 var invoiceServiceCart = new ServiceCart
                 {
                     InvoiceId = invoice_id,
-                    ItemId = service.ItemId,
+                    ProductId = service.ProductId,
+                    ServiceId = service.ServiceId,
                     Quantity = service.Quantity,
-                    Price = service.Price, 
+                    Price = service.Price,
                     Duration = service.Duration
                 };
 
-                MessageBox.Show("Invoice ID: "+ invoice_id +"Item ID: "+ service.ItemId +"QTY: "+ service.Quantity, "PRICE: " + service.Price + "Duration: " + service.Duration);
+               
+
                 SaveInvoiceServices(invoiceServiceCart);
             }
         }
+
         private void Clear()
         {
             lbl_id.Text = string.Empty;
@@ -227,128 +232,7 @@ namespace Salon.View
             txt_stylist.Text = string.Empty;
 
         }
-        private async void ConfirmBooking() 
-        {
-            btn_Confirm.Enabled = false;
-            btn_cancel.Enabled = false;
-
-
-
-
-            //var model = new AppointmentModel
-            //{
-            //    AppointmentId = isUpdate ? existingAppointmentId : 0,
-            //    StylistId = Convert.ToInt32(txt_stylist.Tag),
-            //    CustomerId = Convert.ToInt32(lbl_id.Text),
-            //    AppointmentDate = date,
-            //    StartTime = start_time,
-            //    EndTime = end_time,
-            //    Status = "Scheduled",
-            //    PaymentStatus = "Unpaid",
-
-            //};
-
-            var services = new AppointmentServicesModel
-            {
-                AppointmentId = existingAppointmentId,
-                ServiceId = Convert.ToInt32(lbl_Services.Tag),
-            };
-
-            var repo = new AppointmentRepository();
-            var appointmentController = new AppointmentController(repo);
-            int appointmentId;
-
-            if (isUpdate)
-            {
-                appointmentId = appointmentController.UpdatingTheAppointment(model);
-
-                var serviceRepo = new AppointmentServiceRepository();
-                var serviceController = new AppointmentServiceController(serviceRepo);
-                serviceController.UpdateServicesAppointment(services);
-                MessageBox.Show($"The appointment has been updated successfully!",
-            "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
-
-                Audit.AuditLog(
-                    DateTime.Now,
-                    "Update",
-                    UserSession.CurrentUser.first_Name,
-                    "Appointment",
-                    $"Updated the appointment for '{lbl_CustomerName.Text}' to {model.AppointmentDate:yyyy-MM-dd} at {start_time}");
-            }
-            else
-            {
-               
-
-                Audit.AuditLog(
-                    DateTime.Now,
-                    "Create",
-                    UserSession.CurrentUser.first_Name,
-                    "Appointment",
-                    $"Created appointment for '{lbl_CustomerName.Text}' on {DateTime.Now:yyyy-MM-dd} at {DateTime.Now:HH:mm:ss}");
-            }
-
-
-            var appointmentService = new AppointmentServicesModel
-            {
-              
-            };
-
-            var appointmentServiceRepo = new AppointmentServiceRepository();
-            appointmentServiceRepo.AddAppointmentService(appointmentService);
-
-            // ✅ Send notifications if registered
-            try
-            {
-                //    if (txt_stylist.Text.ToLower() == "registered")
-                //    {
-                //        var loading = new LoadingScreenEmail();
-                //        loading.Show();
-                //        Application.DoEvents();
-
-                //        try
-                //        {
-                //            await SendNotificationsAsync(summary, formattedStartTime, lbl_Services.Text, isUpdate ? "Rescheduled" : "Booked");
-                //        }
-                //        finally
-                //        {
-                //            if (loading.InvokeRequired)
-                //                loading.Invoke(new Action(() => loading.Close()));
-                //            else
-                //                loading.Close();
-                //        }
-                //   }
-
-                //MessageBox.Show($"The appointment has been {(isUpdate ? "rescheduled" : "booked")} successfully!",
-                //    "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
-            }
-            catch (Exception ex)
-            {
-                if (ex is System.Net.WebException || ex.Message.Contains("network") || ex.Message.Contains("internet"))
-                {
-                    MessageBox.Show("Failed to send confirmation. Please check your internet connection and try again.",
-                        "Network Error", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                }
-                else if (ex.Message.Contains("SMS") || ex.Message.Contains("gateway") || ex.Message.Contains("connection refused"))
-                {
-                    MessageBox.Show("Unable to connect to the SMS gateway. Please verify your SMS service configuration.",
-                        "SMS Gateway Error", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                }
-                else
-                {
-                    MessageBox.Show("An unexpected error occurred while sending the confirmation. Please try again or contact support.",
-                        "Notification Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                }
-            }
-
-            // ✅ Final UI refresh and close
-            btn_Confirm.Enabled = true;
-            btn_cancel.Enabled = true;
-            await mainForm.RefreshAppointmentAsync();
-            await mainForm.RefreshTotalAppointment();
-            await mainForm.RefreshPopularServices();
-            await mainForm.RefreshTransactionAsync();
-        
-        }
+       
         private void btn_Confirm_Click(object sender, EventArgs e)
         {
             if (isUpdate)
@@ -380,6 +264,8 @@ namespace Salon.View
             this.Close();
             appointmentForm.Close();
             mainForm.LoadAppointments();
+            mainForm.LoadTodayAppointment();
+           
         }
 
         //private async void btn_Confirm_Click(object sender, EventArgs e)

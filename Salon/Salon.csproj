@@ -143,6 +143,24 @@
     <Reference Include="Microsoft.Extensions.Primitives, Version=8.0.0.0, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.Extensions.Primitives.8.0.0\lib\net462\Microsoft.Extensions.Primitives.dll</HintPath>
     </Reference>
+    <Reference Include="Microsoft.ReportViewer.Common, Version=15.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.ReportingServices.ReportViewerControl.Winforms.150.1652.0\lib\net40\Microsoft.ReportViewer.Common.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.ReportViewer.DataVisualization, Version=15.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.ReportingServices.ReportViewerControl.Winforms.150.1652.0\lib\net40\Microsoft.ReportViewer.DataVisualization.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.ReportViewer.Design, Version=15.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.ReportingServices.ReportViewerControl.Winforms.150.1652.0\lib\net40\Microsoft.ReportViewer.Design.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.ReportViewer.ProcessingObjectModel, Version=15.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.ReportingServices.ReportViewerControl.Winforms.150.1652.0\lib\net40\Microsoft.ReportViewer.ProcessingObjectModel.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.ReportViewer.WinForms, Version=15.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.ReportingServices.ReportViewerControl.Winforms.150.1652.0\lib\net40\Microsoft.ReportViewer.WinForms.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.SqlServer.Types, Version=14.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.SqlServer.Types.14.0.314.76\lib\net40\Microsoft.SqlServer.Types.dll</HintPath>
+    </Reference>
     <Reference Include="MySql.Data, Version=9.4.0.0, Culture=neutral, PublicKeyToken=c5687fc88969c44d, processorArchitecture=MSIL">
       <HintPath>..\packages\MySql.Data.9.4.0\lib\net462\MySql.Data.dll</HintPath>
     </Reference>
@@ -235,6 +253,7 @@
     <Compile Include="Controller\InventoryController.cs" />
     <Compile Include="Controller\InvoiceController.cs" />
     <Compile Include="Controller\InvoiceServiceCartController.cs" />
+    <Compile Include="Controller\ItemController.cs" />
     <Compile Include="Controller\OverHeadController.cs" />
     <Compile Include="Controller\PaymentController.cs" />
     <Compile Include="Controller\PaymentMethodController.cs" />
@@ -252,6 +271,11 @@
     <Compile Include="Controller\UtilController.cs" />
     <Compile Include="Controller\VatController.cs" />
     <Compile Include="Controller\Walk_In_Controller.cs" />
+    <Compile Include="DataSet\LocalSource.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>LocalSource.xsd</DependentUpon>
+    </Compile>
     <Compile Include="Data\Database.cs" />
     <Compile Include="Data\DatabaseConnection.cs" />
     <Compile Include="Form1.cs">
@@ -280,6 +304,7 @@
     <Compile Include="Models\InventoryViewModel.cs" />
     <Compile Include="Models\InvoiceModel.cs" />
     <Compile Include="Models\InvoiceServicesCart.cs" />
+    <Compile Include="Models\ItemModel.cs" />
     <Compile Include="Models\OtpEntryModel.cs" />
     <Compile Include="Models\OverHeadModel.cs" />
     <Compile Include="Models\PaymentMethodModel.cs" />
@@ -345,6 +370,7 @@
     <Compile Include="Repository\IStylistSchedules.cs" />
     <Compile Include="Repository\ISubCategory.cs" />
     <Compile Include="Repository\ISupplier.cs" />
+    <Compile Include="Repository\ItemRepository.cs" />
     <Compile Include="Repository\ITransaction.cs" />
     <Compile Include="Repository\IUser.cs" />
     <Compile Include="Repository\IUtility.cs" />
@@ -354,6 +380,7 @@
     <Compile Include="Repository\I_InventoryBatches.cs" />
     <Compile Include="Repository\I_Invoice.cs" />
     <Compile Include="Repository\I_InvoiceServiceCart.cs" />
+    <Compile Include="Repository\I_Item.cs" />
     <Compile Include="Repository\I_PaymentMethod.cs" />
     <Compile Include="Repository\OverHeadRepository.cs" />
     <Compile Include="Repository\PaymentMethodRepository.cs" />
@@ -371,12 +398,14 @@
     <Compile Include="Repository\VatRepository.cs" />
     <Compile Include="Repository\WalkInRepository.cs" />
     <Compile Include="Services\TimeSlotGenerator.cs" />
+    <Compile Include="SqlServerTypes\Loader.cs" />
     <Compile Include="Util\Audit.cs" />
     <Compile Include="Util\EmailMessage.cs" />
     <Compile Include="Util\InventoryReportPdf.cs" />
     <Compile Include="Util\LoadingEmailScreen.cs" />
     <Compile Include="Util\NotificationService.cs" />
     <Compile Include="Util\PdfReportBuilder.cs" />
+    <Compile Include="Util\ReceiptPrinter.cs" />
     <Compile Include="Util\ReceiptRenderer.cs" />
     <Compile Include="Util\SmsSender.cs" />
     <Compile Include="Util\UserSession.cs" />
@@ -393,12 +422,6 @@
     </Compile>
     <Compile Include="View\AppointmentStatusForm.Designer.cs">
       <DependentUpon>AppointmentStatusForm.cs</DependentUpon>
-    </Compile>
-    <Compile Include="View\AssignStylistForm.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="View\AssignStylistForm.Designer.cs">
-      <DependentUpon>AssignStylistForm.cs</DependentUpon>
     </Compile>
     <Compile Include="View\CategoryForm.cs">
       <SubType>Form</SubType>
@@ -459,6 +482,12 @@
     </Compile>
     <Compile Include="View\Form1.Designer.cs">
       <DependentUpon>Form1.cs</DependentUpon>
+    </Compile>
+    <Compile Include="View\InvoiceReportForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="View\InvoiceReportForm.Designer.cs">
+      <DependentUpon>InvoiceReportForm.cs</DependentUpon>
     </Compile>
     <Compile Include="View\LoadingScreenControl.cs">
       <SubType>UserControl</SubType>
@@ -598,6 +627,19 @@
     <Compile Include="View\Walk_In_Form.Designer.cs">
       <DependentUpon>Walk_In_Form.cs</DependentUpon>
     </Compile>
+    <Content Include="SqlServerTypes\readme.htm" />
+    <Content Include="SqlServerTypes\x64\msvcr120.dll">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="SqlServerTypes\x64\SqlServerSpatial140.dll">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="SqlServerTypes\x86\msvcr120.dll">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="SqlServerTypes\x86\SqlServerSpatial140.dll">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
     <EmbeddedResource Include="Form1.resx">
       <DependentUpon>Form1.cs</DependentUpon>
     </EmbeddedResource>
@@ -610,14 +652,14 @@
       <AutoGen>True</AutoGen>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
+    <Content Include="Report\InvoiceReport.rdlc">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <EmbeddedResource Include="View\AppointmentForm.resx">
       <DependentUpon>AppointmentForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="View\AppointmentStatusForm.resx">
       <DependentUpon>AppointmentStatusForm.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="View\AssignStylistForm.resx">
-      <DependentUpon>AssignStylistForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="View\CategoryForm.resx">
       <DependentUpon>CategoryForm.cs</DependentUpon>
@@ -648,6 +690,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="View\Form1.resx">
       <DependentUpon>Form1.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="View\InvoiceReportForm.resx">
+      <DependentUpon>InvoiceReportForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="View\LoadingScreenControl.resx">
       <DependentUpon>LoadingScreenControl.cs</DependentUpon>
@@ -718,6 +763,17 @@
     <EmbeddedResource Include="View\Walk_In_Form.resx">
       <DependentUpon>Walk_In_Form.cs</DependentUpon>
     </EmbeddedResource>
+    <None Include="DataSet\LocalSource.xsc">
+      <DependentUpon>LocalSource.xsd</DependentUpon>
+    </None>
+    <None Include="DataSet\LocalSource.xsd">
+      <SubType>Designer</SubType>
+      <Generator>MSDataSetGenerator</Generator>
+      <LastGenOutput>LocalSource.Designer.cs</LastGenOutput>
+    </None>
+    <None Include="DataSet\LocalSource.xss">
+      <DependentUpon>LocalSource.xsd</DependentUpon>
+    </None>
     <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>

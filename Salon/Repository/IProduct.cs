@@ -9,6 +9,7 @@ namespace Salon.Repository
 {
     public interface IProduct
     {
+        IEnumerable<ProductModel> GetRetailProduct();
         IEnumerable<ProductModel> GetAllProducts();
         Task<IEnumerable<ProductModel>> GetAllProductAsync();
         ProductModel GetTotalProducts();

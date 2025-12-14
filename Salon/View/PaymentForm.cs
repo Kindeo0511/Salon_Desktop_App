@@ -729,7 +729,7 @@ namespace Salon.View
             });
 
             renderer.DrawSeparator();
-            renderer.DrawLabelValue("Service", "Price"); 
+            renderer.DrawLabelValue("Service","Qty", "Price"); 
             renderer.DrawSeparator();
 
             // Service rows
@@ -744,7 +744,7 @@ namespace Salon.View
                     decimal price = Convert.ToDecimal(row.Cells["col_price"].Value);
 
                     // Render each service with its price
-                    renderer.DrawLabelValue(service, price.ToString("C2"));
+                    renderer.DrawLabelValue(service,"", price.ToString("C2"));
                 }
             }
 
@@ -753,9 +753,9 @@ namespace Salon.View
             renderer.DrawSeparator();
       
             // Totals
-            renderer.DrawLabelValue("Subtotal:", _subtotal.ToString("C2"));
-            renderer.DrawLabelValue("Discount:", _discountAmount.ToString());
-            renderer.DrawLabelValue($"VAT ({vat_rate:N0}%):", _vatAmount.ToString("C2"));
+            renderer.DrawLabelValue("Subtotal:", "", _subtotal.ToString("C2"));
+            renderer.DrawLabelValue("Discount:", "", _discountAmount.ToString());
+            renderer.DrawLabelValue($"VAT ({vat_rate:N0}%):", "", _vatAmount.ToString("C2"));
             renderer.DrawBoldValue("Total:", lbl_Total.Text);
             renderer.DrawBoldValue("Change Amount:", lbl_change_amount.Text);
             renderer.DrawBoldValue("Payment Method:", cb_PaymentMethod.Text);

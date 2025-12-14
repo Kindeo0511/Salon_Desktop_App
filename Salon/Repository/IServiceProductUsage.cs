@@ -12,6 +12,8 @@ namespace Salon.Repository
         IEnumerable<ServiceProductUsageModel> GetAllServiceProducts(int id);
 
         Task<IEnumerable<ServiceProductUsageModel>> GetAllServiceProductsAsync(int id);
+
+        int GetProductUsageCount(int id);
         IEnumerable<ServiceProductUsageModel> GetTotalProductCost();
         void AddServiceProduct(ServiceProductUsageModel model);
         void UpdateServiceProduct(ServiceProductUsageModel model);

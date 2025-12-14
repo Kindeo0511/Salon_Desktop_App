@@ -11,11 +11,21 @@ namespace Salon.Repository
 {
     public class ServiceProductUsageRepository : IServiceProductUsage
     {
+        public int GetProductUsageCount(int id) 
+        {
+            using (var con = Database.GetConnection()) 
+            {
+                var sql = @"SELECT COUNT(*) 
+                        FROM tbl_service_product 
+                        WHERE service_id = @id AND is_deleted = 0;";
+                return con.ExecuteScalar<int>(sql, new { id });
+            }
+        }
         public IEnumerable<ServiceProductUsageModel> GetAllServiceProducts(int id)
         {
             using (var con = Database.GetConnection())
             {
-                var sql = @"SELECT sp.service_product_id, s.serviceName_id as service_id, s.serviceName, p.product_id, p.product_name,p.brand, p.usage_type, sp.usage_amount, sp.total_usage_amount
+                var sql = @"SELECT sp.service_product_id, s.serviceName_id as service_id, s.serviceName, p.product_id, p.product_name,p.brand, p.usage_type, sp.total_usage_amount
                         FROM  tbl_service_product as sp 
                         LEFT JOIN tbl_servicesname as s ON s.serviceName_id = sp.service_id
                         LEFT JOIN tbl_products as p ON p.product_id = sp.product_id
@@ -28,7 +38,7 @@ namespace Salon.Repository
         {
             using (var con = Database.GetConnection())
             {
-                var sql = @"SELECT sp.service_product_id, s.serviceName_id as service_id, s.serviceName, p.product_id, p.product_name,p.brand, p.usage_type, sp.usage_amount, sp.total_usage_amount
+                var sql = @"SELECT sp.service_product_id, s.serviceName_id as service_id, s.serviceName, p.product_id, p.product_name,p.brand, p.usage_type, sp.total_usage_amount
                         FROM  tbl_service_product as sp 
                         LEFT JOIN tbl_servicesname as s ON s.serviceName_id = sp.service_id
                         LEFT JOIN tbl_products as p ON p.product_id = sp.product_id
@@ -54,8 +64,8 @@ namespace Salon.Repository
         {
             using (var con = Database.GetConnection()) 
             {
-                var sql = @"INSERT INTO tbl_service_product (service_id, product_id, usage_amount, total_usage_amount)
-                        VALUES (@service_id, @product_id, @usage_amount, @total_usage_amount)";
+                var sql = @"INSERT INTO tbl_service_product (service_id, product_id, total_usage_amount)
+                        VALUES (@service_id, @product_id, @total_usage_amount)";
                 con.Execute(sql, model);
             }
                 
@@ -67,7 +77,6 @@ namespace Salon.Repository
             {
                 var sql = @"UPDATE tbl_service_product 
                     SET product_id = @product_id,
-                        usage_amount = @usage_amount,
                         total_usage_amount = @total_usage_amount
              
                         WHERE service_product_id = @service_product_id";

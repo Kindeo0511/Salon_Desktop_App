@@ -38,6 +38,10 @@ namespace Salon.Controller
         {
             return repo.GetAllAppointments();
         }
+        public IEnumerable<AppointmentModel> GetTodayAppointment()
+        {
+            return repo.GetTodayAppointment();
+        }
         public int CreateAppointment(AppointmentModel model)
         {
            
@@ -48,17 +52,16 @@ namespace Salon.Controller
 
             return repo.AddWalkIn(model);
         }
-        public int UpdatingTheAppointment(AppointmentModel model) 
+
+        public void UpdateTheAppointment(AppointmentModel model) 
         {
-            return repo.Update(model);
+            repo.UpdateAppointment(model);
         }
-        public void UpdateAppointment(AppointmentModel model)
+        public void UpdateWalkin(AppointmentModel model)
         {
-
-
-            repo.UpdateStylist(model);
-
+            repo.UpdateWalkin(model);
         }
+     
         public void UpdateAppointmentPayment(int appointmentId, string paymentStatus, string status)
         {
             var appointment = new Models.AppointmentModel { AppointmentId = appointmentId, PaymentStatus = paymentStatus , Status = status };

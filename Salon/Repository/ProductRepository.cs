@@ -11,11 +11,22 @@ namespace Salon.Repository
 {
     public class ProductRepository : IProduct
     {
+        public IEnumerable<ProductModel> GetRetailProduct() 
+        {
+            using (var con = Database.GetConnection())
+            {
+                var sql = @"SELECT p.product_id, p.product_name, p.brand, c.categoryName AS categoryName, p.unit_type, p.price
+                            FROM tbl_products p
+                            JOIN tbl_category c ON p.category_id = c.category_id
+                            WHERE p.is_deleted = 0 AND c.is_deleted = 0 AND p.product_type = 'Retail'";
+                return con.Query<ProductModel>(sql).ToList();
+            }
+        }
         public IEnumerable<ProductModel> GetAllProducts()
         {
             using (var con = Database.GetConnection()) 
             {
-                var sql = @"SELECT p.product_id, p.product_name, p.brand, p.category_id, c.categoryName AS categoryName, p.unit_type, p.usage_type, p.unit_volume
+                var sql = @"SELECT p.product_id, p.product_name, p.product_type, p.brand, p.category_id, c.categoryName AS categoryName, p.unit_type, p.usage_type, p.unit_volume, p.price
                             FROM tbl_products p
                             JOIN tbl_category c ON p.category_id = c.category_id
                             WHERE p.is_deleted = 0 AND c.is_deleted = 0";
@@ -26,7 +37,7 @@ namespace Salon.Repository
         {
             using (var con = Database.GetConnection())
             {
-                var sql = @"SELECT p.product_id, p.product_name, p.brand, p.category_id, c.categoryName AS categoryName, p.unit_type, p.usage_type, p.unit_volume
+                var sql = @"SELECT p.product_id, p.product_name, p.product_type, p.brand, p.category_id, c.categoryName AS categoryName, p.unit_type, p.usage_type, p.unit_volume, p.price
                             FROM tbl_products p
                             JOIN tbl_category c ON p.category_id = c.category_id
                             WHERE p.is_deleted = 0 AND c.is_deleted = 0 ";
@@ -62,8 +73,8 @@ namespace Salon.Repository
         {
             using (var con = Database.GetConnection())
             {
-                var sql = @"INSERT INTO tbl_products (product_name, brand, category_id, unit_type, usage_type, unit_volume)
-                            VALUES (@product_name, @brand, @category_id, @unit_type, @usage_type, @unit_volume)";
+                var sql = @"INSERT INTO tbl_products (product_name, product_type, brand, category_id, unit_type, usage_type, unit_volume, price)
+                            VALUES (@product_name, @product_type, @brand, @category_id, @unit_type, @usage_type, @unit_volume, @price)";
                 con.Execute(sql, product);
             }
         }
@@ -73,11 +84,13 @@ namespace Salon.Repository
             {
                 var sql = @"UPDATE tbl_products
                             SET product_name = @product_name,
+                                product_type = @product_type,   
                                 brand = @brand,
                                 category_id = @category_id,
                                 unit_type = @unit_type,
                                 usage_type = @usage_type,
-                                unit_volume = @unit_volume
+                                unit_volume = @unit_volume,
+                                price = @price
                             WHERE product_id = @product_id";
                 con.Execute(sql, product);
             }

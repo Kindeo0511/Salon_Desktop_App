@@ -8,6 +8,7 @@ using LiveCharts;
 using LiveCharts.Wpf;
 using MaterialSkin;
 using MaterialSkin.Controls;
+using Microsoft.Reporting.WinForms;
 using Salon.Controller;
 using Salon.Models;
 using Salon.Repository;
@@ -19,6 +20,7 @@ using System.Data;
 using System.Drawing;
 using System.Linq;
 using System.Management;
+using System.Reflection;
 using System.Runtime.InteropServices.ComTypes;
 using System.Security.Cryptography.X509Certificates;
 using System.Text;
@@ -27,6 +29,7 @@ using System.Transactions;
 using System.Windows.Forms;
 using System.Xml.Linq;
 using ZstdSharp.Unsafe;
+using static iText.StyledXmlParser.Jsoup.Select.Evaluator;
 
 
 
@@ -101,6 +104,8 @@ namespace Salon.View
             ThemeManager.StyleDataGridView(dgv_transaction_history);
             ThemeManager.StyleDataGridView(dgv_audit_report);
             ThemeManager.StyleDataGridView(dgv_deleted_record);
+            ThemeManager.StyleDataGridView(dgv_appointment_list);
+            ThemeManager.StyleDataGridView(dgv_cart);
         }
 
         public void LowOrOutOfStock() 
@@ -260,7 +265,8 @@ namespace Salon.View
             LowOrOutOfStock();
 
             UserAccess();
-
+            txt_user.Text = $"{UserSession.CurrentUser.first_Name}, {UserSession.CurrentUser.last_Name}";
+            
 
 
             await RefreshUsersAsync();
@@ -279,7 +285,7 @@ namespace Salon.View
             await RefreshBatchInventory();
             LoadWalkIn();
             await RefreshAppointmentAsync();
-  
+            
             await RefreshTransactionAsync();
             await RefreshAuditLog();
 
@@ -294,6 +300,8 @@ namespace Salon.View
 
             await RefreshPopularServices();
 
+            // POS
+            LoadTodayAppointment();
 
             // REPORTS
             FilterSalesReport();
@@ -472,17 +480,7 @@ namespace Salon.View
 
         private void dgv_table_summary_CellClick(object sender, DataGridViewCellEventArgs e)
         {
-            if (e.RowIndex < 0) return;
-
-            if (e.RowIndex >= 0 && dgv_table_summary.Columns[e.ColumnIndex].Name == "col_db_assign_staff")
-            {
-                var appointment = dgv_table_summary.Rows[e.RowIndex].DataBoundItem as AppointmentModel;
-                using (var assignStylistForm = new AssignStylistForm(this, appointment))
-                {
-                    assignStylistForm.ShowDialog();
-                }
-
-            }
+           
 
         }
         public async Task RefreshPopularServices()
@@ -1074,6 +1072,7 @@ namespace Salon.View
             dgv_product.AutoGenerateColumns = false;
             col_product_id.DataPropertyName = "product_id";
             col_product_name.DataPropertyName = "product_name";
+            col_product_type.DataPropertyName = "product_type";
             col_product_brand.DataPropertyName = "brand";
             col_product_category_id.DataPropertyName = "category_id";
             col_product_category_name.DataPropertyName = "categoryName";
@@ -1082,6 +1081,7 @@ namespace Salon.View
             col_product_unit_type.DataPropertyName = "unit_type";
             col_product_usage_type.DataPropertyName = "usage_type";
             col_product_unit_per_volume.DataPropertyName = "unit_volume";
+            col_product_price.DataPropertyName = "price";
             dgv_product.DataSource = products;
         }
          
@@ -1093,6 +1093,7 @@ namespace Salon.View
             dgv_product.AutoGenerateColumns = false;
             col_product_id.DataPropertyName = "product_id";
             col_product_name.DataPropertyName = "product_name";
+            col_product_type.DataPropertyName = "product_type"; 
             col_product_brand.DataPropertyName = "brand";
             col_product_category_id.DataPropertyName = "category_id";
             col_product_category_name.DataPropertyName = "categoryName";
@@ -1101,7 +1102,33 @@ namespace Salon.View
             col_product_unit_type.DataPropertyName = "unit_type";
             col_product_usage_type.DataPropertyName = "usage_type";
             col_product_unit_per_volume.DataPropertyName = "unit_volume";
+            col_product_price.DataPropertyName = "price";
             dgv_product.DataSource = products;
+        }
+        private void dgv_product_CellFormatting(object sender, DataGridViewCellFormattingEventArgs e)
+        {
+            // Check if we're formatting the Price column
+            if (dgv_product.Columns[e.ColumnIndex].Name == "col_product_price" && e.Value != null)
+            {
+                // Get the product type from another column in the same row
+                var productType = dgv_product.Rows[e.RowIndex].Cells["col_product_type"].Value?.ToString();
+
+                if (productType == "Retail")
+                {
+                    // Format as currency
+                    if (decimal.TryParse(e.Value.ToString(), out var price))
+                    {
+                        e.Value = price.ToString("C2"); 
+                        e.FormattingApplied = true;
+                    }
+                }
+                else if (productType == "Ingredient")
+                {
+                    // Blank out the price for consumables
+                    e.Value = string.Empty;
+                    e.FormattingApplied = true;
+                }
+            }
         }
 
         private async void dgv_product_CellClick(object sender, DataGridViewCellEventArgs e)
@@ -1183,7 +1210,28 @@ namespace Salon.View
                 serviceForm.ShowDialog();
             }
         }
+        private int GetServiceUsageCount(int service_id) 
+        {
+            var repo = new ServiceProductUsageRepository();
+            var controller = new ServiceProductUsageController(repo);
+            var services = controller.GetProductUsageCount(service_id);
 
+            return services;
+        }
+        private void dgv_service_CellFormatting(object sender, DataGridViewCellFormattingEventArgs e)
+        {
+            if (e.RowIndex < 0) return;
+
+            if (dgv_service.Columns[e.ColumnIndex].Name == "col_service_product_usage")
+            {
+                var service = dgv_service.Rows[e.RowIndex].DataBoundItem as ServiceModel;
+                if (service != null)
+                {
+                    int usageCount = GetServiceUsageCount(service.serviceName_id);
+                    e.Value = usageCount == 0 ? "No products assigned yet" : "Manage Products";
+                }
+            }
+        }
         private async void dgv_service_CellClick(object sender, DataGridViewCellEventArgs e)
         {
             if (e.RowIndex < 0) return;
@@ -1191,6 +1239,8 @@ namespace Salon.View
             if (e.RowIndex >= 0 && dgv_service.Columns[e.ColumnIndex].Name == "col_service_product_usage")
             {
                 var service = dgv_service.Rows[e.RowIndex].DataBoundItem as ServiceModel;
+
+             
                 using (var serviceProductUsageForm = new ProductUsageForm(this, service))
                 {
                     serviceProductUsageForm.ShowDialog();
@@ -1260,25 +1310,7 @@ namespace Salon.View
 
         }
 
-        private void LoadVat()
-        {
-            var _repo = new VatRepository();
-            var tax_controller = new VatController(_repo);
-            var tax = tax_controller.LoadLatestTax();
-
-            if (tax != null)
-            {
-                vatModel = tax;
-
-                txt_vat.Text = tax.tax.ToString();
-            }
-            else
-            {
-
-                txt_vat.Text = string.Empty;
-            }
-
-        }
+       
         private bool VatValidated()
         {
 
@@ -1811,10 +1843,11 @@ namespace Salon.View
             dgv_appointment.AutoGenerateColumns = false;
             dgv_table_summary.AutoGenerateColumns = false;
 
+
+            // APPOINTMENT
             appointment_id.DataPropertyName = "AppointmentId";
             customer_id.DataPropertyName = "CustomerId";
             customerName.DataPropertyName = "DisplayCustomerName";
-            col_appointment_services.DataPropertyName = "Services";
             col_appointment_selling_price.DataPropertyName = "selling_price";
             col_appointment_vat_amount.DataPropertyName = "vat_amount";
             col_appointment_email.DataPropertyName = "Email";
@@ -1828,6 +1861,11 @@ namespace Salon.View
             paymentStatus.DataPropertyName = "PaymentStatus";
             col_book_type.DataPropertyName = "BookingType";
             dgv_appointment.DataSource = appointments;
+
+
+
+
+
 
 
             // DASHBOARD
@@ -1859,8 +1897,6 @@ namespace Salon.View
             customer_id.DataPropertyName = "CustomerId";
             customerName.DataPropertyName = "DisplayCustomerName";
             col_app_subcat_id.DataPropertyName = "SubCategoryId";   
-            col_appointment_service_id.DataPropertyName = "ServiceId";
-            col_appointment_services.DataPropertyName = "Services";
             col_appointment_selling_price.DataPropertyName = "selling_price";
             col_appointment_vat_amount.DataPropertyName = "vat_amount";
             col_appointment_email.DataPropertyName = "Email";
@@ -1875,8 +1911,9 @@ namespace Salon.View
             col_book_type.DataPropertyName = "BookingType";
        
             dgv_appointment.DataSource = appointments;
-        
 
+
+       
             // DASHBOARD
             col_db_app_id.DataPropertyName = "AppointmentId";
             col_db_customer_id.DataPropertyName = "CustomerId";
@@ -1914,23 +1951,23 @@ namespace Salon.View
         {
             if (e.RowIndex < 0) return;
 
-      
+
             if (e.RowIndex >= 0 && dgv_appointment.Columns[e.ColumnIndex].Name == "col_pay")
             {
                 var appointment = dgv_appointment.Rows[e.RowIndex].DataBoundItem as AppointmentModel;
 
                 if (appointment.PaymentStatus.ToLower() == "paid")
-                { 
+                {
                     return;
                 }
-               
+
                 using (var paymentForm = new PaymentForm(this, appointment))
                 {
                     paymentForm.ShowDialog();
                 }
             }
 
-            else if (e.RowIndex >= 0 && dgv_appointment.Columns[e.ColumnIndex].Name == "col_update_appointment")
+            if (e.RowIndex >= 0 && dgv_appointment.Columns[e.ColumnIndex].Name == "col_update_appointment")
             {
                 var appointment = dgv_appointment.Rows[e.RowIndex].DataBoundItem as AppointmentModel;
                 if (appointment.PaymentStatus.ToLower() == "paid" && (appointment.Status.ToLower() == "completed" || appointment.Status.ToLower() == "refunded"))
@@ -5022,8 +5059,39 @@ namespace Salon.View
 
         // END OF DELETED RECORD
 
+
         // POS SYSTEM
 
+        public void LoadTodayAppointment()
+        {
+            var repo = new AppointmentRepository();
+            var controller = new AppointmentController(repo);
+            var appointments = controller.GetTodayAppointment();
+
+            dgv_appointment_list.AutoGenerateColumns = false;
+       
+
+         
+
+            // POS
+
+            pos_appointment_id.DataPropertyName = "AppointmentId";
+            pos_customer_id.DataPropertyName = "CustomerId";
+            pos_customer_name.DataPropertyName = "DisplayCustomerName";
+            pos_price.DataPropertyName = "selling_price";
+            pos_stylist_id.DataPropertyName = "StylistId";
+            pos_stylist_name.DataPropertyName = "StylistName";
+            pos_date.DataPropertyName = "AppointmentDate";
+            pos_start_time.DataPropertyName = "StartTime";
+            pos_end_time.DataPropertyName = "EndTime";
+            pos_status.DataPropertyName = "Status";
+            pos_payment_status.DataPropertyName = "PaymentStatus";
+            pos_booking_type.DataPropertyName = "BookingType";
+            dgv_appointment_list.DataSource = appointments;
+
+         
+
+        }
         private void LoadPaymentMethod() 
         {
            var repo = new PaymentMethodRepository();
@@ -5047,12 +5115,293 @@ namespace Salon.View
                 {
                     // Get the selected discount rate from the discount form
                     lbl_discount_name.Text =$"DISCOUNT ({discountForm.discountName}%)";
-                    lbl_discount_rate.Text = discountForm.discountRate.ToString("N2");
-                   
+                    lbl_discount_rate.Tag = discountForm.discountRate.ToString("N2");
+                    calculate();
                 }
             }
 
         }
+
+        private void dgv_appointment_list_CellContentClick(object sender, DataGridViewCellEventArgs e)
+        {
+            if (e.RowIndex < 0) return;
+
+
+            if (e.RowIndex >= 0 && dgv_appointment_list.Columns[e.ColumnIndex].Name == "pos_btn_check_out")
+            {
+                var appointment = dgv_appointment_list.Rows[e.RowIndex].DataBoundItem as AppointmentModel;
+
+                if (appointment.PaymentStatus.ToLower() == "paid")
+                {
+                    return;
+                }
+
+                int invoice_id = GetInvoiceId(appointment.AppointmentId);
+                lbl_invoice_id.Text = invoice_id.ToString();
+                lbl_appointment_id.Text = appointment.AppointmentId.ToString();
+                lbl_name.Tag = invoice_id;
+                txt_customer_name.Text = appointment.DisplayCustomerName;
+                LoadCart(invoice_id); 
+                lbl_sub_total.Text = SubTotal().ToString("N2");
+                calculate();
+
+
+            }
+
+
+        }
+        private int GetInvoiceId(int id)
+        {
+            var repo = new InvoiceRepository();
+            var controller = new InvoiceController(repo);
+            int invoice_id = controller.GetInvoice(id);
+
+            return invoice_id;
+
+        }
+        private void PrintReceipt(int invoice_id) 
+        {
+            var repo = new InvoiceServiceRepository();
+            var controller = new InvoiceServiceCartController(repo);
+            var services = controller.GetInvoiceServiceCartByInvoiceId(invoice_id);
+
+            decimal sub_total = SubTotal();
+            decimal amount_paid = Convert.ToDecimal(lbl_total.Text);
+            decimal vat_amount = Convert.ToDecimal(lbl_vat.Text);
+            decimal discount_amount = Convert.ToDecimal(lbl_discount_rate.Text);
+            decimal change_amount = Convert.ToDecimal(lbl_change.Text);
+            string payment_method = cb_payment_method.SelectedItem.ToString();
+
+            int vat_rate = Convert.ToInt32(LoadVat());
+
+            ReceiptPrinter receiptPrinter = new ReceiptPrinter(services, sub_total, amount_paid, vat_amount, discount_amount, change_amount, payment_method, vat_rate);
+            receiptPrinter.ShowPreview();
+            //receiptPrinter.Print();
+        }
+        private void LoadCart(int invoice_id) 
+        {
+            var repo = new InvoiceServiceRepository();
+            var controller = new InvoiceServiceCartController(repo);
+            var services = controller.GetInvoiceServiceCartByInvoiceId(invoice_id);
+
+            dgv_cart.AutoGenerateColumns = false;
+
+            cart_service.DataPropertyName = "ItemName";
+            cart_price.DataPropertyName = "TotalPrice";
+            cart_duration.DataPropertyName = "Duration";
+            cart_qty.DataPropertyName = "Quantity";
+            dgv_cart.DataSource = services;
+
+        }
+       
+        private decimal SubTotal()
+        {
+            decimal subtotal = 0m;
+            foreach (DataGridViewRow row in dgv_cart.Rows)
+            {
+                if (row.Cells["cart_price"].Value != null)
+                {
+                    subtotal += Convert.ToDecimal(row.Cells["cart_price"].Value);
+                }
+            }
+
+
+            return subtotal;
+        }
+       
+        private decimal LoadVat()
+        {
+            var repo = new VatRepository();
+            var controller = new VatController(repo);
+            var vat = controller.LoadLatestTax();
+
+            if (vat != null)
+            {
+                return vat.tax;
+
+            }
+            else
+            {
+                return 0m;
+            }
+        }
+      
+        private void calculate() 
+        {
+            decimal vat = LoadVat();
+            decimal original_price = SubTotal();
+            decimal discount_rate = Convert.ToDecimal(lbl_discount_rate.Tag);
+            decimal discount_amount = 0m;
+            decimal vat_amount = 0m;
+            decimal final_price = 0m;
+            decimal inclusive_price = original_price;
+            decimal base_price = 0m;
+
+            if (discount_rate != 0)
+            {
+                discount_amount = (original_price * discount_rate) / 100;
+
+
+
+                // Step 1: Remove VAT
+                base_price = inclusive_price / (1 + (LoadVat() / 100));
+
+                // Step 2: Compute VAT amount
+                vat_amount = inclusive_price - base_price;
+
+                // Step 3: Compute final payable amount
+                final_price = base_price - discount_amount;
+
+                lbl_vat.Text = vat_amount.ToString("N2");
+                lbl_discount_rate.Text = discount_amount.ToString("N2");
+                lbl_total.Text = final_price.ToString("N2");
+
+            }
+            else 
+            {
+                // Step 1: Remove VAT
+                base_price = inclusive_price / (1 + (LoadVat() / 100));
+
+                // Step 2: Compute VAT amount
+                vat_amount = inclusive_price - base_price;
+                lbl_vat.Text = vat_amount.ToString("N2");
+                lbl_total.Text = original_price.ToString("N2");
+            }
+
+   
+
+
+
+        }
+        private void txt_received_TextChanged(object sender, EventArgs e)
+        {
+        
+            decimal received_amount = Convert.ToDecimal(txt_received.Text == "" ? "0" : txt_received.Text);
+            decimal total_amount = Convert.ToDecimal(lbl_total.Text);
+            decimal change_amount = 0m;
+        
+            if (txt_received.Text.Length > 0) 
+            {
+                change_amount = received_amount - total_amount;
+
+                lbl_change.Text = change_amount.ToString("N2");
+            }
+        }
+
+        private void lbl_total_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void lbl_total_TextChanged(object sender, EventArgs e)
+        {
+
+            decimal received_amount = Convert.ToDecimal(txt_received.Text == "" ? "0" : txt_received.Text);
+            decimal total_amount = Convert.ToDecimal(lbl_total.Text);
+            decimal change_amount = 0m;
+
+            if (lbl_total.Text.Length > 0)
+            {
+                change_amount = received_amount - total_amount;
+
+                lbl_change.Text = change_amount.ToString("N2");
+            }
+        }
+
+        private void Clear() 
+        {
+            cb_payment_method.SelectedIndex = -1;
+            cb_payment_method.Hint = "";
+            lbl_discount_rate.Text = "0.00";
+            lbl_discount_rate.Tag = "";
+            lbl_discount_name.Text = "DISCOUNT";
+            txt_received.Text = "";
+            lbl_sub_total.Text = "0.00";
+            lbl_vat.Text = "0.00";
+            lbl_total.Text = "0.00";
+            lbl_change.Text = "0.00";      
+            cb_payment_method.Hint = "Select Payment";
+            lbl_appointment_id.Text = "";
+            lbl_invoice_id.Text = "";
+            txt_customer_name.Text = "";
+
+            dgv_cart.DataSource = null;
+
+        }
+        private void btn_clear_Click(object sender, EventArgs e)
+        {
+            Clear();
+        }
+
+        private async void  btn_confirm_payment_Click(object sender, EventArgs e)
+        {
+            AppointmentController appointment = new AppointmentController();
+
+            int invoice_id = Convert.ToInt32(lbl_name.Tag);
+            decimal amount_paid = Convert.ToDecimal(lbl_total.Text);
+            decimal vat_amount = Convert.ToDecimal(lbl_vat.Text);
+            decimal discount_amount = Convert.ToDecimal(lbl_discount_rate.Text);
+            string payment_method = cb_payment_method.SelectedItem.ToString();
+            var invoice = new InvoiceModel
+            {
+                InvoiceID = invoice_id,
+                TotalAmount = amount_paid,
+                VATAmount = vat_amount,
+                DiscountAmount = discount_amount,
+                PaymentMethod = payment_method,
+                Timestamp = DateTime.Now
+            };
+
+            int appointmentId = Convert.ToInt32(lbl_appointment_id.Text);
+            int invoiceId = Convert.ToInt32(lbl_invoice_id.Text);
+            // Finalize payment
+            var repo = new InvoiceRepository();
+            var controller = new InvoiceController(repo);
+
+            controller.UpdateInvoice(invoice);
+            //AddTransactions(model.AppointmentId, _vatAmount, _discountAmount, _subtotal, totalAmount, cb_PaymentMethod.SelectedItem.ToString(), "Paid", DateTime.Now);
+            appointment.UpdateAppointmentPayment(appointmentId, "Paid", "Completed");
+
+            MessageBox.Show("✅ Payment has been recorded successfully!", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
+
+            Audit.AuditLog(
+                DateTime.Now,
+                "Process Payment",
+                UserSession.CurrentUser.first_Name,
+                "Appointment",
+                $"Processed payment for client '{txt_customer_name.Text}' on {DateTime.Now:yyyy-MM-dd} at {DateTime.Now:HH:mm:ss}"
+            );
+
+
+           
+            await RefreshInventoryAsync();
+            await RefreshBatchInventory();
+            await RefreshAppointmentAsync();
+            await RefreshTotalSales(); 
+            await RefreshTransactionAsync();
+
+            LoadTodayAppointment();
+            Clear();
+        }
+
+        private void btn_create_appointment_Click(object sender, EventArgs e)
+        {
+            using (var appointmentForm = new AppointmentForm(this))
+            {
+                appointmentForm.ShowDialog();
+            }
+        }
+
+        private void materialButton9_Click(object sender, EventArgs e)
+        {
+
+            int invoiceId = Convert.ToInt32(lbl_invoice_id.Text);
+            PrintReceipt(invoiceId);
+        }
+
+        
+
+
 
         // END OF POS SYSTEM
     }
