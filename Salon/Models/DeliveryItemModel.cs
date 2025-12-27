@@ -11,13 +11,24 @@ namespace Salon.Models
     {
         public int delivery_item_id { get; set; }
         public int delivery_id { get; set; }
+        public string invoice { get; set; }
         public int product_id { get; set; }
+        public int product_size_id { get; set; }
+        public int supplier_id { get; set; }
+        public string supplier_name { get; set; }
         public string product_name { get; set; }
-        public int qty { get; set; }
+        public int qty_delivered { get; set; }
+        public int qty_received { get; set; }
+        public int qty_rejected { get; set; }
+        public int total_accepted { get; set; }
+        public int total_rejected { get; set; }
+        public int content { get; set; }
+        public int total_qty { get; set; }
         public decimal unit_price { get; set; }
         public decimal total_price { get; set; }
         public DateTime? expiry_date { get; set; }
         public string notes { get; set; }
+        public string item_status { get; set; }
 
 
 

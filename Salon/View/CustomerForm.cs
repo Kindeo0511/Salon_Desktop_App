@@ -145,7 +145,7 @@ namespace Salon.View
         {
             if (!IsValid()) return;
 
-            AddCustomer(txt_first_name.Text, txt_middle_name.Text, txt_last_name.Text, txt_email.Text, txt_contact.Text, "Registered");
+            AddCustomer(txt_first_name.Text, txt_middle_name.Text, txt_last_name.Text, txt_email.Text, txt_contact.Text, "Member");
             var fullName = txt_first_name.Text +" "+ txt_last_name.Text;
             Audit.AuditLog(DateTime.Now, "Create", UserSession.CurrentUser.first_Name, "Manage Customer", $"Created customer '{fullName}' on {DateTime.Now:yyyy-MM-dd} at {DateTime.Now:HH:mm:ss}");
              await mainform.RefreshCustomers();

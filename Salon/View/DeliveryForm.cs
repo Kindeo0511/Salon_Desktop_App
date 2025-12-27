@@ -19,6 +19,8 @@ namespace Salon.View
     {
         private MainForm mainform;
         private int totalVolume = 0;
+        private int content = 0;
+        private int total_qty = 0;
         public DeliveryForm(MainForm mainform)
         {
             InitializeComponent();
@@ -188,7 +190,7 @@ namespace Salon.View
         {
             var repo = new ProductRepository();
             var controller = new ProductController(repo);
-            var products = controller.getAllProduct();
+            var products = controller.GetProductToOrder();
 
             cb_product_names.DisplayMember = "product_name";
             cb_product_names.ValueMember = "product_id";
@@ -196,19 +198,39 @@ namespace Salon.View
             cb_product_names.SelectedIndex = -1;
 
 
-            txt_unit.Clear();
-            txt_volume.Clear();
+
+            txt_price.Clear();
+
+        }
+        
+        private void LoadProductSizes(int product_id) 
+        {
+            var repo = new ProductSizeRepository();
+            var controller = new ProductSizeController(repo);
+            var products_size = controller.GetProductSize(product_id);
+
+            cmb_product_size.DisplayMember = "size_label";
+            cmb_product_size.ValueMember = "product_size_id";
+            cmb_product_size.DataSource = products_size;
+            cmb_product_size.SelectedIndex = -1;
+
+            txt_price.Clear();
+
+
 
         }
         private void UpdateTotal()
         {
             if (decimal.TryParse(txt_price.Text, out decimal price) &&
-                int.TryParse(txt_qty.Text, out int qty) && int.TryParse(txt_volume.Text , out int volume))
+                int.TryParse(txt_qty.Text, out int qty))
             {
                 var total = price * qty;
-                totalVolume = volume * qty;
                 txt_total.Text = total.ToString("N2");
-                
+
+            }
+            else 
+            {
+                txt_total.Text = string.Empty;
             }
            
         }
@@ -221,8 +243,6 @@ namespace Salon.View
             txt_price.Clear();
             txt_total.Clear();
             txt_qty.Clear();
-            txt_unit.Clear();
-            txt_volume.Clear();
             totalVolume = 0;
             cb_product_names.Hint = "Select Product";
             cb_supplier_name.Hint = "Select Supplier";
@@ -237,16 +257,17 @@ namespace Salon.View
                 var selectedProduct = cb_product_names.SelectedItem as ProductModel;
                 if (selectedProduct != null)
                 {
-                    txt_unit.Text = selectedProduct.unit_type ?? "N/A";
-                    txt_volume.Text = selectedProduct.unit_volume.ToString();
+                    LoadProductSizes(selectedProduct.product_id);
+                    
+
                 }
                 else
                 {
-                    txt_unit.Text = "N/A";
-                    txt_volume.Text = "0";
+
+
                 }
             }
-           
+
         }
 
         private void txt_qty_TextChanged(object sender, EventArgs e)
@@ -261,14 +282,15 @@ namespace Salon.View
 
         private void btn_add_Click(object sender, EventArgs e)
         {
-
+            int qty = Convert.ToInt32(txt_qty.Text);
+            total_qty = qty * content;
             if (!IsValid()) return;
  
 
-            string productId = cb_product_names.SelectedValue.ToString();
+            string product_id_size = cmb_product_size.SelectedValue.ToString();
             bool isDuplicate = dgv_Items.Rows
                 .Cast<DataGridViewRow>()
-                .Any(row => row.Cells[0].Value?.ToString() == productId);
+                .Any(row => row.Cells[0].Value?.ToString() == product_id_size);
 
             if (isDuplicate)
             {
@@ -279,11 +301,12 @@ namespace Salon.View
             dgv_Items.Rows.Add(
                   cb_product_names.SelectedValue,
                   cb_product_names.Text,
+                  cmb_product_size.SelectedValue,
+                  cmb_product_size.Text,
                   txt_qty.Text.Trim(),
-                  txt_unit.Text.Trim(),
-                  txt_volume.Text.Trim(),
+                  content.ToString(),
+                  total_qty.ToString(),
                   txt_price.Text.Trim(),
-                  totalVolume,
                   txt_total.Text.Trim(),
                   dtp_delivery_date.Value.ToShortDateString(),
                   dtp_expiry.Value.ToShortDateString(),
@@ -321,12 +344,11 @@ namespace Salon.View
                 DataGridViewRow row = dgv_Items.Rows[e.RowIndex];
                 cb_product_names.Hint = string.Empty;
                 cb_supplier_name.Hint = string.Empty;
+                cmb_product_size.Hint = string.Empty;
                 cb_product_names.SelectedValue = Convert.ToInt32(row.Cells["product_id"].Value);
+                cmb_product_size.SelectedValue = Convert.ToInt32(row.Cells["col_product_size_id"].Value);
                 txt_qty.Text = row.Cells["col_qty"].Value?.ToString();
-                txt_unit.Text = row.Cells["col_unit"].Value?.ToString();
-                txt_volume.Text = row.Cells["col_volume"].Value?.ToString();
                 txt_price.Text = row.Cells["col_price"].Value?.ToString();
-                totalVolume = Convert.ToInt32(row.Cells["col_price"].Value?.ToString());
                 txt_total.Text = row.Cells["col_total"].Value?.ToString();
                 dtp_delivery_date.Value = DateTime.Parse(row.Cells["col_delivered_date"].Value?.ToString());
                 dtp_expiry.Value = DateTime.Parse(row.Cells["col_expiry_date"].Value?.ToString());
@@ -334,6 +356,7 @@ namespace Salon.View
 
                 cb_product_names.Hint = "Select Product";
                 cb_supplier_name.Hint = "Select Supplier";
+                cmb_product_size.Hint = "Select Product Size";
                 btn_update.Visible = true;
                 btn_cancel.Visible = true;
                 btn_add.Visible = false;
@@ -360,22 +383,25 @@ namespace Salon.View
             var itemDeliveredRepo = new DeliveredItemRepository();
             var deliveryItemController = new DeliveryItemController(itemDeliveredRepo);
 
-            var inventoryRepo = new InventoryRepository();
-            var inventoryController = new InventoryController(inventoryRepo);
+            //var inventoryRepo = new InventoryRepository();
+            //var inventoryController = new InventoryController(inventoryRepo);
 
-            var inventoryBatchRepo = new InventoryBatchRepository();
-            var inventoryBatchController = new InventoryBatchController(inventoryBatchRepo);
+            //var inventoryBatchRepo = new InventoryBatchRepository();
+            //var inventoryBatchController = new InventoryBatchController(inventoryBatchRepo);
 
+          
 
-            // SUMMARY
-            var deliveryModel = new DeliveryModel
-            {
-                supplier_id = Convert.ToInt32(cb_supplier_name.SelectedValue),
-                date = dtp_delivery_date.Value,
-                invoice = txt_invoice.Text,
-                received_by = txt_received_by.Text,
+                // SUMMARY
+                var deliveryModel = new DeliveryModel
+                {
+                    supplier_id = Convert.ToInt32(cb_supplier_name.SelectedValue),
+                    date = dtp_delivery_date.Value,
+                    invoice = txt_invoice.Text,
+                    received_by = txt_received_by.Text,
+                    status = "Pending"
+        
 
-            };
+                };
 
             int id = deliveryController.AddDelivery(deliveryModel);
 
@@ -385,8 +411,11 @@ namespace Salon.View
             {
                 if (row.IsNewRow) continue;
                 int product_id = Convert.ToInt32(row.Cells["product_id"].Value);
+                int product_size_id = Convert.ToInt32(row.Cells["col_product_size_id"].Value);
                 int quantity = Convert.ToInt32(row.Cells["col_qty"].Value);
-                int volume = Convert.ToInt32(row.Cells["col_volume"].Value);
+                string size_label = row.Cells["col_size_label"].Value.ToString();
+                int content = Convert.ToInt32(row.Cells["col_content"].Value.ToString());
+                int total_qty = Convert.ToInt32(row.Cells["col_total_qty"].Value.ToString());
                 decimal unitPrice = Convert.ToDecimal(row.Cells["col_price"].Value);
                 decimal totalPrce = Convert.ToDecimal(row.Cells["col_total"].Value);
                 DateTime deliveredDate = Convert.ToDateTime(row.Cells["col_delivered_date"].Value);
@@ -394,77 +423,78 @@ namespace Salon.View
                 string notes = row.Cells["col_note"].Value.ToString();
 
 
-                var total_volume = quantity * volume;
-
                 var deliveryItemModel = new DeliveryItemModel
                 {
                     delivery_id = id,
                     product_id = product_id,
-                    qty = quantity,
+                    product_size_id = product_size_id,
+                    qty_delivered = quantity,
+                    content = content,
+                    total_qty = total_qty,
                     unit_price = unitPrice,
                     total_price = totalPrce,
                     expiry_date = expiryDate,
                     notes = notes,
                 };
+                deliveryItemController.AddDeliveryItem(deliveryItemModel);
+                //bool exists = inventoryController.ProductExists(product_id);
 
-                bool exists = inventoryController.ProductExists(product_id);
+                //if (exists)
+                //{
 
-                if (exists)
-                {
+                //    inventoryController.UpdateInventory(product_id, quantity, total_volume);
 
-                    inventoryController.UpdateInventory(product_id, quantity, total_volume);
+                //    AddAndLoadExpenses("Inventory Purchase", cb_product_names.Text + " restock ("+ quantity +" units)", totalPrce, txt_received_by.Text, "", DateTime.Now);
 
-                    AddAndLoadExpenses("Inventory Purchase", cb_product_names.Text + " restock ("+ quantity +" units)", totalPrce, txt_received_by.Text, "", DateTime.Now);
+                //    Audit.AuditLog(
+                //    DateTime.Now,
+                //    "Restock",
+                //    UserSession.CurrentUser.first_Name,
+                //    "Manage Delivery",
+                //   $"Restocked existing product '{cb_product_names.Text}' (Qty: {quantity}, Volume: {total_volume}) on {DateTime.Now:yyyy-MM-dd} at {DateTime.Now:HH:mm:ss}"
+                //    );
 
-                    Audit.AuditLog(
-                    DateTime.Now,
-                    "Restock",
-                    UserSession.CurrentUser.first_Name,
-                    "Manage Delivery",
-                   $"Restocked existing product '{cb_product_names.Text}' (Qty: {quantity}, Volume: {total_volume}) on {DateTime.Now:yyyy-MM-dd} at {DateTime.Now:HH:mm:ss}"
-                    );
+                //}
+                //else
+                //{
 
-                }
-                else
-                {
+                //    var inventoryModel = new InventoryViewModel
+                //    {
+                //        product_id = product_id,
+                //        unit = quantity,
+                //        volume_per_unit = volume,
+                //        volume = total_volume
+                //    };
+                //    inventoryController.AddInventory(inventoryModel);
 
-                    var inventoryModel = new InventoryViewModel
-                    {
-                        product_id = product_id,
-                        unit = quantity,
-                        volume_per_unit = volume,
-                        volume = total_volume
-                    };
-                    inventoryController.AddInventory(inventoryModel);
+                //    AddAndLoadExpenses("Inventory Purchase", cb_product_names.Text, totalPrce, txt_received_by.Text,"",DateTime.Now);
 
-                    AddAndLoadExpenses("Inventory Purchase", cb_product_names.Text, totalPrce, txt_received_by.Text,"",DateTime.Now);
+                //    Audit.AuditLog(
+                //    DateTime.Now,
+                //    "Add",
+                //    UserSession.CurrentUser.first_Name,
+                //    "Manage Delivery",
+                //    $"Added delivery for product '{cb_product_names.Text}' (Qty: {quantity}, Volume: {total_volume}) on {DateTime.Now:yyyy-MM-dd} at {DateTime.Now:HH:mm:ss}"
+                //    );
 
-                    Audit.AuditLog(
-                    DateTime.Now,
-                    "Add",
-                    UserSession.CurrentUser.first_Name,
-                    "Manage Delivery",
-                    $"Added delivery for product '{cb_product_names.Text}' (Qty: {quantity}, Volume: {total_volume}) on {DateTime.Now:yyyy-MM-dd} at {DateTime.Now:HH:mm:ss}"
-                    );
+                //}
 
-                }
 
-                int item_id = deliveryItemController.AddDeliveryItem(deliveryItemModel);
 
-                var inventoryBath = new InventoryBatchModel
-                {
-                    delivery_item_id = item_id,
-                    product_id = product_id,
-                    unit = quantity,
-                    volume_per_unit = volume,
-                    volume = total_volume,
-                    price = unitPrice,
-                    notes = notes,
-                    delivered_date = deliveredDate,
-                    expiry_date = expiryDate
-                };
+                //var inventoryBath = new InventoryBatchModel
+                //{
+                //    delivery_item_id = item_id,
+                //    product_id = product_id,
+                //    unit = quantity,
+                //    volume_per_unit = volume,
+                //    volume = total_volume,
+                //    price = unitPrice,
+                //    notes = notes,
+                //    delivered_date = deliveredDate,
+                //    expiry_date = expiryDate
+                //};
 
-                inventoryBatchController.AddBatchInventory(inventoryBath);
+                //inventoryBatchController.AddBatchInventory(inventoryBath);
 
 
 
@@ -474,7 +504,7 @@ namespace Salon.View
             }
             MessageBox.Show("Delivery has been added successfully.", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
             await mainform.RefreshDeliveryAsync();
-            await mainform.RefreshInventoryAsync();
+            //await mainform.RefreshInventoryAsync();
             await mainform.RefreshBatchInventory();
             this.Close(); 
 
@@ -543,8 +573,7 @@ namespace Salon.View
                 row.Cells["product_id"].Value = cb_product_names.SelectedValue;
                 row.Cells["col_product_name"].Value = cb_product_names.Text;
                 row.Cells["col_qty"].Value = txt_qty.Text;
-                row.Cells["col_unit"].Value = txt_unit.Text;
-                row.Cells["col_volume"].Value = txt_volume.Text;
+                row.Cells["col_volume"].Value = cmb_product_size.Text;
                 row.Cells["col_price"].Value = txt_price.Text;
                 row.Cells["col_total"].Value = txt_price.Text;
                 row.Cells["col_delivered_date"].Value = dtp_delivery_date.Value.ToShortDateString();
@@ -631,6 +660,30 @@ namespace Salon.View
             cleaned = System.Text.RegularExpressions.Regex.Replace(cleaned, @"\s{2,}", " ");
 
             txt.Text = cleaned;
+        }
+
+        private void materialCard1_Paint(object sender, PaintEventArgs e)
+        {
+
+        }
+
+        private void cmb_product_size_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if (cmb_product_size.SelectedIndex >= 0)
+            {
+                var selectedProductSize = cmb_product_size.SelectedItem as ProductSizeModel;
+                if (selectedProductSize != null)
+                {
+
+                    txt_price.Text = selectedProductSize.cost_price.ToString("N2");
+                    content = selectedProductSize.content;
+                }
+                else
+                {
+
+
+                }
+            }
         }
     }
 }

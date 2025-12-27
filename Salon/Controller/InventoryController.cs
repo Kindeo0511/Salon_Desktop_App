@@ -39,9 +39,9 @@ namespace Salon.Controller
             return inventoryRepository.InventoryReportSummary(status);
         }
 
-        public bool ProductExists(int id)
+        public bool ProductExists(int id, int product_size_id)
         {
-            return inventoryRepository.ProductExists(id);
+            return inventoryRepository.ProductExists(id, product_size_id);
         }
 
         public void AddInventory(InventoryViewModel inventory)
@@ -49,9 +49,17 @@ namespace Salon.Controller
             inventoryRepository.AddInventory(inventory);
         }
 
-        public void UpdateInventory(int id, int unit, int volume)
+        public void UpdateInventory(int id, int product_size_id, int unit, int volume)
         {
-            inventoryRepository.UpdateInventory(id, unit, volume);
+            inventoryRepository.UpdateInventory(id, product_size_id, unit, volume);
+        }
+        public void VoidProductInventory(int product_id, int size_id, int qty) 
+        {
+            inventoryRepository.VoidProductInventory(product_id, size_id, qty);
+        }
+        public void DeductInventory(int product_id, int product_size_id, int qty, int total)
+        {
+            inventoryRepository.DeductInventory(product_id, product_size_id, qty, total);
         }
 
         public void UpdateExpiredProducts() 

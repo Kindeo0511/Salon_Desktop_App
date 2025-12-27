@@ -53,7 +53,14 @@ namespace Salon.Controller
         {
             repo.ActivateCustomer(customerId);
         }
-
+        public void UpdateCustomerPoints(CustomerModel model) 
+        {
+            repo.UpdateCustomeLoyaltyPoint(model);
+        }
+        public void DeductCustomerPoints(CustomerModel model) 
+        {
+            repo.SubtractCustomerLoyaltyPoints(model);
+        }
         public void PermanentDeleteCustomer(int id) 
         {
             repo.PermanentDelete(id);

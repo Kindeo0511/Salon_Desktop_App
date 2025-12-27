@@ -10,6 +10,7 @@ namespace Salon.Repository
     public interface I_Invoice
     {
      int CreateInvoice(InvoiceModel model);
+     int CreateProductInvoice(InvoiceModel model);
      int GetInvoiceById(int id);
      void UpdateInvoice(InvoiceModel model);
     }

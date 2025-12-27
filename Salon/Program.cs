@@ -22,7 +22,10 @@ namespace Salon
 
             // Then launch login form as main window
             //Application.Run(new LoginForm());
+
+
             Application.Run(new LoginForm());
+
 
         }
     }

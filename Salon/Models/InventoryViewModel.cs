@@ -10,11 +10,14 @@ namespace Salon.Models
     {
         public int inventory_id { get; set; }
         public int product_id { get; set; }
+        public int product_size_id { get; set; }
         public string product_name { get; set; }
+        public string size_label { get; set; }
+        public string product_type { get; set; }
         public string brand { get; set; }
         public string category { get; set; }
-        public double unit { get; set; }
-        public int volume_per_unit { get; set; }
+        public double qty { get; set; }
+        public int total_remaining { get; set; }
         public int volume { get; set; }
         public int critical_level { get; set; }
         public string status { get; set; }

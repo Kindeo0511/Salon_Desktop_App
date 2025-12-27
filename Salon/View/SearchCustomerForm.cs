@@ -84,8 +84,6 @@ namespace Salon.View
                 {
                     appointmentForm.CustomerId = customer.customer_id.ToString();
                     appointmentForm.FullName = customer.fullName;
-                    appointmentForm.Email = customer.email;
-                    appointmentForm.Contact = customer.phoneNumber;
 
                     this.Close();
                 }

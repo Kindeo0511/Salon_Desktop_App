@@ -22,6 +22,18 @@ namespace Salon.Repository
             }
 
         }
+        public IEnumerable<DeliveryItemModel> GetDeliveryInvoice()
+        {
+            using (var con = Database.GetConnection())
+            {
+                var sql = @"SELECT DISTINCT d.delivery_id, d.invoice, s.supplier_id, s.supplier_name, d.status
+                            FROM tbl_delivery AS d
+                            LEFT JOIN tbl_supplier AS s ON s.supplier_id = d.supplier_id
+                            WHERE d.status != 'Completed';
+                            ";
+                return con.Query<DeliveryItemModel>(sql);
+            }
+        }
         public async Task<IEnumerable<DeliveryModel>> GetAllDeliveryAsync() 
         {
             using (var con = Database.GetConnection())
@@ -38,11 +50,41 @@ namespace Salon.Repository
         {
             using (var con = Database.GetConnection()) 
             {
-                var sql = "INSERT INTO tbl_delivery (supplier_id, date, invoice, received_by) VALUES (@supplier_id, @date, @invoice, @received_by); SELECT LAST_INSERT_ID();";
+                var sql = "INSERT INTO tbl_delivery (supplier_id, date, invoice, received_by, status) VALUES (@supplier_id, @date, @invoice, @received_by, @status); SELECT LAST_INSERT_ID();";
 
                 return con.QuerySingle<int>(sql, deliveryModel);
             }
                
+        }
+        public void UpdateDeliveryStatus() 
+        {
+            using (var con = Database.GetConnection()) 
+            {
+                var sql = @"UPDATE tbl_delivery
+                        SET status = 'Completed'
+                        WHERE delivery_id IN (
+                          SELECT delivery_id FROM (
+                            SELECT delivery_id
+                            FROM (
+                              SELECT di.delivery_id,
+                                     di.product_id,
+                                     di.qty_delivered,
+                                     SUM(td.qty_accepted) AS total_accepted
+                              FROM tbl_delivery_items di
+                              JOIN tbl_delivery d ON di.delivery_id = d.delivery_id
+                              LEFT JOIN tbl_stock_transaction t ON t.reference_no = d.invoice
+                              LEFT JOIN tbl_transaction_details td 
+                                     ON td.transaction_id = t.transaction_id 
+                                    AND td.product_id = di.product_id
+                              GROUP BY di.delivery_id, di.product_id, di.qty_delivered
+                            ) per_item
+                            GROUP BY delivery_id
+                            HAVING SUM(CASE WHEN total_accepted = qty_delivered THEN 1 ELSE 0 END) = COUNT(*)
+                          ) AS sub
+                        );
+                        ";
+                con.Execute(sql);
+            }
         }
         public bool DeliveryExists(string invoice) 
         {

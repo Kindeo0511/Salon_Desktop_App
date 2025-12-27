@@ -3,6 +3,7 @@ using Laundry.Data;
 using Salon.Models;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -15,21 +16,55 @@ namespace Salon.Repository
         {
             using (var con = Database.GetConnection())
             {
-                var sql = @"SELECT p.product_id, p.product_name, p.brand, c.categoryName AS categoryName, p.unit_type, p.price
+                var sql = @"SELECT p.product_id,ps.product_size_id, p.product_name,p.product_type, p.brand, c.category_id, c.categoryName AS categoryName, p.unit_type,ps.size_label, ps.content, ps.selling_price, ps.cost_price
                             FROM tbl_products p
                             JOIN tbl_category c ON p.category_id = c.category_id
+                            JOIN tbl_product_size ps ON ps.product_id = p.product_id
                             WHERE p.is_deleted = 0 AND c.is_deleted = 0 AND p.product_type = 'Retail'";
                 return con.Query<ProductModel>(sql).ToList();
             }
         }
+        public RetailProduct GetRetailProductByIdAndSize(int productId, int productSizeId)
+        {
+            using (var con = Database.GetConnection())
+            {
+                var sql = @"SELECT p.product_id, ps.product_size_id, p.product_name, ps.size_label, 
+                           ps.content, p.brand, ps.selling_price
+                    FROM tbl_products p
+                    JOIN tbl_product_size ps ON ps.product_id = p.product_id
+                    WHERE p.is_deleted = 0  
+                      AND p.product_type = 'Retail' 
+                      AND p.product_id = @productId
+                      AND ps.product_size_id = @productSizeId";
+
+                return con.QuerySingleOrDefault<RetailProduct>(sql, new { productId, productSizeId });
+            }
+        }
+
+        public RetailProduct GetRetailProductByName(string name)
+        {
+            using (var con = Database.GetConnection())
+            {
+                var sql = @"SELECT p.product_id, p.product_name, ps.size_label, ps.content, p.brand, ps.selling_price
+                    FROM tbl_products p
+                    LEFT JOIN tbl_product_size ps ON ps.product_id = p.product_id
+                    WHERE p.is_deleted = 0  
+                      AND p.product_type = 'Retail' 
+                      AND p.product_name = @name"; // exact match
+
+                return con.QuerySingleOrDefault<RetailProduct>(sql, new { name });
+            }
+        }
+
         public IEnumerable<ProductModel> GetAllProducts()
         {
             using (var con = Database.GetConnection()) 
             {
-                var sql = @"SELECT p.product_id, p.product_name, p.product_type, p.brand, p.category_id, c.categoryName AS categoryName, p.unit_type, p.usage_type, p.unit_volume, p.price
+                var sql = @"SELECT p.product_id, p.product_name,p.product_type, p.brand, c.category_id, c.categoryName AS categoryName, p.unit_type,ps.size_label, ps.content, ps.selling_price, ps.cost_price
                             FROM tbl_products p
                             JOIN tbl_category c ON p.category_id = c.category_id
-                            WHERE p.is_deleted = 0 AND c.is_deleted = 0";
+                            JOIN tbl_product_size ps ON ps.product_id = p.product_id
+                            WHERE p.is_deleted = 0 AND c.is_deleted = 0 AND p.product_type = 'Ingredient'";
                 return con.Query<ProductModel>(sql).ToList();
             }
         }
@@ -37,13 +72,26 @@ namespace Salon.Repository
         {
             using (var con = Database.GetConnection())
             {
-                var sql = @"SELECT p.product_id, p.product_name, p.product_type, p.brand, p.category_id, c.categoryName AS categoryName, p.unit_type, p.usage_type, p.unit_volume, p.price
+                var sql = @"SELECT p.product_id, p.product_name,p.product_type, p.brand, c.category_id, c.categoryName AS categoryName, p.unit_type,ps.size_label, ps.content, ps.selling_price, ps.cost_price
                             FROM tbl_products p
                             JOIN tbl_category c ON p.category_id = c.category_id
-                            WHERE p.is_deleted = 0 AND c.is_deleted = 0 ";
+                            LEFT JOIN tbl_product_size ps ON ps.product_id = p.product_id
+                            WHERE p.is_deleted = 0 AND c.is_deleted = 0 AND p.product_type = 'Ingredient' ";
                 var result = await con.QueryAsync<ProductModel>(sql);
 
                 return result.ToList();
+            }
+        }
+        public IEnumerable<ProductModel> GetAllProductToOrder() 
+        {
+            using (var con = Database.GetConnection())
+            {
+                var sql = @"SELECT p.product_id, p.product_name,p.product_type, p.brand, c.category_id, c.categoryName AS categoryName, p.unit_type,ps.size_label, ps.content, ps.selling_price, ps.cost_price
+                            FROM tbl_products p
+                            JOIN tbl_category c ON p.category_id = c.category_id
+                            JOIN tbl_product_size ps ON ps.product_id = p.product_id
+                            WHERE p.is_deleted = 0 AND c.is_deleted = 0";
+                return con.Query<ProductModel>(sql).ToList();
             }
         }
         public ProductModel GetTotalProducts() 
@@ -69,13 +117,13 @@ namespace Salon.Repository
 
             }
         }
-        public void AddProduct(ProductModel product)
+        public int AddProduct(ProductModel product)
         {
             using (var con = Database.GetConnection())
             {
-                var sql = @"INSERT INTO tbl_products (product_name, product_type, brand, category_id, unit_type, usage_type, unit_volume, price)
-                            VALUES (@product_name, @product_type, @brand, @category_id, @unit_type, @usage_type, @unit_volume, @price)";
-                con.Execute(sql, product);
+                var sql = @"INSERT INTO tbl_products (product_name, product_type, brand, category_id, unit_type)
+                            VALUES (@product_name, @product_type, @brand, @category_id, @unit_type); SELECT LAST_INSERT_ID();";
+                return con.QuerySingle<int>(sql, product);
             }
         }
         public void UpdateProduct(ProductModel product)
@@ -83,14 +131,10 @@ namespace Salon.Repository
             using (var con = Database.GetConnection())
             {
                 var sql = @"UPDATE tbl_products
-                            SET product_name = @product_name,
-                                product_type = @product_type,   
+                            SET product_name = @product_name,  
                                 brand = @brand,
                                 category_id = @category_id,
-                                unit_type = @unit_type,
-                                usage_type = @usage_type,
-                                unit_volume = @unit_volume,
-                                price = @price
+                                unit_type = @unit_type
                             WHERE product_id = @product_id";
                 con.Execute(sql, product);
             }

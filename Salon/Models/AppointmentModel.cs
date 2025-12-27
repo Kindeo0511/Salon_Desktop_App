@@ -19,7 +19,8 @@ namespace Salon.Models
         
         public string Email { get; set; }
         public string PhoneNumber { get; set; }
-        public string Customer_Type { get; set; }
+        public string CustomerType { get; set; }
+        public int LoyaltyPoints { get; set; }
         public int StylistId { get; set; }
         public string StylistName { get; set; }
         public DateTime AppointmentDate { get; set; }
@@ -32,7 +33,7 @@ namespace Salon.Models
         public int SubCategoryId { get; set; }
         public string Services { get; set; }
         public decimal TotalPrice { get; set; }
-        public string BookingType { get; set; }
+
 
         public decimal selling_price { get; set; }
         public decimal vat_amount { get; set; }

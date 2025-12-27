@@ -16,7 +16,10 @@ namespace Salon.Controller
         {
             this.delivery = delivery;
         }
-
+        public IEnumerable<DeliveryItemModel> GetDeliveryInvoice()
+        {
+            return delivery.GetDeliveryInvoice();
+        }
         public IEnumerable<DeliveryModel> GetAllDelivery()
         {
             return delivery.GetAllDelivery();
@@ -29,6 +32,10 @@ namespace Salon.Controller
         {
             var id = delivery.AddDelivery(deliveryModel);
             return id;
+        }
+        public void UpdateDeliveryStatus() 
+        {
+            delivery.UpdateDeliveryStatus();
         }
         public bool GetDeliveryExists(string invoice) 
         {

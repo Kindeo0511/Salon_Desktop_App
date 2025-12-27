@@ -18,9 +18,9 @@ namespace Salon.Repository
         int LowOrOutOfStock();
         void UpdateExpiredInventory();
 
-        bool ProductExists(int id);
+        bool ProductExists(int id, int product_size_id);
         void AddInventory(InventoryViewModel inventory);
-        void UpdateInventory(int id, int unit, int volume);
+        void UpdateInventory(int id, int product_size_id, int unit, int volume);
         void UpdateInventoryVolume(int id, double unit, double volume);
         void DeleteInventory(int inventoryId);
     }

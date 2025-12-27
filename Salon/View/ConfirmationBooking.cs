@@ -1,5 +1,6 @@
 ﻿using MaterialSkin.Controls;
 using Org.BouncyCastle.Asn1.Cmp;
+using Salon.Card;
 using Salon.Controller;
 using Salon.Models;
 using Salon.Repository;
@@ -46,8 +47,7 @@ namespace Salon.View
             this.appointmentForm = appointmentForm;
 
             lbl_CustomerName.Text = model.CustomerName;
-            lbl_Email.Text = model.Email;
-            lbl_Contact.Text = model.PhoneNumber;
+          
 
             // Format the date as Month/Day/Year
             lbl_Date.Text = model.AppointmentDate.ToString("MMMM dd, yyyy");
@@ -59,7 +59,7 @@ namespace Salon.View
                + DateTime.Today.Add(model.EndTime).ToString("hh:mm tt");
             // Example: "02:00 PM - 03:00 PM"
 
-            lbl_Services.Text = model.Services;
+            //lbl_Services.Text = model.Services;
             txt_stylist.Text = model.StylistName;
 
 
@@ -72,29 +72,32 @@ namespace Salon.View
             services = model.Services;
             stylist_name = model.StylistName;
 
+            DisplaySummary();
 
 
         }
-        public ConfirmationBooking(AppointmentForm appointment, MainForm mainForm, AppointmentModel model, bool isUpdate )
+        public ConfirmationBooking(AppointmentForm appointment, MainForm mainForm, AppointmentModel model, bool isUpdate)
         {
             InitializeComponent();
             ThemeManager.ApplyTheme(this);
+            this.appointmentForm = appointment;
             this.mainForm = mainForm;
             this.existingAppointmentId = model.AppointmentId;
             lbl_id.Text = model.CustomerId.ToString();
             txt_stylist.Tag = model.StylistId;
-            lbl_Services.Tag = model.ServiceId;
-    
-            this.appointmentForm = appointment;
+            //lbl_Services.Tag = model.ServiceId;
+
+        
             this.isUpdate = isUpdate;
             this.model = model;
             DisplaySummary();
+           
 
         }
 
         private void DisplaySummary()
         {
-
+          
             DateTime startTime = DateTime.Today.Add(model.StartTime);
             DateTime endTime = DateTime.Today.Add(model.EndTime);
 
@@ -102,8 +105,7 @@ namespace Salon.View
             string formattedEndTime = endTime.ToString("hh:mm tt");
             lbl_id.Text = model.CustomerId.ToString();
             lbl_CustomerName.Text = model.CustomerName;
-            lbl_Contact.Text = model.PhoneNumber;
-            lbl_Email.Text = model.Email;
+           
             
             lbl_Time.Text = formattedStartTime + " - " + formattedEndTime;
       
@@ -112,7 +114,12 @@ namespace Salon.View
 
             foreach (var service in appointmentForm.selectedServices)
             {
-                lbl_Services.Text += service.ItemName + ", ";
+                var summary_service_card = new SummaryServiceCard();
+
+                summary_service_card.SetServiceDetails(service.ItemName);
+                fl_services.Controls.Add(summary_service_card);
+             
+
             }
            
       
@@ -150,29 +157,36 @@ namespace Salon.View
 
             return item_id;
         }
+        private string GenerateInvoiceNumber()
+        {
+            string prefix = "INV";
+            string datePart = DateTime.Now.ToString("yyyyMMdd-HHmm");
+            return $"{prefix}-{datePart}";
+        }
         private void SaveAppointment(AppointmentModel model)
         {
             var repo = new AppointmentRepository();
             var appointmentController = new AppointmentController(repo);
 
-            int appointment_id = model.BookingType == "Appointment"
+            int appointment_id = model.CustomerType == "Member"
                 ? appointmentController.CreateAppointment(model)
                 : appointmentController.CreateWalkInAppointment(model);
 
             var invoiceModel = new InvoiceModel
             {
                 AppointmentID = appointment_id,
+                InvoiceNumber = GenerateInvoiceNumber(),
                 TotalAmount = 0,
                 VATAmount = 0,
                 DiscountAmount = 0,
                 PaymentMethod = "Unpaid",
                 Timestamp = null,
-                CustomerID = model.BookingType == "Appointment" ? model.CustomerId : (int?)null
+                CustomerID = model.CustomerType == "Member" ? model.CustomerId : (int?)null
             };
 
             int invoice_id = SaveInvoice(invoiceModel);
 
-            foreach (var service in appointmentForm.cartItem)
+            foreach (var service in appointmentForm.selectedServices)
             {
               
 
@@ -181,6 +195,7 @@ namespace Salon.View
                     InvoiceId = invoice_id,
                     ProductId = service.ProductId,
                     ServiceId = service.ServiceId,
+                    ItemType = service.ItemType,
                     Quantity = service.Quantity,
                     Price = service.Price,
                     Duration = service.Duration
@@ -195,7 +210,7 @@ namespace Salon.View
             var appointmentController = new AppointmentController(repo);
 
             // Call the right update method based on booking type
-            if (model.BookingType == "Appointment")
+            if (model.CustomerType == "Member")
                 appointmentController.UpdateTheAppointment(model);
             else
                 appointmentController.UpdateWalkin(model);
@@ -204,13 +219,14 @@ namespace Salon.View
             int invoice_id = appointmentForm.GetInvoiceId(existingAppointmentId);
             DeleteServiceFromCart(invoice_id);
 
-            foreach (var service in appointmentForm.cartItem)
+            foreach (var service in appointmentForm.selectedServices)
             {
                 var invoiceServiceCart = new ServiceCart
                 {
                     InvoiceId = invoice_id,
                     ProductId = service.ProductId,
                     ServiceId = service.ServiceId,
+                    ItemType = service.ItemType,
                     Quantity = service.Quantity,
                     Price = service.Price,
                     Duration = service.Duration
@@ -226,8 +242,7 @@ namespace Salon.View
         {
             lbl_id.Text = string.Empty;
             lbl_CustomerName.Text = string.Empty;
-            lbl_Contact.Text = string.Empty;
-            lbl_Email.Text = string.Empty;
+           
             lbl_Time.Text = string.Empty;
             txt_stylist.Text = string.Empty;
 
@@ -264,8 +279,8 @@ namespace Salon.View
             this.Close();
             appointmentForm.Close();
             mainForm.LoadAppointments();
-            mainForm.LoadTodayAppointment();
-           
+
+
         }
 
         //private async void btn_Confirm_Click(object sender, EventArgs e)
@@ -426,7 +441,7 @@ namespace Salon.View
                   "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
 
             this.Close();
-            appointmentForm.Clear();
+            //appointmentForm.Clear();
 
        
         }

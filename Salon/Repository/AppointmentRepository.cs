@@ -28,7 +28,7 @@ namespace Salon.Repository
         COALESCE(CONCAT(s.firstName, ' ', s.middleName, ' ', s.lastName), 'Stylist not assigned yet') AS StylistName,
          c.email As Email,
          c.phoneNumber AS PhoneNumber,
-         c.customer_type AS Customer_Type,
+         c.loyalty_points AS LoyaltyPoints,
         sn.subCategory_id AS SubCategoryId,
          sn.servicename_id As ServiceId,
         GROUP_CONCAT(DISTINCT sn.serviceName SEPARATOR ', ') AS Services,
@@ -39,7 +39,7 @@ namespace Salon.Repository
         a.end_time AS EndTime,
         a.Status,
         a.Payment_status AS PaymentStatus,
-        a.booking_type AS BookingType
+        a.customer_type AS CustomerType
     FROM tbl_appointment a
     LEFT JOIN tbl_customer_account c ON a.customer_id = c.customer_id
     LEFT JOIN tbl_stylists s ON a.stylist_id = s.stylist_id
@@ -56,7 +56,7 @@ namespace Salon.Repository
         a.end_time,
         a.Status,
         a.Payment_status,
-        a.booking_type;"
+        a.customer_type;"
                   : @"SELECT 
                 a.appointment_id AS AppointmentId,
                 a.customer_id AS CustomerId,
@@ -65,7 +65,7 @@ namespace Salon.Repository
                 COALESCE(CONCAT(s.firstName, ' ', s.middleName, ' ', s.lastName), 'Stylist not assigned yet') AS StylistName,
                  c.email As Email,
                  c.phoneNumber AS PhoneNumber,
-             c.customer_type AS Customer_Type,
+                c.loyalty_points AS LoyaltyPoints,
                 sn.subCategory_id AS SubCategoryId,
                  sn.servicename_id As ServiceId,
                 GROUP_CONCAT(DISTINCT sn.serviceName SEPARATOR ', ') AS Services,
@@ -76,7 +76,7 @@ namespace Salon.Repository
                 a.end_time AS EndTime,
                 a.Status,
                 a.Payment_status AS PaymentStatus,
-                a.booking_type AS BookingType
+                a.customer_type AS CustomerType
             FROM tbl_appointment a
             LEFT JOIN tbl_customer_account c ON a.customer_id = c.customer_id
             LEFT JOIN tbl_stylists s ON a.stylist_id = s.stylist_id
@@ -94,7 +94,7 @@ namespace Salon.Repository
                 a.end_time,
                 a.Status,
                 a.Payment_status,
-                a.booking_type;";
+                c.customer_type;";
 
                 return con.Query<AppointmentModel>(sql, new { status}).ToList();
             }
@@ -116,7 +116,7 @@ namespace Salon.Repository
         COALESCE(CONCAT(s.firstName, ' ', s.middleName, ' ', s.lastName), 'Stylist not assigned yet') AS StylistName,
          c.email As Email,
          c.phoneNumber AS PhoneNumber,
-         c.customer_type AS Customer_Type,
+            c.loyalty_points AS LoyaltyPoints,
         sn.subCategory_id AS SubCategoryId,
          sn.servicename_id As ServiceId,
         GROUP_CONCAT(DISTINCT sn.serviceName SEPARATOR ', ') AS Services,
@@ -127,7 +127,7 @@ namespace Salon.Repository
         a.end_time AS EndTime,
         a.Status,
         a.Payment_status AS PaymentStatus,
-        a.booking_type AS BookingType
+        a.customer_type AS CustomerType
     FROM tbl_appointment a
     LEFT JOIN tbl_customer_account c ON a.customer_id = c.customer_id
     LEFT JOIN tbl_stylists s ON a.stylist_id = s.stylist_id
@@ -144,7 +144,7 @@ namespace Salon.Repository
         a.end_time,
         a.Status,
         a.Payment_status,
-        a.booking_type;"
+        a.customer_type;"
                   : @"SELECT 
                 a.appointment_id AS AppointmentId,
                 a.customer_id AS CustomerId,
@@ -153,7 +153,7 @@ namespace Salon.Repository
                 COALESCE(CONCAT(s.firstName, ' ', s.middleName, ' ', s.lastName), 'Stylist not assigned yet') AS StylistName,
                  c.email As Email,
                  c.phoneNumber AS PhoneNumber,
-             c.customer_type AS Customer_Type,
+                c.loyalty_points AS LoyaltyPoints,
                 sn.subCategory_id AS SubCategoryId,
                  sn.servicename_id As ServiceId,
                 GROUP_CONCAT(DISTINCT sn.serviceName SEPARATOR ', ') AS Services,
@@ -163,8 +163,7 @@ namespace Salon.Repository
                 a.start_time AS StartTime,
                 a.end_time AS EndTime,
                 a.Status,
-                a.Payment_status AS PaymentStatus,
-                a.booking_type AS BookingType
+                a.Payment_status AS PaymentStatus
             FROM tbl_appointment a
             LEFT JOIN tbl_customer_account c ON a.customer_id = c.customer_id
             LEFT JOIN tbl_stylists s ON a.stylist_id = s.stylist_id
@@ -182,7 +181,7 @@ namespace Salon.Repository
                 a.end_time,
                 a.Status,
                 a.Payment_status,
-                a.booking_type;";
+                a.customer_type;";
 
                 var result = await con.QueryAsync<AppointmentModel>(sql, new { status });
 
@@ -210,8 +209,7 @@ namespace Salon.Repository
     a.start_time AS StartTime,
     a.end_time AS EndTime,
     a.Status,
-    a.Payment_status AS PaymentStatus,
-    a.booking_type AS BookingType
+    a.Payment_status AS PaymentStatus
 FROM tbl_appointment a
 LEFT JOIN tbl_customer_account c ON a.customer_id = c.customer_id
 LEFT JOIN tbl_stylists s ON a.stylist_id = s.stylist_id
@@ -245,8 +243,8 @@ LEFT JOIN tbl_servicesname sn ON aps.serviceName_id = sn.serviceName_id;";
     a.start_time AS StartTime,
     a.end_time AS EndTime,
     a.Status,
-    a.payment_status AS PaymentStatus,
-    a.booking_type AS BookingType
+    a.payment_status AS PaymentStatus
+    a.customer_type AS CustomerType
 FROM tbl_appointment a
 LEFT JOIN tbl_customer_account c ON a.customer_id = c.customer_id
 LEFT JOIN tbl_stylists s ON a.stylist_id = s.stylist_id
@@ -305,7 +303,7 @@ GROUP BY a.appointment_id;";
                     COALESCE(CONCAT(s.firstName, ' ', s.middleName, ' ', s.lastName), 'Stylist not assigned yet') AS StylistName,
                     c.email AS Email,
                     c.phoneNumber AS PhoneNumber,
-                    c.customer_type AS Customer_Type,
+                    c.customer_type AS CustomerType,
                     GROUP_CONCAT(DISTINCT sn.serviceName SEPARATOR ', ') AS Services,
                     SUM(sn.servicePrice) AS TotalSellingPrice,
                     SUM(spr.vat_amount) AS TotalVatAmount,
@@ -313,8 +311,7 @@ GROUP BY a.appointment_id;";
                     a.start_time AS StartTime,
                     a.end_time AS EndTime,
                     a.Status,
-                    a.Payment_status AS PaymentStatus,
-                    a.booking_type AS BookingType
+                    a.Payment_status AS PaymentStatus
                 FROM tbl_appointment a
                 LEFT JOIN tbl_customer_account c ON a.customer_id = c.customer_id
                 LEFT JOIN tbl_stylists s ON a.stylist_id = s.stylist_id
@@ -332,7 +329,7 @@ GROUP BY a.appointment_id;";
                     a.end_time,
                     a.Status,
                     a.Payment_status,
-                    a.booking_type;
+                    a.customer_type;
                 ";
                 return con.Query<AppointmentModel>(sql).ToList();
             }
@@ -389,9 +386,9 @@ GROUP BY a.appointment_id;";
             {
                 var sql = @"
             INSERT INTO tbl_appointment 
-                (customer_id, stylist_id, Date, start_time, end_time, Status, payment_status,booking_type)
+                (customer_id, stylist_id, Date, start_time, end_time, Status, payment_status,customer_type)
             VALUES 
-                (@CustomerId, @StylistId, @AppointmentDate, @StartTime, @EndTime, @Status, @PaymentStatus, @BookingType);
+                (@CustomerId, @StylistId, @AppointmentDate, @StartTime, @EndTime, @Status, @PaymentStatus, @CustomerType);
             SELECT LAST_INSERT_ID();
         ";
 
@@ -406,9 +403,9 @@ GROUP BY a.appointment_id;";
             {
                 var sql = @"
             INSERT INTO tbl_appointment 
-                (stylist_id, Date, start_time, end_time, Status, payment_status,booking_type)
+                (stylist_id, Date, start_time, end_time, Status, payment_status,customer_type)
             VALUES 
-                (@StylistId, @AppointmentDate, @StartTime, @EndTime, @Status, @PaymentStatus, @BookingType);
+                (@StylistId, @AppointmentDate, @StartTime, @EndTime, @Status, @PaymentStatus, @CustomerType);
             SELECT LAST_INSERT_ID();
         ";
 
@@ -456,7 +453,7 @@ GROUP BY a.appointment_id;";
                         end_time = @EndTime, 
                         Status = @Status, 
                         payment_status = @PaymentStatus, 
-                        booking_type = @BookingType 
+                        customer_type = @CustomerType 
                     WHERE appointment_id = @AppointmentId;";
 
                 int affectedRows = con.Execute(sql, appointment);

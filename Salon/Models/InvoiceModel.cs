@@ -9,6 +9,8 @@ namespace Salon.Models
     public class InvoiceModel
     {
         public int InvoiceID { get; set; }
+        public string InvoiceNumber { get; set; }
+        public string Name { get; set; }
         public int AppointmentID { get; set; }
         public int? CustomerID { get; set; }
         public decimal TotalAmount { get; set; }
@@ -16,5 +18,6 @@ namespace Salon.Models
         public decimal DiscountAmount { get; set; }
         public string PaymentMethod { get; set; }
         public DateTime? Timestamp { get; set; }
+        public string status { get; set; }
     }
 }

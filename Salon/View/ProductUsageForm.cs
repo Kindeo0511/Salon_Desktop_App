@@ -25,7 +25,7 @@ namespace Salon.View
             InitializeComponent();
             ThemeManager.ApplyTheme(this);
             ThemeManager.StyleDataGridView(dgv_Service_Product);
-            LoadProducts();
+      
        
         }
         public ProductUsageForm(MainForm mainForm, ServiceModel serviceModel)
@@ -36,7 +36,7 @@ namespace Salon.View
             this.mainform = mainForm;
             this.serviceModel = serviceModel;
             txt_service.Text = serviceModel.serviceName;
-            LoadProducts();
+       
            
         }
 
@@ -127,7 +127,7 @@ namespace Salon.View
                 if (selectedProduct != null)
                 {
                     txt_brand.Text = selectedProduct.brand;
-                    txt_usage_type.Text = selectedProduct.usage_type;
+                   
 
                          
              
@@ -136,7 +136,7 @@ namespace Salon.View
             else
             {
                 txt_brand.Clear();
-                txt_usage_type.Clear();
+             
            
                
 
@@ -291,6 +291,7 @@ namespace Salon.View
         private async void ProductUsageForm_Load(object sender, EventArgs e)
         {
             await RefreshServiceProductUsage();
+            LoadProducts();
         }
 
         private void txt_usage_amount_KeyPress(object sender, KeyPressEventArgs e)

@@ -2,6 +2,7 @@
 using Salon.Repository;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -19,6 +20,14 @@ namespace Salon.Controller
         public IEnumerable<ProductModel> GetRetailProduct()
         {
             return repo.GetRetailProduct();
+        }
+        public RetailProduct GetRetailProductByName(string name) 
+        {
+            return repo.GetRetailProductByName(name);
+        }
+        public RetailProduct GetRetailProductByIdAndSize(int productId, int productSizeId) 
+        {
+            return repo.GetRetailProductByIdAndSize(productId, productSizeId);
         }
         public IEnumerable<ProductModel> getAllProduct()
         {
@@ -38,9 +47,14 @@ namespace Salon.Controller
         {
             return await repo.GetTotalProductAsync();
         }
-        public void addProduct(ProductModel product)
+
+        public IEnumerable<ProductModel> GetProductToOrder() 
         {
-            repo.AddProduct(product);
+            return repo.GetAllProductToOrder();
+        }
+        public int addProduct(ProductModel product)
+        {
+           return repo.AddProduct(product);
         }
         public void updateProduct(ProductModel product)
         {

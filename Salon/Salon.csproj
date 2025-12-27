@@ -235,6 +235,30 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Card\CheckOutCard.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Card\CheckOutCard.Designer.cs">
+      <DependentUpon>CheckOutCard.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Card\ProductCard.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Card\ProductCard.Designer.cs">
+      <DependentUpon>ProductCard.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Card\ServiceCard.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Card\ServiceCard.Designer.cs">
+      <DependentUpon>ServiceCard.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Card\SummaryServiceCard.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Card\SummaryServiceCard.Designer.cs">
+      <DependentUpon>SummaryServiceCard.cs</DependentUpon>
+    </Compile>
     <Compile Include="Controller\AppointmentController.cs" />
     <Compile Include="Controller\AppointmentReportController.cs" />
     <Compile Include="Controller\AppointmentServiceController.cs" />
@@ -258,15 +282,20 @@
     <Compile Include="Controller\PaymentController.cs" />
     <Compile Include="Controller\PaymentMethodController.cs" />
     <Compile Include="Controller\ProductController.cs" />
+    <Compile Include="Controller\ProductSizeController.cs" />
+    <Compile Include="Controller\RefundController.cs" />
     <Compile Include="Controller\ServiceController.cs" />
     <Compile Include="Controller\ServicePriceController.cs" />
     <Compile Include="Controller\ServiceProductUsageController.cs" />
+    <Compile Include="Controller\StockOutController.cs" />
+    <Compile Include="Controller\StockTransactionController.cs" />
     <Compile Include="Controller\StylistController.cs" />
     <Compile Include="Controller\StylistSchedulesController.cs" />
     <Compile Include="Controller\SubCategoryController.cs" />
     <Compile Include="Controller\SupplierController.cs" />
     <Compile Include="Controller\TimeSlotController.cs" />
     <Compile Include="Controller\TransactionController.cs" />
+    <Compile Include="Controller\TransactionDetailController.cs" />
     <Compile Include="Controller\UserController.cs" />
     <Compile Include="Controller\UtilController.cs" />
     <Compile Include="Controller\VatController.cs" />
@@ -303,6 +332,7 @@
     <Compile Include="Models\InventoryBatchModel.cs" />
     <Compile Include="Models\InventoryViewModel.cs" />
     <Compile Include="Models\InvoiceModel.cs" />
+    <Compile Include="Models\InvoiceRefundModel.cs" />
     <Compile Include="Models\InvoiceServicesCart.cs" />
     <Compile Include="Models\ItemModel.cs" />
     <Compile Include="Models\OtpEntryModel.cs" />
@@ -310,17 +340,22 @@
     <Compile Include="Models\PaymentMethodModel.cs" />
     <Compile Include="Models\PaymentModel.cs" />
     <Compile Include="Models\ProductModel.cs" />
+    <Compile Include="Models\ProductSizeModel.cs" />
     <Compile Include="Models\RefundModel.cs" />
+    <Compile Include="Models\RetailProduct.cs" />
     <Compile Include="Models\ServiceCart.cs" />
     <Compile Include="Models\ServiceItemSelected.cs" />
     <Compile Include="Models\ServiceModel.cs" />
     <Compile Include="Models\ServicePriceModel.cs" />
     <Compile Include="Models\ServiceProductUsageModel.cs" />
+    <Compile Include="Models\StockOutModel.cs" />
+    <Compile Include="Models\StockTransactionModel.cs" />
     <Compile Include="Models\StylistModel.cs" />
     <Compile Include="Models\StylistScheduleModel.cs" />
     <Compile Include="Models\SubCategoryModel.cs" />
     <Compile Include="Models\SupplierModel.cs" />
     <Compile Include="Models\TimeSlot.cs" />
+    <Compile Include="Models\TransactionDetailsModel.cs" />
     <Compile Include="Models\TransactionModel.cs" />
     <Compile Include="Models\UsersModel.cs" />
     <Compile Include="Models\UtilityModel.cs" />
@@ -358,6 +393,7 @@
     <Compile Include="Repository\IExpenses.cs" />
     <Compile Include="Repository\InventoryBatchRepository.cs" />
     <Compile Include="Repository\InventoryRepository.cs" />
+    <Compile Include="Repository\InvoiceRefundRepository.cs" />
     <Compile Include="Repository\InvoiceRepository.cs" />
     <Compile Include="Repository\InvoiceServiceRepository.cs" />
     <Compile Include="Repository\IOverHead.cs" />
@@ -386,12 +422,16 @@
     <Compile Include="Repository\PaymentMethodRepository.cs" />
     <Compile Include="Repository\PaymentRepository.cs" />
     <Compile Include="Repository\ProductRepository.cs" />
+    <Compile Include="Repository\ProductSizeRepository.cs" />
     <Compile Include="Repository\ServicePriceRepository.cs" />
     <Compile Include="Repository\ServiceProductUsageRepository.cs" />
     <Compile Include="Repository\ServiceRepository.cs" />
+    <Compile Include="Repository\StockOutRepository.cs" />
+    <Compile Include="Repository\StockTransactionRepository.cs" />
     <Compile Include="Repository\StylistRepository.cs" />
     <Compile Include="Repository\SubCategoryRepository.cs" />
     <Compile Include="Repository\SupplierRepository.cs" />
+    <Compile Include="Repository\TransactionDetailsRepository.cs" />
     <Compile Include="Repository\TransactionRepository.cs" />
     <Compile Include="Repository\UserRepository.cs" />
     <Compile Include="Repository\UtilityRepository.cs" />
@@ -411,6 +451,12 @@
     <Compile Include="Util\UserSession.cs" />
     <Compile Include="Util\ThemeManager.cs" />
     <Compile Include="Util\Validator.cs" />
+    <Compile Include="View\AddProductForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="View\AddProductForm.Designer.cs">
+      <DependentUpon>AddProductForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="View\AppointmentForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -537,17 +583,47 @@
     <Compile Include="View\ProductForm.Designer.cs">
       <DependentUpon>ProductForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="View\ProductModalForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="View\ProductModalForm.Designer.cs">
+      <DependentUpon>ProductModalForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="View\ProductUsageForm.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="View\ProductUsageForm.Designer.cs">
       <DependentUpon>ProductUsageForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="View\RedeemPointsForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="View\RedeemPointsForm.Designer.cs">
+      <DependentUpon>RedeemPointsForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="View\RefundForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="View\RefundForm.Designer.cs">
+      <DependentUpon>RefundForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="View\RefundModalForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="View\RefundModalForm.Designer.cs">
+      <DependentUpon>RefundModalForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="View\RegisterUserForm.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="View\RegisterUserForm.Designer.cs">
       <DependentUpon>RegisterUserForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="View\RetailProductForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="View\RetailProductForm.Designer.cs">
+      <DependentUpon>RetailProductForm.cs</DependentUpon>
     </Compile>
     <Compile Include="View\SearchCustomerForm.cs">
       <SubType>Form</SubType>
@@ -573,6 +649,18 @@
     <Compile Include="View\ServicesCard.Designer.cs">
       <DependentUpon>ServicesCard.cs</DependentUpon>
     </Compile>
+    <Compile Include="View\StockInTransactionForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="View\StockInTransactionForm.Designer.cs">
+      <DependentUpon>StockInTransactionForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="View\StockOutForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="View\StockOutForm.Designer.cs">
+      <DependentUpon>StockOutForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="View\StylistForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -590,6 +678,12 @@
     </Compile>
     <Compile Include="View\SupplierForm.Designer.cs">
       <DependentUpon>SupplierForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="View\TestAppointmentForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="View\TestAppointmentForm.Designer.cs">
+      <DependentUpon>TestAppointmentForm.cs</DependentUpon>
     </Compile>
     <Compile Include="View\TestBookingForm.cs">
       <SubType>Form</SubType>
@@ -621,6 +715,18 @@
     <Compile Include="View\UsersControl.Designer.cs">
       <DependentUpon>UsersControl.cs</DependentUpon>
     </Compile>
+    <Compile Include="View\VoidModalForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="View\VoidModalForm.Designer.cs">
+      <DependentUpon>VoidModalForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="View\VoirdForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="View\VoirdForm.Designer.cs">
+      <DependentUpon>VoirdForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="View\Walk_In_Form.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -640,6 +746,18 @@
     <Content Include="SqlServerTypes\x86\SqlServerSpatial140.dll">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+    <EmbeddedResource Include="Card\CheckOutCard.resx">
+      <DependentUpon>CheckOutCard.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Card\ProductCard.resx">
+      <DependentUpon>ProductCard.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Card\ServiceCard.resx">
+      <DependentUpon>ServiceCard.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Card\SummaryServiceCard.resx">
+      <DependentUpon>SummaryServiceCard.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Form1.resx">
       <DependentUpon>Form1.cs</DependentUpon>
     </EmbeddedResource>
@@ -655,6 +773,9 @@
     <Content Include="Report\InvoiceReport.rdlc">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+    <EmbeddedResource Include="View\AddProductForm.resx">
+      <DependentUpon>AddProductForm.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="View\AppointmentForm.resx">
       <DependentUpon>AppointmentForm.cs</DependentUpon>
     </EmbeddedResource>
@@ -718,11 +839,26 @@
     <EmbeddedResource Include="View\ProductForm.resx">
       <DependentUpon>ProductForm.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="View\ProductModalForm.resx">
+      <DependentUpon>ProductModalForm.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="View\ProductUsageForm.resx">
       <DependentUpon>ProductUsageForm.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="View\RedeemPointsForm.resx">
+      <DependentUpon>RedeemPointsForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="View\RefundForm.resx">
+      <DependentUpon>RefundForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="View\RefundModalForm.resx">
+      <DependentUpon>RefundModalForm.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="View\RegisterUserForm.resx">
       <DependentUpon>RegisterUserForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="View\RetailProductForm.resx">
+      <DependentUpon>RetailProductForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="View\SearchCustomerForm.resx">
       <DependentUpon>SearchCustomerForm.cs</DependentUpon>
@@ -736,6 +872,12 @@
     <EmbeddedResource Include="View\ServicesCard.resx">
       <DependentUpon>ServicesCard.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="View\StockInTransactionForm.resx">
+      <DependentUpon>StockInTransactionForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="View\StockOutForm.resx">
+      <DependentUpon>StockOutForm.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="View\StylistForm.resx">
       <DependentUpon>StylistForm.cs</DependentUpon>
     </EmbeddedResource>
@@ -744,6 +886,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="View\SupplierForm.resx">
       <DependentUpon>SupplierForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="View\TestAppointmentForm.resx">
+      <DependentUpon>TestAppointmentForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="View\TestBookingForm.resx">
       <DependentUpon>TestBookingForm.cs</DependentUpon>
@@ -759,6 +904,12 @@
     </EmbeddedResource>
     <EmbeddedResource Include="View\UsersControl.resx">
       <DependentUpon>UsersControl.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="View\VoidModalForm.resx">
+      <DependentUpon>VoidModalForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="View\VoirdForm.resx">
+      <DependentUpon>VoirdForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="View\Walk_In_Form.resx">
       <DependentUpon>Walk_In_Form.cs</DependentUpon>

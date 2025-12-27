@@ -152,7 +152,7 @@ namespace Salon.View
             if (!IsValid()) return;
 
 
-            SaveUser(txt_first_name.Text, txt_middle_name.Text, txt_last_name.Text, txt_email.Text , txt_number.Text, cmb_customer_type.Text);
+            SaveUser(txt_first_name.Text, txt_middle_name.Text, txt_last_name.Text, txt_email.Text , txt_number.Text, "Member");
             string type = cmb_customer_type.SelectedItem?.ToString() ?? "Unknown";
             MessageBox.Show($"Customer added successfully ({type}).", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
             await main.RefreshCustomers();

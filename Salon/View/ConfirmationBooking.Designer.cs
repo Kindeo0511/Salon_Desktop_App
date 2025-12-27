@@ -29,16 +29,15 @@
         private void InitializeComponent()
         {
             this.lbl_CustomerName = new MaterialSkin.Controls.MaterialTextBox();
-            this.lbl_Contact = new MaterialSkin.Controls.MaterialTextBox();
-            this.lbl_Email = new MaterialSkin.Controls.MaterialTextBox();
             this.lbl_Date = new MaterialSkin.Controls.MaterialTextBox();
             this.lbl_Time = new MaterialSkin.Controls.MaterialTextBox();
-            this.lbl_Services = new MaterialSkin.Controls.MaterialMultiLineTextBox2();
             this.btn_Confirm = new MaterialSkin.Controls.MaterialButton();
             this.btn_cancel = new MaterialSkin.Controls.MaterialButton();
             this.txt_stylist = new MaterialSkin.Controls.MaterialTextBox();
             this.lbl_id = new MaterialSkin.Controls.MaterialLabel();
             this.btn_add_another = new MaterialSkin.Controls.MaterialButton();
+            this.fl_services = new System.Windows.Forms.FlowLayoutPanel();
+            this.materialLabel1 = new MaterialSkin.Controls.MaterialLabel();
             this.SuspendLayout();
             // 
             // lbl_CustomerName
@@ -58,42 +57,6 @@
             this.lbl_CustomerName.TabIndex = 0;
             this.lbl_CustomerName.Text = "";
             this.lbl_CustomerName.TrailingIcon = null;
-            // 
-            // lbl_Contact
-            // 
-            this.lbl_Contact.AnimateReadOnly = false;
-            this.lbl_Contact.BorderStyle = System.Windows.Forms.BorderStyle.None;
-            this.lbl_Contact.Depth = 0;
-            this.lbl_Contact.Font = new System.Drawing.Font("Roboto", 16F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
-            this.lbl_Contact.Hint = "Contact #";
-            this.lbl_Contact.LeadingIcon = null;
-            this.lbl_Contact.Location = new System.Drawing.Point(44, 204);
-            this.lbl_Contact.MaxLength = 50;
-            this.lbl_Contact.MouseState = MaterialSkin.MouseState.OUT;
-            this.lbl_Contact.Multiline = false;
-            this.lbl_Contact.Name = "lbl_Contact";
-            this.lbl_Contact.Size = new System.Drawing.Size(400, 50);
-            this.lbl_Contact.TabIndex = 1;
-            this.lbl_Contact.Text = "";
-            this.lbl_Contact.TrailingIcon = null;
-            // 
-            // lbl_Email
-            // 
-            this.lbl_Email.AnimateReadOnly = false;
-            this.lbl_Email.BorderStyle = System.Windows.Forms.BorderStyle.None;
-            this.lbl_Email.Depth = 0;
-            this.lbl_Email.Font = new System.Drawing.Font("Roboto", 16F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
-            this.lbl_Email.Hint = "Email";
-            this.lbl_Email.LeadingIcon = null;
-            this.lbl_Email.Location = new System.Drawing.Point(44, 306);
-            this.lbl_Email.MaxLength = 50;
-            this.lbl_Email.MouseState = MaterialSkin.MouseState.OUT;
-            this.lbl_Email.Multiline = false;
-            this.lbl_Email.Name = "lbl_Email";
-            this.lbl_Email.Size = new System.Drawing.Size(400, 50);
-            this.lbl_Email.TabIndex = 2;
-            this.lbl_Email.Text = "";
-            this.lbl_Email.TrailingIcon = null;
             // 
             // lbl_Date
             // 
@@ -130,32 +93,6 @@
             this.lbl_Time.TabIndex = 5;
             this.lbl_Time.Text = "";
             this.lbl_Time.TrailingIcon = null;
-            // 
-            // lbl_Services
-            // 
-            this.lbl_Services.AnimateReadOnly = false;
-            this.lbl_Services.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
-            this.lbl_Services.CharacterCasing = System.Windows.Forms.CharacterCasing.Normal;
-            this.lbl_Services.Cursor = System.Windows.Forms.Cursors.IBeam;
-            this.lbl_Services.Depth = 0;
-            this.lbl_Services.HideSelection = true;
-            this.lbl_Services.Hint = "Selected Services";
-            this.lbl_Services.Location = new System.Drawing.Point(558, 306);
-            this.lbl_Services.MaxLength = 32767;
-            this.lbl_Services.MouseState = MaterialSkin.MouseState.OUT;
-            this.lbl_Services.Name = "lbl_Services";
-            this.lbl_Services.PasswordChar = '\0';
-            this.lbl_Services.ReadOnly = false;
-            this.lbl_Services.ScrollBars = System.Windows.Forms.ScrollBars.None;
-            this.lbl_Services.SelectedText = "";
-            this.lbl_Services.SelectionLength = 0;
-            this.lbl_Services.SelectionStart = 0;
-            this.lbl_Services.ShortcutsEnabled = true;
-            this.lbl_Services.Size = new System.Drawing.Size(400, 138);
-            this.lbl_Services.TabIndex = 6;
-            this.lbl_Services.TabStop = false;
-            this.lbl_Services.TextAlign = System.Windows.Forms.HorizontalAlignment.Left;
-            this.lbl_Services.UseSystemPasswordChar = false;
             // 
             // btn_Confirm
             // 
@@ -205,7 +142,7 @@
             this.txt_stylist.Font = new System.Drawing.Font("Roboto", 16F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
             this.txt_stylist.Hint = "Stylist Name";
             this.txt_stylist.LeadingIcon = null;
-            this.txt_stylist.Location = new System.Drawing.Point(44, 394);
+            this.txt_stylist.Location = new System.Drawing.Point(44, 204);
             this.txt_stylist.MaxLength = 50;
             this.txt_stylist.MouseState = MaterialSkin.MouseState.OUT;
             this.txt_stylist.Multiline = false;
@@ -248,21 +185,41 @@
             this.btn_add_another.UseVisualStyleBackColor = true;
             this.btn_add_another.Click += new System.EventHandler(this.btn_add_another_Click);
             // 
+            // fl_services
+            // 
+            this.fl_services.AutoScroll = true;
+            this.fl_services.Location = new System.Drawing.Point(44, 326);
+            this.fl_services.Name = "fl_services";
+            this.fl_services.Size = new System.Drawing.Size(914, 138);
+            this.fl_services.TabIndex = 12;
+            // 
+            // materialLabel1
+            // 
+            this.materialLabel1.AutoSize = true;
+            this.materialLabel1.Depth = 0;
+            this.materialLabel1.Font = new System.Drawing.Font("Roboto Medium", 20F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Pixel);
+            this.materialLabel1.FontType = MaterialSkin.MaterialSkinManager.fontType.H6;
+            this.materialLabel1.Location = new System.Drawing.Point(40, 299);
+            this.materialLabel1.MouseState = MaterialSkin.MouseState.HOVER;
+            this.materialLabel1.Name = "materialLabel1";
+            this.materialLabel1.Size = new System.Drawing.Size(129, 24);
+            this.materialLabel1.TabIndex = 13;
+            this.materialLabel1.Text = "Cart Summary";
+            // 
             // ConfirmationBooking
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1000, 600);
+            this.Controls.Add(this.materialLabel1);
+            this.Controls.Add(this.fl_services);
             this.Controls.Add(this.btn_add_another);
             this.Controls.Add(this.lbl_id);
             this.Controls.Add(this.txt_stylist);
             this.Controls.Add(this.btn_cancel);
             this.Controls.Add(this.btn_Confirm);
-            this.Controls.Add(this.lbl_Services);
             this.Controls.Add(this.lbl_Time);
             this.Controls.Add(this.lbl_Date);
-            this.Controls.Add(this.lbl_Email);
-            this.Controls.Add(this.lbl_Contact);
             this.Controls.Add(this.lbl_CustomerName);
             this.MaximizeBox = false;
             this.MinimizeBox = false;
@@ -278,15 +235,14 @@
         #endregion
 
         private MaterialSkin.Controls.MaterialTextBox lbl_CustomerName;
-        private MaterialSkin.Controls.MaterialTextBox lbl_Contact;
-        private MaterialSkin.Controls.MaterialTextBox lbl_Email;
         private MaterialSkin.Controls.MaterialTextBox lbl_Date;
         private MaterialSkin.Controls.MaterialTextBox lbl_Time;
-        private MaterialSkin.Controls.MaterialMultiLineTextBox2 lbl_Services;
         private MaterialSkin.Controls.MaterialButton btn_Confirm;
         private MaterialSkin.Controls.MaterialButton btn_cancel;
         private MaterialSkin.Controls.MaterialTextBox txt_stylist;
         private MaterialSkin.Controls.MaterialLabel lbl_id;
         private MaterialSkin.Controls.MaterialButton btn_add_another;
+        private System.Windows.Forms.FlowLayoutPanel fl_services;
+        private MaterialSkin.Controls.MaterialLabel materialLabel1;
     }
 }

@@ -16,10 +16,27 @@ namespace Salon.Repository
         {
             using (var con = Database.GetConnection()) 
             {
-                var sql = @"SELECT i.inventory_id, p.product_id, p.product_name, p.brand, c.categoryName as category,(i.volume / i.volume_per_unit) AS Unit,i.volume_per_unit, i.volume, i.critical_level, i.status, i.expiry_date 
-                        FROM tbl_inventory as i
-                        LEFT JOIN tbl_products as p ON p.product_id = i.product_id
-                        LEFT JOIN tbl_category as c ON c.category_id = p.category_id
+                var sql = @"SELECT 
+    p.product_id,
+    p.product_name,
+    p.product_type,
+    ps.size_label,
+    p.brand,
+    i.qty,
+    i.total_remaining,
+    i.critical_level,
+    i.status,
+    i.expiry_date
+FROM tbl_inventory AS i
+LEFT JOIN tbl_products AS p 
+       ON p.product_id = i.product_id
+LEFT JOIN tbl_product_size AS ps 
+       ON ps.product_size_id = i.product_size_id
+LEFT JOIN tbl_category AS c 
+       ON c.category_id = p.category_id;
+
+                       
+                        
                         ;";
                 return con.Query<InventoryViewModel>(sql).ToList();
             }
@@ -29,10 +46,12 @@ namespace Salon.Repository
         {
             using (var con = Database.GetConnection())
             {
-                var sql = @"SELECT i.inventory_id, p.product_id, p.product_name, p.brand, c.categoryName as category,(i.volume / i.volume_per_unit) AS Unit,i.volume_per_unit, i.volume, i.critical_level, i.status, i.expiry_date 
+                var sql = @"SELECT p.product_id, p.product_name,p.product_type, ps.size_label, p.brand,i.qty, i.total_remaining, i.critical_level, i.status, i.expiry_date 
                         FROM tbl_inventory as i
                         LEFT JOIN tbl_products as p ON p.product_id = i.product_id
+                        LEFT JOIN tbl_product_size ps ON ps.product_id = p.product_id
                         LEFT JOIN tbl_category as c ON c.category_id = p.category_id
+                       
                         ;";
                 var result = await  con.QueryAsync<InventoryViewModel>(sql);
 
@@ -44,10 +63,25 @@ namespace Salon.Repository
         {
             using (var con = Database.GetConnection())
             {
-                var sql = @"SELECT i.inventory_id, p.product_id, p.product_name, p.brand, c.categoryName as category,(i.volume / i.volume_per_unit) AS Unit,i.volume_per_unit, i.volume, i.critical_level, i.status, i.expiry_date 
-                        FROM tbl_inventory as i
-                        LEFT JOIN tbl_products as p ON p.product_id = i.product_id
-                        LEFT JOIN tbl_category as c ON c.category_id = p.category_id
+                var sql = @"SELECT 
+    p.product_id,
+    p.product_name,
+    p.product_type,
+    ps.size_label,
+    p.brand,
+    i.qty,
+    i.total_remaining,
+    i.critical_level,
+    i.status,
+    i.expiry_date
+FROM tbl_inventory AS i
+LEFT JOIN tbl_products AS p 
+       ON p.product_id = i.product_id
+LEFT JOIN tbl_product_size AS ps 
+       ON ps.product_size_id = i.product_size_id
+LEFT JOIN tbl_category AS c 
+       ON c.category_id = p.category_id;
+
                         WHERE i.status = @status
                         ;";
                 return con.Query<InventoryViewModel>(sql, new { status = status}).ToList();
@@ -86,13 +120,13 @@ namespace Salon.Repository
         }
 
 
-        public bool ProductExists(int id)
+        public bool ProductExists(int id, int size_id)
         {
             using (var con = Database.GetConnection()) 
             {
-                var sql = "SELECT COUNT(1) FROM tbl_inventory WHERE product_id = @product_id";
+                var sql = "SELECT COUNT(1) FROM tbl_inventory WHERE product_id = @product_id AND product_size_id = @product_size_id";
 
-                return con.ExecuteScalar<int>(sql, new { product_id = id }) > 0;
+                return con.ExecuteScalar<int>(sql, new { product_id = id, product_size_id = size_id }) > 0;
             }
            
         }
@@ -100,19 +134,48 @@ namespace Salon.Repository
         {
             using (var con = Database.GetConnection()) 
             {
-                var sql = "INSERT INTO tbl_inventory (product_id, unit,volume_per_unit, volume, expiry_date) VALUES (@product_id, @unit,@volume_per_unit, @volume, @expiry_date)";
+                var sql = "INSERT INTO tbl_inventory (product_id,product_size_id, qty, total_remaining) VALUES (@product_id,@product_size_id,@qty, @total_remaining)";
                 con.Execute(sql, inventory);
             }
       
         }
-        public void UpdateInventory(int id, int unit, int volume)
+        public void UpdateInventory(int id, int product_size_id, int qty, int total_remaining)
         {
             using (var con = Database.GetConnection()) 
             {
-                var sql = "UPDATE tbl_inventory SET unit  = unit + @unit, volume = volume + @volume WHERE product_id = @id";
-                con.Execute(sql, new { id, unit, volume });
+                var sql = "UPDATE tbl_inventory SET qty  = qty + @qty, total_remaining = total_remaining + @total_remaining WHERE product_id = @id AND product_size_id = @product_size_id";
+                con.Execute(sql, new { id,product_size_id, qty, total_remaining });
             }
                
+        }
+        public void VoidProductInventory(int id, int size_id, int qty) 
+        {
+        using (var con = Database.GetConnection()) 
+            {
+                var sql = @"UPDATE tbl_inventory i
+                        JOIN (
+                            SELECT p.product_id,
+                                   (ps.content * @Qty) AS total_content,
+                                   @Qty AS total_units
+                            FROM tbl_products p
+                            JOIN tbl_product_size ps ON ps.product_id = p.product_id
+                            WHERE p.product_id = @Id
+                              AND ps.product_size_id = @SizeId
+                        ) x ON x.product_id = i.product_id
+                        SET i.total_remaining = GREATEST(i.total_remaining + x.total_content, 0),
+                            i.qty = GREATEST(i.qty + x.total_units, 0);
+                        ";
+                con.Execute(sql, new { Id = id, SizeId = size_id, Qty = qty });
+            }
+              
+        }
+        public void DeductInventory(int id, int product_size_id, int qty, int total_remaining) 
+        {
+            using (var con = Database.GetConnection())
+            {
+                var sql = "UPDATE tbl_inventory SET qty  = qty - @qty, total_remaining = total_remaining - @total_remaining WHERE product_id = @id AND product_size_id = @product_size_id";
+                con.Execute(sql, new { id, product_size_id, qty, total_remaining });
+            }
         }
         public void UpdateInventoryVolume(int id, double unit, double volume)
 {

@@ -9,9 +9,9 @@ namespace Salon.Repository
 {
     public interface IDeliveredItems
     {
-        IEnumerable<DeliveryItemModel> GetDeliveryItems(int id);
+        IEnumerable<DeliveryItemModel> GetDeliveryItems(string id);
 
-        int AddDeliveryItem(DeliveryItemModel item);
+        void AddDeliveryItem(DeliveryItemModel item);
 
 
         // DELIVERY REPORT

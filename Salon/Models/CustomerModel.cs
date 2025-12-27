@@ -16,7 +16,7 @@ namespace Salon.Models
         public string email { get; set; }
         public string customer_name { get; set; }
         public string customer_type { get; set; }
-       
+       public int loyalty_points { get; set; }
 
         public string status { get; set; }
         public string fullName
@@ -25,7 +25,7 @@ namespace Salon.Models
   
             get
             {
-                return $"{firstName} {middleName} {lastName}";
+                return $"{firstName} {middleName} {lastName} - {email}";
             }
         }
 

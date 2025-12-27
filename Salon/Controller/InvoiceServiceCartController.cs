@@ -22,15 +22,34 @@ namespace Salon.Controller
         {
             return repo.GetAllServicesInCartById(invoiceId);
         }
-
+        public IEnumerable<InvoiceServicesCart> GetInvoiceForVoidAndRefundById(int id) 
+        {
+            return repo.GetInvoiceForVoidAndRefund(id);
+        }
         public void AddServiceToInvoiceCart(ServiceCart model)
         {
             repo.AddServiceToCart(model);
         }
 
+        public void VoidProductByInvoiceId(int id, string status) 
+        {
+            repo.UpdateServiceToCart(id, status);
+        }
+        public void RefundProduct(int id) 
+        {
+            repo.RefundServiceToCart(id);
+        }
         public bool DeleteServiceFromInvoiceCart(int id)
         {
             return repo.RemoveServiceFromCart(id);
+        }
+        public void RemoveProduct(int id) 
+        {
+            repo.RemoveProductFromCart(id);
+        }
+        public ServiceCart GetServiceFromInvoiceCart(int id) 
+        {
+            return repo.GetInvoiceCartId(id);
         }
     }
 }

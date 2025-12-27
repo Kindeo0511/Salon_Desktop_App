@@ -99,6 +99,24 @@ namespace Salon.Repository
                 con.Execute(sql, new { customerId });
             }
         }
+
+        // LOYALTY POINTS
+        public void UpdateCustomeLoyaltyPoint(CustomerModel customer)
+        {
+            using (var con = Database.GetConnection())
+            {
+                var sql = "UPDATE tbl_customer_account SET loyalty_points = loyalty_points + @loyalty_points WHERE customer_type = 'Member' AND customer_id = @customer_id";
+                con.Execute(sql, customer);
+            }
+        }
+        public void SubtractCustomerLoyaltyPoints(CustomerModel customer)
+        {
+            using (var con = Database.GetConnection())
+            {
+                var sql = "UPDATE tbl_customer_account SET loyalty_points = loyalty_points - @loyalty_points WHERE customer_id = @customer_id";
+                con.Execute(sql, customer);
+            }
+        }
         public bool EmailExists(string email, int id = 0) 
         {
             using (var con = Database.GetConnection()) 

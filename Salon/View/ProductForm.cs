@@ -16,6 +16,7 @@ namespace Salon.View
 {
     public partial class ProductForm : MaterialForm
     {
+        private int _product_id;
         private MainForm mainForm;
         private ProductModel productModel;
         public ProductForm(MainForm mainform)
@@ -36,17 +37,37 @@ namespace Salon.View
             if (productModel != null) 
             {
                 txt_product_name.Text = productModel.product_name;
-                cmb_product_type.Text = productModel.product_type;
+                _product_id = productModel.product_id;
                 txt_brand.Text = productModel.brand;
                 cmb_category.SelectedValue = productModel.category_id;
                 cmb_unit_type.Text = productModel.unit_type;
-                cmb_usage_type.Text = productModel.usage_type;
-                txt_unit_volume.Text = productModel.unit_volume.ToString();
-                txt_price.Text = productModel.price?.ToString("N2") ?? "";
+
                 btn_save.Visible = false;
                 btn_update.Visible = true;
 
+                // PRODUCT SIZE
+                LoadProductSizeById(_product_id);
+
+    
+
             }
+        }
+        private void LoadProductSizeById(int product_id) 
+        {
+            var repo = new ProductSizeRepository();
+            var controller = new ProductSizeController(repo);
+            var product_sizes = controller.GetProductSizeById(product_id);
+
+
+            dgv_product_size.DataSource = null;
+            dgv_product_size.AutoGenerateColumns = false;
+
+            col_product_size_id.DataPropertyName = "product_size_id";
+            col_product_id.DataPropertyName = "product_id";
+            col_product_size_label.DataPropertyName = "size_label";
+            col_product_content.DataPropertyName = "content";
+            col_product_cost_price.DataPropertyName = "cost_price";
+            dgv_product_size.DataSource = product_sizes;
         }
         private bool IsValid()
         {
@@ -62,14 +83,13 @@ namespace Salon.View
             string productName = txt_product_name.Text.Trim();
             string brandName = txt_brand.Text.Trim();
             string unitType = cmb_unit_type.Text.Trim();
-            string unitVolume = txt_unit_volume.Text.Trim();
+
 
             validated &= Validator.ValidateProductName(productName, txt_product_name, errorProvider1);
             validated &= Validator.ValidateBrandName(brandName, txt_brand, errorProvider1);
             validated &= Validator.ValidateProductCategory(cmb_category, errorProvider1);
             validated &= Validator.ValidateUnitType(cmb_unit_type, errorProvider1);
-            validated &= Validator.ValidateUnitVolume(unitVolume, txt_unit_volume, errorProvider1);
-            validated &= Validator.ValidateUsageType(cmb_usage_type, errorProvider1);
+
 
             
             if (!Validator.IsProductExists(txt_product_name, errorProvider1, "Product already exits.", cat_id, excludeId))
@@ -98,38 +118,33 @@ namespace Salon.View
             cmb_category.SelectedIndex = -1;
         }
 
-        private void AddProduct() 
+        private int AddProduct() 
         {
             var repo = new ProductRepository();
             var controller = new ProductController(repo);
             var product = new ProductModel
             {
                 product_name = txt_product_name.Text,
-                product_type = cmb_product_type.Text,
+                product_type = "Ingredient",
                 brand = txt_brand.Text,
                 category_id = (int)cmb_category.SelectedValue,
                 unit_type = cmb_unit_type.Text,
-                usage_type = cmb_usage_type.Text,
-                unit_volume = Convert.ToInt32(txt_unit_volume.Text),
-                price = string.IsNullOrWhiteSpace(txt_price.Text) ? (decimal?)null : Convert.ToDecimal(txt_price.Text)
+              
             };
-            controller.addProduct(product);
+            int product_id = controller.addProduct(product);
             MessageBox.Show("Product added successfully!", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
-   
-           
+
+            return product_id;
         }
         private void UpdateProduct() 
         {
             var repo = new ProductRepository();
             var controller = new ProductController(repo);
             productModel.product_name = txt_product_name.Text;
-            productModel.product_type = cmb_product_type.Text;
             productModel.brand = txt_brand.Text;
             productModel.category_id = (int)cmb_category.SelectedValue;
             productModel.unit_type = cmb_unit_type.Text;
-            productModel.usage_type = cmb_usage_type.Text;
-            productModel.unit_volume = Convert.ToInt32(txt_unit_volume.Text);
-            productModel.price = string.IsNullOrWhiteSpace(txt_price.Text) ? (decimal?)null : Convert.ToDecimal(txt_price.Text);
+  
             controller.updateProduct(productModel);
             MessageBox.Show("Product updated successfully!", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
             
@@ -138,13 +153,14 @@ namespace Salon.View
         private async void btn_save_Click(object sender, EventArgs e)
         {
             if (!IsValid()) return;
-            AddProduct();
+            _product_id = AddProduct();
             var productName = txt_product_name.Text;
             Audit.AuditLog(DateTime.Now, "Create", UserSession.CurrentUser.first_Name, "Manage Products", $"Created product '{productName}' on {DateTime.Now:yyyy-MM-dd} at {DateTime.Now:HH:mm:ss}");
 
             await mainForm.RefreshProductAsync();
             await mainForm.RefreshTotalProduct();
-            this.Close();
+            ClearProductDetails();
+
         }
 
         private async void btn_update_Click(object sender, EventArgs e)
@@ -154,8 +170,8 @@ namespace Salon.View
             var productName = txt_product_name.Text;
             Audit.AuditLog(DateTime.Now, "Update", UserSession.CurrentUser.first_Name, "Manage Products", $"Updated product '{productName}' on {DateTime.Now:yyyy-MM-dd} at {DateTime.Now:HH:mm:ss}");
             await mainForm.RefreshProductAsync();
-
-            this.Close();
+            ClearProductDetails();
+            
         }
 
         private void btn_cancel_Click(object sender, EventArgs e)
@@ -243,32 +259,103 @@ namespace Salon.View
 
         }
 
-        private void cmb_product_type_SelectedIndexChanged(object sender, EventArgs e)
+        private void ClearProductDetails() 
         {
-            if (cmb_product_type.SelectedItem.ToString() == "Retail")
+            cmb_category.SelectedIndex = -1;
+            cmb_category.Hint = "";
+            cmb_unit_type.SelectedIndex = -1;
+            cmb_unit_type.Hint = "";
+            txt_product_name.Text = string.Empty;
+            txt_brand.Text = string.Empty;
+            cmb_category.Hint = "Select Category";
+            cmb_category.Hint = "Select Unit Type";
+
+
+
+        }
+
+        // PRODUCT SIZE
+        private void materialButton1_Click(object sender, EventArgs e)
+        {
+            this.Close();
+        }
+        private void AddProductSize(int product_id) 
+        {
+            var repo = new ProductSizeRepository();
+            var controller = new ProductSizeController(repo);
+
+
+            controller.AddProductSize(ProductSizeModel(product_id));
+
+            MessageBox.Show("Product size added successfully!", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
+        }
+        private void UpdateProductSize(int product_id) 
+        {
+            var repo = new ProductSizeRepository();
+            var controller = new ProductSizeController(repo);
+
+
+            controller.UpdateProductSize(ProductSizeModel(product_id));
+
+            MessageBox.Show("Product size updated successfully!", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
+        }
+        private ProductSizeModel ProductSizeModel(int product_id) 
+        {
+            string size_label = txt_size_label.Text;
+            int content = Convert.ToInt32(txt_content.Text);
+            decimal cost = Convert.ToDecimal(txt_cost_price.Text);
+            var model = new ProductSizeModel 
             {
-                txt_price.Enabled = true;   // allow entering price
-                txt_price.BackColor = Color.White;
-            }
-            else if (cmb_product_type.SelectedItem.ToString() == "Ingredient")
+                product_id = product_id,
+                size_label = size_label,
+                content = content,
+                cost_price = cost,
+            };
+
+            return model;
+        }
+        private void btn_product_size_save_Click(object sender, EventArgs e)
+        {
+            AddProductSize(_product_id);
+            ClearProductSize();
+            LoadProductSizeById(_product_id);
+        }
+
+        private void dgv_product_size_CellClick(object sender, DataGridViewCellEventArgs e)
+        {
+            if (e.RowIndex < 0) return;
+
+            if (e.RowIndex >= 0 && dgv_product_size.Columns[e.ColumnIndex].Name == "col_product_size_update") 
             {
-                txt_price.Enabled = false;  // disable price field
-                txt_price.Text = "";        // clear any value
-                txt_price.BackColor = Color.LightGray;
+                var product_size_model = dgv_product_size.Rows[e.RowIndex].DataBoundItem as ProductSizeModel;
+
+                if (product_size_model != null) 
+                {
+
+                    txt_size_label.Text = product_size_model.size_label;
+                    txt_content.Text = product_size_model.content.ToString();
+                    txt_cost_price.Text = product_size_model.cost_price.ToString("C2");
+                    btn_product_size_update.Enabled = true;
+
+                }
+                
+
             }
         }
 
-        private void txt_price_Leave(object sender, EventArgs e)
+        private void btn_product_size_update_Click(object sender, EventArgs e)
         {
-            if (decimal.TryParse(txt_price.Text, out var value))
-            {
-                txt_price.Text = value.ToString("N2"); // formats as 1,234.56
-            }
-            else
-            {
-                MessageBox.Show("Invalid price format");
-                txt_price.Text = "";
-            }
+            UpdateProductSize(_product_id);
+            ClearProductSize();
+            LoadProductSizeById(_product_id);
+        }
+
+
+        private void ClearProductSize() 
+        {
+            txt_size_label.Text = string.Empty;
+            txt_content.Text = string.Empty;
+            txt_cost_price.Text = string.Empty;
         }
         // END OF PRODUCTS
 

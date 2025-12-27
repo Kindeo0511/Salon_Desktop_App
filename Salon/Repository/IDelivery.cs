@@ -10,7 +10,7 @@ namespace Salon.Repository
     public interface IDelivery
     {
         IEnumerable<DeliveryModel> GetAllDelivery();
-
+        IEnumerable<DeliveryItemModel> GetDeliveryInvoice();
         Task<IEnumerable<DeliveryModel>> GetAllDeliveryAsync();
         int AddDelivery(DeliveryModel delivery);
 

@@ -16,14 +16,18 @@ namespace Salon.Controller
             this._repository = repository;
         }
 
-        public IEnumerable<DeliveryItemModel> GetAllDeliveryItems(int id)
+        public IEnumerable<DeliveryItemModel> GetAllDeliveryItems(string id)
         {
             return _repository.GetDeliveryItems(id);
         }
-
-        public int AddDeliveryItem(DeliveryItemModel deliveryItemModel)
+        public IEnumerable<DeliveryItemModel> GetDeliveryItemByInvoice(string invoice) 
         {
-            return _repository.AddDeliveryItem(deliveryItemModel);
+            return _repository.GetDeliveryItemsByInvoiceNumber(invoice);
+        }
+
+        public void AddDeliveryItem(DeliveryItemModel deliveryItemModel)
+        {
+             _repository.AddDeliveryItem(deliveryItemModel);
 
         }
 
