@@ -90,17 +90,17 @@ namespace Salon.View
 
         public async Task RefreshServiceProductUsage()
         {
-            var repo = new ServiceProductUsageRepository();
-            var controller = new ServiceProductUsageController(repo);
-            var serviceProducts = await controller.GetAllServiceProductsAsync(serviceModel.serviceName_id);
+            //var repo = new ServiceProductUsageRepository();
+            //var controller = new ServiceProductUsageController(repo);
+            //var serviceProducts = await controller.GetAllServiceProductsAsync(serviceModel.serviceName_id);
 
-            dgv_Service_Product.AutoGenerateColumns = false;
-            col_service_id.DataPropertyName = "service_id";
-            col_product_name.DataPropertyName = "product_name";
-            col_brand.DataPropertyName = "brand";
-            col_usage_type.DataPropertyName = "usage_type";
-            col_total_usage.DataPropertyName = "total_usage_amount";
-            dgv_Service_Product.DataSource = serviceProducts;
+            //dgv_Service_Product.AutoGenerateColumns = false;
+            //col_service_id.DataPropertyName = "service_id";
+            //col_product_name.DataPropertyName = "product_name";
+            //col_brand.DataPropertyName = "brand";
+            //col_usage_type.DataPropertyName = "usage_type";
+            //col_total_usage.DataPropertyName = "total_usage_amount";
+            //dgv_Service_Product.DataSource = serviceProducts;
 
         }
         public void LoadServiceProductUsage()
@@ -271,7 +271,7 @@ namespace Salon.View
                     var product = cmb_product.Text;
                     Audit.AuditLog(DateTime.Now, "Delete", UserSession.CurrentUser.first_Name, "Manage Services, Product Usage", $"Deleted product usage '{product}' for ({serviceModel.serviceName}) on {DateTime.Now:yyyy-MM-dd} at {DateTime.Now:HH:mm:ss}");
                     controller.DeleteServiceProduct(ServiceProductUsageModel.service_product_id);
-                    mainform.InsertDeletedRecord(ServiceProductUsageModel.service_product_id, "Manage Services, Product Usage", ServiceProductUsageModel.serviceName, UserSession.CurrentUser.first_Name, DateTime.Today);
+                    mainform.InsertDeletedRecord(ServiceProductUsageModel.service_product_id, null, "Manage Services, Product Usage", ServiceProductUsageModel.serviceName, UserSession.CurrentUser.first_Name, DateTime.Today);
                     await mainform.FilterdDeletedRecords();
                     await RefreshServiceProductUsage();
                 }

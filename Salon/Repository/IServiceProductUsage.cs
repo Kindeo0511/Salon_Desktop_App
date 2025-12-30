@@ -11,15 +11,15 @@ namespace Salon.Repository
     {
         IEnumerable<ServiceProductUsageModel> GetAllServiceProducts(int id);
 
-        Task<IEnumerable<ServiceProductUsageModel>> GetAllServiceProductsAsync(int id);
+        IEnumerable<ServiceProductUsageModel> GetAllServiceProductsAsync(int id);
 
         int GetProductUsageCount(int id);
         IEnumerable<ServiceProductUsageModel> GetTotalProductCost();
-        void AddServiceProduct(ServiceProductUsageModel model);
-        void UpdateServiceProduct(ServiceProductUsageModel model);
-        void DeleteServiceProduct(int id);
-        void RestoreServiceProduct(int id);
-        void PermanentDelete(int id);
+        int AddServiceProduct(ServiceProductUsageModel model);
+        int UpdateServiceProduct(ServiceProductUsageModel model);
+        int DeleteServiceProduct(int id);
+        int RestoreServiceProduct(int id);
+        int PermanentDelete(int id);
 
         bool ProductUsageExists(int product_id,int service_id, int excludeId);
     }

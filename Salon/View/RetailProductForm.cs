@@ -19,6 +19,12 @@ namespace Salon.View
         private MainForm mainForm;
         private readonly ProductModel model;
         private int _product_id;
+
+        private bool _isSaving = false;
+        private bool _isUpdating = false;
+
+        private bool _isProductSizeSaving = false;
+        private bool _isProductSizeUpdating = false;
         public RetailProductForm()
         {
             InitializeComponent();
@@ -28,16 +34,18 @@ namespace Salon.View
         {
             InitializeComponent();
             ThemeManager.ApplyTheme(this);
+            _isSaving = true;
             this.mainForm = main;
-            LoadCategory();
+        
         }
         public RetailProductForm(MainForm main, ProductModel model)
         {
             InitializeComponent();
             ThemeManager.ApplyTheme(this);
+            _isUpdating = true;
             this.mainForm = main;
             this.model = model;
-            LoadCategory();
+          
             // PRODUCT DETAILS
 
             if (model != null) 
@@ -45,7 +53,7 @@ namespace Salon.View
                 _product_id = this.model.product_id;
                 txt_product_name.Text = this.model.product_name;
                 txt_brand.Text = this.model.brand;
-                cmb_category.SelectedValue = model.category_id;
+            
                 cmb_unit_type.Text = this.model.unit_type;
 
                 btn_save.Visible = false;
@@ -59,17 +67,7 @@ namespace Salon.View
 
             LoadProductSizeById(_product_id);
         }
-        private void LoadCategory()
-        {
-            var repo = new CategoryRepository();
-            var controller = new CategoryController(repo);
-            var categories = controller.getAllCategoryByProduct();
-            cmb_category.DisplayMember = "categoryName";
-            cmb_category.ValueMember = "category_id";
-            cmb_category.DataSource = categories;
-            cmb_category.SelectedIndex = -1;
-        }
-
+      
         private int SaveProductDetail() 
         {
             var repo = new ProductRepository();
@@ -77,8 +75,96 @@ namespace Salon.View
 
 
             int id = controller.addProduct(ProductModel());
-
+            _product_id = id;
             return id;
+        }
+        private bool UpdateProductDetail() 
+        {
+            var repo = new ProductRepository();
+            var controller = new ProductController(repo);
+            var updatedModel = new ProductModel
+            {
+                product_id = _product_id,
+                product_name = txt_product_name.Text,
+                product_type = "Retail",
+                brand = txt_brand.Text,
+                unit_type = cmb_unit_type.Text,
+            };
+            return controller.updateProduct(updatedModel);
+        }
+        private void ProductRetailInfo()
+        {
+            var repo = new ProductRepository();
+            var controller = new ProductController(repo);
+            var existingProduct = controller.GetProductRetail(txt_product_name.Text.Trim(), txt_brand.Text.Trim(), cmb_unit_type.Text.Trim());
+
+            if (existingProduct != null)
+            {
+
+                if (existingProduct.is_deleted == 1)
+                {
+                    var result = MessageBox.Show("This Product exists but is deleted. Do you want to restore it?",
+                                   "Restore Account",
+                                MessageBoxButtons.YesNo,
+                                MessageBoxIcon.Question);
+                    if (result == DialogResult.Yes)
+                    {
+
+
+
+                        if (controller.RestoreProduct(existingProduct.product_id))
+                        {
+                            mainForm.DeleteDeletedRecord(existingProduct.product_id);
+                            MessageBox.Show("Product restored successfully!", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                            this.Close();
+                        }
+
+
+
+                    }
+                }
+            }
+
+            else
+            {
+                if (_isSaving)
+                {
+
+
+                    if (SaveProductDetail() > 0)
+                    {
+                        MessageBox.Show("Product added successfully!", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
+
+                        var productName = txt_product_name.Text;
+                        Audit.AuditLog(DateTime.Now, "Create", UserSession.CurrentUser.first_Name, "Manage Product Retail", $"Created product '{productName}' on {DateTime.Now:yyyy-MM-dd} at {DateTime.Now:HH:mm:ss}");
+                       
+
+                    }
+                    else
+                    {
+                        MessageBox.Show("Failed to add Please check the input and try again.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    }
+                }
+                else if (_isUpdating)
+                {
+                    if (UpdateProductDetail())
+                    {
+                        MessageBox.Show("Product updated successfully!", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                        var productName = txt_product_name.Text;
+                        Audit.AuditLog(DateTime.Now, "Update", UserSession.CurrentUser.first_Name, "Manage Product Retail", $"Updated product '{productName}' on {DateTime.Now:yyyy-MM-dd} at {DateTime.Now:HH:mm:ss}");
+                   
+                    }
+                    else
+                    {
+                        MessageBox.Show("Failed to update Please check the input and try again.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    }
+
+
+
+                }
+
+            }
+
         }
         private ProductModel ProductModel() 
         {
@@ -87,7 +173,6 @@ namespace Salon.View
                 product_name = txt_product_name.Text,
                 product_type = "Retail",
                 brand = txt_brand.Text,
-                category_id = Convert.ToInt32(cmb_category.SelectedValue),
                 unit_type = cmb_unit_type.Text
 
             };
@@ -97,19 +182,24 @@ namespace Salon.View
        
         private void ClearProductDetail() 
         {
-            cmb_category.SelectedValue = -1;
-            cmb_category.Hint = "";
+        
             txt_product_name.Text = string.Empty;
             txt_brand.Text = string.Empty;
             cmb_unit_type.Text = string.Empty;
-            cmb_category.Hint = "Select Category";
+       
         }
         private void btn_save_Click(object sender, EventArgs e)
         {
-           _product_id =  SaveProductDetail();
-            ClearProductDetail();
 
-            MessageBox.Show("Product added successfully!", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
+
+            ProductRetailInfo();
+            mainForm.LoadRetailProducts();
+
+        }
+        private void btn_update_Click(object sender, EventArgs e)
+        {
+            ProductRetailInfo();
+            mainForm.LoadRetailProducts();
         }
         // PRODUCT SIZE RETAIL
         private void LoadProductSizeById(int product_id)
@@ -125,6 +215,7 @@ namespace Salon.View
 
                 col_product_size_id.DataPropertyName = "product_size_id";
                 col_product_id.DataPropertyName = "product_id";
+                coL_product_name.DataPropertyName = "product_name";
                 col_product_size_label.DataPropertyName = "size_label";
                 col_product_content.DataPropertyName = "content";
                 col_product_sale_price.DataPropertyName = "selling_price";
@@ -150,12 +241,12 @@ namespace Salon.View
             return product_Model;
         }
 
-        private void SaveProductSize()
+        private bool SaveProductSize()
         {
             var repo = new ProductSizeRepository();
             var controller = new ProductSizeController(repo);
 
-            controller.AddProductSize(ProductSizeModel());
+            return controller.AddProductSize(ProductSizeModel());
         }
         private void ClearProductSize()
         {
@@ -166,22 +257,97 @@ namespace Salon.View
 
         }
 
-        private void UpdateProductSize() 
+        private bool UpdateProductSize() 
         {
             var repo = new ProductSizeRepository();
             var controller = new ProductSizeController(repo);
 
-            controller.UpdateProductSize(ProductSizeModel());
+            return controller.UpdateProductSize(ProductSizeModel());
+        }
+        private void ProductSize()
+        {
+            var repo = new ProductSizeRepository();
+            var controller = new ProductSizeController(repo);
+            var existingSize = controller.GetProductSize(_product_id, Convert.ToInt32(txt_content.Text));
+
+            if (existingSize != null)
+            {
+
+                if (existingSize.is_deleted == 1)
+                {
+                    var result = MessageBox.Show("This Product Size exists but is deleted. Do you want to restore it?",
+                                   "Restore Account",
+                                MessageBoxButtons.YesNo,
+                                MessageBoxIcon.Question);
+                    if (result == DialogResult.Yes)
+                    {
+
+
+
+                        if (controller.RestoreProductSize(existingSize.product_size_id))
+                        {
+                            mainForm.DeleteDeletedRecord(existingSize.product_size_id);
+                            MessageBox.Show("Product restored successfully!", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                            LoadProductSizeById(_product_id);
+                        }
+
+
+
+                    }
+                }
+            }
+
+            else
+            {
+                if (_isProductSizeSaving)
+                {
+
+
+                    if (SaveProductSize())
+                    {
+                        MessageBox.Show("Product Size added successfully!", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                        var fullName = txt_size_label.Text;
+                        Audit.AuditLog(DateTime.Now, "Create", UserSession.CurrentUser.first_Name, "Manage Product Size", $"Created product size '{fullName}' on {DateTime.Now:yyyy-MM-dd} at {DateTime.Now:HH:mm:ss}");
+                        ClearProductSize();
+
+                    }
+                    else
+                    {
+                        MessageBox.Show("Failed to add Please check the input and try again.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    }
+                }
+                else if (_isProductSizeUpdating)
+                {
+                    if (UpdateProductSize())
+                    {
+                        MessageBox.Show("Product Size updated successfully!", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                        var fullName = txt_size_label.Text;
+                        Audit.AuditLog(DateTime.Now, "Update", UserSession.CurrentUser.first_Name, "Manage Product Size", $"Updated product size '{fullName}' on {DateTime.Now:yyyy-MM-dd} at {DateTime.Now:HH:mm:ss}");
+
+                    }
+                    else
+                    {
+                        MessageBox.Show("Failed to update Please check the input and try again.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    }
+
+
+
+                }
+
+            }
+
         }
         private void btn_product_size_save_Click(object sender, EventArgs e)
         {
-            SaveProductSize();
-            ClearProductSize();
+            _isProductSizeSaving = true;
+            ProductSize();
+     
             LoadProductSizeById(_product_id);
-            MessageBox.Show("Product size added successfully!", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
-        }
+            mainForm.LoadRetailProducts();
 
-        private void dgv_product_size_CellClick(object sender, DataGridViewCellEventArgs e)
+        }
+        
+        private async void dgv_product_size_CellClick(object sender, DataGridViewCellEventArgs e)
         {
             if (e.RowIndex < 0) return;
 
@@ -195,16 +361,44 @@ namespace Salon.View
                 txt_cost_price.Text = product_size.cost_price.ToString();
 
                 btn_product_size_update.Enabled = true;
+                btn_product_size_save.Enabled = false;
+                mainForm.LoadRetailProducts();
+            }
+            else if (e.RowIndex >= 0 && dgv_product_size.Columns[e.ColumnIndex].Name == "col_product_size_delete")
+            {
+                var product_size = dgv_product_size.Rows[e.RowIndex].DataBoundItem as ProductSizeModel;
+                if (product_size != null)
+                {
+                    var result = MessageBox.Show("Are you sure you want to delete this product size?", "Delete Confirmation", MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
+                    if (result == DialogResult.Yes)
+                    {
+                        var repo = new ProductSizeRepository();
+                        var controller = new ProductSizeController(repo);
+
+
+                        Audit.AuditLog(DateTime.Now, "Delete", UserSession.CurrentUser.first_Name, "Manage Product Retail Size", $"Deleted product size '{product_size.size_label}' on {DateTime.Now:yyyy-MM-dd} at {DateTime.Now:HH:mm:ss}");
+                        controller.SoftDeleteProductSize(product_size.product_size_id);
+                        mainForm.InsertDeletedRecord(product_size.product_size_id, null, "Manage Product Retail Size", product_size.product_name + "( " + product_size.size_label + " )", UserSession.CurrentUser.first_Name, DateTime.Today);
+
+                        MessageBox.Show("Product size deleted successfully!", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                        LoadProductSizeById(_product_id);
+                        mainForm.LoadRetailProducts();
+                        await mainForm.FilterdDeletedRecords();
+                    }
+                }
             }
         }
 
         private void btn_product_size_update_Click(object sender, EventArgs e)
         {
-           
-            UpdateProductSize();
+            _isProductSizeUpdating = true;
+
+            ProductSize();
             LoadProductSizeById(_product_id);
-            ClearProductSize();
-            MessageBox.Show("Product size updated successfully!", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            mainForm.LoadRetailProducts();
+
         }
+
+        
     }
 }

@@ -12,6 +12,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using static iText.StyledXmlParser.Jsoup.Select.Evaluator;
 using static System.Windows.Forms.VisualStyles.VisualStyleElement.StartPanel;
 
 namespace Salon.View
@@ -20,14 +21,17 @@ namespace Salon.View
     {
         private MainForm _mainForm;
         private UsersModel _user;
+        private int user_id = 0;
         private bool _isViewed = false;
         private bool _isSaving = false;
+        private bool _isUpdating = false;
 
         public UserForm(MainForm mainForm)
         {
             InitializeComponent();
          
             ThemeManager.ApplyTheme(this);
+            _isSaving = true;
             this._mainForm = mainForm;
             int currentYear = DateTime.Now.Year;
 
@@ -54,6 +58,7 @@ namespace Salon.View
         {
             InitializeComponent();
             ThemeManager.ApplyTheme(this);
+            _isUpdating = true;
             this._mainForm = mainForm;
             this._user = user;
             int currentYear = DateTime.Now.Year; 
@@ -68,6 +73,8 @@ namespace Salon.View
 
             if (_user != null)
             {
+             
+                user_id = _user.user_id;
                 txt_first_name.Text = _user.first_Name;
                 txt_middle_name.Text = _user.middle_Name;
                 txt_last_name.Text = _user.last_Name;
@@ -83,12 +90,19 @@ namespace Salon.View
                 btn_save.Visible = false;
                 btn_update.Visible = true;
 
+                btn_update_account.Enabled = true;
+                btn_account_cancel.Enabled = true;
             }
             else
             {
                 btn_save.Visible = true;
                 btn_update.Visible = false;
+
+                btn_update_account.Enabled = false;
+                btn_account_cancel.Enabled = false;
             }
+
+            
         }
         private string HashPassword(string password)
         {
@@ -105,19 +119,19 @@ namespace Salon.View
 
             if (_isViewed)
             {
-                txt_first_name.Enabled = false;
-                txt_middle_name.Enabled = false;
-                txt_last_name.Enabled = false;
+                txt_first_name.ReadOnly = true;
+                txt_middle_name.ReadOnly = true;
+                txt_last_name.ReadOnly = true;
                 dtp_day_of_birth.Enabled = false;
-                txt_contact.Enabled = false;
-                txt_email.Enabled = false;
-                txt_address.Enabled = false;
-                txt_username.Enabled = false;
-                txt_password.Enabled = false;
-                txt_confirm_password.Enabled = false;
+                txt_contact.ReadOnly = true;
+                txt_email.ReadOnly = true;
+                txt_address.ReadOnly = true;
+                txt_username.ReadOnly = true;
+                txt_password.ReadOnly = true;
+                txt_confirm_password.ReadOnly = true;
                 btn_save.Visible = false;
                 btn_update.Visible = false;
-                chk_show_password.Enabled = false;
+                chk_show_password.ReadOnly = true;
                 cmb_role.Enabled = false;
 
                 txt_first_name.Text = _user.first_Name;
@@ -132,9 +146,14 @@ namespace Salon.View
                 txt_confirm_password.Text = _user.userPassword;
                 cmb_role.Text = _user.Position;
 
-                btn_save.Visible = false;
-                btn_update.Visible = false;
-                btn_cancel.Visible = false;
+                btn_save.Visible = true;
+                btn_update.Visible = true;
+                btn_cancel.Visible = true;
+
+
+                btn_save.Enabled = false;
+                btn_update.Enabled = false;
+
 
 
                 this.AcceptButton = btn_update;
@@ -142,7 +161,7 @@ namespace Salon.View
 
         }
 
-        private void SaveUser()
+        private int SaveUser()
         {
             var user = new UsersModel
             {
@@ -153,21 +172,24 @@ namespace Salon.View
                 phone_Number = txt_contact.Text.Trim(),
                 email = txt_email.Text.Trim(),
                 address = txt_address.Text.Trim(),
-                userName = txt_username.Text.Trim(),
-                userPassword = HashPassword(txt_password.Text.Trim()),
-                Position = cmb_role.Text,
+
             };
             var _repo = new UserRepository();
             var userController = new UserController(_repo);
 
      
-            userController.AddUser(user); 
+           user_id =  userController.AddUser(user); 
+
+           return user_id;
 
         }
-        private void UpdateUser()
+        private bool UpdateUser()
         {
-            if (_user != null)
-            {
+            var _repo = new UserRepository();
+            var userController = new UserController(_repo);
+
+            if(_user == null) return false;
+
                 _user.first_Name = txt_first_name.Text.Trim();
                 _user.middle_Name = txt_middle_name.Text.Trim();
                 _user.last_Name = txt_last_name.Text.Trim();
@@ -175,12 +197,16 @@ namespace Salon.View
                 _user.phone_Number = txt_contact.Text.Trim();
                 _user.email = txt_email.Text.Trim();
                 _user.address = txt_address.Text.Trim();
-                _user.userName = txt_username.Text.Trim();
-                _user.userPassword = HashPassword(txt_password.Text.Trim());
-                _user.Position = cmb_role.Text;
-                var _repo = new UserRepository();
-                var userController = new UserController(_repo);
-                userController.UpdateUser(_user);
+        
+               
+            try 
+            { 
+                return userController.UpdateUser(_user);
+            } 
+            catch (Exception ex) 
+            { 
+                MessageBox.Show("Update failed: " + ex.Message,"Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return false;
             }
         }
        
@@ -278,22 +304,22 @@ namespace Salon.View
 
 
 
-            if (!Validator.IsAddressRequiredField(txt_address, errorProvider1, "Address is required."))
-            {
-                validated = false;
-            }
-            else if (!Validator.IsMinimumLength(txt_address, errorProvider1, "Address must be at least 10 characters.", 10))
-            {
-                validated = false;
-            }
-            else if (!Validator.MultiLinePattern(
-                txt_address,
-                errorProvider1,
-                @"^[A-Za-z0-9\s.,\-#]+$",
-                "Address may only contain letters, numbers, commas, periods, dashes, and #. Avoid special characters."))
-            {
-                validated = false;
-            }
+            //if (!Validator.IsAddressRequiredField(txt_address, errorProvider1, "Address is required."))
+            //{
+            //    validated = false;
+            //}
+            //else if (!Validator.IsMinimumLength(txt_address, errorProvider1, "Address must be at least 10 characters.", 10))
+            //{
+            //    validated = false;
+            //}
+            //else if (!Validator.MultiLinePattern(
+            //    txt_address,
+            //    errorProvider1,
+            //    @"^[A-Za-z0-9\s.,\-#]+$",
+            //    "Address may only contain letters, numbers, commas, periods, dashes, and #. Avoid special characters."))
+            //{
+            //    validated = false;
+            //}
 
 
             // Adjust if birthday hasn't occurred yet this year
@@ -318,7 +344,96 @@ namespace Salon.View
 
 
 
-            // ACCOUNT VALIDATION
+            ////ACCOUNT VALIDATION
+            //if (!Validator.IsRequiredTextField(txt_username, errorProvider1, "Username is required."))
+            //{
+            //    validated = false;
+            //}
+            //else if (!Validator.IsMinimumLength(txt_username, errorProvider1, "Username must be at least 4 characters.", 4))
+            //{
+            //    validated = false;
+            //}
+            //else if (!Validator.Pattern(
+            //    txt_username,
+            //    errorProvider1,
+            //    @"^[A-Za-z0-9]+$",
+            //    "Username must only contain letters and numbers. No spaces or special characters allowed."))
+            //{
+            //    validated = false;
+            //}
+            //else if (!Validator.IsUserExists(txt_username, errorProvider1, "Username already exists.", excludeId))
+            //{
+            //    validated = false;
+            //}
+
+
+
+
+            ////Password validation
+            //if (!Validator.IsRequiredTextField(txt_password, errorProvider1, "Password is required."))
+            //{
+            //    validated = false;
+            //}
+            //else if (!Validator.IsMinimumLength(txt_password, errorProvider1, "Password must be at least 8 characters.", 8))
+            //{
+            //    validated = false;
+            //}
+            //else if (!Validator.DisallowSpaces(txt_password, errorProvider1, "Password should not contain spaces."))
+            //{
+
+            //    validated = false;
+            //}
+            //else if (!Validator.Pattern(
+            //    txt_password,
+            //    errorProvider1,
+            //    @"^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@#$%^&*()_+\-=!?\u005F]).{8,}$",
+            //    "Password must include uppercase, lowercase, number, and a special character (@ # $ % ^ & * ( ) _ + - = ! ?)."))
+            //{
+            //    validated = false;
+            //}
+
+
+            //// Confirm password validation
+            //if (!Validator.IsRequiredTextField(txt_confirm_password, errorProvider1, "Confirm password is required."))
+            //{
+            //    validated = false;
+            //}
+            //else if (!Validator.IsMinimumLength(txt_confirm_password, errorProvider1, "Confirm password must be at least 8 characters.", 8))
+            //{
+            //    validated = false;
+            //}
+            //else if (!Validator.DisallowSpaces(txt_confirm_password, errorProvider1, "Confirm password should not contain spaces."))
+            //{
+
+            //    validated = false;
+            //}
+            //else if (txt_password.Text != txt_confirm_password.Text)
+            //{
+            //    errorProvider1.SetError(txt_confirm_password, "Passwords must match exactly.");
+            //    validated = false;
+            //}
+
+
+
+
+            //validated &= Validator.IsUserExists(txt_username, errorProvider1, "Username already exists.", excludeId);
+            //if (emailValid)
+            //    validated &= Validator.IsEmailExists(txt_email, errorProvider1, "Email already exists.", excludeId);
+
+            //if (phoneValid)
+            //    validated &= Validator.IsPhoneExists(txt_contact, errorProvider1, "Contact number already exists.", excludeId);
+
+            return validated;
+
+
+
+        }
+
+        private bool IsValidAccount()
+        {
+            int excludeId = _user?.user_id ?? 0;
+            bool validated = true;
+            //ACCOUNT VALIDATION
             if (!Validator.IsRequiredTextField(txt_username, errorProvider1, "Username is required."))
             {
                 validated = false;
@@ -343,128 +458,61 @@ namespace Salon.View
 
 
 
-            //Password validation
-            if (!Validator.IsRequiredTextField(txt_password, errorProvider1, "Password is required."))
-            {
-                validated = false;
-            }
-            else if (!Validator.IsMinimumLength(txt_password, errorProvider1, "Password must be at least 8 characters.", 8))
-            {
-                validated = false;
-            }
-            else if (!Validator.DisallowSpaces(txt_password, errorProvider1, "Password should not contain spaces."))
-            {
+            ////Password validation
+            //if (!Validator.IsRequiredTextField(txt_password, errorProvider1, "Password is required."))
+            //{
+            //    validated = false;
+            //}
+            //else if (!Validator.IsMinimumLength(txt_password, errorProvider1, "Password must be at least 8 characters.", 8))
+            //{
+            //    validated = false;
+            //}
+            //else if (!Validator.DisallowSpaces(txt_password, errorProvider1, "Password should not contain spaces."))
+            //{
 
-                validated = false;
-            }
-            else if (!Validator.Pattern(
-                txt_password,
-                errorProvider1,
-                @"^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@#$%^&*()_+\-=!?\u005F]).{8,}$",
-                "Password must include uppercase, lowercase, number, and a special character (@ # $ % ^ & * ( ) _ + - = ! ?)."))
-            {
-                validated = false;
-            }
-
-
-            // Confirm password validation
-            if (!Validator.IsRequiredTextField(txt_confirm_password, errorProvider1, "Confirm password is required."))
-            {
-                validated = false;
-            }
-            else if (!Validator.IsMinimumLength(txt_confirm_password, errorProvider1, "Confirm password must be at least 8 characters.", 8))
-            {
-                validated = false;
-            }
-            else if (!Validator.DisallowSpaces(txt_confirm_password, errorProvider1, "Confirm password should not contain spaces."))
-            {
-
-                validated = false;
-            }
-            else if (txt_password.Text != txt_confirm_password.Text)
-            {
-                errorProvider1.SetError(txt_confirm_password, "Passwords must match exactly.");
-                validated = false;
-            }
+            //    validated = false;
+            //}
+            //else if (!Validator.Pattern(
+            //    txt_password,
+            //    errorProvider1,
+            //    @"^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@#$%^&*()_+\-=!?\u005F]).{8,}$",
+            //    "Password must include uppercase, lowercase, number, and a special character (@ # $ % ^ & * ( ) _ + - = ! ?)."))
+            //{
+            //    validated = false;
+            //}
 
 
+            //// Confirm password validation
+            //if (!Validator.IsRequiredTextField(txt_confirm_password, errorProvider1, "Confirm password is required."))
+            //{
+            //    validated = false;
+            //}
+            //else if (!Validator.IsMinimumLength(txt_confirm_password, errorProvider1, "Confirm password must be at least 8 characters.", 8))
+            //{
+            //    validated = false;
+            //}
+            //else if (!Validator.DisallowSpaces(txt_confirm_password, errorProvider1, "Confirm password should not contain spaces."))
+            //{
+
+            //    validated = false;
+            //}
+            //else if (txt_password.Text != txt_confirm_password.Text)
+            //{
+            //    errorProvider1.SetError(txt_confirm_password, "Passwords must match exactly.");
+            //    validated = false;
+            //}
 
 
-            //validated &= Validator.IsUserExists(txt_username, errorProvider1, "Username already exists.", excludeId);
-            //if (emailValid)
-            //    validated &= Validator.IsEmailExists(txt_email, errorProvider1, "Email already exists.", excludeId);
-
-            //if (phoneValid)
-            //    validated &= Validator.IsPhoneExists(txt_contact, errorProvider1, "Contact number already exists.", excludeId);
-
-            return validated;
-
-
-
-        }
-        private async void btn_save_Click(object sender, EventArgs e)
-        {
-
-
-            // Run validation on UI thread
-            if (!IsValid()) return;
-
-
-
-            SaveUser();
-            string fullName = txt_first_name.Text + " " + txt_last_name.Text;
-            Audit.AuditLog(DateTime.Now, "Create", UserSession.CurrentUser.first_Name, "Manage User", $"Created new user for {fullName} on {DateTime.Now:yyyy-MM-dd} at {DateTime.Now:HH:mm:ss}");
-            await _mainForm.RefreshAuditLog();
-            Clear();
-            MessageBox.Show("User added successfully!", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
-            await _mainForm.RefreshUsersAsync();
-            this.Close();
-            btn_save.Enabled = true;
-            _isSaving = false;
-
-
-
+            return validated; 
         }
 
 
-        private async void btn_update_Click(object sender, EventArgs e)
-        {
-
-            btn_update.Enabled = false;
-
-            // Run validation on UI thread
-            if (!IsValid())
-            {
-          
-                btn_update.Enabled = true;
-                return;
-            }
-
-          
 
 
-            // Offload only the save logic
-             UpdateUser();
-            string fullName = txt_first_name.Text + " " + txt_last_name.Text;
-            Audit.AuditLog(DateTime.Now, "Update", UserSession.CurrentUser.first_Name, "Manage User", $"Updated user {fullName} on {DateTime.Now:yyyy-MM-dd} at {DateTime.Now:HH:mm:ss}");
-            Clear();
-            MessageBox.Show("User updated successfully!", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
-            await _mainForm.RefreshUsersAsync();
-            await _mainForm.RefreshAuditLog();
-
-            this.Close();
-
-
-     
-            btn_update.Enabled = true;
-     ;
-        }
 
         private void UserForm_Load(object sender, EventArgs e)
         {
-            txt_password.Password = true;
-            txt_confirm_password.Password = true;
-
+          
 
         }
 
@@ -475,12 +523,10 @@ namespace Salon.View
 
         private void chk_show_password_CheckedChanged_1(object sender, EventArgs e)
         {
-            txt_password.Hint = "";
-            txt_confirm_password.Hint = "";
-            txt_password.Password = !chk_show_password.Checked;
-            txt_confirm_password.Password = !chk_show_password.Checked;
-            txt_password.Hint = "Password";
-            txt_confirm_password.Hint = "Confirm Password";
+        
+            txt_password.UseSystemPasswordChar = !chk_show_password.Checked;
+            txt_confirm_password.UseSystemPasswordChar = !chk_show_password.Checked;
+     
 
         }
 
@@ -696,6 +742,198 @@ namespace Salon.View
             {
                 errorProvider1.SetError(txt, ""); // Clear error
             }
+        }
+        private void IsAccountExists()
+        {
+            var _repo = new UserRepository();
+            var userController = new UserController(_repo);
+            var existingUser = userController.UserAccountExistsByEmail(txt_email.Text.Trim());
+
+            if (existingUser != null) 
+            {
+                if (existingUser.is_deactivate == 1)
+                {
+                    var result = MessageBox.Show("This account exists but is deactivated. Do you want to restore it?",
+                                   "Restore Account",
+                                MessageBoxButtons.YesNo,
+                                MessageBoxIcon.Question);
+                    if (result == DialogResult.Yes)
+                    {
+
+                        int rowAffected = userController.RestoreUserAccount(existingUser.user_id);
+
+                        if (rowAffected > 0)
+                        {
+                            _mainForm.DeleteDeletedRecord(existingUser.user_id);
+                            MessageBox.Show("Account restored successfully!", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                            this.Close();
+                        }
+
+
+
+                    }
+                }
+            }
+          
+            else 
+            {
+                if (_isSaving)
+                {
+                    int result = SaveUser();
+
+                    if (result > 0)
+                    {
+                        MessageBox.Show("User added successfully!", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                       
+                        
+                    }
+                    else
+                    {
+                        MessageBox.Show("Failed to add Please check the input and try again.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    }
+                }
+                else if (_isUpdating) 
+                {
+                    if (UpdateUser()) 
+                    {
+                        MessageBox.Show("User updated successfully!", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                      
+                    }
+                    else
+                    {
+                        MessageBox.Show("Failed to update Please check the input and try again.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    }
+
+
+
+                }
+               
+            }
+          
+        }
+        private async void btn_save_Click(object sender, EventArgs e)
+        {
+            if (!IsValid()) return;
+
+            IsAccountExists();
+
+
+
+            string fullName = txt_first_name.Text + " " + txt_last_name.Text;
+            Audit.AuditLog(DateTime.Now, "Create", UserSession.CurrentUser.first_Name, "Manage User", $"Created new user for {fullName} on {DateTime.Now:yyyy-MM-dd} at {DateTime.Now:HH:mm:ss}");
+            await _mainForm.RefreshAuditLog();
+          
+ 
+            await _mainForm.RefreshUsersAsync();
+      
+            btn_save.Enabled = true;
+            _isSaving = false;
+
+            if (user_id != 0)
+            {
+                btn_update_account.Enabled = true;
+                btn_account_cancel.Enabled = true;
+            }
+            else 
+            {
+                btn_update_account.Enabled = false;
+                btn_account_cancel.Enabled = false;
+            }
+        }
+
+        private async void btn_update_Click(object sender, EventArgs e)
+        {
+            btn_update.Enabled = false;
+
+            // Run validation on UI thread
+            if (!IsValid())
+            {
+
+                btn_update.Enabled = true;
+                return;
+            }
+
+            IsAccountExists();
+
+
+            // Offload only the save logic
+          
+            string fullName = txt_first_name.Text + " " + txt_last_name.Text;
+            Audit.AuditLog(DateTime.Now, "Update", UserSession.CurrentUser.first_Name, "Manage User", $"Updated user {fullName} on {DateTime.Now:yyyy-MM-dd} at {DateTime.Now:HH:mm:ss}");
+            Clear();
+            MessageBox.Show("User updated successfully!", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            await _mainForm.RefreshUsersAsync();
+            await _mainForm.RefreshAuditLog();
+
+            this.Close();
+
+
+
+            btn_update.Enabled = true;
+        }
+        private void UpdateUserAccount() 
+        {
+            var _repo = new UserRepository();
+            var userController = new UserController(_repo);
+
+            var user_model = new UsersModel
+            {
+                user_id = user_id,
+                userName = txt_username.Text.Trim(),
+                userPassword = HashPassword(txt_password.Text.Trim()),
+                Position = cmb_role.Text.Trim()
+            };
+            userController.UpdateUserAccount(user_model);
+
+            MessageBox.Show("User account updated successfully!", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
+        }
+
+        private async void btn_update_account_Click(object sender, EventArgs e)
+        {
+            if (!IsValidAccount()) return;
+
+            UpdateUserAccount();
+
+     
+            await _mainForm.RefreshUsersAsync();
+            await _mainForm.RefreshAuditLog();
+        }
+
+        private void btn_save_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.KeyCode == Keys.Enter)
+            {
+                btn_save.PerformClick();
+                e.SuppressKeyPress = true;
+            }
+        }
+
+        private void btn_update_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.KeyCode == Keys.Enter) 
+            {
+                btn_update.PerformClick();
+                e.SuppressKeyPress = true;
+            }
+        }
+
+        private void btn_cancel_Click_1(object sender, EventArgs e)
+        {
+            this.Close();
+        }
+
+        private void btn_update_account_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.KeyCode == Keys.Enter) 
+            {
+                btn_update_account.PerformClick();
+                e.SuppressKeyPress = true;
+            }
+        }
+
+        private void btn_account_cancel_Click(object sender, EventArgs e)
+        {
+            this.Close();
         }
     }
 }

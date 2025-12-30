@@ -29,44 +29,44 @@ namespace Salon.Repository
                 return result.ToList(); 
             }
         }
-        public void AddSupplier(SupplierModel supplier)
+        public int AddSupplier(SupplierModel supplier)
         {
             using (var con = Database.GetConnection())
             {
                 var sql = "INSERT INTO tbl_supplier (supplier_name, address, email, contact) VALUES (@supplier_name, @address, @email, @contact)";
-                con.Execute(sql, supplier);
+                return con.Execute(sql, supplier);
             }
         }
-        public void UpdateSupplier(SupplierModel supplier)
+        public int UpdateSupplier(SupplierModel supplier)
         {
             using (var con = Database.GetConnection())
             {
                 var sql = "UPDATE tbl_supplier SET supplier_name = @supplier_name, address = @address, email = @email, contact = @contact WHERE supplier_id = @supplier_id";
-                con.Execute(sql, supplier);
+               return con.Execute(sql, supplier);
             }
         }
-        public void DeleteSupplier(int id)
+        public int DeleteSupplier(int id)
         {
             using (var con = Database.GetConnection())
             {
                 var sql = "UPDATE tbl_supplier SET status = 'Inactive', is_deleted = 1 WHERE supplier_id = @Id";
-                con.Execute(sql, new { Id = id });
+                return con.Execute(sql, new { Id = id });
             }
         }
-        public void PermanentDelete(int id) 
+        public int PermanentDelete(int id) 
         {
             using (var con = Database.GetConnection())
             {
                 var sql = "DELETE FROM tbl_supplier WHERE supplier_id = @Id";
-                con.Execute(sql, new { Id = id });
+                return con.Execute(sql, new { Id = id });
             }
         }
-        public void ActivateSupplier(int id)
+        public int ActivateSupplier(int id)
         {
             using (var con = Database.GetConnection())
             {
                 var sql = "UPDATE tbl_supplier SET status = 'Active', is_deleted = 0 WHERE supplier_id = @Id";
-                con.Execute(sql, new { Id = id });
+                return con.Execute(sql, new { Id = id });
             }
         }
 
@@ -76,6 +76,22 @@ namespace Salon.Repository
             {
                 var sql = "SELECT COUNT(*) FROM tbl_supplier WHERE supplier_name = @name AND supplier_id != @id";
                 return con.ExecuteScalar<int>(sql, new { name, id }) > 0;
+            }
+        }
+        public SupplierModel GetSupplierEmail(string email)
+        {
+            using (var con = Database.GetConnection())
+            {
+                var sql = "SELECT * FROM tbl_supplier WHERE email = @email";
+                return con.Query<SupplierModel>(sql, new { email }).FirstOrDefault();
+            }
+        }
+        public bool IsSupplierUsed(int id) 
+        {
+            using (var con = Database.GetConnection())
+            {
+                var sql = "SELECT COUNT(*) FROM tbl_delivery WHERE supplier_id = @id";
+                return con.ExecuteScalar<int>(sql, new { id }) > 0;
             }
         }
         public bool EmailExists(string email, int id = 0) 

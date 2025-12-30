@@ -10,9 +10,11 @@ namespace Salon.Models
     {
         public int product_size_id { get; set; }
         public int product_id { get; set; }
+        public string product_name { get; set; }
         public string size_label { get; set; }
         public int content { get; set; }
         public decimal selling_price { get; set; }
         public decimal cost_price { get; set; }
+        public int is_deleted { get; set; }
     }
 }

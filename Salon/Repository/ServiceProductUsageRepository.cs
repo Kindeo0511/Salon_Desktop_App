@@ -34,7 +34,7 @@ namespace Salon.Repository
             }
                
         }
-        public async Task<IEnumerable<ServiceProductUsageModel>> GetAllServiceProductsAsync(int id) 
+        public IEnumerable<ServiceProductUsageModel> GetAllServiceProductsAsync(int id) 
         {
             using (var con = Database.GetConnection())
             {
@@ -43,9 +43,9 @@ namespace Salon.Repository
                         LEFT JOIN tbl_servicesname as s ON s.serviceName_id = sp.service_id
                         LEFT JOIN tbl_products as p ON p.product_id = sp.product_id
                         WHERE s.serviceName_id = @id AND sp.is_deleted = 0;";
-                var result = await con.QueryAsync<ServiceProductUsageModel>(sql, new { id });
+                return con.Query<ServiceProductUsageModel>(sql, new { id });
 
-                return result.ToList();
+              
             }
         }
         public IEnumerable<ServiceProductUsageModel> GetTotalProductCost()
@@ -60,18 +60,18 @@ namespace Salon.Repository
                 return con.Query<ServiceProductUsageModel>(sql).ToList();
             }
         }
-        public void AddServiceProduct(ServiceProductUsageModel model)
+        public int AddServiceProduct(ServiceProductUsageModel model)
         {
             using (var con = Database.GetConnection()) 
             {
                 var sql = @"INSERT INTO tbl_service_product (service_id, product_id, qty_required)
                         VALUES (@service_id, @product_id, @total_usage_amount)";
-                con.Execute(sql, model);
+                return con.Execute(sql, model);
             }
                 
         }
 
-        public void UpdateServiceProduct(ServiceProductUsageModel model)
+        public int UpdateServiceProduct(ServiceProductUsageModel model)
         {
             using (var con = Database.GetConnection()) 
             {
@@ -79,34 +79,34 @@ namespace Salon.Repository
                     SET product_id = @product_id,
                         qty_required = @total_usage_amount
              
-                        WHERE service_product_id = @service_product_id";
-                con.Execute(sql, model);
+                        WHERE service_id = @service_id";
+                return con.Execute(sql, model);
             }
                
         }
-        public void DeleteServiceProduct(int id)
+        public int DeleteServiceProduct(int id)
         {
             using (var con = Database.GetConnection()) 
             {
                 var sql = "UPDATE tbl_service_product SET is_deleted = 1 WHERE service_product_id = @service_product_id";
-                con.Execute(sql, new { service_product_id = id });
+               return con.Execute(sql, new { service_product_id = id });
             }
               
         }
-        public void PermanentDelete(int id) 
+        public int PermanentDelete(int id) 
         {
             using (var con = Database.GetConnection())
             {
                 var sql = "DELETE FROM tbl_service_product WHERE service_product_id = @service_product_id";
-                con.Execute(sql, new { service_product_id = id });
+               return con.Execute(sql, new { service_product_id = id });
             }
         }
-        public void RestoreServiceProduct(int id) 
+        public int RestoreServiceProduct(int id) 
         {
             using (var con = Database.GetConnection())
             {
                 var sql = "UPDATE tbl_service_product SET is_deleted = 0 WHERE service_product_id = @service_product_id";
-                con.Execute(sql, new { service_product_id = id });
+                return con.Execute(sql, new { service_product_id = id });
             }
         }
 
@@ -126,6 +126,25 @@ namespace Salon.Repository
             }
         }
 
+        public ServiceProductUsageModel GetServiceUsage(int service_id, int product_id, string brand, int qty)
+        {
+            using (var con = Database.GetConnection())
+            {
+                var sql = @"SELECT * FROM tbl_service_product 
+                            WHERE service_id = @service_id AND product_id = @product_id AND qty_required = @qty AND is_deleted = 0";
+                return con.QueryFirstOrDefault<ServiceProductUsageModel>(sql, new { service_id, product_id, brand, qty });
+            }
+        }
 
+        public bool IsServiceProductUsed(int product_id)
+        {
+            using (var con = Database.GetConnection())
+            {
+                var sql = @" SELECT CASE WHEN EXISTS (SELECT 1 FROM tbl_inventory WHERE product_id = @product_id)   
+                                    OR EXISTS (SELECT 1 FROM tbl_delivery_items WHERE product_id = @product_id)
+                            THEN 1 ELSE 0 END";
+                return con.ExecuteScalar<int>(sql, new { product_id }) == 1;
+            }
+        }
     }
 }

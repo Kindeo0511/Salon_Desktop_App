@@ -22,7 +22,8 @@ namespace Salon.Models
 
         public decimal total_cost { get; set; }
         public int duration { get; set; }
+        public int is_deleted { get; set; }
 
-       
+
     }
 }

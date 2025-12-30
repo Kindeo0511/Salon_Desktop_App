@@ -13,6 +13,7 @@ namespace Salon.Models
         public string address { get; set; }
         public string email { get; set; }
         public string contact { get; set; }
+        public int is_deleted { get; set; }
 
     }
 }

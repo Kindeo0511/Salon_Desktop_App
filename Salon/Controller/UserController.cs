@@ -43,22 +43,26 @@ namespace Salon.Controller
         {
             return _repo.GetUserAndPassword(user, pass);
         }
-        public void AddUser(UsersModel user)
+        public int AddUser(UsersModel user)
         {
-            _repo.AddUser(user);
+            return _repo.AddUser(user);
         }
-        public void UpdateUser(UsersModel user)
+        public bool UpdateUser(UsersModel user)
         {
-            _repo.UpdateUser(user);
+            return _repo.UpdateUser(user) > 0;
+        }
+        public void UpdateUserAccount(UsersModel user) 
+        {
+            _repo.UpdateUserAccount(user);
         }
 
         public void UpdateUserByOtp(UsersModel user) 
         {
             _repo.UpdateUserByEmailOrPhone(user);
         }
-        public void DeleteUser(int userId)
+        public bool DeleteUser(int userId)
         {
-            _repo.DeleteUser(userId);
+            return _repo.DeleteUser(userId) > 0;
         }
         public void DeletePermanent(int id) 
         {
@@ -80,6 +84,14 @@ namespace Salon.Controller
             return  _repo.UserNumberExistsAsync(number, id);
         }
 
+        public UsersModel UserAccountExistsByEmail(string email) 
+        {
+            return _repo.GetEmailAccount(email);
+        }
+        public int RestoreUserAccount(int id) 
+        {
+            return _repo.RestoreUserAccount(id);
+        }
         public UsersModel AuthenticateUser(string username, string password)
         {
             return _repo.LoginUser(username, password);

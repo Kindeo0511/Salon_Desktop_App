@@ -25,27 +25,27 @@ namespace Salon.Controller
         {
             return await repo.GetAllSubCategoryAsync();
         }
-        public void addSubCategory(SubCategoryModel subCategory)
+        public bool addSubCategory(SubCategoryModel subCategory)
         {
-            repo.AddSubCategory(subCategory);
+            return repo.AddSubCategory(subCategory) > 0;
         }
-        public void updateSubCategory(SubCategoryModel subCategory)
+        public bool updateSubCategory(SubCategoryModel subCategory)
         {
-            repo.UpdateSubCategory(subCategory);
+           return repo.UpdateSubCategory(subCategory) > 0;
         }
-        public void deleteSubCategory(int subCategoryId)
+        public bool deleteSubCategory(int subCategoryId)
         {
-            repo.DeleteSubCategory(subCategoryId);
+           return repo.DeleteSubCategory(subCategoryId) > 0;
         }
 
-        public void RestoreSubCategory(int id) 
+        public bool RestoreSubCategory(int id) 
         {
-            repo.RestoreDeletedSubCategories(id);
+           return repo.RestoreDeletedSubCategories(id) > 0;
         }
          
-        public void PermanentDeleteSubCategory(int id) 
+        public bool PermanentDeleteSubCategory(int id) 
         {
-            repo.PermanentDelete(id);
+           return repo.PermanentDelete(id) > 0;
         }
 
         public bool IsSubCategoryUsed(int subCategoryId)
@@ -55,6 +55,13 @@ namespace Salon.Controller
         public bool CheckSubCategoryExists(string name, int category_id, int id) 
         {
             return repo.SubCategoriesExist(name, category_id, id);
+        }
+
+        public SubCategoryModel GetSubCategory(string name, int category_id) 
+        {
+            
+            return repo.GetSubCategoryName(name, category_id);
+            
         }
     }
 }

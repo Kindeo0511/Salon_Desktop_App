@@ -16,8 +16,9 @@ namespace Salon.Models
         public  Status status { get; set; }
         public decimal servicePrice { get; set; }
         public int TotalService { get; set; }
+        public int is_deleted { get; set; }
 
-}
+    }
     public enum Status
     {
         Active = 0,

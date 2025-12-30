@@ -20,11 +20,11 @@ namespace Salon.Repository
         ProductModel GetTotalProducts();
         Task<ProductModel> GetTotalProductAsync();
         int AddProduct(ProductModel product);
-        void UpdateProduct(ProductModel product);
-        void DeleteProduct(int productId);
-        void RestoreProduct(int productId);
+        int UpdateProduct(ProductModel product);
+        int DeleteProduct(int productId);
+        int RestoreProduct(int productId);
 
-        void PermanentDelete(int id);
-        bool ProductExists(string name, int cat_id, int productId);
+        int PermanentDelete(int id);
+        bool ProductExists(string name, int productId);
     }
 }

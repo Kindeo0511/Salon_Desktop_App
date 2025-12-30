@@ -34,13 +34,13 @@
             this.btn_save = new MaterialSkin.Controls.MaterialButton();
             this.dtp_day_of_birth = new System.Windows.Forms.DateTimePicker();
             this.txt_email = new MaterialSkin.Controls.MaterialTextBox();
-            this.txt_contact = new MaterialSkin.Controls.MaterialTextBox();
             this.txt_last_name = new MaterialSkin.Controls.MaterialTextBox();
             this.txt_middle_name = new MaterialSkin.Controls.MaterialTextBox();
             this.txt_first_name = new MaterialSkin.Controls.MaterialTextBox();
             this.txt_address = new MaterialSkin.Controls.MaterialMultiLineTextBox2();
             this.materialLabel1 = new MaterialSkin.Controls.MaterialLabel();
             this.errorProvider1 = new System.Windows.Forms.ErrorProvider(this.components);
+            this.txt_contact = new MaterialSkin.Controls.MaterialTextBox();
             ((System.ComponentModel.ISupportInitialize)(this.errorProvider1)).BeginInit();
             this.SuspendLayout();
             // 
@@ -51,7 +51,7 @@
             this.btn_update.Depth = 0;
             this.btn_update.HighEmphasis = true;
             this.btn_update.Icon = null;
-            this.btn_update.Location = new System.Drawing.Point(665, 622);
+            this.btn_update.Location = new System.Drawing.Point(593, 622);
             this.btn_update.Margin = new System.Windows.Forms.Padding(4, 6, 4, 6);
             this.btn_update.MouseState = MaterialSkin.MouseState.HOVER;
             this.btn_update.Name = "btn_update";
@@ -92,7 +92,7 @@
             this.btn_save.Depth = 0;
             this.btn_save.HighEmphasis = true;
             this.btn_save.Icon = null;
-            this.btn_save.Location = new System.Drawing.Point(730, 622);
+            this.btn_save.Location = new System.Drawing.Point(593, 622);
             this.btn_save.Margin = new System.Windows.Forms.Padding(4, 6, 4, 6);
             this.btn_save.MouseState = MaterialSkin.MouseState.HOVER;
             this.btn_save.Name = "btn_save";
@@ -131,25 +131,6 @@
             this.txt_email.Text = "";
             this.txt_email.TrailingIcon = null;
             this.txt_email.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txt_email_KeyPress);
-            // 
-            // txt_contact
-            // 
-            this.txt_contact.AnimateReadOnly = false;
-            this.txt_contact.BorderStyle = System.Windows.Forms.BorderStyle.None;
-            this.txt_contact.Depth = 0;
-            this.txt_contact.Font = new System.Drawing.Font("Roboto", 16F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
-            this.txt_contact.Hint = "Contact #";
-            this.txt_contact.LeadingIcon = null;
-            this.txt_contact.Location = new System.Drawing.Point(557, 126);
-            this.txt_contact.MaxLength = 50;
-            this.txt_contact.MouseState = MaterialSkin.MouseState.OUT;
-            this.txt_contact.Multiline = false;
-            this.txt_contact.Name = "txt_contact";
-            this.txt_contact.Size = new System.Drawing.Size(400, 50);
-            this.txt_contact.TabIndex = 18;
-            this.txt_contact.Text = "";
-            this.txt_contact.TrailingIcon = null;
-            this.txt_contact.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txt_contact_KeyPress);
             // 
             // txt_last_name
             // 
@@ -251,6 +232,25 @@
             this.errorProvider1.BlinkStyle = System.Windows.Forms.ErrorBlinkStyle.NeverBlink;
             this.errorProvider1.ContainerControl = this;
             // 
+            // txt_contact
+            // 
+            this.txt_contact.AnimateReadOnly = false;
+            this.txt_contact.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            this.txt_contact.Depth = 0;
+            this.txt_contact.Font = new System.Drawing.Font("Roboto", 16F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
+            this.txt_contact.Hint = "Contact #";
+            this.txt_contact.LeadingIcon = null;
+            this.txt_contact.Location = new System.Drawing.Point(557, 126);
+            this.txt_contact.MaxLength = 11;
+            this.txt_contact.MouseState = MaterialSkin.MouseState.OUT;
+            this.txt_contact.Multiline = false;
+            this.txt_contact.Name = "txt_contact";
+            this.txt_contact.Size = new System.Drawing.Size(400, 50);
+            this.txt_contact.TabIndex = 18;
+            this.txt_contact.Text = "";
+            this.txt_contact.TrailingIcon = null;
+            this.txt_contact.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txt_contact_KeyPress);
+            // 
             // StylistForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
@@ -288,12 +288,12 @@
         private MaterialSkin.Controls.MaterialButton btn_save;
         private System.Windows.Forms.DateTimePicker dtp_day_of_birth;
         private MaterialSkin.Controls.MaterialTextBox txt_email;
-        private MaterialSkin.Controls.MaterialTextBox txt_contact;
         private MaterialSkin.Controls.MaterialTextBox txt_last_name;
         private MaterialSkin.Controls.MaterialTextBox txt_middle_name;
         private MaterialSkin.Controls.MaterialTextBox txt_first_name;
         private MaterialSkin.Controls.MaterialMultiLineTextBox2 txt_address;
         private MaterialSkin.Controls.MaterialLabel materialLabel1;
         private System.Windows.Forms.ErrorProvider errorProvider1;
+        private MaterialSkin.Controls.MaterialTextBox txt_contact;
     }
 }

@@ -40,35 +40,39 @@ namespace Salon.Controller
         {
             return repo.GetAllServicesbySubcategoryId(id);
         }
-        public void addService(ServiceModel service)
+        public int addService(ServiceModel service)
         {
-            repo.addService(service);
+            return repo.addService(service);
         }
-        public void updateService(ServiceModel service)
+        public bool updateService(ServiceModel service)
         {
-            repo.updateService(service);
+            return repo.updateService(service) > 0;
         }
-        public void deleteService(int id)
+        public bool deleteService(int id)
         {
-            repo.deleteService(id);
+            return repo.deleteService(id) > 0;
         }
         public bool IsServiceUsed(int id) 
         {
             return repo.ServiceIsUsed(id);
         }
 
-        public void RestoreServices(int id) 
+        public bool RestoreServices(int id) 
         {
-            repo.RestoreService(id);
+            return repo.RestoreService(id) > 0;
         }
 
-        public void PermanentDeleteService(int id) 
+        public bool PermanentDeleteService(int id) 
         {
-            repo.PermanentDelete(id);
+            return repo.PermanentDelete(id) > 0;
         }
         public bool CheckServiceExists(string name, int scid, int id) 
         {
            return repo.ServiceExists(name, scid, id);
+        }
+        public ServiceModel GetServiceAndCategory(string name, int id) 
+        {
+            return repo.GetServiceAndCategory(name, id);
         }
     }
 }

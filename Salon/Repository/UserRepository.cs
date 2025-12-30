@@ -1,5 +1,6 @@
 ﻿using Dapper;
 using Laundry.Data;
+using Microsoft.ReportingServices.ReportProcessing.ReportObjectModel;
 using Salon.Models;
 using System;
 using System.Collections.Generic;
@@ -65,22 +66,31 @@ namespace Salon.Repository
                 return con.Query<UsersModel>(sql, new {userName = user, userPassword = pass }).FirstOrDefault();
             }
         }
-        public void AddUser(UsersModel user)
+        public int AddUser(UsersModel user)
         {
             using (var con = Database.GetConnection())
             {
-                var sql = @"INSERT INTO tbl_users (first_Name, middle_Name, last_Name, birth_date, phone_Number, email, address, userName, userPassword, Position) 
-                            VALUES (@first_Name, @middle_Name, @last_Name, @birth_date, @phone_Number, @email, @address, @userName, @userPassword, @Position)";
-                con.Execute(sql, user);
+                var sql = @"INSERT INTO tbl_users (first_Name, middle_Name, last_Name, birth_date, phone_Number, email, address) 
+                            VALUES (@first_Name, @middle_Name, @last_Name, @birth_date, @phone_Number, @email, @address);
+                            SELECT LAST_INSERT_ID();";
+                return con.QuerySingle<int>(sql, user);
             }
         }
-        public void UpdateUser(UsersModel user)
+        public int UpdateUser(UsersModel user)
         {
             using (var con = Database.GetConnection())
             {
                 var sql = @"UPDATE tbl_users SET first_Name = @first_Name, middle_Name = @middle_Name, last_Name = @last_Name, 
                             birth_date = @birth_date, phone_Number = @phone_Number, email = @email, address = @address, 
-                            userName = @userName, userPassword = @userPassword, Position = @Position WHERE user_id = @user_id";
+                             WHERE user_id = @user_id";
+                return con.Execute(sql, user);
+            }
+        }
+        public void UpdateUserAccount(UsersModel user)
+        {
+            using (var con = Database.GetConnection())
+            {
+                var sql = @"UPDATE tbl_users SET Position = @Position, userName = @userName, userPassword = @userPassword WHERE user_id = @user_id";
                 con.Execute(sql, user);
             }
         }
@@ -93,12 +103,12 @@ namespace Salon.Repository
                 con.Execute(sql, user);
             }
         }
-        public void DeleteUser(int userId)
+        public int DeleteUser(int userId)
         {
             using (var con = Database.GetConnection())
             {
                 var sql = "UPDATE tbl_users SET status = 'Inactive', is_deactivate = 1 WHERE user_id = @userId";
-                con.Execute(sql, new { userId });
+                return con.Execute(sql, new { userId });
             }
         }
         public void PermanentDelete(int id) 
@@ -124,11 +134,12 @@ namespace Salon.Repository
         {
             using (var con = Database.GetConnection())
             {
-                var sql = "SELECT COUNT(*) FROM tbl_users WHERE email = @email AND user_id != @id";
+                var sql = "SELECT COUNT(*) FROM tbl_users WHERE email = @email AND user_id != @id AND is_deactivate = 0";
                 var count =  con.ExecuteScalar<int>(sql, new { email, id });
                 return count > 0;
             }
         }
+        
 
         public  bool UserNumberExistsAsync(string number, int id = 0)
         {
@@ -140,12 +151,35 @@ namespace Salon.Repository
             }
         }
 
+
+        public UsersModel GetEmailAccount(string email)
+        {
+            using (var con = Database.GetConnection())
+            {
+                string sql = @"SELECT user_id, userName, email, is_deactivate
+                       FROM tbl_users
+                       WHERE email = @email
+                       LIMIT 1";
+
+                return con.QueryFirstOrDefault<UsersModel>(sql, new { email });
+            }
+        }
+
         public void RestoreUser(int userId) 
         {
             using (var con = Database.GetConnection())
             {
                 var sql = "UPDATE tbl_users SET status = 'Active', is_deactivate = 0 WHERE user_id = @userId";
                 con.Execute(sql, new { userId });
+            }
+        }
+
+        public int RestoreUserAccount(int user_id) 
+        {
+            using (var con = Database.GetConnection())
+            {
+                var sql = "UPDATE tbl_users SET status = 'Active', is_deactivate = 0 WHERE user_id = @user_id";
+                return con.Execute(sql, new { user_id });
             }
         }
 

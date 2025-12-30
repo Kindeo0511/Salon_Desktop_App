@@ -19,11 +19,14 @@ namespace Salon.View
     {
         private MainForm mainForm;
         private CategoryModel category;
+        private bool _isSaving = false;
+        private bool _isUpdating = false;
 
         public CategoryForm(MainForm mainForm)
         {
             InitializeComponent();
             ThemeManager.ApplyTheme(this);
+            _isSaving = true;
             this.mainForm = mainForm;
         }
 
@@ -31,6 +34,7 @@ namespace Salon.View
         {
             InitializeComponent();
             ThemeManager.ApplyTheme(this);
+            _isUpdating = true;
             this.mainForm = mainForm;
             this.category = category;
 
@@ -97,7 +101,7 @@ namespace Salon.View
             return validated;
         }
 
-        private void addCategory()
+        private bool addCategory()
         {
             var repo = new CategoryRepository();
             var controller = new CategoryController(repo);
@@ -106,17 +110,90 @@ namespace Salon.View
                 categoryName = txt_category_name.Text,
                 type = cmb_category_type.Text
             };
-            controller.addCategory(newCategory);
+           return controller.addCategory(newCategory);
 
         }
-        private void updateCategory()
+        private bool updateCategory()
         {
             var repo = new CategoryRepository();
             var controller = new CategoryController(repo);
 
             category.categoryName = txt_category_name.Text;
             category.type = cmb_category_type.Text;
-            controller.updateCategory(category);
+           return controller.updateCategory(category);
+
+        }
+        private void IsAccountExists()
+        {
+            var repo = new CategoryRepository();
+            var controller = new CategoryController(repo);
+            var existingCategory = controller.GetCategoryAndType(txt_category_name.Text.Trim(), cmb_category_type.Text.Trim());
+
+            if (existingCategory != null)
+            {
+
+                if (existingCategory.is_deleted == 1)
+                {
+                    var result = MessageBox.Show("This Category exists but is deleted. Do you want to restore it?",
+                                   "Restore Account",
+                                MessageBoxButtons.YesNo,
+                                MessageBoxIcon.Question);
+                    if (result == DialogResult.Yes)
+                    {
+
+
+
+                        if (controller.restoreCategory(existingCategory.category_id))
+                        {
+                            mainForm.DeleteDeletedRecord(existingCategory.category_id);
+                            MessageBox.Show("Category restored successfully!", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                            this.Close();
+                        }
+
+
+
+                    }
+                }
+            }
+
+            else
+            {
+                if (_isSaving)
+                {
+
+
+                    if (addCategory())
+                    {
+                        MessageBox.Show("Category added successfully!", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                        var fullName = txt_category_name.Text;
+                        Audit.AuditLog(DateTime.Now, "Create", UserSession.CurrentUser.first_Name, "Manage Categories", $"Created category '{fullName}' on {DateTime.Now:yyyy-MM-dd} at {DateTime.Now:HH:mm:ss}");
+                        this.Close();
+
+                    }
+                    else
+                    {
+                        MessageBox.Show("Failed to add Please check the input and try again.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    }
+                }
+                else if (_isUpdating)
+                {
+                    if (updateCategory())
+                    {
+                        MessageBox.Show("Category updated successfully!", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                        var fullName = txt_category_name.Text;
+                        Audit.AuditLog(DateTime.Now, "Update", UserSession.CurrentUser.first_Name, "Manage Categories", $"Updated category '{fullName}' on {DateTime.Now:yyyy-MM-dd} at {DateTime.Now:HH:mm:ss}");
+                        this.Close();
+                    }
+                    else
+                    {
+                        MessageBox.Show("Failed to update Please check the input and try again.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    }
+
+
+
+                }
+
+            }
 
         }
         private async void btn_save_Click(object sender, EventArgs e)
@@ -124,24 +201,20 @@ namespace Salon.View
             if (!await IsValid()) return;
 
 
-            addCategory();
-            MessageBox.Show("Category added successfully!", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
-            var category = txt_category_name.Text;
-            Audit.AuditLog(DateTime.Now, "Create", UserSession.CurrentUser.first_Name, "Manage Categories", $"Created category '{category}' on {DateTime.Now:yyyy-MM-dd} at {DateTime.Now:HH:mm:ss}");
+            IsAccountExists();
+
+           
             await mainForm.RefreshCategoryAsync();
-            this.Close();
+       
         }
 
         private async void btn_update_Click(object sender, EventArgs e)
         {
             if (!await IsValid()) return;
 
-            updateCategory();
-            MessageBox.Show("Category updated successfully!", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
-            var category = txt_category_name.Text;
-            Audit.AuditLog(DateTime.Now, "Update", UserSession.CurrentUser.first_Name, "Manage Categories", $"Updated category '{category}' on {DateTime.Now:yyyy-MM-dd} at {DateTime.Now:HH:mm:ss}");
+            IsAccountExists();
             await mainForm.RefreshCategoryAsync();
-            this.Close();
+      
 
         }
 

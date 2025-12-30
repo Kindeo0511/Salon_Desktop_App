@@ -18,11 +18,13 @@ namespace Salon.Repository
         UsersModel GetUserByEmail(string name);
         UsersModel GetUserByContactNumber(string number);
         UsersModel GetUserAndPassword(string user, string pass);
-        void AddUser(UsersModel user);
-        void UpdateUser(UsersModel user);
+        int AddUser(UsersModel user);
+        int UpdateUser(UsersModel user);
+
+        void UpdateUserAccount(UsersModel user);
 
         void UpdateUserByEmailOrPhone(UsersModel user);
-        void DeleteUser(int userId);
+        int DeleteUser(int userId);
         void PermanentDelete(int id);
         bool UserExistsAsync(string username, int id = 0);
         bool UserEmailExistsAsync(string email, int id = 0);

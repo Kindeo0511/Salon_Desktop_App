@@ -20,5 +20,6 @@ namespace Salon.Models
         public string userPassword { get; set; }
         public string Position { get; set; }
         public string status { get; set; }
+        public int is_deactivate { get; set; }
     }
 }

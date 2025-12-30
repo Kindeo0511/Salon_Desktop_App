@@ -23,7 +23,9 @@ namespace Salon.Models
         public int content { get; set; }
         public decimal? selling_price { get; set; }
         public decimal cost_price { get; set; }
-
+        public int is_deleted { get; set; }
+        public DateTime created_at { get; set; }
+        public DateTime updated_at { get; set; }
         public string DisplayName
         {
             get { return product_name + " " + size_label; }

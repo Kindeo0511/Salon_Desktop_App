@@ -18,16 +18,20 @@ namespace Salon.View
     {
         private MainForm mainform;
         private SupplierModel supplierModel;
+        private bool _isSaving = false;
+        private bool _isUpdating = false;
         public  SupplierForm(MainForm mainform)
         {
             InitializeComponent();
             ThemeManager.ApplyTheme(this);
             this.mainform = mainform;
+            _isSaving = true;
         }
         public SupplierForm(MainForm mainform, SupplierModel model)
         {
             InitializeComponent();
             ThemeManager.ApplyTheme(this);
+            _isUpdating = true;
             this.mainform = mainform;
             this.supplierModel = model;
 
@@ -75,7 +79,7 @@ namespace Salon.View
 
         }
 
-        private void AddSupplier() 
+        private bool AddSupplier() 
         {
             var repo = new SupplierRepository();
             var controller = new SupplierController(repo);
@@ -86,15 +90,12 @@ namespace Salon.View
                 email = txt_email.Text,
                 contact = txt_contact.Text
             };
-            controller.AddSupplier(model);
+            return controller.AddSupplier(model);
            
-            MessageBox.Show("Supplier added successfully!", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
-            var fullName = txt_supplier_name.Text;
-            Audit.AuditLog(DateTime.Now, "Create", UserSession.CurrentUser.first_Name, "Manage Supplier", $"Created supplier '{fullName}' on {DateTime.Now:yyyy-MM-dd} at {DateTime.Now:HH:mm:ss}");
-            this.Close();
+            
 
         }
-        private void UpdateSupplier()
+        private bool UpdateSupplier()
         {
             var repo = new SupplierRepository();
             var controller = new SupplierController(repo);
@@ -102,25 +103,94 @@ namespace Salon.View
             supplierModel.address = txt_address.Text;
             supplierModel.email = txt_email.Text;
             supplierModel.contact = txt_contact.Text;
-            controller.UpdateSupplier(supplierModel);
-            MessageBox.Show("Supplier updated successfully!", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
-            var fullName = txt_supplier_name.Text;
-            Audit.AuditLog(DateTime.Now, "Update", UserSession.CurrentUser.first_Name, "Manage Supplier", $"Updated supplier '{fullName}' on {DateTime.Now:yyyy-MM-dd} at {DateTime.Now:HH:mm:ss}");
-            this.Close();
+            return controller.UpdateSupplier(supplierModel);
+         
         }
 
+        private void IsAccountExists()
+        {
+            var repo = new SupplierRepository();
+            var controller = new SupplierController(repo);
+            var existingUser = controller.GetEmail(txt_email.Text.Trim());
 
+            if (existingUser != null)
+            {
+
+                if (existingUser.is_deleted == 1)
+                {
+                    var result = MessageBox.Show("This Supplier exists but is deleted. Do you want to restore it?",
+                                   "Restore Account",
+                                MessageBoxButtons.YesNo,
+                                MessageBoxIcon.Question);
+                    if (result == DialogResult.Yes)
+                    {
+
+
+
+                        if (controller.RestoreSupplier(existingUser.supplier_id))
+                        {
+                            mainform.DeleteDeletedRecord(existingUser.supplier_id);
+                            MessageBox.Show("Supplier restored successfully!", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                            this.Close();
+                        }
+
+
+
+                    }
+                }
+            }
+
+            else
+            {
+                if (_isSaving)
+                {
+
+
+                    if (AddSupplier())
+                    {
+                        MessageBox.Show("Supplier added successfully!", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                        var fullName = txt_supplier_name.Text;
+                        Audit.AuditLog(DateTime.Now, "Create", UserSession.CurrentUser.first_Name, "Manage Supplier", $"Created supplier '{fullName}' on {DateTime.Now:yyyy-MM-dd} at {DateTime.Now:HH:mm:ss}");
+                        this.Close();
+
+                    }
+                    else
+                    {
+                        MessageBox.Show("Failed to add Please check the input and try again.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    }
+                }
+                else if (_isUpdating)
+                {
+                    if (UpdateSupplier())
+                    {
+                        MessageBox.Show("Supplier updated successfully!", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                        var fullName = txt_supplier_name.Text;
+                        Audit.AuditLog(DateTime.Now, "Update", UserSession.CurrentUser.first_Name, "Manage Supplier", $"Updated supplier '{fullName}' on {DateTime.Now:yyyy-MM-dd} at {DateTime.Now:HH:mm:ss}");
+                        this.Close();
+                    }
+                    else
+                    {
+                        MessageBox.Show("Failed to update Please check the input and try again.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    }
+
+
+
+                }
+
+            }
+
+        }
         private async  void btn_save_Click(object sender, EventArgs e)
         {
             if (!IsValid()) return;
-            AddSupplier();
+            IsAccountExists();
             await mainform.RefreshSupplierAsync();
         }
 
         private async void btn_update_Click(object sender, EventArgs e)
         {
             if (!IsValid()) return;
-            UpdateSupplier();
+            IsAccountExists();
 
             await mainform.RefreshSupplierAsync();
 

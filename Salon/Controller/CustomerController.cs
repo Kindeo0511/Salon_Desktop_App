@@ -37,21 +37,25 @@ namespace Salon.Controller
         {
             return repo.GetCustomerById(id);
         }
-        public void AddCustomer(CustomerModel customer)
+        public bool AddCustomer(CustomerModel customer)
         {
-            repo.AddCustomer(customer);
+           return repo.AddCustomer(customer) > 0;
         }
-        public void UpdateCustomer(CustomerModel customer)
+        public CustomerModel GetEmail(string email)
         {
-            repo.UpdateCustomer(customer);
+            return repo.GetCustomerEmail(email);
         }
-        public void DeleteCustomer(int customerId)
+        public bool UpdateCustomer(CustomerModel customer)
         {
-            repo.DeleteCustomer(customerId);
+            return repo.UpdateCustomer(customer) > 0;
         }
-        public void RestoreCustomer(int customerId) 
+        public bool DeleteCustomer(int customerId)
         {
-            repo.ActivateCustomer(customerId);
+            return repo.DeleteCustomer(customerId) > 0;
+        }
+        public bool RestoreCustomer(int customerId) 
+        {
+            return repo.ActivateCustomer(customerId) > 0;
         }
         public void UpdateCustomerPoints(CustomerModel model) 
         {
@@ -61,9 +65,9 @@ namespace Salon.Controller
         {
             repo.SubtractCustomerLoyaltyPoints(model);
         }
-        public void PermanentDeleteCustomer(int id) 
+        public bool PermanentDeleteCustomer(int id) 
         {
-            repo.PermanentDelete(id);
+            return repo.PermanentDelete(id) > 0;
         }
         public bool CheckEmailExists(string email, int id = 0) 
         {
@@ -72,6 +76,10 @@ namespace Salon.Controller
         public bool CheckContactExists(string email, int id = 0)
         {
             return repo.ContactExists(email, id);
+        }
+        public bool CheckIsCustomerUsed(int id) 
+        {
+            return repo.IsCustomerIsUsed(id);
         }
     }
 }

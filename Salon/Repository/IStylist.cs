@@ -13,12 +13,14 @@ namespace Salon.Repository
         Task<IEnumerable<StylistModel>> GetAllStylistAsync();
         IEnumerable<StylistModel> GetStylistWithFullName();
         StylistModel GetStylistCost();
-        void AddStylist(StylistModel stylist);
-        void UpdateStylist(StylistModel stylist);
-        void DeleteStylist(int stylist_id);
-        void ActivateStylist(int stylist_id);
+        int AddStylist(StylistModel stylist);
+        int UpdateStylist(StylistModel stylist);
+        int DeleteStylist(int stylist_id);
+        int ActivateStylist(int stylist_id);
 
-        void PermanentDelete(int id);
+        int PermanentDelete(int id);
+
+
 
         // SUMMARY STYlIST REPORT
 

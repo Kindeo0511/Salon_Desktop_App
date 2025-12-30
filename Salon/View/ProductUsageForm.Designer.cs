@@ -35,11 +35,11 @@
             this.txt_usage_type = new MaterialSkin.Controls.MaterialTextBox();
             this.txt_total_usage = new MaterialSkin.Controls.MaterialTextBox();
             this.materialCard1 = new MaterialSkin.Controls.MaterialCard();
+            this.txt_service = new MaterialSkin.Controls.MaterialTextBox();
             this.btn_cancel = new MaterialSkin.Controls.MaterialButton();
             this.btn_update_prodct_usage = new MaterialSkin.Controls.MaterialButton();
             this.btn_add = new MaterialSkin.Controls.MaterialButton();
             this.dgv_Service_Product = new System.Windows.Forms.DataGridView();
-            this.errorProvider1 = new System.Windows.Forms.ErrorProvider(this.components);
             this.col_service_id = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.col_product_name = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.col_brand = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -47,7 +47,7 @@
             this.col_total_usage = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.btn_update = new System.Windows.Forms.DataGridViewImageColumn();
             this.btn_delete = new System.Windows.Forms.DataGridViewImageColumn();
-            this.txt_service = new MaterialSkin.Controls.MaterialTextBox();
+            this.errorProvider1 = new System.Windows.Forms.ErrorProvider(this.components);
             this.materialCard1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgv_Service_Product)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.errorProvider1)).BeginInit();
@@ -156,6 +156,25 @@
             this.materialCard1.Size = new System.Drawing.Size(1279, 353);
             this.materialCard1.TabIndex = 6;
             // 
+            // txt_service
+            // 
+            this.txt_service.AnimateReadOnly = true;
+            this.txt_service.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            this.txt_service.Depth = 0;
+            this.txt_service.Font = new System.Drawing.Font("Roboto", 16F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
+            this.txt_service.Hint = "Selected Service";
+            this.txt_service.LeadingIcon = null;
+            this.txt_service.Location = new System.Drawing.Point(30, 30);
+            this.txt_service.MaxLength = 50;
+            this.txt_service.MouseState = MaterialSkin.MouseState.OUT;
+            this.txt_service.Multiline = false;
+            this.txt_service.Name = "txt_service";
+            this.txt_service.ReadOnly = true;
+            this.txt_service.Size = new System.Drawing.Size(618, 50);
+            this.txt_service.TabIndex = 9;
+            this.txt_service.Text = "";
+            this.txt_service.TrailingIcon = null;
+            // 
             // btn_cancel
             // 
             this.btn_cancel.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
@@ -184,7 +203,7 @@
             this.btn_update_prodct_usage.Depth = 0;
             this.btn_update_prodct_usage.HighEmphasis = true;
             this.btn_update_prodct_usage.Icon = null;
-            this.btn_update_prodct_usage.Location = new System.Drawing.Point(1075, 75);
+            this.btn_update_prodct_usage.Location = new System.Drawing.Point(1075, 81);
             this.btn_update_prodct_usage.Margin = new System.Windows.Forms.Padding(4, 6, 4, 6);
             this.btn_update_prodct_usage.MouseState = MaterialSkin.MouseState.HOVER;
             this.btn_update_prodct_usage.Name = "btn_update_prodct_usage";
@@ -247,11 +266,6 @@
             this.dgv_Service_Product.Size = new System.Drawing.Size(1279, 299);
             this.dgv_Service_Product.TabIndex = 7;
             this.dgv_Service_Product.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgv_Service_Product_CellClick);
-            // 
-            // errorProvider1
-            // 
-            this.errorProvider1.BlinkStyle = System.Windows.Forms.ErrorBlinkStyle.NeverBlink;
-            this.errorProvider1.ContainerControl = this;
             // 
             // col_service_id
             // 
@@ -318,24 +332,10 @@
             this.btn_delete.ReadOnly = true;
             this.btn_delete.Width = 6;
             // 
-            // txt_service
+            // errorProvider1
             // 
-            this.txt_service.AnimateReadOnly = true;
-            this.txt_service.BorderStyle = System.Windows.Forms.BorderStyle.None;
-            this.txt_service.Depth = 0;
-            this.txt_service.Font = new System.Drawing.Font("Roboto", 16F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
-            this.txt_service.Hint = "Selected Service";
-            this.txt_service.LeadingIcon = null;
-            this.txt_service.Location = new System.Drawing.Point(30, 30);
-            this.txt_service.MaxLength = 50;
-            this.txt_service.MouseState = MaterialSkin.MouseState.OUT;
-            this.txt_service.Multiline = false;
-            this.txt_service.Name = "txt_service";
-            this.txt_service.ReadOnly = true;
-            this.txt_service.Size = new System.Drawing.Size(618, 50);
-            this.txt_service.TabIndex = 9;
-            this.txt_service.Text = "";
-            this.txt_service.TrailingIcon = null;
+            this.errorProvider1.BlinkStyle = System.Windows.Forms.ErrorBlinkStyle.NeverBlink;
+            this.errorProvider1.ContainerControl = this;
             // 
             // ProductUsageForm
             // 

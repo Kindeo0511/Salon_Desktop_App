@@ -17,7 +17,7 @@ namespace Salon.Models
         public string customer_name { get; set; }
         public string customer_type { get; set; }
        public int loyalty_points { get; set; }
-
+        public int is_deleted { get; set; }
         public string status { get; set; }
         public string fullName
         {

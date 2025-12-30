@@ -18,11 +18,14 @@ namespace Salon.View
     public partial class CustomerForm : MaterialForm
     {
         private MainForm mainform;
-        private CustomerModel customer; 
+        private CustomerModel customer;
+        private bool _isSaving = false;
+        private bool _isUpdating = false;
         public CustomerForm(MainForm mainform)
         {
             InitializeComponent();
             ThemeManager.ApplyTheme(this);
+            _isSaving = true;
             this.mainform = mainform;
         }
 
@@ -30,6 +33,7 @@ namespace Salon.View
         {
             InitializeComponent();
             ThemeManager.ApplyTheme(this);
+            _isUpdating = true;
             this.mainform = mainform;
             this.customer = customer;
 
@@ -48,7 +52,7 @@ namespace Salon.View
         }
 
 
-        private void AddCustomer(string first_name = null, string middle_name = null, string last_name = null, string email = null, string number = null, string customer_type = null) 
+        private bool AddCustomer(string first_name = null, string middle_name = null, string last_name = null, string email = null, string number = null, string customer_type = null) 
         {
             var repo = new CustomerRepository();
             var controller = new CustomerController(repo);
@@ -62,9 +66,9 @@ namespace Salon.View
                 customer_type = customer_type
             };
 
-            controller.AddCustomer(customer);
+            return controller.AddCustomer(customer);
         }
-        private void UpdateCustomer(string first_name = null, string middle_name = null, string last_name = null, string email = null, string number = null, string customer_type = null) 
+        private bool UpdateCustomer(string first_name = null, string middle_name = null, string last_name = null, string email = null, string number = null, string customer_type = null) 
         {
             var repo = new CustomerRepository();
             var controller = new CustomerController(repo);
@@ -74,7 +78,7 @@ namespace Salon.View
             customer.phoneNumber = number;
             customer.email = email;
             customer.customer_type = customer_type;
-            controller.UpdateCustomer(customer);
+            return controller.UpdateCustomer(customer);
         }
         private bool IsValid()
         {
@@ -140,28 +144,97 @@ namespace Salon.View
 
             return validated;
         }
+        private void IsAccountExists()
+        {
+            var repo = new CustomerRepository();
+            var controller = new CustomerController(repo);
+            var existingUser = controller.GetEmail(txt_email.Text.Trim());
 
+            if (existingUser != null)
+            {
+
+                if (existingUser.is_deleted == 1)
+                {
+                    var result = MessageBox.Show("This Customer exists but is deleted. Do you want to restore it?",
+                                   "Restore Account",
+                                MessageBoxButtons.YesNo,
+                                MessageBoxIcon.Question);
+                    if (result == DialogResult.Yes)
+                    {
+
+
+
+                        if (controller.RestoreCustomer(existingUser.customer_id))
+                        {
+                            mainform.DeleteDeletedRecord(existingUser.customer_id);
+                            MessageBox.Show("Customer restored successfully!", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                            this.Close();
+                        }
+
+
+
+                    }
+                }
+            }
+
+            else
+            {
+                if (_isSaving)
+                {
+                   
+
+                    if (AddCustomer(txt_first_name.Text, txt_middle_name.Text, txt_last_name.Text, txt_email.Text, txt_contact.Text, "Member"))
+                    {
+                        var fullName = txt_first_name.Text + " " + txt_last_name.Text;
+                        Audit.AuditLog(DateTime.Now, "Create", UserSession.CurrentUser.first_Name, "Manage Customer", $"Created customer '{fullName}' on {DateTime.Now:yyyy-MM-dd} at {DateTime.Now:HH:mm:ss}");
+                        MessageBox.Show("Customer added successfully!", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                        this.Close();
+
+                    }
+                    else
+                    {
+                        MessageBox.Show("Failed to add Please check the input and try again.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    }
+                }
+                else if (_isUpdating)
+                {
+                    if (UpdateCustomer(txt_first_name.Text, txt_middle_name.Text, txt_last_name.Text, txt_email.Text, txt_contact.Text))
+                    {
+                        var fullName = txt_first_name.Text + " " + txt_last_name.Text;
+                        Audit.AuditLog(DateTime.Now, "Update", UserSession.CurrentUser.first_Name, "Manage Customer", $"Updated customer '{fullName}' on {DateTime.Now:yyyy-MM-dd} at {DateTime.Now:HH:mm:ss}");
+                        MessageBox.Show("Customer updated successfully!", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
+
+                        this.Close();
+                    }
+                    else
+                    {
+                        MessageBox.Show("Failed to update Please check the input and try again.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    }
+
+
+
+                }
+
+            }
+
+        }
         private async void btn_save_Click(object sender, EventArgs e)
         {
             if (!IsValid()) return;
+            IsAccountExists();
 
-            AddCustomer(txt_first_name.Text, txt_middle_name.Text, txt_last_name.Text, txt_email.Text, txt_contact.Text, "Member");
-            var fullName = txt_first_name.Text +" "+ txt_last_name.Text;
-            Audit.AuditLog(DateTime.Now, "Create", UserSession.CurrentUser.first_Name, "Manage Customer", $"Created customer '{fullName}' on {DateTime.Now:yyyy-MM-dd} at {DateTime.Now:HH:mm:ss}");
-             await mainform.RefreshCustomers();
-            MessageBox.Show("Customer added successfully!", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
-            this.Close();
+
+            await mainform.RefreshCustomers();
+      
         }
 
         private async void btn_update_Click(object sender, EventArgs e)
         {
             if (!IsValid()) return;
-            UpdateCustomer(txt_first_name.Text, txt_middle_name.Text, txt_last_name.Text, txt_email.Text, txt_contact.Text);
-            var fullName = txt_first_name.Text + " " + txt_last_name.Text;
-            Audit.AuditLog(DateTime.Now, "Update", UserSession.CurrentUser.first_Name, "Manage Customer", $"Updated customer '{fullName}' on {DateTime.Now:yyyy-MM-dd} at {DateTime.Now:HH:mm:ss}");
-            MessageBox.Show("Customer updated successfully!", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            IsAccountExists();
+            
             await mainform.RefreshCustomers();
-            this.Close();
+       
         }
 
         private void btn_cancel_Click(object sender, EventArgs e)

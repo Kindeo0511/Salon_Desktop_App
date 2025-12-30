@@ -10,6 +10,7 @@ namespace Salon.Models
     {
         public int deleted_id { get; set; }
         public int record_id { get; set; }
+        public int sub_id { get; set; }
         public string module { get; set; }
         public string name { get; set; }
         public string deleted_by { get; set; }

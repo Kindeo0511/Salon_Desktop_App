@@ -47,47 +47,64 @@ namespace Salon.Repository
                 return con.Query<StylistModel>(sql).FirstOrDefault();
             }
         }
-        public void AddStylist(StylistModel stylist)
+        public int AddStylist(StylistModel stylist)
         {
             using (var con = Database.GetConnection())
             {
                 var sql = @"INSERT INTO tbl_stylists (firstName, middleName, lastName, birth_date, contactNumber, email, address) 
                             VALUES (@firstName, @middleName, @lastName, @birth_date, @contactNumber, @email, @address)";
-                con.Execute(sql, stylist);
+                return con.Execute(sql, stylist);
             }
         }
-        public void UpdateStylist(StylistModel stylist)
+        public int UpdateStylist(StylistModel stylist)
         {
             using (var con = Database.GetConnection())
             {
                 var sql = @"UPDATE tbl_stylists SET firstName = @firstName, middleName = @middleName, lastName = @lastName, 
                             birth_date = @birth_date, contactNumber = @contactNumber, email = @email, address = @address
                             WHERE stylist_id = @stylist_id";
-                con.Execute(sql, stylist);
+                return con.Execute(sql, stylist);
             }
         }
-        public void DeleteStylist(int stylist_id)
+        public int DeleteStylist(int stylist_id)
         {
             using (var con = Database.GetConnection())
             {
                 var sql = "UPDATE tbl_stylists SET status = 'Inactive', is_deleted = 1 WHERE stylist_id = @stylist_id";
-                con.Execute(sql, new { stylist_id });
+               return con.Execute(sql, new { stylist_id });
             }
         }
-        public void ActivateStylist(int stylist_id) 
+        public int ActivateStylist(int stylist_id) 
         {
             using (var con = Database.GetConnection())
             {
                 var sql = "UPDATE tbl_stylists SET status = 'Active', is_deleted = 0 WHERE stylist_id = @stylist_id";
-                con.Execute(sql, new { stylist_id });
+                return con.Execute(sql, new { stylist_id });
             }
         }
-        public void PermanentDelete(int stylist_id) 
+        public int PermanentDelete(int stylist_id) 
         {
             using (var con = Database.GetConnection())
             {
                 var sql = "DELETE FROM tbl_stylists WHERE stylist_id = @stylist_id";
-                con.Execute(sql, new { stylist_id });
+                return con.Execute(sql, new { stylist_id });
+            }
+        }
+
+        public bool IsStylistUsed(int stylist_id)
+        {
+            using (var con = Database.GetConnection())
+            {
+                var sql = "SELECT COUNT(*) FROM tbl_appointment WHERE stylist_id = @stylist_id AND Status = 'Scheduled'";
+                return con.ExecuteScalar<int>(sql, new { stylist_id }) > 0;
+            }
+        }
+        public StylistModel GetEmail(string email)
+        {
+            using (var con = Database.GetConnection())
+            {
+                var sql = "SELECT * FROM tbl_stylists WHERE email = @email LIMIT 1";
+                return con.QueryFirstOrDefault<StylistModel>(sql, new { email });
             }
         }
 
@@ -226,7 +243,7 @@ namespace Salon.Repository
         {
             using (var con = Database.GetConnection())
             {
-                var sql = "SELECT COUNT(*) FROM tbl_stylists WHERE email = @email AND stylist_id != @id";
+                var sql = "SELECT COUNT(*) FROM tbl_stylists WHERE email = @email AND stylist_id != @id AND is_deleted = 0";
 
                 return con.ExecuteScalar<int>(sql, new { email, id }) > 0;
             }
@@ -235,7 +252,7 @@ namespace Salon.Repository
         {
             using (var con = Database.GetConnection())
             {
-                var sql = "SELECT COUNT(*) FROM tbl_stylists WHERE contactNumber = @contact AND stylist_id != @id";
+                var sql = "SELECT COUNT(*) FROM tbl_stylists WHERE contactNumber = @contact AND stylist_id != @id AND is_deleted = 0";
 
                 return con.ExecuteScalar<int>(sql, new { contact, id }) > 0;
             }

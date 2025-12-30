@@ -25,40 +25,48 @@ namespace Salon.Controller
         {
             return _repository.GetAllServiceProducts(id);
         }
-        public async Task<IEnumerable<ServiceProductUsageModel>> GetAllServiceProductsAsync(int id) 
+        public IEnumerable<ServiceProductUsageModel> GetAllServiceProductsAsync(int id) 
         {
-            return await _repository.GetAllServiceProductsAsync(id);
+            return _repository.GetAllServiceProductsAsync(id);
         }
         public IEnumerable<ServiceProductUsageModel> GetProductCost()
         {
             return _repository.GetTotalProductCost();
         }
 
-        public void AddServiceProduct(ServiceProductUsageModel model)
+        public bool AddServiceProduct(ServiceProductUsageModel model)
         {
-            _repository.AddServiceProduct(model);
+            return _repository.AddServiceProduct(model) > 0;
         }
-        public void UpdateServiceProduct(ServiceProductUsageModel model)
+        public bool UpdateServiceProduct(ServiceProductUsageModel model)
         {
-            _repository.UpdateServiceProduct(model);
+            return _repository.UpdateServiceProduct(model) > 0;
         }
 
-        public void DeleteServiceProduct(int id)
+        public bool DeleteServiceProduct(int id)
         {
-            _repository.DeleteServiceProduct(id);
+            return _repository.DeleteServiceProduct(id) > 0;
         }
-        public void PermanentDeleteServiceProductUsage(int id) 
+        public bool PermanentDeleteServiceProductUsage(int id) 
         {
-            _repository.PermanentDelete(id);
+           return _repository.PermanentDelete(id) > 0;
         }
-        public void RestoreServiceProduct(int id)
+        public bool RestoreServiceProduct(int id)
         {
-            _repository.RestoreServiceProduct(id);
+           return _repository.RestoreServiceProduct(id) > 0;
         }
         public bool ProductUsageExists(int product_id, int service_id, int excludeId = 0)
 
         {
             return _repository.ProductUsageExists(product_id, service_id, excludeId);
+        }
+        public ServiceProductUsageModel GetServiceProductUsage(int product_id, int service_id, string brand, int qty) 
+        {
+            return _repository.GetServiceUsage(product_id, service_id, brand, qty);
+        }
+        public bool IsProductUsedInServices(int product_id) 
+        {
+            return _repository.IsServiceProductUsed(product_id);
         }
     }
 }

@@ -89,6 +89,7 @@ namespace Salon.View
         private void btn_confirm_Click(object sender, EventArgs e)
         {
             paymentForm.LoadServices(paymentForm.invoice_id);
+            paymentForm.CalculateSubTotal();
             this.Close();
         }
     }

@@ -82,7 +82,7 @@ SET td.total_remaining = GREATEST(td.total_remaining - (ps.content * @Qty), 0),
     td.qty_remaining   = GREATEST(td.qty_remaining - @Qty, 0)
 WHERE td.transaction_id = @TransactionId
   AND td.product_size_id = @Size
-  AND td.total_remaining > 0
+  AND td.total_remaining >= 0
 LIMIT 1;
 ";
 
@@ -115,6 +115,15 @@ LIMIT 1;
                 con.Execute("CALL DeductConsumable(@in_product_id, @in_deduction_ml)",
                       new { in_product_id = product_id, in_deduction_ml = qty_deduction });
             }   
+        }
+        
+        public void DeductProductStock(int product_id, int product_size_id , int qty_deduction)
+        {
+            using (var con = Database.GetConnection())
+            {
+                con.Execute("CALL DeducProduct(@in_product_id, @in_product_size_id, @in_qty)",
+                      new { in_product_id = product_id, in_product_size_id = product_size_id, in_qty = qty_deduction });
+            }
         }
     }
 }

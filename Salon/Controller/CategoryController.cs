@@ -34,26 +34,26 @@ namespace Salon.Controller
             return repo.getAllCategoryByProduct();
         }
 
-        public void addCategory(CategoryModel category)
+        public bool addCategory(CategoryModel category)
         {
-            repo.addCategory(category);
+           return repo.addCategory(category) > 0;
         }
-        public void updateCategory(CategoryModel category)
+        public bool updateCategory(CategoryModel category)
         {
-            repo.updateCategory(category);
+           return repo.updateCategory(category) > 0;
         }
-        public void deleteCategory(int id)
+        public bool deleteCategory(int id)
         {
-            repo.deleteCategory(id);
+            return repo.deleteCategory(id) > 0;
         }
 
-        public void restoreCategory(int id) 
+        public bool restoreCategory(int id) 
         {
-            repo.restoreDeleted(id);
+            return repo.restoreDeleted(id) > 0;
         }
-        public void PermanentDeleteCategory(int id) 
+        public bool PermanentDeleteCategory(int id) 
         {
-            repo.PermanentDelete(id);
+           return repo.PermanentDelete(id) > 0;
         }
         public bool IsCategoryBeingUsed(int id) 
         {
@@ -67,6 +67,11 @@ namespace Salon.Controller
         public async Task<CategoryModel> CheckCategoryExistsAsync(string category, string type, int excludeId = 0)
         {
             return await repo.GetExistingCategoryAsync(category, type, excludeId);
+        }
+
+        public CategoryModel GetCategoryAndType(string category, string type)
+        {
+            return repo.GetCategoryNameAndType(category, type);
         }
 
     }

@@ -59,44 +59,52 @@ namespace Salon.Repository
                 return con.Query<CustomerModel>(sql, new { Key = $"%{key}%" }).ToList();
             }
         }
-        public void AddCustomer(CustomerModel customer)
+        public int AddCustomer(CustomerModel customer)
         {
             using (var con = Database.GetConnection())
             {
                 var sql = "INSERT INTO tbl_customer_account (firstName, middleName, lastName, phoneNumber, email, customer_type) VALUES (@firstName, @middleName, @lastName, @phoneNumber, @email, @customer_type)";
-                con.Execute(sql, customer);
+                return con.Execute(sql, customer);
             }
         }
-        public void UpdateCustomer(CustomerModel customer)
+        public int UpdateCustomer(CustomerModel customer)
         {
             using (var con = Database.GetConnection())
             {
                 var sql = "UPDATE tbl_customer_account SET firstName = @firstName, middleName = @middleName, lastName = @lastName, phoneNumber = @phoneNumber, email = @email, customer_type =@customer_type WHERE customer_id = @customer_id";
-                con.Execute(sql, customer);
+                return con.Execute(sql, customer);
             }
         }
-        public void DeleteCustomer(int customerId)
+        public CustomerModel GetCustomerEmail(string email)
+        {
+            using (var con = Database.GetConnection())
+            {
+                var sql = "SELECT * FROM tbl_customer_account WHERE email = @email";
+                return con.Query<CustomerModel>(sql, new { email }).FirstOrDefault();
+            }
+        }
+        public int DeleteCustomer(int customerId)
         {
             using (var con = Database.GetConnection())
             {
                 var sql = "UPDATE tbl_customer_account SET status = 'Inactive', is_deleted = 1 WHERE customer_id = @customerId";
-                con.Execute(sql, new { customerId });
+                return con.Execute(sql, new { customerId });
             }
         }
-        public void PermanentDelete(int customerId) 
+        public int PermanentDelete(int customerId) 
         {
             using (var con = Database.GetConnection())
             {
                 var sql = "DELETE FROM tbl_customer_account WHERE customer_id = @customerId";
-                con.Execute(sql, new { customerId });
+                return con.Execute(sql, new { customerId });
             }
         }
-        public void ActivateCustomer(int customerId) 
+        public int ActivateCustomer(int customerId) 
         {
             using (var con = Database.GetConnection())
             {
                 var sql = "UPDATE tbl_customer_account SET status = 'Active', is_deleted = 0 WHERE customer_id = @customerId";
-                con.Execute(sql, new { customerId });
+                return con.Execute(sql, new { customerId });
             }
         }
 
@@ -133,6 +141,15 @@ namespace Salon.Repository
                 var sql = "SELECT COUNT(*) FROM tbl_customer_account WHERE phoneNumber = @contact AND customer_id != @id";
 
                 return con.ExecuteScalar<int>(sql, new { contact, id }) > 0;
+            }
+        }
+
+        public bool IsCustomerIsUsed(int customerId)
+        {
+            using (var con = Database.GetConnection())
+            {
+                var sql = "SELECT COUNT(*) FROM tbl_appointment WHERE customer_id = @customerId";
+                return con.ExecuteScalar<int>(sql, new { customerId }) > 0;
             }
         }
 

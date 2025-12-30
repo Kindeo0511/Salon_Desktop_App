@@ -57,7 +57,7 @@ namespace Salon.Repository
         {
             using (var con = Database.GetConnection())
             {
-                var sql = "INSERT INTO tbl_deleted_records (record_id, module, name, deleted_by, deleted_on) VALUES (@record_id, @module, @name, @deleted_by, @deleted_on)";
+                var sql = "INSERT INTO tbl_deleted_records (record_id,sub_id, module, name, deleted_by, deleted_on) VALUES (@record_id,@sub_id, @module, @name, @deleted_by, @deleted_on)";
 
                  con.Execute(sql,model);
             }

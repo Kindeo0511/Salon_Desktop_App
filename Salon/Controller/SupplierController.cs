@@ -25,32 +25,41 @@ namespace Salon.Controller
         {
             return await repo.GetAllSuppliersAsync();
         }
-        public void AddSupplier(SupplierModel supplier)
+        public bool AddSupplier(SupplierModel supplier)
         {
-            repo.AddSupplier(supplier);
+            return repo.AddSupplier(supplier) > 0;
         }
-        public void UpdateSupplier(SupplierModel supplier)
+        public bool UpdateSupplier(SupplierModel supplier)
         {
-            repo.UpdateSupplier(supplier);
+           return repo.UpdateSupplier(supplier) > 0;
         }
-        public void DeleteSupplier(int id)
+        public bool DeleteSupplier(int id)
         {
-            repo.DeleteSupplier(id);
+            return repo.DeleteSupplier(id) > 0;
+   
         }
-        public void RestoreSupplier(int id) 
+        public bool RestoreSupplier(int id) 
         {
-            repo.ActivateSupplier(id);
+           return repo.ActivateSupplier(id) > 0;
         }
 
-        public void PermanentDeleteSupplier(int id) 
+        public bool PermanentDeleteSupplier(int id) 
         {
-            repo.PermanentDelete(id);
+            return repo.PermanentDelete(id) > 0;
         }
         public bool CheckSupplierExists(string name , int id = 0) 
         {
             return repo.SupplierExists(name, id);
         }
 
+        public SupplierModel GetEmail(string email)
+        {
+            return repo.GetSupplierEmail(email);
+        }
+        public bool CheckIsSupplierIsUsed(int id) 
+        {
+            return repo.IsSupplierUsed(id);
+        }
         public bool CheckEmailExists(string email, int id = 0)
         {
             return repo.EmailExists(email, id);

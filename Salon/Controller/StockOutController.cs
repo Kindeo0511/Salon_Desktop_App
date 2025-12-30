@@ -43,5 +43,10 @@ namespace Salon.Controller
         {
             repo.DeductStock(product_id, deduction);
         }
+
+        public void DeductProductStockOut(int product_id, int product_size_id, int deduction) 
+        {
+            repo.DeductProductStock(product_id, product_size_id, deduction);
+        }
     }
 }

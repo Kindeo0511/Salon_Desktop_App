@@ -12,11 +12,11 @@ namespace Salon.Repository
         IEnumerable<SupplierModel> GetAllSuppliers();
         Task<IEnumerable<SupplierModel>> GetAllSuppliersAsync();
         //SupplierModel GetSupplierById(int id);
-        void AddSupplier(SupplierModel supplier);
-        void UpdateSupplier(SupplierModel supplier);
-        void DeleteSupplier(int id);
-        void ActivateSupplier(int id);
-        void PermanentDelete(int id);
+        int AddSupplier(SupplierModel supplier);
+        int UpdateSupplier(SupplierModel supplier);
+        int DeleteSupplier(int id);
+        int ActivateSupplier(int id);
+        int PermanentDelete(int id);
         //void DeleteSupplierById(int id);
         //bool SupplierExists(int id);
         //bool SupplierExists(SupplierModel supplier);

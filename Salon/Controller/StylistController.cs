@@ -33,29 +33,36 @@ namespace Salon.Controller
         {
             return _repo.GetStylistCost();
         }
-        public void Add(StylistModel stylist)
+        public bool Add(StylistModel stylist)
         {
-            _repo.AddStylist(stylist);
+            return _repo.AddStylist(stylist) > 0;
         }
-        public void Update(StylistModel stylist)
+        public bool Update(StylistModel stylist)
         {
-            _repo.UpdateStylist(stylist);
+            return _repo.UpdateStylist(stylist) > 0;
         }
-        public void Delete(int stylist_id)
+        public bool Delete(int stylist_id)
         {
-            _repo.DeleteStylist(stylist_id);
-        }
-
-        public void restoreStylist(int stylist_id) 
-        {
-            _repo.ActivateStylist(stylist_id);
+           return _repo.DeleteStylist(stylist_id) > 0;
         }
 
-        public void PermanentDeleteStylist(int id) 
+        public bool restoreStylist(int stylist_id) 
         {
-            _repo.PermanentDelete(id);
+            return _repo.ActivateStylist(stylist_id) > 0;
         }
 
+        public bool PermanentDeleteStylist(int id) 
+        {
+            return _repo.PermanentDelete(id) > 0;
+        }
+        public bool CheckIsStylistIsUsed(int stylist_id) 
+        {
+            return _repo.IsStylistUsed(stylist_id);
+        }
+        public StylistModel GetEmail(string email) 
+        {
+            return _repo.GetEmail(email);
+        }
         // SUMMARY REPORT
 
         public StylistModel GetTotalStaff() 

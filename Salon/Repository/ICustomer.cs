@@ -14,11 +14,11 @@ namespace Salon.Repository
         CustomerModel TotalCustomer();
         List<CustomerModel> GetCustomerBySearch(string key);
         CustomerModel GetCustomerById(int id);
-        void AddCustomer(CustomerModel customer);
-        void UpdateCustomer(CustomerModel customer);
-        void DeleteCustomer(int customerId);
-        void PermanentDelete(int customerId);
-        void ActivateCustomer(int customerId);
+        int AddCustomer(CustomerModel customer);
+        int UpdateCustomer(CustomerModel customer);
+        int DeleteCustomer(int customerId);
+        int PermanentDelete(int customerId);
+        int ActivateCustomer(int customerId);
 
         bool EmailExists(string email, int id = 0);
         bool ContactExists(string contact, int id = 0);

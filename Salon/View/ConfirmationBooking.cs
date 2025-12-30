@@ -193,7 +193,8 @@ namespace Salon.View
                 var invoiceServiceCart = new ServiceCart
                 {
                     InvoiceId = invoice_id,
-                    ProductId = service.ProductId,
+                    ProductId = null,
+                    ProductSizeId = null,
                     ServiceId = service.ServiceId,
                     ItemType = service.ItemType,
                     Quantity = service.Quantity,

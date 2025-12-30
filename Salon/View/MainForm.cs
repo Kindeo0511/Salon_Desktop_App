@@ -638,18 +638,28 @@ namespace Salon.View
                 var user = dgv_user.Rows[e.RowIndex].DataBoundItem as UsersModel;
 
 
-                if (user.Position.ToLower() == "admin") return;
+
+                if (!string.IsNullOrEmpty(user.Position) && user.Position.Equals("admin", StringComparison.OrdinalIgnoreCase)) { return; }
+
                 // Ask for confirmation before delete 
                 if (MessageBox.Show($"Deactivate user {user.userName}?", "Confirm Deactivation", MessageBoxButtons.YesNo) == DialogResult.Yes)
                 {
                     var _repo = new UserRepository();
                     var userController = new UserController(_repo);
-                    userController.DeleteUser(user.user_id);
-                    InsertDeletedRecord(user.user_id, "Manage User", user.first_Name, UserSession.CurrentUser.first_Name, DateTime.Today);
-                    await RefreshDeletedRecords();
-                    await RefreshUsersAsync();
-                    var fullName = user.first_Name + " " + user.last_Name;
-                    Audit.AuditLog(DateTime.Now, "Deactivate", UserSession.CurrentUser.first_Name, "Manage User", $"Deactivated user {fullName} on {DateTime.Now:yyyy-MM-dd} at {DateTime.Now:HH:mm:ss}");
+                    if (userController.DeleteUser(user.user_id)) 
+                    {
+                        MessageBox.Show("User Deactivated Successfully.", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                        InsertDeletedRecord(user.user_id,null, "Manage User", user.first_Name, UserSession.CurrentUser.first_Name, DateTime.Today);
+                        await RefreshDeletedRecords();
+                        await RefreshUsersAsync();
+                        var fullName = user.first_Name + " " + user.last_Name;
+                        Audit.AuditLog(DateTime.Now, "Deactivate", UserSession.CurrentUser.first_Name, "Manage User", $"Deactivated user {fullName} on {DateTime.Now:yyyy-MM-dd} at {DateTime.Now:HH:mm:ss}");
+                    }
+                    else
+                    {
+                        MessageBox.Show("Failed to Deactivate User.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    }
+
 
                 }
             }
@@ -708,7 +718,6 @@ namespace Salon.View
             stylist_contact.DataPropertyName = "contactNumber";
             stylist_email.DataPropertyName = "email";
             stylist_address.DataPropertyName = "address";
-            col_stylist_wage.DataPropertyName = "daily_wage";
             col_stylist_status.DataPropertyName = "status";
 
             dgv_stylist.DataSource = stylists;
@@ -728,7 +737,6 @@ namespace Salon.View
             stylist_contact.DataPropertyName = "contactNumber";
             stylist_email.DataPropertyName = "email";
             stylist_address.DataPropertyName = "address";
-            col_stylist_wage.DataPropertyName = "daily_wage";
             col_stylist_status.DataPropertyName = "status";
             dgv_stylist.DataSource = stylists;
         }
@@ -781,21 +789,33 @@ namespace Salon.View
             //}
             else if (e.RowIndex >= 0 && dgv_stylist.Columns[e.ColumnIndex].Name == "stylist_btn_delete")
             {
+                var _repo = new StylistRepository();
+                var stylistController = new StylistController(_repo);
+
                 var stylist = dgv_stylist.Rows[e.RowIndex].DataBoundItem as StylistModel;
 
-
+                
 
                 if (MessageBox.Show($"Delete user {stylist.firstName}?", "Confirm Delete", MessageBoxButtons.YesNo) == DialogResult.Yes)
                 {
-                    var _repo = new StylistRepository();
-                    var stylistController = new StylistController(_repo);
-                    var fullName = stylist.firstName + " " + stylist.lastName;
-                    Audit.AuditLog(DateTime.Now, "Delete", UserSession.CurrentUser.first_Name, "Manage Stylist", $"Deleted stylist {fullName} on {DateTime.Now:yyyy-MM-dd} at {DateTime.Now:HH:mm:ss}");
-                    stylistController.Delete(stylist.stylist_id);
-                    InsertDeletedRecord(stylist.stylist_id, "Manage Stylist", fullName, UserSession.CurrentUser.first_Name, DateTime.Today);
-                    await RefreshStylistAsync();
-                    await RefreshDeletedRecords();
 
+
+                    if (stylistController.Delete(stylist.stylist_id))
+                    {
+                        MessageBox.Show("Stylist Deleted Successfully.", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
+
+
+                        var fullName = stylist.firstName + " " + stylist.lastName;
+                        Audit.AuditLog(DateTime.Now, "Delete", UserSession.CurrentUser.first_Name, "Manage Stylist", $"Deleted stylist {fullName} on {DateTime.Now:yyyy-MM-dd} at {DateTime.Now:HH:mm:ss}");
+                        InsertDeletedRecord(stylist.stylist_id, null, "Manage Stylist", fullName, UserSession.CurrentUser.first_Name, DateTime.Today);
+                        await RefreshStylistAsync();
+                        await RefreshDeletedRecords();
+                    }
+                    else
+                    {
+                        MessageBox.Show("Failed to Delete Stylist.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+
+                    }
                 }
             }
 
@@ -908,10 +928,23 @@ namespace Salon.View
                 {
                     var repo = new CustomerRepository();
                     var customerController = new CustomerController(repo);
-                    var fullName = customer.firstName + " " + customer.lastName;
-                    Audit.AuditLog(DateTime.Now, "Delete", UserSession.CurrentUser.first_Name, "Manage Customer", $"Deleted customer '{fullName}' on {DateTime.Now:yyyy-MM-dd} at {DateTime.Now:HH:mm:ss}");
-                    customerController.DeleteCustomer(customer.customer_id);
-                    InsertDeletedRecord(customer.customer_id, "Manage Customer", fullName, UserSession.CurrentUser.first_Name, DateTime.Today);
+       
+               
+                    if(customerController.DeleteCustomer(customer.customer_id))
+                    {
+                        MessageBox.Show("Customer Deleted Successfully.", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
+
+                        var fullName = customer.firstName + " " + customer.lastName;
+                        Audit.AuditLog(DateTime.Now, "Delete", UserSession.CurrentUser.first_Name, "Manage Customer", $"Deleted customer '{fullName}' on {DateTime.Now:yyyy-MM-dd} at {DateTime.Now:HH:mm:ss}");
+
+                        InsertDeletedRecord(customer.customer_id, null, "Manage Customer", fullName, UserSession.CurrentUser.first_Name, DateTime.Today);
+
+                    }
+                    else
+                    {
+                        MessageBox.Show("Failed to Delete Customer.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    }
+
                     await RefreshDeletedRecords();
                     await RefreshCustomers();
                 }
@@ -987,9 +1020,23 @@ namespace Salon.View
                     }
                     else
                     {
-                        Audit.AuditLog(DateTime.Now, "Delete", UserSession.CurrentUser.first_Name, "Manage Categories", $"Deleted category '{category.categoryName}' on {DateTime.Now:yyyy-MM-dd} at {DateTime.Now:HH:mm:ss}");
-                        categoryController.deleteCategory(category.category_id);
-                        InsertDeletedRecord(category.category_id, "Category", category.categoryName, UserSession.CurrentUser.first_Name, DateTime.Today);
+
+                        if (categoryController.deleteCategory(category.category_id))
+                        {
+                            MessageBox.Show("Supplier Deleted Successfully.", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
+
+
+                            Audit.AuditLog(DateTime.Now, "Delete", UserSession.CurrentUser.first_Name, "Manage Categories", $"Deleted category '{category.categoryName}' on {DateTime.Now:yyyy-MM-dd} at {DateTime.Now:HH:mm:ss}");
+
+                            InsertDeletedRecord(category.category_id, null, "Manage Supplier", category.categoryName, UserSession.CurrentUser.first_Name, DateTime.Today);
+
+                        }
+                        else
+                        {
+                            MessageBox.Show("Failed to Delete Supplier.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        }
+
+                        
                         await RefreshCategoryAsync();
                         await RefreshDeletedRecords();
                     }
@@ -1064,9 +1111,23 @@ namespace Salon.View
                     }
                     else
                     {
-                        Audit.AuditLog(DateTime.Now, "Delete", UserSession.CurrentUser.first_Name, "Manage Sub-Categories", $"Deleted sub-category '{subCategory.subCategoryName}' for ({subCategory.categoryName}) on {DateTime.Now:yyyy-MM-dd} at {DateTime.Now:HH:mm:ss}");
-                        subCategoryController.deleteSubCategory(subCategory.subCategory_id);
-                        InsertDeletedRecord(subCategory.subCategory_id, "Manage Sub-Categories", subCategory.subCategoryName, UserSession.CurrentUser.first_Name, DateTime.Today);
+                        if (subCategoryController.deleteSubCategory(subCategory.subCategory_id))
+                        {
+
+                            MessageBox.Show("Sub-Category Deleted Successfully.", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
+
+                            Audit.AuditLog(DateTime.Now, "Delete", UserSession.CurrentUser.first_Name, "Manage Sub-Categories", $"Deleted sub-category '{subCategory.subCategoryName}' for ({subCategory.categoryName}) on {DateTime.Now:yyyy-MM-dd} at {DateTime.Now:HH:mm:ss}");
+                            subCategoryController.deleteSubCategory(subCategory.subCategory_id);
+                            InsertDeletedRecord(subCategory.subCategory_id, null, "Manage Sub-Categories", subCategory.subCategoryName, UserSession.CurrentUser.first_Name, DateTime.Today);
+
+                        }
+                        else
+                        {
+                            MessageBox.Show("Failed to Delete Supplier.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        }
+
+
+                       
                         await FilterdDeletedRecords();
                         await RefreshSubCategoryAsync();
                     }
@@ -1089,15 +1150,9 @@ namespace Salon.View
             col_product_name.DataPropertyName = "product_name";
             col_product_type.DataPropertyName = "product_type";
             col_product_brand.DataPropertyName = "brand";
-            col_product_category_id.DataPropertyName = "category_id";
-            col_product_category_name.DataPropertyName = "categoryName";
-            col_product_category_id.DataPropertyName = "category_id";
-            col_product_category_name.DataPropertyName = "categoryName";
             col_product_unit_type.DataPropertyName = "unit_type";
-            col_product_size_label.DataPropertyName = "size_label";
-            col_product_content.DataPropertyName = "content";
-            col_product_selling_price.DataPropertyName = "selling_price";
-            col_product_cost_price.DataPropertyName = "cost_price";
+            col_product_created_at.DataPropertyName = "created_at";
+            col_product_updated_at.DataPropertyName = "updated_at";
             dgv_product.DataSource = products;
         }
 
@@ -1111,15 +1166,9 @@ namespace Salon.View
             col_product_name.DataPropertyName = "product_name";
             col_product_type.DataPropertyName = "product_type";
             col_product_brand.DataPropertyName = "brand";
-            col_product_category_id.DataPropertyName = "category_id";
-            col_product_category_name.DataPropertyName = "categoryName";
-            col_product_category_id.DataPropertyName = "category_id";
-            col_product_category_name.DataPropertyName = "categoryName";
+            
             col_product_unit_type.DataPropertyName = "unit_type";
-            col_product_size_label.DataPropertyName = "size_label";
-            col_product_content.DataPropertyName = "content";
-            col_product_selling_price.DataPropertyName = "selling_price";
-            col_product_cost_price.DataPropertyName = "cost_price";
+           
             dgv_product.DataSource = products;
         }
         private void dgv_product_CellFormatting(object sender, DataGridViewCellFormattingEventArgs e)
@@ -1162,18 +1211,36 @@ namespace Salon.View
             else if (e.RowIndex >= 0 && dgv_product.Columns[e.ColumnIndex].Name == "col_btn_product_delete")
             {
                 var product = dgv_product.Rows[e.RowIndex].DataBoundItem as ProductModel;
-                if (MessageBox.Show($"Delete product {product.product_name}?", "Confirm Delete", MessageBoxButtons.YesNo) == DialogResult.Yes)
+                if (MessageBox.Show($"Delete Product {product.product_name}?", "Confirm Delete", MessageBoxButtons.YesNo) == DialogResult.Yes)
                 {
                     var repo = new ProductRepository();
                     var controller = new ProductController(repo);
 
-                    Audit.AuditLog(DateTime.Now, "Delete", UserSession.CurrentUser.first_Name, "Manage Products", $"Deleted product '{product.product_name}' on {DateTime.Now:yyyy-MM-dd} at {DateTime.Now:HH:mm:ss}");
-                    controller.deleteProduct(product.product_id);
-                    InsertDeletedRecord(product.product_id, "Manage Products", product.product_name, UserSession.CurrentUser.first_Name, DateTime.Today);
-                    await FilterdDeletedRecords();
-                    await RefreshProductAsync();
-                    await RefreshTotalProduct();
+                    
+                        if (controller.deleteProduct(product.product_id))
+                        {
+                            MessageBox.Show("Product Deleted Successfully.", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
+
+                            Audit.AuditLog(DateTime.Now, "Delete", UserSession.CurrentUser.first_Name, "Manage Products", $"Deleted product '{product.product_name}' on {DateTime.Now:yyyy-MM-dd} at {DateTime.Now:HH:mm:ss}");
+                       
+                            InsertDeletedRecord(product.product_id, null, "Manage Products", product.product_name, UserSession.CurrentUser.first_Name, DateTime.Today);
+
+                        }
+                        else
+                        {
+                            MessageBox.Show("Failed to Delete Product.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        }
+
+
+
+
+                        await FilterdDeletedRecords();
+                        await RefreshProductAsync();
+                        await RefreshTotalProduct();
+                    
+
                 }
+              
             }
         }
 
@@ -1206,12 +1273,10 @@ namespace Salon.View
             col_retail_product_type.DataPropertyName = "product_type";
             col_retail_product_brand.DataPropertyName = "brand";
             col_retail_product_category_id.DataPropertyName = "category_id";
-            col_retail_product_category.DataPropertyName = "categoryName";
             col_retail_product_unit_type.DataPropertyName = "unit_type";
-            col_retail_product_size_label.DataPropertyName = "size_label";
-            col_retail_product_content.DataPropertyName = "content";
-            col_retail_product_selling_price.DataPropertyName = "selling_price";
-            col_retail_product_cost_price.DataPropertyName = "cost_price";
+            col_retail_product_created_at.DataPropertyName = "created_at";
+            col_retail_product_updated_at.DataPropertyName = "updated_at";
+
             dgv_retail_product.DataSource = products;
 
 
@@ -1223,7 +1288,7 @@ namespace Salon.View
                 retailForm.ShowDialog();
             }
         }
-        private void dgv_retail_product_CellClick_1(object sender, DataGridViewCellEventArgs e)
+        private async void dgv_retail_product_CellClick_1(object sender, DataGridViewCellEventArgs e)
         {
             if (e.RowIndex < 0) return;
 
@@ -1235,6 +1300,41 @@ namespace Salon.View
                 using (var form = new RetailProductForm(this, product_retail))
                 {
                     form.ShowDialog();
+                }
+            }
+            else if (e.RowIndex >= 0 && dgv_retail_product.Columns[e.ColumnIndex].Name == "col_retail_product_delete")
+            {
+       
+                var product_retail = dgv_retail_product.Rows[e.RowIndex].DataBoundItem as ProductModel;
+
+                if (MessageBox.Show($"Delete Product {product_retail.product_name}?", "Confirm Delete", MessageBoxButtons.YesNo) == DialogResult.Yes)
+                {
+                    var repo = new ProductRepository();
+                    var controller = new ProductController(repo);
+
+
+                    if (controller.deleteProduct(product_retail.product_id))
+                    {
+                        MessageBox.Show("Product Deleted Successfully.", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
+
+                        Audit.AuditLog(DateTime.Now, "Delete", UserSession.CurrentUser.first_Name, "Manage Product Retail", $"Deleted product '{product_retail.product_name}' on {DateTime.Now:yyyy-MM-dd} at {DateTime.Now:HH:mm:ss}");
+
+                        InsertDeletedRecord(product_retail.product_id, null, "Manage Products Retail", product_retail.product_name, UserSession.CurrentUser.first_Name, DateTime.Today);
+
+                    }
+                    else
+                    {
+                        MessageBox.Show("Failed to Delete Product.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    }
+
+
+
+                    LoadRetailProducts();
+                    await FilterdDeletedRecords();
+                   
+             
+
+
                 }
             }
         }
@@ -1336,25 +1436,24 @@ namespace Salon.View
                 {
                     var repo = new ServiceRepository();
                     var controller = new ServiceController(repo);
-
-                    if (controller.IsServiceUsed(service.serviceName_id))
+                    if (controller.deleteService(service.serviceName_id))
                     {
-                        MessageBox.Show(
-                            "This service cannot be deleted because it is still linked to one or more appointment.",
-                            "Delete Blocked",
-                            MessageBoxButtons.OK,
-                            MessageBoxIcon.Warning
-                        );
-                        return;
+                        MessageBox.Show("Service Deleted Successfully.", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
+
+
+                        Audit.AuditLog(DateTime.Now, "Delete", UserSession.CurrentUser.first_Name, "Manage Services", $"Deleted service '{service.serviceName}' on {DateTime.Now:yyyy-MM-dd} at {DateTime.Now:HH:mm:ss}");
+
+                        InsertDeletedRecord(service.serviceName_id, null, "Manage Services", service.serviceName, UserSession.CurrentUser.first_Name, DateTime.Today);
+
                     }
                     else
                     {
-                        Audit.AuditLog(DateTime.Now, "Delete", UserSession.CurrentUser.first_Name, "Manage Services", $"Deleted service '{service.serviceName}' on {DateTime.Now:yyyy-MM-dd} at {DateTime.Now:HH:mm:ss}");
-                        controller.deleteService(service.serviceName_id);
-                        InsertDeletedRecord(service.serviceName_id, "Manage Services", service.serviceName, UserSession.CurrentUser.first_Name, DateTime.Today);
-                        await FilterdDeletedRecords();
-                        await RefreshServicesAsync();
+                        MessageBox.Show("Failed to Delete Service.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                     }
+
+                    await FilterdDeletedRecords();
+                    await RefreshServicesAsync();
+                   
 
                 }
             }
@@ -1574,7 +1673,7 @@ namespace Salon.View
                        $"Deleted discount '{discountModel.discount_type}' with rate ({discountModel.discount_rate}%) on {DateTime.Now:yyyy-MM-dd} at {DateTime.Now:HH:mm:ss}"
                    );
                     controller.DeleteDiscount(discountModel.discount_id);
-                    InsertDeletedRecord(discountModel.discount_id, "Vat/Discount", discountModel.discount_type + " " + discountModel.promo_code, UserSession.CurrentUser.first_Name, DateTime.Today);
+                    InsertDeletedRecord(discountModel.discount_id, null, "Vat/Discount", discountModel.discount_type + " " + discountModel.promo_code, UserSession.CurrentUser.first_Name, DateTime.Today);
                     await FilterdDeletedRecords();
                     await RefreshDiscountAsync();
 
@@ -1695,16 +1794,30 @@ namespace Salon.View
             else if (e.RowIndex >= 0 && dgv_supplier.Columns[e.ColumnIndex].Name == "col_supplier_delete")
             {
                 var supplier = dgv_supplier.Rows[e.RowIndex].DataBoundItem as SupplierModel;
-                if (MessageBox.Show($"Delete product {supplier.supplier_name}?", "Confirm Delete", MessageBoxButtons.YesNo) == DialogResult.Yes)
+                if (MessageBox.Show($"Delete Supplier {supplier.supplier_name}?", "Confirm Delete", MessageBoxButtons.YesNo) == DialogResult.Yes)
                 {
                     var repo = new SupplierRepository();
                     var controller = new SupplierController(repo);
 
-                    Audit.AuditLog(DateTime.Now, "Delete", UserSession.CurrentUser.first_Name, "Manage Supplier", $"Deleted supplier '{supplier.supplier_name}' on {DateTime.Now:yyyy-MM-dd} at {DateTime.Now:HH:mm:ss}");
-                    controller.DeleteSupplier(supplier.supplier_id);
-                    InsertDeletedRecord(supplier.supplier_id, "Manage Supplier", supplier.supplier_name, UserSession.CurrentUser.first_Name, DateTime.Today);
+                    if (controller.DeleteSupplier(supplier.supplier_id))
+                    {
+                        MessageBox.Show("Supplier Deleted Successfully.", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
+
+
+                        Audit.AuditLog(DateTime.Now, "Delete", UserSession.CurrentUser.first_Name, "Manage Supplier", $"Deleted supplier '{supplier.supplier_name}' on {DateTime.Now:yyyy-MM-dd} at {DateTime.Now:HH:mm:ss}");
+
+                        InsertDeletedRecord(supplier.supplier_id, null, "Manage Supplier", supplier.supplier_name, UserSession.CurrentUser.first_Name, DateTime.Today);
+
+                    }
+                    else
+                    {
+                        MessageBox.Show("Failed to Delete Supplier.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    }
+
+
                     await FilterdDeletedRecords();
                     await RefreshSupplierAsync();
+
                 }
             }
         }
@@ -4152,7 +4265,7 @@ namespace Salon.View
 
         // DELETED RECORDS
 
-        public void InsertDeletedRecord(int record_id, string module, string name, string deleted_by, DateTime deleted_on)
+        public void InsertDeletedRecord(int record_id, int? sub_id, string module, string name, string deleted_by, DateTime deleted_on)
         {
             var repo = new DeletedRecordRepository();
             var controller = new DeletedRecordController(repo);
@@ -4160,6 +4273,7 @@ namespace Salon.View
             var model = new DeletedRecord
             {
                 record_id = record_id,
+                sub_id = sub_id ?? 0,
                 module = module,
                 name = name,
                 deleted_by = deleted_by,
@@ -4243,6 +4357,7 @@ namespace Salon.View
 
                 col_deleted_id.DataPropertyName = "deleted_id";
                 col_deleted_record_id.DataPropertyName = "record_id";
+                col_deleted_sub_id.DataPropertyName = "sub_id";
                 col_deleted_module.DataPropertyName = "module";
                 col_deleted_name.DataPropertyName = "name";
                 col_deleted_by.DataPropertyName = "deleted_by";
@@ -4298,11 +4413,38 @@ namespace Salon.View
             controller.restoreCategory(id);
         }
 
-        public void DeleteCategoryRecord(int id)
+        public void DeleteCategoryRecord(int id, string name)
         {
             var repo = new CategoryRepository();
             var controller = new CategoryController(repo);
             controller.PermanentDeleteCategory(id);
+
+
+
+            if (controller.IsCategoryBeingUsed(id))
+            {
+                MessageBox.Show("Cannot delete category because they are associated with existing sub-categories.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
+            if (MessageBox.Show($"Delete category {name}?", "Confirm Delete", MessageBoxButtons.YesNo) == DialogResult.Yes)
+            {
+
+
+                if (controller.PermanentDeleteCategory(id))
+                {
+                    DeleteDeletedRecord(id);
+
+                    MessageBox.Show("Category Deleted Successfully.", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
+
+
+
+                }
+                else
+                {
+                    MessageBox.Show("Failed to Delete Stylist.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+
+                }
+            }
         }
 
 
@@ -4314,11 +4456,36 @@ namespace Salon.View
             controller.restoreStylist(id);
         }
 
-        public void DeleteStylistRecord(int id)
+        public void DeleteStylistRecord(int id, string name)
         {
             var repo = new StylistRepository();
             var controller = new StylistController(repo);
-            controller.PermanentDeleteStylist(id);
+
+            if (controller.CheckIsStylistIsUsed(id))
+            {
+                MessageBox.Show("Cannot delete stylist because they are associated with existing appointments.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
+            if (MessageBox.Show($"Delete stylist {name}?", "Confirm Delete", MessageBoxButtons.YesNo) == DialogResult.Yes)
+                {
+
+
+                    if (controller.PermanentDeleteStylist(id))
+                    {
+                    DeleteDeletedRecord(id);
+
+                    MessageBox.Show("Stylist Deleted Successfully.", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
+
+                     
+
+                }
+                    else
+                    {
+                        MessageBox.Show("Failed to Delete Stylist.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+
+                    }
+                }
+         
         }
 
         // CUSTOMER RECORD
@@ -4327,13 +4494,39 @@ namespace Salon.View
             var repo = new CustomerRepository();
             var controller = new CustomerController(repo);
             controller.RestoreCustomer(id);
+
+          
+
         }
 
-        public void DeleteCustomerRecord(int id)
+        public void DeleteCustomerRecord(int id, string name)
         {
             var repo = new CustomerRepository();
             var controller = new CustomerController(repo);
-            controller.PermanentDeleteCustomer(id);
+          
+
+
+            if (controller.CheckIsCustomerUsed(id))
+            {
+                MessageBox.Show("Cannot delete customer because they are associated with existing appointments.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
+            if (MessageBox.Show($"Delete Customer {name}?", "Confirm Delete", MessageBoxButtons.YesNo) == DialogResult.Yes)
+            {
+
+
+                if (controller.PermanentDeleteCustomer(id))
+                {
+                    DeleteDeletedRecord(id);
+                    MessageBox.Show("Customer Deleted Successfully.", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
+
+                }
+                else
+                {
+                    MessageBox.Show("Failed to Delete customer.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+
+                }
+            }
         }
 
 
@@ -4345,11 +4538,35 @@ namespace Salon.View
             controller.RestoreSupplier(id);
 
         }
-        public void DeleteSupplierRecord(int id)
+        public void DeleteSupplierRecord(int id, string name)
         {
             var repo = new SupplierRepository();
             var controller = new SupplierController(repo);
-            controller.PermanentDeleteSupplier(id);
+   
+
+
+            if (controller.CheckIsSupplierIsUsed(id))
+            {
+                MessageBox.Show("Cannot delete supplier because they are associated with existing delivery.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
+
+            if (MessageBox.Show($"Delete Supplier {name}?", "Confirm Delete", MessageBoxButtons.YesNo) == DialogResult.Yes)
+            {
+
+
+                if (controller.PermanentDeleteSupplier(id))
+                {
+                    DeleteDeletedRecord(id);
+                    MessageBox.Show("Supplier Deleted Successfully.", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
+
+                }
+                else
+                {
+                    MessageBox.Show("Failed to Delete supplier.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+
+                }
+            }
 
         }
 
@@ -4361,11 +4578,35 @@ namespace Salon.View
             controller.RestoreSubCategory(id);
 
         }
-        public void DeleteSubCategoryRecord(int id)
+        public void DeleteSubCategoryRecord(int id, string name)
         {
             var repo = new SubCategoryRepository();
             var controller = new SubCategoryController(repo);
             controller.PermanentDeleteSubCategory(id);
+
+
+            if (controller.IsSubCategoryUsed(id))
+            {
+                MessageBox.Show("Cannot delete sub-category because they are associated with existing delivery.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
+
+            if (MessageBox.Show($"Delete Sub-Category {name}?", "Confirm Delete", MessageBoxButtons.YesNo) == DialogResult.Yes)
+            {
+
+
+                if (controller.PermanentDeleteSubCategory(id))
+                {
+                    DeleteDeletedRecord(id);
+                    MessageBox.Show("Sub-Category Deleted Successfully.", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
+
+                }
+                else
+                {
+                    MessageBox.Show("Failed to Delete supplier.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+
+                }
+            }
 
         }
 
@@ -4377,13 +4618,136 @@ namespace Salon.View
             controller.RestoreProduct(id);
         }
 
-        public void DeleteProductRecord(int id)
+        public void DeleteProductRecord(int id, string name)
         {
             var repo = new ProductRepository();
             var controller = new ProductController(repo);
             controller.PermanentDeleteProduct(id);
+
+            if (controller.IsProductBeingUsed(id))
+            {
+                MessageBox.Show("This product cannot be deleted because it is still being used to product size or services.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
+
+            if (MessageBox.Show($"Delete Product {name}?", "Confirm Delete", MessageBoxButtons.YesNo) == DialogResult.Yes)
+            {
+
+
+                if (controller.PermanentDeleteProduct(id))
+                {
+                    DeleteDeletedRecord(id);
+                    MessageBox.Show("Product Deleted Successfully.", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
+
+                }
+                else
+                {
+                    MessageBox.Show("Failed to Delete product.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+
+                }
+            }
+        }
+   
+        public void DeleteProductSizeRecord(int id, string name)
+        {
+            var repo = new ProductSizeRepository();
+            var controller = new ProductSizeController(repo);
+         
+
+            if (controller.IsProductSizeIsUsed(id))
+            {
+                MessageBox.Show("This product size cannot be deleted because it is still being used to inventory.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
+
+            if (MessageBox.Show($"Delete Product size {name}?", "Confirm Delete", MessageBoxButtons.YesNo) == DialogResult.Yes)
+            {
+
+
+                if (controller.HardDeleteProductSize(id))
+                {
+                    DeleteDeletedRecord(id);
+                    MessageBox.Show("Product size Deleted Successfully.", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
+
+                }
+                else
+                {
+                    MessageBox.Show("Failed to Delete product.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+
+                }
+            }
+        }
+        // PRODUCT RECORD
+
+        // PRODUCT RETAIL RECORD
+        public void RestoreDeletedProductRetailRecord(int id)
+        {
+            var repo = new ProductRepository();
+            var controller = new ProductController(repo);
+            controller.RestoreProduct(id);
         }
 
+        public void DeleteProductRetailRecord(int id, string name)
+        {
+            var repo = new ProductRepository();
+            var controller = new ProductController(repo);
+    
+
+            if (controller.IsProductRetailBeingUsed(id))
+            {
+                MessageBox.Show("This product cannot be deleted because it is still being used to inventory or delivery.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
+
+            if (MessageBox.Show($"Delete Product {name}?", "Confirm Delete", MessageBoxButtons.YesNo) == DialogResult.Yes)
+            {
+
+
+                if (controller.PermanentDeleteProduct(id))
+                {
+                    DeleteDeletedRecord(id);
+                    MessageBox.Show("Product Deleted Successfully.", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
+
+                }
+                else
+                {
+                    MessageBox.Show("Failed to Delete product.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+
+                }
+            }
+        }
+
+        // END OF PRODUCT RETAIL RECORD
+
+        public void DeleteProductRetailSizeRecord(int id, string name)
+        {
+            var repo = new ProductSizeRepository();
+            var controller = new ProductSizeController(repo);
+
+
+            if (controller.IsProductRetailSizeUsed(id))
+            {
+                MessageBox.Show("This product size cannot be deleted because it is still being used to inventory or delivery.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
+
+            if (MessageBox.Show($"Delete Product size {name}?", "Confirm Delete", MessageBoxButtons.YesNo) == DialogResult.Yes)
+            {
+
+
+                if (controller.HardDeleteProductSize(id))
+                {
+                    DeleteDeletedRecord(id);
+                    MessageBox.Show("Product size Deleted Successfully.", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
+
+                }
+                else
+                {
+                    MessageBox.Show("Failed to Delete product.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+
+                }
+            }
+        }
         // SERVICE RECORD
         public void RestoreDeletedServiceRecord(int id)
         {
@@ -4391,11 +4755,33 @@ namespace Salon.View
             var controller = new ServiceController(repo);
             controller.RestoreServices(id);
         }
-        public void DeleteServiceRecord(int id)
+        public void DeleteServiceRecord(int id, string name)
         {
             var repo = new ServiceRepository();
             var controller = new ServiceController(repo);
-            controller.PermanentDeleteService(id);
+      
+            if (controller.IsServiceUsed(id))
+            {
+                MessageBox.Show("This service cannot be deleted because it is still being used to appointment.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
+
+            if (MessageBox.Show($"Delete Service {name}?", "Confirm Delete", MessageBoxButtons.YesNo) == DialogResult.Yes)
+            {
+
+
+                if (controller.PermanentDeleteService(id))
+                {
+                    DeleteDeletedRecord(id);
+                    MessageBox.Show("Service Deleted Successfully.", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
+
+                }
+                else
+                {
+                    MessageBox.Show("Failed to Delete service.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+
+                }
+            }
         }
 
         // SERVICE PRICE RECORD
@@ -4435,11 +4821,34 @@ namespace Salon.View
             controller.RestoreServiceProduct(id);
         }
 
-        public void DeleteServiceProductUsage(int id)
+        public void DeleteServiceProductUsage(int id, int sub_id, string name)
         {
             var repo = new ServiceProductUsageRepository();
             var controller = new ServiceProductUsageController(repo);
-            controller.PermanentDeleteServiceProductUsage(id);
+         
+
+            if (controller.IsProductUsedInServices(sub_id))
+            {
+                MessageBox.Show("This product cannot be deleted because it is still being used to inventory or delivery.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
+
+            if (MessageBox.Show($"Delete Product {name}?", "Confirm Delete", MessageBoxButtons.YesNo) == DialogResult.Yes)
+            {
+
+
+                if (controller.PermanentDeleteServiceProductUsage(id))
+                {
+                    DeleteDeletedRecord(id);
+                    MessageBox.Show("Product Deleted Successfully.", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
+
+                }
+                else
+                {
+                    MessageBox.Show("Failed to Delete product.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+
+                }
+            }
         }
 
 
@@ -4496,6 +4905,10 @@ namespace Salon.View
                                     RestoreDeletedProductRecord(record.record_id);
                                     await RefreshProductAsync();
                                     break;
+                                case "Manage Products Retail":
+                                    RestoreDeletedProductRetailRecord(record.record_id);
+                                    LoadRetailProducts();
+                                    break;
                                 case "Manage Services":
                                     RestoreDeletedServiceRecord(record.record_id);
                                     await RefreshServicesAsync();
@@ -4536,10 +4949,9 @@ namespace Salon.View
 
                     if (confirm == DialogResult.Yes)
                     {
-                        bool success = DeleteDeletedRecord(record.deleted_id);
 
-                        if (success)
-                        {
+               
+
                             switch (record.module)
                             {
                                 case "Manage User":
@@ -4547,53 +4959,62 @@ namespace Salon.View
                                     await RefreshUsersAsync();
                                     break;
                                 case "Category":
-                                    DeleteCategoryRecord(record.record_id);
+                                    DeleteCategoryRecord(record.record_id, record.name);
                                     await RefreshCategoryAsync();
                                     break;
                                 case "Manage Stylist":
-                                    DeleteStylistRecord(record.record_id);
-                                    await RefreshStylistAsync();
+
+                                    DeleteStylistRecord(record.record_id, record.name);
+                                    
+                                await RefreshStylistAsync();
                                     break;
                                 case "Manage Customer":
-                                    DeleteCustomerRecord(record.record_id);
+                                    DeleteCustomerRecord(record.record_id, record.name);
                                     await RefreshCustomers();
                                     break;
                                 case "Manage Supplier":
-                                    DeleteSupplierRecord(record.record_id);
+                                    DeleteSupplierRecord(record.record_id, record.name);
                                     await RefreshSupplierAsync();
                                     break;
                                 case "Manage Sub-Categories":
-                                    RestoreDeletedSubCategoryRecord(record.record_id);
+                                    DeleteSubCategoryRecord(record.record_id, record.name);
                                     await RefreshSubCategoryAsync();
                                     break;
                                 case "Manage Products":
-                                    DeleteProductRecord(record.record_id);
+                                    DeleteProductRecord(record.record_id, record.name);
                                     await RefreshProductAsync();
                                     break;
+                                case "Manage Products Retail":
+                                    DeleteProductRetailRecord(record.record_id, record.name);
+                                    LoadRetailProducts();
+                                    break;
+                                case "Manage Product Size":
+                                    DeleteProductSizeRecord(record.record_id, record.name);
+                                    await RefreshProductAsync();
+                                break;
+                                    case "Manage Product Retail Size":
+                                    DeleteProductRetailSizeRecord(record.record_id, record.name);
+                                    await RefreshProductAsync();                      
+                                    break;
                                 case "Manage Services":
-                                    DeleteServiceRecord(record.record_id);
+                                    DeleteServiceRecord(record.record_id, record.name);
                                     await RefreshServicesAsync();
                                     break;
                                 case "Vat/Discount":
                                     DeleteDiscountRecord(record.record_id);
                                     await RefreshDiscountAsync();
                                     break;
-                                case "Manage Services, Product Usage":
-                                    DeleteServiceProductUsage(record.record_id);
+                                case "Manage Product Consumption":
+                                    DeleteServiceProductUsage(record.record_id, record.sub_id, record.name);
                                     break;
 
 
 
                             }
 
-                            MessageBox.Show("Record restored successfully!", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
 
-                            await FilterdDeletedRecords();
-                        }
-                        else
-                        {
-                            MessageBox.Show("Restore failed. Please check logs.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                        }
+
+                        await FilterdDeletedRecords();
                     }
                 }
             }
@@ -5598,13 +6019,14 @@ namespace Salon.View
                 var transactionId = controller.GetTransactionId(product.product_id);
                 if (transactionId.transaction_id > 0)
                 {
-                    controller.UpdateProductTransaction(transactionId.transaction_id, product.product_size_id, product.quantity.Value);
+                    controller.DeductProductStockOut(product.product_id, product.product_size_id, product.quantity.Value);
+        
 
 
                 }
 
 
-                //inventory_controller.DeductInventory(product.product_id, product.product_size_id, product.quantity.Value, product.content);
+               
             }
 
 

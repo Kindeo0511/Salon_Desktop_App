@@ -89,9 +89,7 @@ namespace Salon.View
                 invoice_id = GetInvoiceId(this.model.AppointmentId);
 
                 LoadServices(invoice_id);
-                
-                lbl_Subtotal.Text = CalculateSubTotal().ToString("N2");
-                _subtotal =  lbl_Subtotal.Text != "" ? Convert.ToDecimal(lbl_Subtotal.Text) : 0m;
+
             }
             LoadVat();
           
@@ -140,11 +138,11 @@ namespace Salon.View
                 {
                     int qty = item.Quantity;
                     var transactionId = controller.GetTransactionId(item.ProductId.Value);
-
+                   
                     if (transactionId.transaction_id > 0)
                     {
-
-                        controller.UpdateProductTransaction(transactionId.transaction_id, item.ProductSizeId, qty);
+                       controller.DeductProductStockOut(item.ProductId.Value, item.ProductSizeId ?? 0, qty);
+                      
 
                     }
                     else
@@ -188,13 +186,38 @@ namespace Salon.View
             col_product_price.DataPropertyName = "Price";
             col_product_total.DataPropertyName = "TotalPrice";
             dgv_product.DataSource = productItems;
-          
+
+
+            if (productItems.Count == 0)
+            {
+                flowLayoutPanel1.Height = 620;
+                dgv_product.Height = 0;
+               
+                product_panel.Height = 0;
+            }
+            else
+            {
+
+            
+                dgv_product.Visible = true;
+                product_panel.Visible = true;
+                dgv_product.Height = 250;
+                product_panel.Height = 250;
+            }
+
+
+                summaryItem.Clear();
+            foreach (var item in services) 
+            {
+                summaryItem.Add(item);
+            }
 
 
 
-           
+            lbl_Subtotal.Text = CalculateSubTotal().ToString("N2");
+            _subtotal = lbl_Subtotal.Text != "" ? Convert.ToDecimal(lbl_Subtotal.Text) : 0m;
 
-
+            calculate();
         }
 
         private decimal LoadVat()
@@ -224,7 +247,7 @@ namespace Salon.View
             return invoice_id;
 
         }
-        private decimal CalculateSubTotal() 
+        public decimal CalculateSubTotal() 
         {
             decimal subtotal = 0m;
             foreach (var item  in summaryItem)
@@ -628,7 +651,7 @@ namespace Salon.View
 
             controller.UpdateInvoice(invoice);
             //AddTransactions(model.AppointmentId, _vatAmount, _discountAmount, _subtotal, totalAmount, cb_PaymentMethod.SelectedItem.ToString(), "Paid", DateTime.Now);
-            appointment.UpdateAppointmentPayment(model.AppointmentId, "Paid", "Completed");
+            //appointment.UpdateAppointmentPayment(model.AppointmentId, "Paid", "Completed");
             UpdateCustomerLoyaltyPoints();
             UpdateMemberPoints();
 
@@ -1162,6 +1185,11 @@ namespace Salon.View
                     LoadServices(product.InvoiceId);
                 }
             }
+        }
+
+        private void materialExpansionPanel1_Paint(object sender, PaintEventArgs e)
+        {
+
         }
 
 

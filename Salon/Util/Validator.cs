@@ -537,14 +537,14 @@ namespace Salon.Util
         // END OF SUBCATEGORY
 
         // PRODUCT VALIDATION
-        public static bool IsProductExists(Control control, ErrorProvider ep, string message, int category_id, int id)
+        public static bool IsProductExists(Control control, ErrorProvider ep, string message, int id)
         {
             if (string.IsNullOrWhiteSpace(control.Text))
                 return false;
 
             var repo = new ProductRepository();
             var controller = new ProductController(repo);
-            if (controller.CheckProductExists(control.Text, category_id, id))
+            if (controller.CheckProductExists(control.Text, id))
             {
                 ep.SetError(control, message);
                 return false;

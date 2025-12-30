@@ -11,11 +11,11 @@ namespace Salon.Repository
     {
         IEnumerable<SubCategoryModel> GetAllSubCategories();
         Task<IEnumerable<SubCategoryModel>> GetAllSubCategoryAsync();
-        void AddSubCategory(SubCategoryModel subCategory);
-        void UpdateSubCategory(SubCategoryModel subCategory);
-        void DeleteSubCategory(int subCategoryId);
-        void RestoreDeletedSubCategories(int id);
-        void PermanentDelete(int id);
+        int AddSubCategory(SubCategoryModel subCategory);
+        int UpdateSubCategory(SubCategoryModel subCategory);
+        int DeleteSubCategory(int subCategoryId);
+        int RestoreDeletedSubCategories(int id);
+        int PermanentDelete(int id);
         bool SubCategoryIsUsed(int subCategoryId);
         bool SubCategoriesExist(string name, int category_id, int id = 0);
     }

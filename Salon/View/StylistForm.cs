@@ -1,4 +1,8 @@
-﻿using Salon.Util;
+﻿using MaterialSkin.Controls;
+using Salon.Controller;
+using Salon.Models;
+using Salon.Repository;
+using Salon.Util;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -8,9 +12,6 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-using MaterialSkin.Controls;
-using Salon.Repository;
-using Salon.Models;
 
 namespace Salon.View
 {
@@ -18,10 +19,13 @@ namespace Salon.View
     {
         private readonly MainForm _mainForm;
         private StylistModel _stylist;
+        private bool _isSaving = false;
+        private bool _isUpdating = false;
         public StylistForm(MainForm mainForm)
         {
             InitializeComponent();
             ThemeManager.ApplyTheme(this);
+            _isSaving = true;
             _mainForm = mainForm;
             dtp_day_of_birth.MaxDate = DateTime.Today;
             dtp_day_of_birth.MinDate = new DateTime(1900, 1, 1);
@@ -30,6 +34,7 @@ namespace Salon.View
         {
             InitializeComponent();
             ThemeManager.ApplyTheme(this);
+            _isUpdating = true;
             _mainForm = mainForm;
             _stylist = stylist;
             dtp_day_of_birth.MaxDate = DateTime.Today;
@@ -57,7 +62,7 @@ namespace Salon.View
             }
         }
 
-        private void SaveStylist() 
+        private bool SaveStylist() 
         {
             var repo = new StylistRepository();
             var stylistController = new Controller.StylistController(repo);
@@ -74,13 +79,14 @@ namespace Salon.View
                 
                 };
 
-            stylistController.Add(stylist);
+           return stylistController.Add(stylist);
         }
 
-        private void UpdateStylist()
+        private bool UpdateStylist()
         {
-            if (_stylist != null) 
-            {
+            if (_stylist == null) return false;
+
+            
             _stylist.firstName = txt_first_name.Text;
             _stylist.middleName = txt_middle_name.Text;
             _stylist.lastName = txt_last_name.Text;
@@ -92,27 +98,98 @@ namespace Salon.View
 
             var repo = new StylistRepository();
             var stylistController = new Controller.StylistController(repo);
-            stylistController.Update(_stylist);
-            }
+
+            return stylistController.Update(_stylist);
+            
             
         }
+        private void IsAccountExists()
+        {
+            var _repo = new StylistRepository();
+            var userController = new StylistController(_repo);
+            var existingUser = userController.GetEmail(txt_email.Text.Trim());
 
+            if (existingUser != null)
+            {
+
+                if (existingUser.is_deleted == 1)
+                {
+                    var result = MessageBox.Show("This Stylist exists but is deleted. Do you want to restore it?",
+                                   "Restore Account",
+                                MessageBoxButtons.YesNo,
+                                MessageBoxIcon.Question);
+                    if (result == DialogResult.Yes)
+                    {
+
+                      
+
+                        if (userController.restoreStylist(existingUser.stylist_id))
+                        {
+                            _mainForm.DeleteDeletedRecord(existingUser.stylist_id);
+                            MessageBox.Show("Stylist restored successfully!", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                            this.Close();
+                        }
+
+
+
+                    }
+                }
+            }
+
+            else
+            {
+                if (_isSaving)
+                {
+                    
+
+                    if (SaveStylist())
+                    {
+                        MessageBox.Show("Stylist added successfully!", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                        this.Close();
+
+                    }
+                    else
+                    {
+                        MessageBox.Show("Failed to add Please check the input and try again.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    }
+                }
+                else if (_isUpdating)
+                {
+                    if (UpdateStylist())
+                    {
+                        MessageBox.Show("Stylist updated successfully!", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                        var fullName = txt_first_name.Text + " " + txt_last_name.Text;
+                        Audit.AuditLog(DateTime.Now, "Create", UserSession.CurrentUser.first_Name, "Manage Stylist", $"Created stylist {fullName} on {DateTime.Now:yyyy-MM-dd} at {DateTime.Now:HH:mm:ss}");
+                   
+                        this.Close();
+                    }
+                    else
+                    {
+                        MessageBox.Show("Failed to update Please check the input and try again.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    }
+
+
+
+                }
+
+            }
+
+        }
         private async  void btn_save_Click(object sender, EventArgs e)
         {
 
 
             // Run validation on UI thread
             if (!IsValid()) return;
-        
 
-            MessageBox.Show("Stylist added successfully", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            IsAccountExists();
 
-            SaveStylist();
-            var fullName = txt_first_name.Text + " " + txt_last_name.Text;
-            Audit.AuditLog(DateTime.Now, "Create", UserSession.CurrentUser.first_Name, "Manage Stylist", $"Created stylist {fullName} on {DateTime.Now:yyyy-MM-dd} at {DateTime.Now:HH:mm:ss}");
+
+
             await _mainForm.RefreshStylistAsync();
-      
-            this.Close();
+
+
+
         }
 
         private async void btn_update_Click(object sender, EventArgs e)
@@ -120,15 +197,16 @@ namespace Salon.View
 
 
             if (!IsValid()) return;
-         
 
-            MessageBox.Show("Stylist updated successfully", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
 
-            UpdateStylist();
+            IsAccountExists();
+
+
+
             var fullName = txt_first_name.Text + " " + txt_last_name.Text;
             Audit.AuditLog(DateTime.Now, "Update", UserSession.CurrentUser.first_Name, "Manage Stylist", $"Updated stylist {fullName} on {DateTime.Now:yyyy-MM-dd} at {DateTime.Now:HH:mm:ss}");
             await _mainForm.RefreshStylistAsync();
-            this.Close();
+    
         }
 
         private bool IsValid()

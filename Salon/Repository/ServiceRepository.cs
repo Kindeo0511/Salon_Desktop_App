@@ -92,28 +92,29 @@ tbl_subcategory.subCategoryName,tbl_servicesname.duration, tbl_servicesname.stat
                 return result.FirstOrDefault();
             }
         }
-        public void addService(ServiceModel service)
+        public int addService(ServiceModel service)
         {
            using (var con = Database.GetConnection())
             {
-                var sql = "INSERT INTO tbl_servicesname (subCategory_id, serviceName, servicePrice, duration, status) VALUES (@subCategory_id, @serviceName, @servicePrice, @duration, @status)";
-                con.Execute(sql, service);
+                var sql = @"INSERT INTO tbl_servicesname (subCategory_id, serviceName, servicePrice, duration, status) VALUES (@subCategory_id, @serviceName, @servicePrice, @duration, @status);
+                            SELECT LAST_INSERT_ID();";
+               return con.Execute(sql, service);
             }
         }
-        public void updateService(ServiceModel service)
+        public int updateService(ServiceModel service)
         {
             using (var con = Database.GetConnection())
             {
                 var sql = "UPDATE tbl_servicesname SET subCategory_id = @subCategory_id, serviceName = @serviceName, servicePrice =@servicePrice, duration = @duration, status = @status WHERE serviceName_id = @serviceName_id";
-                con.Execute(sql, service);
+                return con.Execute(sql, service);
             }
         }
-        public void deleteService(int id)
+        public int deleteService(int id)
         {
            using (var con = Database.GetConnection())
             {
                 var sql = "UPDATE tbl_servicesname SET is_deleted = 1 WHERE serviceName_id = @id";
-                con.Execute(sql, new { id });
+                return con.Execute(sql, new { id });
             
             }
         }
@@ -121,35 +122,43 @@ tbl_subcategory.subCategoryName,tbl_servicesname.duration, tbl_servicesname.stat
         {
             using (var con = Database.GetConnection()) 
             {
-                var sql = "SELECT COUNT(*) FROM tbl_appointment WHERE serviceName_id = @id";
+                var sql = "SELECT COUNT(*) FROM tbl_invoice_service_cart WHERE service_id = @id";
                 return con.ExecuteScalar<int>(sql, new { id }) > 0;
             }
         }
 
-        public void RestoreService(int id)
+        public int RestoreService(int id)
         {
             using (var con = Database.GetConnection())
             {
                 var sql = "UPDATE tbl_servicesname SET is_deleted = 0 WHERE serviceName_id = @id";
-                con.Execute(sql, new { id });
+                return con.Execute(sql, new { id });
             }
         }
 
-        public void PermanentDelete(int id) 
+        public int PermanentDelete(int id) 
         {
             using (var con = Database.GetConnection())
             {
                 var sql = "DELETE FROM tbl_servicesname WHERE serviceName_id = @id";
-                con.Execute(sql, new { id });
+               return con.Execute(sql, new { id });
             }
         }
         public bool ServiceExists(string name, int s_cat_id, int id = 0) 
         {
             using (var con = Database.GetConnection()) 
             {
-                var sql = "SELECT COUNT(*) FROM tbl_servicesname WHERE serviceName = @name AND subCategory_id = @s_cat_id AND serviceName_id != @id";
+                var sql = "SELECT COUNT(*) FROM tbl_servicesname WHERE serviceName = @name AND subCategory_id = @s_cat_id AND serviceName_id != @id AND is_deleted = 0";
 
                 return con.ExecuteScalar<int>(sql, new { name, s_cat_id, id }) > 0;
+            }
+        }
+        public ServiceModel GetServiceAndCategory(string name, int subcat_id) 
+        {
+            using (var con = Database.GetConnection()) 
+            {
+                var sql = @"SELECT * FROM tbL_servicesname WHERE serviceName = @name AND subCategory_id = @subcat_id";
+                return con.QueryFirstOrDefault<ServiceModel>(sql, new { name, subcat_id });
             }
         }
     }

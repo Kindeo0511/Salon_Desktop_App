@@ -48,6 +48,15 @@ namespace Salon.Controller
             return await repo.GetTotalProductAsync();
         }
 
+        public ProductModel GetProductIngredient(string name, string brand, string unit_type) 
+        {
+            return repo.GetProductIngredient(name, brand, unit_type);
+        }
+        public ProductModel GetProductRetail(string name, string brand, string unit_type)
+        {
+            return repo.GetProductRetail(name, brand, unit_type);
+        }
+
         public IEnumerable<ProductModel> GetProductToOrder() 
         {
             return repo.GetAllProductToOrder();
@@ -56,26 +65,35 @@ namespace Salon.Controller
         {
            return repo.AddProduct(product);
         }
-        public void updateProduct(ProductModel product)
+        public bool updateProduct(ProductModel product)
         {
-            repo.UpdateProduct(product);
+            return repo.UpdateProduct(product) > 0;
         }
-        public void deleteProduct(int productId)
+        public bool deleteProduct(int productId)
         {
-            repo.DeleteProduct(productId);
+           return repo.DeleteProduct(productId) > 0;
         }
-        public void RestoreProduct(int productId)
+        public bool RestoreProduct(int productId)
         {
-            repo.RestoreProduct(productId);
+           return repo.RestoreProduct(productId) > 0;
         }
 
-        public void PermanentDeleteProduct(int id) 
+        public bool PermanentDeleteProduct(int id) 
         {
-            repo.PermanentDelete(id);
+           return repo.PermanentDelete(id) > 0;
         }
-        public bool CheckProductExists(string name, int cat_id, int id = 0) 
+        public bool CheckProductExists(string name, int id = 0) 
         {
-            return repo.ProductExists(name, cat_id, id);
+            return repo.ProductExists(name, id);
+        }
+
+        public bool IsProductBeingUsed(int id) 
+        {
+            return repo.ProductIsUsed(id);
+        }
+        public bool IsProductRetailBeingUsed(int id) 
+        {
+            return repo.ProductRetailIsUsed(id);
         }
     }
 }

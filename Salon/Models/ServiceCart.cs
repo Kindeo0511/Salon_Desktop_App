@@ -14,7 +14,7 @@ namespace Salon.Models
         public string ItemType { get; set; } // "Product" or "Service"
         public string Size { get; set; }
         public int? ProductId { get; set; }
-        public int ProductSizeId { get; set; }
+        public int? ProductSizeId { get; set; }
         public int? ServiceId { get; set; }
         public string ItemName { get; set; }
         public int Duration { get; set; } // in minutes

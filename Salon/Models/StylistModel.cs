@@ -28,7 +28,7 @@ namespace Salon.Models
 
         public string FullName => $"{firstName} {lastName}";
 
-
+        public int is_deleted { get; set; }
         public decimal stylist_cost { get; set; }
 
 

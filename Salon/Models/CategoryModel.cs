@@ -11,7 +11,7 @@ namespace Salon.Models
         public int category_id { get; set; }
         public string categoryName { get; set; }
         public string type { get; set; }
-        public bool is_deleted { get; set; }
+        public int is_deleted { get; set; }
 
 
 

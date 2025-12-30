@@ -20,11 +20,14 @@ namespace Salon.View
     {
         private MainForm mainform;
         private SubCategoryModel subCategoryModel;
+        private bool _isSaving = false;
+        private bool _isUpdating = false;
         public SubCategoryForm(MainForm mainform)
         {
             InitializeComponent();
             ThemeManager.ApplyTheme(this);
             this.mainform = mainform;
+            _isSaving = true;
             LoadCategory();
    
         }
@@ -33,6 +36,7 @@ namespace Salon.View
         {
             InitializeComponent();
             ThemeManager.ApplyTheme(this);
+            _isUpdating = true;
             this.mainform = mainform;
             this.subCategoryModel = subCategoryModel;
             LoadCategory();
@@ -87,7 +91,7 @@ namespace Salon.View
 
         }
 
-        private void AddSubCategory() 
+        private bool AddSubCategory() 
         {
             var repo = new SubCategoryRepository();
             var controller = new SubCategoryController(repo);
@@ -96,11 +100,11 @@ namespace Salon.View
                 category_id = (int)cmb_category.SelectedValue,
                 subCategoryName = txt_subcategory_name.Text.Trim()
             };
-            controller.addSubCategory(subCategory);
-            MessageBox.Show("Sub-Category added successfully!", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            return controller.addSubCategory(subCategory);
+           
             
         }
-        private void UpdateSubCategory() 
+        private bool UpdateSubCategory() 
         {
             var repo = new SubCategoryRepository();
             var controller = new SubCategoryController(repo);
@@ -108,34 +112,103 @@ namespace Salon.View
             subCategoryModel.category_id = (int)cmb_category.SelectedValue;
             subCategoryModel.subCategoryName = txt_subcategory_name.Text.Trim();
 
-            controller.updateSubCategory(subCategoryModel);
-            MessageBox.Show("Sub-Category updated successfully!", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            return controller.updateSubCategory(subCategoryModel);
+
             
+        }
+        private void IsAccountExists()
+        {
+            var repo = new SubCategoryRepository();
+            var controller = new SubCategoryController(repo);
+            var existingSubCategory = controller.GetSubCategory(txt_subcategory_name.Text.Trim(),Convert.ToInt32(cmb_category.SelectedValue));
+
+            if (existingSubCategory != null)
+            {
+
+                if (existingSubCategory.is_deleted == 1)
+                {
+                    var result = MessageBox.Show("This Sub-Category exists but is deleted. Do you want to restore it?",
+                                   "Restore Account",
+                                MessageBoxButtons.YesNo,
+                                MessageBoxIcon.Question);
+                    if (result == DialogResult.Yes)
+                    {
+
+
+
+                        if (controller.RestoreSubCategory(existingSubCategory.subCategory_id))
+                        {
+                            mainform.DeleteDeletedRecord(existingSubCategory.subCategory_id);
+                            MessageBox.Show("Sub-Category restored successfully!", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                            this.Close();
+                        }
+
+
+
+                    }
+                }
+            }
+
+            else
+            {
+                if (_isSaving)
+                {
+
+
+                    if (AddSubCategory())
+                    {
+                        MessageBox.Show("Category added successfully!", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                        var subCategory = txt_subcategory_name.Text;
+                        var category = cmb_category.Text;
+                        Audit.AuditLog(DateTime.Now, "Create", UserSession.CurrentUser.first_Name, "Manage Sub-Categories", $"Created sub-category '{subCategory}' for ({subCategory}) on {DateTime.Now:yyyy-MM-dd} at {DateTime.Now:HH:mm:ss}");
+                        this.Close();
+                    }
+                    else
+                    {
+                        MessageBox.Show("Failed to add Please check the input and try again.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    }
+                }
+                else if (_isUpdating)
+                {
+                    if (UpdateSubCategory())
+                    {
+                        MessageBox.Show("Category updated successfully!", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
+
+                        var subCategory = txt_subcategory_name.Text;
+                        var category = cmb_category.Text;
+                        Audit.AuditLog(DateTime.Now, "Update", UserSession.CurrentUser.first_Name, "Manage Sub-Categories", $"Updated sub-category '{subCategory}' for ({subCategory}) on {DateTime.Now:yyyy-MM-dd} at {DateTime.Now:HH:mm:ss}");
+                        this.Close();
+                    }
+                    else
+                    {
+                        MessageBox.Show("Failed to update Please check the input and try again.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    }
+
+
+
+                }
+
+            }
+
         }
 
         private async  void btn_save_Click(object sender, EventArgs e)
         {
             if (!Validated()) return;
-            AddSubCategory();
-            var subCategory = txt_subcategory_name.Text;
-            var category = cmb_category.Text;
-            Audit.AuditLog(DateTime.Now, "Create", UserSession.CurrentUser.first_Name, "Manage Sub-Categories", $"Created sub-category '{subCategory}' for ({subCategory}) on {DateTime.Now:yyyy-MM-dd} at {DateTime.Now:HH:mm:ss}");
 
+            IsAccountExists();
             await mainform.RefreshSubCategoryAsync();
-            this.Close();
+        
         }
 
         private async void btn_update_Click(object sender, EventArgs e)
         {
             if (!Validated()) return;
-            UpdateSubCategory();
 
-            var subCategory = txt_subcategory_name.Text;
-            var category = cmb_category.Text;
-            Audit.AuditLog(DateTime.Now, "Update", UserSession.CurrentUser.first_Name, "Manage Sub-Categories", $"Updated sub-category '{subCategory}' for ({subCategory}) on {DateTime.Now:yyyy-MM-dd} at {DateTime.Now:HH:mm:ss}");
+            IsAccountExists();
 
             await mainform.RefreshSubCategoryAsync();
-            this.Close();
+        
         }
 
         private void btn_cancel_Click(object sender, EventArgs e)

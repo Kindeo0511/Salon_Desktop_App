@@ -34,10 +34,8 @@
             this.btn_save = new MaterialSkin.Controls.MaterialButton();
             this.txt_brand = new MaterialSkin.Controls.MaterialTextBox();
             this.txt_product_name = new MaterialSkin.Controls.MaterialTextBox();
-            this.cmb_category = new MaterialSkin.Controls.MaterialComboBox();
             this.cmb_unit_type = new MaterialSkin.Controls.MaterialComboBox();
             this.materialLabel1 = new MaterialSkin.Controls.MaterialLabel();
-            this.materialLabel3 = new MaterialSkin.Controls.MaterialLabel();
             this.materialLabel4 = new MaterialSkin.Controls.MaterialLabel();
             this.materialLabel6 = new MaterialSkin.Controls.MaterialLabel();
             this.errorProvider1 = new System.Windows.Forms.ErrorProvider(this.components);
@@ -60,7 +58,7 @@
             this.col_product_content = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.col_product_cost_price = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.col_product_size_update = new System.Windows.Forms.DataGridViewButtonColumn();
-            this.col_product_size_delete = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.col_product_size_delete = new System.Windows.Forms.DataGridViewButtonColumn();
             this.txt_size_label = new MaterialSkin.Controls.MaterialTextBox();
             this.materialLabel2 = new MaterialSkin.Controls.MaterialLabel();
             this.materialLabel8 = new MaterialSkin.Controls.MaterialLabel();
@@ -82,7 +80,7 @@
             this.btn_update.DrawShadows = false;
             this.btn_update.HighEmphasis = true;
             this.btn_update.Icon = null;
-            this.btn_update.Location = new System.Drawing.Point(559, 370);
+            this.btn_update.Location = new System.Drawing.Point(559, 387);
             this.btn_update.Margin = new System.Windows.Forms.Padding(4, 6, 4, 6);
             this.btn_update.MouseState = MaterialSkin.MouseState.HOVER;
             this.btn_update.Name = "btn_update";
@@ -146,7 +144,7 @@
             this.txt_brand.Font = new System.Drawing.Font("Roboto", 16F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
             this.txt_brand.Hint = "Enter Brand";
             this.txt_brand.LeadingIcon = null;
-            this.txt_brand.Location = new System.Drawing.Point(231, 205);
+            this.txt_brand.Location = new System.Drawing.Point(231, 172);
             this.txt_brand.Margin = new System.Windows.Forms.Padding(25, 10, 25, 25);
             this.txt_brand.MaxLength = 50;
             this.txt_brand.MouseState = MaterialSkin.MouseState.OUT;
@@ -177,30 +175,6 @@
             this.txt_product_name.Text = "";
             this.txt_product_name.TrailingIcon = null;
             this.txt_product_name.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txt_product_name_KeyPress);
-            // 
-            // cmb_category
-            // 
-            this.cmb_category.AutoResize = false;
-            this.cmb_category.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
-            this.cmb_category.Depth = 0;
-            this.cmb_category.DrawMode = System.Windows.Forms.DrawMode.OwnerDrawVariable;
-            this.cmb_category.DropDownHeight = 174;
-            this.cmb_category.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.cmb_category.DropDownWidth = 121;
-            this.cmb_category.Font = new System.Drawing.Font("Microsoft Sans Serif", 14F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Pixel);
-            this.cmb_category.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(222)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
-            this.cmb_category.FormattingEnabled = true;
-            this.cmb_category.Hint = "Select Category";
-            this.cmb_category.IntegralHeight = false;
-            this.cmb_category.ItemHeight = 43;
-            this.cmb_category.Location = new System.Drawing.Point(231, 121);
-            this.cmb_category.Margin = new System.Windows.Forms.Padding(25, 10, 25, 25);
-            this.cmb_category.MaxDropDownItems = 4;
-            this.cmb_category.MouseState = MaterialSkin.MouseState.OUT;
-            this.cmb_category.Name = "cmb_category";
-            this.cmb_category.Size = new System.Drawing.Size(500, 49);
-            this.cmb_category.StartIndex = 0;
-            this.cmb_category.TabIndex = 26;
             // 
             // cmb_unit_type
             // 
@@ -243,26 +217,13 @@
             this.materialLabel1.TabIndex = 31;
             this.materialLabel1.Text = "Product Name:";
             // 
-            // materialLabel3
-            // 
-            this.materialLabel3.AutoSize = true;
-            this.materialLabel3.Depth = 0;
-            this.materialLabel3.Font = new System.Drawing.Font("Roboto Medium", 20F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Pixel);
-            this.materialLabel3.FontType = MaterialSkin.MaterialSkinManager.fontType.H6;
-            this.materialLabel3.Location = new System.Drawing.Point(17, 146);
-            this.materialLabel3.MouseState = MaterialSkin.MouseState.HOVER;
-            this.materialLabel3.Name = "materialLabel3";
-            this.materialLabel3.Size = new System.Drawing.Size(87, 24);
-            this.materialLabel3.TabIndex = 33;
-            this.materialLabel3.Text = "Category:";
-            // 
             // materialLabel4
             // 
             this.materialLabel4.AutoSize = true;
             this.materialLabel4.Depth = 0;
             this.materialLabel4.Font = new System.Drawing.Font("Roboto Medium", 20F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Pixel);
             this.materialLabel4.FontType = MaterialSkin.MaterialSkinManager.fontType.H6;
-            this.materialLabel4.Location = new System.Drawing.Point(17, 231);
+            this.materialLabel4.Location = new System.Drawing.Point(17, 182);
             this.materialLabel4.MouseState = MaterialSkin.MouseState.HOVER;
             this.materialLabel4.Name = "materialLabel4";
             this.materialLabel4.Size = new System.Drawing.Size(59, 24);
@@ -275,7 +236,7 @@
             this.materialLabel6.Depth = 0;
             this.materialLabel6.Font = new System.Drawing.Font("Roboto Medium", 20F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Pixel);
             this.materialLabel6.FontType = MaterialSkin.MaterialSkinManager.fontType.H6;
-            this.materialLabel6.Location = new System.Drawing.Point(17, 315);
+            this.materialLabel6.Location = new System.Drawing.Point(17, 305);
             this.materialLabel6.MouseState = MaterialSkin.MouseState.HOVER;
             this.materialLabel6.Name = "materialLabel6";
             this.materialLabel6.Size = new System.Drawing.Size(91, 24);
@@ -288,8 +249,7 @@
             // 
             // productTabSelector
             // 
-            this.productTabSelector.BaseTabControl = this.productTabControl;
-            this.productTabSelector.CharacterCasing = MaterialSkin.Controls.MaterialTabSelector.CustomCharacterCasing.Normal;
+            this.productTabSelector.BaseTabControl = null;
             this.productTabSelector.Depth = 0;
             this.productTabSelector.Dock = System.Windows.Forms.DockStyle.Top;
             this.productTabSelector.Font = new System.Drawing.Font("Roboto", 14F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
@@ -333,9 +293,7 @@
             this.materialCard1.Controls.Add(this.btn_update);
             this.materialCard1.Controls.Add(this.btn_save);
             this.materialCard1.Controls.Add(this.materialLabel6);
-            this.materialCard1.Controls.Add(this.cmb_category);
             this.materialCard1.Controls.Add(this.cmb_unit_type);
-            this.materialCard1.Controls.Add(this.materialLabel3);
             this.materialCard1.Controls.Add(this.materialLabel4);
             this.materialCard1.Controls.Add(this.materialLabel1);
             this.materialCard1.Controls.Add(this.txt_brand);
@@ -574,6 +532,8 @@
             this.col_product_size_delete.HeaderText = "Delete";
             this.col_product_size_delete.MinimumWidth = 6;
             this.col_product_size_delete.Name = "col_product_size_delete";
+            this.col_product_size_delete.Resizable = System.Windows.Forms.DataGridViewTriState.True;
+            this.col_product_size_delete.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Automatic;
             this.col_product_size_delete.Width = 76;
             // 
             // txt_size_label
@@ -669,10 +629,8 @@
         private MaterialSkin.Controls.MaterialButton btn_save;
         private MaterialSkin.Controls.MaterialTextBox txt_brand;
         private MaterialSkin.Controls.MaterialTextBox txt_product_name;
-        private MaterialSkin.Controls.MaterialComboBox cmb_category;
         private MaterialSkin.Controls.MaterialComboBox cmb_unit_type;
         private MaterialSkin.Controls.MaterialLabel materialLabel1;
-        private MaterialSkin.Controls.MaterialLabel materialLabel3;
         private MaterialSkin.Controls.MaterialLabel materialLabel4;
         private MaterialSkin.Controls.MaterialLabel materialLabel6;
         private System.Windows.Forms.ErrorProvider errorProvider1;
@@ -699,6 +657,6 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn col_product_content;
         private System.Windows.Forms.DataGridViewTextBoxColumn col_product_cost_price;
         private System.Windows.Forms.DataGridViewButtonColumn col_product_size_update;
-        private System.Windows.Forms.DataGridViewTextBoxColumn col_product_size_delete;
+        private System.Windows.Forms.DataGridViewButtonColumn col_product_size_delete;
     }
 }

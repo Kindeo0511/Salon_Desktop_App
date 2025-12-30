@@ -27,14 +27,39 @@ namespace Salon.Controller
         {
             return repo.GetProductSize(product_id);
         }
-        public void AddProductSize(ProductSizeModel model) 
+        public bool AddProductSize(ProductSizeModel model) 
         {
-            repo.Add(model);
+           return repo.Add(model) > 0;
         }
-        public void UpdateProductSize(ProductSizeModel model) 
+        public bool UpdateProductSize(ProductSizeModel model) 
         {
-            repo.Update(model);
+            return repo.Update(model) > 0;
         }
-        
+        public ProductSizeModel GetProductSize(int product_id, int content) 
+        {
+            return repo.GetProductSize(product_id, content);
+        }
+
+        public bool IsProductSizeIsUsed(int productSizeId) 
+        {
+            return repo.IsProductSizeUsed(productSizeId);
+        }
+        public bool IsProductRetailSizeUsed(int productSizeId) 
+        {
+            return repo.IsProductRetailSizeUsed(productSizeId);
+        }
+        public bool SoftDeleteProductSize(int productSizeId) 
+        {
+            return repo.SoftDelete(productSizeId) > 0;
+        }
+        public bool HardDeleteProductSize(int productSizeId) 
+        {
+            return repo.HardDelete(productSizeId) > 0;
+        }
+        public bool RestoreProductSize(int productSizeId) 
+        {
+            return repo.Restore(productSizeId) > 0;
+        }
+
     }
 }
