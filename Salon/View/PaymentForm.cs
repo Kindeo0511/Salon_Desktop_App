@@ -1,4 +1,5 @@
-﻿using MaterialSkin.Controls;
+﻿using iText.StyledXmlParser.Jsoup.Safety;
+using MaterialSkin.Controls;
 using Salon.Card;
 using Salon.Controller;
 using Salon.Models;
@@ -32,6 +33,9 @@ namespace Salon.View
         private decimal _discountAmount;
         private decimal _vatAmount;
         private decimal _totalWithVat;
+        private decimal currentAmount = 0m;
+        private decimal currentPercentDiscount = 0m;
+        private decimal currentFixedDiscount = 0m;
         private bool pointsRedeemedAlready = false;
         private bool discountAppliedAlready = false;
         private readonly PaymentController paymentController;
@@ -166,6 +170,11 @@ namespace Salon.View
             var serviceItems = services.Where(s => s.ItemType == "Service").ToList();
             var productItems = services.Where(s => s.ItemType == "Product").ToList();
 
+            summaryItem.Clear();
+            foreach (var item in services)
+            {
+                summaryItem.Add(item);
+            }
 
             dgv_table.AutoGenerateColumns = false;
             dgv_table.DataSource = null;
@@ -174,8 +183,10 @@ namespace Salon.View
             col_category.DataPropertyName = "SubCategory";
             col_qty.DataPropertyName = "Quantity";
             col_unit_price.DataPropertyName = "Price";
+            col_discounted.DataPropertyName = "DiscountAmount";
             col_total.DataPropertyName = "TotalPrice";
-            dgv_table.DataSource = serviceItems;
+            col_final_price.DataPropertyName = "FinalPrice";
+            dgv_table.DataSource = summaryItem;
                
             dgv_product.AutoGenerateColumns = false;
             dgv_product.DataSource = null;
@@ -207,12 +218,7 @@ namespace Salon.View
             }
 
 
-                summaryItem.Clear();
-            foreach (var item in services) 
-            {
-                summaryItem.Add(item);
-            }
-
+         
 
 
             lbl_Subtotal.Text = CalculateSubTotal().ToString("N2");
@@ -348,20 +354,26 @@ namespace Salon.View
 
             decimal vat = LoadVat();
             decimal original_price = Convert.ToDecimal(lbl_Subtotal.Text);
-            decimal discount_rate = Convert.ToDecimal(lbl_Discount.Tag);
+            decimal discount_rate = currentPercentDiscount;
             decimal discount_amount = 0m;
             decimal points_discount_amount = 0m;
             decimal vat_amount = 0m;
             decimal final_price = 0m;
             decimal base_price = 0m;
 
-            // Step 1: VAT handling
+
             if (discount_rate != 0)
             {
                 decimal inclusive_price = original_price;
                 base_price = inclusive_price / (1 + (vat / 100));
                 vat_amount = inclusive_price - base_price;
                 discount_amount = (original_price * discount_rate) / 100;
+            }
+            else if (currentFixedDiscount != 0) 
+            {
+                discount_amount =  currentFixedDiscount;
+                base_price = original_price;
+                vat_amount = (base_price * vat) / 100;
             }
             else
             {
@@ -494,8 +506,8 @@ namespace Salon.View
 
             bool validated = true;
             // REQUIRED FIELD
-            validated &= Validator.IsRequired(cb_PaymentMethod, errorProvider1, "Payment Method is required.");
-            validated &= Validator.IsRequired(txt_amount_paid, errorProvider1, "Amount is required.");
+           
+            validated &= Validator.IsRequired(mat, errorProvider1, "Amount is required.");
 
             //if (cb_PaymentMethod.Text.ToLower() == "gcash")
             //{
@@ -584,7 +596,7 @@ namespace Salon.View
             decimal totalAmount = ParseCurrency(lbl_Total.Text);
             decimal changeAmount = ParseCurrency(lbl_change_amount.Text);
 
-            if (!decimal.TryParse(txt_amount_paid.Text, out amountPaid))
+            if (!decimal.TryParse(mat.Text, out amountPaid))
             {
                 MessageBox.Show("Invalid amount paid.", "Validation Error", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 return;
@@ -596,14 +608,10 @@ namespace Salon.View
                 return;
             }
 
-            if (cb_PaymentMethod.SelectedIndex == -1)
-            {
-                MessageBox.Show("Please select a payment method.");
-                return;
-            }
+           
 
 
-            var reference_no = string.IsNullOrWhiteSpace(txt_Reference.Text) ? "N/A" : txt_Reference.Text;
+          
 
             var invoice = new InvoiceModel
             {
@@ -611,7 +619,8 @@ namespace Salon.View
                 TotalAmount = totalAmount,
                 VATAmount = _vatAmount,
                 DiscountAmount = _discountAmount,
-                PaymentMethod = cb_PaymentMethod.SelectedItem.ToString(),
+                Notes = txt_reason.Text,
+                PaymentMethod = "",
                 Timestamp = DateTime.Now
             };
 
@@ -961,12 +970,12 @@ namespace Salon.View
             renderer.DrawLabelValue($"VAT ({vat_rate:N0}%):", "", _vatAmount.ToString("C2"));
             renderer.DrawBoldValue("Total:", lbl_Total.Text);
             renderer.DrawBoldValue("Change Amount:", lbl_change_amount.Text);
-            renderer.DrawBoldValue("Payment Method:", cb_PaymentMethod.Text);
+            //renderer.DrawBoldValue("Payment Method:", cb_PaymentMethod.Text);
 
-            if (cb_PaymentMethod.Text.Trim().Equals("GCash", StringComparison.OrdinalIgnoreCase))
-            {
-                renderer.DrawBoldValue("Reference No.:", txt_Reference.Text);
-            }
+            //if (cb_PaymentMethod.Text.Trim().Equals("GCash", StringComparison.OrdinalIgnoreCase))
+            //{
+            //    renderer.DrawBoldValue("Reference No.:", txt_Reference.Text);
+            //}
 
             renderer.DrawFooter("Thank you for choosing us!");
 
@@ -980,49 +989,7 @@ namespace Salon.View
            
         }
 
-        private void cb_PaymentMethod_SelectedIndexChanged(object sender, EventArgs e)
-        {
-            if (cb_PaymentMethod.Text.ToLower() == "gcash")
-            {
-                decimal amountPaid = ParseCurrency(lbl_Total.Text);
-                txt_amount_paid.Text = amountPaid.ToString();
-                txt_Reference.Enabled = true;
-                txt_amount_paid.ReadOnly = true;
-                txt_amount_paid.Enabled = true;
-            }
-            else if (cb_PaymentMethod.Text.ToLower() == "cash")
-            {
-
-                txt_Reference.Text = string.Empty;
-                txt_amount_paid.Enabled = true;
-                txt_Reference.Enabled = false;
-                txt_amount_paid.ReadOnly = false;
-            }
-            else
-            {
-                txt_amount_paid.Text = string.Empty;
-                txt_Reference.Text = string.Empty;
-                txt_amount_paid.ReadOnly = false;
-            }
-
-            //if (cb_PaymentMethod.Text.ToLower() == "cash")
-            //{
-            //    txt_Reference.Enabled = false;
-            //    txt_amount_paid
-            //}
-            //else if (cb_PaymentMethod.Text.ToLower() == "gcash")
-            //{
-            //    decimal amountPaid = ParseCurrency(lbl_Total.Text);
-            //    txt_amount_paid.Text = amountPaid.ToString();
-            //    txt_Reference.Enabled = true;
-            //}
-            //else 
-            //{
-            //    txt_Reference.Enabled = false;
-            //}
-
-        }
-
+      
         private void lbl_Total_Click(object sender, EventArgs e)
         {
 
@@ -1048,38 +1015,7 @@ namespace Salon.View
             e.Handled = true;
         }
 
-        private void txt_Reference_Validating(object sender, CancelEventArgs e)
-        {
-            MaterialTextBox txt = sender as MaterialTextBox;
-            if (txt == null)
-                return;
-
-            // Only validate if GCash is selected
-            if (cb_PaymentMethod.Text.Trim().ToLower() == "gcash")
-            {
-                string input = txt.Text.Trim();
-
-                if (string.IsNullOrEmpty(input))
-                {
-                    errorProvider1.SetError(txt, "Reference number is required.");
-                    e.Cancel = true;
-                }
-                else if (input.Length != 13)
-                {
-                    errorProvider1.SetError(txt, "Reference number must be exactly 13 characters.");
-                    e.Cancel = true;
-                }
-                else
-                {
-                    errorProvider1.SetError(txt, ""); // Clear error
-                }
-            }
-            else
-            {
-                // Clear error if not GCash
-                errorProvider1.SetError(txt, "");
-            }
-        }
+       
 
         private void dgv_Table_CellContentClick(object sender, DataGridViewCellEventArgs e)
         {
@@ -1090,17 +1026,17 @@ namespace Salon.View
         {
             if (discountAppliedAlready) return; 
 
-            using (var discountForm = new DiscountModelForm())
-            {
-                if (discountForm.ShowDialog() == DialogResult.OK)
-                {
-                    // Get the selected discount rate from the discount form
-                    lbl_Discount.Text = $"DISCOUNT ({discountForm.discountName}%)";
-                    lbl_Discount.Tag = discountForm.discountRate.ToString("N2");
-                    calculate();
-                    btn_discount.Enabled = discountAppliedAlready;
-                }
-            }
+            //using (var discountForm = new DiscountModelForm())
+            //{
+            //    if (discountForm.ShowDialog() == DialogResult.OK)
+            //    {
+            //        // Get the selected discount rate from the discount form
+            //        lbl_Discount.Text = $"DISCOUNT ({discountForm.discountName}%)";
+            //        lbl_Discount.Tag = discountForm.discountRate.ToString("N2");
+            //        calculate();
+            //        btn_discount.Enabled = discountAppliedAlready;
+            //    }
+            //}
         }
 
         private void txt_name_Click(object sender, EventArgs e)
@@ -1137,8 +1073,7 @@ namespace Salon.View
 
         private void btn_clear_Click(object sender, EventArgs e)
         {
-            cb_PaymentMethod.SelectedIndex = -1;
-            cb_PaymentMethod.Hint = "";
+        
             lbl_points.Tag = "0";
             lbl_points.Text = model.LoyaltyPoints.ToString();
             lbl_Discount.Tag = "0";
@@ -1146,9 +1081,9 @@ namespace Salon.View
             lbl_Discount.Text = "0.00";
             lbl_Subtotal.Text = _subtotal.ToString("N2");
             lbl_point_amount.Text = "0.00";
-            cb_PaymentMethod.Hint = "Select Payment Method";
-            txt_amount_paid.Text = string.Empty;
-            txt_Reference.Text = string.Empty;
+
+            mat.Text = string.Empty;
+
             lbl_change_amount.Text = "0.00";
 
             btn_redeem_points.Enabled = !pointsRedeemedAlready;
@@ -1193,7 +1128,180 @@ namespace Salon.View
 
         }
 
+        private void cash_flow_Paint(object sender, PaintEventArgs e)
+        {
 
+        }
+
+        private void materialTextBox1_TextChanged(object sender, EventArgs e)
+        {
+            if (!string.IsNullOrWhiteSpace(txt_discount_amount.Text)) 
+            {
+                if (decimal.TryParse(txt_discount_amount.Text, out decimal discount))
+                {
+                    currentFixedDiscount = discount;
+                    txt_discount_amount.Text = string.Empty;
+                    calculate();
+
+                }
+        
+               
+            }
+           
+        }
+
+        private void txt_Reference_TextChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        public void PremadeButtons(string input)
+        {
+          
+            decimal amount = Convert.ToDecimal(input);
+
+            currentAmount += amount;
+            txt_amount_paid.Text = currentAmount.ToString("N2");
+            calculate();
+
+        }
+        private void PremadeDiscountButtons(string input)
+        {
+            if (string.IsNullOrWhiteSpace(input)) return;
+
+
+            if (decimal.TryParse(input, out decimal discountValue))
+            {
+                currentPercentDiscount = discountValue / 100m;
+                calculate();
+            }
+           
+
+        }
+
+        private void btn_20_Click(object sender, EventArgs e)
+        {
+            PremadeButtons("20");
+        }
+
+        private void btn_50_Click(object sender, EventArgs e)
+        {
+            PremadeButtons("50");
+        }
+
+        private void btn_100_Click(object sender, EventArgs e)
+        {
+            PremadeButtons("100");
+        }
+
+        private void btn_200_Click(object sender, EventArgs e)
+        {
+            PremadeButtons("200");
+        }
+
+        private void btn_500_Click(object sender, EventArgs e)
+        {
+            PremadeButtons("500");
+        }
+
+        private void btn_1000_Click(object sender, EventArgs e)
+        {
+            PremadeButtons("1000");
+        }
+
+        private void btn_disc_5_Click(object sender, EventArgs e)
+        {
+            PremadeDiscountButtons("5");
+        }
+
+        private void btn_disc_10_Click(object sender, EventArgs e)
+        {
+            PremadeDiscountButtons("10");
+        }
+
+        private void btn_disc_20_Click(object sender, EventArgs e)
+        {
+            PremadeDiscountButtons("20");
+        }
+
+        private void btn_disc_100_Click(object sender, EventArgs e)
+        {
+            PremadeDiscountButtons("100");
+        }
+
+        private void btn_snr_Click(object sender, EventArgs e)
+        {
+            PremadeDiscountButtons(btn_snr.Tag.ToString());
+        }
+
+        private void btn_pwd_Click(object sender, EventArgs e)
+        {
+            PremadeDiscountButtons(btn_pwd.Tag.ToString());
+        }
+
+        private void txt_discount_percent_TextChanged(object sender, EventArgs e)
+        {
+
+            if (!string.IsNullOrWhiteSpace(txt_discount_percent.Text))
+            {
+                PremadeDiscountButtons(txt_discount_percent.Text.ToString());
+
+                txt_discount_amount.Text = string.Empty;
+            }
+        }
+
+        private void txt_reason_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void dgv_table_CellClick(object sender, DataGridViewCellEventArgs e)
+        {
+            if (e.RowIndex < 0) return;
+
+            if (e.RowIndex >= 0 && dgv_table.Columns[e.ColumnIndex].Name == "col_btn_apply_discount") 
+            {
+                var service = dgv_table.Rows[e.RowIndex].DataBoundItem as ServiceCart;
+
+                if (discountAppliedAlready) return;
+
+                using (var discountForm = new DiscountModelForm(service.ItemName, service.Quantity, service.Price))
+                {
+                    if (discountForm.ShowDialog() == DialogResult.OK)
+                    {
+                        // Get the selected discount rate from the discount form
+                        decimal discountAmount = 0m;
+                        decimal finalPrice = service.Price;
+                       
+                        if (discountForm.fixedDiscount > 0)
+                        {
+                            service.DiscountedQty = discountForm.discountedQty;
+                            service.DiscountAmount = discountForm.fixedDiscount;
+                            finalPrice = service.Price - discountAmount;
+                            service.DiscountPercent = 0;
+                            //service.DiscountAmount = discountAmount;
+                            //service.DiscountPercent = (discountAmount / service.Price) * 100m;
+
+                        }
+                        else if (discountForm.discountRate > 0) 
+                        {
+                            service.DiscountedQty = discountForm.discountedQty;
+                            service.DiscountPercent = discountForm.discountRate;
+                            service.DiscountAmount = 0;
+                            //finalPrice = service.Price - discountAmount;
+
+                            //service.DiscountPercent = discountForm.discountRate;
+                            //service.DiscountAmount = discountAmount;
+                            
+                        }
+                       
+
+                       dgv_table.Refresh();
+                        btn_discount.Enabled = discountAppliedAlready;
+                    }
+                }
+            }
+        }
 
 
         // TRANSACTION

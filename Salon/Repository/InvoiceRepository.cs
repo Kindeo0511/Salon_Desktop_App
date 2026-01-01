@@ -81,6 +81,7 @@ namespace Salon.Repository
                             SET total_amount = @TotalAmount,
                                 vat_amount = @VatAmount,
                                 discount_amount = @DiscountAmount,
+                                notes = @Notes, 
                                 payment_method = @PaymentMethod,
                                 timestamp = @TimeStamp
                               WHERE invoice_id = @InvoiceID";

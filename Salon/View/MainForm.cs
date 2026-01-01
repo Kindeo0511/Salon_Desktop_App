@@ -5934,16 +5934,16 @@ namespace Salon.View
 
         private void btn_discount_Click(object sender, EventArgs e)
         {
-            using (var discountForm = new DiscountModelForm())
-            {
-                if (discountForm.ShowDialog() == DialogResult.OK)
-                {
-                    // Get the selected discount rate from the discount form
-                    lbl_discount_name.Text = $"DISCOUNT ({discountForm.discountName}%)";
-                    lbl_discount_name.Tag = discountForm.discountRate.ToString("N2");
-                    calculate();
-                }
-            }
+            //using (var discountForm = new DiscountModelForm())
+            //{
+            //    if (discountForm.ShowDialog() == DialogResult.OK)
+            //    {
+            //        // Get the selected discount rate from the discount form
+            //        lbl_discount_name.Text = $"DISCOUNT ({discountForm.discountName}%)";
+            //        lbl_discount_name.Tag = discountForm.discountRate.ToString("N2");
+            //        calculate();
+            //    }
+            //}
         }
 
         private void txt_received_TextChanged(object sender, EventArgs e)

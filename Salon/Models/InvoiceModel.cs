@@ -16,6 +16,7 @@ namespace Salon.Models
         public decimal TotalAmount { get; set; }
         public decimal VATAmount { get; set; }
         public decimal DiscountAmount { get; set; }
+        public string Notes { get; set; }
         public string PaymentMethod { get; set; }
         public DateTime? Timestamp { get; set; }
         public string status { get; set; }

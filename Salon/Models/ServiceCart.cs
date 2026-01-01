@@ -25,10 +25,66 @@ namespace Salon.Models
         public decimal TotalPrice => Price * Quantity;
         public int Voided { get; set; }
         public int Refunded { get; set; }
-        public string Status { get { if (Voided == 1)
-                    return "Void"; else if (Refunded == 1)
-                    return "Refunded"; else return "Active"; } }
+        public string Status
+        {
+            get
+            {
+                if (Voided == 1)
+                    return "Void";
+                else if (Refunded == 1)
+                    return "Refunded";
+                else return "Active";
+            }
+        }
 
+
+        public int DiscountedQty { get; set; } = 0;
+        public decimal DiscountPercent { get; set; }
+        public decimal DiscountAmount { get; set; }
+
+        public decimal FinalPrice
+        {
+            get
+            {
+                var normalQty = Quantity - DiscountedQty;
+                var normalTotal = normalQty * Price;
+
+                decimal discountedUnitPrice;
+
+                if (DiscountPercent > 0)
+                {
+                    // percentage discount
+                    discountedUnitPrice = Price * (1 - DiscountPercent / 100m);
+                }
+                else if (DiscountAmount > 0)
+                {
+                    // peso discount
+                    discountedUnitPrice = Price - DiscountAmount;
+                }
+                else
+                {
+                    // no discount
+                    discountedUnitPrice = Price;
+                }
+
+                var discountedTotal = DiscountedQty * Math.Max(discountedUnitPrice, 0);
+
+                return Math.Max(normalTotal + discountedTotal, 0);
+            }
+        }
+
+        //public decimal FinalPrice
+        //{
+        //    get
+        //    {   var normalQty = Quantity - DiscountedQty;
+
+        //        var normalTotal = normalQty * Price;
+
+        //        var discountedTotal = DiscountedQty * (Price - DiscountAmount); 
+
+        //        return Math.Max(normalTotal + discountedTotal, 0); } }
+
+        //    }
     }
 }
     
