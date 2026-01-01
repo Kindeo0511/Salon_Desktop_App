@@ -1,4 +1,5 @@
 ﻿using Laundry.Data;
+using Salon.Models;
 using Salon.Repository;
 using Salon.Services;
 using System;
@@ -12,44 +13,18 @@ namespace Salon.Controller
     public class TimeSlotController
     {
         private readonly BusinessHourRepository repo;
-        private readonly AppointmentRepository appointmentRepository;
-        private readonly TimeSlotGenerator generator;
-
-        public TimeSlotController()
+        public TimeSlotController(BusinessHourRepository repo)
         {
-            using (var con = Database.GetConnection()) 
-            {
-                repo = new BusinessHourRepository();
-                appointmentRepository = new AppointmentRepository();
-                generator = new TimeSlotGenerator();
-            }
-         
+            this.repo = repo;
+
         }
 
-        public List<string> GetAvailableTimeSlots(DateTime selectedDate, int serviceDurationMinutes)
+        public BusinessHour GetBusinessHours() 
         {
-            var day = selectedDate.DayOfWeek.ToString();
-            var hours = repo.GetHoursForDay(day);
-            var appointments = appointmentRepository.GetAppointmentsByDate(selectedDate);
-
-            var availableSlots = generator.GenerateAvailableSlots(
-                hours.OpenTime,
-                hours.CloseTime,
-                appointments,
-                serviceDurationMinutes
-            );
-
-            return availableSlots.Select(s => s.ToString(@"hh\:mm")).ToList();
+            return repo.GetOpenHour();
         }
 
-        public List<String> GetTimeSlots(DateTime selectedDate)
-        {
-            var day = selectedDate.DayOfWeek.ToString();
-            var hours = repo.GetHoursForDay(day);
-            var slots = generator.GenerateSlots(hours, selectedDate);
-            return slots.Select(s => s.ToString()).ToList();
 
-        }
 
     }
 }

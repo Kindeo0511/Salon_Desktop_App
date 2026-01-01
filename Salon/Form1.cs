@@ -41,12 +41,30 @@ namespace Salon
 
         private void Form1_Load(object sender, EventArgs e)
         {
-            
+          
         }
 
       
+        private UsersModel DefaultAccountSetup()
+        {
+   
+                
+        var defaultAdmin = new UsersModel
+        {
+            userName = "superadmin",
+            userPassword = HashPassword("superadmin123"), 
+            first_Name = "Super Admin",
+            Position = "SuperAdmin"
+        };
+         return defaultAdmin;
 
-       
+
+
+        }
+        private string HashPassword(string password)
+        {
+            return BCrypt.Net.BCrypt.HashPassword(password);
+        }
 
         private void timer1_Tick(object sender, EventArgs e)
         {
@@ -59,8 +77,9 @@ namespace Salon
             {
                 timer1.Enabled = false;
 
-                if (!controller.CheckAdminExists())
+                if (!controller.IsUserAccountExists())
                 {
+                    controller.AddUser(DefaultAccountSetup());
                     var form = new ConfigureSettingsForm();
                     form.Show();
                     this.Hide();

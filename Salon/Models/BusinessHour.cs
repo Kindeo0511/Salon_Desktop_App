@@ -8,15 +8,11 @@ namespace Salon.Models
 {
     public class BusinessHour
     {
-        public string DayofWeek { get; set; }
-        public TimeSpan OpenTime { get; set; }
-        public TimeSpan CloseTime { get; set; }
+        public int business_hour_id { get; set; }
+        public string day_of_week { get; set; }
+        public TimeSpan open_time { get; set; }
+        public TimeSpan close_time { get; set; }
 
-        public BusinessHour(string dayOfWeek, TimeSpan openTime, TimeSpan closeTime)
-        {
-            this.DayofWeek = dayOfWeek;
-            this.OpenTime = openTime;
-            this.CloseTime = closeTime;
-        }
+      
     }
 }

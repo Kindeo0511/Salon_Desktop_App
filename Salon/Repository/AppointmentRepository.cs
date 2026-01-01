@@ -514,7 +514,19 @@ GROUP BY a.appointment_id;";
                 return count > 0;
             }
         }
-
+        public IEnumerable<AppointmentModel> GetAppointment(int stylist_id, DateTime date) 
+        {
+            using (var con = Database.GetConnection())
+            {
+                var sql = "SELECT start_time AS StartTime, end_time AS EndTime  FROM tbl_appointment WHERE stylist_id = @StylistId AND DATE(Date) = @Date";
+                return con.Query<AppointmentModel>(sql, new
+                {
+                    StylistId = stylist_id,
+                    Date = date.ToString("yyyy-MM-dd")
+                }).ToList();
+              
+            }
+        }
         public async Task<bool> CustomerIsAlreadyBooked(DateTime date, TimeSpan startTime, TimeSpan duration, int customerId)
         {
             using (var con = Database.GetConnection())

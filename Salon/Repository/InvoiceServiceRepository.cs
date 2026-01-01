@@ -27,6 +27,7 @@ namespace Salon.Repository
                    ps.size_label AS Size,
                    isc.service_id AS ServiceId,
                    sn.serviceName AS ItemName,
+                   sb.subCategoryName AS SubCategory,
                    isc.item_type AS ItemType,
                    isc.unit_price AS Price,
                    isc.qty AS Quantity,
@@ -35,6 +36,7 @@ namespace Salon.Repository
                     LEFT JOIN tbl_products AS p ON isc.product_id = p.product_id
                     LEFT JOIN  tbl_product_size AS ps On ps.product_size_id = isc.product_size_id
                     LEFT JOIN tbl_servicesname AS sn ON isc.service_id = sn.serviceName_id
+                LEFT JOIN tbl_subcategory AS sb ON sb.subCategory_id = sn.subCategory_id
                 WHERE isc.invoice_id = @InvoiceId;
                 ";
                 var result = con.Query<ServiceCart>(sql, new { InvoiceId = invoiceId }).ToList();

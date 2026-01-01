@@ -249,14 +249,15 @@
             // 
             // productTabSelector
             // 
-            this.productTabSelector.BaseTabControl = null;
+            this.productTabSelector.BaseTabControl = this.productTabControl;
+            this.productTabSelector.CharacterCasing = MaterialSkin.Controls.MaterialTabSelector.CustomCharacterCasing.Normal;
             this.productTabSelector.Depth = 0;
             this.productTabSelector.Dock = System.Windows.Forms.DockStyle.Top;
             this.productTabSelector.Font = new System.Drawing.Font("Roboto", 14F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
-            this.productTabSelector.Location = new System.Drawing.Point(3, 64);
+            this.productTabSelector.Location = new System.Drawing.Point(0, 24);
             this.productTabSelector.MouseState = MaterialSkin.MouseState.HOVER;
             this.productTabSelector.Name = "productTabSelector";
-            this.productTabSelector.Size = new System.Drawing.Size(894, 48);
+            this.productTabSelector.Size = new System.Drawing.Size(900, 48);
             this.productTabSelector.TabIndex = 39;
             this.productTabSelector.Text = "materialTabSelector1";
             // 
@@ -266,12 +267,12 @@
             this.productTabControl.Controls.Add(this.tabPage2);
             this.productTabControl.Depth = 0;
             this.productTabControl.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.productTabControl.Location = new System.Drawing.Point(3, 112);
+            this.productTabControl.Location = new System.Drawing.Point(0, 72);
             this.productTabControl.MouseState = MaterialSkin.MouseState.HOVER;
             this.productTabControl.Multiline = true;
             this.productTabControl.Name = "productTabControl";
             this.productTabControl.SelectedIndex = 0;
-            this.productTabControl.Size = new System.Drawing.Size(894, 478);
+            this.productTabControl.Size = new System.Drawing.Size(900, 518);
             this.productTabControl.TabIndex = 40;
             // 
             // tabPage1
@@ -317,7 +318,7 @@
             this.tabPage2.Location = new System.Drawing.Point(4, 25);
             this.tabPage2.Name = "tabPage2";
             this.tabPage2.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage2.Size = new System.Drawing.Size(886, 449);
+            this.tabPage2.Size = new System.Drawing.Size(892, 489);
             this.tabPage2.TabIndex = 1;
             this.tabPage2.Text = "Product Size";
             // 
@@ -344,7 +345,7 @@
             this.materialCard2.MouseState = MaterialSkin.MouseState.HOVER;
             this.materialCard2.Name = "materialCard2";
             this.materialCard2.Padding = new System.Windows.Forms.Padding(14);
-            this.materialCard2.Size = new System.Drawing.Size(880, 443);
+            this.materialCard2.Size = new System.Drawing.Size(886, 483);
             this.materialCard2.TabIndex = 45;
             // 
             // txt_content
@@ -462,11 +463,11 @@
             this.col_product_size_update,
             this.col_product_size_delete});
             this.dgv_product_size.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.dgv_product_size.Location = new System.Drawing.Point(14, 415);
+            this.dgv_product_size.Location = new System.Drawing.Point(14, 429);
             this.dgv_product_size.Name = "dgv_product_size";
             this.dgv_product_size.RowHeadersWidth = 51;
             this.dgv_product_size.RowTemplate.Height = 24;
-            this.dgv_product_size.Size = new System.Drawing.Size(831, 205);
+            this.dgv_product_size.Size = new System.Drawing.Size(837, 205);
             this.dgv_product_size.TabIndex = 45;
             this.dgv_product_size.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgv_product_size_CellClick);
             // 
@@ -602,10 +603,11 @@
             this.ClientSize = new System.Drawing.Size(900, 600);
             this.Controls.Add(this.productTabControl);
             this.Controls.Add(this.productTabSelector);
+            this.FormStyle = MaterialSkin.Controls.MaterialForm.FormStyles.ActionBar_None;
             this.MaximizeBox = false;
             this.MinimizeBox = false;
             this.Name = "ProductForm";
-            this.Padding = new System.Windows.Forms.Padding(3, 64, 3, 10);
+            this.Padding = new System.Windows.Forms.Padding(0, 24, 0, 10);
             this.Sizable = false;
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "PRODUCT INFORMATION";

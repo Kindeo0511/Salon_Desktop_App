@@ -59,8 +59,8 @@ namespace Salon.View
                 .GetServicesByAppointmentId(model.AppointmentId)
                 .ToList();
 
-                DateTime startTime = DateTime.Today.Add(model.StartTime);
-                DateTime endTime = DateTime.Today.Add(model.EndTime);
+                DateTime startTime = (model.StartTime);
+                DateTime endTime = (model.EndTime);
 
                 string formattedStartTime = startTime.ToString("hh:mm tt");
                 string formattedEndTime = endTime.ToString("hh:mm tt");
@@ -125,7 +125,7 @@ namespace Salon.View
                     {
                         foreach (var product in serviceProducts)
                         {
-                            var qtyDeduction = product.qty_required;
+                            var qtyDeduction = product.qty_required * item.Quantity;
                             controller.DeductStockOut(product.product_id, qtyDeduction);
                         }
                     }
@@ -171,6 +171,7 @@ namespace Salon.View
             dgv_table.DataSource = null;
             col_service_id.DataPropertyName = "ServiceId";
             col_item_name.DataPropertyName = "ItemName";
+            col_category.DataPropertyName = "SubCategory";
             col_qty.DataPropertyName = "Quantity";
             col_unit_price.DataPropertyName = "Price";
             col_total.DataPropertyName = "TotalPrice";
@@ -464,8 +465,8 @@ namespace Salon.View
        
             LoadVat();
             calculate();
-            DateTime startTime = DateTime.Today.Add(model.StartTime);
-            DateTime endTime = DateTime.Today.Add(model.EndTime);
+            DateTime startTime = (model.StartTime);
+            DateTime endTime = (model.EndTime);
 
             string formattedStartTime = startTime.ToString("hh:mm tt");
             string formattedEndTime = endTime.ToString("hh:mm tt");

@@ -32,6 +32,9 @@
             this.errorProvider1 = new System.Windows.Forms.ErrorProvider(this.components);
             this.userTabControl = new MaterialSkin.Controls.MaterialTabControl();
             this.tabPage1 = new System.Windows.Forms.TabPage();
+            this.btn_cancel = new MaterialSkin.Controls.MaterialButton();
+            this.btn_update = new MaterialSkin.Controls.MaterialButton();
+            this.btn_save = new MaterialSkin.Controls.MaterialButton();
             this.materialLabel1 = new MaterialSkin.Controls.MaterialLabel();
             this.txt_address = new MaterialSkin.Controls.MaterialMultiLineTextBox2();
             this.materialLabel7 = new MaterialSkin.Controls.MaterialLabel();
@@ -47,6 +50,10 @@
             this.txt_email = new MaterialSkin.Controls.MaterialTextBox();
             this.txt_contact = new MaterialSkin.Controls.MaterialTextBox();
             this.tabPage2 = new System.Windows.Forms.TabPage();
+            this.txt_confirm_password = new System.Windows.Forms.TextBox();
+            this.txt_password = new System.Windows.Forms.TextBox();
+            this.btn_account_cancel = new MaterialSkin.Controls.MaterialButton();
+            this.btn_update_account = new MaterialSkin.Controls.MaterialButton();
             this.materialLabel11 = new MaterialSkin.Controls.MaterialLabel();
             this.materialLabel10 = new MaterialSkin.Controls.MaterialLabel();
             this.materialLabel9 = new MaterialSkin.Controls.MaterialLabel();
@@ -55,13 +62,6 @@
             this.chk_show_password = new MaterialSkin.Controls.MaterialCheckbox();
             this.txt_username = new MaterialSkin.Controls.MaterialTextBox();
             this.userTabSelector = new MaterialSkin.Controls.MaterialTabSelector();
-            this.btn_save = new MaterialSkin.Controls.MaterialButton();
-            this.btn_update = new MaterialSkin.Controls.MaterialButton();
-            this.btn_cancel = new MaterialSkin.Controls.MaterialButton();
-            this.btn_account_cancel = new MaterialSkin.Controls.MaterialButton();
-            this.btn_update_account = new MaterialSkin.Controls.MaterialButton();
-            this.txt_password = new System.Windows.Forms.TextBox();
-            this.txt_confirm_password = new System.Windows.Forms.TextBox();
             ((System.ComponentModel.ISupportInitialize)(this.errorProvider1)).BeginInit();
             this.userTabControl.SuspendLayout();
             this.tabPage1.SuspendLayout();
@@ -115,6 +115,69 @@
             this.tabPage1.Size = new System.Drawing.Size(892, 699);
             this.tabPage1.TabIndex = 0;
             this.tabPage1.Text = "Personal Information";
+            // 
+            // btn_cancel
+            // 
+            this.btn_cancel.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
+            this.btn_cancel.Density = MaterialSkin.Controls.MaterialButton.MaterialButtonDensity.Default;
+            this.btn_cancel.Depth = 0;
+            this.btn_cancel.HighEmphasis = true;
+            this.btn_cancel.Icon = null;
+            this.btn_cancel.Location = new System.Drawing.Point(680, 1269);
+            this.btn_cancel.Margin = new System.Windows.Forms.Padding(4, 6, 4, 6);
+            this.btn_cancel.MouseState = MaterialSkin.MouseState.HOVER;
+            this.btn_cancel.Name = "btn_cancel";
+            this.btn_cancel.NoAccentTextColor = System.Drawing.Color.Empty;
+            this.btn_cancel.Size = new System.Drawing.Size(77, 36);
+            this.btn_cancel.TabIndex = 23;
+            this.btn_cancel.Text = "cancel";
+            this.btn_cancel.Type = MaterialSkin.Controls.MaterialButton.MaterialButtonType.Contained;
+            this.btn_cancel.UseAccentColor = false;
+            this.btn_cancel.UseVisualStyleBackColor = true;
+            this.btn_cancel.Click += new System.EventHandler(this.btn_cancel_Click_1);
+            // 
+            // btn_update
+            // 
+            this.btn_update.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
+            this.btn_update.Density = MaterialSkin.Controls.MaterialButton.MaterialButtonDensity.Default;
+            this.btn_update.Depth = 0;
+            this.btn_update.HighEmphasis = true;
+            this.btn_update.Icon = null;
+            this.btn_update.Location = new System.Drawing.Point(434, 1244);
+            this.btn_update.Margin = new System.Windows.Forms.Padding(4, 6, 4, 6);
+            this.btn_update.MouseState = MaterialSkin.MouseState.HOVER;
+            this.btn_update.Name = "btn_update";
+            this.btn_update.NoAccentTextColor = System.Drawing.Color.Empty;
+            this.btn_update.Size = new System.Drawing.Size(129, 36);
+            this.btn_update.TabIndex = 22;
+            this.btn_update.Text = "save changes";
+            this.btn_update.Type = MaterialSkin.Controls.MaterialButton.MaterialButtonType.Contained;
+            this.btn_update.UseAccentColor = false;
+            this.btn_update.UseVisualStyleBackColor = true;
+            this.btn_update.Visible = false;
+            this.btn_update.Click += new System.EventHandler(this.btn_update_Click);
+            this.btn_update.KeyDown += new System.Windows.Forms.KeyEventHandler(this.btn_update_KeyDown);
+            // 
+            // btn_save
+            // 
+            this.btn_save.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
+            this.btn_save.Density = MaterialSkin.Controls.MaterialButton.MaterialButtonDensity.Default;
+            this.btn_save.Depth = 0;
+            this.btn_save.HighEmphasis = true;
+            this.btn_save.Icon = null;
+            this.btn_save.Location = new System.Drawing.Point(434, 1269);
+            this.btn_save.Margin = new System.Windows.Forms.Padding(4, 6, 4, 6);
+            this.btn_save.MouseState = MaterialSkin.MouseState.HOVER;
+            this.btn_save.Name = "btn_save";
+            this.btn_save.NoAccentTextColor = System.Drawing.Color.Empty;
+            this.btn_save.Size = new System.Drawing.Size(64, 36);
+            this.btn_save.TabIndex = 21;
+            this.btn_save.Text = "save";
+            this.btn_save.Type = MaterialSkin.Controls.MaterialButton.MaterialButtonType.Contained;
+            this.btn_save.UseAccentColor = false;
+            this.btn_save.UseVisualStyleBackColor = true;
+            this.btn_save.Click += new System.EventHandler(this.btn_save_Click);
+            this.btn_save.KeyDown += new System.Windows.Forms.KeyEventHandler(this.btn_save_KeyDown);
             // 
             // materialLabel1
             // 
@@ -374,6 +437,65 @@
             this.tabPage2.TabIndex = 1;
             this.tabPage2.Text = "Account";
             // 
+            // txt_confirm_password
+            // 
+            this.txt_confirm_password.Location = new System.Drawing.Point(257, 560);
+            this.txt_confirm_password.Name = "txt_confirm_password";
+            this.txt_confirm_password.Size = new System.Drawing.Size(500, 22);
+            this.txt_confirm_password.TabIndex = 28;
+            this.txt_confirm_password.UseSystemPasswordChar = true;
+            // 
+            // txt_password
+            // 
+            this.txt_password.Location = new System.Drawing.Point(257, 390);
+            this.txt_password.Name = "txt_password";
+            this.txt_password.Size = new System.Drawing.Size(500, 22);
+            this.txt_password.TabIndex = 27;
+            this.txt_password.UseSystemPasswordChar = true;
+            // 
+            // btn_account_cancel
+            // 
+            this.btn_account_cancel.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
+            this.btn_account_cancel.Density = MaterialSkin.Controls.MaterialButton.MaterialButtonDensity.Default;
+            this.btn_account_cancel.Depth = 0;
+            this.btn_account_cancel.Enabled = false;
+            this.btn_account_cancel.HighEmphasis = true;
+            this.btn_account_cancel.Icon = null;
+            this.btn_account_cancel.Location = new System.Drawing.Point(680, 717);
+            this.btn_account_cancel.Margin = new System.Windows.Forms.Padding(4, 6, 4, 6);
+            this.btn_account_cancel.MouseState = MaterialSkin.MouseState.HOVER;
+            this.btn_account_cancel.Name = "btn_account_cancel";
+            this.btn_account_cancel.NoAccentTextColor = System.Drawing.Color.Empty;
+            this.btn_account_cancel.Size = new System.Drawing.Size(77, 36);
+            this.btn_account_cancel.TabIndex = 26;
+            this.btn_account_cancel.Text = "cancel";
+            this.btn_account_cancel.Type = MaterialSkin.Controls.MaterialButton.MaterialButtonType.Contained;
+            this.btn_account_cancel.UseAccentColor = false;
+            this.btn_account_cancel.UseVisualStyleBackColor = true;
+            this.btn_account_cancel.Click += new System.EventHandler(this.btn_account_cancel_Click);
+            // 
+            // btn_update_account
+            // 
+            this.btn_update_account.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
+            this.btn_update_account.Density = MaterialSkin.Controls.MaterialButton.MaterialButtonDensity.Default;
+            this.btn_update_account.Depth = 0;
+            this.btn_update_account.Enabled = false;
+            this.btn_update_account.HighEmphasis = true;
+            this.btn_update_account.Icon = null;
+            this.btn_update_account.Location = new System.Drawing.Point(466, 717);
+            this.btn_update_account.Margin = new System.Windows.Forms.Padding(4, 6, 4, 6);
+            this.btn_update_account.MouseState = MaterialSkin.MouseState.HOVER;
+            this.btn_update_account.Name = "btn_update_account";
+            this.btn_update_account.NoAccentTextColor = System.Drawing.Color.Empty;
+            this.btn_update_account.Size = new System.Drawing.Size(129, 36);
+            this.btn_update_account.TabIndex = 25;
+            this.btn_update_account.Text = "save changes";
+            this.btn_update_account.Type = MaterialSkin.Controls.MaterialButton.MaterialButtonType.Contained;
+            this.btn_update_account.UseAccentColor = false;
+            this.btn_update_account.UseVisualStyleBackColor = true;
+            this.btn_update_account.Click += new System.EventHandler(this.btn_update_account_Click);
+            this.btn_update_account.KeyDown += new System.Windows.Forms.KeyEventHandler(this.btn_update_account_KeyDown);
+            // 
             // materialLabel11
             // 
             this.materialLabel11.AutoSize = true;
@@ -508,128 +630,6 @@
             this.userTabSelector.Size = new System.Drawing.Size(900, 48);
             this.userTabSelector.TabIndex = 18;
             this.userTabSelector.Text = "materialTabSelector1";
-            // 
-            // btn_save
-            // 
-            this.btn_save.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
-            this.btn_save.Density = MaterialSkin.Controls.MaterialButton.MaterialButtonDensity.Default;
-            this.btn_save.Depth = 0;
-            this.btn_save.HighEmphasis = true;
-            this.btn_save.Icon = null;
-            this.btn_save.Location = new System.Drawing.Point(434, 1269);
-            this.btn_save.Margin = new System.Windows.Forms.Padding(4, 6, 4, 6);
-            this.btn_save.MouseState = MaterialSkin.MouseState.HOVER;
-            this.btn_save.Name = "btn_save";
-            this.btn_save.NoAccentTextColor = System.Drawing.Color.Empty;
-            this.btn_save.Size = new System.Drawing.Size(64, 36);
-            this.btn_save.TabIndex = 21;
-            this.btn_save.Text = "save";
-            this.btn_save.Type = MaterialSkin.Controls.MaterialButton.MaterialButtonType.Contained;
-            this.btn_save.UseAccentColor = false;
-            this.btn_save.UseVisualStyleBackColor = true;
-            this.btn_save.Click += new System.EventHandler(this.btn_save_Click);
-            this.btn_save.KeyDown += new System.Windows.Forms.KeyEventHandler(this.btn_save_KeyDown);
-            // 
-            // btn_update
-            // 
-            this.btn_update.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
-            this.btn_update.Density = MaterialSkin.Controls.MaterialButton.MaterialButtonDensity.Default;
-            this.btn_update.Depth = 0;
-            this.btn_update.HighEmphasis = true;
-            this.btn_update.Icon = null;
-            this.btn_update.Location = new System.Drawing.Point(434, 1269);
-            this.btn_update.Margin = new System.Windows.Forms.Padding(4, 6, 4, 6);
-            this.btn_update.MouseState = MaterialSkin.MouseState.HOVER;
-            this.btn_update.Name = "btn_update";
-            this.btn_update.NoAccentTextColor = System.Drawing.Color.Empty;
-            this.btn_update.Size = new System.Drawing.Size(129, 36);
-            this.btn_update.TabIndex = 22;
-            this.btn_update.Text = "save changes";
-            this.btn_update.Type = MaterialSkin.Controls.MaterialButton.MaterialButtonType.Contained;
-            this.btn_update.UseAccentColor = false;
-            this.btn_update.UseVisualStyleBackColor = true;
-            this.btn_update.Visible = false;
-            this.btn_update.Click += new System.EventHandler(this.btn_update_Click);
-            this.btn_update.KeyDown += new System.Windows.Forms.KeyEventHandler(this.btn_update_KeyDown);
-            // 
-            // btn_cancel
-            // 
-            this.btn_cancel.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
-            this.btn_cancel.Density = MaterialSkin.Controls.MaterialButton.MaterialButtonDensity.Default;
-            this.btn_cancel.Depth = 0;
-            this.btn_cancel.HighEmphasis = true;
-            this.btn_cancel.Icon = null;
-            this.btn_cancel.Location = new System.Drawing.Point(680, 1269);
-            this.btn_cancel.Margin = new System.Windows.Forms.Padding(4, 6, 4, 6);
-            this.btn_cancel.MouseState = MaterialSkin.MouseState.HOVER;
-            this.btn_cancel.Name = "btn_cancel";
-            this.btn_cancel.NoAccentTextColor = System.Drawing.Color.Empty;
-            this.btn_cancel.Size = new System.Drawing.Size(77, 36);
-            this.btn_cancel.TabIndex = 23;
-            this.btn_cancel.Text = "cancel";
-            this.btn_cancel.Type = MaterialSkin.Controls.MaterialButton.MaterialButtonType.Contained;
-            this.btn_cancel.UseAccentColor = false;
-            this.btn_cancel.UseVisualStyleBackColor = true;
-            this.btn_cancel.Click += new System.EventHandler(this.btn_cancel_Click_1);
-            // 
-            // btn_account_cancel
-            // 
-            this.btn_account_cancel.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
-            this.btn_account_cancel.Density = MaterialSkin.Controls.MaterialButton.MaterialButtonDensity.Default;
-            this.btn_account_cancel.Depth = 0;
-            this.btn_account_cancel.Enabled = false;
-            this.btn_account_cancel.HighEmphasis = true;
-            this.btn_account_cancel.Icon = null;
-            this.btn_account_cancel.Location = new System.Drawing.Point(680, 717);
-            this.btn_account_cancel.Margin = new System.Windows.Forms.Padding(4, 6, 4, 6);
-            this.btn_account_cancel.MouseState = MaterialSkin.MouseState.HOVER;
-            this.btn_account_cancel.Name = "btn_account_cancel";
-            this.btn_account_cancel.NoAccentTextColor = System.Drawing.Color.Empty;
-            this.btn_account_cancel.Size = new System.Drawing.Size(77, 36);
-            this.btn_account_cancel.TabIndex = 26;
-            this.btn_account_cancel.Text = "cancel";
-            this.btn_account_cancel.Type = MaterialSkin.Controls.MaterialButton.MaterialButtonType.Contained;
-            this.btn_account_cancel.UseAccentColor = false;
-            this.btn_account_cancel.UseVisualStyleBackColor = true;
-            this.btn_account_cancel.Click += new System.EventHandler(this.btn_account_cancel_Click);
-            // 
-            // btn_update_account
-            // 
-            this.btn_update_account.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
-            this.btn_update_account.Density = MaterialSkin.Controls.MaterialButton.MaterialButtonDensity.Default;
-            this.btn_update_account.Depth = 0;
-            this.btn_update_account.Enabled = false;
-            this.btn_update_account.HighEmphasis = true;
-            this.btn_update_account.Icon = null;
-            this.btn_update_account.Location = new System.Drawing.Point(466, 717);
-            this.btn_update_account.Margin = new System.Windows.Forms.Padding(4, 6, 4, 6);
-            this.btn_update_account.MouseState = MaterialSkin.MouseState.HOVER;
-            this.btn_update_account.Name = "btn_update_account";
-            this.btn_update_account.NoAccentTextColor = System.Drawing.Color.Empty;
-            this.btn_update_account.Size = new System.Drawing.Size(129, 36);
-            this.btn_update_account.TabIndex = 25;
-            this.btn_update_account.Text = "save changes";
-            this.btn_update_account.Type = MaterialSkin.Controls.MaterialButton.MaterialButtonType.Contained;
-            this.btn_update_account.UseAccentColor = false;
-            this.btn_update_account.UseVisualStyleBackColor = true;
-            this.btn_update_account.Click += new System.EventHandler(this.btn_update_account_Click);
-            this.btn_update_account.KeyDown += new System.Windows.Forms.KeyEventHandler(this.btn_update_account_KeyDown);
-            // 
-            // txt_password
-            // 
-            this.txt_password.Location = new System.Drawing.Point(257, 390);
-            this.txt_password.Name = "txt_password";
-            this.txt_password.Size = new System.Drawing.Size(500, 22);
-            this.txt_password.TabIndex = 27;
-            this.txt_password.UseSystemPasswordChar = true;
-            // 
-            // txt_confirm_password
-            // 
-            this.txt_confirm_password.Location = new System.Drawing.Point(257, 560);
-            this.txt_confirm_password.Name = "txt_confirm_password";
-            this.txt_confirm_password.Size = new System.Drawing.Size(500, 22);
-            this.txt_confirm_password.TabIndex = 28;
-            this.txt_confirm_password.UseSystemPasswordChar = true;
             // 
             // UserForm
             // 

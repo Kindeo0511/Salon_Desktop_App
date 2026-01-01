@@ -106,7 +106,10 @@ namespace Salon.Controller
         {
             return await repo.CustomerIsAlreadyBooked(date, startTime, duration, customerId);
         }
-
+        public IEnumerable<AppointmentModel> CheckAppointmentTimeSlot(int id, DateTime date) 
+        {
+            return repo.GetAppointment(id, date);
+        }
         public async Task<bool> CheckCustomerSlotRangeAvailable(DateTime date, TimeSpan startTime, TimeSpan duration, int id)
         {
             int slotsNeeded = (int)Math.Ceiling(duration.TotalHours);

@@ -17,9 +17,10 @@ namespace Salon.Models
         public int? ProductSizeId { get; set; }
         public int? ServiceId { get; set; }
         public string ItemName { get; set; }
+        public string SubCategory { get; set; }
         public int Duration { get; set; } // in minutes
         public decimal Price { get; set; }
-        public int Quantity { get; set; }
+        public int Quantity { get; set; } = 1;
         public int RefundQty { get; set; }
         public decimal TotalPrice => Price * Quantity;
         public int Voided { get; set; }

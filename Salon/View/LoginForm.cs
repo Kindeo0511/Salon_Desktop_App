@@ -67,15 +67,15 @@ namespace Salon.View
             {
                 validated = false;
             }
-            else if (!Validator.Pattern(
-                     txt_password,
-                     errorProvider1,
-                     @"^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@#$%^&*()_+\-=!?])[a-zA-Z\d@#$%^&*()_+\-=!?]{8,}$",
-                     "Password must be at least 8 characters and include uppercase, lowercase, number, and special character (@#$%^&*()_+-=!?)."
-                 ))
-            {
-                validated = false;
-            }
+            //else if (!Validator.Pattern(
+            //         txt_password,
+            //         errorProvider1,
+            //         @"^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@#$%^&*()_+\-=!?])[a-zA-Z\d@#$%^&*()_+\-=!?]{8,}$",
+            //         "Password must be at least 8 characters and include uppercase, lowercase, number, and special character (@#$%^&*()_+-=!?)."
+            //     ))
+            //{
+            //    validated = false;
+            //}
 
 
 

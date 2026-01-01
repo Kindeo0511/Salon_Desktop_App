@@ -97,8 +97,11 @@ namespace Salon.Controller
             return _repo.LoginUser(username, password);
         }
 
+        public bool IsUserAccountExists()
+        {
+            return _repo.UserAccountExists() > 0;
+        }
 
-  
         // RESTORE DATA
 
         public void RestoreUser(int userId) 

@@ -5862,6 +5862,7 @@ namespace Salon.View
                 string selected = txt_search_product.Text;
                 if (productLookup.TryGetValue(selected, out var ids))
                 {
+
                     int productId = ids.productId; 
                     int productSizeId = ids.productSizeId; 
                     InsertProductToCart(productId, productSizeId);
@@ -6081,6 +6082,11 @@ namespace Salon.View
         }
 
         private void panel19_Paint(object sender, PaintEventArgs e)
+        {
+
+        }
+
+        private void btn_save_business_Click(object sender, EventArgs e)
         {
 
         }

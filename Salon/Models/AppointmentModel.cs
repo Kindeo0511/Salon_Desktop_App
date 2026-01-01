@@ -24,8 +24,8 @@ namespace Salon.Models
         public int StylistId { get; set; }
         public string StylistName { get; set; }
         public DateTime AppointmentDate { get; set; }
-        public TimeSpan StartTime { get; set; }
-        public TimeSpan EndTime { get; set; }
+        public DateTime StartTime { get; set; }
+        public DateTime EndTime { get; set; }
         public string Status { get; set; } // e.g., Scheduled, Completed, Canceled
         public string PaymentStatus { get; set; } // e.g., Paid, Unpaid
         public int Durations { get; set; }

@@ -70,8 +70,8 @@ namespace Salon.Repository
         {
             using (var con = Database.GetConnection())
             {
-                var sql = @"INSERT INTO tbl_users (first_Name, middle_Name, last_Name, birth_date, phone_Number, email, address) 
-                            VALUES (@first_Name, @middle_Name, @last_Name, @birth_date, @phone_Number, @email, @address);
+                var sql = @"INSERT INTO tbl_users (first_Name, middle_Name, last_Name, birth_date, phone_Number, email, address,userName, userPassword, Position) 
+                            VALUES (@first_Name, @middle_Name, @last_Name, @birth_date, @phone_Number, @email, @address, @userName, @userPassword, @Position);
                             SELECT LAST_INSERT_ID();";
                 return con.QuerySingle<int>(sql, user);
             }
@@ -201,6 +201,16 @@ namespace Salon.Repository
                 return con.QueryFirstOrDefault<UsersModel>(query, new { Username = username });
             }
 
+        }
+
+        public int UserAccountExists() 
+        {
+            using (var con = Database.GetConnection())
+            {
+                var sql = @" SELECT CASE WHEN EXISTS (SELECT 1 FROM tbl_users )   
+                            THEN 1 ELSE 0 END";
+                return con.ExecuteScalar<int>(sql);
+            }
         }
 
 

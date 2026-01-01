@@ -54,9 +54,9 @@ namespace Salon.View
             // Example: "November 21, 2025"
 
             // Format the time as 12-hour with AM/PM
-            lbl_Time.Text = DateTime.Today.Add(model.StartTime).ToString("hh:mm tt")
+            lbl_Time.Text = model.StartTime.ToString("hh:mm tt")
                + " - "
-               + DateTime.Today.Add(model.EndTime).ToString("hh:mm tt");
+               + model.EndTime.ToString("hh:mm tt");
             // Example: "02:00 PM - 03:00 PM"
 
             //lbl_Services.Text = model.Services;
@@ -67,8 +67,8 @@ namespace Salon.View
             service_id = model.ServiceId;
             stylist_id = model.StylistId;
             date = model.AppointmentDate;
-            start_time = model.StartTime;
-            end_time = model.EndTime;
+            start_time = model.StartTime.TimeOfDay;
+            end_time = model.EndTime.TimeOfDay;
             services = model.Services;
             stylist_name = model.StylistName;
 
@@ -98,8 +98,8 @@ namespace Salon.View
         private void DisplaySummary()
         {
           
-            DateTime startTime = DateTime.Today.Add(model.StartTime);
-            DateTime endTime = DateTime.Today.Add(model.EndTime);
+            DateTime startTime = model.StartTime;
+            DateTime endTime = model.EndTime;
 
             string formattedStartTime = startTime.ToString("hh:mm tt");
             string formattedEndTime = endTime.ToString("hh:mm tt");

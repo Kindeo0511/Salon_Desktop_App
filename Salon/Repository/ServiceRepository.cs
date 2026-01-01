@@ -81,7 +81,23 @@ tbl_subcategory.subCategoryName,tbl_servicesname.duration, tbl_servicesname.stat
                 return con.Query<ServiceModel>(sql).FirstOrDefault();
             }
         }
-
+      
+        public ServiceModel GetServiceByName(string name)
+        {
+            using (var con = Database.GetConnection())
+            {
+                var sql = @"SELECT tbl_servicesname.serviceName_id,
+                            tbl_subcategory.subCategoryName,
+                            tbl_servicesname.serviceName,
+                            tbl_servicesname.servicePrice,
+                            tbl_servicesname.duration 
+                            FROM tbl_servicesname
+                            LEFT JOIN tbl_subcategory
+                            ON tbl_servicesname.subCategory_id = tbl_subcategory.subCategory_id
+                            WHERE tbl_servicesname.serviceName = @name AND tbl_subcategory.is_deleted = 0 AND tbl_servicesname.is_deleted = 0 ";
+                return con.QueryFirstOrDefault<ServiceModel>(sql, new { name });
+            }
+        }
         public async Task<ServiceModel> GetTotalServicesAsync() 
         {
             using (var con = Database.GetConnection())

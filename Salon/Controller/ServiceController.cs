@@ -36,6 +36,10 @@ namespace Salon.Controller
         {
             return repo.GetAllServicesByName(key);
         }
+        public ServiceModel GetServiceByName(string name)
+        {
+            return repo.GetServiceByName(name);
+        }
         public List<ServiceModel> getServicesById(int id)
         {
             return repo.GetAllServicesbySubcategoryId(id);

@@ -52,14 +52,11 @@
             this.materialLabel10 = new MaterialSkin.Controls.MaterialLabel();
             this.btn_add_on = new MaterialSkin.Controls.MaterialButton();
             this.dgv_table = new System.Windows.Forms.DataGridView();
-            this.col_service_id = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.col_item_name = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.col_qty = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.col_unit_price = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.col_total = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.materialLabel5 = new MaterialSkin.Controls.MaterialLabel();
             this.lbl_change_amount = new MaterialSkin.Controls.MaterialLabel();
             this.materialCard1 = new MaterialSkin.Controls.MaterialCard();
+            this.flowLayoutPanel1 = new System.Windows.Forms.FlowLayoutPanel();
+            this.product_panel = new System.Windows.Forms.Panel();
             this.dgv_product = new System.Windows.Forms.DataGridView();
             this.col_product_id = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.col_product_isc_id = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -69,7 +66,6 @@
             this.col_product_price = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.col_product_total = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.btn_remove = new System.Windows.Forms.DataGridViewButtonColumn();
-            this.flowLayoutPanel1 = new System.Windows.Forms.FlowLayoutPanel();
             this.panel3 = new System.Windows.Forms.Panel();
             this.materialLabel1 = new MaterialSkin.Controls.MaterialLabel();
             this.lbl_tax_rate = new MaterialSkin.Controls.MaterialLabel();
@@ -83,16 +79,21 @@
             this.materialLabel2 = new MaterialSkin.Controls.MaterialLabel();
             this.panel2 = new System.Windows.Forms.Panel();
             this.panel1 = new System.Windows.Forms.Panel();
-            this.product_panel = new System.Windows.Forms.Panel();
+            this.col_service_id = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.col_item_name = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.col_category = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.col_qty = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.col_unit_price = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.col_total = new System.Windows.Forms.DataGridViewTextBoxColumn();
             ((System.ComponentModel.ISupportInitialize)(this.errorProvider1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.dgv_table)).BeginInit();
             this.materialCard1.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.dgv_product)).BeginInit();
             this.flowLayoutPanel1.SuspendLayout();
+            this.product_panel.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.dgv_product)).BeginInit();
             this.panel3.SuspendLayout();
             this.panel2.SuspendLayout();
             this.panel1.SuspendLayout();
-            this.product_panel.SuspendLayout();
             this.SuspendLayout();
             // 
             // txt_Reference
@@ -452,6 +453,7 @@
             this.dgv_table.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.col_service_id,
             this.col_item_name,
+            this.col_category,
             this.col_qty,
             this.col_unit_price,
             this.col_total});
@@ -463,51 +465,6 @@
             this.dgv_table.RowTemplate.Height = 24;
             this.dgv_table.Size = new System.Drawing.Size(868, 250);
             this.dgv_table.TabIndex = 34;
-            // 
-            // col_service_id
-            // 
-            this.col_service_id.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
-            this.col_service_id.HeaderText = "service_id";
-            this.col_service_id.MinimumWidth = 6;
-            this.col_service_id.Name = "col_service_id";
-            this.col_service_id.ReadOnly = true;
-            this.col_service_id.Visible = false;
-            this.col_service_id.Width = 125;
-            // 
-            // col_item_name
-            // 
-            this.col_item_name.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
-            this.col_item_name.HeaderText = "Item Name";
-            this.col_item_name.MinimumWidth = 6;
-            this.col_item_name.Name = "col_item_name";
-            this.col_item_name.ReadOnly = true;
-            // 
-            // col_qty
-            // 
-            this.col_qty.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
-            this.col_qty.HeaderText = "Qty";
-            this.col_qty.MinimumWidth = 6;
-            this.col_qty.Name = "col_qty";
-            this.col_qty.ReadOnly = true;
-            this.col_qty.Width = 56;
-            // 
-            // col_unit_price
-            // 
-            this.col_unit_price.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
-            this.col_unit_price.HeaderText = "Unit Price";
-            this.col_unit_price.MinimumWidth = 6;
-            this.col_unit_price.Name = "col_unit_price";
-            this.col_unit_price.ReadOnly = true;
-            this.col_unit_price.Width = 93;
-            // 
-            // col_total
-            // 
-            this.col_total.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
-            this.col_total.HeaderText = "Total";
-            this.col_total.MinimumWidth = 6;
-            this.col_total.Name = "col_total";
-            this.col_total.ReadOnly = true;
-            this.col_total.Width = 67;
             // 
             // materialLabel5
             // 
@@ -564,6 +521,27 @@
             this.materialCard1.Padding = new System.Windows.Forms.Padding(14);
             this.materialCard1.Size = new System.Drawing.Size(1021, 706);
             this.materialCard1.TabIndex = 37;
+            // 
+            // flowLayoutPanel1
+            // 
+            this.flowLayoutPanel1.AutoSize = true;
+            this.flowLayoutPanel1.Controls.Add(this.product_panel);
+            this.flowLayoutPanel1.Controls.Add(this.panel3);
+            this.flowLayoutPanel1.Controls.Add(this.panel2);
+            this.flowLayoutPanel1.Controls.Add(this.panel1);
+            this.flowLayoutPanel1.FlowDirection = System.Windows.Forms.FlowDirection.TopDown;
+            this.flowLayoutPanel1.Location = new System.Drawing.Point(53, 598);
+            this.flowLayoutPanel1.Name = "flowLayoutPanel1";
+            this.flowLayoutPanel1.Size = new System.Drawing.Size(871, 645);
+            this.flowLayoutPanel1.TabIndex = 39;
+            // 
+            // product_panel
+            // 
+            this.product_panel.Controls.Add(this.dgv_product);
+            this.product_panel.Location = new System.Drawing.Point(3, 3);
+            this.product_panel.Name = "product_panel";
+            this.product_panel.Size = new System.Drawing.Size(865, 0);
+            this.product_panel.TabIndex = 0;
             // 
             // dgv_product
             // 
@@ -662,19 +640,6 @@
             this.btn_remove.Resizable = System.Windows.Forms.DataGridViewTriState.True;
             this.btn_remove.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Automatic;
             this.btn_remove.Width = 88;
-            // 
-            // flowLayoutPanel1
-            // 
-            this.flowLayoutPanel1.AutoSize = true;
-            this.flowLayoutPanel1.Controls.Add(this.product_panel);
-            this.flowLayoutPanel1.Controls.Add(this.panel3);
-            this.flowLayoutPanel1.Controls.Add(this.panel2);
-            this.flowLayoutPanel1.Controls.Add(this.panel1);
-            this.flowLayoutPanel1.FlowDirection = System.Windows.Forms.FlowDirection.TopDown;
-            this.flowLayoutPanel1.Location = new System.Drawing.Point(53, 598);
-            this.flowLayoutPanel1.Name = "flowLayoutPanel1";
-            this.flowLayoutPanel1.Size = new System.Drawing.Size(871, 645);
-            this.flowLayoutPanel1.TabIndex = 39;
             // 
             // panel3
             // 
@@ -856,13 +821,58 @@
             this.panel1.Size = new System.Drawing.Size(865, 106);
             this.panel1.TabIndex = 40;
             // 
-            // product_panel
+            // col_service_id
             // 
-            this.product_panel.Controls.Add(this.dgv_product);
-            this.product_panel.Location = new System.Drawing.Point(3, 3);
-            this.product_panel.Name = "product_panel";
-            this.product_panel.Size = new System.Drawing.Size(865, 0);
-            this.product_panel.TabIndex = 0;
+            this.col_service_id.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
+            this.col_service_id.HeaderText = "service_id";
+            this.col_service_id.MinimumWidth = 6;
+            this.col_service_id.Name = "col_service_id";
+            this.col_service_id.ReadOnly = true;
+            this.col_service_id.Visible = false;
+            this.col_service_id.Width = 98;
+            // 
+            // col_item_name
+            // 
+            this.col_item_name.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
+            this.col_item_name.HeaderText = "Item Name";
+            this.col_item_name.MinimumWidth = 6;
+            this.col_item_name.Name = "col_item_name";
+            this.col_item_name.ReadOnly = true;
+            // 
+            // col_category
+            // 
+            this.col_category.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
+            this.col_category.HeaderText = "Category";
+            this.col_category.MinimumWidth = 6;
+            this.col_category.Name = "col_category";
+            this.col_category.ReadOnly = true;
+            // 
+            // col_qty
+            // 
+            this.col_qty.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
+            this.col_qty.HeaderText = "Qty";
+            this.col_qty.MinimumWidth = 6;
+            this.col_qty.Name = "col_qty";
+            this.col_qty.ReadOnly = true;
+            this.col_qty.Width = 56;
+            // 
+            // col_unit_price
+            // 
+            this.col_unit_price.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
+            this.col_unit_price.HeaderText = "Unit Price";
+            this.col_unit_price.MinimumWidth = 6;
+            this.col_unit_price.Name = "col_unit_price";
+            this.col_unit_price.ReadOnly = true;
+            this.col_unit_price.Width = 93;
+            // 
+            // col_total
+            // 
+            this.col_total.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
+            this.col_total.HeaderText = "Total";
+            this.col_total.MinimumWidth = 6;
+            this.col_total.Name = "col_total";
+            this.col_total.ReadOnly = true;
+            this.col_total.Width = 67;
             // 
             // PaymentForm
             // 
@@ -882,15 +892,15 @@
             ((System.ComponentModel.ISupportInitialize)(this.dgv_table)).EndInit();
             this.materialCard1.ResumeLayout(false);
             this.materialCard1.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.dgv_product)).EndInit();
             this.flowLayoutPanel1.ResumeLayout(false);
+            this.product_panel.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.dgv_product)).EndInit();
             this.panel3.ResumeLayout(false);
             this.panel3.PerformLayout();
             this.panel2.ResumeLayout(false);
             this.panel2.PerformLayout();
             this.panel1.ResumeLayout(false);
             this.panel1.PerformLayout();
-            this.product_panel.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }
@@ -923,11 +933,6 @@
         private MaterialSkin.Controls.MaterialLabel lbl_change_amount;
         private MaterialSkin.Controls.MaterialCard materialCard1;
         private System.Windows.Forms.DataGridView dgv_product;
-        private System.Windows.Forms.DataGridViewTextBoxColumn col_service_id;
-        private System.Windows.Forms.DataGridViewTextBoxColumn col_item_name;
-        private System.Windows.Forms.DataGridViewTextBoxColumn col_qty;
-        private System.Windows.Forms.DataGridViewTextBoxColumn col_unit_price;
-        private System.Windows.Forms.DataGridViewTextBoxColumn col_total;
         private System.Windows.Forms.DataGridViewTextBoxColumn col_product_id;
         private System.Windows.Forms.DataGridViewTextBoxColumn col_product_isc_id;
         private System.Windows.Forms.DataGridViewTextBoxColumn col_product_name;
@@ -951,5 +956,11 @@
         private MaterialSkin.Controls.MaterialLabel materialLabel9;
         private MaterialSkin.Controls.MaterialLabel materialLabel2;
         private System.Windows.Forms.Panel product_panel;
+        private System.Windows.Forms.DataGridViewTextBoxColumn col_service_id;
+        private System.Windows.Forms.DataGridViewTextBoxColumn col_item_name;
+        private System.Windows.Forms.DataGridViewTextBoxColumn col_category;
+        private System.Windows.Forms.DataGridViewTextBoxColumn col_qty;
+        private System.Windows.Forms.DataGridViewTextBoxColumn col_unit_price;
+        private System.Windows.Forms.DataGridViewTextBoxColumn col_total;
     }
 }

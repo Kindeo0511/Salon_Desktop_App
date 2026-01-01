@@ -27,11 +27,15 @@ namespace Salon.View
 
         private MainForm mainForm;
         private AppointmentModel model;
-        private List<ServiceModel> _services;
+        private List<ServiceModel> _services = new List<ServiceModel>();
         private List<ProductModel> _products;
-        public List<ServiceCart> selectedServices = new List<ServiceCart>();
+        //public List<ServiceCart> selectedServices = new List<ServiceCart>();
+        public BindingList<ServiceCart> selectedServices = new BindingList<ServiceCart>();
+        public List<int> service_id_look_up = new List<int>();
         private DateTime selectedTime;
         private int totalDuration = 0;
+        private int service_duration = 0;
+        private int service_qty = 0;
         private bool isUpdate = false;
         public string CustomerId
         {
@@ -107,7 +111,7 @@ namespace Salon.View
 
 
             cmb_stylist.SelectedValue = model.StylistId;
-            LoadTimeSlots(model.StartTime != null ? model.AppointmentDate.Date + model.StartTime : (DateTime?)null);
+            LoadTimeSlots(model.StylistId,model.StartTime != null ?  model.StartTime : (DateTime?)null);
 
 
             //invoice_id = GetInvoiceId(this.model.AppointmentId);
@@ -116,7 +120,7 @@ namespace Salon.View
 
             // Services
 
-        
+
 
 
         }
@@ -125,9 +129,10 @@ namespace Salon.View
             var repo = new ServiceRepository();
             var controller = new ServiceController(repo);
 
-            _services = controller.getServices().ToList();
+            //_services = controller.getServices().ToList();
         }
 
+       
         public void LoadProduct()
         {
             var repo = new ProductRepository();
@@ -156,23 +161,64 @@ namespace Salon.View
             cmb_stylist.Hint = "Select Stylist";
              
         }
-        private void LoadTimeSlots()
+        private void LoadTimeSlots(int stylist_id)
         {
 
+            var repo = new BusinessHourRepository();
+            var controller = new TimeSlotController(repo);
+            var businessHours = controller.GetBusinessHours();
+
+            var openTime = businessHours.open_time;
+            var closeTime = businessHours.close_time;
+
+            var appointmentRepo = new AppointmentRepository();
+            var appointmentController = new AppointmentController(appointmentRepo);
+
+            var styylistSchedule = appointmentController.CheckAppointmentTimeSlot(stylist_id, DateTime.Today);
+         
             time_slot_panel.Controls.Clear();
-            for (int hour = 9; hour <= 21; hour++)
+            for (DateTime time = DateTime.Today.Add(openTime); time <= DateTime.Today.Add(closeTime); time = time.AddMinutes(30))
             {
                 MaterialButton button = new MaterialButton();
-                DateTime time = new DateTime(1, 1, 1, hour, 0, 0);
                 string formattedTime = time.ToString("hh:mm tt"); // 12-hour format with AM/PM
                 button.AutoSize = true;
                 button.Text = formattedTime;
+                button.Tag = "Available"; // default
+
+                DateTime serviceEnd = time.AddMinutes(service_duration * service_qty);
+                // Disable if slot is in the past
+                if (time < DateTime.Now)
+                {
+                    button.Enabled = false;
+                    button.Tag = "Past";
+                }
+
+                foreach (var schedudle in styylistSchedule) 
+                {
+                    DateTime appStart = schedudle.StartTime;
+                    DateTime appEnd = schedudle.EndTime;
+
+                    bool overlaps = time < appEnd && serviceEnd > appStart;
+                    if (overlaps) 
+                    {
+                        button.UseAccentColor = true;
+                        button.Tag = "Booked";
+      
+                    }
+                    if (time >= appStart && time < appEnd)
+                    {
+
+                        button.UseAccentColor = true;
+                        button.Tag = "Booked";
+
+                    }
+                }
                 button.Click += (sender, e) =>
                 {
                     // Reset all buttons back to default
                     foreach (Control ctrl in time_slot_panel.Controls)
                     {
-                        if (ctrl is MaterialButton btn)
+                        if (ctrl is MaterialButton btn && btn.Tag.ToString() == "Available")
                         {
                             btn.UseAccentColor = false; // reset
                         }
@@ -180,13 +226,20 @@ namespace Salon.View
 
                     // Highlight the selected one
                     var clickedButton = sender as MaterialButton;
-                    if (clickedButton != null)
+                    if (clickedButton != null && clickedButton.Tag.ToString() == "Available")
                     {
                         clickedButton.UseAccentColor = true;
 
                         // Store the actual DateTime value from THIS button
                         selectedTime = DateTime.Parse(clickedButton.Text);
+                       
                     }
+                    else if (clickedButton != null && clickedButton.Tag.ToString() == "Booked")
+                    {
+                        button.UseAccentColor = true;
+                        MessageBox.Show("This time slot is already booked. Please select another time.", "Time Slot Unavailable", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    }
+
                 };
 
                 time_slot_panel.Controls.Add(button);
@@ -194,18 +247,59 @@ namespace Salon.View
             }
 
         }
-        private void LoadTimeSlots(DateTime? previousSelectedTime = null)
+        private void LoadTimeSlots(int stylist_id, DateTime? previousSelectedTime = null)
         {
             time_slot_panel.Controls.Clear();
 
-            for (int hour = 9; hour <= 21; hour++)
+            var repo = new BusinessHourRepository();
+            var controller = new TimeSlotController(repo);
+
+    
+            var businessHours = controller.GetBusinessHours();
+
+            var openTime = businessHours.open_time;
+            var closeTime = businessHours.close_time;
+
+            var appointmentRepo = new AppointmentRepository();
+            var appointmentController = new AppointmentController(appointmentRepo);
+
+            var styylistSchedule = appointmentController.CheckAppointmentTimeSlot(stylist_id, DateTime.Today);
+
+            for (DateTime time = DateTime.Today.Add(openTime); time <= DateTime.Today.Add(closeTime); time = time.AddMinutes(30))
             {
                 MaterialButton button = new MaterialButton();
-                DateTime time = new DateTime(1, 1, 1, hour, 0, 0);
                 string formattedTime = time.ToString("hh:mm tt"); // 12-hour format with AM/PM
                 button.AutoSize = true;
                 button.Text = formattedTime;
+                button.Tag = "Available"; // default
 
+                // Disable if slot is in the past
+                if (time < DateTime.Now)
+                {
+                    button.Enabled = false;
+                    button.Tag = "Past";
+                }
+                DateTime serviceEnd = time.AddMinutes(totalDuration);
+                foreach (var schedudle in styylistSchedule)
+                {
+                    DateTime appStart = schedudle.StartTime;
+                    DateTime appEnd = schedudle.EndTime;
+
+                    bool overlaps = time < appEnd && serviceEnd > appStart;
+                    if (overlaps)
+                    {
+                        button.UseAccentColor = true;
+                        button.Tag = "Booked";
+
+                    }
+                    if (time >= appStart && time < appEnd)
+                    {
+
+                        button.UseAccentColor = true;
+                        button.Tag = "Booked";
+
+                    }
+                }
                 // If this button matches the previously selected time, highlight it
                 if (previousSelectedTime.HasValue &&
                     time.ToString("hh:mm tt") == previousSelectedTime.Value.ToString("hh:mm tt"))
@@ -219,20 +313,27 @@ namespace Salon.View
                     // Reset all buttons back to default
                     foreach (Control ctrl in time_slot_panel.Controls)
                     {
-                        if (ctrl is MaterialButton btn)
+                        if (ctrl is MaterialButton btn && btn.Tag.ToString() == "Available")
                         {
                             btn.UseAccentColor = false; // reset
                         }
                     }
 
+
                     // Highlight the selected one
                     var clickedButton = sender as MaterialButton;
-                    if (clickedButton != null)
+                    if (clickedButton != null && clickedButton.Tag.ToString() == "Available")
                     {
                         clickedButton.UseAccentColor = true;
 
                         // Store the actual DateTime value from THIS button
                         selectedTime = DateTime.Parse(clickedButton.Text);
+
+                    }
+                    else if (clickedButton != null && clickedButton.Tag.ToString() == "Booked")
+                    {
+                        button.UseAccentColor = true;
+                        MessageBox.Show("This time slot is already booked. Please select another time.", "Time Slot Unavailable", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                     }
                 };
 
@@ -276,23 +377,24 @@ namespace Salon.View
             {
                 if (item.ItemType == "Service")
                 {
-                    var serviceCard = new ServiceCard();
-                    serviceCard.SetServices(_services); // bind all services
-                    serviceCard.LoadSelectedProduct(item);      // helper method inside ServiceCard
-                    fl_service.Controls.Add(serviceCard);
- 
 
-                    selectedServices.Add(new ServiceCart
-                    {
-                        ServiceId = item.ServiceId,
-                        ItemName = item.ItemName,
-                        ItemType = item.ItemType,
-                        Price = item.Price,
-                        Duration = item.Duration,
-  
-                    });
+                  
+
+                   
+                    selectedServices.Add(item);
+
+                    dgv_available_services.AutoGenerateColumns = false;
+                    dgv_available_services.DataSource = null;
+                    col_service_id.DataPropertyName = "ServiceId";
+                    col_service_name.DataPropertyName = "ItemName";
+                    col_service_category.DataPropertyName = "SubCategory";
+                    col_price.DataPropertyName = "Price";
+                    col_qty.DataPropertyName = "Quantity";
+                    col_duration.DataPropertyName = "Duration";
+                    dgv_available_services.DataSource = selectedServices;
+
                 }
-               
+
             }
 
         }
@@ -306,20 +408,7 @@ namespace Salon.View
 
     
 
-        private void LoadTimeSlots(DateTime selectedDate)
-        {
-            var repo = new BusinessHourRepository();
-            var generator = new TimeSlotGenerator();
-            var timeSlotController = new TimeSlotController();
-            var day = selectedDate.DayOfWeek.ToString();
-            var hours = repo.GetHoursForDay(day);
-            var slots = generator.GenerateSlots(hours, selectedDate);
-
-
-            var availableSlots = timeSlotController.GetTimeSlots(selectedDate);
-
-
-        }
+      
 
      
        
@@ -500,31 +589,16 @@ namespace Salon.View
 
         private void btn_update_Click_1(object sender, EventArgs e)
         {
-            selectedServices.Clear();
+
             totalDuration = 0;
-            foreach (ServiceCard card in fl_service.Controls.OfType<ServiceCard>())
+
+            foreach (var service in selectedServices)
             {
-                int serviceId = (int)card.SelectedServiceID;
-                string name = card.ItemName;
-                decimal price = card.Price;
-                int duration = card.Duration;
-                int quantity = card.Quantity;
 
+                totalDuration += service.Duration * service.Quantity;
 
-                ServiceCart cartItem = new ServiceCart
-                {
-                    ProductId = null,
-                    ServiceId = serviceId,
-                    ItemName = name,
-                    ItemType = "Service",
-                    Price = price,
-                    Duration = duration,
-                    Quantity = quantity
-                };
-                totalDuration += cartItem.Duration;
-                selectedServices.Add(cartItem);
             }
-           
+
 
 
 
@@ -537,8 +611,8 @@ namespace Salon.View
                     StylistId = Convert.ToInt32(cmb_stylist.SelectedValue),
                     StylistName = cmb_stylist.Text,
                     AppointmentDate = cmb_Date.Value,
-                    StartTime = selectedTime.TimeOfDay,
-                    EndTime = selectedTime.TimeOfDay.Add(TimeSpan.FromMinutes(totalDuration)),
+                    StartTime = cmb_Date.Value + selectedTime.TimeOfDay,
+                    EndTime = cmb_Date.Value +  selectedTime.TimeOfDay.Add(TimeSpan.FromMinutes(totalDuration)),
                     Status = "Scheduled",
                     CustomerType = "Guest",
                     PaymentStatus = "Unpaid",
@@ -554,8 +628,8 @@ namespace Salon.View
                     StylistId = Convert.ToInt32(cmb_stylist.SelectedValue),
                     StylistName = cmb_stylist.Text,
                     AppointmentDate = cmb_Date.Value,
-                    StartTime = selectedTime.TimeOfDay,
-                    EndTime = selectedTime.TimeOfDay.Add(TimeSpan.FromMinutes(totalDuration)),
+                    StartTime = cmb_Date.Value + selectedTime.TimeOfDay,
+                    EndTime = cmb_Date.Value + selectedTime.TimeOfDay.Add(TimeSpan.FromMinutes(totalDuration)),
                     Status = "Scheduled",
                     CustomerType = "Member",
                     PaymentStatus = "Unpaid",
@@ -571,8 +645,14 @@ namespace Salon.View
 
         private void AppointmentForm_Load(object sender, EventArgs e)
         {
-            LoadServices(); // populate _services once
-            LoadProduct();
+            ThemeManager.StyleDataGridView(dgv_available_services);
+           
+            dgv_available_services.CellValueChanged += dgv_available_services_CellValueChanged;
+            dgv_available_services.CurrentCellDirtyStateChanged += dgv_available_services_CurrentCellDirtyStateChanged;
+            LoadServicesForAutocomplete();
+            //LoadServices();
+
+
         }
 
         private void rad_guest_CheckedChanged(object sender, EventArgs e)
@@ -615,33 +695,11 @@ namespace Salon.View
 
         private void btn_confirm_Click(object sender, EventArgs e)
         {
-            selectedServices.Clear();
+            //selectedServices.Clear();
             totalDuration = 0;
-            foreach (ServiceCard card in fl_service.Controls.OfType<ServiceCard>())
-            {
-                int serviceId = (int)card.SelectedServiceID;
-                string name = card.ItemName;
-                decimal price = card.Price;
-                int duration = card.Duration;
-                int quantity = card.Quantity;
-
-
-                ServiceCart cartItem = new ServiceCart
-                {
-                    ProductId = null,
-                    ServiceId = serviceId,
-                    ItemName = name,
-                    ItemType = "Service",
-                    Price = price,
-                    Duration = duration,
-                    Quantity = quantity
-                };
-                totalDuration += cartItem.Duration;
-                selectedServices.Add(cartItem);
-            }
-            //foreach (ProductCard card in fl_product.Controls.OfType<ProductCard>())
+            //foreach (selectedServices card in fl_service.Controls.OfType<ServiceCard>())
             //{
-            //    int productId = (int)card.SelectedProductID;
+            //    int serviceId = (int)card.SelectedServiceID;
             //    string name = card.ItemName;
             //    decimal price = card.Price;
             //    int duration = card.Duration;
@@ -650,17 +708,25 @@ namespace Salon.View
 
             //    ServiceCart cartItem = new ServiceCart
             //    {
-            //        ProductId = productId,
-            //        ServiceId = null,
+            //        ProductId = null,
+            //        ServiceId = serviceId,
             //        ItemName = name,
-            //        ItemType = "Product",
+            //        ItemType = "Service",
             //        Price = price,
             //        Duration = duration,
             //        Quantity = quantity
             //    };
-     
+            //    totalDuration += cartItem.Duration;
             //    selectedServices.Add(cartItem);
             //}
+            foreach (var service in selectedServices) 
+            {
+                
+                totalDuration += service.Duration * service.Quantity;
+        
+            }
+
+
 
             if (rad_guest.Checked)
             {
@@ -670,8 +736,8 @@ namespace Salon.View
                     StylistId = Convert.ToInt32(cmb_stylist.SelectedValue),
                     StylistName = cmb_stylist.Text,
                     AppointmentDate = cmb_Date.Value,
-                    StartTime = selectedTime.TimeOfDay,
-                    EndTime = selectedTime.TimeOfDay.Add(TimeSpan.FromMinutes(totalDuration)),
+                    StartTime = selectedTime,
+                    EndTime = selectedTime.Add(TimeSpan.FromMinutes(totalDuration)),
                     Status = "Scheduled",
                     CustomerType = "Guest",
                     PaymentStatus = "Unpaid",
@@ -686,8 +752,8 @@ namespace Salon.View
                     StylistId = Convert.ToInt32(cmb_stylist.SelectedValue),
                     StylistName = cmb_stylist.Text,
                     AppointmentDate = cmb_Date.Value,
-                    StartTime = selectedTime.TimeOfDay,
-                    EndTime = selectedTime.TimeOfDay.Add(TimeSpan.FromMinutes(totalDuration)),
+                    StartTime = cmb_Date.Value + selectedTime.TimeOfDay,
+                    EndTime = cmb_Date.Value + selectedTime.TimeOfDay.Add(TimeSpan.FromMinutes(totalDuration)),
                     Status = "Scheduled",
                     CustomerType = "Member",
                     PaymentStatus = "Unpaid",
@@ -697,26 +763,11 @@ namespace Salon.View
             {
                 summaryForm.ShowDialog();
             }
-         
+
 
         }
 
-        private void btn_add_service_Click(object sender, EventArgs e)
-        {
-            // SERVICE CARD 
-            var serviceCard = new ServiceCard();
-
-            // Optional: hook up remove button
-            serviceCard.OnRemove += (s, ev) => fl_service.Controls.Remove(serviceCard);
-            serviceCard.SetServices(_services);
-            fl_service.Controls.Add(serviceCard);
-
-        }
-
-        private void btn_add_product_Click(object sender, EventArgs e)
-        {
-           
-        }
+      
 
       
 
@@ -725,7 +776,7 @@ namespace Salon.View
             if (rad_guest.Checked)
             {
                 LoadWalkInCode();
-                cmb_Date.Enabled = false;
+            
             }
         }
 
@@ -754,12 +805,155 @@ namespace Salon.View
         {
             if (cmb_stylist.Text.Length > 0)
             {
-                LoadTimeSlots();
+                LoadTimeSlots(Convert.ToInt32(cmb_stylist.SelectedValue));
             }
             else
             {
                 time_slot_panel.Controls.Clear();
             }
+        }
+
+        private void groupBox2_Enter(object sender, EventArgs e)
+        {
+
+        }
+        private void LoadServicesForAutocomplete()
+        {
+      
+            var repo = new ServiceRepository();
+            var controller = new ServiceController(repo);
+            var service = controller.getServices().ToList(); // or however you fetch all
+
+
+
+
+            AutoCompleteStringCollection source = new AutoCompleteStringCollection();
+  
+            source.AddRange(service.Select(s => s.serviceName).ToArray());
+
+            txt_search_service.AutoCompleteMode = AutoCompleteMode.SuggestAppend;
+            txt_search_service.AutoCompleteSource = AutoCompleteSource.CustomSource;
+            txt_search_service.AutoCompleteCustomSource = source;
+
+        
+
+        }
+        private void InsertServicesToCart(string name)
+        {
+            var repo = new ServiceRepository();
+            var controller = new ServiceController(repo);
+            var service = controller.GetServiceByName(name);
+
+
+            if (service == null) { MessageBox.Show("Service not found."); return; }
+
+
+            var existing = selectedServices.FirstOrDefault(p => p.ServiceId == service.serviceName_id);
+            if (existing != null)
+            {
+                MessageBox.Show("This service is already in the cart.");
+                return;
+            }
+            var model = new ServiceCart
+            {
+                ServiceId = service.serviceName_id,
+                ItemName = service.serviceName,
+                SubCategory = service.subCategoryName,
+                ItemType = "Service",
+                Price = service.servicePrice,
+                Duration = service.duration
+            };
+            service_duration += model.Duration;
+            selectedServices.Add(model);
+            dgv_available_services.AutoGenerateColumns = false;
+            dgv_available_services.DataSource = null;
+            col_service_id.DataPropertyName = "ServiceId";
+            col_service_name.DataPropertyName = "ItemName";
+            col_service_category.DataPropertyName = "subCategoryName";
+            col_price.DataPropertyName = "Price";
+            col_qty.DataPropertyName = "Quantity";
+            col_duration.DataPropertyName = "Duration";
+
+            dgv_available_services.DataSource = selectedServices;
+        }
+
+      
+
+        private void txt_search_service_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.KeyCode == Keys.Enter)
+            {
+                string selected = txt_search_service.Text;
+                if (selected != null)
+                {
+                    InsertServicesToCart(txt_search_service.Text.Trim());
+                    if (cmb_stylist.Text.Length > 0)
+                    {
+                        LoadTimeSlots(Convert.ToInt32(cmb_stylist.SelectedValue));
+                    }
+                    else
+                    {
+                        time_slot_panel.Controls.Clear();
+                    }
+                    txt_search_service.Clear();
+                }
+
+               
+            }
+
+        }
+
+        private void dgv_available_services_CellClick(object sender, DataGridViewCellEventArgs e)
+        {
+            if(e.RowIndex < 0) return;
+
+            if (e.RowIndex >= 0 && dgv_available_services.Columns[e.ColumnIndex].Name == "col_remove") 
+            {
+               selectedServices.RemoveAt(e.RowIndex);
+            }
+        }
+
+        private void dgv_available_services_CellContentClick(object sender, DataGridViewCellEventArgs e)
+        {
+
+        }
+
+        private void dgv_available_services_CurrentCellDirtyStateChanged(object sender, EventArgs e)
+        {
+            if (dgv_available_services.IsCurrentCellDirty) 
+            {
+                dgv_available_services.CommitEdit(DataGridViewDataErrorContexts.Commit);
+            }
+        }
+
+        private void dgv_available_services_CellValueChanged(object sender, DataGridViewCellEventArgs e)
+        {
+            if (dgv_available_services.Columns[e.ColumnIndex].Name == "col_qty") 
+            {
+                var row = dgv_available_services.Rows[e.RowIndex];
+                int quantity = Convert.ToInt32(row.Cells["col_qty"].Value);
+
+                service_qty = quantity;
+
+                if (cmb_stylist.Text.Length > 0)
+                {
+                    LoadTimeSlots(Convert.ToInt32(cmb_stylist.SelectedValue));
+                }
+                else
+                {
+                    time_slot_panel.Controls.Clear();
+                }
+            }
+        }
+
+        private void materialCard1_Paint(object sender, PaintEventArgs e)
+        {
+
+        }
+
+        private void AppointmentForm_Shown(object sender, EventArgs e)
+        {
+            materialCard1.AutoScrollPosition = new Point(0, 0);
         }
 
 
