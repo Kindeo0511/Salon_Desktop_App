@@ -40,6 +40,7 @@
             this.txt_discount_percent = new System.Windows.Forms.TextBox();
             this.btn_discount_senior = new MaterialSkin.Controls.MaterialButton();
             this.btn_discount_pwd = new MaterialSkin.Controls.MaterialButton();
+            this.btn_free = new MaterialSkin.Controls.MaterialButton();
             this.materialCard1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.txt_qty)).BeginInit();
             this.SuspendLayout();
@@ -194,6 +195,7 @@
             this.btn_discount_senior.Type = MaterialSkin.Controls.MaterialButton.MaterialButtonType.Contained;
             this.btn_discount_senior.UseAccentColor = false;
             this.btn_discount_senior.UseVisualStyleBackColor = true;
+            this.btn_discount_senior.Click += new System.EventHandler(this.btn_discount_senior_Click);
             // 
             // btn_discount_pwd
             // 
@@ -213,6 +215,28 @@
             this.btn_discount_pwd.Type = MaterialSkin.Controls.MaterialButton.MaterialButtonType.Contained;
             this.btn_discount_pwd.UseAccentColor = false;
             this.btn_discount_pwd.UseVisualStyleBackColor = true;
+            this.btn_discount_pwd.Click += new System.EventHandler(this.btn_discount_pwd_Click);
+            // 
+            // btn_free
+            // 
+            this.btn_free.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
+            this.btn_free.Density = MaterialSkin.Controls.MaterialButton.MaterialButtonDensity.Default;
+            this.btn_free.Depth = 0;
+            this.btn_free.DrawShadows = false;
+            this.btn_free.HighEmphasis = true;
+            this.btn_free.Icon = null;
+            this.btn_free.Location = new System.Drawing.Point(395, 433);
+            this.btn_free.Margin = new System.Windows.Forms.Padding(4, 6, 4, 6);
+            this.btn_free.MouseState = MaterialSkin.MouseState.HOVER;
+            this.btn_free.Name = "btn_free";
+            this.btn_free.NoAccentTextColor = System.Drawing.Color.Empty;
+            this.btn_free.Size = new System.Drawing.Size(64, 36);
+            this.btn_free.TabIndex = 13;
+            this.btn_free.Text = "Free";
+            this.btn_free.Type = MaterialSkin.Controls.MaterialButton.MaterialButtonType.Contained;
+            this.btn_free.UseAccentColor = false;
+            this.btn_free.UseVisualStyleBackColor = true;
+            this.btn_free.Click += new System.EventHandler(this.materialButton1_Click);
             // 
             // DiscountModelForm
             // 
@@ -220,6 +244,7 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.AutoSize = true;
             this.ClientSize = new System.Drawing.Size(800, 600);
+            this.Controls.Add(this.btn_free);
             this.Controls.Add(this.btn_discount_pwd);
             this.Controls.Add(this.btn_discount_senior);
             this.Controls.Add(this.txt_discount_percent);
@@ -260,5 +285,6 @@
         private System.Windows.Forms.TextBox txt_discount_percent;
         private MaterialSkin.Controls.MaterialButton btn_discount_senior;
         private MaterialSkin.Controls.MaterialButton btn_discount_pwd;
+        private MaterialSkin.Controls.MaterialButton btn_free;
     }
 }

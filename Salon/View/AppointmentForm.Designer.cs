@@ -33,29 +33,12 @@
             this.errorProvider1 = new System.Windows.Forms.ErrorProvider(this.components);
             this.materialLabel2 = new MaterialSkin.Controls.MaterialLabel();
             this.materialCard1 = new MaterialSkin.Controls.MaterialCard();
-            this.btn_search = new MaterialSkin.Controls.MaterialButton();
-            this.btn_register_customer = new MaterialSkin.Controls.MaterialButton();
-            this.lbl_ID = new MaterialSkin.Controls.MaterialLabel();
-            this.rad_exists = new MaterialSkin.Controls.MaterialRadioButton();
-            this.rad_guest = new MaterialSkin.Controls.MaterialRadioButton();
-            this.materialLabel1 = new MaterialSkin.Controls.MaterialLabel();
-            this.cmb_Date = new System.Windows.Forms.DateTimePicker();
-            this.time_slot_panel = new System.Windows.Forms.FlowLayoutPanel();
-            this.groupBox5 = new System.Windows.Forms.GroupBox();
-            this.cmb_stylist = new MaterialSkin.Controls.MaterialComboBox();
-            this.groupBox2 = new System.Windows.Forms.GroupBox();
-            this.btn_confirm = new MaterialSkin.Controls.MaterialButton();
+            this.panel2 = new System.Windows.Forms.Panel();
+            this.txt_search_service = new System.Windows.Forms.TextBox();
             this.btn_update = new MaterialSkin.Controls.MaterialButton();
+            this.btn_confirm = new MaterialSkin.Controls.MaterialButton();
             this.btn_cancel = new MaterialSkin.Controls.MaterialButton();
             this.dgv_available_services = new System.Windows.Forms.DataGridView();
-            this.txt_search_service = new System.Windows.Forms.TextBox();
-            this.materialLabel3 = new MaterialSkin.Controls.MaterialLabel();
-            this.materialLabel4 = new MaterialSkin.Controls.MaterialLabel();
-            this.txt_FullName = new System.Windows.Forms.TextBox();
-            this.materialLabel5 = new MaterialSkin.Controls.MaterialLabel();
-            this.panel1 = new System.Windows.Forms.Panel();
-            this.materialProgressBar1 = new MaterialSkin.Controls.MaterialProgressBar();
-            this.panel2 = new System.Windows.Forms.Panel();
             this.col_service_id = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.col_service_name = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.col_service_category = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -63,13 +46,30 @@
             this.col_qty = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.col_duration = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.col_remove = new System.Windows.Forms.DataGridViewButtonColumn();
+            this.materialLabel3 = new MaterialSkin.Controls.MaterialLabel();
+            this.materialLabel4 = new MaterialSkin.Controls.MaterialLabel();
+            this.groupBox5 = new System.Windows.Forms.GroupBox();
+            this.time_slot_panel = new System.Windows.Forms.FlowLayoutPanel();
+            this.groupBox2 = new System.Windows.Forms.GroupBox();
+            this.cmb_stylist = new MaterialSkin.Controls.MaterialComboBox();
+            this.panel1 = new System.Windows.Forms.Panel();
+            this.cmb_Date = new System.Windows.Forms.DateTimePicker();
+            this.txt_FullName = new System.Windows.Forms.TextBox();
+            this.materialLabel5 = new MaterialSkin.Controls.MaterialLabel();
+            this.materialProgressBar1 = new MaterialSkin.Controls.MaterialProgressBar();
+            this.materialLabel1 = new MaterialSkin.Controls.MaterialLabel();
+            this.rad_exists = new MaterialSkin.Controls.MaterialRadioButton();
+            this.btn_search = new MaterialSkin.Controls.MaterialButton();
+            this.rad_guest = new MaterialSkin.Controls.MaterialRadioButton();
+            this.lbl_ID = new MaterialSkin.Controls.MaterialLabel();
+            this.btn_register_customer = new MaterialSkin.Controls.MaterialButton();
             ((System.ComponentModel.ISupportInitialize)(this.errorProvider1)).BeginInit();
             this.materialCard1.SuspendLayout();
+            this.panel2.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.dgv_available_services)).BeginInit();
             this.groupBox5.SuspendLayout();
             this.groupBox2.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.dgv_available_services)).BeginInit();
             this.panel1.SuspendLayout();
-            this.panel2.SuspendLayout();
             this.SuspendLayout();
             // 
             // errorProvider1
@@ -117,176 +117,46 @@
             this.materialCard1.TabIndex = 38;
             this.materialCard1.Paint += new System.Windows.Forms.PaintEventHandler(this.materialCard1_Paint);
             // 
-            // btn_search
+            // panel2
             // 
-            this.btn_search.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.btn_search.AutoSize = false;
-            this.btn_search.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
-            this.btn_search.Density = MaterialSkin.Controls.MaterialButton.MaterialButtonDensity.Default;
-            this.btn_search.Depth = 0;
-            this.btn_search.HighEmphasis = true;
-            this.btn_search.Icon = ((System.Drawing.Image)(resources.GetObject("btn_search.Icon")));
-            this.btn_search.ImageAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.btn_search.Location = new System.Drawing.Point(410, 259);
-            this.btn_search.Margin = new System.Windows.Forms.Padding(4, 6, 4, 6);
-            this.btn_search.MouseState = MaterialSkin.MouseState.HOVER;
-            this.btn_search.Name = "btn_search";
-            this.btn_search.NoAccentTextColor = System.Drawing.Color.Empty;
-            this.btn_search.Size = new System.Drawing.Size(200, 40);
-            this.btn_search.TabIndex = 29;
-            this.btn_search.Text = " search member";
-            this.btn_search.Type = MaterialSkin.Controls.MaterialButton.MaterialButtonType.Contained;
-            this.btn_search.UseAccentColor = false;
-            this.btn_search.UseVisualStyleBackColor = true;
-            this.btn_search.Click += new System.EventHandler(this.btn_search_Click);
+            this.panel2.BackColor = System.Drawing.SystemColors.Window;
+            this.panel2.Controls.Add(this.txt_search_service);
+            this.panel2.Location = new System.Drawing.Point(53, 483);
+            this.panel2.Name = "panel2";
+            this.panel2.Padding = new System.Windows.Forms.Padding(10);
+            this.panel2.Size = new System.Drawing.Size(847, 40);
+            this.panel2.TabIndex = 53;
             // 
-            // btn_register_customer
+            // txt_search_service
             // 
-            this.btn_register_customer.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.btn_register_customer.AutoSize = false;
-            this.btn_register_customer.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
-            this.btn_register_customer.Density = MaterialSkin.Controls.MaterialButton.MaterialButtonDensity.Default;
-            this.btn_register_customer.Depth = 0;
-            this.btn_register_customer.HighEmphasis = true;
-            this.btn_register_customer.Icon = null;
-            this.btn_register_customer.Location = new System.Drawing.Point(710, 259);
-            this.btn_register_customer.Margin = new System.Windows.Forms.Padding(4, 6, 4, 6);
-            this.btn_register_customer.MouseState = MaterialSkin.MouseState.HOVER;
-            this.btn_register_customer.Name = "btn_register_customer";
-            this.btn_register_customer.NoAccentTextColor = System.Drawing.Color.Empty;
-            this.btn_register_customer.Size = new System.Drawing.Size(200, 40);
-            this.btn_register_customer.TabIndex = 30;
-            this.btn_register_customer.Text = "register Member";
-            this.btn_register_customer.Type = MaterialSkin.Controls.MaterialButton.MaterialButtonType.Contained;
-            this.btn_register_customer.UseAccentColor = false;
-            this.btn_register_customer.UseVisualStyleBackColor = true;
-            this.btn_register_customer.Click += new System.EventHandler(this.btn_register_customer_Click);
+            this.txt_search_service.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.txt_search_service.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.txt_search_service.Location = new System.Drawing.Point(10, 10);
+            this.txt_search_service.Name = "txt_search_service";
+            this.txt_search_service.Size = new System.Drawing.Size(827, 22);
+            this.txt_search_service.TabIndex = 47;
+            this.txt_search_service.KeyDown += new System.Windows.Forms.KeyEventHandler(this.txt_search_service_KeyDown);
             // 
-            // lbl_ID
+            // btn_update
             // 
-            this.lbl_ID.AutoSize = true;
-            this.lbl_ID.Depth = 0;
-            this.lbl_ID.Font = new System.Drawing.Font("Roboto", 14F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
-            this.lbl_ID.Location = new System.Drawing.Point(26, 11);
-            this.lbl_ID.MouseState = MaterialSkin.MouseState.HOVER;
-            this.lbl_ID.Name = "lbl_ID";
-            this.lbl_ID.Size = new System.Drawing.Size(16, 19);
-            this.lbl_ID.TabIndex = 28;
-            this.lbl_ID.Text = "ID";
-            this.lbl_ID.Visible = false;
-            // 
-            // rad_exists
-            // 
-            this.rad_exists.AutoSize = true;
-            this.rad_exists.Depth = 0;
-            this.rad_exists.Location = new System.Drawing.Point(653, 172);
-            this.rad_exists.Margin = new System.Windows.Forms.Padding(0);
-            this.rad_exists.MouseLocation = new System.Drawing.Point(-1, -1);
-            this.rad_exists.MouseState = MaterialSkin.MouseState.HOVER;
-            this.rad_exists.Name = "rad_exists";
-            this.rad_exists.Ripple = true;
-            this.rad_exists.Size = new System.Drawing.Size(101, 37);
-            this.rad_exists.TabIndex = 26;
-            this.rad_exists.TabStop = true;
-            this.rad_exists.Text = "MEMBER";
-            this.rad_exists.UseVisualStyleBackColor = true;
-            this.rad_exists.CheckedChanged += new System.EventHandler(this.rad_exists_CheckedChanged_1);
-            // 
-            // rad_guest
-            // 
-            this.rad_guest.AutoSize = true;
-            this.rad_guest.Depth = 0;
-            this.rad_guest.Location = new System.Drawing.Point(410, 172);
-            this.rad_guest.Margin = new System.Windows.Forms.Padding(0);
-            this.rad_guest.MouseLocation = new System.Drawing.Point(-1, -1);
-            this.rad_guest.MouseState = MaterialSkin.MouseState.HOVER;
-            this.rad_guest.Name = "rad_guest";
-            this.rad_guest.Ripple = true;
-            this.rad_guest.Size = new System.Drawing.Size(105, 37);
-            this.rad_guest.TabIndex = 25;
-            this.rad_guest.TabStop = true;
-            this.rad_guest.Text = "WALK - IN";
-            this.rad_guest.UseVisualStyleBackColor = true;
-            this.rad_guest.CheckedChanged += new System.EventHandler(this.rad_guest_CheckedChanged_1);
-            // 
-            // materialLabel1
-            // 
-            this.materialLabel1.AutoSize = true;
-            this.materialLabel1.Depth = 0;
-            this.materialLabel1.Font = new System.Drawing.Font("Roboto Medium", 20F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Pixel);
-            this.materialLabel1.FontType = MaterialSkin.MaterialSkinManager.fontType.H6;
-            this.materialLabel1.Location = new System.Drawing.Point(46, 114);
-            this.materialLabel1.MouseState = MaterialSkin.MouseState.HOVER;
-            this.materialLabel1.Name = "materialLabel1";
-            this.materialLabel1.Size = new System.Drawing.Size(48, 24);
-            this.materialLabel1.TabIndex = 15;
-            this.materialLabel1.Text = "Date:";
-            // 
-            // cmb_Date
-            // 
-            this.cmb_Date.Enabled = false;
-            this.cmb_Date.Location = new System.Drawing.Point(410, 115);
-            this.cmb_Date.Name = "cmb_Date";
-            this.cmb_Date.Size = new System.Drawing.Size(500, 22);
-            this.cmb_Date.TabIndex = 5;
-            // 
-            // time_slot_panel
-            // 
-            this.time_slot_panel.AutoScroll = true;
-            this.time_slot_panel.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.time_slot_panel.Location = new System.Drawing.Point(50, 65);
-            this.time_slot_panel.Name = "time_slot_panel";
-            this.time_slot_panel.Size = new System.Drawing.Size(927, 292);
-            this.time_slot_panel.TabIndex = 16;
-            // 
-            // groupBox5
-            // 
-            this.groupBox5.Controls.Add(this.time_slot_panel);
-            this.groupBox5.Location = new System.Drawing.Point(53, 1040);
-            this.groupBox5.Margin = new System.Windows.Forms.Padding(3, 3, 3, 25);
-            this.groupBox5.Name = "groupBox5";
-            this.groupBox5.Padding = new System.Windows.Forms.Padding(50);
-            this.groupBox5.Size = new System.Drawing.Size(1027, 407);
-            this.groupBox5.TabIndex = 40;
-            this.groupBox5.TabStop = false;
-            this.groupBox5.Text = "TIME";
-            // 
-            // cmb_stylist
-            // 
-            this.cmb_stylist.AutoResize = false;
-            this.cmb_stylist.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
-            this.cmb_stylist.Depth = 0;
-            this.cmb_stylist.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.cmb_stylist.DrawMode = System.Windows.Forms.DrawMode.OwnerDrawVariable;
-            this.cmb_stylist.DropDownHeight = 174;
-            this.cmb_stylist.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.cmb_stylist.DropDownWidth = 121;
-            this.cmb_stylist.Font = new System.Drawing.Font("Roboto Medium", 14F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Pixel);
-            this.cmb_stylist.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(222)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
-            this.cmb_stylist.FormattingEnabled = true;
-            this.cmb_stylist.Hint = "Select Stylist";
-            this.cmb_stylist.IntegralHeight = false;
-            this.cmb_stylist.ItemHeight = 43;
-            this.cmb_stylist.Location = new System.Drawing.Point(25, 51);
-            this.cmb_stylist.MaxDropDownItems = 4;
-            this.cmb_stylist.MouseState = MaterialSkin.MouseState.OUT;
-            this.cmb_stylist.Name = "cmb_stylist";
-            this.cmb_stylist.Size = new System.Drawing.Size(977, 49);
-            this.cmb_stylist.StartIndex = 0;
-            this.cmb_stylist.TabIndex = 17;
-            this.cmb_stylist.SelectedIndexChanged += new System.EventHandler(this.cmb_stylist_SelectedIndexChanged);
-            // 
-            // groupBox2
-            // 
-            this.groupBox2.Controls.Add(this.cmb_stylist);
-            this.groupBox2.Location = new System.Drawing.Point(53, 863);
-            this.groupBox2.Name = "groupBox2";
-            this.groupBox2.Padding = new System.Windows.Forms.Padding(25);
-            this.groupBox2.Size = new System.Drawing.Size(1027, 125);
-            this.groupBox2.TabIndex = 39;
-            this.groupBox2.TabStop = false;
-            this.groupBox2.Text = "STYLIST";
-            this.groupBox2.Enter += new System.EventHandler(this.groupBox2_Enter);
+            this.btn_update.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
+            this.btn_update.Density = MaterialSkin.Controls.MaterialButton.MaterialButtonDensity.Default;
+            this.btn_update.Depth = 0;
+            this.btn_update.HighEmphasis = true;
+            this.btn_update.Icon = null;
+            this.btn_update.Location = new System.Drawing.Point(753, 1527);
+            this.btn_update.Margin = new System.Windows.Forms.Padding(4, 6, 4, 6);
+            this.btn_update.MouseState = MaterialSkin.MouseState.HOVER;
+            this.btn_update.Name = "btn_update";
+            this.btn_update.NoAccentTextColor = System.Drawing.Color.Empty;
+            this.btn_update.Size = new System.Drawing.Size(129, 36);
+            this.btn_update.TabIndex = 24;
+            this.btn_update.Text = "save changes";
+            this.btn_update.Type = MaterialSkin.Controls.MaterialButton.MaterialButtonType.Contained;
+            this.btn_update.UseAccentColor = false;
+            this.btn_update.UseVisualStyleBackColor = true;
+            this.btn_update.Visible = false;
+            this.btn_update.Click += new System.EventHandler(this.btn_update_Click_1);
             // 
             // btn_confirm
             // 
@@ -307,27 +177,6 @@
             this.btn_confirm.UseAccentColor = false;
             this.btn_confirm.UseVisualStyleBackColor = true;
             this.btn_confirm.Click += new System.EventHandler(this.btn_confirm_Click);
-            // 
-            // btn_update
-            // 
-            this.btn_update.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
-            this.btn_update.Density = MaterialSkin.Controls.MaterialButton.MaterialButtonDensity.Default;
-            this.btn_update.Depth = 0;
-            this.btn_update.HighEmphasis = true;
-            this.btn_update.Icon = null;
-            this.btn_update.Location = new System.Drawing.Point(761, 1527);
-            this.btn_update.Margin = new System.Windows.Forms.Padding(4, 6, 4, 6);
-            this.btn_update.MouseState = MaterialSkin.MouseState.HOVER;
-            this.btn_update.Name = "btn_update";
-            this.btn_update.NoAccentTextColor = System.Drawing.Color.Empty;
-            this.btn_update.Size = new System.Drawing.Size(129, 36);
-            this.btn_update.TabIndex = 24;
-            this.btn_update.Text = "save changes";
-            this.btn_update.Type = MaterialSkin.Controls.MaterialButton.MaterialButtonType.Contained;
-            this.btn_update.UseAccentColor = false;
-            this.btn_update.UseVisualStyleBackColor = true;
-            this.btn_update.Visible = false;
-            this.btn_update.Click += new System.EventHandler(this.btn_update_Click_1);
             // 
             // btn_cancel
             // 
@@ -380,101 +229,6 @@
             this.dgv_available_services.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgv_available_services_CellContentClick);
             this.dgv_available_services.CellValueChanged += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgv_available_services_CellValueChanged);
             this.dgv_available_services.CurrentCellDirtyStateChanged += new System.EventHandler(this.dgv_available_services_CurrentCellDirtyStateChanged);
-            // 
-            // txt_search_service
-            // 
-            this.txt_search_service.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.txt_search_service.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.txt_search_service.Location = new System.Drawing.Point(10, 10);
-            this.txt_search_service.Name = "txt_search_service";
-            this.txt_search_service.Size = new System.Drawing.Size(827, 22);
-            this.txt_search_service.TabIndex = 47;
-            this.txt_search_service.KeyDown += new System.Windows.Forms.KeyEventHandler(this.txt_search_service_KeyDown);
-            // 
-            // materialLabel3
-            // 
-            this.materialLabel3.AutoSize = true;
-            this.materialLabel3.Depth = 0;
-            this.materialLabel3.Font = new System.Drawing.Font("Roboto Medium", 20F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Pixel);
-            this.materialLabel3.FontType = MaterialSkin.MaterialSkinManager.fontType.H6;
-            this.materialLabel3.Location = new System.Drawing.Point(53, 525);
-            this.materialLabel3.MouseState = MaterialSkin.MouseState.HOVER;
-            this.materialLabel3.Name = "materialLabel3";
-            this.materialLabel3.Size = new System.Drawing.Size(190, 24);
-            this.materialLabel3.TabIndex = 48;
-            this.materialLabel3.Text = "SELECTEC SERVICES";
-            // 
-            // materialLabel4
-            // 
-            this.materialLabel4.AutoSize = true;
-            this.materialLabel4.Depth = 0;
-            this.materialLabel4.Font = new System.Drawing.Font("Roboto Medium", 20F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Pixel);
-            this.materialLabel4.FontType = MaterialSkin.MaterialSkinManager.fontType.H6;
-            this.materialLabel4.Location = new System.Drawing.Point(54, 456);
-            this.materialLabel4.MouseState = MaterialSkin.MouseState.HOVER;
-            this.materialLabel4.Name = "materialLabel4";
-            this.materialLabel4.Size = new System.Drawing.Size(134, 24);
-            this.materialLabel4.TabIndex = 49;
-            this.materialLabel4.Text = "Search Service";
-            // 
-            // txt_FullName
-            // 
-            this.txt_FullName.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.txt_FullName.Location = new System.Drawing.Point(410, 50);
-            this.txt_FullName.Name = "txt_FullName";
-            this.txt_FullName.Size = new System.Drawing.Size(500, 22);
-            this.txt_FullName.TabIndex = 50;
-            // 
-            // materialLabel5
-            // 
-            this.materialLabel5.AutoSize = true;
-            this.materialLabel5.Depth = 0;
-            this.materialLabel5.Font = new System.Drawing.Font("Roboto Medium", 20F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Pixel);
-            this.materialLabel5.FontType = MaterialSkin.MaterialSkinManager.fontType.H6;
-            this.materialLabel5.Location = new System.Drawing.Point(46, 171);
-            this.materialLabel5.MouseState = MaterialSkin.MouseState.HOVER;
-            this.materialLabel5.Name = "materialLabel5";
-            this.materialLabel5.Size = new System.Drawing.Size(107, 24);
-            this.materialLabel5.TabIndex = 51;
-            this.materialLabel5.Text = "Client Type:";
-            // 
-            // panel1
-            // 
-            this.panel1.Controls.Add(this.cmb_Date);
-            this.panel1.Controls.Add(this.txt_FullName);
-            this.panel1.Controls.Add(this.materialLabel5);
-            this.panel1.Controls.Add(this.materialProgressBar1);
-            this.panel1.Controls.Add(this.materialLabel1);
-            this.panel1.Controls.Add(this.rad_exists);
-            this.panel1.Controls.Add(this.btn_search);
-            this.panel1.Controls.Add(this.rad_guest);
-            this.panel1.Controls.Add(this.lbl_ID);
-            this.panel1.Controls.Add(this.btn_register_customer);
-            this.panel1.Controls.Add(this.materialLabel2);
-            this.panel1.Location = new System.Drawing.Point(53, 35);
-            this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(1027, 340);
-            this.panel1.TabIndex = 52;
-            // 
-            // materialProgressBar1
-            // 
-            this.materialProgressBar1.Depth = 0;
-            this.materialProgressBar1.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.materialProgressBar1.Location = new System.Drawing.Point(0, 335);
-            this.materialProgressBar1.MouseState = MaterialSkin.MouseState.HOVER;
-            this.materialProgressBar1.Name = "materialProgressBar1";
-            this.materialProgressBar1.Size = new System.Drawing.Size(1027, 5);
-            this.materialProgressBar1.TabIndex = 0;
-            // 
-            // panel2
-            // 
-            this.panel2.BackColor = System.Drawing.SystemColors.Window;
-            this.panel2.Controls.Add(this.txt_search_service);
-            this.panel2.Location = new System.Drawing.Point(53, 483);
-            this.panel2.Name = "panel2";
-            this.panel2.Padding = new System.Windows.Forms.Padding(10);
-            this.panel2.Size = new System.Drawing.Size(847, 40);
-            this.panel2.TabIndex = 53;
             // 
             // col_service_id
             // 
@@ -535,6 +289,252 @@
             this.col_remove.Name = "col_remove";
             this.col_remove.Width = 65;
             // 
+            // materialLabel3
+            // 
+            this.materialLabel3.AutoSize = true;
+            this.materialLabel3.Depth = 0;
+            this.materialLabel3.Font = new System.Drawing.Font("Roboto Medium", 20F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Pixel);
+            this.materialLabel3.FontType = MaterialSkin.MaterialSkinManager.fontType.H6;
+            this.materialLabel3.Location = new System.Drawing.Point(53, 525);
+            this.materialLabel3.MouseState = MaterialSkin.MouseState.HOVER;
+            this.materialLabel3.Name = "materialLabel3";
+            this.materialLabel3.Size = new System.Drawing.Size(190, 24);
+            this.materialLabel3.TabIndex = 48;
+            this.materialLabel3.Text = "SELECTEC SERVICES";
+            // 
+            // materialLabel4
+            // 
+            this.materialLabel4.AutoSize = true;
+            this.materialLabel4.Depth = 0;
+            this.materialLabel4.Font = new System.Drawing.Font("Roboto Medium", 20F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Pixel);
+            this.materialLabel4.FontType = MaterialSkin.MaterialSkinManager.fontType.H6;
+            this.materialLabel4.Location = new System.Drawing.Point(54, 456);
+            this.materialLabel4.MouseState = MaterialSkin.MouseState.HOVER;
+            this.materialLabel4.Name = "materialLabel4";
+            this.materialLabel4.Size = new System.Drawing.Size(134, 24);
+            this.materialLabel4.TabIndex = 49;
+            this.materialLabel4.Text = "Search Service";
+            // 
+            // groupBox5
+            // 
+            this.groupBox5.Controls.Add(this.time_slot_panel);
+            this.groupBox5.Location = new System.Drawing.Point(53, 1040);
+            this.groupBox5.Margin = new System.Windows.Forms.Padding(3, 3, 3, 25);
+            this.groupBox5.Name = "groupBox5";
+            this.groupBox5.Padding = new System.Windows.Forms.Padding(50);
+            this.groupBox5.Size = new System.Drawing.Size(1027, 407);
+            this.groupBox5.TabIndex = 40;
+            this.groupBox5.TabStop = false;
+            this.groupBox5.Text = "TIME";
+            // 
+            // time_slot_panel
+            // 
+            this.time_slot_panel.AutoScroll = true;
+            this.time_slot_panel.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.time_slot_panel.Location = new System.Drawing.Point(50, 65);
+            this.time_slot_panel.Name = "time_slot_panel";
+            this.time_slot_panel.Size = new System.Drawing.Size(927, 292);
+            this.time_slot_panel.TabIndex = 16;
+            // 
+            // groupBox2
+            // 
+            this.groupBox2.Controls.Add(this.cmb_stylist);
+            this.groupBox2.Location = new System.Drawing.Point(53, 863);
+            this.groupBox2.Name = "groupBox2";
+            this.groupBox2.Padding = new System.Windows.Forms.Padding(25);
+            this.groupBox2.Size = new System.Drawing.Size(1027, 125);
+            this.groupBox2.TabIndex = 39;
+            this.groupBox2.TabStop = false;
+            this.groupBox2.Text = "STYLIST";
+            this.groupBox2.Enter += new System.EventHandler(this.groupBox2_Enter);
+            // 
+            // cmb_stylist
+            // 
+            this.cmb_stylist.AutoResize = false;
+            this.cmb_stylist.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
+            this.cmb_stylist.Depth = 0;
+            this.cmb_stylist.Dock = System.Windows.Forms.DockStyle.Bottom;
+            this.cmb_stylist.DrawMode = System.Windows.Forms.DrawMode.OwnerDrawVariable;
+            this.cmb_stylist.DropDownHeight = 174;
+            this.cmb_stylist.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cmb_stylist.DropDownWidth = 121;
+            this.cmb_stylist.Font = new System.Drawing.Font("Roboto Medium", 14F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Pixel);
+            this.cmb_stylist.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(222)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
+            this.cmb_stylist.FormattingEnabled = true;
+            this.cmb_stylist.Hint = "Select Stylist";
+            this.cmb_stylist.IntegralHeight = false;
+            this.cmb_stylist.ItemHeight = 43;
+            this.cmb_stylist.Location = new System.Drawing.Point(25, 51);
+            this.cmb_stylist.MaxDropDownItems = 4;
+            this.cmb_stylist.MouseState = MaterialSkin.MouseState.OUT;
+            this.cmb_stylist.Name = "cmb_stylist";
+            this.cmb_stylist.Size = new System.Drawing.Size(977, 49);
+            this.cmb_stylist.StartIndex = 0;
+            this.cmb_stylist.TabIndex = 17;
+            this.cmb_stylist.SelectedIndexChanged += new System.EventHandler(this.cmb_stylist_SelectedIndexChanged);
+            // 
+            // panel1
+            // 
+            this.panel1.Controls.Add(this.cmb_Date);
+            this.panel1.Controls.Add(this.txt_FullName);
+            this.panel1.Controls.Add(this.materialLabel5);
+            this.panel1.Controls.Add(this.materialProgressBar1);
+            this.panel1.Controls.Add(this.materialLabel1);
+            this.panel1.Controls.Add(this.rad_exists);
+            this.panel1.Controls.Add(this.btn_search);
+            this.panel1.Controls.Add(this.rad_guest);
+            this.panel1.Controls.Add(this.lbl_ID);
+            this.panel1.Controls.Add(this.btn_register_customer);
+            this.panel1.Controls.Add(this.materialLabel2);
+            this.panel1.Location = new System.Drawing.Point(53, 35);
+            this.panel1.Name = "panel1";
+            this.panel1.Size = new System.Drawing.Size(1027, 340);
+            this.panel1.TabIndex = 52;
+            // 
+            // cmb_Date
+            // 
+            this.cmb_Date.Enabled = false;
+            this.cmb_Date.Location = new System.Drawing.Point(410, 115);
+            this.cmb_Date.Name = "cmb_Date";
+            this.cmb_Date.Size = new System.Drawing.Size(500, 22);
+            this.cmb_Date.TabIndex = 5;
+            // 
+            // txt_FullName
+            // 
+            this.txt_FullName.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.txt_FullName.Location = new System.Drawing.Point(410, 50);
+            this.txt_FullName.Name = "txt_FullName";
+            this.txt_FullName.Size = new System.Drawing.Size(500, 22);
+            this.txt_FullName.TabIndex = 50;
+            // 
+            // materialLabel5
+            // 
+            this.materialLabel5.AutoSize = true;
+            this.materialLabel5.Depth = 0;
+            this.materialLabel5.Font = new System.Drawing.Font("Roboto Medium", 20F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Pixel);
+            this.materialLabel5.FontType = MaterialSkin.MaterialSkinManager.fontType.H6;
+            this.materialLabel5.Location = new System.Drawing.Point(46, 171);
+            this.materialLabel5.MouseState = MaterialSkin.MouseState.HOVER;
+            this.materialLabel5.Name = "materialLabel5";
+            this.materialLabel5.Size = new System.Drawing.Size(107, 24);
+            this.materialLabel5.TabIndex = 51;
+            this.materialLabel5.Text = "Client Type:";
+            // 
+            // materialProgressBar1
+            // 
+            this.materialProgressBar1.Depth = 0;
+            this.materialProgressBar1.Dock = System.Windows.Forms.DockStyle.Bottom;
+            this.materialProgressBar1.Location = new System.Drawing.Point(0, 335);
+            this.materialProgressBar1.MouseState = MaterialSkin.MouseState.HOVER;
+            this.materialProgressBar1.Name = "materialProgressBar1";
+            this.materialProgressBar1.Size = new System.Drawing.Size(1027, 5);
+            this.materialProgressBar1.TabIndex = 0;
+            // 
+            // materialLabel1
+            // 
+            this.materialLabel1.AutoSize = true;
+            this.materialLabel1.Depth = 0;
+            this.materialLabel1.Font = new System.Drawing.Font("Roboto Medium", 20F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Pixel);
+            this.materialLabel1.FontType = MaterialSkin.MaterialSkinManager.fontType.H6;
+            this.materialLabel1.Location = new System.Drawing.Point(46, 114);
+            this.materialLabel1.MouseState = MaterialSkin.MouseState.HOVER;
+            this.materialLabel1.Name = "materialLabel1";
+            this.materialLabel1.Size = new System.Drawing.Size(48, 24);
+            this.materialLabel1.TabIndex = 15;
+            this.materialLabel1.Text = "Date:";
+            // 
+            // rad_exists
+            // 
+            this.rad_exists.AutoSize = true;
+            this.rad_exists.Depth = 0;
+            this.rad_exists.Location = new System.Drawing.Point(653, 172);
+            this.rad_exists.Margin = new System.Windows.Forms.Padding(0);
+            this.rad_exists.MouseLocation = new System.Drawing.Point(-1, -1);
+            this.rad_exists.MouseState = MaterialSkin.MouseState.HOVER;
+            this.rad_exists.Name = "rad_exists";
+            this.rad_exists.Ripple = true;
+            this.rad_exists.Size = new System.Drawing.Size(101, 37);
+            this.rad_exists.TabIndex = 26;
+            this.rad_exists.TabStop = true;
+            this.rad_exists.Text = "MEMBER";
+            this.rad_exists.UseVisualStyleBackColor = true;
+            this.rad_exists.CheckedChanged += new System.EventHandler(this.rad_exists_CheckedChanged_1);
+            // 
+            // btn_search
+            // 
+            this.btn_search.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.btn_search.AutoSize = false;
+            this.btn_search.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
+            this.btn_search.Density = MaterialSkin.Controls.MaterialButton.MaterialButtonDensity.Default;
+            this.btn_search.Depth = 0;
+            this.btn_search.HighEmphasis = true;
+            this.btn_search.Icon = ((System.Drawing.Image)(resources.GetObject("btn_search.Icon")));
+            this.btn_search.ImageAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.btn_search.Location = new System.Drawing.Point(410, 259);
+            this.btn_search.Margin = new System.Windows.Forms.Padding(4, 6, 4, 6);
+            this.btn_search.MouseState = MaterialSkin.MouseState.HOVER;
+            this.btn_search.Name = "btn_search";
+            this.btn_search.NoAccentTextColor = System.Drawing.Color.Empty;
+            this.btn_search.Size = new System.Drawing.Size(200, 40);
+            this.btn_search.TabIndex = 29;
+            this.btn_search.Text = " search member";
+            this.btn_search.Type = MaterialSkin.Controls.MaterialButton.MaterialButtonType.Contained;
+            this.btn_search.UseAccentColor = false;
+            this.btn_search.UseVisualStyleBackColor = true;
+            this.btn_search.Click += new System.EventHandler(this.btn_search_Click);
+            // 
+            // rad_guest
+            // 
+            this.rad_guest.AutoSize = true;
+            this.rad_guest.Depth = 0;
+            this.rad_guest.Location = new System.Drawing.Point(410, 172);
+            this.rad_guest.Margin = new System.Windows.Forms.Padding(0);
+            this.rad_guest.MouseLocation = new System.Drawing.Point(-1, -1);
+            this.rad_guest.MouseState = MaterialSkin.MouseState.HOVER;
+            this.rad_guest.Name = "rad_guest";
+            this.rad_guest.Ripple = true;
+            this.rad_guest.Size = new System.Drawing.Size(105, 37);
+            this.rad_guest.TabIndex = 25;
+            this.rad_guest.TabStop = true;
+            this.rad_guest.Text = "WALK - IN";
+            this.rad_guest.UseVisualStyleBackColor = true;
+            this.rad_guest.CheckedChanged += new System.EventHandler(this.rad_guest_CheckedChanged_1);
+            // 
+            // lbl_ID
+            // 
+            this.lbl_ID.AutoSize = true;
+            this.lbl_ID.Depth = 0;
+            this.lbl_ID.Font = new System.Drawing.Font("Roboto", 14F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
+            this.lbl_ID.Location = new System.Drawing.Point(26, 11);
+            this.lbl_ID.MouseState = MaterialSkin.MouseState.HOVER;
+            this.lbl_ID.Name = "lbl_ID";
+            this.lbl_ID.Size = new System.Drawing.Size(16, 19);
+            this.lbl_ID.TabIndex = 28;
+            this.lbl_ID.Text = "ID";
+            this.lbl_ID.Visible = false;
+            // 
+            // btn_register_customer
+            // 
+            this.btn_register_customer.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.btn_register_customer.AutoSize = false;
+            this.btn_register_customer.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
+            this.btn_register_customer.Density = MaterialSkin.Controls.MaterialButton.MaterialButtonDensity.Default;
+            this.btn_register_customer.Depth = 0;
+            this.btn_register_customer.HighEmphasis = true;
+            this.btn_register_customer.Icon = null;
+            this.btn_register_customer.Location = new System.Drawing.Point(710, 259);
+            this.btn_register_customer.Margin = new System.Windows.Forms.Padding(4, 6, 4, 6);
+            this.btn_register_customer.MouseState = MaterialSkin.MouseState.HOVER;
+            this.btn_register_customer.Name = "btn_register_customer";
+            this.btn_register_customer.NoAccentTextColor = System.Drawing.Color.Empty;
+            this.btn_register_customer.Size = new System.Drawing.Size(200, 40);
+            this.btn_register_customer.TabIndex = 30;
+            this.btn_register_customer.Text = "register Member";
+            this.btn_register_customer.Type = MaterialSkin.Controls.MaterialButton.MaterialButtonType.Contained;
+            this.btn_register_customer.UseAccentColor = false;
+            this.btn_register_customer.UseVisualStyleBackColor = true;
+            this.btn_register_customer.Click += new System.EventHandler(this.btn_register_customer_Click);
+            // 
             // AppointmentForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
@@ -555,13 +555,13 @@
             ((System.ComponentModel.ISupportInitialize)(this.errorProvider1)).EndInit();
             this.materialCard1.ResumeLayout(false);
             this.materialCard1.PerformLayout();
-            this.groupBox5.ResumeLayout(false);
-            this.groupBox2.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.dgv_available_services)).EndInit();
-            this.panel1.ResumeLayout(false);
-            this.panel1.PerformLayout();
             this.panel2.ResumeLayout(false);
             this.panel2.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.dgv_available_services)).EndInit();
+            this.groupBox5.ResumeLayout(false);
+            this.groupBox2.ResumeLayout(false);
+            this.panel1.ResumeLayout(false);
+            this.panel1.PerformLayout();
             this.ResumeLayout(false);
 
         }

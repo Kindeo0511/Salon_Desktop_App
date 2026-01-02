@@ -23,6 +23,9 @@ namespace Salon.View
         public int discountedQty { get; set; }
         public int quantity { get; set; }
         public string name { get; set; }
+        public bool isVatExempt { get; set; } = false;
+        public bool IsFreeReward { get; set; } = false;
+        public string pos { get; set; }
         public DiscountModelForm(string name, int qty ,decimal price)
         {
             InitializeComponent();
@@ -36,8 +39,22 @@ namespace Salon.View
             txt_qty.Value = qty;
 
         }
+        public DiscountModelForm(string name, int qty, decimal price, string pos)
+        {
+            InitializeComponent();
+            ThemeManager.ApplyTheme(this);
+            this.pos = pos;
+            this.name = name;
+            this.quantity = qty;
+            this.originalPrice = price;
 
-       
+            lbl_item_name.Text = name;
+            txt_qty.Value = qty;
+
+            btn_free.Visible = false;
+        }
+
+
 
         private void PremadeDiscountButtons(string input)
         {
@@ -67,7 +84,7 @@ namespace Salon.View
             this.Close();
 
         }
-
+       
         private void txt_discount_percent_TextChanged(object sender, EventArgs e)
         {
             if (!string.IsNullOrWhiteSpace(txt_discount_percent.Text))
@@ -93,6 +110,37 @@ namespace Salon.View
         private void txt_qty_ValueChanged(object sender, EventArgs e)
         {
             discountedQty = (int)txt_qty.Value;
+        }
+
+        private void btn_discount_senior_Click(object sender, EventArgs e)
+        {
+            var discount = LoadDiscountType("Senior");
+            isVatExempt = discount.vat_exempt > 0;
+            PremadeDiscountButtons(discount.discount_rate.ToString());
+            txt_discount_percent.Text = discount.discount_rate.ToString();
+        }
+
+        private void btn_discount_pwd_Click(object sender, EventArgs e)
+        {
+            var discount = LoadDiscountType("PWD");
+            isVatExempt = discount.vat_exempt > 0;
+            PremadeDiscountButtons(discount.discount_rate.ToString());
+            txt_discount_percent.Text = discount.discount_rate.ToString();
+        }
+        public DiscountModel LoadDiscountType(string type)
+        {
+            var repo = new DiscountRepository();
+            var controller = new DiscountController(repo);
+            var discount = controller.GetDiscountType(type);
+            return discount;
+        }
+
+        private void materialButton1_Click(object sender, EventArgs e)
+        {
+            var discount = LoadDiscountType("Free");
+            IsFreeReward = true;
+            PremadeDiscountButtons(discount.discount_rate.ToString());
+            txt_discount_percent.Text = discount.discount_rate.ToString();
         }
     }
 }

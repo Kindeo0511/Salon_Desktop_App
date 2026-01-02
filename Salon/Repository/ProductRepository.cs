@@ -20,6 +20,19 @@ namespace Salon.Repository
                 return con.Query<ProductModel>(sql).ToList();
             }
         }
+        public IEnumerable<RetailProduct> GetAllRetailProducts()
+        {
+            using (var con = Database.GetConnection())
+            {
+                var sql = @"SELECT p.product_id, ps.product_size_id, p.product_name, ps.size_label, 
+                           ps.content, p.brand, ps.selling_price
+                    FROM tbl_products p
+                    JOIN tbl_product_size ps ON ps.product_id = p.product_id
+                    WHERE p.is_deleted = 0  
+                      AND p.product_type = 'Retail' ";
+                return con.Query<RetailProduct>(sql).ToList();
+            }
+        }
         public RetailProduct GetRetailProductByIdAndSize(int productId, int productSizeId)
         {
             using (var con = Database.GetConnection())

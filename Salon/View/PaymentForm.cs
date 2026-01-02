@@ -36,8 +36,10 @@ namespace Salon.View
         private decimal currentAmount = 0m;
         private decimal currentPercentDiscount = 0m;
         private decimal currentFixedDiscount = 0m;
+        private bool isVatExempt = false;
         private bool pointsRedeemedAlready = false;
         private bool discountAppliedAlready = false;
+        private bool OverallDiscountApplied = false;
         private readonly PaymentController paymentController;
         private readonly AppointmentController appointment = new AppointmentController();
 
@@ -74,14 +76,7 @@ namespace Salon.View
                 lbl_Date.Text = model.AppointmentDate.ToString("yyyy-MM-dd");
                 lbl_Time.Text =  formattedStartTime + " - " + formattedEndTime;
 
-                if (model.CustomerType == "Member") 
-                {
-                    materialLabel4.Visible = true;
-                    lbl_points.Visible = true;
-                    lbl_points.Text = model.LoyaltyPoints.ToString();
-                    btn_redeem_points.Enabled = true;
-                }
-
+             
 
 
                 lbl_book_type.Text = model.CustomerType.ToString();
@@ -101,9 +96,21 @@ namespace Salon.View
  
 
             printDocument.PrintPage += new PrintPageEventHandler(printDocument1_PrintPage);
-
+            LoadPaymentMethod();
         }
+        private void LoadPaymentMethod() 
+        {
+            var repo = new PaymentMethodRepository();
+            var controller = new PaymentMethodController(repo);
+            var paymentMethod = controller.GetAllPaymentMethod();
 
+    
+            cmb_payment_method.DisplayMember = "name";
+            cmb_payment_method.ValueMember = "id";
+            cmb_payment_method.DataSource = paymentMethod;
+
+            cmb_payment_method.SelectedIndex = -1;
+        }
         private void DeductByBaseUnitsFIFO() 
         {
            
@@ -170,23 +177,22 @@ namespace Salon.View
             var serviceItems = services.Where(s => s.ItemType == "Service").ToList();
             var productItems = services.Where(s => s.ItemType == "Product").ToList();
 
-            summaryItem.Clear();
-            foreach (var item in services)
-            {
-                summaryItem.Add(item);
-            }
-
+          
             dgv_table.AutoGenerateColumns = false;
             dgv_table.DataSource = null;
+            col_service_cart_id.DataPropertyName = "service_cart_id";
             col_service_id.DataPropertyName = "ServiceId";
             col_item_name.DataPropertyName = "ItemName";
             col_category.DataPropertyName = "SubCategory";
             col_qty.DataPropertyName = "Quantity";
             col_unit_price.DataPropertyName = "Price";
             col_discounted.DataPropertyName = "DiscountAmount";
+            col_vat_exempt.DataPropertyName = "IsVatExempt";
+            col_discount_applied.DataPropertyName = "HasDiscountApplied";
             col_total.DataPropertyName = "TotalPrice";
             col_final_price.DataPropertyName = "FinalPrice";
-            dgv_table.DataSource = summaryItem;
+            col_status.DataPropertyName = "DisplayFinalPrice";
+            dgv_table.DataSource = serviceItems;
                
             dgv_product.AutoGenerateColumns = false;
             dgv_product.DataSource = null;
@@ -197,6 +203,11 @@ namespace Salon.View
             col_product_qty.DataPropertyName = "Quantity";
             col_product_price.DataPropertyName = "Price";
             col_product_total.DataPropertyName = "TotalPrice";
+            col_prod_final_price.DataPropertyName = "FinalPrice";
+            col_product_discount_applied.DataPropertyName = "HasDiscountApplied";
+            col_product_vat_exempt.DataPropertyName = "IsVatExempt";
+            col_prod_discounted.DataPropertyName = "DiscountAmount";
+            col_product_status.DataPropertyName = "DisplayFinalPrice";
             dgv_product.DataSource = productItems;
 
 
@@ -206,19 +217,26 @@ namespace Salon.View
                 dgv_product.Height = 0;
                
                 product_panel.Height = 0;
+                lbl_products_label.Visible = false;
             }
             else
             {
 
-            
+                lbl_products_label.Visible = true;
                 dgv_product.Visible = true;
                 product_panel.Visible = true;
                 dgv_product.Height = 250;
                 product_panel.Height = 250;
             }
+            
+            summaryItem.Clear();
+            foreach (var item in services)
+            {
+             
+                summaryItem.Add(item);
+            }
 
 
-         
 
 
             lbl_Subtotal.Text = CalculateSubTotal().ToString("N2");
@@ -267,6 +285,41 @@ namespace Salon.View
            
             return subtotal;
         }
+        private void RecalculateSummary()
+        {
+            decimal subtotal = 0m;
+            decimal vatAmount = 0m;
+            decimal discountTotal = 0m;
+            decimal vatRate = 0.12m;
+
+            foreach (var item in summaryItem)
+            {
+                subtotal += item.FinalPrice;
+                discountTotal += item.DiscountAmount;
+
+                int taxableQty = item.Quantity - item.QtyVatExempt;
+                int exemptQty = item.QtyVatExempt;
+
+                if (taxableQty > 0)
+                {
+                    decimal grossTaxable = item.Price * taxableQty;
+                    decimal baseTaxable = grossTaxable / (1 + vatRate);
+                    vatAmount += grossTaxable - baseTaxable;
+                }
+
+                // exemptQty contributes to subtotal but no VAT
+            }
+
+
+            lbl_Subtotal.Text = subtotal.ToString("N2");
+            lbl_Vat.Text = vatAmount.ToString("N2");
+            lbl_Discount.Text = discountTotal.ToString("N2");
+
+            decimal grandTotal = subtotal; // subtract loyalty points etc. here
+            lbl_Total.Text = grandTotal.ToString("N2");
+        }
+
+
         private decimal CalculateVatInclusive(string price, decimal vat_rate, decimal discount_rate)
         {
             decimal inclusive_price = ParseCurrency(price); // VAT-inclusive total
@@ -346,11 +399,7 @@ namespace Salon.View
         private void calculate()
         {
 
-            int pointsBalance;
-            if (!int.TryParse(lbl_points.Text, out pointsBalance))
-            {
-                pointsBalance = 0; // fallback if parsing fails
-            }
+           
 
             decimal vat = LoadVat();
             decimal original_price = Convert.ToDecimal(lbl_Subtotal.Text);
@@ -362,16 +411,24 @@ namespace Salon.View
             decimal base_price = 0m;
 
 
-            if (discount_rate != 0)
+            if (discount_rate > 0 && isVatExempt)
             {
-                decimal inclusive_price = original_price;
-                base_price = inclusive_price / (1 + (vat / 100));
-                vat_amount = inclusive_price - base_price;
-                discount_amount = (original_price * discount_rate) / 100;
+                base_price = original_price / (1 + (vat / 100)); // remove VAT
+                vat_amount = 0m; // VAT is not charged
+                discount_amount = base_price * discount_rate / 100;
+           
+
             }
-            else if (currentFixedDiscount != 0) 
+            else if (discount_rate > 0) 
             {
-                discount_amount =  currentFixedDiscount;
+                base_price = original_price;
+                vat_amount = (base_price * vat) / 100;
+                discount_amount = (base_price * discount_rate) / 100;
+
+            }
+            else if (currentFixedDiscount > 0)
+            {
+                discount_amount = currentFixedDiscount;
                 base_price = original_price;
                 vat_amount = (base_price * vat) / 100;
             }
@@ -388,7 +445,7 @@ namespace Salon.View
             points_discount_amount = Convert.ToDecimal(lbl_point_amount.Text);
 
             // Step 3: Final payable
-            final_price = base_price - discount_amount - points_discount_amount;
+            final_price = base_price - discount_amount;
 
             // Update UI
             _discountAmount = discount_amount;
@@ -470,10 +527,17 @@ namespace Salon.View
 
                 lbl_change_amount.Text = change_amount.ToString("N2");
             }
+
+            if(change_amount < 0) 
+            {
+                lbl_change_amount.Text = "0.00";
+            }
         }
 
         private async  void PaymentForm_Load(object sender, EventArgs e)
         {
+            ThemeManager.StyleDataGridView(dgv_table);
+            ThemeManager.StyleDataGridView(dgv_product);
        
             LoadVat();
             calculate();
@@ -596,7 +660,7 @@ namespace Salon.View
             decimal totalAmount = ParseCurrency(lbl_Total.Text);
             decimal changeAmount = ParseCurrency(lbl_change_amount.Text);
 
-            if (!decimal.TryParse(mat.Text, out amountPaid))
+            if (!decimal.TryParse(txt_amount_paid.Text, out amountPaid))
             {
                 MessageBox.Show("Invalid amount paid.", "Validation Error", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 return;
@@ -608,10 +672,10 @@ namespace Salon.View
                 return;
             }
 
-           
 
 
-          
+
+
 
             var invoice = new InvoiceModel
             {
@@ -619,6 +683,8 @@ namespace Salon.View
                 TotalAmount = totalAmount,
                 VATAmount = _vatAmount,
                 DiscountAmount = _discountAmount,
+                payment_method_id = Convert.ToInt32(cmb_payment_method.SelectedValue),
+                reference_number = txt_reference.Text.Trim(),
                 Notes = txt_reason.Text,
                 PaymentMethod = "",
                 Timestamp = DateTime.Now
@@ -660,6 +726,15 @@ namespace Salon.View
             var controller = new InvoiceController(repo);
 
             controller.UpdateInvoice(invoice);
+
+            var invoice_service_repo = new InvoiceServiceRepository();
+            var invoice_service_controller = new InvoiceServiceCartController(invoice_service_repo);
+
+
+            foreach (var item in summaryItem)
+            {
+                invoice_service_controller.UpdateServiceInInvoiceCart(item);
+            }
             //AddTransactions(model.AppointmentId, _vatAmount, _discountAmount, _subtotal, totalAmount, cb_PaymentMethod.SelectedItem.ToString(), "Paid", DateTime.Now);
             //appointment.UpdateAppointmentPayment(model.AppointmentId, "Paid", "Completed");
             UpdateCustomerLoyaltyPoints();
@@ -1044,52 +1119,8 @@ namespace Salon.View
 
         }
 
-        private void btn_redeem_points_Click(object sender, EventArgs e)
-        {
-            if (pointsRedeemedAlready) return;
-            using (var redeemPoints = new RedeemPointsForm())
-            {
-                if (redeemPoints.ShowDialog() == DialogResult.OK)
-                {
-                    int pointsBalance = Convert.ToInt32(lbl_points.Text);
-                    int pointsToRedeem = redeemPoints.points;
-
-                    int redeemableBlocks = pointsToRedeem / 100;
-                    if (redeemableBlocks > 0 && pointsBalance >= pointsToRedeem)
-                    {
-                        int pointsRedeemed = redeemableBlocks * 100;
-                        decimal pesoValue = redeemableBlocks * 50;
-
-                        pointsBalance -= pointsRedeemed;
-                        lbl_points.Text = pointsBalance.ToString(); 
-                        lbl_point_amount.Text = pesoValue.ToString("N2");
-                        lbl_point_amount.Tag = pointsRedeemed.ToString();
-                        btn_redeem_points.Enabled = pointsRedeemedAlready;
-                    }
-                    calculate();
-                }
-            }
-        }
-
-        private void btn_clear_Click(object sender, EventArgs e)
-        {
+       
         
-            lbl_points.Tag = "0";
-            lbl_points.Text = model.LoyaltyPoints.ToString();
-            lbl_Discount.Tag = "0";
-            lbl_discount_type.Text = "Discount";
-            lbl_Discount.Text = "0.00";
-            lbl_Subtotal.Text = _subtotal.ToString("N2");
-            lbl_point_amount.Text = "0.00";
-
-            mat.Text = string.Empty;
-
-            lbl_change_amount.Text = "0.00";
-
-            btn_redeem_points.Enabled = !pointsRedeemedAlready;
-            btn_discount.Enabled = !discountAppliedAlready;
-            calculate();
-        }
 
         private void btn_add_on_Click(object sender, EventArgs e)
         {
@@ -1103,19 +1134,85 @@ namespace Salon.View
         {
             if (e.RowIndex < 0) return;
 
-            if (e.RowIndex >= 0 && dgv_product.Columns[e.ColumnIndex].Name == "btn_remove") 
+            if (e.RowIndex >= 0 && dgv_product.Columns[e.ColumnIndex].Name == "col_prod_btn_discount")
+            {
+                var service = dgv_product.Rows[e.RowIndex].DataBoundItem as ServiceCart;
+
+                if (service.HasDiscountApplied)
+                {
+                    MessageBox.Show("Discount already applied to this product."); return;
+                }
+
+                if (OverallDiscountApplied)
+                {
+                    MessageBox.Show("A discount has already been applied. Only one discount is allowed per transaction.");
+                    return;
+                }
+
+                using (var discountForm = new DiscountModelForm(service.ItemName, service.Quantity, service.Price))
+                {
+                    if (discountForm.ShowDialog() == DialogResult.OK)
+                    {
+                        // Get the selected discount rate from the discount form
+                        decimal discountAmount = 0m;
+                        decimal finalPrice = service.Price;
+
+                        if (discountForm.isVatExempt)
+                        {
+                            service.IsVatExempt = true;
+                           
+                            service.DiscountedQty = discountForm.discountedQty;
+                            service.DiscountPercent = discountForm.discountRate;
+                            service.QtyVatExempt = discountForm.discountedQty;
+
+                            var basePrice = service.Price / 1.12m;
+                            service.DiscountAmount = basePrice * (discountForm.discountRate / 100m) * service.DiscountedQty;
+
+                        }
+                        else if (discountForm.fixedDiscount > 0)
+                        {
+                            service.HasDiscountApplied = true;
+                            service.DiscountedQty = discountForm.discountedQty;
+                            service.DiscountAmount = discountForm.fixedDiscount;
+                            service.DiscountPercent = 0;
+                            //service.DiscountAmount = discountAmount;
+                            //service.DiscountPercent = (discountAmount / service.Price) * 100m;
+
+                        }
+                        else if (discountForm.discountRate > 0)
+                        {
+                            service.HasDiscountApplied = true;
+                            service.DiscountedQty = discountForm.discountedQty;
+                            service.DiscountPercent = discountForm.discountRate;
+                            service.DiscountAmount = service.Price * (discountForm.discountRate / 100m) * service.DiscountedQty;
+                            //finalPrice = service.Price - discountAmount;
+
+                            //service.DiscountPercent = discountForm.discountRate;
+                            //service.DiscountAmount = discountAmount;
+
+                        }
+
+
+                        RecalculateSummary();
+                        dgv_product.Refresh();
+                        
+                    }
+
+                }
+            }
+            else if (e.RowIndex >= 0 && dgv_product.Columns[e.ColumnIndex].Name == "btn_remove")
             {
                 var product = dgv_product.Rows[e.RowIndex].DataBoundItem as ServiceCart;
 
                 var repo = new InvoiceServiceRepository();
                 var controller = new InvoiceServiceCartController(repo);
 
-           
+
 
                 var result = MessageBox.Show($"Are you sure you want to remove '{product.ItemName}'?",
                             "Confirm Removal", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
 
-                if (result == DialogResult.Yes) 
+                if (result == DialogResult.Yes)
                 {
                     controller.RemoveProduct(product.service_cart_id);
                     LoadServices(product.InvoiceId);
@@ -1135,19 +1232,29 @@ namespace Salon.View
 
         private void materialTextBox1_TextChanged(object sender, EventArgs e)
         {
+            if (discountAppliedAlready)
+            {
+                txt_discount_amount.ReadOnly = true;
+                return;
+            }
             if (!string.IsNullOrWhiteSpace(txt_discount_amount.Text)) 
             {
                 if (decimal.TryParse(txt_discount_amount.Text, out decimal discount))
                 {
                     currentFixedDiscount = discount;
-                    txt_discount_amount.Text = string.Empty;
+                    currentPercentDiscount = 0;
+                    txt_discount_percent.Text = string.Empty;
                     calculate();
 
                 }
-        
-               
+                
             }
-           
+            else
+            {
+                currentFixedDiscount = 0m;
+                calculate();
+            }
+
         }
 
         private void txt_Reference_TextChanged(object sender, EventArgs e)
@@ -1169,10 +1276,20 @@ namespace Salon.View
         {
             if (string.IsNullOrWhiteSpace(input)) return;
 
+            if (discountAppliedAlready) 
+            {
+
+                return;
+            }
 
             if (decimal.TryParse(input, out decimal discountValue))
             {
-                currentPercentDiscount = discountValue / 100m;
+                currentPercentDiscount = discountValue;
+               
+                calculate();
+            }
+            else 
+            {
                 calculate();
             }
            
@@ -1231,22 +1348,37 @@ namespace Salon.View
 
         private void btn_snr_Click(object sender, EventArgs e)
         {
-            PremadeDiscountButtons(btn_snr.Tag.ToString());
+            var discount = LoadDiscountType("Senior");
+            isVatExempt = discount.vat_exempt > 0;
+            PremadeDiscountButtons(discount.discount_rate.ToString());
+         
         }
 
         private void btn_pwd_Click(object sender, EventArgs e)
         {
-            PremadeDiscountButtons(btn_pwd.Tag.ToString());
+            var discount = LoadDiscountType("PWD");
+            isVatExempt = discount.vat_exempt > 0;
+            PremadeDiscountButtons(discount.discount_rate.ToString());
+      
         }
 
         private void txt_discount_percent_TextChanged(object sender, EventArgs e)
         {
-
+            if (discountAppliedAlready)
+            {
+                txt_discount_percent.ReadOnly = true;
+                return;
+            }
             if (!string.IsNullOrWhiteSpace(txt_discount_percent.Text))
             {
                 PremadeDiscountButtons(txt_discount_percent.Text.ToString());
-
+                currentFixedDiscount = 0;
                 txt_discount_amount.Text = string.Empty;
+            }
+            else 
+            {
+                currentPercentDiscount = 0m;
+                calculate();
             }
         }
 
@@ -1254,16 +1386,33 @@ namespace Salon.View
         {
 
         }
-
+        public DiscountModel LoadDiscountType(string type) 
+        {
+            var repo  = new DiscountRepository();
+            var controller = new DiscountController(repo);
+            var discount = controller.GetDiscountType(type);
+            return discount;
+        }
         private void dgv_table_CellClick(object sender, DataGridViewCellEventArgs e)
         {
             if (e.RowIndex < 0) return;
+
+          
 
             if (e.RowIndex >= 0 && dgv_table.Columns[e.ColumnIndex].Name == "col_btn_apply_discount") 
             {
                 var service = dgv_table.Rows[e.RowIndex].DataBoundItem as ServiceCart;
 
-                if (discountAppliedAlready) return;
+                if (service.HasDiscountApplied) 
+                {
+                    MessageBox.Show("Discount already applied to this service."); return;
+                }
+
+                if (OverallDiscountApplied)
+                { 
+                    MessageBox.Show("A discount has already been applied. Only one discount is allowed per transaction.");
+                    return;
+                }
 
                 using (var discountForm = new DiscountModelForm(service.ItemName, service.Quantity, service.Price))
                 {
@@ -1272,34 +1421,95 @@ namespace Salon.View
                         // Get the selected discount rate from the discount form
                         decimal discountAmount = 0m;
                         decimal finalPrice = service.Price;
-                       
-                        if (discountForm.fixedDiscount > 0)
+
+                         if (discountForm.isVatExempt)
                         {
+                            service.IsVatExempt = discountForm.isVatExempt;
+                            service.HasDiscountApplied = true;
+                            service.DiscountedQty = discountForm.discountedQty;
+                            service.DiscountPercent = discountForm.discountRate;
+                            service.QtyVatExempt = discountForm.discountedQty;
+
+                            var basePrice = service.Price / 1.12m;
+                            service.DiscountAmount = basePrice * (discountForm.discountRate / 100m) * service.DiscountedQty;
+
+
+                            discountAppliedAlready = true;
+
+                        }
+                        else if(discountForm.fixedDiscount > 0)
+                        {
+                            service.HasDiscountApplied = true;
                             service.DiscountedQty = discountForm.discountedQty;
                             service.DiscountAmount = discountForm.fixedDiscount;
-                            finalPrice = service.Price - discountAmount;
                             service.DiscountPercent = 0;
                             //service.DiscountAmount = discountAmount;
                             //service.DiscountPercent = (discountAmount / service.Price) * 100m;
 
+                            discountAppliedAlready = true;
+
                         }
-                        else if (discountForm.discountRate > 0) 
+                        else if (discountForm.discountRate > 0)
                         {
+                            service.HasDiscountApplied = true;
+                            service.IsFreeReward = discountForm.IsFreeReward;
                             service.DiscountedQty = discountForm.discountedQty;
                             service.DiscountPercent = discountForm.discountRate;
-                            service.DiscountAmount = 0;
+                            service.DiscountAmount = service.Price * (discountForm.discountRate / 100m) * service.DiscountedQty;
                             //finalPrice = service.Price - discountAmount;
 
                             //service.DiscountPercent = discountForm.discountRate;
                             //service.DiscountAmount = discountAmount;
-                            
-                        }
-                       
 
-                       dgv_table.Refresh();
-                        btn_discount.Enabled = discountAppliedAlready;
+                            discountAppliedAlready = true;
+
+                        }
+                        
+
+                            RecalculateSummary();
+                        dgv_table.Refresh();
+                       
                     }
                 }
+            }
+        }
+
+        private void btn_clear_Click_1(object sender, EventArgs e)
+        {
+
+            LoadServices(invoice_id);
+
+            
+            lbl_Discount.Tag = "0";
+            lbl_discount_type.Text = "Discount";
+            lbl_Discount.Text = "0.00";
+            lbl_Subtotal.Text = _subtotal.ToString("N2");
+            lbl_point_amount.Text = "0.00";
+            currentPercentDiscount = 0m;
+            currentFixedDiscount = 0m;
+
+
+            lbl_change_amount.Text = "0.00";
+
+            
+            calculate();
+        }
+
+        private void cmb_payment_method_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if (cmb_payment_method.SelectedItem is PaymentMethodModel selectedMethod)
+            {
+                if (selectedMethod.required_reference)
+                {
+                    lbl_reference.Visible = true;
+                    txt_reference.Visible = true;
+                }
+                else 
+                {
+                    lbl_reference.Visible = false;
+                    txt_reference.Visible = false;
+                }
+                
             }
         }
 

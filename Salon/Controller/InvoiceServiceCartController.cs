@@ -30,7 +30,10 @@ namespace Salon.Controller
         {
             repo.AddServiceToCart(model);
         }
-
+        public void UpdateServiceInInvoiceCart(ServiceCart model) 
+        {
+            repo.UpdateServicesInvoice(model);
+        }
         public void VoidProductByInvoiceId(int id, string status) 
         {
             repo.UpdateServiceToCart(id, status);

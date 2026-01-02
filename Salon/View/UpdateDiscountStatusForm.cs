@@ -45,7 +45,7 @@ namespace Salon.View
             {
                 UpdateStatus();
                 MessageBox.Show("Status Update Successfully!", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                await mainForm.RefreshDiscountAsync();
+               
                 this.Close();
             }
             else

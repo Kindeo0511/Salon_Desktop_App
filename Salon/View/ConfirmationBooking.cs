@@ -179,7 +179,6 @@ namespace Salon.View
                 TotalAmount = 0,
                 VATAmount = 0,
                 DiscountAmount = 0,
-                PaymentMethod = "Unpaid",
                 Timestamp = null,
                 CustomerID = model.CustomerType == "Member" ? model.CustomerId : (int?)null
             };

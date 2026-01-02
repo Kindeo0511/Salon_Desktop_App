@@ -14,9 +14,9 @@ namespace Salon.View
 {
     public partial class ProductModalForm : MaterialForm
     {
-        private ProductModel productModel;
+        private RetailProduct productModel;
         private AddProductForm addProductForm;
-        public ProductModalForm(AddProductForm addProductForm, ProductModel productModel)
+        public ProductModalForm(AddProductForm addProductForm, RetailProduct productModel)
         {
             InitializeComponent();
             ThemeManager.ApplyTheme(this);
@@ -24,7 +24,7 @@ namespace Salon.View
             this.productModel = productModel;
         }
 
-        private void LoadSelectedProdct(ProductModel productModel) 
+        private void LoadSelectedProdct(RetailProduct productModel) 
         {
             lbl_product_name.Text = productModel.product_name;
             lbl_brand.Text = productModel.brand;
@@ -40,7 +40,7 @@ namespace Salon.View
         private void btn_confirm_Click(object sender, EventArgs e)
         {
             int qty = Convert.ToInt32(txt_qty.Value);
-            addProductForm.SaveProduct(productModel.product_id, productModel.product_size_id, qty, productModel.selling_price ?? 0);
+            addProductForm.SaveProduct(productModel.product_id, productModel.product_size_id, qty, productModel.selling_price);
             MessageBox.Show("Success");
             this.Close();
         }

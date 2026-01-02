@@ -37,9 +37,9 @@ namespace Salon.Repository
             {
                 var sql = @"
                 INSERT INTO tbl_invoice 
-                    (appointment_id,invoice_number, customer_id, total_amount, vat_amount, discount_amount, payment_method, timestamp)
+                    (appointment_id,invoice_number, customer_id, total_amount, vat_amount, discount_amount, timestamp)
                 VALUES 
-                    (@AppointmentID, @InvoiceNumber, @CustomerID, @TotalAmount, @VATAmount, @DiscountAmount, @PaymentMethod, @Timestamp);
+                    (@AppointmentID, @InvoiceNumber, @CustomerID, @TotalAmount, @VATAmount, @DiscountAmount, @Timestamp);
                 SELECT LAST_INSERT_ID();
             ";
 
@@ -58,9 +58,9 @@ namespace Salon.Repository
             {
                 var sql = @"
                 INSERT INTO tbl_invoice 
-                    (invoice_number, total_amount, vat_amount, discount_amount, payment_method, timestamp)
+                    (invoice_number, total_amount, vat_amount, discount_amount,payment_method_id, reference_number, timestamp)
                 VALUES 
-                    (@InvoiceNumber, @TotalAmount, @VATAmount, @DiscountAmount, @PaymentMethod, @Timestamp);
+                    (@InvoiceNumber, @TotalAmount, @VATAmount, @DiscountAmount,@payment_method_id,@reference_number, @Timestamp);
                 SELECT LAST_INSERT_ID();
             ";
 
@@ -82,7 +82,8 @@ namespace Salon.Repository
                                 vat_amount = @VatAmount,
                                 discount_amount = @DiscountAmount,
                                 notes = @Notes, 
-                                payment_method = @PaymentMethod,
+                                payment_method_id = @payment_method_id,
+                                reference_number = @reference_number,                              
                                 timestamp = @TimeStamp
                               WHERE invoice_id = @InvoiceID";
                 con.Execute(sql, model);

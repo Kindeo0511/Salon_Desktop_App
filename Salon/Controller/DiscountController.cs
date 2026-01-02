@@ -25,7 +25,10 @@ namespace Salon.Controller
         {
             return await discountRepository.GetAllDiscountAsync();
         }
-
+        public DiscountModel GetDiscountType(string type) 
+        {
+            return discountRepository.GetDiscountType(type);
+        }
         public IEnumerable<DiscountModel> GetDiscounts()
         {
             return discountRepository.Discounts();

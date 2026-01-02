@@ -92,7 +92,7 @@ namespace Salon.View
             if (!DiscountValidated()) return;
 
             UpdateDiscount();
-            await main.RefreshDiscountAsync();
+          
             this.Close();
         }
         private void UpdateDiscount()
@@ -386,7 +386,7 @@ namespace Salon.View
             if (!DiscountValidated()) return;
             AddDiscount();
             clear_discount_fields();
-            await main.RefreshDiscountAsync();
+           
             this.Close();
         }
         private void cmb_discount_type_SelectedIndexChanged(object sender, EventArgs e)

@@ -460,6 +460,7 @@
     <Compile Include="Util\InventoryReportPdf.cs" />
     <Compile Include="Util\LoadingEmailScreen.cs" />
     <Compile Include="Util\NotificationService.cs" />
+    <Compile Include="Util\PaymentMethod.cs" />
     <Compile Include="Util\PdfReportBuilder.cs" />
     <Compile Include="Util\ReceiptPrinter.cs" />
     <Compile Include="Util\ReceiptRenderer.cs" />
@@ -580,6 +581,12 @@
     </Compile>
     <Compile Include="View\PaymentForm.Designer.cs">
       <DependentUpon>PaymentForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="View\PaymentMethodForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="View\PaymentMethodForm.Designer.cs">
+      <DependentUpon>PaymentMethodForm.cs</DependentUpon>
     </Compile>
     <Compile Include="View\POS_Form.cs">
       <SubType>Form</SubType>
@@ -845,6 +852,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="View\PaymentForm.resx">
       <DependentUpon>PaymentForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="View\PaymentMethodForm.resx">
+      <DependentUpon>PaymentMethodForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="View\POS_Form.resx">
       <DependentUpon>POS_Form.cs</DependentUpon>

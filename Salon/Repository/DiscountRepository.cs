@@ -32,6 +32,15 @@ namespace Salon.Repository
             }
 
         }
+        public DiscountModel GetDiscountType(string type) 
+        {
+            using (var con = Database.GetConnection()) 
+            {
+                var sql = "SELECT * FROM tbl_discount WHERE discount_type = @type AND is_deleted = 0";
+                return con.QueryFirstOrDefault<DiscountModel>(sql, new { type = type });
+            }
+
+        }
         public IEnumerable<DiscountModel> Discounts() 
         {
             using (var con = Database.GetConnection())

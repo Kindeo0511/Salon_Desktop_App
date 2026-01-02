@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Salon.Repository;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -41,6 +42,20 @@ namespace Salon.Models
         public int DiscountedQty { get; set; } = 0;
         public decimal DiscountPercent { get; set; }
         public decimal DiscountAmount { get; set; }
+        public bool IsVatExempt { get; set; }
+        public int QtyVatExempt { get; set; }
+        public bool HasDiscountApplied { get; set; } = false;
+        public bool IsFreeReward { get; set; } = false;
+        public string DisplayFinalPrice
+        {
+            get
+            {
+                if (IsFreeReward)
+                    return "FREE";
+                else
+                    return "";
+            }
+        }
 
         public decimal FinalPrice
         {
@@ -51,20 +66,25 @@ namespace Salon.Models
 
                 decimal discountedUnitPrice;
 
-                if (DiscountPercent > 0)
+                if (IsVatExempt)
                 {
-                    // percentage discount
-                    discountedUnitPrice = Price * (1 - DiscountPercent / 100m);
-                }
-                else if (DiscountAmount > 0)
-                {
-                    // peso discount
-                    discountedUnitPrice = Price - DiscountAmount;
+                    var basePrice = Price / 1.12m; // remove VAT
+
+                    if (DiscountPercent > 0)
+                        discountedUnitPrice = basePrice * (1 - DiscountPercent / 100m);
+                    else if (DiscountAmount > 0)
+                        discountedUnitPrice = basePrice - DiscountAmount;
+                    else
+                        discountedUnitPrice = basePrice;
                 }
                 else
                 {
-                    // no discount
-                    discountedUnitPrice = Price;
+                    if (DiscountPercent > 0)
+                        discountedUnitPrice = Price * (1 - DiscountPercent / 100m);
+                    else if (DiscountAmount > 0)
+                        discountedUnitPrice = Price - DiscountAmount;
+                    else
+                        discountedUnitPrice = Price;
                 }
 
                 var discountedTotal = DiscountedQty * Math.Max(discountedUnitPrice, 0);
@@ -72,6 +92,8 @@ namespace Salon.Models
                 return Math.Max(normalTotal + discountedTotal, 0);
             }
         }
+
+
 
         //public decimal FinalPrice
         //{

@@ -28,7 +28,7 @@ namespace Salon.View
         {
             var repo = new ProductRepository();
             var productController = new ProductController(repo);
-            var products = productController.GetRetailProduct();
+            var products = productController.GetAllRetailProducts();
 
             dgv_product_list.DataSource = null;
             dgv_product_list.AutoGenerateColumns = false;
@@ -77,7 +77,7 @@ namespace Salon.View
 
             if (e.RowIndex >= 0 && dgv_product_list.Columns[e.ColumnIndex].Name == "btn_add") 
             {
-                var model = dgv_product_list.Rows[e.RowIndex].DataBoundItem as ProductModel;
+                var model = dgv_product_list.Rows[e.RowIndex].DataBoundItem as RetailProduct;
 
                 using (var form = new ProductModalForm(this,model)) 
                 {

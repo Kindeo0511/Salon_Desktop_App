@@ -1,5 +1,6 @@
 ﻿using Dapper;
 using Laundry.Data;
+using Mysqlx.Crud;
 using Salon.Models;
 using System;
 using System.Collections.Generic;
@@ -78,8 +79,17 @@ namespace Salon.Repository
                 con.Execute(sql, model);
             }
         }
-       
 
+        public void UpdateServicesInvoice(ServiceCart model) 
+        {
+            using (var con = Database.GetConnection()) 
+            {
+                var sql = @"UPDATE tbl_invoice_service_cart 
+                            SET discount_amount = @DiscountAmount
+                            WHERE service_cart_id = @service_cart_id";
+                con.Execute(sql, model);
+            }
+        }
         public void UpdateServiceToCart(int id, string status) 
         {
             using (var con = Database.GetConnection()) 
