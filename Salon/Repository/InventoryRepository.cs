@@ -17,25 +17,26 @@ namespace Salon.Repository
             using (var con = Database.GetConnection()) 
             {
                 var sql = @"SELECT 
-    p.product_id,
-    p.product_name,
-    p.product_type,
-    ps.size_label,
-    p.brand,
-    i.qty,
-    i.total_remaining,
-    i.critical_level,
-    i.status,
-    i.expiry_date
-FROM tbl_inventory AS i
-LEFT JOIN tbl_products AS p 
-       ON p.product_id = i.product_id
-LEFT JOIN tbl_product_size AS ps 
-       ON ps.product_size_id = i.product_size_id
-LEFT JOIN tbl_category AS c 
-       ON c.category_id = p.category_id;
+            i.inventory_id,
+            p.product_id,
+            p.product_name,
+            p.product_type,
+            ps.size_label,
+            p.brand,
+            i.qty,
+            i.total_remaining,
+            i.critical_level,
+            i.status,
+            i.expiry_date
+        FROM tbl_inventory AS i
+        LEFT JOIN tbl_products AS p 
+               ON p.product_id = i.product_id
+        LEFT JOIN tbl_product_size AS ps 
+               ON ps.product_size_id = i.product_size_id
+        LEFT JOIN tbl_category AS c 
+               ON c.category_id = p.category_id;
 
-                       
+                         
                         
                         ;";
                 return con.Query<InventoryViewModel>(sql).ToList();

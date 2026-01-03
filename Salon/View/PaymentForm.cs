@@ -1349,17 +1349,40 @@ namespace Salon.View
         private void btn_snr_Click(object sender, EventArgs e)
         {
             var discount = LoadDiscountType("Senior");
+
+
+            if (discount.mode == "Percentage")
+            {
+                currentPercentDiscount = discount.discount_rate;
+              
+            }
+            else if (discount.mode == "Fixed Amount") 
+            {
+                currentFixedDiscount = discount.discount_rate;
+            }
             isVatExempt = discount.vat_exempt > 0;
-            PremadeDiscountButtons(discount.discount_rate.ToString());
-         
+            OverallDiscountApplied = true;
+            calculate();
+
+
         }
 
         private void btn_pwd_Click(object sender, EventArgs e)
         {
             var discount = LoadDiscountType("PWD");
+            if (discount.mode == "Percentage")
+            {
+                currentPercentDiscount = discount.discount_rate;
+
+            }
+            else if (discount.mode == "Fixed Amount")
+            {
+                currentFixedDiscount = discount.discount_rate;
+            }
             isVatExempt = discount.vat_exempt > 0;
-            PremadeDiscountButtons(discount.discount_rate.ToString());
-      
+            OverallDiscountApplied = true;
+            calculate();
+
         }
 
         private void txt_discount_percent_TextChanged(object sender, EventArgs e)
@@ -1487,7 +1510,8 @@ namespace Salon.View
             lbl_point_amount.Text = "0.00";
             currentPercentDiscount = 0m;
             currentFixedDiscount = 0m;
-
+            discountAppliedAlready = false;
+            OverallDiscountApplied = false;
 
             lbl_change_amount.Text = "0.00";
 
@@ -1509,6 +1533,22 @@ namespace Salon.View
                     lbl_reference.Visible = false;
                     txt_reference.Visible = false;
                 }
+                
+            }
+        }
+
+        private void btn_promo_Click(object sender, EventArgs e)
+        {
+            using (var form = new PromoForm()) 
+            {
+                if(form.ShowDialog() == DialogResult.OK)
+                {
+                    
+                     currentPercentDiscount = form.promo_rate;
+                     currentFixedDiscount = form.promo_fixed_amount;
+                     isVatExempt = form.vat_exempt > 0;
+                    calculate();
+                 }
                 
             }
         }

@@ -14,9 +14,13 @@ namespace Salon.Models
         public string discount_and_promo_code { get; set; }
 
         public decimal discount_rate { get; set; }
+        public string mode { get; set; }
         public DateTime? expiry_date { get; set; }
-        public string status { get; set; }
+        public int status { get; set; }
+        public string text_status => status > 0 ? "Active" : "Inactive";
         public int vat_exempt { get; set; }
+        public int is_defined { get; set; }
+        public int is_deleted { get; set; }
 
         public int max_usage { get; set; }
         public int per_customer_limit { get; set; }

@@ -58,9 +58,9 @@ namespace Salon.Repository
             {
                 var sql = @"
                 INSERT INTO tbl_invoice 
-                    (invoice_number, total_amount, vat_amount, discount_amount,payment_method_id, reference_number, timestamp)
+                    (invoice_number, total_amount, vat_amount, discount_amount,notes,payment_method_id, reference_number, timestamp)
                 VALUES 
-                    (@InvoiceNumber, @TotalAmount, @VATAmount, @DiscountAmount,@payment_method_id,@reference_number, @Timestamp);
+                    (@InvoiceNumber, @TotalAmount, @VATAmount, @DiscountAmount,@Notes,@payment_method_id,@reference_number, @Timestamp);
                 SELECT LAST_INSERT_ID();
             ";
 

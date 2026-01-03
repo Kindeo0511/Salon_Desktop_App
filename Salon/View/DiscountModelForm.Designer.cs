@@ -41,6 +41,7 @@
             this.btn_discount_senior = new MaterialSkin.Controls.MaterialButton();
             this.btn_discount_pwd = new MaterialSkin.Controls.MaterialButton();
             this.btn_free = new MaterialSkin.Controls.MaterialButton();
+            this.btn_promo = new MaterialSkin.Controls.MaterialButton();
             this.materialCard1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.txt_qty)).BeginInit();
             this.SuspendLayout();
@@ -137,7 +138,7 @@
             // 
             // txt_fixed_amount
             // 
-            this.txt_fixed_amount.Location = new System.Drawing.Point(417, 256);
+            this.txt_fixed_amount.Location = new System.Drawing.Point(417, 218);
             this.txt_fixed_amount.Name = "txt_fixed_amount";
             this.txt_fixed_amount.Size = new System.Drawing.Size(280, 22);
             this.txt_fixed_amount.TabIndex = 7;
@@ -149,7 +150,7 @@
             this.materialLabel3.Depth = 0;
             this.materialLabel3.Font = new System.Drawing.Font("Roboto Medium", 20F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Pixel);
             this.materialLabel3.FontType = MaterialSkin.MaterialSkinManager.fontType.H6;
-            this.materialLabel3.Location = new System.Drawing.Point(62, 253);
+            this.materialLabel3.Location = new System.Drawing.Point(62, 215);
             this.materialLabel3.MouseState = MaterialSkin.MouseState.HOVER;
             this.materialLabel3.Name = "materialLabel3";
             this.materialLabel3.Size = new System.Drawing.Size(256, 24);
@@ -162,7 +163,7 @@
             this.materialLabel4.Depth = 0;
             this.materialLabel4.Font = new System.Drawing.Font("Roboto Medium", 20F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Pixel);
             this.materialLabel4.FontType = MaterialSkin.MaterialSkinManager.fontType.H6;
-            this.materialLabel4.Location = new System.Drawing.Point(62, 348);
+            this.materialLabel4.Location = new System.Drawing.Point(62, 279);
             this.materialLabel4.MouseState = MaterialSkin.MouseState.HOVER;
             this.materialLabel4.Name = "materialLabel4";
             this.materialLabel4.Size = new System.Drawing.Size(99, 24);
@@ -171,7 +172,7 @@
             // 
             // txt_discount_percent
             // 
-            this.txt_discount_percent.Location = new System.Drawing.Point(417, 348);
+            this.txt_discount_percent.Location = new System.Drawing.Point(417, 282);
             this.txt_discount_percent.Name = "txt_discount_percent";
             this.txt_discount_percent.Size = new System.Drawing.Size(280, 22);
             this.txt_discount_percent.TabIndex = 10;
@@ -184,7 +185,7 @@
             this.btn_discount_senior.Depth = 0;
             this.btn_discount_senior.HighEmphasis = true;
             this.btn_discount_senior.Icon = null;
-            this.btn_discount_senior.Location = new System.Drawing.Point(66, 433);
+            this.btn_discount_senior.Location = new System.Drawing.Point(66, 373);
             this.btn_discount_senior.Margin = new System.Windows.Forms.Padding(4, 6, 4, 6);
             this.btn_discount_senior.MouseState = MaterialSkin.MouseState.HOVER;
             this.btn_discount_senior.Name = "btn_discount_senior";
@@ -204,7 +205,7 @@
             this.btn_discount_pwd.Depth = 0;
             this.btn_discount_pwd.HighEmphasis = true;
             this.btn_discount_pwd.Icon = null;
-            this.btn_discount_pwd.Location = new System.Drawing.Point(232, 433);
+            this.btn_discount_pwd.Location = new System.Drawing.Point(66, 433);
             this.btn_discount_pwd.Margin = new System.Windows.Forms.Padding(4, 6, 4, 6);
             this.btn_discount_pwd.MouseState = MaterialSkin.MouseState.HOVER;
             this.btn_discount_pwd.Name = "btn_discount_pwd";
@@ -225,7 +226,7 @@
             this.btn_free.DrawShadows = false;
             this.btn_free.HighEmphasis = true;
             this.btn_free.Icon = null;
-            this.btn_free.Location = new System.Drawing.Point(395, 433);
+            this.btn_free.Location = new System.Drawing.Point(218, 373);
             this.btn_free.Margin = new System.Windows.Forms.Padding(4, 6, 4, 6);
             this.btn_free.MouseState = MaterialSkin.MouseState.HOVER;
             this.btn_free.Name = "btn_free";
@@ -238,12 +239,34 @@
             this.btn_free.UseVisualStyleBackColor = true;
             this.btn_free.Click += new System.EventHandler(this.materialButton1_Click);
             // 
+            // btn_promo
+            // 
+            this.btn_promo.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
+            this.btn_promo.Density = MaterialSkin.Controls.MaterialButton.MaterialButtonDensity.Default;
+            this.btn_promo.Depth = 0;
+            this.btn_promo.DrawShadows = false;
+            this.btn_promo.HighEmphasis = true;
+            this.btn_promo.Icon = null;
+            this.btn_promo.Location = new System.Drawing.Point(218, 433);
+            this.btn_promo.Margin = new System.Windows.Forms.Padding(4, 6, 4, 6);
+            this.btn_promo.MouseState = MaterialSkin.MouseState.HOVER;
+            this.btn_promo.Name = "btn_promo";
+            this.btn_promo.NoAccentTextColor = System.Drawing.Color.Empty;
+            this.btn_promo.Size = new System.Drawing.Size(64, 36);
+            this.btn_promo.TabIndex = 14;
+            this.btn_promo.Text = "Promo";
+            this.btn_promo.Type = MaterialSkin.Controls.MaterialButton.MaterialButtonType.Contained;
+            this.btn_promo.UseAccentColor = false;
+            this.btn_promo.UseVisualStyleBackColor = true;
+            this.btn_promo.Click += new System.EventHandler(this.btn_promo_Click);
+            // 
             // DiscountModelForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.AutoSize = true;
             this.ClientSize = new System.Drawing.Size(800, 600);
+            this.Controls.Add(this.btn_promo);
             this.Controls.Add(this.btn_free);
             this.Controls.Add(this.btn_discount_pwd);
             this.Controls.Add(this.btn_discount_senior);
@@ -286,5 +309,6 @@
         private MaterialSkin.Controls.MaterialButton btn_discount_senior;
         private MaterialSkin.Controls.MaterialButton btn_discount_pwd;
         private MaterialSkin.Controls.MaterialButton btn_free;
+        private MaterialSkin.Controls.MaterialButton btn_promo;
     }
 }

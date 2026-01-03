@@ -115,17 +115,38 @@ namespace Salon.View
         private void btn_discount_senior_Click(object sender, EventArgs e)
         {
             var discount = LoadDiscountType("Senior");
+            if (discount.mode == "Percentage")
+            {
+                discountRate = discount.discount_rate;
+                txt_discount_percent.Text = discount.discount_rate.ToString();
+
+            }
+            else if (discount.mode == "Fixed Amount")
+            {
+                fixedDiscount = discount.discount_rate;
+                txt_fixed_amount.Text = discount.discount_rate.ToString();
+            }
             isVatExempt = discount.vat_exempt > 0;
-            PremadeDiscountButtons(discount.discount_rate.ToString());
-            txt_discount_percent.Text = discount.discount_rate.ToString();
+
         }
 
         private void btn_discount_pwd_Click(object sender, EventArgs e)
         {
             var discount = LoadDiscountType("PWD");
+
+            if (discount.mode == "Percentage")
+            {
+                discountRate = discount.discount_rate;
+                txt_discount_percent.Text = discount.discount_rate.ToString();
+
+            }
+            else if (discount.mode == "Fixed Amount")
+            {
+                fixedDiscount = discount.discount_rate;
+                txt_fixed_amount.Text = discount.discount_rate.ToString();
+            }
             isVatExempt = discount.vat_exempt > 0;
-            PremadeDiscountButtons(discount.discount_rate.ToString());
-            txt_discount_percent.Text = discount.discount_rate.ToString();
+
         }
         public DiscountModel LoadDiscountType(string type)
         {
@@ -141,6 +162,24 @@ namespace Salon.View
             IsFreeReward = true;
             PremadeDiscountButtons(discount.discount_rate.ToString());
             txt_discount_percent.Text = discount.discount_rate.ToString();
+        }
+
+        private void btn_promo_Click(object sender, EventArgs e)
+        {
+            using (var form = new PromoForm())
+            {
+                if (form.ShowDialog() == DialogResult.OK)
+                {
+
+                    discountRate = form.promo_rate;
+                    fixedDiscount = form.promo_fixed_amount;
+                    isVatExempt = form.vat_exempt > 0;
+                    txt_fixed_amount.Text = fixedDiscount.ToString();
+                    txt_discount_percent.Text = discountRate.ToString();
+
+                }
+
+            }
         }
     }
 }

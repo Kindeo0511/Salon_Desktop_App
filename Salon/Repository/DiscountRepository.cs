@@ -75,9 +75,9 @@ namespace Salon.Repository
             using (var con = Database.GetConnection())
             {
                 var sql = @"INSERT INTO tbl_discount 
-                    (discount_type, promo_code, discount_rate, expiry_date, per_customer_limit, notif_on_create, notif_on_expired, vat_exempt)
+                    (discount_type, promo_code, discount_rate, mode, status, vat_exempt, is_defined)
                     VALUES 
-                    (@discount_type, @promo_code, @discount_rate, @expiry_date, @per_customer_limit, @notif_on_create, @notif_on_expired, @vat_exempt);
+                    (@discount_type, @promo_code, @discount_rate, @mode, @status, @vat_exempt, @is_defined);
                     SELECT LAST_INSERT_ID();";
 
                 return con.ExecuteScalar<int>(sql, model);
@@ -87,7 +87,7 @@ namespace Salon.Repository
         {
             using (var con = Database.GetConnection()) 
             {
-                var sql = @"UPDATE tbl_discount SET discount_type =@discount_type, promo_code =@promo_code, discount_rate=@discount_rate, expiry_date = @expiry_date, vat_exempt = @vat_exempt WHERE discount_id = @discount_id";
+                var sql = @"UPDATE tbl_discount SET discount_type =@discount_type, promo_code =@promo_code, discount_rate=@discount_rate, mode = @mode, status = @status, vat_exempt = @vat_exempt, is_defined = @is_defined WHERE discount_id = @discount_id";
                 con.Execute(sql, model);
             }
                 

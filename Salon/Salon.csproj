@@ -618,6 +618,12 @@
     <Compile Include="View\ProductUsageForm.Designer.cs">
       <DependentUpon>ProductUsageForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="View\PromoForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="View\PromoForm.Designer.cs">
+      <DependentUpon>PromoForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="View\RedeemPointsForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -870,6 +876,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="View\ProductUsageForm.resx">
       <DependentUpon>ProductUsageForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="View\PromoForm.resx">
+      <DependentUpon>PromoForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="View\RedeemPointsForm.resx">
       <DependentUpon>RedeemPointsForm.cs</DependentUpon>

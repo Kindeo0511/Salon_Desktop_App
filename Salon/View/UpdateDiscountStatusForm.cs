@@ -33,7 +33,7 @@ namespace Salon.View
             var repo = new DiscountRepository();
             var controller = new DiscountController(repo);
 
-            discountModel.status = cmb_status.Text.Trim();
+         
 
             controller.UpdateDiscountStatus(discountModel);
 

@@ -91,11 +91,11 @@ namespace Salon.View
             ThemeManager.StyleDataGridView(dgv_product);
             ThemeManager.StyleDataGridView(dgv_retail_product);
             ThemeManager.StyleDataGridView(dgv_service);
-     
+            ThemeManager.StyleDataGridView(dgv_discount);
+            ThemeManager.StyleDataGridView(dgv_payment_method);
             ThemeManager.StyleDataGridView(dgv_supplier);
             ThemeManager.StyleDataGridView(dgv_delivery);
             ThemeManager.StyleDataGridView(dgv_inventory);
-            ThemeManager.StyleDataGridView(dgv_BatchInventory);
             ThemeManager.StyleDataGridView(dgv_walk_in);
             ThemeManager.StyleDataGridView(dgv_appointment);
             ThemeManager.StyleDataGridView(dgv_table_summary);
@@ -137,42 +137,7 @@ namespace Salon.View
                 notifyIcon1.ShowBalloonTip(3000);
             }
         }
-        public void LoadExpiringDiscount()
-        {
-            var discountRepo = new DiscountRepository();
-            var discountController = new DiscountController(discountRepo);
-
-            string message = "";
-
-            // ⏳ Check for expiring discounts
-            var expiringSoon = discountController.GetExpiringDiscounts(DateTime.Today.AddDays(3));
-            if (expiringSoon.Any())
-            {
-                notificationTypes.Add("discount");
-
-
-                foreach (var expiry in expiringSoon)
-                {
-                    var model = new DiscountModel
-                    {
-                        discount_id = expiry.discount_id,
-                        status = "Expiring Soon"
-                    };
-                    discountController.UpdateDiscountStatus(model);
-                }
-
-                message += $"⚠️ {expiringSoon.Count} discount(s) are expiring soon.";
-
-
-            }
-            if (!string.IsNullOrEmpty(message))
-            {
-                notifyIcon1.Visible = true;
-                notifyIcon1.BalloonTipText = message;
-                notifyIcon1.ShowBalloonTip(3000);
-            }
-
-        }
+       
 
         private void MinAndMaxDate()
         {
@@ -277,10 +242,11 @@ namespace Salon.View
             col_cart_status.DataPropertyName = "DisplayFinalPrice";
             dgv_cart_product.DataSource = cart;
 
+            LoadDiscount();
             LoadPaymentMethodCombobox();
             MinAndMaxDate();
             expiry_timer.Start();
-            LoadExpiringDiscount();
+            LoadBusinessHours();
             LowOrOutOfStock();
 
             UserAccess();
@@ -1751,19 +1717,25 @@ namespace Salon.View
             var repo = new InventoryRepository();
             var inventoryController = new InventoryController(repo);
             var inventory = inventoryController.GetAllInventory();
+
+
+            var filter_inventory = inventory.OrderBy(i => i.product_name).ToList();
+
             dgv_inventory.AutoGenerateColumns = false;
             col_InventoryID.DataPropertyName = "inventory_id";
             col_ProductID.DataPropertyName = "product_id";
             col_ProductName.DataPropertyName = "product_name";
+            col_ProductType.DataPropertyName = "product_type";
+            col_size_label.DataPropertyName = "size_label";
             col_Brand.DataPropertyName = "brand";
             col_Category.DataPropertyName = "category";
-            col_Unit.DataPropertyName = "unit";
-            col_Volume.DataPropertyName = "volume";
+            col_Unit.DataPropertyName = "qty";
+            col_Volume.DataPropertyName = "total_remaining";
             col_Critical_Level.DataPropertyName = "critical_level";
             col_Status.DataPropertyName = "status";
 
 
-            dgv_inventory.DataSource = inventory;
+            dgv_inventory.DataSource = filter_inventory;
         }
 
         public async Task RefreshBatchInventory()
@@ -3972,18 +3944,9 @@ namespace Salon.View
         private void inventoryTabControl_SelectedIndexChanged(object sender, EventArgs e)
         {
 
-            var selectedTab = inventoryTabControl.SelectedTab;
+          
 
-            if (selectedTab == batch_inventory)
-            {
-
-                Audit.AuditLog(
-                DateTime.Now,
-                "View",
-                UserSession.CurrentUser.first_Name,
-                "Batch Inventory",
-                $"Viewed batch inventory on {DateTime.Now:yyyy-MM-dd} at {DateTime.Now:HH:mm:ss}");
-            }
+           
 
 
         }
@@ -5890,7 +5853,8 @@ namespace Salon.View
                 VATAmount = vat_amount,
                 DiscountAmount = discount_amount,
                 payment_method_id = payment_method_id,
-                reference_number = txt_reference.Text,
+                reference_number = txt_reference.Text.Trim(),
+                Notes = txt_reason.Text.Trim(),
                 Timestamp = DateTime.Now
             };
          
@@ -5967,10 +5931,6 @@ namespace Salon.View
             }
         }
 
-        private void materialButton2_Click(object sender, EventArgs e)
-        {
-
-        }
 
         private void btn_void_Click(object sender, EventArgs e)
         {
@@ -6085,6 +6045,10 @@ namespace Salon.View
                 item.HasDiscountApplied = false;
                
             }
+            currentPercentDiscount = 0m;
+            currentFixedDiscount = 0m;
+            discountAppliedAlready = false;
+            OverallDiscountApplied = false;
             txt_received.Text = "0.00";
          
             dgv_cart_product.Refresh();
@@ -6123,15 +6087,38 @@ namespace Salon.View
         private void btn_senior_Click(object sender, EventArgs e)
         {
             var discount = LoadDiscountType("Senior");
+
+
+            if (discount.mode == "Percentage")
+            {
+                currentPercentDiscount = discount.discount_rate;
+
+            }
+            else if (discount.mode == "Fixed Amount")
+            {
+                currentFixedDiscount = discount.discount_rate;
+            }
             isVatExempt = discount.vat_exempt > 0;
-            PremadeDiscountButtons(discount.discount_rate.ToString());
+            OverallDiscountApplied = true;
+            calculate();
         }
 
         private void btn_pwd_Click(object sender, EventArgs e)
         {
             var discount = LoadDiscountType("PWD");
+   
+            if (discount.mode == "Percentage")
+            {
+                currentPercentDiscount = discount.discount_rate;
+
+            }
+            else if (discount.mode == "Fixed Amount")
+            {
+                currentFixedDiscount = discount.discount_rate;
+            }
             isVatExempt = discount.vat_exempt > 0;
-            PremadeDiscountButtons(discount.discount_rate.ToString());
+            OverallDiscountApplied = true;
+            calculate();
         }
 
         private void txt_peso_amount_TextChanged(object sender, EventArgs e)
@@ -6295,7 +6282,21 @@ namespace Salon.View
             lbl_total.Text = grandTotal.ToString("N2");
         }
 
+        private void btn_promo_Click(object sender, EventArgs e)
+        {
+            using (var form = new PromoForm())
+            {
+                if (form.ShowDialog() == DialogResult.OK)
+                {
 
+                    currentPercentDiscount = form.promo_rate;
+                    currentFixedDiscount = form.promo_fixed_amount;
+                    isVatExempt = form.vat_exempt > 0;
+                    calculate();
+                }
+
+            }
+        }
 
         // END OF POS SYSTEM
 
@@ -6303,6 +6304,49 @@ namespace Salon.View
 
         // SETTINGS
 
+        public void LoadBusinessHours()
+        {
+            var repo = new BusinessHourRepository();
+            var controller = new TimeSlotController(repo);
+
+
+            var businessHours = controller.GetBusinessHours();
+
+            if (businessHours != null)
+            {
+                dtp_opening.Value = DateTime.Today.Add(businessHours.open_time);
+                dtp_closing.Value = DateTime.Today.Add(businessHours.close_time);
+
+            }
+            else 
+            {
+                dtp_opening.Value = DateTime.Today;
+                dtp_closing.Value = DateTime.Today;
+            }
+
+        }
+        public void LoadDiscount() 
+        {
+            var repo = new DiscountRepository();
+            var controller = new DiscountController(repo);
+            var discounts = controller.getAllDiscount();
+
+            var filteredSorted = discounts.Where(d => d.is_deleted == 0).OrderBy(d => d.discount_type).ToList();
+
+            dgv_discount.AutoGenerateColumns = false;
+
+            col_discount_id.DataPropertyName = "discount_id";
+            col_discount_name.DataPropertyName = "discount_type";
+            col_discount_value.DataPropertyName = "discount_rate";
+            col_discount_mode.DataPropertyName = "mode";
+            col_discount_status_display_text.DataPropertyName = "text_status";
+            col_discount_status.DataPropertyName = "status";
+            col_discount_vat_exempt.DataPropertyName = "vat_exempt";
+            col_discount_defined.DataPropertyName = "is_defined";
+
+            dgv_discount.DataSource = filteredSorted;
+
+        }
         public void LoadPaymentMethod()
         {
             var repo = new PaymentMethodRepository();
@@ -6310,22 +6354,21 @@ namespace Salon.View
             var paymentMethod = controller.GetAllPaymentMethod();
 
 
-            BindingSource bs = new BindingSource();
+            var filteredSorted = paymentMethod.Where(pm => pm.is_active).OrderBy(pm => pm.name).ToList();
 
-            bs.DataSource = paymentMethod;
-            bs.Filter = "is_active = true";
-            bs.Sort = "name ASC";
 
             dgv_payment_method.AutoGenerateColumns = false;
      
 
             col_payment_method_id.DataPropertyName = "id";
             col_payment_method_name.DataPropertyName = "name";
+            col_payment_method_required_display_text.DataPropertyName = "required_text";
             col_payment_method_required.DataPropertyName = "required_reference";
             col_payment_method_status.DataPropertyName = "is_active";
+            col_payment_method_status_display_text.DataPropertyName = "status_text";
 
 
-            dgv_payment_method.DataSource = bs;
+            dgv_payment_method.DataSource = filteredSorted;
             
   
 
@@ -6397,6 +6440,59 @@ namespace Salon.View
         {
 
         }
+
+        private async void dgv_discount_CellClick(object sender, DataGridViewCellEventArgs e)
+        {
+            if (e.RowIndex < 0) return;
+
+            if (e.RowIndex >= 0 && dgv_discount.Columns[e.ColumnIndex].Name == "col_btn_discount_update")
+            {
+                var discount_model = dgv_discount.Rows[e.RowIndex].DataBoundItem as DiscountModel;
+
+                using (var form = new DiscountForm(this, discount_model))
+                {
+                    form.ShowDialog();
+                }
+            }
+            else if (e.RowIndex >= 0 && dgv_discount.Columns[e.ColumnIndex].Name == "col_btn_discount_delete") 
+            {
+                var discount_model = dgv_discount.Rows[e.RowIndex].DataBoundItem as DiscountModel;
+
+                var result = MessageBox.Show($"Are you sure you want to delete this {discount_model.discount_type} ?", "Warning", MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
+
+                if (result == DialogResult.Yes) 
+                {
+                    var repo = new DiscountRepository();
+                    var controller = new DiscountController(repo);
+
+                    controller.DeleteDiscount(discount_model.discount_id);
+
+                    MessageBox.Show($"{discount_model.discount_type} has been deleted successfully!", "Information", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    Audit.AuditLog(DateTime.Now, "Delete", UserSession.CurrentUser.first_Name, "Manage Discount", $"Deleted discount '{discount_model.discount_type}' on {DateTime.Now:yyyy-MM-dd} at {DateTime.Now:HH:mm:ss}");
+
+                    InsertDeletedRecord(discount_model.discount_id, null, "Manage Discount", discount_model.discount_type, UserSession.CurrentUser.first_Name, DateTime.Today);
+                    LoadDiscount();
+                    await RefreshDeletedRecords();
+                }
+                
+            }
+
+        }
+
+        private void btn_add_discount_Click(object sender, EventArgs e)
+        {
+            using (var form = new DiscountForm(this))
+            {
+                form.ShowDialog();
+            }
+        }
+
+        private void materialCard1_Paint(object sender, PaintEventArgs e)
+        {
+
+        }
+
+       
     }
 }
 
