@@ -53,6 +53,10 @@ namespace Salon.Controller
         {
             inventoryRepository.UpdateInventory(id, product_size_id, unit, volume);
         }
+        public bool UpdateInventoryCriticalLevel(int qty) 
+        {
+            return inventoryRepository.UpdateCriticalLevel(qty) > 0;
+        }
         public void VoidProductInventory(int product_id, int size_id, int qty) 
         {
             inventoryRepository.VoidProductInventory(product_id, size_id, qty);

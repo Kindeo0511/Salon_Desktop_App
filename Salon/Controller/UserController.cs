@@ -1,7 +1,9 @@
-﻿using Salon.Models;
+﻿using iText.Kernel.Geom;
+using Salon.Models;
 using Salon.Repository;
 using System;
 using System.Collections.Generic;
+using System.Drawing.Printing;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -22,6 +24,10 @@ namespace Salon.Controller
         {
             return _repo.IsAdminExists();
         }
+        public int GetTotalUsers() 
+        {
+            return _repo.TotalUsers();
+        }
         public IEnumerable<UsersModel> GetAllUsers()
         {
             return _repo.GetAllUsers();
@@ -31,9 +37,9 @@ namespace Salon.Controller
             return _repo.GetUserByEmail(email);
         }
 
-        public async Task<IEnumerable<UsersModel>> RefreshUsers() 
+        public async Task<IEnumerable<UsersModel>> RefreshUsers(int page_size, int Offset) 
         {
-            return await _repo.GetAllCustomerAsync();
+            return await _repo.GetAllCustomerAsync(page_size, Offset);
         }
         public UsersModel GetUserByPhone(string phone)
         {

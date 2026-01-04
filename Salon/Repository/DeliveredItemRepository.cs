@@ -12,18 +12,18 @@ namespace Salon.Repository
 {
     public class DeliveredItemRepository : IDeliveredItems
     {
-        public IEnumerable<DeliveryItemModel> GetDeliveryItems(string id)
+        public IEnumerable<DeliveryItemModel> GetDeliveryItems(int id)
         {
             using (var con = Database.GetConnection()) 
             {
-                var sql = @"SELECT d_i.delivery_item_id, d_i.delivery_id,d.invoice,s.supplier_name, p.product_id, p.product_name, d_i.qty_delivered, d_i.qty_received, d_i.unit_price, d_i.total_price, d_i.expiry_date, d_i.notes
+                var sql = @"SELECT d_i.delivery_item_id, d_i.delivery_id,d.invoice,s.supplier_name, p.product_id, p.product_name, d_i.qty_delivered, d_i.unit_price, d_i.total_price, d_i.expiry_date, d_i.notes
                 FROM tbl_delivery_items as d_i 
                 LEFT JOIN tbl_delivery AS d ON d.delivery_id = d_i.delivery_id
                 LEFT JOIN tbl_supplier AS s ON s.supplier_id = d.supplier_id
                 LEFT JOIN tbl_products as p ON p.product_id = d_i.product_id
-                WHERE d.invoice = @invoice_id";
+                WHERE d.delivery_id = @delivery_id";
 
-                return con.Query<DeliveryItemModel>(sql, new { invoice_id = id }).ToList();
+                return con.Query<DeliveryItemModel>(sql, new { delivery_id = id }).ToList();
             }
           
         }

@@ -149,6 +149,14 @@ LEFT JOIN tbl_category AS c
             }
                
         }
+        public int UpdateCriticalLevel(int qty) 
+        {
+            using (var con = Database.GetConnection()) 
+            {
+                var sql = "UPDATE tbl_inventory SET critical_level = @qty";
+                return con.Execute(sql, new { qty});
+            }
+        }
         public void VoidProductInventory(int id, int size_id, int qty) 
         {
         using (var con = Database.GetConnection()) 

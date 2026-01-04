@@ -21,9 +21,9 @@ namespace Salon.Controller
         {
             return _repo.GetAllStylist();
         }
-        public async Task<IEnumerable<StylistModel>> RefreshStlyistAsync() 
+        public async Task<IEnumerable<StylistModel>> RefreshStlyistAsync(int PageSize, int Offset) 
         {
-            return await _repo.GetAllStylistAsync();
+            return await _repo.GetAllStylistAsync(PageSize, Offset);
         }
         public IEnumerable<StylistModel> StylistFullName() 
         {

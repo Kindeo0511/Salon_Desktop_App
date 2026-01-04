@@ -10,7 +10,7 @@ namespace Salon.Repository
     public interface ICategory
     {
         IEnumerable<CategoryModel> getAllCategory();
-        Task<IEnumerable<CategoryModel>> GetAllCategoryAsync();
+        Task<IEnumerable<CategoryModel>> GetAllCategoryAsync(int PageSize, int OffSet);
         IEnumerable<CategoryModel> getAllCategoryByProduct();
         IEnumerable<CategoryModel> getAllCategoryByService();
         int addCategory(CategoryModel category);

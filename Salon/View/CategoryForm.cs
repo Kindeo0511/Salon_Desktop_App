@@ -17,6 +17,8 @@ namespace Salon.View
 {
     public partial class CategoryForm : MaterialForm
     {
+        public event EventHandler CategoryAdded;
+        public event EventHandler CategoryUpdated;
         private MainForm mainForm;
         private CategoryModel category;
         private bool _isSaving = false;
@@ -164,6 +166,7 @@ namespace Salon.View
 
                     if (addCategory())
                     {
+                        CategoryAdded?.Invoke(this, EventArgs.Empty);
                         MessageBox.Show("Category added successfully!", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
                         var fullName = txt_category_name.Text;
                         Audit.AuditLog(DateTime.Now, "Create", UserSession.CurrentUser.first_Name, "Manage Categories", $"Created category '{fullName}' on {DateTime.Now:yyyy-MM-dd} at {DateTime.Now:HH:mm:ss}");
@@ -179,6 +182,7 @@ namespace Salon.View
                 {
                     if (updateCategory())
                     {
+                        CategoryUpdated?.Invoke(this, EventArgs.Empty);
                         MessageBox.Show("Category updated successfully!", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
                         var fullName = txt_category_name.Text;
                         Audit.AuditLog(DateTime.Now, "Update", UserSession.CurrentUser.first_Name, "Manage Categories", $"Updated category '{fullName}' on {DateTime.Now:yyyy-MM-dd} at {DateTime.Now:HH:mm:ss}");
@@ -203,9 +207,9 @@ namespace Salon.View
 
             IsAccountExists();
 
-           
-            await mainForm.RefreshCategoryAsync();
-       
+
+            //await mainForm.RefreshCategoryAsync(1, 25);
+
         }
 
         private async void btn_update_Click(object sender, EventArgs e)
@@ -213,8 +217,8 @@ namespace Salon.View
             if (!await IsValid()) return;
 
             IsAccountExists();
-            await mainForm.RefreshCategoryAsync();
-      
+            //await mainForm.RefreshCategoryAsync();
+
 
         }
 

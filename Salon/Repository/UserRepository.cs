@@ -22,6 +22,14 @@ namespace Salon.Repository
                 return con.ExecuteScalar<int>(sql) > 0;
             }
         }
+        public int TotalUsers() 
+        {
+            using (var con = Database.GetConnection())
+            {
+                var sql = "SELECT COUNT(*) FROM tbl_users";
+                return con.ExecuteScalar<int>(sql);
+            }
+        }
         public IEnumerable<UsersModel> GetAllUsers()
         {
             using (var con = Database.GetConnection())
@@ -30,12 +38,16 @@ namespace Salon.Repository
                 return con.Query<UsersModel>(sql).ToList();
             }
         }
-        public async Task<IEnumerable<UsersModel>> GetAllCustomerAsync() 
+        public async Task<IEnumerable<UsersModel>> GetAllCustomerAsync(int PageSize, int Offset) 
         {
             using (var con = Database.GetConnection())
             {
-                var sql = "SELECT * FROM tbl_users WHERE is_deactivate = 0";
-                var result =  await con.QueryAsync<UsersModel>(sql);
+                var sql = @"SELECT *
+                        FROM tbl_users
+                        WHERE is_deactivate = 0
+                        ORDER BY user_id
+                        LIMIT @PageSize OFFSET @Offset;";
+                var result =  await con.QueryAsync<UsersModel>(sql, new { PageSize, Offset});
                 return result.ToList();
             }
 

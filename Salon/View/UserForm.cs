@@ -824,7 +824,7 @@ namespace Salon.View
             await _mainForm.RefreshAuditLog();
           
  
-            await _mainForm.RefreshUsersAsync();
+            await _mainForm.RefreshUsersAsync(1,25);
       
             btn_save.Enabled = true;
             _isSaving = false;
@@ -862,7 +862,7 @@ namespace Salon.View
             Audit.AuditLog(DateTime.Now, "Update", UserSession.CurrentUser.first_Name, "Manage User", $"Updated user {fullName} on {DateTime.Now:yyyy-MM-dd} at {DateTime.Now:HH:mm:ss}");
             Clear();
             MessageBox.Show("User updated successfully!", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
-            await _mainForm.RefreshUsersAsync();
+            await _mainForm.RefreshUsersAsync(1, 25);
             await _mainForm.RefreshAuditLog();
 
             this.Close();
@@ -895,7 +895,7 @@ namespace Salon.View
             UpdateUserAccount();
 
      
-            await _mainForm.RefreshUsersAsync();
+            await _mainForm.RefreshUsersAsync(1,25);
             await _mainForm.RefreshAuditLog();
         }
 

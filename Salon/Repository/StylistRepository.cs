@@ -20,12 +20,12 @@ namespace Salon.Repository
                 return con.Query<StylistModel>(sql).ToList();
             }
         }
-        public async Task<IEnumerable<StylistModel>> GetAllStylistAsync() 
+        public async Task<IEnumerable<StylistModel>> GetAllStylistAsync(int PageSize, int Offset) 
         {
             using (var con = Database.GetConnection())
             {
-                var sql = "SELECT * FROM tbl_stylists WHERE is_deleted = 0";
-                var result =  await con.QueryAsync<StylistModel>(sql);
+                var sql = "SELECT * FROM tbl_stylists WHERE is_deleted = 0 LIMIT @PageSize OFFSET @OffSet";
+                var result =  await con.QueryAsync<StylistModel>(sql, new { PageSize, Offset});
                 return result.ToList();
             }
         }

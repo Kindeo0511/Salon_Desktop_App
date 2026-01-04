@@ -460,6 +460,12 @@
     <Compile Include="Util\InventoryReportPdf.cs" />
     <Compile Include="Util\LoadingEmailScreen.cs" />
     <Compile Include="Util\NotificationService.cs" />
+    <Compile Include="Util\PaginationControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Util\PaginationControl.Designer.cs">
+      <DependentUpon>PaginationControl.cs</DependentUpon>
+    </Compile>
     <Compile Include="Util\PaymentMethod.cs" />
     <Compile Include="Util\PdfReportBuilder.cs" />
     <Compile Include="Util\ReceiptPrinter.cs" />
@@ -802,6 +808,9 @@
     <Content Include="Report\InvoiceReport.rdlc">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+    <EmbeddedResource Include="Util\PaginationControl.resx">
+      <DependentUpon>PaginationControl.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="View\AddProductForm.resx">
       <DependentUpon>AddProductForm.cs</DependentUpon>
     </EmbeddedResource>

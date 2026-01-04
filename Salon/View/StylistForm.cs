@@ -186,7 +186,7 @@ namespace Salon.View
 
 
 
-            await _mainForm.RefreshStylistAsync();
+            await _mainForm.RefreshStylistAsync(1, 25);
 
 
 
@@ -205,7 +205,7 @@ namespace Salon.View
 
             var fullName = txt_first_name.Text + " " + txt_last_name.Text;
             Audit.AuditLog(DateTime.Now, "Update", UserSession.CurrentUser.first_Name, "Manage Stylist", $"Updated stylist {fullName} on {DateTime.Now:yyyy-MM-dd} at {DateTime.Now:HH:mm:ss}");
-            await _mainForm.RefreshStylistAsync();
+            await _mainForm.RefreshStylistAsync(1, 25);
     
         }
 

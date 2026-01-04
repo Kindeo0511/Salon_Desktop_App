@@ -20,12 +20,21 @@ namespace Salon.Repository
                 return con.Query<CategoryModel>(sql).ToList();
             }
         }
-        public async Task<IEnumerable<CategoryModel>> GetAllCategoryAsync() 
+        public int TotalCategory()
         {
             using (var con = Database.GetConnection())
             {
-                var sql = "SELECT * FROM tbl_category WHERE is_deleted = 0";
-                var result = await con.QueryAsync<CategoryModel>(sql);
+                var sql = "SELECT COUNT(*) FROM tbl_category WHERE is_deleted = 0";
+                return con.ExecuteScalar<int>(sql);
+            }
+        }
+
+        public async Task<IEnumerable<CategoryModel>> GetAllCategoryAsync(int PageSize, int OffSet) 
+        {
+            using (var con = Database.GetConnection())
+            {
+                var sql = "SELECT * FROM tbl_category WHERE is_deleted = 0 LIMIT @PageSize OFFSET @OffSet";
+                var result = await con.QueryAsync<CategoryModel>(sql,new { PageSize, OffSet });
 
                 return result.ToList();
             }

@@ -20,10 +20,13 @@ namespace Salon.Controller
         {
             return repo.getAllCategory();
         }
-
-        public async Task<IEnumerable<CategoryModel>> GetAllCategoryAsync() 
+        public int GetTotalCategory() 
         {
-            return await repo.GetAllCategoryAsync();
+            return repo.TotalCategory();
+        }
+        public async Task<IEnumerable<CategoryModel>> GetAllCategoryAsync(int page, int offset) 
+        {
+            return await repo.GetAllCategoryAsync(page, offset);
         }
         public IEnumerable<CategoryModel> getAllCategoryByService() 
         {

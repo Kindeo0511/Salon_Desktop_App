@@ -68,7 +68,7 @@ namespace Salon.View
             DataGridViewTheme();
 
 
-
+            
 
 
             //_userControl = new UserControl();
@@ -228,6 +228,28 @@ namespace Salon.View
         }
         private async void MainForm_Load(object sender, EventArgs e)
         {
+            paginationControl1.PageChanged += async (s, page) =>
+            {
+                await RefreshUsersAsync(page, 25);
+            };
+            await RefreshUsersAsync(1, 25);
+            //paginationControl2.PageChanged += async (s, page) =>
+            //{
+            //    await RefreshAuditLog(page,25);
+            //};
+            //await RefreshAuditLog();
+
+            paginationControl3.PageChanged += async(s, page) => 
+            {
+               await RefreshStylistAsync(page, 25);
+            };
+            paginationControl4.PageChanged += async (s, page) =>
+            {
+                await RefreshCategoryAsync(page, 25);
+            };
+            await RefreshCategoryAsync(1,25);
+
+
 
             dgv_cart_product.AutoGenerateColumns = false;
             dgv_cart_product.DataSource = null;
@@ -253,10 +275,10 @@ namespace Salon.View
             lbl_cashier_name.Text = $"{UserSession.CurrentUser.first_Name} {UserSession.CurrentUser.last_Name}";
 
 
-            await RefreshUsersAsync();
-            await RefreshStylistAsync();
+            await RefreshUsersAsync(1,20);
+            await RefreshStylistAsync(1,25);
             await RefreshCustomers();
-            await RefreshCategoryAsync();
+            //await RefreshCategoryAsync();
             await RefreshSubCategoryAsync();
             await RefreshProductAsync();
             LoadRetailProducts();
@@ -509,11 +531,27 @@ namespace Salon.View
             chart_popular_services.LegendLocation = LegendLocation.Top;
         }
         // END OF DASHBOARD
-
-        public async Task RefreshUsersAsync()
+        private async void LoadTotalUser() 
         {
             var controller = new UserController(new UserRepository());
-            var users = await controller.RefreshUsers();
+            var totalRecords = controller.GetTotalUsers();
+
+            int pageSize = 20;
+            int totalPages = (int)Math.Ceiling((double)totalRecords / pageSize);
+            //paginationControl3.SetTotalPages(totalPages);
+
+            await RefreshUsersAsync(1, pageSize);
+
+        }
+        public async Task RefreshUsersAsync(int pageNumber, int pageSize)
+        {
+            var controller = new UserController(new UserRepository());
+            int offset = (pageNumber - 1) * pageSize;
+            var users = await controller.RefreshUsers(pageSize, offset);
+
+            var total = controller.GetTotalUsers();
+            int total_pages = (int)Math.Ceiling((double)total / pageSize);
+            paginationControl1.SetTotalPages(total_pages);
 
             dgv_user.AutoGenerateColumns = false;
             col_id.DataPropertyName = "user_id";
@@ -623,7 +661,7 @@ namespace Salon.View
                         MessageBox.Show("User Deactivated Successfully.", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
                         InsertDeletedRecord(user.user_id,null, "Manage User", user.first_Name, UserSession.CurrentUser.first_Name, DateTime.Today);
                         await RefreshDeletedRecords();
-                        await RefreshUsersAsync();
+                        await RefreshUsersAsync(paginationControl1.CurrentPage, 20);
                         var fullName = user.first_Name + " " + user.last_Name;
                         Audit.AuditLog(DateTime.Now, "Deactivate", UserSession.CurrentUser.first_Name, "Manage User", $"Deactivated user {fullName} on {DateTime.Now:yyyy-MM-dd} at {DateTime.Now:HH:mm:ss}");
                     }
@@ -676,11 +714,17 @@ namespace Salon.View
 
         // END OF USERS
 
-        public async Task RefreshStylistAsync()
+        public async Task RefreshStylistAsync(int pageNumber, int pageSize)
         {
             var _repo = new StylistRepository();
             var stylistController = new StylistController(_repo);
-            var stylists = await stylistController.RefreshStlyistAsync();
+            int offset = (pageNumber - 1) * pageSize;
+            var stylists = await stylistController.RefreshStlyistAsync(pageSize, offset);
+
+            int totalRecords = stylists.Count();
+            int totalPages = (int)Math.Ceiling((double)totalRecords / pageSize);
+
+            paginationControl3.SetTotalPages(totalPages);
             dgv_stylist.AutoGenerateColumns = false;
             col_stylist_id.DataPropertyName = "stylist_id";
             stylist_first_name.DataPropertyName = "firstName";
@@ -700,6 +744,7 @@ namespace Salon.View
             var _repo = new StylistRepository();
             var stylistController = new StylistController(_repo);
             var stylists = stylistController.GetAll();
+
             dgv_stylist.AutoGenerateColumns = false;
             col_stylist_id.DataPropertyName = "stylist_id";
             stylist_first_name.DataPropertyName = "firstName";
@@ -780,7 +825,7 @@ namespace Salon.View
                         var fullName = stylist.firstName + " " + stylist.lastName;
                         Audit.AuditLog(DateTime.Now, "Delete", UserSession.CurrentUser.first_Name, "Manage Stylist", $"Deleted stylist {fullName} on {DateTime.Now:yyyy-MM-dd} at {DateTime.Now:HH:mm:ss}");
                         InsertDeletedRecord(stylist.stylist_id, null, "Manage Stylist", fullName, UserSession.CurrentUser.first_Name, DateTime.Today);
-                        await RefreshStylistAsync();
+                        await RefreshStylistAsync(1,25);
                         await RefreshDeletedRecords();
                     }
                     else
@@ -926,12 +971,17 @@ namespace Salon.View
         // END OF CUSTOMERS
 
         // CATEGORY
-        public async Task RefreshCategoryAsync()
+        public async Task RefreshCategoryAsync(int pageNumber, int pageSize)
         {
             var repo = new CategoryRepository();
             var categoryController = new CategoryController(repo);
-            var categories = await categoryController.GetAllCategoryAsync();
+            int offset = (pageNumber - 1) * pageSize;
+            var categories = await categoryController.GetAllCategoryAsync(pageSize, offset);
 
+
+            int totalRecords = categoryController.GetTotalCategory();
+            int totalPages = (int)Math.Ceiling((double)totalRecords / pageSize);
+            paginationControl4.SetTotalPages(totalPages);
             dgv_category.AutoGenerateColumns = false;
             col_category_id.DataPropertyName = "category_id";
             col_category_name.DataPropertyName = "categoryName";
@@ -955,6 +1005,7 @@ namespace Salon.View
         {
             using (var categoryForm = new CategoryForm(this))
             {
+                categoryForm.CategoryAdded += async (s, args) => { await RefreshCategoryAsync(paginationControl4.CurrentPage, 25); };
                 categoryForm.ShowDialog();
             }
         }
@@ -967,6 +1018,7 @@ namespace Salon.View
                 var category = dgv_category.Rows[e.RowIndex].DataBoundItem as CategoryModel;
                 using (var categoryForm = new CategoryForm(this, category))
                 {
+                    categoryForm.CategoryUpdated += async (s, args) => { await RefreshCategoryAsync(paginationControl4.CurrentPage, 25); };
                     categoryForm.ShowDialog();
                 }
             }
@@ -1008,8 +1060,8 @@ namespace Salon.View
                             MessageBox.Show("Failed to Delete Supplier.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                         }
 
-                        
-                        await RefreshCategoryAsync();
+
+                        await RefreshCategoryAsync(paginationControl4.CurrentPage,25);
                         await RefreshDeletedRecords();
                     }
 
@@ -1736,6 +1788,8 @@ namespace Salon.View
 
 
             dgv_inventory.DataSource = filter_inventory;
+
+            txt_critical_level.Value = inventory.Select(i => i.critical_level).FirstOrDefault();
         }
 
         public async Task RefreshBatchInventory()
@@ -3634,8 +3688,14 @@ namespace Salon.View
 
             var repo = new AuditRepository();
             var controller = new AuditController(repo);
+
             var logs = (start.HasValue && end.HasValue) ? await controller.GetAllAuditAsync(start.Value, end.Value, currentPage, pageSize) : await controller.GetAllAuditAsync(currentPage, pageSize);
 
+            var total = controller.GetTotalRecordCount();
+
+            int total_pages = (int)Math.Ceiling((double)total / pageSize);
+
+            paginationControl2.SetTotalPages(total_pages);
             dgv_audit_report.AutoGenerateColumns = false;
 
             col_audit_id.DataPropertyName = "id";
@@ -3738,7 +3798,7 @@ namespace Salon.View
             var selectedTab = materialTabControl1.SelectedTab;
             if (selectedTab == categoriesTab)
             {
-                await RefreshCategoryAsync();
+                //await RefreshCategoryAsync();
             }
             if (selectedTab == logoutTab)
             {
@@ -3970,7 +4030,7 @@ namespace Salon.View
 
                 case var tab when tab == categoriesTab:
 
-                    await RefreshCategoryAsync();
+                    //await RefreshCategoryAsync();
                     break;
 
                 case var tab when tab == inventoryTabPage:
@@ -4679,15 +4739,15 @@ namespace Salon.View
                             {
                                 case "Manage User":
                                     RestoreDeactivatedUserRecord(record.record_id);
-                                    await RefreshUsersAsync();
+                                    await RefreshUsersAsync(pageSize,totalPages);
                                     break;
                                 case "Category":
                                     RestoreDeletedCategoryRecord(record.record_id);
-                                    await RefreshCategoryAsync();
+                                    //await RefreshCategoryAsync();
                                     break;
                                 case "Manage Stylist":
                                     RestoreDeletedStylistRecord(record.record_id);
-                                    await RefreshStylistAsync();
+                                    await RefreshStylistAsync(1,25);
                                     break;
                                 case "Manage Customer":
                                     RestoreDeletedCustomerRecord(record.record_id);
@@ -4752,17 +4812,17 @@ namespace Salon.View
                             {
                                 case "Manage User":
                                     DeleteUserRecord(record.record_id);
-                                    await RefreshUsersAsync();
+                                    await RefreshUsersAsync(pageSize,totalPages);
                                     break;
                                 case "Category":
                                     DeleteCategoryRecord(record.record_id, record.name);
-                                    await RefreshCategoryAsync();
+                                    //await RefreshCategoryAsync();
                                     break;
                                 case "Manage Stylist":
 
                                     DeleteStylistRecord(record.record_id, record.name);
                                     
-                                await RefreshStylistAsync();
+                                await RefreshStylistAsync(1,25);
                                     break;
                                 case "Manage Customer":
                                     DeleteCustomerRecord(record.record_id, record.name);
@@ -5070,17 +5130,17 @@ namespace Salon.View
 
         private async void btn_refresh_data_Click(object sender, EventArgs e)
         {
-            await RefreshCategoryAsync();
+            //await RefreshCategoryAsync();
         }
 
         private async void btn_refresh_user_Click(object sender, EventArgs e)
         {
-            await RefreshUsersAsync();
+            await RefreshUsersAsync(pageSize,totalPages);
         }
 
         private async void btn_refresh_stylist_Click(object sender, EventArgs e)
         {
-            await RefreshStylistAsync();
+            await RefreshStylistAsync(1,25);
         }
 
         private async void btn_refresh_customer_Click(object sender, EventArgs e)
@@ -5947,10 +6007,7 @@ namespace Salon.View
 
         }
 
-        private void btn_save_business_Click(object sender, EventArgs e)
-        {
-
-        }
+      
 
         private decimal currentAmount = 0m;
         private decimal currentPercentDiscount = 0m;
@@ -6325,6 +6382,10 @@ namespace Salon.View
             }
 
         }
+        private void btn_save_business_Click(object sender, EventArgs e)
+        {
+
+        }
         public void LoadDiscount() 
         {
             var repo = new DiscountRepository();
@@ -6347,6 +6408,22 @@ namespace Salon.View
             dgv_discount.DataSource = filteredSorted;
 
         }
+        private void btn_critical_level_Click(object sender, EventArgs e)
+        {
+            var repo = new InventoryRepository();
+            var controller =new InventoryController(repo);
+
+            var result = MessageBox.Show($"“Do you want to update this record? Confirm to apply changes.”", "Warning", MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
+            if (result == DialogResult.Yes) 
+            {
+                if (controller.UpdateInventoryCriticalLevel(Convert.ToInt32(txt_critical_level.Value))) 
+                {
+                    MessageBox.Show("Your changes have been saved successfully.","Success",MessageBoxButtons.OK,MessageBoxIcon.Information);
+                    LoadInventory();
+                }
+            }
+        }
+     
         public void LoadPaymentMethod()
         {
             var repo = new PaymentMethodRepository();

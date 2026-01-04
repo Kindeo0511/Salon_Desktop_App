@@ -10,7 +10,7 @@ namespace Salon.Repository
     public interface IStylist
     {
         IEnumerable<StylistModel> GetAllStylist();
-        Task<IEnumerable<StylistModel>> GetAllStylistAsync();
+        Task<IEnumerable<StylistModel>> GetAllStylistAsync(int PageSize, int Offset);
         IEnumerable<StylistModel> GetStylistWithFullName();
         StylistModel GetStylistCost();
         int AddStylist(StylistModel stylist);
