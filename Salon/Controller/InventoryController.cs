@@ -20,11 +20,19 @@ namespace Salon.Controller
         {
             return inventoryRepository.GetAllInventory();
         }
-
+        public IEnumerable<InventoryViewModel> GetAllInventory(int page_size, int off_set)
+        {
+            return inventoryRepository.GetAllInventory(page_size, off_set);
+        }
+        public int GetTotalInventory() 
+        {
+            return inventoryRepository.TotalInventory();
+        }
         public async Task<IEnumerable<InventoryViewModel>> GetAllInventoryAsync() 
         {
             return await inventoryRepository.GetAllInventoryAsync();
         }
+   
         public IEnumerable<InventoryViewModel> GetAllInventory(string status)
         {
             return inventoryRepository.GetAllInventory(status);

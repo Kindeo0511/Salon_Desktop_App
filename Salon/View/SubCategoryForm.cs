@@ -22,6 +22,7 @@ namespace Salon.View
         private SubCategoryModel subCategoryModel;
         private bool _isSaving = false;
         private bool _isUpdating = false;
+        public event EventHandler RefreshData;
         public SubCategoryForm(MainForm mainform)
         {
             InitializeComponent();
@@ -157,6 +158,7 @@ namespace Salon.View
 
                     if (AddSubCategory())
                     {
+                        RefreshData?.Invoke(this, EventArgs.Empty);
                         MessageBox.Show("Category added successfully!", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
                         var subCategory = txt_subcategory_name.Text;
                         var category = cmb_category.Text;
@@ -172,6 +174,7 @@ namespace Salon.View
                 {
                     if (UpdateSubCategory())
                     {
+                        RefreshData?.Invoke(this, EventArgs.Empty);
                         MessageBox.Show("Category updated successfully!", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
 
                         var subCategory = txt_subcategory_name.Text;
@@ -197,7 +200,7 @@ namespace Salon.View
             if (!Validated()) return;
 
             IsAccountExists();
-            await mainform.RefreshSubCategoryAsync();
+            //await mainform.RefreshSubCategoryAsync();
         
         }
 
@@ -207,7 +210,7 @@ namespace Salon.View
 
             IsAccountExists();
 
-            await mainform.RefreshSubCategoryAsync();
+            //await mainform.RefreshSubCategoryAsync();
         
         }
 

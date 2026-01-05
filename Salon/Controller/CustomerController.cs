@@ -21,13 +21,17 @@ namespace Salon.Controller
             return repo.GetAllCustomers();
         }
 
-        public async Task<IEnumerable<CustomerModel>> RefreshCustomerAsync() 
+        public async Task<IEnumerable<CustomerModel>> RefreshCustomerAsync(int PageSize, int OffSet) 
         {
-            return await repo.GetAllCustomersAsync();
+            return await repo.GetAllCustomersAsync(PageSize, OffSet);
         }
         public CustomerModel GetTotalCustomer() 
         {
             return repo.TotalCustomer();
+        }
+        public int TotalCustomerCount() 
+        {
+            return repo.GetTotalCustomer();
         }
         public List<CustomerModel> GetCustomerBySearch(string key)
         {

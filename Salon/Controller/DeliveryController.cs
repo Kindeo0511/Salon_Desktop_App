@@ -20,13 +20,18 @@ namespace Salon.Controller
         {
             return delivery.GetDeliveryInvoice();
         }
-        public IEnumerable<DeliveryModel> GetAllDelivery()
+        public IEnumerable<DeliveryModel> GetAllDelivery(int page_size, int off_set)
         {
-            return delivery.GetAllDelivery();
+            return delivery.GetAllDelivery(page_size, off_set);
         }
-        public async Task<IEnumerable<DeliveryModel>> GetDeliveryAsync() 
+        public int GetTotalDeliveryCount()
         {
-            return await delivery.GetAllDeliveryAsync();
+            return delivery.TotalDeliveryCount();
+        }
+
+        public async Task<IEnumerable<DeliveryModel>> GetDeliveryAsync(int page_size, int off_set) 
+        {
+            return await delivery.GetAllDeliveryAsync(page_size, off_set);
         }
         public int AddDelivery(DeliveryModel deliveryModel)
         {

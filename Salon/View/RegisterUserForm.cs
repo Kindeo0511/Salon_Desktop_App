@@ -147,7 +147,7 @@ namespace Salon.View
             }
         }
 
-        private async void btn_save_Click(object sender, EventArgs e)
+        private void btn_save_Click(object sender, EventArgs e)
         {
             if (!IsValid()) return;
 
@@ -155,7 +155,8 @@ namespace Salon.View
             SaveUser(txt_first_name.Text, txt_middle_name.Text, txt_last_name.Text, txt_email.Text , txt_number.Text, "Member");
             string type = cmb_customer_type.SelectedItem?.ToString() ?? "Unknown";
             MessageBox.Show($"Customer added successfully ({type}).", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
-            await main.RefreshCustomers();
+            //await main.RefreshCustomers();
+            this.Close();
         }
     }
 }

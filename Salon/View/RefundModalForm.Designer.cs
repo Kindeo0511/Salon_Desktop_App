@@ -125,6 +125,11 @@
             this.txt_qty.Name = "txt_qty";
             this.txt_qty.Size = new System.Drawing.Size(120, 22);
             this.txt_qty.TabIndex = 6;
+            this.txt_qty.Value = new decimal(new int[] {
+            1,
+            0,
+            0,
+            0});
             // 
             // btn_confirm
             // 

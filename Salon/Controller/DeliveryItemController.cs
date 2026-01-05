@@ -20,11 +20,19 @@ namespace Salon.Controller
         {
             return _repository.GetDeliveryItems(id);
         }
+        public IEnumerable<DeliveryItemModel> GetAllDeliveryItems(int id, int page_size, int off_set)
+        {
+            return _repository.GetDeliveryItems(id, page_size, off_set);
+        }
+        public int GetTotalDelivery() 
+        {
+            return _repository.TotalDeliveries();
+        }
         public IEnumerable<DeliveryItemModel> GetDeliveryItemByInvoice(string invoice) 
         {
             return _repository.GetDeliveryItemsByInvoiceNumber(invoice);
         }
-
+       
         public void AddDeliveryItem(DeliveryItemModel deliveryItemModel)
         {
              _repository.AddDeliveryItem(deliveryItemModel);

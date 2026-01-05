@@ -18,6 +18,7 @@ namespace Salon.View
     {
         private readonly InvoiceServicesCart cart;
         private readonly RefundForm refund_form;
+        private readonly MainForm main;
         private int qty;
         private decimal price;
         public RefundModalForm()
@@ -25,12 +26,13 @@ namespace Salon.View
             InitializeComponent();
             ThemeManager.ApplyTheme(this);
         }
-        public RefundModalForm(RefundForm refund_form, InvoiceServicesCart cart)
+        public RefundModalForm(MainForm main,RefundForm refund_form, InvoiceServicesCart cart)
         {
             InitializeComponent();
             ThemeManager.ApplyTheme(this);
             this.refund_form = refund_form;
             this.cart = cart;
+            this.main = main;
             loadProduct();
         }
 
@@ -112,6 +114,7 @@ namespace Salon.View
         {
             RefundProduct();
             refund_form.LoadCart(cart.InvoiceId);
+            main.LoadInvoiceTransaction();
         }
 
         private void btn_cancel_Click(object sender, EventArgs e)

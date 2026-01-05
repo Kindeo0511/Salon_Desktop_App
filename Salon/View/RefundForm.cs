@@ -80,7 +80,7 @@ namespace Salon.View
             {
                 var details = dgv_products.Rows[e.RowIndex].DataBoundItem as InvoiceServicesCart;
 
-                using (var form = new RefundModalForm(this, details))
+                using (var form = new RefundModalForm(mainForm,this, details))
                 {
                     form.ShowDialog();
                 }

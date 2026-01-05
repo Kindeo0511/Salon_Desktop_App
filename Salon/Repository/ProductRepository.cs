@@ -16,8 +16,24 @@ namespace Salon.Repository
         {
             using (var con = Database.GetConnection())
             {
-                var sql = @"SELECT * FROM tbl_products WHERE product_type = 'Retail' AND is_deleted = 0;";
+                var sql = @"SELECT * FROM tbl_products WHERE product_type = 'Retail' AND is_deleted = 0 LIMIT @page_size OFFSET @off_set";
                 return con.Query<ProductModel>(sql).ToList();
+            }
+        }
+        public IEnumerable<ProductModel> GetRetailProduct(int page_size, int off_set)
+        {
+            using (var con = Database.GetConnection())
+            {
+                var sql = @"SELECT * FROM tbl_products WHERE product_type = 'Retail' AND is_deleted = 0 LIMIT @page_size OFFSET @off_set";
+                return con.Query<ProductModel>(sql, new { page_size, off_set }).ToList();
+            }
+        }
+        public int TotalRetailProduct() 
+        {
+            using (var con = Database.GetConnection())
+            {
+                var sql = @"SELECT * FROM tbl_products WHERE product_type = 'Retail' AND is_deleted = 0;";
+                return con.ExecuteScalar<int>(sql);
             }
         }
         public IEnumerable<RetailProduct> GetAllRetailProducts()
@@ -77,7 +93,7 @@ namespace Salon.Repository
                 return con.Query<ProductModel>(sql).ToList();
             }
         }
-        public async Task<IEnumerable<ProductModel>> GetAllProductAsync() 
+        public async Task<IEnumerable<ProductModel>> GetAllProductAsync(int page_size, int off_set) 
         {
             using (var con = Database.GetConnection())
             {
@@ -85,8 +101,9 @@ namespace Salon.Repository
                             FROM tbl_products p
                             JOIN tbl_category c ON p.category_id = c.category_id
                             LEFT JOIN tbl_product_size ps ON ps.product_id = p.product_id
-                            WHERE p.is_deleted = 0 AND c.is_deleted = 0 AND p.product_type = 'Ingredient' ";
-                var result = await con.QueryAsync<ProductModel>(sql);
+                            WHERE p.is_deleted = 0 AND c.is_deleted = 0 AND p.product_type = 'Ingredient' 
+                            LIMIT @page_size OFFSET @off_set";
+                var result = await con.QueryAsync<ProductModel>(sql, new { page_size, off_set});
 
                 return result.ToList();
             }

@@ -21,6 +21,14 @@ namespace Salon.Controller
         {
             return repo.GetRetailProduct();
         }
+        public IEnumerable<ProductModel> GetRetailProduct(int page_size, int off_set)
+        {
+            return repo.GetRetailProduct(page_size, off_set);
+        }
+        public int GetTotalRetailProduct() 
+        {
+            return repo.TotalRetailProduct();
+        }
         public IEnumerable<RetailProduct> GetAllRetailProducts()
         {
             return repo.GetAllRetailProducts();
@@ -38,9 +46,9 @@ namespace Salon.Controller
             return repo.GetAllProducts();
         }
 
-        public async Task<IEnumerable<ProductModel>> GetAllProductAsync() 
+        public async Task<IEnumerable<ProductModel>> GetAllProductAsync(int page_size, int off_set) 
         {
-            return await repo.GetAllProductAsync();
+            return await repo.GetAllProductAsync(page_size, off_set);
         }
         public ProductModel GetTotalProducts() 
         {

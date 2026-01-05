@@ -23,6 +23,7 @@ namespace Salon.View
 {
     public partial class PaymentForm : MaterialForm
     {
+        public event EventHandler RefreshData;
         private MainForm mainForm;
         private AppointmentModel model;
 
@@ -651,7 +652,7 @@ namespace Salon.View
             var customerController = new CustomerController(repo);
             customerController.UpdateCustomerPoints(customerModel);
         }
-        private void btn_confirm_payment_Click(object sender, EventArgs e)
+        private async void btn_confirm_payment_Click(object sender, EventArgs e)
         {
             DeductByBaseUnitsFIFO();
             if (!Validated()) return;
@@ -686,7 +687,7 @@ namespace Salon.View
                 payment_method_id = Convert.ToInt32(cmb_payment_method.SelectedValue),
                 reference_number = txt_reference.Text.Trim(),
                 Notes = txt_reason.Text,
-                PaymentMethod = "",
+                status = "Paid",
                 Timestamp = DateTime.Now
             };
 
@@ -735,13 +736,14 @@ namespace Salon.View
             {
                 invoice_service_controller.UpdateServiceInInvoiceCart(item);
             }
-            //AddTransactions(model.AppointmentId, _vatAmount, _discountAmount, _subtotal, totalAmount, cb_PaymentMethod.SelectedItem.ToString(), "Paid", DateTime.Now);
-            //appointment.UpdateAppointmentPayment(model.AppointmentId, "Paid", "Completed");
+            //AddTransactions(model.AppointmentId, _vatAmount, _discountAmount, _subtotal, totalAmount, cmb_payment_method.SelectedItem.ToString(),, "Paid", DateTime.Now);
+            appointment.UpdateAppointmentPayment(model.AppointmentId, "Paid", "Completed");
             UpdateCustomerLoyaltyPoints();
             UpdateMemberPoints();
 
 
 
+            RefreshData?.Invoke(this, EventArgs.Empty);
             Audit.AuditLog(
                 DateTime.Now,
                 "Process Payment",
@@ -751,11 +753,10 @@ namespace Salon.View
             );
             PrintInvoice();
 
-            //await mainForm.RefreshInventoryAsync();
-            //await mainForm.RefreshBatchInventory();
-            //await mainForm.RefreshAppointmentAsync();
+            await mainForm.RefreshInventoryAsync();
+            await mainForm.RefreshAppointmentAsync();
             //await mainForm.RefreshTotalSales();
-            //await mainForm.RefreshTransactionAsync();
+            mainForm.LoadInvoiceTransaction();
 
             this.Close();
         }

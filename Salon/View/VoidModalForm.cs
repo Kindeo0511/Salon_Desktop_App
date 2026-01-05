@@ -18,17 +18,19 @@ namespace Salon.View
     {
         private readonly InvoiceServicesCart cart;
         private readonly VoirdForm void_form;
+        private readonly MainForm main;
         public VoidModalForm()
         {
             InitializeComponent();
             ThemeManager.ApplyTheme(this);
         }
-        public VoidModalForm(VoirdForm void_form, InvoiceServicesCart cart)
+        public VoidModalForm(MainForm main,VoirdForm void_form, InvoiceServicesCart cart)
         {
             InitializeComponent();
             ThemeManager.ApplyTheme(this);
             this.void_form = void_form;
             this.cart = cart;
+            this.main = main;
 
             LoadDetails(this.cart);
         }
@@ -53,7 +55,7 @@ namespace Salon.View
 
 
          
-            int qty = Convert.ToInt32(lbl_qty.Text);
+            int qty = Convert.ToInt32(lbl_qty.Value);
 
             var transactionId = stock_controller.GetTransactionId(cart.ProductId);
             var invoice_service_cart = controller.GetServiceFromInvoiceCart(cart.InvoiceId);
@@ -76,6 +78,7 @@ namespace Salon.View
         {
             VoidProduct();
             void_form.LoadCart(cart.InvoiceId);
+            main.LoadInvoiceTransaction();
             this.Close();
             
         }

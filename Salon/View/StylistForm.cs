@@ -21,6 +21,8 @@ namespace Salon.View
         private StylistModel _stylist;
         private bool _isSaving = false;
         private bool _isUpdating = false;
+        public event EventHandler Added;
+        public event EventHandler Updated;
         public StylistForm(MainForm mainForm)
         {
             InitializeComponent();
@@ -125,6 +127,7 @@ namespace Salon.View
 
                         if (userController.restoreStylist(existingUser.stylist_id))
                         {
+                            Added?.Invoke(this, EventArgs.Empty);
                             _mainForm.DeleteDeletedRecord(existingUser.stylist_id);
                             MessageBox.Show("Stylist restored successfully!", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
                             this.Close();
@@ -144,6 +147,7 @@ namespace Salon.View
 
                     if (SaveStylist())
                     {
+                        Added?.Invoke(this, EventArgs.Empty);
                         MessageBox.Show("Stylist added successfully!", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
                         this.Close();
 
@@ -157,6 +161,7 @@ namespace Salon.View
                 {
                     if (UpdateStylist())
                     {
+                        Updated?.Invoke(this, EventArgs.Empty);
                         MessageBox.Show("Stylist updated successfully!", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
                         var fullName = txt_first_name.Text + " " + txt_last_name.Text;
                         Audit.AuditLog(DateTime.Now, "Create", UserSession.CurrentUser.first_Name, "Manage Stylist", $"Created stylist {fullName} on {DateTime.Now:yyyy-MM-dd} at {DateTime.Now:HH:mm:ss}");

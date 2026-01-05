@@ -30,25 +30,25 @@ namespace Salon.Repository
             }
         }
 
-        public async Task<IEnumerable<DeletedRecord>> AllAsync() 
+        public async Task<IEnumerable<DeletedRecord>> AllAsync(int page_size, int off_set) 
         {
             using (var con = Database.GetConnection())
             {
-                var sql = "SELECT * FROM tbl_deleted_records";
+                var sql = "SELECT * FROM tbl_deleted_records LIMIT @page_size, @off_set";
 
-                var result = await con.QueryAsync<DeletedRecord>(sql);
+                var result = await con.QueryAsync<DeletedRecord>(sql, new { page_size, off_set});
 
                 return result;
             }
         }
 
-        public async Task<IEnumerable<DeletedRecord>> AllAsync(DateTime start, DateTime end)
+        public async Task<IEnumerable<DeletedRecord>> AllAsync(DateTime start, DateTime end, int page_size, int off_set)
         {
             using (var con = Database.GetConnection())
             {
-                var sql = "SELECT * FROM tbl_deleted_records WHERE deleted_on BETWEEN @start AND @end";
+                var sql = "SELECT * FROM tbl_deleted_records WHERE deleted_on BETWEEN @start AND @end LIMIT @page_size, @off_set";
 
-                var result = await con.QueryAsync<DeletedRecord>(sql, new { start = start, end = end });
+                var result = await con.QueryAsync<DeletedRecord>(sql, new { start = start, end = end, page_size, off_set });
 
                 return result;
             }
@@ -74,6 +74,14 @@ namespace Salon.Repository
         public void PermanentDelete(int id) 
         {
         
+        }
+        public int TotalDeletedRecord() 
+        {
+            using (var con = Database.GetConnection()) 
+            {
+                var sql = "SELECT COUNT(*) FROM tbl_deleted_records";
+                return con.ExecuteScalar<int>(sql);
+            }
         }
     }
 }

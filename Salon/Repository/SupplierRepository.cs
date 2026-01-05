@@ -20,12 +20,20 @@ namespace Salon.Repository
                 return con.Query<SupplierModel>(sql).ToList();
             }
         }
-        public async Task<IEnumerable<SupplierModel>> GetAllSuppliersAsync() 
+        public int TotalSuppliers() 
+        {
+            using (var con = Database.GetConnection()) 
+            {
+                var sql = "SELECT COUNT(*) FROM tbl_supplier WHERE is_deleted = 0";
+                return con.ExecuteScalar<int>(sql);
+            }
+        }
+        public async Task<IEnumerable<SupplierModel>> GetAllSuppliersAsync(int PageSize, int Offset) 
         {
             using (var con = Database.GetConnection())
             {
-                var sql = "SELECT * FROM tbl_supplier WHERE is_deleted = 0";
-                var result = await con.QueryAsync<SupplierModel>(sql);
+                var sql = "SELECT * FROM tbl_supplier WHERE is_deleted = 0 LIMIT @PageSize OFFSET @Offset";
+                var result = await con.QueryAsync<SupplierModel>(sql, new { PageSize, Offset});
                 return result.ToList(); 
             }
         }

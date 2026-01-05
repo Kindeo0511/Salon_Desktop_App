@@ -10,10 +10,10 @@ namespace Salon.Repository
 {
     public interface IProduct
     {
-        IEnumerable<ProductModel> GetRetailProduct();
+        IEnumerable<ProductModel> GetRetailProduct(int page_size, int off_set);
         RetailProduct GetRetailProductByName(string name);
         IEnumerable<ProductModel> GetAllProducts();
-        Task<IEnumerable<ProductModel>> GetAllProductAsync();
+        Task<IEnumerable<ProductModel>> GetAllProductAsync(int page_size, int off_set);
 
         IEnumerable<ProductModel> GetAllProductToOrder();
   

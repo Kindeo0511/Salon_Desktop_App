@@ -9,9 +9,9 @@ namespace Salon.Repository
 {
     public interface IDelivery
     {
-        IEnumerable<DeliveryModel> GetAllDelivery();
+        IEnumerable<DeliveryModel> GetAllDelivery(int page_size, int off_set);
         IEnumerable<DeliveryItemModel> GetDeliveryInvoice();
-        Task<IEnumerable<DeliveryModel>> GetAllDeliveryAsync();
+        Task<IEnumerable<DeliveryModel>> GetAllDeliveryAsync(int page_size, int off_set);
         int AddDelivery(DeliveryModel delivery);
 
         bool DeliveryExists(string invoice);

@@ -20,9 +20,9 @@ namespace Salon.Controller
             return repo.getAllServices();
         }
 
-        public async Task<IEnumerable<ServiceModel>> GetAllServicsAsync() 
+        public async Task<IEnumerable<ServiceModel>> GetAllServicsAsync(int page_size, int off_set) 
         {
-            return await repo.GetAllServicesAsync();
+            return await repo.GetAllServicesAsync(page_size, off_set);
         }
         public ServiceModel TotalServices() 
         {

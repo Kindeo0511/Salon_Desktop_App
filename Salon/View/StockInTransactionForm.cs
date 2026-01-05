@@ -20,6 +20,7 @@ namespace Salon.View
     {
         private int supplierId;
         private readonly MainForm mainForm;
+        public event EventHandler RefreshData;
         public StockInTransactionForm(MainForm main)
         {
             InitializeComponent();
@@ -258,7 +259,7 @@ namespace Salon.View
 
             UpdateDeliveryStatus();
 
-            mainForm.LoadInventory();
+            RefreshData?.Invoke(this, EventArgs.Empty);
             MessageBox.Show("Save Succesfully!");
            
         }

@@ -24,6 +24,7 @@ namespace Salon.View
 
         private bool _isProductSizeSaving = false;
         private bool _isProductSizeUpdating = false;
+        public event EventHandler RefreshData;
         public ProductForm(MainForm mainform)
         {
             InitializeComponent();
@@ -197,6 +198,7 @@ namespace Salon.View
 
                     if (AddProduct() > 0)
                     {
+                        RefreshData?.Invoke(this, EventArgs.Empty);
                         MessageBox.Show("Product added successfully!", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
 
                         var productName = txt_product_name.Text;
@@ -213,6 +215,7 @@ namespace Salon.View
                 {
                     if (UpdateProduct())
                     {
+                        RefreshData?.Invoke(this, EventArgs.Empty);
                         MessageBox.Show("Product updated successfully!", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
                         var productName = txt_product_name.Text;
                         Audit.AuditLog(DateTime.Now, "Update", UserSession.CurrentUser.first_Name, "Manage Products", $"Updated product '{productName}' on {DateTime.Now:yyyy-MM-dd} at {DateTime.Now:HH:mm:ss}");
@@ -236,7 +239,7 @@ namespace Salon.View
 
             IsAccountExists();
 
-            await mainForm.RefreshProductAsync();
+            //await mainForm.RefreshProductAsync();
             await mainForm.RefreshTotalProduct();
 
 
@@ -248,7 +251,7 @@ namespace Salon.View
             if (!IsValid()) return;
 
             IsAccountExists();
-            await mainForm.RefreshProductAsync();
+            //await mainForm.RefreshProductAsync();
   
             
         }
@@ -469,7 +472,7 @@ namespace Salon.View
             _isProductSizeSaving = true;
             ProductSize();
             LoadProductSizeById(_product_id);
-            await mainForm.RefreshProductAsync();
+            //await mainForm.RefreshProductAsync();
         }
 
         private async void dgv_product_size_CellClick(object sender, DataGridViewCellEventArgs e)
@@ -511,8 +514,8 @@ namespace Salon.View
 
                         MessageBox.Show("Product size deleted successfully!", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
                         LoadProductSizeById(_product_id);
-                        await mainForm.RefreshProductAsync();
-                        await mainForm.FilterdDeletedRecords();
+                        //await mainForm.RefreshProductAsync();
+                        await mainForm.FilterdDeletedRecords(1,25);
                     }
                 }
             }
@@ -523,7 +526,7 @@ namespace Salon.View
             _isProductSizeUpdating = true;
             ProductSize();
             LoadProductSizeById(_product_id);
-            await mainForm.RefreshProductAsync();
+            //await mainForm.RefreshProductAsync();
         }
 
 

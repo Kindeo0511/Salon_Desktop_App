@@ -25,6 +25,8 @@ namespace Salon.View
 
         private bool _isProductSizeSaving = false;
         private bool _isProductSizeUpdating = false;
+
+        public event EventHandler RefreshData;
         public RetailProductForm()
         {
             InitializeComponent();
@@ -114,6 +116,7 @@ namespace Salon.View
 
                         if (controller.RestoreProduct(existingProduct.product_id))
                         {
+                            RefreshData?.Invoke(this, EventArgs.Empty);
                             mainForm.DeleteDeletedRecord(existingProduct.product_id);
                             MessageBox.Show("Product restored successfully!", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
                             this.Close();
@@ -133,6 +136,7 @@ namespace Salon.View
 
                     if (SaveProductDetail() > 0)
                     {
+                        RefreshData?.Invoke(this, EventArgs.Empty);
                         MessageBox.Show("Product added successfully!", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
 
                         var productName = txt_product_name.Text;
@@ -149,6 +153,7 @@ namespace Salon.View
                 {
                     if (UpdateProductDetail())
                     {
+                        RefreshData?.Invoke(this, EventArgs.Empty);
                         MessageBox.Show("Product updated successfully!", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
                         var productName = txt_product_name.Text;
                         Audit.AuditLog(DateTime.Now, "Update", UserSession.CurrentUser.first_Name, "Manage Product Retail", $"Updated product '{productName}' on {DateTime.Now:yyyy-MM-dd} at {DateTime.Now:HH:mm:ss}");
@@ -193,13 +198,13 @@ namespace Salon.View
 
 
             ProductRetailInfo();
-            mainForm.LoadRetailProducts();
+            //mainForm.LoadRetailProducts();
 
         }
         private void btn_update_Click(object sender, EventArgs e)
         {
             ProductRetailInfo();
-            mainForm.LoadRetailProducts();
+            //mainForm.LoadRetailProducts();
         }
         // PRODUCT SIZE RETAIL
         private void LoadProductSizeById(int product_id)
@@ -343,7 +348,7 @@ namespace Salon.View
             ProductSize();
      
             LoadProductSizeById(_product_id);
-            mainForm.LoadRetailProducts();
+            //mainForm.LoadRetailProducts();
 
         }
         
@@ -362,7 +367,7 @@ namespace Salon.View
 
                 btn_product_size_update.Enabled = true;
                 btn_product_size_save.Enabled = false;
-                mainForm.LoadRetailProducts();
+                //mainForm.LoadRetailProducts();
             }
             else if (e.RowIndex >= 0 && dgv_product_size.Columns[e.ColumnIndex].Name == "col_product_size_delete")
             {
@@ -382,8 +387,8 @@ namespace Salon.View
 
                         MessageBox.Show("Product size deleted successfully!", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
                         LoadProductSizeById(_product_id);
-                        mainForm.LoadRetailProducts();
-                        await mainForm.FilterdDeletedRecords();
+                        //mainForm.LoadRetailProducts();
+                        await mainForm.FilterdDeletedRecords(1,25);
                     }
                 }
             }
@@ -395,7 +400,7 @@ namespace Salon.View
 
             ProductSize();
             LoadProductSizeById(_product_id);
-            mainForm.LoadRetailProducts();
+            //mainForm.LoadRetailProducts();
 
         }
 

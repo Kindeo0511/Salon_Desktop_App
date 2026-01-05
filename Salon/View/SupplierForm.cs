@@ -20,6 +20,8 @@ namespace Salon.View
         private SupplierModel supplierModel;
         private bool _isSaving = false;
         private bool _isUpdating = false;
+        public event EventHandler SupplierAdded;
+        public event EventHandler SupplierUpdated;
         public  SupplierForm(MainForm mainform)
         {
             InitializeComponent();
@@ -148,6 +150,7 @@ namespace Salon.View
 
                     if (AddSupplier())
                     {
+                        SupplierAdded?.Invoke(this, EventArgs.Empty);
                         MessageBox.Show("Supplier added successfully!", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
                         var fullName = txt_supplier_name.Text;
                         Audit.AuditLog(DateTime.Now, "Create", UserSession.CurrentUser.first_Name, "Manage Supplier", $"Created supplier '{fullName}' on {DateTime.Now:yyyy-MM-dd} at {DateTime.Now:HH:mm:ss}");
@@ -163,6 +166,7 @@ namespace Salon.View
                 {
                     if (UpdateSupplier())
                     {
+                        SupplierUpdated?.Invoke(this, EventArgs.Empty);
                         MessageBox.Show("Supplier updated successfully!", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
                         var fullName = txt_supplier_name.Text;
                         Audit.AuditLog(DateTime.Now, "Update", UserSession.CurrentUser.first_Name, "Manage Supplier", $"Updated supplier '{fullName}' on {DateTime.Now:yyyy-MM-dd} at {DateTime.Now:HH:mm:ss}");
@@ -184,7 +188,7 @@ namespace Salon.View
         {
             if (!IsValid()) return;
             IsAccountExists();
-            await mainform.RefreshSupplierAsync();
+            //await mainform.RefreshSupplierAsync();
         }
 
         private async void btn_update_Click(object sender, EventArgs e)
@@ -192,7 +196,7 @@ namespace Salon.View
             if (!IsValid()) return;
             IsAccountExists();
 
-            await mainform.RefreshSupplierAsync();
+            //await mainform.RefreshSupplierAsync();
 
         }
 

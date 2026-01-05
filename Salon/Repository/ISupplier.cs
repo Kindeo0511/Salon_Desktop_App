@@ -10,7 +10,7 @@ namespace Salon.Repository
     public interface ISupplier
     {
         IEnumerable<SupplierModel> GetAllSuppliers();
-        Task<IEnumerable<SupplierModel>> GetAllSuppliersAsync();
+        Task<IEnumerable<SupplierModel>> GetAllSuppliersAsync(int PageSize, int Offset);
         //SupplierModel GetSupplierById(int id);
         int AddSupplier(SupplierModel supplier);
         int UpdateSupplier(SupplierModel supplier);

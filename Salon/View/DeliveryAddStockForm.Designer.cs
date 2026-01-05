@@ -38,6 +38,7 @@
             this.col_ExpiryDate = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.col_notes = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.materialCard1 = new MaterialSkin.Controls.MaterialCard();
+            this.delivery_items_pagination = new Salon.Util.PaginationControl();
             ((System.ComponentModel.ISupportInitialize)(this.dgv_items)).BeginInit();
             this.materialCard1.SuspendLayout();
             this.SuspendLayout();
@@ -61,7 +62,7 @@
             this.col_TotalPrice,
             this.col_ExpiryDate,
             this.col_notes});
-            this.dgv_items.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.dgv_items.Dock = System.Windows.Forms.DockStyle.Top;
             this.dgv_items.EnableHeadersVisualStyles = false;
             this.dgv_items.Location = new System.Drawing.Point(25, 25);
             this.dgv_items.Name = "dgv_items";
@@ -70,7 +71,7 @@
             this.dgv_items.RowHeadersVisible = false;
             this.dgv_items.RowHeadersWidth = 51;
             this.dgv_items.RowTemplate.Height = 24;
-            this.dgv_items.Size = new System.Drawing.Size(944, 483);
+            this.dgv_items.Size = new System.Drawing.Size(944, 415);
             this.dgv_items.TabIndex = 0;
             // 
             // col_DeliveryItemId
@@ -142,6 +143,7 @@
             // materialCard1
             // 
             this.materialCard1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
+            this.materialCard1.Controls.Add(this.delivery_items_pagination);
             this.materialCard1.Controls.Add(this.dgv_items);
             this.materialCard1.Depth = 0;
             this.materialCard1.Dock = System.Windows.Forms.DockStyle.Fill;
@@ -153,6 +155,15 @@
             this.materialCard1.Padding = new System.Windows.Forms.Padding(25);
             this.materialCard1.Size = new System.Drawing.Size(994, 533);
             this.materialCard1.TabIndex = 1;
+            // 
+            // delivery_items_pagination
+            // 
+            this.delivery_items_pagination.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.delivery_items_pagination.BackColor = System.Drawing.SystemColors.ControlDark;
+            this.delivery_items_pagination.Location = new System.Drawing.Point(539, 455);
+            this.delivery_items_pagination.Name = "delivery_items_pagination";
+            this.delivery_items_pagination.Size = new System.Drawing.Size(388, 50);
+            this.delivery_items_pagination.TabIndex = 1;
             // 
             // DeliveryAddStockForm
             // 
@@ -183,5 +194,6 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn col_TotalPrice;
         private System.Windows.Forms.DataGridViewTextBoxColumn col_ExpiryDate;
         private System.Windows.Forms.DataGridViewTextBoxColumn col_notes;
+        private Util.PaginationControl delivery_items_pagination;
     }
 }

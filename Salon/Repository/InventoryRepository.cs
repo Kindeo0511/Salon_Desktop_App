@@ -43,6 +43,46 @@ namespace Salon.Repository
             }
       
         }
+        public IEnumerable<InventoryViewModel> GetAllInventory(int page_size, int off_set)
+        {
+            using (var con = Database.GetConnection())
+            {
+                var sql = @"SELECT 
+            i.inventory_id,
+            p.product_id,
+            p.product_name,
+            p.product_type,
+            ps.size_label,
+            p.brand,
+            i.qty,
+            i.total_remaining,
+            i.critical_level,
+            i.status,
+            i.expiry_date
+        FROM tbl_inventory AS i
+        LEFT JOIN tbl_products AS p 
+               ON p.product_id = i.product_id
+        LEFT JOIN tbl_product_size AS ps 
+               ON ps.product_size_id = i.product_size_id
+        LEFT JOIN tbl_category AS c 
+               ON c.category_id = p.category_id
+                LIMIT @page_size OFFSET @off_set;
+
+                         
+                        
+                        ;";
+                return con.Query<InventoryViewModel>(sql , new { page_size, off_set}).ToList();
+            }
+
+        }
+        public int TotalInventory() 
+        {
+            using (var con = Database.GetConnection()) 
+            {
+                var sql = "SELECT COUNT(*) FROM tbl_inventory";
+                return con.ExecuteScalar<int>(sql);
+            }
+        }
         public async Task<IEnumerable<InventoryViewModel>> GetAllInventoryAsync() 
         {
             using (var con = Database.GetConnection())

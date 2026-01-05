@@ -28,7 +28,7 @@ namespace Salon.View
 
         private bool _isAddingProductUsage = false;
         private bool _isUpdatingProductUsage = false;
-
+        public event EventHandler RefreshData;
 
         public ServiceForm(MainForm mainform)
         {
@@ -207,7 +207,7 @@ namespace Salon.View
             IsServiceExists();
            
 
-            await mainform.RefreshServicesAsync();
+            //await mainform.RefreshServicesAsync();
             await mainform.RefreshTotalServices();
 
         }
@@ -217,7 +217,7 @@ namespace Salon.View
             if (!IsValid()) return;
             IsServiceExists();
 
-            await mainform.RefreshServicesAsync();
+            //await mainform.RefreshServicesAsync();
   
         }
 
@@ -577,7 +577,7 @@ namespace Salon.View
 
                         mainform.InsertDeletedRecord(productUsage.service_product_id, productUsage.product_id, "Manage Product Consumption", productUsage.serviceName, UserSession.CurrentUser.first_Name, DateTime.Today);
 
-                        await mainform.FilterdDeletedRecords();
+                        await mainform.FilterdDeletedRecords(1, 25);
                         RefreshServiceProductUsage(service_id);
                     }
                 }

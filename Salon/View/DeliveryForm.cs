@@ -21,6 +21,7 @@ namespace Salon.View
         private int totalVolume = 0;
         private int content = 0;
         private int total_qty = 0;
+        public event EventHandler RefreshData;
         public DeliveryForm(MainForm mainform)
         {
             InitializeComponent();
@@ -502,10 +503,11 @@ namespace Salon.View
 
 
             }
+            RefreshData?.Invoke(this, EventArgs.Empty);
             MessageBox.Show("Delivery has been added successfully.", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
-            await mainform.RefreshDeliveryAsync();
+            //await mainform.RefreshDeliveryAsync();
             //await mainform.RefreshInventoryAsync();
-            await mainform.RefreshBatchInventory();
+    
             this.Close(); 
 
         }

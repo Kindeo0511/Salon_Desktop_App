@@ -27,15 +27,15 @@ namespace Salon.Controller
             return repo.All(start , end);
         }
 
-        public async Task<IEnumerable<DeletedRecord>> GetAllDeletedRecordAsync() 
+        public async Task<IEnumerable<DeletedRecord>> GetAllDeletedRecordAsync(int page_size, int off_set) 
         {
-            return await repo.AllAsync();
+            return await repo.AllAsync(page_size, off_set);
         }
 
 
-        public async Task<IEnumerable<DeletedRecord>> GetAllDeletedRecordAsync(DateTime start, DateTime end)
+        public async Task<IEnumerable<DeletedRecord>> GetAllDeletedRecordAsync(DateTime start, DateTime end, int page_size, int off_set)
         {
-            return await repo.AllAsync(start, end);
+            return await repo.AllAsync(start, end, page_size, off_set);
         }
         public void Add(DeletedRecord model) 
         {
@@ -46,6 +46,10 @@ namespace Salon.Controller
             repo.delete(id);
 
             return true;
+        }
+        public int GetTotalDeletedRecords() 
+        {
+            return repo.TotalDeletedRecord();
         }
     }
 }

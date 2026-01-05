@@ -11,16 +11,24 @@ namespace Salon.Repository
 {
     public class DeliveryRepository : IDelivery
     {
-        public IEnumerable<DeliveryModel> GetAllDelivery()
+        public IEnumerable<DeliveryModel> GetAllDelivery(int page_size, int off_set)
         {
             using (var con = Database.GetConnection()) 
             {
                 var sql = @"SELECT d.delivery_id, s.supplier_id, s.supplier_name, d.date, d.invoice, d.received_by FROM tbl_delivery as d 
-                        LEFT JOIN tbl_supplier as s ON s.supplier_id = d.supplier_id;";
+                        LEFT JOIN tbl_supplier as s ON s.supplier_id = d.supplier_id LIMIT @page_size OFFSET @off_set;";
 
-                return con.Query<DeliveryModel>(sql);
+                return con.Query<DeliveryModel>(sql, new { page_size, off_set});
             }
 
+        }
+        public int TotalDeliveryCount()
+        {
+            using (var con = Database.GetConnection()) 
+            {
+                var sql = "SELECT COUNT(*) FROM tbl_delivery";
+                return con.ExecuteScalar<int>(sql);
+            }
         }
         public IEnumerable<DeliveryItemModel> GetDeliveryInvoice()
         {
@@ -34,14 +42,14 @@ namespace Salon.Repository
                 return con.Query<DeliveryItemModel>(sql);
             }
         }
-        public async Task<IEnumerable<DeliveryModel>> GetAllDeliveryAsync() 
+        public async Task<IEnumerable<DeliveryModel>> GetAllDeliveryAsync(int page_size, int off_set) 
         {
             using (var con = Database.GetConnection())
             {
                 var sql = @"SELECT d.delivery_id, s.supplier_id, s.supplier_name, d.date, d.invoice, d.received_by FROM tbl_delivery as d 
-                        LEFT JOIN tbl_supplier as s ON s.supplier_id = d.supplier_id;";
+                        LEFT JOIN tbl_supplier as s ON s.supplier_id = d.supplier_id LIMIT @page_size OFFSET @off_set;";
 
-                var result = await  con.QueryAsync<DeliveryModel>(sql);
+                var result = await  con.QueryAsync<DeliveryModel>(sql, new { page_size, off_set });
 
                 return result;
             }

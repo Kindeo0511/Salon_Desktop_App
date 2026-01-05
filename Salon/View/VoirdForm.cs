@@ -87,7 +87,7 @@ namespace Salon.View
             {
                 var details = dgv_products.Rows[e.RowIndex].DataBoundItem as InvoiceServicesCart;
 
-                using (var form = new VoidModalForm(this,details)) 
+                using (var form = new VoidModalForm(mainForm, this,details)) 
                 {
                     form.ShowDialog();
                 }

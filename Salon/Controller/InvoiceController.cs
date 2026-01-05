@@ -39,5 +39,9 @@ namespace Salon.Controller
         {
             return repo.GetInvoice();
         }
+        public IEnumerable<InvoiceModel> GetAllInvoice(DateTime start, DateTime end)
+        {
+            return repo.GetInvoice(start, end);
+        }
     }
 }

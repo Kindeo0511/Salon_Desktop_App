@@ -144,7 +144,8 @@ namespace Salon.Repository
         a.end_time,
         a.Status,
         a.Payment_status,
-        a.customer_type;"
+        a.customer_type
+        ;"
                   : @"SELECT 
                 a.appointment_id AS AppointmentId,
                 a.customer_id AS CustomerId,
@@ -181,7 +182,8 @@ namespace Salon.Repository
                 a.end_time,
                 a.Status,
                 a.Payment_status,
-                a.customer_type;";
+                a.customer_type
+                ;";
 
                 var result = await con.QueryAsync<AppointmentModel>(sql, new { status });
 

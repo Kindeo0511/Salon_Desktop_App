@@ -24,7 +24,7 @@ tbl_subcategory.subCategoryName,tbl_servicesname.duration, tbl_servicesname.stat
                 return con.Query<ServiceModel>(sql).ToList();
             }
         }
-        public async Task<IEnumerable<ServiceModel>> GetAllServicesAsync() 
+        public async Task<IEnumerable<ServiceModel>> GetAllServicesAsync(int page_size, int off_set) 
         {
             using (var con = Database.GetConnection())
             {
@@ -33,8 +33,9 @@ tbl_subcategory.subCategoryName,tbl_servicesname.duration, tbl_servicesname.stat
                                         FROM tbl_servicesname
                                         LEFT JOIN tbl_subcategory ON tbl_subcategory.subcategory_id = tbl_servicesname.subcategory_id
                                         LEFT JOIN tbl_category ON tbl_category.category_id = tbl_subcategory.category_id
-                                        WHERE tbl_servicesname.is_deleted = 0 AND tbl_category.is_deleted = 0 AND tbl_subcategory.is_deleted = 0";
-                var result = await con.QueryAsync<ServiceModel>(sql);
+                                        WHERE tbl_servicesname.is_deleted = 0 AND tbl_category.is_deleted = 0 AND tbl_subcategory.is_deleted = 0
+                                        LIMIT @page_size OFFSET @off_set";
+                var result = await con.QueryAsync<ServiceModel>(sql, new { page_size, off_set});
 
                 return result.ToList();
             }

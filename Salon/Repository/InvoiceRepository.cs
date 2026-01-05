@@ -58,9 +58,9 @@ namespace Salon.Repository
             {
                 var sql = @"
                 INSERT INTO tbl_invoice 
-                    (invoice_number, total_amount, vat_amount, discount_amount,notes,payment_method_id, reference_number, timestamp)
+                    (invoice_number, total_amount, vat_amount, discount_amount,notes,payment_method_id, reference_number, status, timestamp)
                 VALUES 
-                    (@InvoiceNumber, @TotalAmount, @VATAmount, @DiscountAmount,@Notes,@payment_method_id,@reference_number, @Timestamp);
+                    (@InvoiceNumber, @TotalAmount, @VATAmount, @DiscountAmount,@Notes,@payment_method_id,@reference_number, @status, @Timestamp);
                 SELECT LAST_INSERT_ID();
             ";
 
@@ -83,7 +83,8 @@ namespace Salon.Repository
                                 discount_amount = @DiscountAmount,
                                 notes = @Notes, 
                                 payment_method_id = @payment_method_id,
-                                reference_number = @reference_number,                              
+                                reference_number = @reference_number,    
+                                status = @status
                                 timestamp = @TimeStamp
                               WHERE invoice_id = @InvoiceID";
                 con.Execute(sql, model);
@@ -96,21 +97,45 @@ namespace Salon.Repository
             {
                 var sql = @"SELECT isc.invoice_id AS InvoiceID,
   		                    i.invoice_number AS InvoiceNumber,
-  		                    CONCAT(ca.firstName, ' ', ca.lastName) AS Name,
-		                    i.total_amount AS TotalAmount,
-                            i.payment_method AS PaymentMethod,		
+		                    i.total_amount AS TotalAmount,		
+                            i.payment_method_id,
+                            pm.name AS PaymentMethod,
+                            i.reference_number,
                             i.status,
                             i.timestamp AS Timestamp
                     FROM tbl_invoice  AS i
                     LEFT JOIN tbl_appointment AS a ON a.appointment_id = i.appointment_id
-                    LEFT JOIN tbl_customer_account AS ca ON ca.customer_id = a.customer_id
                     LEFT JOIN tbl_invoice_service_cart AS isc ON isc.invoice_id = i.invoice_id
                     LEFT JOIN tbl_products AS p ON isc.product_id = p.product_id
                     LEFT JOIN tbl_servicesname AS sn ON isc.service_id = sn.serviceName_id
-                    WHERE  i.payment_method != 'Unpaid'
+                    LEFT JOIN tbl_payment_method AS pm ON pm.id = i.payment_method_id    
                     GROUP BY isc.invoice_id";
 
                 return con.Query<InvoiceModel>(sql).ToList();
+            }
+        }
+        public IEnumerable<InvoiceModel> GetInvoice(DateTime start_date, DateTime end_date)
+        {
+            using (var con = Database.GetConnection())
+            {
+                var sql = @"SELECT isc.invoice_id AS InvoiceID,
+  		                    i.invoice_number AS InvoiceNumber,
+		                    i.total_amount AS TotalAmount,		
+                            i.payment_method_id,
+                            pm.name AS PaymentMethod,
+                            i.reference_number,
+                            i.status,
+                            i.timestamp AS Timestamp
+                    FROM tbl_invoice  AS i
+                    LEFT JOIN tbl_appointment AS a ON a.appointment_id = i.appointment_id
+                    LEFT JOIN tbl_invoice_service_cart AS isc ON isc.invoice_id = i.invoice_id
+                    LEFT JOIN tbl_products AS p ON isc.product_id = p.product_id
+                    LEFT JOIN tbl_servicesname AS sn ON isc.service_id = sn.serviceName_id
+                    LEFT JOIN tbl_payment_method AS pm ON pm.id = i.payment_method_id  
+                    WHERE i.timestamp BETWEEN @start_date AND @end_date
+                    GROUP BY isc.invoice_id";
+
+                return con.Query<InvoiceModel>(sql, new { start_date, end_date}).ToList();
             }
         }
     }

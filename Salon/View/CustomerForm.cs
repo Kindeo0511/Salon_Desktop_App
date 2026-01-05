@@ -17,6 +17,8 @@ namespace Salon.View
 {
     public partial class CustomerForm : MaterialForm
     {
+        public event EventHandler CustomerAdded;
+        public event EventHandler CustomerUpdated;
         private MainForm mainform;
         private CustomerModel customer;
         private bool _isSaving = false;
@@ -185,6 +187,7 @@ namespace Salon.View
 
                     if (AddCustomer(txt_first_name.Text, txt_middle_name.Text, txt_last_name.Text, txt_email.Text, txt_contact.Text, "Member"))
                     {
+                        CustomerAdded?.Invoke(this, EventArgs.Empty);
                         var fullName = txt_first_name.Text + " " + txt_last_name.Text;
                         Audit.AuditLog(DateTime.Now, "Create", UserSession.CurrentUser.first_Name, "Manage Customer", $"Created customer '{fullName}' on {DateTime.Now:yyyy-MM-dd} at {DateTime.Now:HH:mm:ss}");
                         MessageBox.Show("Customer added successfully!", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
@@ -200,6 +203,7 @@ namespace Salon.View
                 {
                     if (UpdateCustomer(txt_first_name.Text, txt_middle_name.Text, txt_last_name.Text, txt_email.Text, txt_contact.Text))
                     {
+                        CustomerUpdated?.Invoke(this, EventArgs.Empty);
                         var fullName = txt_first_name.Text + " " + txt_last_name.Text;
                         Audit.AuditLog(DateTime.Now, "Update", UserSession.CurrentUser.first_Name, "Manage Customer", $"Updated customer '{fullName}' on {DateTime.Now:yyyy-MM-dd} at {DateTime.Now:HH:mm:ss}");
                         MessageBox.Show("Customer updated successfully!", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
@@ -224,7 +228,7 @@ namespace Salon.View
             IsAccountExists();
 
 
-            await mainform.RefreshCustomers();
+            //await mainform.RefreshCustomers();
       
         }
 
@@ -233,7 +237,7 @@ namespace Salon.View
             if (!IsValid()) return;
             IsAccountExists();
             
-            await mainform.RefreshCustomers();
+            //await mainform.RefreshCustomers();
        
         }
 

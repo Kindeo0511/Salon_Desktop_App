@@ -22,19 +22,28 @@ namespace Salon.Repository
                 return con.Query<SubCategoryModel>(sql).ToList();
             }
         }
-        public async Task<IEnumerable<SubCategoryModel>> GetAllSubCategoryAsync() 
+        public async Task<IEnumerable<SubCategoryModel>> GetAllSubCategoryAsync(int page_size, int off_set) 
         {
             using (var con = Database.GetConnection())
             {
                 var sql = @"SELECT sc.subCategory_id, sc.category_id, sc.subCategoryName, c.categoryName
                             FROM tbl_subcategory sc
                             JOIN tbl_category c ON sc.category_id = c.category_id
-                            WHERE sc.is_deleted = 0 AND c.is_deleted = 0; ";
-                var result =  await con.QueryAsync<SubCategoryModel>(sql);
+                            WHERE sc.is_deleted = 0 AND c.is_deleted = 0
+                            LIMIT @page_size OFFSET @off_set";
+                var result =  await con.QueryAsync<SubCategoryModel>(sql, new { page_size, off_set});
 
                 return result.ToList();
             }
 
+        }
+        public int TotalSubCategoryCount() 
+        {
+            using (var con = Database.GetConnection()) 
+            {
+                var sql = "SELECT COUNT(*) FROM tbl_subcategory WHERE is_deleted = 0";
+                return con.ExecuteScalar<int>(sql);
+            }
         }
         public int AddSubCategory(SubCategoryModel subCategory)
         {

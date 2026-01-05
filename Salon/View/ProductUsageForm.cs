@@ -19,7 +19,7 @@ namespace Salon.View
         private MainForm mainform;
         private ServiceModel serviceModel;
         private ServiceProductUsageModel ServiceProductUsageModel;
-
+        public event EventHandler RefreshData;
         public ProductUsageForm()
         {
             InitializeComponent();
@@ -272,7 +272,7 @@ namespace Salon.View
                     Audit.AuditLog(DateTime.Now, "Delete", UserSession.CurrentUser.first_Name, "Manage Services, Product Usage", $"Deleted product usage '{product}' for ({serviceModel.serviceName}) on {DateTime.Now:yyyy-MM-dd} at {DateTime.Now:HH:mm:ss}");
                     controller.DeleteServiceProduct(ServiceProductUsageModel.service_product_id);
                     mainform.InsertDeletedRecord(ServiceProductUsageModel.service_product_id, null, "Manage Services, Product Usage", ServiceProductUsageModel.serviceName, UserSession.CurrentUser.first_Name, DateTime.Today);
-                    await mainform.FilterdDeletedRecords();
+                    await mainform.FilterdDeletedRecords(1,25);
                     await RefreshServiceProductUsage();
                 }
             }

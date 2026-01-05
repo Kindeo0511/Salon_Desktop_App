@@ -20,10 +20,14 @@ namespace Salon.Controller
         {
             return repo.GetAllSuppliers();
         }
-
-        public async Task<IEnumerable<SupplierModel>> RefreshSupplierAsync() 
+        public int GetTotalSupplier() 
         {
-            return await repo.GetAllSuppliersAsync();
+            return repo.TotalSuppliers();
+        }
+
+        public async Task<IEnumerable<SupplierModel>> RefreshSupplierAsync(int PageSize, int Offset) 
+        {
+            return await repo.GetAllSuppliersAsync(PageSize, Offset);
         }
         public bool AddSupplier(SupplierModel supplier)
         {
