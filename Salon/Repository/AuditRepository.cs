@@ -12,47 +12,28 @@ namespace Salon.Repository
 {
     public class AuditRepository : IAudit
     {
-        public IEnumerable<AuditModel> AllAuditLog(int pageNumber, int pageSize) 
-        {
-            using (var con = Database.GetConnection()) 
-            {
-                int offset = (pageNumber - 1) * pageSize;
-                var sql = "SELECT * FROM tbl_audit_trail ORDER BY id DESC LIMIT @PageSize OFFSET @Offset";
-                return con.Query<AuditModel>(sql, new { PageSize = pageSize, Offset = offset }).ToList();
+       
 
-            }
-        }
-        public IEnumerable<AuditModel> AllAuditLog(DateTime start, DateTime end, int pageNumber, int pageSize)
-        {
-            using (var con = Database.GetConnection())
-            {
-                int offset = (pageNumber - 1) * pageSize;
-                var sql = "SELECT * FROM tbl_audit_trail WHERE timestamp BETWEEN @start AND @end ORDER BY id DESC LIMIT @PageSize OFFSET @Offset ";
-                return con.Query<AuditModel>(sql, new {start, end,  PageSize = pageSize, Offset = offset }).ToList();
-
-            }
-        }
-
-        public async Task<IEnumerable<AuditModel>> AllAuditLogAsync(int pageNumber, int pageSize) 
+        public async Task<IEnumerable<AuditModel>> AllAuditLogAsync(int pageSize, int off_set) 
         {
 
             using (var con = Database.GetConnection())
             {
-                int offset = (pageNumber - 1) * pageSize;
+                
                 var sql = "SELECT * FROM tbl_audit_trail ORDER BY id DESC LIMIT @PageSize OFFSET @Offset";
-                var result = await con.QueryAsync<AuditModel>(sql, new { PageSize = pageSize, Offset = offset });
+                var result = await con.QueryAsync<AuditModel>(sql, new { PageSize = pageSize, Offset = off_set });
 
                 return result.ToList();
 
             }
         }
 
-        public async Task<IEnumerable<AuditModel>> AllAuditLogAsync(DateTime start, DateTime end, int pageNumber, int pageSize)
+        public async Task<IEnumerable<AuditModel>> AllAuditLogAsync(DateTime start, DateTime end, int pageSize, int offset)
         {
 
             using (var con = Database.GetConnection())
             {
-                int offset = (pageNumber - 1) * pageSize;
+           
                 var sql = "SELECT * FROM tbl_audit_trail WHERE timestamp BETWEEN @start AND @end ORDER BY id DESC LIMIT @PageSize OFFSET @Offset ";
                 var result = await con.QueryAsync<AuditModel>(sql, new { start, end, PageSize = pageSize, Offset = offset });
 

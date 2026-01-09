@@ -101,7 +101,7 @@ namespace Salon.Repository
 
         }
 
-        public async Task<IEnumerable<AppointmentModel>> ShowAllAppointmentAsync(string status = "") 
+        public async Task<IEnumerable<AppointmentModel>> ShowAllAppointmentAsync(string status = "", int page_size = 0, int off_set = 0) 
         {
             using (var con = Database.GetConnection())
             {
@@ -145,6 +145,7 @@ namespace Salon.Repository
         a.Status,
         a.Payment_status,
         a.customer_type
+    LIMIT @page_size OFFSET @off_set
         ;"
                   : @"SELECT 
                 a.appointment_id AS AppointmentId,
@@ -183,9 +184,10 @@ namespace Salon.Repository
                 a.Status,
                 a.Payment_status,
                 a.customer_type
+    LIMIT @page_size OFFSET @off_set
                 ;";
 
-                var result = await con.QueryAsync<AppointmentModel>(sql, new { status });
+                var result = await con.QueryAsync<AppointmentModel>(sql, new { status, page_size, off_set });
 
                 return result.ToList();
             }

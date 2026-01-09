@@ -22,5 +22,18 @@ namespace Salon.Models
         public string PaymentMethod { get; set; }
         public DateTime? Timestamp { get; set; }
         public string status { get; set; }
+
+
+
+        // SALES REPORT SUMMARY
+        public decimal TotalSales { get; set; }
+        public decimal Vat { get; set; }
+        public decimal TotalDiscount { get; set; }
+        public decimal ItemDiscount { get; set; }
+        public decimal TotalRefund { get; set; }
+        public decimal TotalServiceSale { get; set; }
+        public decimal TotalProductSale { get; set; }
+        public DateTime timestamp { get; set; }
+
     }
 }

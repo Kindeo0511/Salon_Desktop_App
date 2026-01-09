@@ -108,21 +108,21 @@ LIMIT 1;
             }
         }
 
-        public void DeductStock(int product_id, int qty_deduction) 
+        public void DeductStock(int product_id, int qty_deduction, string out_type, string unit_type) 
         {
             using (var con = Database.GetConnection()) 
             {
-                con.Execute("CALL DeductConsumable(@in_product_id, @in_deduction_ml)",
-                      new { in_product_id = product_id, in_deduction_ml = qty_deduction });
+                con.Execute("CALL duduck_product_consumables(@in_product_id, @in_deduction_ml, @in_out_type, @in_unit_type)",
+                      new { in_product_id = product_id, in_deduction_ml = qty_deduction, in_out_type = out_type, in_unit_type = unit_type });
             }   
         }
         
-        public void DeductProductStock(int product_id, int product_size_id , int qty_deduction)
+        public void DeductProductStock(int product_id, int product_size_id , int qty_deduction, string out_type, string unit_type)
         {
             using (var con = Database.GetConnection())
             {
-                con.Execute("CALL DeducProduct(@in_product_id, @in_product_size_id, @in_qty)",
-                      new { in_product_id = product_id, in_product_size_id = product_size_id, in_qty = qty_deduction });
+                con.Execute("CALL deduct_stock(@in_product_id, @in_product_size_id, @in_qty, @in_out_type, @in_unit_type)",
+                      new { in_product_id = product_id, in_product_size_id = product_size_id, in_qty = qty_deduction, in_out_type = out_type, in_unit_type = unit_type });
             }
         }
     }

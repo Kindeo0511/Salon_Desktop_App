@@ -821,7 +821,7 @@ namespace Salon.View
 
             string fullName = txt_first_name.Text + " " + txt_last_name.Text;
             Audit.AuditLog(DateTime.Now, "Create", UserSession.CurrentUser.first_Name, "Manage User", $"Created new user for {fullName} on {DateTime.Now:yyyy-MM-dd} at {DateTime.Now:HH:mm:ss}");
-            await _mainForm.RefreshAuditLog();
+            //await _mainForm.RefreshAuditLog();
           
  
             await _mainForm.RefreshUsersAsync(1,25);
@@ -863,7 +863,7 @@ namespace Salon.View
             Clear();
             MessageBox.Show("User updated successfully!", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
             await _mainForm.RefreshUsersAsync(1, 25);
-            await _mainForm.RefreshAuditLog();
+            //await _mainForm.RefreshAuditLog();
 
             this.Close();
 
@@ -896,7 +896,7 @@ namespace Salon.View
 
      
             await _mainForm.RefreshUsersAsync(1,25);
-            await _mainForm.RefreshAuditLog();
+            //await _mainForm.RefreshAuditLog();
         }
 
         private void btn_save_KeyDown(object sender, KeyEventArgs e)

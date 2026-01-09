@@ -9,8 +9,7 @@ namespace Salon.Repository
 {
     public interface IAudit
     {
-        IEnumerable<AuditModel> AllAuditLog(int pageNumber, int pageSize);
-        IEnumerable<AuditModel> AllAuditLog(DateTime start, DateTime end,int pageNumber, int pageSize);
+       
 
         Task<IEnumerable<AuditModel>> AllAuditLogAsync(int pageNumber, int pageSize);
         Task<IEnumerable<AuditModel>> AllAuditLogAsync(DateTime start, DateTime end, int pageNumber, int pageSize);

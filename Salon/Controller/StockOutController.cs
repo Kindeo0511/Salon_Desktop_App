@@ -39,14 +39,14 @@ namespace Salon.Controller
         {
             repo.UpdateTransaction(transaction_id, qty);
         }
-        public void DeductStockOut(int product_id, int deduction) 
+        public void DeductStockOut(int product_id, int deduction, string out_type, string unit_type) 
         {
-            repo.DeductStock(product_id, deduction);
+            repo.DeductStock(product_id, deduction, out_type, unit_type);
         }
 
-        public void DeductProductStockOut(int product_id, int product_size_id, int deduction) 
+        public void DeductProductStockOut(int product_id, int product_size_id, int deduction, string out_type, string unit_type) 
         {
-            repo.DeductProductStock(product_id, product_size_id, deduction);
+            repo.DeductProductStock(product_id, product_size_id, deduction, out_type, unit_type);
         }
     }
 }

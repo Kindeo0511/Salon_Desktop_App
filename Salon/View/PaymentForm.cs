@@ -14,8 +14,10 @@ using System.Drawing;
 using System.Drawing.Printing;
 using System.Drawing.Text;
 using System.Linq;
+using System.Management;
 using System.Text;
 using System.Threading.Tasks;
+using System.Web.UI.WebControls;
 using System.Windows.Forms;
 using static iText.StyledXmlParser.Jsoup.Select.Evaluator;
 using static System.Windows.Forms.VisualStyles.VisualStyleElement;
@@ -138,7 +140,7 @@ namespace Salon.View
                         foreach (var product in serviceProducts)
                         {
                             var qtyDeduction = product.qty_required * item.Quantity;
-                            controller.DeductStockOut(product.product_id, qtyDeduction);
+                            controller.DeductStockOut(product.product_id, qtyDeduction,"Service", "used "+ qtyDeduction + product.unit_type +" of "+ product.product_name);
                         }
                     }
 
@@ -153,7 +155,7 @@ namespace Salon.View
                    
                     if (transactionId.transaction_id > 0)
                     {
-                       controller.DeductProductStockOut(item.ProductId.Value, item.ProductSizeId ?? 0, qty);
+                       controller.DeductProductStockOut(item.ProductId.Value, item.ProductSizeId ?? 0, qty, "Sale", " used " + qty+"x " + item.Size + " of " + item.ItemName);
                       
 
                     }
@@ -753,8 +755,8 @@ namespace Salon.View
             );
             PrintInvoice();
 
-            await mainForm.RefreshInventoryAsync();
-            await mainForm.RefreshAppointmentAsync();
+            //await mainForm.RefreshInventoryAsync();
+            //await mainForm.RefreshAppointmentAsync();
             //await mainForm.RefreshTotalSales();
             mainForm.LoadInvoiceTransaction();
 

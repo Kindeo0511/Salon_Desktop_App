@@ -384,16 +384,15 @@ namespace Salon.View
             var itemDeliveredRepo = new DeliveredItemRepository();
             var deliveryItemController = new DeliveryItemController(itemDeliveredRepo);
 
-            //var inventoryRepo = new InventoryRepository();
-            //var inventoryController = new InventoryController(inventoryRepo);
+            var inventoryRepo = new InventoryRepository();
+            var inventoryController = new InventoryController(inventoryRepo);
 
-            //var inventoryBatchRepo = new InventoryBatchRepository();
-            //var inventoryBatchController = new InventoryBatchController(inventoryBatchRepo);
+            var stock_in_repo = new Stock_In_Repository();
+            var stock_in_controller = new Stock_In_Controller(stock_in_repo);
 
-          
 
-                // SUMMARY
-                var deliveryModel = new DeliveryModel
+            // SUMMARY
+            var deliveryModel = new DeliveryModel
                 {
                     supplier_id = Convert.ToInt32(cb_supplier_name.SelectedValue),
                     date = dtp_delivery_date.Value,
@@ -438,6 +437,38 @@ namespace Salon.View
                     notes = notes,
                 };
                 deliveryItemController.AddDeliveryItem(deliveryItemModel);
+
+                var Stock_In = new Stock_In_Model
+                {
+                    delivery_id = id,
+                    product_id = product_id,
+                    product_size_id = product_size_id,
+                    qty = quantity,
+                    total = total_qty
+                };
+
+                if (stock_in_controller.AddStock(Stock_In)) 
+                {
+
+                    bool exists = inventoryController.ProductExists(product_id, product_size_id);
+
+                    if (exists)
+                    {
+                        inventoryController.UpdateInventory(product_id, product_size_id, quantity, total_qty);
+                    }
+                    else 
+                    {
+                        var inventoryModel = new InventoryViewModel
+                        {
+                            product_id = product_id,
+                            product_size_id = product_size_id,
+                            qty = quantity,
+                            total_remaining = total_qty
+                        };
+                        inventoryController.AddInventory(inventoryModel);
+                    }
+                    mainform.LoadInventory(1,25);
+                }
                 //bool exists = inventoryController.ProductExists(product_id);
 
                 //if (exists)

@@ -30,6 +30,15 @@ namespace Salon.Models
             }
         }
 
-        
+
+        // SALES REPORT
+
+        public string SizeLabel { get; set; }
+        public string ItemType { get; set; }
+        public decimal VatAmount { get; set; }
+        public decimal DiscountAmount { get; set; }
+        public decimal Total_Price { get; set; }
+        public decimal RefundAmount { get; set; }
+        public DateTime timestamp { get; set; }
     }
 }

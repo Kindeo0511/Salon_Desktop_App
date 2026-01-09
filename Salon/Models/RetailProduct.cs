@@ -11,7 +11,9 @@ namespace Salon.Models
         public int product_id { get; set; }
         public int product_size_id { get; set; }
         public string product_name { get; set; }
+        public string unit_type { get; set; }
         public string size_label { get; set; }
+        public string DisplaySearchProduct => $"{product_name} ({size_label})";
         public string brand { get; set; }
         public int content { get; set; }
         public decimal selling_price { get; set; }

@@ -40,7 +40,7 @@ namespace Salon.View
 
             MessageBox.Show("Status updated successfully!", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
 
-            await mainForm.RefreshAppointmentAsync();
+            //await mainForm.RefreshAppointmentAsync();
             this.Close();
         }
 

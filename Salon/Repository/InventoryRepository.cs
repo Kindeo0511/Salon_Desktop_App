@@ -66,11 +66,7 @@ namespace Salon.Repository
                ON ps.product_size_id = i.product_size_id
         LEFT JOIN tbl_category AS c 
                ON c.category_id = p.category_id
-                LIMIT @page_size OFFSET @off_set;
-
-                         
-                        
-                        ;";
+                LIMIT @page_size OFFSET @off_set;";
                 return con.Query<InventoryViewModel>(sql , new { page_size, off_set}).ToList();
             }
 
@@ -320,6 +316,32 @@ LEFT JOIN tbl_category AS c
         public void DeleteInventory(int inventoryId)
         {
             throw new NotImplementedException();
+        }
+
+        // INVENTORY REPORT
+        public int TotalInventoryCount()
+        {
+            using (var con = Database.GetConnection())
+            {
+                var sql = @"SELECT COUNT(*) FROM inventory_report_view;";
+                return con.ExecuteScalar<int>(sql); // returns actual count
+            }
+        }
+        public IEnumerable<InventoryViewModel> InventoryReportView(int page_size, int off_set)
+        {
+            using (var con = Database.GetConnection())
+            {
+                var sql = @"SELECT * FROM inventory_report_view LIMIT @page_size OFFSET @off_set;";
+                return con.Query<InventoryViewModel>(sql,new { page_size, off_set }); // returns actual count
+            }
+        }
+        public IEnumerable<InventoryViewModel> InventoryReportView(string status, int page_size, int off_set)
+        {
+            using (var con = Database.GetConnection())
+            {
+                var sql = @"SELECT * FROM inventory_report_view WHERE status =@status LIMIT @page_size OFFSET @off_set;";
+                return con.Query<InventoryViewModel>(sql, new { status, page_size, off_set}); // returns actual count
+            }
         }
     }
 }

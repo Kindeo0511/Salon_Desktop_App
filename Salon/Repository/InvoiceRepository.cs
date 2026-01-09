@@ -138,5 +138,62 @@ namespace Salon.Repository
                 return con.Query<InvoiceModel>(sql, new { start_date, end_date}).ToList();
             }
         }
+
+        // SALES REPORT
+        public int CountTotalInvoice() 
+        {
+            using (var con = Database.GetConnection())
+            {
+                var sql = "SELECT COUNT(*) FROM sales_report_summary_view";
+
+                return con.ExecuteScalar<int>(sql);
+            }
+        }
+        public InvoiceModel SalesReportSummary() 
+        {
+            using (var con = Database.GetConnection()) 
+            {
+                var sql = "SELECT * FROM sales_report_summary_view";
+
+                return con.QueryFirstOrDefault<InvoiceModel>(sql);
+            }
+        }
+        public IEnumerable<InvoiceServicesCart> SalesReportView(int page_size, int off_set) 
+        {
+            using (var con = Database.GetConnection())
+            {
+                var sql = "SELECT * FROM salesreportview LIMIT @page_size OFFSET @off_set";
+
+                return con.Query<InvoiceServicesCart>(sql, new { page_size, off_set });
+            }
+        }
+        public IEnumerable<InvoiceServicesCart> SalesReportView(DateTime start, DateTime end, int page_size, int off_set)
+        {
+            using (var con = Database.GetConnection())
+            {
+                var sql = "SELECT * FROM salesreportview WHERE timestamp BETWEEN @start AND @end LIMIT @page_size OFFSET @off_set";
+
+                return con.Query<InvoiceServicesCart>(sql, new { start, end, page_size, off_set});
+            }
+        }
+        public InvoiceModel TotalServiceSaleView() 
+        {
+            using (var con = Database.GetConnection())
+            {
+                var sql = "SELECT * FROM total_service_sale_view LIMIT @page_size OFFSET @off_set";
+
+                return con.QueryFirstOrDefault<InvoiceModel>(sql);
+            }
+        }
+
+        public InvoiceModel TotalProductSaleView()
+        {
+            using (var con = Database.GetConnection())
+            {
+                var sql = "SELECT * FROM total_product_sale_view";
+
+                return con.QueryFirstOrDefault<InvoiceModel>(sql);
+            }
+        }
     }
 }

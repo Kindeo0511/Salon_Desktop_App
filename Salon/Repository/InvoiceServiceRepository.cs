@@ -24,6 +24,7 @@ namespace Salon.Repository
                     isc.invoice_id AS InvoiceId,
                    isc.product_id AS ProductId,
                    p.product_name AS ItemName,
+                   p.unit_type AS ProductUnitType,
                    isc.product_size_id AS ProductSizeId,
                    ps.size_label AS Size,
                    isc.service_id AS ServiceId,

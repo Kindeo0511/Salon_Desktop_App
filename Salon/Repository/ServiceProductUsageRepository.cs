@@ -25,7 +25,7 @@ namespace Salon.Repository
         {
             using (var con = Database.GetConnection())
             {
-                var sql = @"SELECT sp.service_product_id, s.serviceName_id as service_id, s.serviceName, p.product_id, p.product_name,p.brand, sp.qty_required
+                var sql = @"SELECT sp.service_product_id, s.serviceName_id as service_id, s.serviceName, p.product_id, p.product_name,p.brand,p.unit_type, sp.qty_required
                         FROM  tbl_service_product as sp 
                         LEFT JOIN tbl_servicesname as s ON s.serviceName_id = sp.service_id
                         LEFT JOIN tbl_products as p ON p.product_id = sp.product_id

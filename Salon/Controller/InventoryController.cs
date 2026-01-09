@@ -96,7 +96,20 @@ namespace Salon.Controller
             inventoryRepository.DeleteInventory(inventoryId);
         }
 
+        // INVENTORY REPORT
 
+        public int GetTotalInventoryCount() 
+        {
+            return inventoryRepository.TotalInventoryCount();
+        }
+        public IEnumerable<InventoryViewModel> GetInventoryReportView(int page_size, int off_set) 
+        {
+            return inventoryRepository.InventoryReportView(page_size, off_set);
+        }
+        public IEnumerable<InventoryViewModel> GetInventoryReportView(string status, int page_size, int off_set)
+        {
+            return inventoryRepository.InventoryReportView(status, page_size, off_set);
+        }
 
     }
 }

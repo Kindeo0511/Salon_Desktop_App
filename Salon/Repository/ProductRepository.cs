@@ -53,7 +53,7 @@ namespace Salon.Repository
         {
             using (var con = Database.GetConnection())
             {
-                var sql = @"SELECT p.product_id, ps.product_size_id, p.product_name, ps.size_label, 
+                var sql = @"SELECT p.product_id, ps.product_size_id, p.product_name, p.unit_type, ps.size_label, 
                            ps.content, p.brand, ps.selling_price
                     FROM tbl_products p
                     JOIN tbl_product_size ps ON ps.product_id = p.product_id

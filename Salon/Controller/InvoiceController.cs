@@ -43,5 +43,33 @@ namespace Salon.Controller
         {
             return repo.GetInvoice(start, end);
         }
+
+
+        // SALES REPORT 
+        public int GetCountTotalInvoice() 
+        {
+            return repo.CountTotalInvoice();
+        }
+        public InvoiceModel GetSalesReportSummaryView() 
+        {
+            return repo.SalesReportSummary();
+        }
+        public IEnumerable<InvoiceServicesCart> GetSalesReportView(int page_size, int off_set)
+        {
+            return repo.SalesReportView(page_size, off_set);
+        }
+        public IEnumerable<InvoiceServicesCart> GetSalesReportView(DateTime start, DateTime end, int page_size, int off_set)
+        {
+            return repo.SalesReportView(start, end, page_size, off_set);
+        }
+        public InvoiceModel GetTotalServiceSaleView()
+        {
+            return repo.TotalServiceSaleView();
+        }
+        public InvoiceModel GetTotalProductSaleView()
+        {
+            return repo.TotalProductSaleView();
+        }
+
     }
 }
