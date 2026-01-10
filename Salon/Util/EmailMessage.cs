@@ -78,61 +78,35 @@ namespace Salon.Util
             }
         }
 
-        public static async Task SendEmailNotifDiscount(int customerId, string message)
+        public static async Task<bool> SendEmailNotifDiscount(string to, string subject, string body)
         {
-            var repo = new CustomerRepository();
-            var controller = new CustomerController(repo);
-            var customer = controller.GetCustomerById(customerId);
-            var to = customer.email;
-            var subject = "🎉 New Promo Just for You!";
-
-            string body = $@"
-    <html>
-    <head>
-      <style>
-        body {{ font-family: Arial; background-color: #f4f4f4; padding: 20px; }}
-        .container {{ background-color: #fff; padding: 20px; border-radius: 8px; }}
-        .header {{ font-size: 18px; font-weight: bold; color: #333; }}
-        .promo {{ font-size: 20px; font-weight: bold; color: #28a745; }}
-        .footer {{ font-size: 12px; color: #999; margin-top: 20px; }}
-      </style>
-    </head>
-    <body>
-      <div class='container'>
-        <div class='header'>🎁 Exclusive Salon Promo</div>
-        <p>Hello {customer.fullName},</p>
-        <p class='promo'>{message}</p>
-        <p>Book now and enjoy your discount before it expires!</p>
-        <div class='footer'>
-          This is an automated message. Please do not reply.<br>
-          &copy; 2025 HCSANSOR
-        </div>
-      </div>
-    </body>
-    </html>";
-
             try
             {
                 using (var smtp = new SmtpClient("smtp.gmail.com", 587))
                 {
                     smtp.EnableSsl = true;
-                    smtp.Credentials = new NetworkCredential("alexprada782@gmail.com", "xewo quer qlch cmzv");
+                    smtp.Credentials = new NetworkCredential("alexprada782@gmail.com", "xewoquerqlchcmzv");
 
-                    var mail = new MailMessage("alexprada782@gmail.com", to, subject, body)
-                    {
-                        IsBodyHtml = true
-                    };
+                    var mail = new MailMessage();
+                    mail.From = new MailAddress("alexprada782@gmail.com", "HCSANSOR");
+                    mail.To.Add(to);
+                    mail.Subject = subject;
+                    mail.Body = body;
+                    mail.IsBodyHtml = true;
 
-                    await smtp.SendMailAsync(mail);
+
+                    await smtp.SendMailAsync(mail); // ✅ await the async call
+                    return true;
                 }
             }
             catch (Exception ex)
             {
-                // Log to file or database
                 Console.WriteLine($"Email failed: {ex.Message}");
-                // Optionally update tbl_discount_notification_queue with status = 'Failed'
+                return false;
             }
         }
+
+       
         public static async Task EmailOTPNotification(string to, string recipientName, string otp)
         {
             string subject = "Your OTP Code";

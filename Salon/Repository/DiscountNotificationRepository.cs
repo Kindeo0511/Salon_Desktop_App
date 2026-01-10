@@ -15,7 +15,7 @@ namespace Salon.Repository
         {
             using (var con = Database.GetConnection()) 
             {
-                var sql = "SELECT * FROM tbl_discount_notification WHERE status = 'Pending'";
+                var sql = "SELECT * FROM tbl_discount_notification";
                 return con.Query<DiscountNotificationModel>(sql).ToList();
             }
         }
@@ -23,7 +23,9 @@ namespace Salon.Repository
         {
             using (var con = Database.GetConnection()) 
             {
-                var sql = @"INSERT INTO tbl_discount_notification (discount_id, customer_id, status) VALUES (@discount_id, @customer_id, @status)";
+                var sql = @"INSERT INTO tbl_discount_notification
+        (customer_email, customer_name, subject, body, is_sent, created_at, sent_at)
+        VALUES (@customer_email, @customer_name, @subject, @body, @is_sent, @created_at, @sent_at)";
                 con.Execute(sql, model);
             }
         }
@@ -32,7 +34,7 @@ namespace Salon.Repository
         {
             using (var con = Database.GetConnection())
             {
-                var sql = @"UPDATE tbl_discount_notification SET status = 'Sent' WHERE notif_id = @id";
+                var sql = @"UPDATE tbl_discount_notification SET is_sent = 1, sent_at = NOW() WHERE notif_id = @id";
                 con.Execute(sql, new { id = id});
             }
         }

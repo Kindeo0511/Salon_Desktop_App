@@ -5450,10 +5450,14 @@ namespace Salon.View
             col_discount_promo_name.DataPropertyName = "promo_code";
             col_discount_value.DataPropertyName = "discount_rate";
             col_discount_mode.DataPropertyName = "mode";
+            col_discount_status_discount_status.DataPropertyName = "discount_status";
             col_discount_status_display_text.DataPropertyName = "text_status";
             col_discount_status.DataPropertyName = "status";
             col_discount_vat_exempt.DataPropertyName = "vat_exempt";
             col_discount_defined.DataPropertyName = "is_defined";
+            col_discount_start_date.DataPropertyName = "start_date";
+            col_discount_end_date.DataPropertyName = "end_date";
+                
 
             dgv_discount.DataSource = filteredSorted;
 

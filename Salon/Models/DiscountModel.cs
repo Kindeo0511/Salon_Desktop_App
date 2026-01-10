@@ -12,10 +12,12 @@ namespace Salon.Models
         public string discount_type { get; set; }
         public string promo_code { get; set; }
         public string discount_and_promo_code { get; set; }
-
+        public string discount_status { get; set; }
         public decimal discount_rate { get; set; }
         public string mode { get; set; }
-        public DateTime? expiry_date { get; set; }
+
+        public DateTime? start_date { get; set; }
+        public DateTime? end_date { get; set; }
         public int status { get; set; }
         public string text_status => status > 0 ? "Active" : "Inactive";
         public int vat_exempt { get; set; }

@@ -9,14 +9,14 @@ namespace Salon.Models
     public class DiscountNotificationModel
     {
         public int notif_id { get; set; }
-        public int discount_id { get; set; }
-        public int customer_id { get; set; }
-        public string channel { get; set; }
-        public string status { get; set; }
-        public string customer_type { get; set; }
-        public DateTime scheduled_on { get; set; }
-        public DateTime sent_on { get; set; }
-        public string error_message { get; set; }
+        public string customer_email { get; set; }
+        public string customer_name { get; set; }
+        public string subject { get; set; }
+        public string body { get; set; }
+        public int is_sent { get; set; }
+        public DateTime created_at { get; set; }
+        public DateTime sent_at { get; set; }
+
 
     }
 }

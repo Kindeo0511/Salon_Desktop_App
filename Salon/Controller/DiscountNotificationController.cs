@@ -24,11 +24,7 @@ namespace Salon.Controller
         {
             repo.addNotification(model);
         }
-        public void UpdateDiscountNotification(DiscountNotificationModel model)
-        {
-            repo.addNotification(model);
-        }
-
+       
 
         public void UpdateDiscountNotif(int id) 
         {
