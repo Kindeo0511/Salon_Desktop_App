@@ -57,6 +57,9 @@
             this.btn_account_tab_back = new MaterialSkin.Controls.MaterialButton();
             this.btn_account_tab_next = new MaterialSkin.Controls.MaterialButton();
             this.materialCard2 = new MaterialSkin.Controls.MaterialCard();
+            this.panel4 = new System.Windows.Forms.Panel();
+            this.materialProgressBar2 = new MaterialSkin.Controls.MaterialProgressBar();
+            this.materialLabel9 = new MaterialSkin.Controls.MaterialLabel();
             this.chk_show_password = new MaterialSkin.Controls.MaterialCheckbox();
             this.textBox8 = new System.Windows.Forms.TextBox();
             this.materialLabel12 = new MaterialSkin.Controls.MaterialLabel();
@@ -64,25 +67,43 @@
             this.materialLabel13 = new MaterialSkin.Controls.MaterialLabel();
             this.textBox10 = new System.Windows.Forms.TextBox();
             this.materialLabel14 = new MaterialSkin.Controls.MaterialLabel();
-            this.panel4 = new System.Windows.Forms.Panel();
-            this.materialProgressBar2 = new MaterialSkin.Controls.MaterialProgressBar();
-            this.materialLabel9 = new MaterialSkin.Controls.MaterialLabel();
             this.generalPageTab = new System.Windows.Forms.TabPage();
-            this.materialCard3 = new MaterialSkin.Controls.MaterialCard();
-            this.panel5 = new System.Windows.Forms.Panel();
-            this.materialProgressBar3 = new MaterialSkin.Controls.MaterialProgressBar();
-            this.materialLabel10 = new MaterialSkin.Controls.MaterialLabel();
             this.panel6 = new System.Windows.Forms.Panel();
             this.btn_vat_tab_back = new MaterialSkin.Controls.MaterialButton();
             this.btn_vat_tab_next = new MaterialSkin.Controls.MaterialButton();
-            this.numericUpDown1 = new System.Windows.Forms.NumericUpDown();
+            this.materialCard3 = new MaterialSkin.Controls.MaterialCard();
+            this.groupBox2 = new System.Windows.Forms.GroupBox();
+            this.dateTimePicker2 = new System.Windows.Forms.DateTimePicker();
+            this.dateTimePicker1 = new System.Windows.Forms.DateTimePicker();
+            this.materialLabel16 = new MaterialSkin.Controls.MaterialLabel();
+            this.materialLabel15 = new MaterialSkin.Controls.MaterialLabel();
+            this.panel5 = new System.Windows.Forms.Panel();
+            this.materialProgressBar3 = new MaterialSkin.Controls.MaterialProgressBar();
+            this.materialLabel10 = new MaterialSkin.Controls.MaterialLabel();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.materialLabel11 = new MaterialSkin.Controls.MaterialLabel();
-            this.groupBox2 = new System.Windows.Forms.GroupBox();
-            this.materialLabel15 = new MaterialSkin.Controls.MaterialLabel();
-            this.materialLabel16 = new MaterialSkin.Controls.MaterialLabel();
-            this.dateTimePicker1 = new System.Windows.Forms.DateTimePicker();
-            this.dateTimePicker2 = new System.Windows.Forms.DateTimePicker();
+            this.numericUpDown1 = new System.Windows.Forms.NumericUpDown();
+            this.tabPage1 = new System.Windows.Forms.TabPage();
+            this.materialCard30 = new MaterialSkin.Controls.MaterialCard();
+            this.btn_edit_smtp = new MaterialSkin.Controls.MaterialButton();
+            this.btn_update_smtp = new MaterialSkin.Controls.MaterialButton();
+            this.groupBox7 = new System.Windows.Forms.GroupBox();
+            this.materialLabel26 = new MaterialSkin.Controls.MaterialLabel();
+            this.materialLabel22 = new MaterialSkin.Controls.MaterialLabel();
+            this.materialLabel21 = new MaterialSkin.Controls.MaterialLabel();
+            this.materialLabel20 = new MaterialSkin.Controls.MaterialLabel();
+            this.materialLabel18 = new MaterialSkin.Controls.MaterialLabel();
+            this.materialLabel19 = new MaterialSkin.Controls.MaterialLabel();
+            this.materialLabel17 = new MaterialSkin.Controls.MaterialLabel();
+            this.txt_password = new System.Windows.Forms.TextBox();
+            this.txt_email = new System.Windows.Forms.TextBox();
+            this.materialLabel23 = new MaterialSkin.Controls.MaterialLabel();
+            this.materialLabel24 = new MaterialSkin.Controls.MaterialLabel();
+            this.txt_business_name = new System.Windows.Forms.TextBox();
+            this.materialLabel25 = new MaterialSkin.Controls.MaterialLabel();
+            this.panel7 = new System.Windows.Forms.Panel();
+            this.btn_smtp_back = new MaterialSkin.Controls.MaterialButton();
+            this.btn_smtp_next = new MaterialSkin.Controls.MaterialButton();
             ((System.ComponentModel.ISupportInitialize)(this.errorProvider1)).BeginInit();
             this.materialTabControl1.SuspendLayout();
             this.personalTabPage.SuspendLayout();
@@ -94,12 +115,16 @@
             this.materialCard2.SuspendLayout();
             this.panel4.SuspendLayout();
             this.generalPageTab.SuspendLayout();
-            this.materialCard3.SuspendLayout();
-            this.panel5.SuspendLayout();
             this.panel6.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.numericUpDown1)).BeginInit();
-            this.groupBox1.SuspendLayout();
+            this.materialCard3.SuspendLayout();
             this.groupBox2.SuspendLayout();
+            this.panel5.SuspendLayout();
+            this.groupBox1.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.numericUpDown1)).BeginInit();
+            this.tabPage1.SuspendLayout();
+            this.materialCard30.SuspendLayout();
+            this.groupBox7.SuspendLayout();
+            this.panel7.SuspendLayout();
             this.SuspendLayout();
             // 
             // errorProvider1
@@ -111,6 +136,7 @@
             this.materialTabControl1.Controls.Add(this.personalTabPage);
             this.materialTabControl1.Controls.Add(this.accountTabPage);
             this.materialTabControl1.Controls.Add(this.generalPageTab);
+            this.materialTabControl1.Controls.Add(this.tabPage1);
             this.materialTabControl1.Depth = 0;
             this.materialTabControl1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.materialTabControl1.Location = new System.Drawing.Point(0, 24);
@@ -192,6 +218,7 @@
             this.materialCard1.Margin = new System.Windows.Forms.Padding(100);
             this.materialCard1.MouseState = MaterialSkin.MouseState.HOVER;
             this.materialCard1.Name = "materialCard1";
+            this.materialCard1.Padding = new System.Windows.Forms.Padding(14);
             this.materialCard1.Size = new System.Drawing.Size(992, 949);
             this.materialCard1.TabIndex = 0;
             // 
@@ -366,10 +393,10 @@
             this.panel3.Controls.Add(this.materialProgressBar1);
             this.panel3.Controls.Add(this.materialLabel8);
             this.panel3.Dock = System.Windows.Forms.DockStyle.Top;
-            this.panel3.Location = new System.Drawing.Point(0, 0);
+            this.panel3.Location = new System.Drawing.Point(14, 14);
             this.panel3.Name = "panel3";
             this.panel3.Padding = new System.Windows.Forms.Padding(0, 25, 0, 0);
-            this.panel3.Size = new System.Drawing.Size(992, 98);
+            this.panel3.Size = new System.Drawing.Size(964, 98);
             this.panel3.TabIndex = 16;
             // 
             // materialProgressBar1
@@ -379,7 +406,7 @@
             this.materialProgressBar1.Location = new System.Drawing.Point(0, 93);
             this.materialProgressBar1.MouseState = MaterialSkin.MouseState.HOVER;
             this.materialProgressBar1.Name = "materialProgressBar1";
-            this.materialProgressBar1.Size = new System.Drawing.Size(992, 5);
+            this.materialProgressBar1.Size = new System.Drawing.Size(964, 5);
             this.materialProgressBar1.TabIndex = 15;
             // 
             // materialLabel8
@@ -480,8 +507,44 @@
             this.materialCard2.Margin = new System.Windows.Forms.Padding(100);
             this.materialCard2.MouseState = MaterialSkin.MouseState.HOVER;
             this.materialCard2.Name = "materialCard2";
+            this.materialCard2.Padding = new System.Windows.Forms.Padding(14);
             this.materialCard2.Size = new System.Drawing.Size(992, 949);
             this.materialCard2.TabIndex = 1;
+            // 
+            // panel4
+            // 
+            this.panel4.Controls.Add(this.materialProgressBar2);
+            this.panel4.Controls.Add(this.materialLabel9);
+            this.panel4.Dock = System.Windows.Forms.DockStyle.Top;
+            this.panel4.Location = new System.Drawing.Point(14, 14);
+            this.panel4.Name = "panel4";
+            this.panel4.Padding = new System.Windows.Forms.Padding(0, 25, 0, 0);
+            this.panel4.Size = new System.Drawing.Size(964, 98);
+            this.panel4.TabIndex = 17;
+            // 
+            // materialProgressBar2
+            // 
+            this.materialProgressBar2.Depth = 0;
+            this.materialProgressBar2.Dock = System.Windows.Forms.DockStyle.Bottom;
+            this.materialProgressBar2.Location = new System.Drawing.Point(0, 93);
+            this.materialProgressBar2.MouseState = MaterialSkin.MouseState.HOVER;
+            this.materialProgressBar2.Name = "materialProgressBar2";
+            this.materialProgressBar2.Size = new System.Drawing.Size(964, 5);
+            this.materialProgressBar2.TabIndex = 15;
+            // 
+            // materialLabel9
+            // 
+            this.materialLabel9.AutoSize = true;
+            this.materialLabel9.Depth = 0;
+            this.materialLabel9.Font = new System.Drawing.Font("Roboto Medium", 20F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Pixel);
+            this.materialLabel9.FontType = MaterialSkin.MaterialSkinManager.fontType.H6;
+            this.materialLabel9.Location = new System.Drawing.Point(32, 39);
+            this.materialLabel9.MouseState = MaterialSkin.MouseState.HOVER;
+            this.materialLabel9.Name = "materialLabel9";
+            this.materialLabel9.Size = new System.Drawing.Size(191, 24);
+            this.materialLabel9.TabIndex = 0;
+            this.materialLabel9.Tag = "";
+            this.materialLabel9.Text = "ACCOUNT SETTINGS";
             // 
             // chk_show_password
             // 
@@ -571,41 +634,6 @@
             this.materialLabel14.TabIndex = 0;
             this.materialLabel14.Text = "Username:";
             // 
-            // panel4
-            // 
-            this.panel4.Controls.Add(this.materialProgressBar2);
-            this.panel4.Controls.Add(this.materialLabel9);
-            this.panel4.Dock = System.Windows.Forms.DockStyle.Top;
-            this.panel4.Location = new System.Drawing.Point(0, 0);
-            this.panel4.Name = "panel4";
-            this.panel4.Padding = new System.Windows.Forms.Padding(0, 25, 0, 0);
-            this.panel4.Size = new System.Drawing.Size(992, 98);
-            this.panel4.TabIndex = 17;
-            // 
-            // materialProgressBar2
-            // 
-            this.materialProgressBar2.Depth = 0;
-            this.materialProgressBar2.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.materialProgressBar2.Location = new System.Drawing.Point(0, 93);
-            this.materialProgressBar2.MouseState = MaterialSkin.MouseState.HOVER;
-            this.materialProgressBar2.Name = "materialProgressBar2";
-            this.materialProgressBar2.Size = new System.Drawing.Size(992, 5);
-            this.materialProgressBar2.TabIndex = 15;
-            // 
-            // materialLabel9
-            // 
-            this.materialLabel9.AutoSize = true;
-            this.materialLabel9.Depth = 0;
-            this.materialLabel9.Font = new System.Drawing.Font("Roboto Medium", 20F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Pixel);
-            this.materialLabel9.FontType = MaterialSkin.MaterialSkinManager.fontType.H6;
-            this.materialLabel9.Location = new System.Drawing.Point(32, 39);
-            this.materialLabel9.MouseState = MaterialSkin.MouseState.HOVER;
-            this.materialLabel9.Name = "materialLabel9";
-            this.materialLabel9.Size = new System.Drawing.Size(191, 24);
-            this.materialLabel9.TabIndex = 0;
-            this.materialLabel9.Tag = "";
-            this.materialLabel9.Text = "ACCOUNT SETTINGS";
-            // 
             // generalPageTab
             // 
             this.generalPageTab.Controls.Add(this.panel6);
@@ -617,57 +645,6 @@
             this.generalPageTab.TabIndex = 2;
             this.generalPageTab.Text = "General Settings";
             this.generalPageTab.UseVisualStyleBackColor = true;
-            // 
-            // materialCard3
-            // 
-            this.materialCard3.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
-            this.materialCard3.Controls.Add(this.groupBox2);
-            this.materialCard3.Controls.Add(this.panel5);
-            this.materialCard3.Controls.Add(this.groupBox1);
-            this.materialCard3.Depth = 0;
-            this.materialCard3.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.materialCard3.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(222)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
-            this.materialCard3.Location = new System.Drawing.Point(100, 25);
-            this.materialCard3.Margin = new System.Windows.Forms.Padding(100);
-            this.materialCard3.MouseState = MaterialSkin.MouseState.HOVER;
-            this.materialCard3.Name = "materialCard3";
-            this.materialCard3.Size = new System.Drawing.Size(992, 949);
-            this.materialCard3.TabIndex = 2;
-            // 
-            // panel5
-            // 
-            this.panel5.Controls.Add(this.materialProgressBar3);
-            this.panel5.Controls.Add(this.materialLabel10);
-            this.panel5.Dock = System.Windows.Forms.DockStyle.Top;
-            this.panel5.Location = new System.Drawing.Point(0, 0);
-            this.panel5.Name = "panel5";
-            this.panel5.Padding = new System.Windows.Forms.Padding(0, 25, 0, 0);
-            this.panel5.Size = new System.Drawing.Size(992, 98);
-            this.panel5.TabIndex = 17;
-            // 
-            // materialProgressBar3
-            // 
-            this.materialProgressBar3.Depth = 0;
-            this.materialProgressBar3.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.materialProgressBar3.Location = new System.Drawing.Point(0, 93);
-            this.materialProgressBar3.MouseState = MaterialSkin.MouseState.HOVER;
-            this.materialProgressBar3.Name = "materialProgressBar3";
-            this.materialProgressBar3.Size = new System.Drawing.Size(992, 5);
-            this.materialProgressBar3.TabIndex = 15;
-            // 
-            // materialLabel10
-            // 
-            this.materialLabel10.AutoSize = true;
-            this.materialLabel10.Depth = 0;
-            this.materialLabel10.Font = new System.Drawing.Font("Roboto Medium", 20F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Pixel);
-            this.materialLabel10.FontType = MaterialSkin.MaterialSkinManager.fontType.H6;
-            this.materialLabel10.Location = new System.Drawing.Point(32, 39);
-            this.materialLabel10.MouseState = MaterialSkin.MouseState.HOVER;
-            this.materialLabel10.Name = "materialLabel10";
-            this.materialLabel10.Size = new System.Drawing.Size(75, 24);
-            this.materialLabel10.TabIndex = 0;
-            this.materialLabel10.Tag = "";
-            this.materialLabel10.Text = "Settings";
             // 
             // panel6
             // 
@@ -724,14 +701,116 @@
             this.btn_vat_tab_next.UseVisualStyleBackColor = true;
             this.btn_vat_tab_next.Click += new System.EventHandler(this.btn_vat_tab_next_Click);
             // 
-            // numericUpDown1
+            // materialCard3
             // 
-            this.numericUpDown1.BackColor = System.Drawing.SystemColors.Menu;
-            this.numericUpDown1.DecimalPlaces = 2;
-            this.numericUpDown1.Location = new System.Drawing.Point(466, 34);
-            this.numericUpDown1.Name = "numericUpDown1";
-            this.numericUpDown1.Size = new System.Drawing.Size(457, 22);
-            this.numericUpDown1.TabIndex = 19;
+            this.materialCard3.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
+            this.materialCard3.Controls.Add(this.groupBox2);
+            this.materialCard3.Controls.Add(this.panel5);
+            this.materialCard3.Controls.Add(this.groupBox1);
+            this.materialCard3.Depth = 0;
+            this.materialCard3.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.materialCard3.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(222)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
+            this.materialCard3.Location = new System.Drawing.Point(100, 25);
+            this.materialCard3.Margin = new System.Windows.Forms.Padding(100);
+            this.materialCard3.MouseState = MaterialSkin.MouseState.HOVER;
+            this.materialCard3.Name = "materialCard3";
+            this.materialCard3.Padding = new System.Windows.Forms.Padding(14);
+            this.materialCard3.Size = new System.Drawing.Size(992, 949);
+            this.materialCard3.TabIndex = 2;
+            // 
+            // groupBox2
+            // 
+            this.groupBox2.Controls.Add(this.dateTimePicker2);
+            this.groupBox2.Controls.Add(this.dateTimePicker1);
+            this.groupBox2.Controls.Add(this.materialLabel16);
+            this.groupBox2.Controls.Add(this.materialLabel15);
+            this.groupBox2.Location = new System.Drawing.Point(20, 318);
+            this.groupBox2.Name = "groupBox2";
+            this.groupBox2.Padding = new System.Windows.Forms.Padding(5);
+            this.groupBox2.Size = new System.Drawing.Size(948, 200);
+            this.groupBox2.TabIndex = 21;
+            this.groupBox2.TabStop = false;
+            this.groupBox2.Text = "BUSINESS HOUR";
+            // 
+            // dateTimePicker2
+            // 
+            this.dateTimePicker2.Format = System.Windows.Forms.DateTimePickerFormat.Time;
+            this.dateTimePicker2.Location = new System.Drawing.Point(466, 135);
+            this.dateTimePicker2.Name = "dateTimePicker2";
+            this.dateTimePicker2.ShowUpDown = true;
+            this.dateTimePicker2.Size = new System.Drawing.Size(457, 22);
+            this.dateTimePicker2.TabIndex = 24;
+            // 
+            // dateTimePicker1
+            // 
+            this.dateTimePicker1.Format = System.Windows.Forms.DateTimePickerFormat.Time;
+            this.dateTimePicker1.Location = new System.Drawing.Point(466, 61);
+            this.dateTimePicker1.Name = "dateTimePicker1";
+            this.dateTimePicker1.RightToLeft = System.Windows.Forms.RightToLeft.No;
+            this.dateTimePicker1.ShowUpDown = true;
+            this.dateTimePicker1.Size = new System.Drawing.Size(457, 22);
+            this.dateTimePicker1.TabIndex = 23;
+            // 
+            // materialLabel16
+            // 
+            this.materialLabel16.AutoSize = true;
+            this.materialLabel16.Depth = 0;
+            this.materialLabel16.Font = new System.Drawing.Font("Roboto", 16F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
+            this.materialLabel16.FontType = MaterialSkin.MaterialSkinManager.fontType.Subtitle1;
+            this.materialLabel16.Location = new System.Drawing.Point(63, 135);
+            this.materialLabel16.MouseState = MaterialSkin.MouseState.HOVER;
+            this.materialLabel16.Name = "materialLabel16";
+            this.materialLabel16.Size = new System.Drawing.Size(98, 19);
+            this.materialLabel16.TabIndex = 22;
+            this.materialLabel16.Text = "Closing Time:";
+            // 
+            // materialLabel15
+            // 
+            this.materialLabel15.AutoSize = true;
+            this.materialLabel15.Depth = 0;
+            this.materialLabel15.Font = new System.Drawing.Font("Roboto", 16F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
+            this.materialLabel15.FontType = MaterialSkin.MaterialSkinManager.fontType.Subtitle1;
+            this.materialLabel15.Location = new System.Drawing.Point(58, 64);
+            this.materialLabel15.MouseState = MaterialSkin.MouseState.HOVER;
+            this.materialLabel15.Name = "materialLabel15";
+            this.materialLabel15.Size = new System.Drawing.Size(104, 19);
+            this.materialLabel15.TabIndex = 21;
+            this.materialLabel15.Text = "Opening Time:";
+            // 
+            // panel5
+            // 
+            this.panel5.Controls.Add(this.materialProgressBar3);
+            this.panel5.Controls.Add(this.materialLabel10);
+            this.panel5.Dock = System.Windows.Forms.DockStyle.Top;
+            this.panel5.Location = new System.Drawing.Point(14, 14);
+            this.panel5.Name = "panel5";
+            this.panel5.Padding = new System.Windows.Forms.Padding(0, 25, 0, 0);
+            this.panel5.Size = new System.Drawing.Size(964, 98);
+            this.panel5.TabIndex = 17;
+            // 
+            // materialProgressBar3
+            // 
+            this.materialProgressBar3.Depth = 0;
+            this.materialProgressBar3.Dock = System.Windows.Forms.DockStyle.Bottom;
+            this.materialProgressBar3.Location = new System.Drawing.Point(0, 93);
+            this.materialProgressBar3.MouseState = MaterialSkin.MouseState.HOVER;
+            this.materialProgressBar3.Name = "materialProgressBar3";
+            this.materialProgressBar3.Size = new System.Drawing.Size(964, 5);
+            this.materialProgressBar3.TabIndex = 15;
+            // 
+            // materialLabel10
+            // 
+            this.materialLabel10.AutoSize = true;
+            this.materialLabel10.Depth = 0;
+            this.materialLabel10.Font = new System.Drawing.Font("Roboto Medium", 20F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Pixel);
+            this.materialLabel10.FontType = MaterialSkin.MaterialSkinManager.fontType.H6;
+            this.materialLabel10.Location = new System.Drawing.Point(32, 39);
+            this.materialLabel10.MouseState = MaterialSkin.MouseState.HOVER;
+            this.materialLabel10.Name = "materialLabel10";
+            this.materialLabel10.Size = new System.Drawing.Size(75, 24);
+            this.materialLabel10.TabIndex = 0;
+            this.materialLabel10.Tag = "";
+            this.materialLabel10.Text = "Settings";
             // 
             // groupBox1
             // 
@@ -758,64 +837,316 @@
             this.materialLabel11.TabIndex = 20;
             this.materialLabel11.Text = "VAT:";
             // 
-            // groupBox2
+            // numericUpDown1
             // 
-            this.groupBox2.Controls.Add(this.dateTimePicker2);
-            this.groupBox2.Controls.Add(this.dateTimePicker1);
-            this.groupBox2.Controls.Add(this.materialLabel16);
-            this.groupBox2.Controls.Add(this.materialLabel15);
-            this.groupBox2.Location = new System.Drawing.Point(20, 318);
-            this.groupBox2.Name = "groupBox2";
-            this.groupBox2.Padding = new System.Windows.Forms.Padding(5);
-            this.groupBox2.Size = new System.Drawing.Size(948, 200);
-            this.groupBox2.TabIndex = 21;
-            this.groupBox2.TabStop = false;
-            this.groupBox2.Text = "BUSINESS HOUR";
+            this.numericUpDown1.BackColor = System.Drawing.SystemColors.Menu;
+            this.numericUpDown1.DecimalPlaces = 2;
+            this.numericUpDown1.Location = new System.Drawing.Point(466, 34);
+            this.numericUpDown1.Name = "numericUpDown1";
+            this.numericUpDown1.Size = new System.Drawing.Size(457, 22);
+            this.numericUpDown1.TabIndex = 19;
             // 
-            // materialLabel15
+            // tabPage1
             // 
-            this.materialLabel15.AutoSize = true;
-            this.materialLabel15.Depth = 0;
-            this.materialLabel15.Font = new System.Drawing.Font("Roboto", 16F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
-            this.materialLabel15.FontType = MaterialSkin.MaterialSkinManager.fontType.Subtitle1;
-            this.materialLabel15.Location = new System.Drawing.Point(58, 64);
-            this.materialLabel15.MouseState = MaterialSkin.MouseState.HOVER;
-            this.materialLabel15.Name = "materialLabel15";
-            this.materialLabel15.Size = new System.Drawing.Size(104, 19);
-            this.materialLabel15.TabIndex = 21;
-            this.materialLabel15.Text = "Opening Time:";
+            this.tabPage1.Controls.Add(this.materialCard30);
+            this.tabPage1.Location = new System.Drawing.Point(4, 25);
+            this.tabPage1.Name = "tabPage1";
+            this.tabPage1.Padding = new System.Windows.Forms.Padding(100, 25, 100, 25);
+            this.tabPage1.Size = new System.Drawing.Size(1192, 999);
+            this.tabPage1.TabIndex = 3;
+            this.tabPage1.Text = "Gmail SMTP Configuration";
+            this.tabPage1.UseVisualStyleBackColor = true;
             // 
-            // materialLabel16
+            // materialCard30
             // 
-            this.materialLabel16.AutoSize = true;
-            this.materialLabel16.Depth = 0;
-            this.materialLabel16.Font = new System.Drawing.Font("Roboto", 16F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
-            this.materialLabel16.FontType = MaterialSkin.MaterialSkinManager.fontType.Subtitle1;
-            this.materialLabel16.Location = new System.Drawing.Point(63, 135);
-            this.materialLabel16.MouseState = MaterialSkin.MouseState.HOVER;
-            this.materialLabel16.Name = "materialLabel16";
-            this.materialLabel16.Size = new System.Drawing.Size(98, 19);
-            this.materialLabel16.TabIndex = 22;
-            this.materialLabel16.Text = "Closing Time:";
+            this.materialCard30.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
+            this.materialCard30.Controls.Add(this.panel7);
+            this.materialCard30.Controls.Add(this.btn_edit_smtp);
+            this.materialCard30.Controls.Add(this.btn_update_smtp);
+            this.materialCard30.Controls.Add(this.groupBox7);
+            this.materialCard30.Controls.Add(this.materialLabel17);
+            this.materialCard30.Controls.Add(this.txt_password);
+            this.materialCard30.Controls.Add(this.txt_email);
+            this.materialCard30.Controls.Add(this.materialLabel23);
+            this.materialCard30.Controls.Add(this.materialLabel24);
+            this.materialCard30.Controls.Add(this.txt_business_name);
+            this.materialCard30.Controls.Add(this.materialLabel25);
+            this.materialCard30.Depth = 0;
+            this.materialCard30.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.materialCard30.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(222)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
+            this.materialCard30.Location = new System.Drawing.Point(100, 25);
+            this.materialCard30.Margin = new System.Windows.Forms.Padding(14);
+            this.materialCard30.MouseState = MaterialSkin.MouseState.HOVER;
+            this.materialCard30.Name = "materialCard30";
+            this.materialCard30.Padding = new System.Windows.Forms.Padding(14);
+            this.materialCard30.Size = new System.Drawing.Size(992, 949);
+            this.materialCard30.TabIndex = 31;
             // 
-            // dateTimePicker1
+            // btn_edit_smtp
             // 
-            this.dateTimePicker1.Format = System.Windows.Forms.DateTimePickerFormat.Time;
-            this.dateTimePicker1.Location = new System.Drawing.Point(466, 61);
-            this.dateTimePicker1.Name = "dateTimePicker1";
-            this.dateTimePicker1.RightToLeft = System.Windows.Forms.RightToLeft.No;
-            this.dateTimePicker1.ShowUpDown = true;
-            this.dateTimePicker1.Size = new System.Drawing.Size(457, 22);
-            this.dateTimePicker1.TabIndex = 23;
+            this.btn_edit_smtp.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
+            this.btn_edit_smtp.Density = MaterialSkin.Controls.MaterialButton.MaterialButtonDensity.Default;
+            this.btn_edit_smtp.Depth = 0;
+            this.btn_edit_smtp.HighEmphasis = true;
+            this.btn_edit_smtp.Icon = null;
+            this.btn_edit_smtp.Location = new System.Drawing.Point(1522, 20);
+            this.btn_edit_smtp.Margin = new System.Windows.Forms.Padding(4, 6, 4, 6);
+            this.btn_edit_smtp.MouseState = MaterialSkin.MouseState.HOVER;
+            this.btn_edit_smtp.Name = "btn_edit_smtp";
+            this.btn_edit_smtp.NoAccentTextColor = System.Drawing.Color.Empty;
+            this.btn_edit_smtp.Size = new System.Drawing.Size(64, 36);
+            this.btn_edit_smtp.TabIndex = 34;
+            this.btn_edit_smtp.Text = "edit";
+            this.btn_edit_smtp.Type = MaterialSkin.Controls.MaterialButton.MaterialButtonType.Contained;
+            this.btn_edit_smtp.UseAccentColor = false;
+            this.btn_edit_smtp.UseVisualStyleBackColor = true;
             // 
-            // dateTimePicker2
+            // btn_update_smtp
             // 
-            this.dateTimePicker2.Format = System.Windows.Forms.DateTimePickerFormat.Time;
-            this.dateTimePicker2.Location = new System.Drawing.Point(466, 135);
-            this.dateTimePicker2.Name = "dateTimePicker2";
-            this.dateTimePicker2.ShowUpDown = true;
-            this.dateTimePicker2.Size = new System.Drawing.Size(457, 22);
-            this.dateTimePicker2.TabIndex = 24;
+            this.btn_update_smtp.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
+            this.btn_update_smtp.Density = MaterialSkin.Controls.MaterialButton.MaterialButtonDensity.Default;
+            this.btn_update_smtp.Depth = 0;
+            this.btn_update_smtp.HighEmphasis = true;
+            this.btn_update_smtp.Icon = null;
+            this.btn_update_smtp.Location = new System.Drawing.Point(1522, 58);
+            this.btn_update_smtp.Margin = new System.Windows.Forms.Padding(4, 6, 4, 6);
+            this.btn_update_smtp.MouseState = MaterialSkin.MouseState.HOVER;
+            this.btn_update_smtp.Name = "btn_update_smtp";
+            this.btn_update_smtp.NoAccentTextColor = System.Drawing.Color.Empty;
+            this.btn_update_smtp.Size = new System.Drawing.Size(129, 36);
+            this.btn_update_smtp.TabIndex = 33;
+            this.btn_update_smtp.Text = "save changes";
+            this.btn_update_smtp.Type = MaterialSkin.Controls.MaterialButton.MaterialButtonType.Contained;
+            this.btn_update_smtp.UseAccentColor = false;
+            this.btn_update_smtp.UseVisualStyleBackColor = true;
+            this.btn_update_smtp.Visible = false;
+            // 
+            // groupBox7
+            // 
+            this.groupBox7.Controls.Add(this.materialLabel26);
+            this.groupBox7.Controls.Add(this.materialLabel22);
+            this.groupBox7.Controls.Add(this.materialLabel21);
+            this.groupBox7.Controls.Add(this.materialLabel20);
+            this.groupBox7.Controls.Add(this.materialLabel18);
+            this.groupBox7.Controls.Add(this.materialLabel19);
+            this.groupBox7.Location = new System.Drawing.Point(22, 351);
+            this.groupBox7.Name = "groupBox7";
+            this.groupBox7.Size = new System.Drawing.Size(956, 259);
+            this.groupBox7.TabIndex = 32;
+            this.groupBox7.TabStop = false;
+            this.groupBox7.Text = "Advanced";
+            // 
+            // materialLabel26
+            // 
+            this.materialLabel26.AutoSize = true;
+            this.materialLabel26.Depth = 0;
+            this.materialLabel26.Font = new System.Drawing.Font("Roboto", 24F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Pixel);
+            this.materialLabel26.FontType = MaterialSkin.MaterialSkinManager.fontType.H5;
+            this.materialLabel26.Location = new System.Drawing.Point(488, 194);
+            this.materialLabel26.MouseState = MaterialSkin.MouseState.HOVER;
+            this.materialLabel26.Name = "materialLabel26";
+            this.materialLabel26.Size = new System.Drawing.Size(46, 29);
+            this.materialLabel26.TabIndex = 35;
+            this.materialLabel26.Text = " Yes";
+            // 
+            // materialLabel22
+            // 
+            this.materialLabel22.AutoSize = true;
+            this.materialLabel22.Depth = 0;
+            this.materialLabel22.Font = new System.Drawing.Font("Roboto", 24F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Pixel);
+            this.materialLabel22.FontType = MaterialSkin.MaterialSkinManager.fontType.H5;
+            this.materialLabel22.Location = new System.Drawing.Point(488, 128);
+            this.materialLabel22.MouseState = MaterialSkin.MouseState.HOVER;
+            this.materialLabel22.Name = "materialLabel22";
+            this.materialLabel22.Size = new System.Drawing.Size(46, 29);
+            this.materialLabel22.TabIndex = 34;
+            this.materialLabel22.Text = " 587";
+            // 
+            // materialLabel21
+            // 
+            this.materialLabel21.AutoSize = true;
+            this.materialLabel21.Depth = 0;
+            this.materialLabel21.Font = new System.Drawing.Font("Roboto", 24F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Pixel);
+            this.materialLabel21.FontType = MaterialSkin.MaterialSkinManager.fontType.H5;
+            this.materialLabel21.Location = new System.Drawing.Point(488, 66);
+            this.materialLabel21.MouseState = MaterialSkin.MouseState.HOVER;
+            this.materialLabel21.Name = "materialLabel21";
+            this.materialLabel21.Size = new System.Drawing.Size(174, 29);
+            this.materialLabel21.TabIndex = 33;
+            this.materialLabel21.Text = "smtp.gmail.com";
+            // 
+            // materialLabel20
+            // 
+            this.materialLabel20.AutoSize = true;
+            this.materialLabel20.Depth = 0;
+            this.materialLabel20.Font = new System.Drawing.Font("Roboto", 24F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Pixel);
+            this.materialLabel20.FontType = MaterialSkin.MaterialSkinManager.fontType.H5;
+            this.materialLabel20.Location = new System.Drawing.Point(20, 194);
+            this.materialLabel20.MouseState = MaterialSkin.MouseState.HOVER;
+            this.materialLabel20.Name = "materialLabel20";
+            this.materialLabel20.Size = new System.Drawing.Size(146, 29);
+            this.materialLabel20.TabIndex = 32;
+            this.materialLabel20.Text = "Use SSL/TLS:";
+            // 
+            // materialLabel18
+            // 
+            this.materialLabel18.AutoSize = true;
+            this.materialLabel18.Depth = 0;
+            this.materialLabel18.Font = new System.Drawing.Font("Roboto", 24F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Pixel);
+            this.materialLabel18.FontType = MaterialSkin.MaterialSkinManager.fontType.H5;
+            this.materialLabel18.Location = new System.Drawing.Point(20, 128);
+            this.materialLabel18.MouseState = MaterialSkin.MouseState.HOVER;
+            this.materialLabel18.Name = "materialLabel18";
+            this.materialLabel18.Size = new System.Drawing.Size(128, 29);
+            this.materialLabel18.TabIndex = 30;
+            this.materialLabel18.Text = "SMTP Port: ";
+            // 
+            // materialLabel19
+            // 
+            this.materialLabel19.AutoSize = true;
+            this.materialLabel19.Depth = 0;
+            this.materialLabel19.Font = new System.Drawing.Font("Roboto", 24F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Pixel);
+            this.materialLabel19.FontType = MaterialSkin.MaterialSkinManager.fontType.H5;
+            this.materialLabel19.Location = new System.Drawing.Point(20, 66);
+            this.materialLabel19.MouseState = MaterialSkin.MouseState.HOVER;
+            this.materialLabel19.Name = "materialLabel19";
+            this.materialLabel19.Size = new System.Drawing.Size(208, 29);
+            this.materialLabel19.TabIndex = 28;
+            this.materialLabel19.Text = "SMTP Server Host: ";
+            // 
+            // materialLabel17
+            // 
+            this.materialLabel17.AutoSize = true;
+            this.materialLabel17.Depth = 0;
+            this.materialLabel17.Font = new System.Drawing.Font("Roboto", 12F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Pixel);
+            this.materialLabel17.FontType = MaterialSkin.MaterialSkinManager.fontType.SubtleEmphasis;
+            this.materialLabel17.Location = new System.Drawing.Point(512, 298);
+            this.materialLabel17.MouseState = MaterialSkin.MouseState.HOVER;
+            this.materialLabel17.Name = "materialLabel17";
+            this.materialLabel17.Size = new System.Drawing.Size(442, 14);
+            this.materialLabel17.TabIndex = 30;
+            this.materialLabel17.Text = "(Note: Generate an App Password in Google Account > Security > App Passwords)";
+            // 
+            // txt_password
+            // 
+            this.txt_password.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.txt_password.Location = new System.Drawing.Point(478, 260);
+            this.txt_password.Name = "txt_password";
+            this.txt_password.ReadOnly = true;
+            this.txt_password.Size = new System.Drawing.Size(500, 22);
+            this.txt_password.TabIndex = 29;
+            this.txt_password.UseSystemPasswordChar = true;
+            // 
+            // txt_email
+            // 
+            this.txt_email.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.txt_email.Location = new System.Drawing.Point(478, 146);
+            this.txt_email.Name = "txt_email";
+            this.txt_email.ReadOnly = true;
+            this.txt_email.Size = new System.Drawing.Size(500, 22);
+            this.txt_email.TabIndex = 27;
+            // 
+            // materialLabel23
+            // 
+            this.materialLabel23.AutoSize = true;
+            this.materialLabel23.Depth = 0;
+            this.materialLabel23.Font = new System.Drawing.Font("Roboto", 24F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Pixel);
+            this.materialLabel23.FontType = MaterialSkin.MaterialSkinManager.fontType.H5;
+            this.materialLabel23.Location = new System.Drawing.Point(28, 253);
+            this.materialLabel23.MouseState = MaterialSkin.MouseState.HOVER;
+            this.materialLabel23.Name = "materialLabel23";
+            this.materialLabel23.Size = new System.Drawing.Size(161, 29);
+            this.materialLabel23.TabIndex = 28;
+            this.materialLabel23.Text = "App Password:";
+            // 
+            // materialLabel24
+            // 
+            this.materialLabel24.AutoSize = true;
+            this.materialLabel24.Depth = 0;
+            this.materialLabel24.Font = new System.Drawing.Font("Roboto", 24F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Pixel);
+            this.materialLabel24.FontType = MaterialSkin.MaterialSkinManager.fontType.H5;
+            this.materialLabel24.Location = new System.Drawing.Point(30, 37);
+            this.materialLabel24.MouseState = MaterialSkin.MouseState.HOVER;
+            this.materialLabel24.Name = "materialLabel24";
+            this.materialLabel24.Size = new System.Drawing.Size(241, 29);
+            this.materialLabel24.TabIndex = 24;
+            this.materialLabel24.Text = "Sender Display Name: ";
+            // 
+            // txt_business_name
+            // 
+            this.txt_business_name.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.txt_business_name.Location = new System.Drawing.Point(475, 44);
+            this.txt_business_name.Name = "txt_business_name";
+            this.txt_business_name.ReadOnly = true;
+            this.txt_business_name.Size = new System.Drawing.Size(500, 22);
+            this.txt_business_name.TabIndex = 25;
+            // 
+            // materialLabel25
+            // 
+            this.materialLabel25.AutoSize = true;
+            this.materialLabel25.Depth = 0;
+            this.materialLabel25.Font = new System.Drawing.Font("Roboto", 24F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Pixel);
+            this.materialLabel25.FontType = MaterialSkin.MaterialSkinManager.fontType.H5;
+            this.materialLabel25.Location = new System.Drawing.Point(28, 146);
+            this.materialLabel25.MouseState = MaterialSkin.MouseState.HOVER;
+            this.materialLabel25.Name = "materialLabel25";
+            this.materialLabel25.Size = new System.Drawing.Size(245, 29);
+            this.materialLabel25.TabIndex = 26;
+            this.materialLabel25.Text = "Sender Gmail Address:";
+            // 
+            // panel7
+            // 
+            this.panel7.BackColor = System.Drawing.Color.Silver;
+            this.panel7.Controls.Add(this.btn_smtp_back);
+            this.panel7.Controls.Add(this.btn_smtp_next);
+            this.panel7.Dock = System.Windows.Forms.DockStyle.Bottom;
+            this.panel7.Location = new System.Drawing.Point(14, 853);
+            this.panel7.Name = "panel7";
+            this.panel7.Padding = new System.Windows.Forms.Padding(0, 3, 0, 0);
+            this.panel7.Size = new System.Drawing.Size(964, 82);
+            this.panel7.TabIndex = 35;
+            // 
+            // btn_smtp_back
+            // 
+            this.btn_smtp_back.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.btn_smtp_back.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
+            this.btn_smtp_back.Density = MaterialSkin.Controls.MaterialButton.MaterialButtonDensity.Default;
+            this.btn_smtp_back.Depth = 0;
+            this.btn_smtp_back.HighEmphasis = true;
+            this.btn_smtp_back.Icon = null;
+            this.btn_smtp_back.Location = new System.Drawing.Point(725, 25);
+            this.btn_smtp_back.Margin = new System.Windows.Forms.Padding(4, 6, 4, 6);
+            this.btn_smtp_back.MouseState = MaterialSkin.MouseState.HOVER;
+            this.btn_smtp_back.Name = "btn_smtp_back";
+            this.btn_smtp_back.NoAccentTextColor = System.Drawing.Color.Empty;
+            this.btn_smtp_back.Size = new System.Drawing.Size(64, 36);
+            this.btn_smtp_back.TabIndex = 1;
+            this.btn_smtp_back.Text = "back";
+            this.btn_smtp_back.Type = MaterialSkin.Controls.MaterialButton.MaterialButtonType.Contained;
+            this.btn_smtp_back.UseAccentColor = false;
+            this.btn_smtp_back.UseVisualStyleBackColor = true;
+            // 
+            // btn_smtp_next
+            // 
+            this.btn_smtp_next.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.btn_smtp_next.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
+            this.btn_smtp_next.Density = MaterialSkin.Controls.MaterialButton.MaterialButtonDensity.Default;
+            this.btn_smtp_next.Depth = 0;
+            this.btn_smtp_next.HighEmphasis = true;
+            this.btn_smtp_next.Icon = null;
+            this.btn_smtp_next.Location = new System.Drawing.Point(876, 25);
+            this.btn_smtp_next.Margin = new System.Windows.Forms.Padding(4, 6, 4, 6);
+            this.btn_smtp_next.MouseState = MaterialSkin.MouseState.HOVER;
+            this.btn_smtp_next.Name = "btn_smtp_next";
+            this.btn_smtp_next.NoAccentTextColor = System.Drawing.Color.Empty;
+            this.btn_smtp_next.Size = new System.Drawing.Size(64, 36);
+            this.btn_smtp_next.TabIndex = 0;
+            this.btn_smtp_next.Text = "Next";
+            this.btn_smtp_next.Type = MaterialSkin.Controls.MaterialButton.MaterialButtonType.Contained;
+            this.btn_smtp_next.UseAccentColor = false;
+            this.btn_smtp_next.UseVisualStyleBackColor = true;
             // 
             // ConfigureSettingsForm
             // 
@@ -846,16 +1177,23 @@
             this.panel4.ResumeLayout(false);
             this.panel4.PerformLayout();
             this.generalPageTab.ResumeLayout(false);
-            this.materialCard3.ResumeLayout(false);
-            this.panel5.ResumeLayout(false);
-            this.panel5.PerformLayout();
             this.panel6.ResumeLayout(false);
             this.panel6.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.numericUpDown1)).EndInit();
-            this.groupBox1.ResumeLayout(false);
-            this.groupBox1.PerformLayout();
+            this.materialCard3.ResumeLayout(false);
             this.groupBox2.ResumeLayout(false);
             this.groupBox2.PerformLayout();
+            this.panel5.ResumeLayout(false);
+            this.panel5.PerformLayout();
+            this.groupBox1.ResumeLayout(false);
+            this.groupBox1.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.numericUpDown1)).EndInit();
+            this.tabPage1.ResumeLayout(false);
+            this.materialCard30.ResumeLayout(false);
+            this.materialCard30.PerformLayout();
+            this.groupBox7.ResumeLayout(false);
+            this.groupBox7.PerformLayout();
+            this.panel7.ResumeLayout(false);
+            this.panel7.PerformLayout();
             this.ResumeLayout(false);
 
         }
@@ -915,5 +1253,26 @@
         private MaterialSkin.Controls.MaterialLabel materialLabel15;
         private System.Windows.Forms.DateTimePicker dateTimePicker2;
         private System.Windows.Forms.DateTimePicker dateTimePicker1;
+        private System.Windows.Forms.TabPage tabPage1;
+        private MaterialSkin.Controls.MaterialCard materialCard30;
+        private MaterialSkin.Controls.MaterialButton btn_edit_smtp;
+        private MaterialSkin.Controls.MaterialButton btn_update_smtp;
+        private System.Windows.Forms.GroupBox groupBox7;
+        private MaterialSkin.Controls.MaterialLabel materialLabel26;
+        private MaterialSkin.Controls.MaterialLabel materialLabel22;
+        private MaterialSkin.Controls.MaterialLabel materialLabel21;
+        private MaterialSkin.Controls.MaterialLabel materialLabel20;
+        private MaterialSkin.Controls.MaterialLabel materialLabel18;
+        private MaterialSkin.Controls.MaterialLabel materialLabel19;
+        private MaterialSkin.Controls.MaterialLabel materialLabel17;
+        private System.Windows.Forms.TextBox txt_password;
+        private System.Windows.Forms.TextBox txt_email;
+        private MaterialSkin.Controls.MaterialLabel materialLabel23;
+        private MaterialSkin.Controls.MaterialLabel materialLabel24;
+        private System.Windows.Forms.TextBox txt_business_name;
+        private MaterialSkin.Controls.MaterialLabel materialLabel25;
+        private System.Windows.Forms.Panel panel7;
+        private MaterialSkin.Controls.MaterialButton btn_smtp_back;
+        private MaterialSkin.Controls.MaterialButton btn_smtp_next;
     }
 }

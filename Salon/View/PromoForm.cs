@@ -31,7 +31,7 @@ namespace Salon.View
             var repo = new DiscountRepository();
             var controller = new DiscountController(repo);
 
-            var promo = controller.getAllDiscount();
+            var promo = controller.GetAllPromo();
 
             var promoList = promo.Where(p=>p.discount_type == "Promo" && p.is_deleted == 0 && p.status == 1).ToList();
 
@@ -76,6 +76,11 @@ namespace Salon.View
         private void btn_apply_Click(object sender, EventArgs e)
         {
             this.DialogResult = DialogResult.OK;
+            this.Close();
+        }
+
+        private void btn_cancel_Click(object sender, EventArgs e)
+        {
             this.Close();
         }
     }

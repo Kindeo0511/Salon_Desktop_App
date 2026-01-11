@@ -21,6 +21,10 @@ namespace Salon.Controller
         {
             return discountRepository.getAllDiscounts();
         }
+        public IEnumerable<DiscountModel> GetAllPromo() 
+        {
+            return discountRepository.getAllPromo();
+        }
         public async Task<IEnumerable<DiscountModel>> GetAllDiscountAsync() 
         {
             return await discountRepository.GetAllDiscountAsync();

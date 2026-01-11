@@ -1,4 +1,5 @@
 ﻿using Salon.Controller;
+using Salon.Models;
 using Salon.Repository;
 using System;
 using System.Collections.Generic;
@@ -7,7 +8,6 @@ using System.Net;
 using System.Net.Mail;
 using System.Text;
 using System.Threading.Tasks;
-using System.Threading.Tasks;
 using static System.Net.WebRequestMethods;
 
 
@@ -15,6 +15,9 @@ namespace Salon.Util
 {
     public static class EmailMessage
     {
+        public static OwnderEmailRepository owner_repo = new OwnderEmailRepository();
+        public static OwnerEmailController owner_controller;
+      
         public static string GenerateOtp()
         {
             var random = new Random();
@@ -25,9 +28,9 @@ namespace Salon.Util
         using (var smtp = new SmtpClient("smtp.gmail.com", 587))
         {
             smtp.EnableSsl = true;
-            smtp.Credentials = new NetworkCredential("alexprada782@gmail.com", "xewo quer qlch cmzv");
+            smtp.Credentials = new NetworkCredential("", "");
 
-            var mail = new MailMessage("alexprada782@gmail.com", to, subject, body);
+            var mail = new MailMessage("", to, subject, body);
             await smtp.SendMailAsync(mail); 
         }
     }
@@ -67,9 +70,9 @@ namespace Salon.Util
             using (var smtp = new SmtpClient("smtp.gmail.com", 587))
             {
                 smtp.EnableSsl = true;
-                smtp.Credentials = new NetworkCredential("alexprada782@gmail.com", "xewo quer qlch cmzv");
+                smtp.Credentials = new NetworkCredential("", "");
 
-                var mail = new MailMessage("alexprada782@gmail.com", to, subject, body)
+                var mail = new MailMessage("", to, subject, body)
                 {
                     IsBodyHtml = true
                 };
@@ -80,28 +83,38 @@ namespace Salon.Util
 
         public static async Task<bool> SendEmailNotifDiscount(string to, string subject, string body)
         {
+              owner_controller = new OwnerEmailController(owner_repo);
+              var owner = owner_controller.GetOwnerEmail();
             try
             {
                 using (var smtp = new SmtpClient("smtp.gmail.com", 587))
                 {
                     smtp.EnableSsl = true;
-                    smtp.Credentials = new NetworkCredential("alexprada782@gmail.com", "xewoquerqlchcmzv");
+                    smtp.UseDefaultCredentials = false;
+                    smtp.Credentials = new NetworkCredential(owner.email, owner.pass);
 
                     var mail = new MailMessage();
-                    mail.From = new MailAddress("alexprada782@gmail.com", "HCSANSOR");
+                    mail.From = new MailAddress(owner.email, owner.shop_name);
                     mail.To.Add(to);
                     mail.Subject = subject;
                     mail.Body = body;
                     mail.IsBodyHtml = true;
 
 
-                    await smtp.SendMailAsync(mail); // ✅ await the async call
+                    await smtp.SendMailAsync(mail);
                     return true;
+
                 }
+
+            }
+            catch (SmtpException smtpEx) 
+            { 
+                Console.WriteLine($"SMTP error: {smtpEx.StatusCode} - {smtpEx}");
+                return false;
             }
             catch (Exception ex)
             {
-                Console.WriteLine($"Email failed: {ex.Message}");
+                Console.WriteLine($"General  error: {ex}");
                 return false;
             }
         }
@@ -140,9 +153,9 @@ namespace Salon.Util
             using (var smtp = new SmtpClient("smtp.gmail.com", 587))
             {
                 smtp.EnableSsl = true;
-                smtp.Credentials = new NetworkCredential("alexprada782@gmail.com", "xewo quer qlch cmzv");
+                smtp.Credentials = new NetworkCredential("", "");
 
-                var mail = new MailMessage("alexprada782@gmail.com", to, subject, body)
+                var mail = new MailMessage("", to, subject, body)
                 {
                     IsBodyHtml = true
                 };

@@ -28,7 +28,6 @@ namespace Salon.View
             InitializeComponent();
             ThemeManager.ApplyTheme(this);
             is_saving = true;
-            rad_draft.Checked = true;
             this.main = mainForm;
         
         }
@@ -524,27 +523,46 @@ namespace Salon.View
 
         private async void btn_published_Click(object sender, EventArgs e)
         {
-           
+            string discount_type = cmb_discount_type.Text;
 
             if (is_saving) 
             {
                 AddDiscount("Published");
-                QueueEmailNotifications();
-                await ProcessEmailQueue();
+              
             }
             else if(is_updating)
             {
                 string currentStatus = discountModel.discount_status;
-                if (currentStatus == "Draft")
-                {
-                    UpdateDiscount("Published");
-                    QueueEmailNotifications();
-                    await ProcessEmailQueue();
-                }
+          
+            
+                 UpdateDiscount("Published");
+                   
+                
+                
                
 
             }
-  
+
+            if (discount_type == "Promo")
+            {
+                using (var form = new LoadingScreenEmail()) 
+                {
+                    form.Show();
+                    form.Refresh();
+
+                    try
+                    {
+                        QueueEmailNotifications();
+                        await ProcessEmailQueue();
+                    }
+                    finally 
+                    {
+                        form.Close();
+                    }
+                }
+                
+            }
+
         }
 
         private void btn_update_draft_Click(object sender, EventArgs e)

@@ -33,12 +33,12 @@
             this.timer1 = new System.Windows.Forms.Timer(this.components);
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
             this.materialCard1 = new MaterialSkin.Controls.MaterialCard();
-            this.timer2 = new System.Windows.Forms.Timer(this.components);
             this.panel1 = new System.Windows.Forms.Panel();
             this.pictureBox2 = new System.Windows.Forms.PictureBox();
             this.materialLabel3 = new MaterialSkin.Controls.MaterialLabel();
             this.materialLabel2 = new MaterialSkin.Controls.MaterialLabel();
             this.materialLabel1 = new MaterialSkin.Controls.MaterialLabel();
+            this.timer2 = new System.Windows.Forms.Timer(this.components);
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.materialCard1.SuspendLayout();
             this.panel1.SuspendLayout();
@@ -78,12 +78,6 @@
             this.materialCard1.Padding = new System.Windows.Forms.Padding(14);
             this.materialCard1.Size = new System.Drawing.Size(800, 400);
             this.materialCard1.TabIndex = 1;
-            // 
-            // timer2
-            // 
-            this.timer2.Enabled = true;
-            this.timer2.Interval = 5;
-            this.timer2.Tick += new System.EventHandler(this.timer2_Tick);
             // 
             // panel1
             // 
@@ -131,8 +125,7 @@
             this.materialLabel2.Name = "materialLabel2";
             this.materialLabel2.Size = new System.Drawing.Size(738, 58);
             this.materialLabel2.TabIndex = 5;
-            this.materialLabel2.Text = "Please wait while we notify the customer \r\nvia email and SMS about their appointm" +
-    "ent.";
+            this.materialLabel2.Text = "Please wait while we notify the customer \r\nvia email ";
             this.materialLabel2.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // materialLabel1
@@ -144,9 +137,15 @@
             this.materialLabel1.Location = new System.Drawing.Point(246, 6);
             this.materialLabel1.MouseState = MaterialSkin.MouseState.HOVER;
             this.materialLabel1.Name = "materialLabel1";
-            this.materialLabel1.Size = new System.Drawing.Size(257, 29);
+            this.materialLabel1.Size = new System.Drawing.Size(153, 29);
             this.materialLabel1.TabIndex = 4;
-            this.materialLabel1.Text = "Sending Confirmation... ";
+            this.materialLabel1.Text = "Sending Email";
+            // 
+            // timer2
+            // 
+            this.timer2.Enabled = true;
+            this.timer2.Interval = 5;
+            this.timer2.Tick += new System.EventHandler(this.timer2_Tick);
             // 
             // LoadingScreenEmail
             // 

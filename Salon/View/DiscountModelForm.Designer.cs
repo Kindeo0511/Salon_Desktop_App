@@ -42,8 +42,10 @@
             this.btn_discount_pwd = new MaterialSkin.Controls.MaterialButton();
             this.btn_free = new MaterialSkin.Controls.MaterialButton();
             this.btn_promo = new MaterialSkin.Controls.MaterialButton();
+            this.panel1 = new System.Windows.Forms.Panel();
             this.materialCard1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.txt_qty)).BeginInit();
+            this.panel1.SuspendLayout();
             this.SuspendLayout();
             // 
             // btn_apply_discount
@@ -53,7 +55,7 @@
             this.btn_apply_discount.Depth = 0;
             this.btn_apply_discount.HighEmphasis = true;
             this.btn_apply_discount.Icon = null;
-            this.btn_apply_discount.Location = new System.Drawing.Point(463, 513);
+            this.btn_apply_discount.Location = new System.Drawing.Point(463, 492);
             this.btn_apply_discount.Margin = new System.Windows.Forms.Padding(4, 6, 4, 6);
             this.btn_apply_discount.MouseState = MaterialSkin.MouseState.HOVER;
             this.btn_apply_discount.Name = "btn_apply_discount";
@@ -73,7 +75,7 @@
             this.materialButton2.Depth = 0;
             this.materialButton2.HighEmphasis = true;
             this.materialButton2.Icon = null;
-            this.materialButton2.Location = new System.Drawing.Point(629, 513);
+            this.materialButton2.Location = new System.Drawing.Point(629, 492);
             this.materialButton2.Margin = new System.Windows.Forms.Padding(4, 6, 4, 6);
             this.materialButton2.MouseState = MaterialSkin.MouseState.HOVER;
             this.materialButton2.Name = "materialButton2";
@@ -88,26 +90,28 @@
             // 
             // lbl_item_name
             // 
+            this.lbl_item_name.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.lbl_item_name.AutoSize = true;
             this.lbl_item_name.Depth = 0;
-            this.lbl_item_name.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.lbl_item_name.Font = new System.Drawing.Font("Roboto Medium", 20F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Pixel);
-            this.lbl_item_name.FontType = MaterialSkin.MaterialSkinManager.fontType.H6;
-            this.lbl_item_name.Location = new System.Drawing.Point(25, 25);
+            this.lbl_item_name.Font = new System.Drawing.Font("Roboto", 24F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Pixel);
+            this.lbl_item_name.FontType = MaterialSkin.MaterialSkinManager.fontType.H5;
+            this.lbl_item_name.Location = new System.Drawing.Point(266, 9);
             this.lbl_item_name.MouseState = MaterialSkin.MouseState.HOVER;
             this.lbl_item_name.Name = "lbl_item_name";
-            this.lbl_item_name.Size = new System.Drawing.Size(130, 24);
+            this.lbl_item_name.Size = new System.Drawing.Size(156, 29);
             this.lbl_item_name.TabIndex = 3;
             this.lbl_item_name.Text = "lbl_item_name";
             // 
             // materialCard1
             // 
             this.materialCard1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
-            this.materialCard1.Controls.Add(this.lbl_item_name);
+            this.materialCard1.Controls.Add(this.panel1);
             this.materialCard1.Depth = 0;
             this.materialCard1.Dock = System.Windows.Forms.DockStyle.Top;
             this.materialCard1.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(222)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
-            this.materialCard1.Location = new System.Drawing.Point(0, 24);
+            this.materialCard1.Location = new System.Drawing.Point(0, 3);
             this.materialCard1.Margin = new System.Windows.Forms.Padding(14);
             this.materialCard1.MouseState = MaterialSkin.MouseState.HOVER;
             this.materialCard1.Name = "materialCard1";
@@ -121,7 +125,7 @@
             this.materialLabel2.Depth = 0;
             this.materialLabel2.Font = new System.Drawing.Font("Roboto Medium", 20F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Pixel);
             this.materialLabel2.FontType = MaterialSkin.MaterialSkinManager.fontType.H6;
-            this.materialLabel2.Location = new System.Drawing.Point(62, 158);
+            this.materialLabel2.Location = new System.Drawing.Point(62, 137);
             this.materialLabel2.MouseState = MaterialSkin.MouseState.HOVER;
             this.materialLabel2.Name = "materialLabel2";
             this.materialLabel2.Size = new System.Drawing.Size(82, 24);
@@ -150,7 +154,7 @@
             this.materialLabel3.Depth = 0;
             this.materialLabel3.Font = new System.Drawing.Font("Roboto Medium", 20F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Pixel);
             this.materialLabel3.FontType = MaterialSkin.MaterialSkinManager.fontType.H6;
-            this.materialLabel3.Location = new System.Drawing.Point(62, 215);
+            this.materialLabel3.Location = new System.Drawing.Point(62, 194);
             this.materialLabel3.MouseState = MaterialSkin.MouseState.HOVER;
             this.materialLabel3.Name = "materialLabel3";
             this.materialLabel3.Size = new System.Drawing.Size(256, 24);
@@ -163,7 +167,7 @@
             this.materialLabel4.Depth = 0;
             this.materialLabel4.Font = new System.Drawing.Font("Roboto Medium", 20F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Pixel);
             this.materialLabel4.FontType = MaterialSkin.MaterialSkinManager.fontType.H6;
-            this.materialLabel4.Location = new System.Drawing.Point(62, 279);
+            this.materialLabel4.Location = new System.Drawing.Point(62, 258);
             this.materialLabel4.MouseState = MaterialSkin.MouseState.HOVER;
             this.materialLabel4.Name = "materialLabel4";
             this.materialLabel4.Size = new System.Drawing.Size(99, 24);
@@ -185,7 +189,7 @@
             this.btn_discount_senior.Depth = 0;
             this.btn_discount_senior.HighEmphasis = true;
             this.btn_discount_senior.Icon = null;
-            this.btn_discount_senior.Location = new System.Drawing.Point(66, 373);
+            this.btn_discount_senior.Location = new System.Drawing.Point(61, 367);
             this.btn_discount_senior.Margin = new System.Windows.Forms.Padding(4, 6, 4, 6);
             this.btn_discount_senior.MouseState = MaterialSkin.MouseState.HOVER;
             this.btn_discount_senior.Name = "btn_discount_senior";
@@ -205,7 +209,7 @@
             this.btn_discount_pwd.Depth = 0;
             this.btn_discount_pwd.HighEmphasis = true;
             this.btn_discount_pwd.Icon = null;
-            this.btn_discount_pwd.Location = new System.Drawing.Point(66, 433);
+            this.btn_discount_pwd.Location = new System.Drawing.Point(61, 427);
             this.btn_discount_pwd.Margin = new System.Windows.Forms.Padding(4, 6, 4, 6);
             this.btn_discount_pwd.MouseState = MaterialSkin.MouseState.HOVER;
             this.btn_discount_pwd.Name = "btn_discount_pwd";
@@ -226,7 +230,7 @@
             this.btn_free.DrawShadows = false;
             this.btn_free.HighEmphasis = true;
             this.btn_free.Icon = null;
-            this.btn_free.Location = new System.Drawing.Point(218, 373);
+            this.btn_free.Location = new System.Drawing.Point(213, 367);
             this.btn_free.Margin = new System.Windows.Forms.Padding(4, 6, 4, 6);
             this.btn_free.MouseState = MaterialSkin.MouseState.HOVER;
             this.btn_free.Name = "btn_free";
@@ -247,12 +251,12 @@
             this.btn_promo.DrawShadows = false;
             this.btn_promo.HighEmphasis = true;
             this.btn_promo.Icon = null;
-            this.btn_promo.Location = new System.Drawing.Point(218, 433);
+            this.btn_promo.Location = new System.Drawing.Point(213, 427);
             this.btn_promo.Margin = new System.Windows.Forms.Padding(4, 6, 4, 6);
             this.btn_promo.MouseState = MaterialSkin.MouseState.HOVER;
             this.btn_promo.Name = "btn_promo";
             this.btn_promo.NoAccentTextColor = System.Drawing.Color.Empty;
-            this.btn_promo.Size = new System.Drawing.Size(64, 36);
+            this.btn_promo.Size = new System.Drawing.Size(73, 36);
             this.btn_promo.TabIndex = 14;
             this.btn_promo.Text = "Promo";
             this.btn_promo.Type = MaterialSkin.Controls.MaterialButton.MaterialButtonType.Contained;
@@ -260,12 +264,22 @@
             this.btn_promo.UseVisualStyleBackColor = true;
             this.btn_promo.Click += new System.EventHandler(this.btn_promo_Click);
             // 
+            // panel1
+            // 
+            this.panel1.Controls.Add(this.lbl_item_name);
+            this.panel1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.panel1.Location = new System.Drawing.Point(25, 25);
+            this.panel1.Name = "panel1";
+            this.panel1.Size = new System.Drawing.Size(750, 50);
+            this.panel1.TabIndex = 4;
+            // 
             // DiscountModelForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.AutoSize = true;
             this.ClientSize = new System.Drawing.Size(800, 600);
+            this.ControlBox = false;
             this.Controls.Add(this.btn_promo);
             this.Controls.Add(this.btn_free);
             this.Controls.Add(this.btn_discount_pwd);
@@ -283,13 +297,14 @@
             this.MaximizeBox = false;
             this.MinimizeBox = false;
             this.Name = "DiscountModelForm";
-            this.Padding = new System.Windows.Forms.Padding(0, 24, 0, 3);
+            this.Padding = new System.Windows.Forms.Padding(0, 3, 0, 3);
             this.Sizable = false;
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "DiscountModelForm";
             this.materialCard1.ResumeLayout(false);
-            this.materialCard1.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.txt_qty)).EndInit();
+            this.panel1.ResumeLayout(false);
+            this.panel1.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -310,5 +325,6 @@
         private MaterialSkin.Controls.MaterialButton btn_discount_pwd;
         private MaterialSkin.Controls.MaterialButton btn_free;
         private MaterialSkin.Controls.MaterialButton btn_promo;
+        private System.Windows.Forms.Panel panel1;
     }
 }

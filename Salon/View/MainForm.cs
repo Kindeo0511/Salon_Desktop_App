@@ -1,17 +1,18 @@
 ﻿using Google.Protobuf.WellKnownTypes;
 using iText.IO.Font.Constants;
 using iText.Kernel.Font;
-using iText.Kernel.Geom;
 using iText.Kernel.Pdf;
 using iText.Kernel.XMP.Impl;
 using iText.Layout;
 using iText.Layout.Element;
 using iText.Layout.Properties;
+using Laundry.Data;
 using LiveCharts;
 using LiveCharts.Wpf;
 using MaterialSkin;
 using MaterialSkin.Controls;
 using Microsoft.Reporting.WinForms;
+using Microsoft.ReportingServices.ReportProcessing.ReportObjectModel;
 using Org.BouncyCastle.Asn1.Cmp;
 using Salon.Card;
 using Salon.Controller;
@@ -37,6 +38,7 @@ using System.Windows.Forms;
 using System.Xml.Linq;
 using ZstdSharp.Unsafe;
 using static iText.StyledXmlParser.Jsoup.Select.Evaluator;
+using System.IO;
 
 
 
@@ -44,6 +46,8 @@ namespace Salon.View
 {
     public partial class MainForm : MaterialForm
     {
+        public OwnderEmailRepository owner_repo = new OwnderEmailRepository();
+        public OwnerEmailController owner_controller;
 
         private bool _isRefreshing = false;
         private UserControl _userControl;
@@ -365,6 +369,10 @@ namespace Salon.View
             //FilteredStaffReport();
             //FilteredDeliveryReport();
             //FilteredDiscountReport();
+
+
+            // SETTINGS
+            LoadOwnerEmailAndBusinessName();
 
 
         }
@@ -5132,7 +5140,15 @@ namespace Salon.View
 
         private void btn_custom_Click(object sender, EventArgs e)
         {
+            using (var form = new CustomAmountForm())
+            {
+                if (form.ShowDialog() == DialogResult.OK)
+                {
+                    txt_received.Text = form.CustomAmount.ToString();
+                    calculate();
+                }
 
+            }
         }
 
         private void btn_clear_Click_1(object sender, EventArgs e)
@@ -5194,7 +5210,11 @@ namespace Salon.View
         {
             var discount = LoadDiscountType("Senior");
 
-
+            if (discount == null)
+            { 
+                MessageBox.Show("Senior discount type not found.");
+                return;
+            }
             if (discount.mode == "Percentage")
             {
                 currentPercentDiscount = discount.discount_rate;
@@ -5477,7 +5497,27 @@ namespace Salon.View
                 }
             }
         }
-     
+
+
+        private void LoadOwnerEmailAndBusinessName() 
+        {
+
+            owner_controller = new OwnerEmailController(owner_repo);
+            var load = owner_controller.GetOwnerEmail();
+
+            if (load != null) 
+            {
+                txt_business_name.Text = load.shop_name.ToString();
+                txt_email.Text = load.email.ToString();
+                txt_password.Text = load.pass.ToString();
+
+            }
+        }
+        private void btn_owner_email_Click(object sender, EventArgs e)
+        {
+
+        }
+
         public void LoadPaymentMethod()
         {
             var repo = new PaymentMethodRepository();
@@ -5642,6 +5682,190 @@ namespace Salon.View
         {
 
         }
+
+        private void btn_edit_smtp_Click(object sender, EventArgs e)
+        {
+            txt_business_name.ReadOnly = false;
+            txt_email.ReadOnly = false;
+            txt_password.ReadOnly = false;
+            btn_update_smtp.Visible = true;
+            btn_edit_smtp.Visible = false;
+        }
+
+        private void btn_update_smtp_Click(object sender, EventArgs e)
+        {
+            txt_business_name.ReadOnly = true;
+            txt_email.ReadOnly = true;
+            txt_password.ReadOnly = true;
+            btn_update_smtp.Visible = false;
+            btn_edit_smtp.Visible = true;
+        }
+
+        private void btn_save_smtp_Click(object sender, EventArgs e)
+        {
+            var model = new OwnerEmaillModel 
+            {
+                shop_name = txt_business_name.Text,
+                email = txt_email.Text,
+                pass = txt_password.Text,
+                
+            };
+            owner_controller = new OwnerEmailController(owner_repo);
+            var saved = owner_controller.Create(model);
+            if (saved) 
+            {
+                MessageBox.Show("Save");
+            }
+        }
+
+        private async void btn_back_up_Click(object sender, EventArgs e)
+        {
+            using (FolderBrowserDialog fbd = new FolderBrowserDialog())
+            {
+                fbd.Description = "Select folder to save backup";
+                if (fbd.ShowDialog() == DialogResult.OK)
+                {
+                    string backupFile = Path.Combine(
+                        fbd.SelectedPath,
+                        $"backup_{DateTime.Now:yyyyMMdd_HHmm}.sql"
+                    );
+
+                    var helper = new DatabaseHelper(
+                        "Server=localhost;Database=hcsansor;Uid=root;Pwd=",
+                        @"C:\xampp\mysql\bin"
+                    );
+                    bool cancelled = false;
+
+                    using (var progressForm = new progressForm())
+                    {
+                        progressForm.CancelRequested += (s, e2) => cancelled = true;
+
+                        progressForm.Show();
+                        progressForm.UpdateStatus("Starting backup...");
+
+                        await Task.Run(() => { if (!cancelled) helper.BackupDatabase(backupFile); });
+
+
+                        if (cancelled) 
+                        { 
+                            progressForm.Complete("Backup cancelled!");
+                        }
+                        else {
+                            progressForm.Complete();
+                        }
+
+
+                     
+                        await Task.Delay(1000); 
+                        progressForm.Close();
+                    }
+
+
+                    if (!cancelled) MessageBox.Show("✅ Backup completed: " + backupFile);
+                    else MessageBox.Show("❌ Backup cancelled.");
+                }
+            }
+        }
+
+
+
+        private void btn_browse_back_up_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void btn_restore_db_Click(object sender, EventArgs e)
+        {
+           
+        }
+
+        private async void btn_back_up_Click_1(object sender, EventArgs e)
+        {
+            using (FolderBrowserDialog fbd = new FolderBrowserDialog())
+            {
+                fbd.Description = "Select folder to save backup";
+                if (fbd.ShowDialog() == DialogResult.OK)
+                {
+                    string backupFile = Path.Combine(
+                        fbd.SelectedPath,
+                        $"backup_{DateTime.Now:yyyyMMdd_HHmm}.sql"
+                    );
+
+                    var helper = new DatabaseHelper(
+                        "Server=localhost;Database=hcsansor;Uid=root;Pwd=",
+                        @"C:\xampp\mysql\bin"
+                    );
+                    bool cancelled = false;
+
+                    using (var progressForm = new progressForm())
+                    {
+                        progressForm.CancelRequested += (s, e2) => cancelled = true;
+                        progressForm.SetTitle("Backup Progress");
+                        progressForm.Show();
+                        progressForm.UpdateStatus("Starting backup...");
+
+                        await Task.Run(() => { if (!cancelled) helper.BackupDatabase(backupFile); });
+
+
+                        if (cancelled)
+                        {
+                            progressForm.Complete("Backup cancelled!");
+                        }
+                        else
+                        {
+                            progressForm.Complete();
+                        }
+
+
+
+                        await Task.Delay(1000);
+                        progressForm.Close();
+                    }
+
+
+                    if (!cancelled) MessageBox.Show("✅ Backup completed: " + backupFile);
+                    else MessageBox.Show("❌ Backup cancelled.");
+                }
+            }
+        }
+
+        private async void btn_restore_Click(object sender, EventArgs e)
+        {
+            var helper = new DatabaseHelper(
+                "Server=localhost;Database=hcsansor;Uid=root;Pwd=",
+                @"C:\xampp\mysql\bin"
+            );
+
+            using (OpenFileDialog ofd = new OpenFileDialog())
+            {
+                ofd.Filter = "SQL files (*.sql)|*.sql";
+                if (ofd.ShowDialog() == DialogResult.OK)
+                {
+                    using (var progressForm = new progressForm())
+                    {
+                        progressForm.SetTitle("Restore  Progress");
+                        progressForm.Show();
+                        progressForm.UpdateStatus("Starting restore...");
+
+                        try
+                        {
+                            await Task.Run(() => helper.RestoreDatabase(ofd.FileName));
+                            progressForm.Complete("Restore completed!");
+                        }
+                        catch (Exception ex)
+                        {
+                            progressForm.Complete("Error: " + ex.Message);
+                        }
+
+                        await Task.Delay(1000);
+                        progressForm.Close();
+                    }
+
+                    MessageBox.Show("✅ Restore completed from: " + ofd.FileName);
+                }
+            }
+        }
+
     }
 }
 

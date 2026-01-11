@@ -1556,6 +1556,19 @@ namespace Salon.View
             }
         }
 
+        private void btn_custom_pay_Click(object sender, EventArgs e)
+        {
+            using (var form = new CustomAmountForm())
+            {
+                if (form.ShowDialog() == DialogResult.OK)
+                {
+                    txt_amount_paid.Text = form.CustomAmount.ToString();
+                    calculate();
+                }
+
+            }
+        }
+
 
         // TRANSACTION
         private void AddTransactions(int appointment_id, decimal vat_amount, decimal discount_amount, decimal sub_total, decimal amount_paid, string payment_method, string payment_status, DateTime timestamp)

@@ -21,6 +21,15 @@ namespace Salon.Repository
             }
                
         }
+        public IEnumerable<DiscountModel> getAllPromo()
+        {
+            using (var con = Database.GetConnection())
+            {
+                var sql = "SELECT * FROM tbl_discount WHERE discount_status = 'Published' AND is_deleted = 0";
+                return con.Query<DiscountModel>(sql);
+            }
+
+        }
         public async Task<IEnumerable<DiscountModel>> GetAllDiscountAsync() 
         {
             using (var con = Database.GetConnection())
@@ -36,7 +45,7 @@ namespace Salon.Repository
         {
             using (var con = Database.GetConnection()) 
             {
-                var sql = "SELECT * FROM tbl_discount WHERE discount_type = @type AND is_deleted = 0";
+                var sql = "SELECT * FROM tbl_discount WHERE discount_type = @type AND discount_status ='Published' AND is_deleted = 0";
                 return con.QueryFirstOrDefault<DiscountModel>(sql, new { type = type });
             }
 
