@@ -31,11 +31,13 @@ namespace Salon.View
         {
             InitializeComponent();
             ThemeManager.ApplyTheme(this);
+            ThemeManager.StyleDataGridView(dgv_product_size);
         }
         public RetailProductForm(MainForm main)
         {
             InitializeComponent();
             ThemeManager.ApplyTheme(this);
+            ThemeManager.StyleDataGridView(dgv_product_size);
             _isSaving = true;
             this.mainForm = main;
         
@@ -213,9 +215,8 @@ namespace Salon.View
             var controller = new ProductSizeController(repo);
             var product_sizes = controller.GetProductSizeById(product_id);
 
-            if (product_sizes != null && product_sizes.Any())
+            if (product_sizes != null)
             {
-                dgv_product_size.DataSource = null;
                 dgv_product_size.AutoGenerateColumns = false;
 
                 col_product_size_id.DataPropertyName = "product_size_id";
@@ -267,7 +268,16 @@ namespace Salon.View
             var repo = new ProductSizeRepository();
             var controller = new ProductSizeController(repo);
 
-            return controller.UpdateProductSize(ProductSizeModel());
+            var product_Model = new ProductSizeModel
+            {
+                product_size_id = Convert.ToInt32(txt_size_label.Tag),
+                product_id = _product_id,
+                size_label = txt_size_label.Text,
+                content = Convert.ToInt32(txt_content.Text),
+                selling_price = Convert.ToDecimal(txt_selling_price.Text),
+                cost_price = Convert.ToDecimal(txt_cost_price.Text)
+            };
+            return controller.UpdateProductSize(product_Model);
         }
         private void ProductSize()
         {
@@ -323,6 +333,7 @@ namespace Salon.View
                 }
                 else if (_isProductSizeUpdating)
                 {
+        
                     if (UpdateProductSize())
                     {
                         MessageBox.Show("Product Size updated successfully!", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
@@ -344,6 +355,7 @@ namespace Salon.View
         }
         private void btn_product_size_save_Click(object sender, EventArgs e)
         {
+            _isProductSizeUpdating = false;
             _isProductSizeSaving = true;
             ProductSize();
      
@@ -360,6 +372,7 @@ namespace Salon.View
             {
                 var product_size = dgv_product_size.Rows[e.RowIndex].DataBoundItem as ProductSizeModel;
 
+                txt_size_label.Tag = product_size.product_size_id;
                 txt_size_label.Text = product_size.size_label;
                 txt_content.Text = product_size.content.ToString();
                 txt_selling_price.Text = product_size.selling_price.ToString();
@@ -387,7 +400,6 @@ namespace Salon.View
 
                         MessageBox.Show("Product size deleted successfully!", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
                         LoadProductSizeById(_product_id);
-                        //mainForm.LoadRetailProducts();
                         await mainForm.FilterdDeletedRecords(1,25);
                     }
                 }
@@ -396,14 +408,18 @@ namespace Salon.View
 
         private void btn_product_size_update_Click(object sender, EventArgs e)
         {
+            _isProductSizeSaving = false;
             _isProductSizeUpdating = true;
 
             ProductSize();
             LoadProductSizeById(_product_id);
-            //mainForm.LoadRetailProducts();
+           
 
         }
 
-        
+        private void RetailProductForm_Load(object sender, EventArgs e)
+        {
+
+        }
     }
 }

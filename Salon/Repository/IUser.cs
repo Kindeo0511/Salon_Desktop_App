@@ -25,7 +25,7 @@ namespace Salon.Repository
 
         void UpdateUserByEmailOrPhone(UsersModel user);
         int DeleteUser(int userId);
-        void PermanentDelete(int id);
+        int PermanentDelete(int id);
         bool UserExistsAsync(string username, int id = 0);
         bool UserEmailExistsAsync(string email, int id = 0);
         bool UserNumberExistsAsync(string number, int id = 0);

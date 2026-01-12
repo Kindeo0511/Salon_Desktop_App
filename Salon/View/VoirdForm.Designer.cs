@@ -38,9 +38,6 @@
             this.panel1 = new System.Windows.Forms.Panel();
             this.panel2 = new System.Windows.Forms.Panel();
             this.dgv_products = new System.Windows.Forms.DataGridView();
-            this.materialLabel5 = new MaterialSkin.Controls.MaterialLabel();
-            this.panel4 = new System.Windows.Forms.Panel();
-            this.btn_cancel = new MaterialSkin.Controls.MaterialButton();
             this.col_item_id = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.col_invoice_id = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.col_product_id = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -50,6 +47,9 @@
             this.col_total = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.col_status = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.col_btn_void = new System.Windows.Forms.DataGridViewButtonColumn();
+            this.materialLabel5 = new MaterialSkin.Controls.MaterialLabel();
+            this.panel4 = new System.Windows.Forms.Panel();
+            this.btn_cancel = new MaterialSkin.Controls.MaterialButton();
             this.tableLayoutPanel1.SuspendLayout();
             this.panel1.SuspendLayout();
             this.panel2.SuspendLayout();
@@ -207,50 +207,6 @@
             this.dgv_products.TabIndex = 6;
             this.dgv_products.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgv_products_CellClick);
             // 
-            // materialLabel5
-            // 
-            this.materialLabel5.AutoSize = true;
-            this.materialLabel5.Depth = 0;
-            this.materialLabel5.Font = new System.Drawing.Font("Roboto Medium", 20F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Pixel);
-            this.materialLabel5.FontType = MaterialSkin.MaterialSkinManager.fontType.H6;
-            this.materialLabel5.Location = new System.Drawing.Point(28, 25);
-            this.materialLabel5.Margin = new System.Windows.Forms.Padding(3, 0, 50, 0);
-            this.materialLabel5.MouseState = MaterialSkin.MouseState.HOVER;
-            this.materialLabel5.Name = "materialLabel5";
-            this.materialLabel5.Size = new System.Drawing.Size(213, 24);
-            this.materialLabel5.TabIndex = 5;
-            this.materialLabel5.Text = "Select Product\'s to Void";
-            // 
-            // panel4
-            // 
-            this.panel4.Controls.Add(this.btn_cancel);
-            this.panel4.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.panel4.Location = new System.Drawing.Point(3, 747);
-            this.panel4.Name = "panel4";
-            this.panel4.Padding = new System.Windows.Forms.Padding(30);
-            this.panel4.Size = new System.Drawing.Size(988, 123);
-            this.panel4.TabIndex = 3;
-            // 
-            // btn_cancel
-            // 
-            this.btn_cancel.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
-            this.btn_cancel.Density = MaterialSkin.Controls.MaterialButton.MaterialButtonDensity.Default;
-            this.btn_cancel.Depth = 0;
-            this.btn_cancel.HighEmphasis = true;
-            this.btn_cancel.Icon = null;
-            this.btn_cancel.Location = new System.Drawing.Point(839, 51);
-            this.btn_cancel.Margin = new System.Windows.Forms.Padding(4, 6, 4, 6);
-            this.btn_cancel.MouseState = MaterialSkin.MouseState.HOVER;
-            this.btn_cancel.Name = "btn_cancel";
-            this.btn_cancel.NoAccentTextColor = System.Drawing.Color.Empty;
-            this.btn_cancel.Size = new System.Drawing.Size(77, 36);
-            this.btn_cancel.TabIndex = 1;
-            this.btn_cancel.Text = "exit";
-            this.btn_cancel.Type = MaterialSkin.Controls.MaterialButton.MaterialButtonType.Contained;
-            this.btn_cancel.UseAccentColor = false;
-            this.btn_cancel.UseVisualStyleBackColor = true;
-
-            // 
             // col_item_id
             // 
             this.col_item_id.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
@@ -259,7 +215,7 @@
             this.col_item_id.Name = "col_item_id";
             this.col_item_id.ReadOnly = true;
             this.col_item_id.Visible = false;
-            this.col_item_id.Width = 77;
+            this.col_item_id.Width = 125;
             // 
             // col_invoice_id
             // 
@@ -269,7 +225,7 @@
             this.col_invoice_id.Name = "col_invoice_id";
             this.col_invoice_id.ReadOnly = true;
             this.col_invoice_id.Visible = false;
-            this.col_invoice_id.Width = 95;
+            this.col_invoice_id.Width = 125;
             // 
             // col_product_id
             // 
@@ -279,7 +235,7 @@
             this.col_product_id.Name = "col_product_id";
             this.col_product_id.ReadOnly = true;
             this.col_product_id.Visible = false;
-            this.col_product_id.Width = 98;
+            this.col_product_id.Width = 125;
             // 
             // col_item_name
             // 
@@ -333,6 +289,50 @@
             this.col_btn_void.Name = "col_btn_void";
             this.col_btn_void.ReadOnly = true;
             this.col_btn_void.Width = 41;
+            // 
+            // materialLabel5
+            // 
+            this.materialLabel5.AutoSize = true;
+            this.materialLabel5.Depth = 0;
+            this.materialLabel5.Font = new System.Drawing.Font("Roboto Medium", 20F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Pixel);
+            this.materialLabel5.FontType = MaterialSkin.MaterialSkinManager.fontType.H6;
+            this.materialLabel5.Location = new System.Drawing.Point(28, 25);
+            this.materialLabel5.Margin = new System.Windows.Forms.Padding(3, 0, 50, 0);
+            this.materialLabel5.MouseState = MaterialSkin.MouseState.HOVER;
+            this.materialLabel5.Name = "materialLabel5";
+            this.materialLabel5.Size = new System.Drawing.Size(213, 24);
+            this.materialLabel5.TabIndex = 5;
+            this.materialLabel5.Text = "Select Product\'s to Void";
+            // 
+            // panel4
+            // 
+            this.panel4.Controls.Add(this.btn_cancel);
+            this.panel4.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.panel4.Location = new System.Drawing.Point(3, 747);
+            this.panel4.Name = "panel4";
+            this.panel4.Padding = new System.Windows.Forms.Padding(30);
+            this.panel4.Size = new System.Drawing.Size(988, 123);
+            this.panel4.TabIndex = 3;
+            // 
+            // btn_cancel
+            // 
+            this.btn_cancel.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
+            this.btn_cancel.Density = MaterialSkin.Controls.MaterialButton.MaterialButtonDensity.Default;
+            this.btn_cancel.Depth = 0;
+            this.btn_cancel.HighEmphasis = true;
+            this.btn_cancel.Icon = null;
+            this.btn_cancel.Location = new System.Drawing.Point(839, 51);
+            this.btn_cancel.Margin = new System.Windows.Forms.Padding(4, 6, 4, 6);
+            this.btn_cancel.MouseState = MaterialSkin.MouseState.HOVER;
+            this.btn_cancel.Name = "btn_cancel";
+            this.btn_cancel.NoAccentTextColor = System.Drawing.Color.Empty;
+            this.btn_cancel.Size = new System.Drawing.Size(64, 36);
+            this.btn_cancel.TabIndex = 1;
+            this.btn_cancel.Text = "exit";
+            this.btn_cancel.Type = MaterialSkin.Controls.MaterialButton.MaterialButtonType.Contained;
+            this.btn_cancel.UseAccentColor = false;
+            this.btn_cancel.UseVisualStyleBackColor = true;
+            this.btn_cancel.Click += new System.EventHandler(this.btn_cancel_Click);
             // 
             // VoirdForm
             // 

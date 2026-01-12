@@ -34,7 +34,7 @@ namespace Salon.Repository
         {
             using (var con = Database.GetConnection())
             {
-                var sql = "SELECT * FROM tbl_deleted_records LIMIT @page_size, @off_set";
+                var sql = "SELECT * FROM tbl_deleted_records LIMIT @page_size OFFSET @off_set";
 
                 var result = await con.QueryAsync<DeletedRecord>(sql, new { page_size, off_set});
 
@@ -46,7 +46,7 @@ namespace Salon.Repository
         {
             using (var con = Database.GetConnection())
             {
-                var sql = "SELECT * FROM tbl_deleted_records WHERE deleted_on BETWEEN @start AND @end LIMIT @page_size, @off_set";
+                var sql = "SELECT * FROM tbl_deleted_records WHERE deleted_on BETWEEN @start AND @end LIMIT @page_size OFFSET @off_set";
 
                 var result = await con.QueryAsync<DeletedRecord>(sql, new { start = start, end = end, page_size, off_set });
 

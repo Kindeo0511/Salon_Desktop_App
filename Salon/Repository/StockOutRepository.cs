@@ -32,11 +32,10 @@ namespace Salon.Repository
         {
             using (var con =  Database.GetConnection()) 
             {
-                var sql = @"SELECT td.transaction_id, ps.product_size_id
-                        FROM tbl_transaction_details td
+                var sql = @"SELECT si.stock_in_id, ps.product_size_id
+                        FROM tbl_stock_in si
                         LEFT JOIN tbl_products p ON p.product_id = td.product_id
                         LEFT JOIN tbl_product_size ps ON ps.product_id = p.product_id
-                        LEFT JOIN tbl_stock_transaction t ON t.transaction_id = td.transaction_id
                         LEFT JOIN tbl_delivery d ON d.invoice = t.reference_no
                         LEFT JOIN tbl_delivery_items d_i ON d_i.delivery_id = d.delivery_id
                         WHERE p.product_id = @ProductId AND td.total_remaining > 0 ORDER BY d_i.expiry_date ASC
@@ -112,7 +111,7 @@ LIMIT 1;
         {
             using (var con = Database.GetConnection()) 
             {
-                con.Execute("CALL duduck_product_consumables(@in_product_id, @in_deduction_ml, @in_out_type, @in_unit_type)",
+                con.Execute("CALL deduck_product_consumables(@in_product_id, @in_deduction_ml, @in_out_type, @in_unit_type)",
                       new { in_product_id = product_id, in_deduction_ml = qty_deduction, in_out_type = out_type, in_unit_type = unit_type });
             }   
         }

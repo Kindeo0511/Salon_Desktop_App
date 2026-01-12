@@ -34,6 +34,7 @@ namespace Salon.View
         {
             InitializeComponent();
             ThemeManager.ApplyTheme(this);
+            ThemeManager.StyleDataGridView(dgv_Service_Product);
             this.mainform = mainform;
             _isSaving = true;
             LoadSubCategory();
@@ -205,9 +206,9 @@ namespace Salon.View
         {
             if (!IsValid()) return;
             IsServiceExists();
-           
 
-            //await mainform.RefreshServicesAsync();
+
+            await mainform.RefreshServicesAsync(1,25);
             await mainform.RefreshTotalServices();
 
         }
@@ -217,8 +218,8 @@ namespace Salon.View
             if (!IsValid()) return;
             IsServiceExists();
 
-            //await mainform.RefreshServicesAsync();
-  
+            await mainform.RefreshServicesAsync(1, 25);
+
         }
 
         private void btn_cancel_Click(object sender, EventArgs e)
@@ -539,7 +540,7 @@ namespace Salon.View
         {
             if (e.RowIndex < 0) return;
 
-            if (e.RowIndex >= 0 && dgv_Service_Product.Columns[e.ColumnIndex].Name == "btn_update")
+            if (e.RowIndex >= 0 && dgv_Service_Product.Columns[e.ColumnIndex].Name == "col_usage_btn_update")
             {
                 var productUsage = dgv_Service_Product.Rows[e.RowIndex].DataBoundItem as ServiceProductUsageModel;
 
@@ -573,12 +574,13 @@ namespace Salon.View
                     if (controller.DeleteServiceProduct(productUsage.service_product_id))
                     {
 
-                        Audit.AuditLog(DateTime.Now, "Delete", UserSession.CurrentUser.first_Name, "Manage Product Consumption", $"Deleted product usage '{product}' for ({serviceModel.serviceName}) on {DateTime.Now:yyyy-MM-dd} at {DateTime.Now:HH:mm:ss}");
+                        Audit.AuditLog(DateTime.Now, "Delete", UserSession.CurrentUser.first_Name, "Manage Services Product Usage", $"Deleted product usage '{product}' for ({serviceModel.serviceName}) on {DateTime.Now:yyyy-MM-dd} at {DateTime.Now:HH:mm:ss}");
 
-                        mainform.InsertDeletedRecord(productUsage.service_product_id, productUsage.product_id, "Manage Product Consumption", productUsage.serviceName, UserSession.CurrentUser.first_Name, DateTime.Today);
+                        mainform.InsertDeletedRecord(productUsage.service_product_id, productUsage.product_id, "Manage Services Product Usage", productUsage.serviceName, UserSession.CurrentUser.first_Name, DateTime.Today);
 
                         await mainform.FilterdDeletedRecords(1, 25);
                         RefreshServiceProductUsage(service_id);
+                        Clear();
                     }
                 }
             }

@@ -123,12 +123,12 @@ namespace Salon.Repository
                 return con.Execute(sql, new { userId });
             }
         }
-        public void PermanentDelete(int id) 
+        public int PermanentDelete(int id) 
         {
             using (var con = Database.GetConnection())
             {
                 var sql = "DELETE FROM  tbl_users WHERE user_id = @id";
-                con.Execute(sql, new { id });
+                return con.Execute(sql, new { id });
             }
         }
 

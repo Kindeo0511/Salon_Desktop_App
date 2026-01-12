@@ -90,7 +90,7 @@ namespace Salon.Repository
         {
             using (var con = Database.GetConnection())
             {
-                var sql = "SELECT * FROM tbl_supplier WHERE email = @email";
+                var sql = "SELECT * FROM tbl_supplier WHERE email = @email AND is_deleted = 1 LIMIT 1";
                 return con.Query<SupplierModel>(sql, new { email }).FirstOrDefault();
             }
         }

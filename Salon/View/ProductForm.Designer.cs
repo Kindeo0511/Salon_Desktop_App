@@ -282,7 +282,7 @@
             this.tabPage1.Location = new System.Drawing.Point(4, 25);
             this.tabPage1.Name = "tabPage1";
             this.tabPage1.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage1.Size = new System.Drawing.Size(886, 449);
+            this.tabPage1.Size = new System.Drawing.Size(892, 489);
             this.tabPage1.TabIndex = 0;
             this.tabPage1.Text = "Product Details";
             // 
@@ -307,7 +307,7 @@
             this.materialCard1.MouseState = MaterialSkin.MouseState.HOVER;
             this.materialCard1.Name = "materialCard1";
             this.materialCard1.Padding = new System.Windows.Forms.Padding(14);
-            this.materialCard1.Size = new System.Drawing.Size(880, 443);
+            this.materialCard1.Size = new System.Drawing.Size(886, 483);
             this.materialCard1.TabIndex = 37;
             // 
             // tabPage2

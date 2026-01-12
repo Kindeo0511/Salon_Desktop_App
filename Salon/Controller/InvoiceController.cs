@@ -35,15 +35,19 @@ namespace Salon.Controller
         {
             repo.UpdateInvoice(model);
         }
-        public IEnumerable<InvoiceModel> GetAllInvoice() 
+        public IEnumerable<InvoiceModel> GetAllInvoice(int page_size, int off_set) 
         {
-            return repo.GetInvoice();
+            return repo.GetInvoice(page_size, off_set);
         }
-        public IEnumerable<InvoiceModel> GetAllInvoice(DateTime start, DateTime end)
+        public IEnumerable<InvoiceModel> GetAllInvoice(DateTime start, DateTime end, int page_size, int off_set)
         {
-            return repo.GetInvoice(start, end);
+            return repo.GetInvoice(start, end, page_size, off_set);
         }
 
+        public int GetTotalTransactionList()
+        {
+            return repo.TotalTransactionList();
+        }
 
         // SALES REPORT 
         public int GetCountTotalInvoice() 

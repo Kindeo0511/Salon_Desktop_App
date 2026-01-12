@@ -121,12 +121,12 @@ namespace Salon.Repository
                 
         }
 
-       public void PermanentDelete(int id) 
+       public int PermanentDelete(int id) 
         {
             using (var con = Database.GetConnection())
             {
                 var sql = @"DELETE FROM tbl_discount WHERE discount_id = @discount_id";
-                con.Execute(sql, new { discount_id = id });
+                return con.Execute(sql, new { discount_id = id });
             }
         }
         public void RestoreDiscount(int id)
@@ -137,6 +137,16 @@ namespace Salon.Repository
                 con.Execute(sql, new { discount_id = id });
             }
 
+        }
+
+        public void MarkExpiredPromo()
+        {
+            using (var con = Database.GetConnection())
+            {
+                var sql = "UPDATE tbl_discount SET status = 'Expired' WHERE end_date < CURDATE()";
+                
+                con.Execute(sql);
+            }
         }
 
         // DISCOUNT REPORT

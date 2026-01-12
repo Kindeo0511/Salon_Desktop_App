@@ -151,18 +151,11 @@ namespace Salon.View
                 else if (item.ProductId.HasValue && item.ProductId.Value != 0)
                 {
                     int qty = item.Quantity;
-                    var transactionId = controller.GetTransactionId(item.ProductId.Value);
-                   
-                    if (transactionId.transaction_id > 0)
-                    {
-                       controller.DeductProductStockOut(item.ProductId.Value, item.ProductSizeId ?? 0, qty, "Sale", " used " + qty+"x " + item.Size + " of " + item.ItemName);
+                
+                    controller.DeductProductStockOut(item.ProductId.Value, item.ProductSizeId ?? 0, qty, "Sale", " used " + qty+"x " + item.Size + " of " + item.ItemName);
                       
 
-                    }
-                    else
-                    {
-                        // Optional: notify user no transaction found
-                    }
+                    
                 }
             }
             MessageBox.Show("Payment has been recorded successfully!",
@@ -689,8 +682,7 @@ namespace Salon.View
                 payment_method_id = Convert.ToInt32(cmb_payment_method.SelectedValue),
                 reference_number = txt_reference.Text.Trim(),
                 Notes = txt_reason.Text,
-                status = "Paid",
-                Timestamp = DateTime.Now
+                status = "Paid"
             };
 
             DiscountModel discount = null;
@@ -755,10 +747,10 @@ namespace Salon.View
             );
             PrintInvoice();
 
-            //await mainForm.RefreshInventoryAsync();
+            await mainForm.RefreshInventoryAsync();
             //await mainForm.RefreshAppointmentAsync();
             //await mainForm.RefreshTotalSales();
-            mainForm.LoadInvoiceTransaction();
+            mainForm.FilterTransactionReport(1,25);
 
             this.Close();
         }

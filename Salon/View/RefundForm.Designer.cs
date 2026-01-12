@@ -33,15 +33,6 @@
             this.btn_cancel = new MaterialSkin.Controls.MaterialButton();
             this.materialLabel5 = new MaterialSkin.Controls.MaterialLabel();
             this.dgv_products = new System.Windows.Forms.DataGridView();
-            this.panel2 = new System.Windows.Forms.Panel();
-            this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
-            this.panel1 = new System.Windows.Forms.Panel();
-            this.lbl_date = new MaterialSkin.Controls.MaterialLabel();
-            this.materialLabel4 = new MaterialSkin.Controls.MaterialLabel();
-            this.materialLabel2 = new MaterialSkin.Controls.MaterialLabel();
-            this.lbl_staff = new MaterialSkin.Controls.MaterialLabel();
-            this.lbl_invoice_number = new MaterialSkin.Controls.MaterialLabel();
-            this.materialLabel3 = new MaterialSkin.Controls.MaterialLabel();
             this.col_item_id = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.col_invoice_id = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.col_product_id = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -52,6 +43,15 @@
             this.col_total = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.col_status = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.col_btn_refund = new System.Windows.Forms.DataGridViewButtonColumn();
+            this.panel2 = new System.Windows.Forms.Panel();
+            this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
+            this.panel1 = new System.Windows.Forms.Panel();
+            this.lbl_date = new MaterialSkin.Controls.MaterialLabel();
+            this.materialLabel4 = new MaterialSkin.Controls.MaterialLabel();
+            this.materialLabel2 = new MaterialSkin.Controls.MaterialLabel();
+            this.lbl_staff = new MaterialSkin.Controls.MaterialLabel();
+            this.lbl_invoice_number = new MaterialSkin.Controls.MaterialLabel();
+            this.materialLabel3 = new MaterialSkin.Controls.MaterialLabel();
             this.panel4.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgv_products)).BeginInit();
             this.panel2.SuspendLayout();
@@ -74,7 +74,7 @@
             this.btn_void.Padding = new System.Windows.Forms.Padding(0, 0, 50, 0);
             this.btn_void.Size = new System.Drawing.Size(123, 36);
             this.btn_void.TabIndex = 0;
-            this.btn_void.Text = "confirm void";
+            this.btn_void.Text = "confirm ";
             this.btn_void.Type = MaterialSkin.Controls.MaterialButton.MaterialButtonType.Contained;
             this.btn_void.UseAccentColor = false;
             this.btn_void.UseVisualStyleBackColor = true;
@@ -108,6 +108,7 @@
             this.btn_cancel.Type = MaterialSkin.Controls.MaterialButton.MaterialButtonType.Contained;
             this.btn_cancel.UseAccentColor = false;
             this.btn_cancel.UseVisualStyleBackColor = true;
+            this.btn_cancel.Click += new System.EventHandler(this.btn_cancel_Click);
             // 
             // materialLabel5
             // 
@@ -148,6 +149,98 @@
             this.dgv_products.Size = new System.Drawing.Size(938, 361);
             this.dgv_products.TabIndex = 6;
             this.dgv_products.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgv_products_CellClick);
+            // 
+            // col_item_id
+            // 
+            this.col_item_id.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
+            this.col_item_id.HeaderText = "Item ID";
+            this.col_item_id.MinimumWidth = 6;
+            this.col_item_id.Name = "col_item_id";
+            this.col_item_id.ReadOnly = true;
+            this.col_item_id.Visible = false;
+            this.col_item_id.Width = 125;
+            // 
+            // col_invoice_id
+            // 
+            this.col_invoice_id.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
+            this.col_invoice_id.HeaderText = "Invoice ID";
+            this.col_invoice_id.MinimumWidth = 6;
+            this.col_invoice_id.Name = "col_invoice_id";
+            this.col_invoice_id.ReadOnly = true;
+            this.col_invoice_id.Visible = false;
+            this.col_invoice_id.Width = 125;
+            // 
+            // col_product_id
+            // 
+            this.col_product_id.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
+            this.col_product_id.HeaderText = "Product ID";
+            this.col_product_id.MinimumWidth = 6;
+            this.col_product_id.Name = "col_product_id";
+            this.col_product_id.ReadOnly = true;
+            this.col_product_id.Visible = false;
+            this.col_product_id.Width = 125;
+            // 
+            // col_item_name
+            // 
+            this.col_item_name.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
+            this.col_item_name.HeaderText = "Item Name";
+            this.col_item_name.MinimumWidth = 6;
+            this.col_item_name.Name = "col_item_name";
+            this.col_item_name.ReadOnly = true;
+            // 
+            // col_price
+            // 
+            this.col_price.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
+            this.col_price.HeaderText = "Price";
+            this.col_price.MinimumWidth = 6;
+            this.col_price.Name = "col_price";
+            this.col_price.ReadOnly = true;
+            this.col_price.Width = 67;
+            // 
+            // col_qty
+            // 
+            this.col_qty.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
+            this.col_qty.HeaderText = "Qty";
+            this.col_qty.MinimumWidth = 6;
+            this.col_qty.Name = "col_qty";
+            this.col_qty.ReadOnly = true;
+            this.col_qty.Width = 56;
+            // 
+            // col_refund_qty
+            // 
+            this.col_refund_qty.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
+            this.col_refund_qty.HeaderText = "Refund Qty";
+            this.col_refund_qty.MinimumWidth = 6;
+            this.col_refund_qty.Name = "col_refund_qty";
+            this.col_refund_qty.ReadOnly = true;
+            this.col_refund_qty.Width = 102;
+            // 
+            // col_total
+            // 
+            this.col_total.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
+            this.col_total.HeaderText = "Total";
+            this.col_total.MinimumWidth = 6;
+            this.col_total.Name = "col_total";
+            this.col_total.ReadOnly = true;
+            this.col_total.Width = 67;
+            // 
+            // col_status
+            // 
+            this.col_status.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
+            this.col_status.HeaderText = "Status";
+            this.col_status.MinimumWidth = 6;
+            this.col_status.Name = "col_status";
+            this.col_status.ReadOnly = true;
+            this.col_status.Width = 73;
+            // 
+            // col_btn_refund
+            // 
+            this.col_btn_refund.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
+            this.col_btn_refund.HeaderText = "Refund";
+            this.col_btn_refund.MinimumWidth = 6;
+            this.col_btn_refund.Name = "col_btn_refund";
+            this.col_btn_refund.ReadOnly = true;
+            this.col_btn_refund.Width = 56;
             // 
             // panel2
             // 
@@ -273,98 +366,6 @@
             this.materialLabel3.Size = new System.Drawing.Size(146, 24);
             this.materialLabel3.TabIndex = 4;
             this.materialLabel3.Text = "Invoice Number:";
-            // 
-            // col_item_id
-            // 
-            this.col_item_id.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
-            this.col_item_id.HeaderText = "Item ID";
-            this.col_item_id.MinimumWidth = 6;
-            this.col_item_id.Name = "col_item_id";
-            this.col_item_id.ReadOnly = true;
-            this.col_item_id.Visible = false;
-            this.col_item_id.Width = 77;
-            // 
-            // col_invoice_id
-            // 
-            this.col_invoice_id.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
-            this.col_invoice_id.HeaderText = "Invoice ID";
-            this.col_invoice_id.MinimumWidth = 6;
-            this.col_invoice_id.Name = "col_invoice_id";
-            this.col_invoice_id.ReadOnly = true;
-            this.col_invoice_id.Visible = false;
-            this.col_invoice_id.Width = 95;
-            // 
-            // col_product_id
-            // 
-            this.col_product_id.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
-            this.col_product_id.HeaderText = "Product ID";
-            this.col_product_id.MinimumWidth = 6;
-            this.col_product_id.Name = "col_product_id";
-            this.col_product_id.ReadOnly = true;
-            this.col_product_id.Visible = false;
-            this.col_product_id.Width = 98;
-            // 
-            // col_item_name
-            // 
-            this.col_item_name.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
-            this.col_item_name.HeaderText = "Item Name";
-            this.col_item_name.MinimumWidth = 6;
-            this.col_item_name.Name = "col_item_name";
-            this.col_item_name.ReadOnly = true;
-            // 
-            // col_price
-            // 
-            this.col_price.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
-            this.col_price.HeaderText = "Price";
-            this.col_price.MinimumWidth = 6;
-            this.col_price.Name = "col_price";
-            this.col_price.ReadOnly = true;
-            this.col_price.Width = 67;
-            // 
-            // col_qty
-            // 
-            this.col_qty.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
-            this.col_qty.HeaderText = "Qty";
-            this.col_qty.MinimumWidth = 6;
-            this.col_qty.Name = "col_qty";
-            this.col_qty.ReadOnly = true;
-            this.col_qty.Width = 56;
-            // 
-            // col_refund_qty
-            // 
-            this.col_refund_qty.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
-            this.col_refund_qty.HeaderText = "Refund Qty";
-            this.col_refund_qty.MinimumWidth = 6;
-            this.col_refund_qty.Name = "col_refund_qty";
-            this.col_refund_qty.ReadOnly = true;
-            this.col_refund_qty.Width = 102;
-            // 
-            // col_total
-            // 
-            this.col_total.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
-            this.col_total.HeaderText = "Total";
-            this.col_total.MinimumWidth = 6;
-            this.col_total.Name = "col_total";
-            this.col_total.ReadOnly = true;
-            this.col_total.Width = 67;
-            // 
-            // col_status
-            // 
-            this.col_status.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
-            this.col_status.HeaderText = "Status";
-            this.col_status.MinimumWidth = 6;
-            this.col_status.Name = "col_status";
-            this.col_status.ReadOnly = true;
-            this.col_status.Width = 73;
-            // 
-            // col_btn_refund
-            // 
-            this.col_btn_refund.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
-            this.col_btn_refund.HeaderText = "Refund";
-            this.col_btn_refund.MinimumWidth = 6;
-            this.col_btn_refund.Name = "col_btn_refund";
-            this.col_btn_refund.ReadOnly = true;
-            this.col_btn_refund.Width = 56;
             // 
             // RefundForm
             // 

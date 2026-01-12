@@ -174,7 +174,7 @@ tbl_subcategory.subCategoryName,tbl_servicesname.duration, tbl_servicesname.stat
         {
             using (var con = Database.GetConnection()) 
             {
-                var sql = @"SELECT * FROM tbL_servicesname WHERE serviceName = @name AND subCategory_id = @subcat_id";
+                var sql = @"SELECT * FROM tbL_servicesname WHERE serviceName = @name AND subCategory_id = @subcat_id AND is_deleted = 1 LIMIT 1";
                 return con.QueryFirstOrDefault<ServiceModel>(sql, new { name, subcat_id });
             }
         }

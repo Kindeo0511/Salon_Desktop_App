@@ -25,6 +25,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Drawing;
+using System.IO;
 using System.Linq;
 using System.Management;
 using System.Reflection;
@@ -38,7 +39,7 @@ using System.Windows.Forms;
 using System.Xml.Linq;
 using ZstdSharp.Unsafe;
 using static iText.StyledXmlParser.Jsoup.Select.Evaluator;
-using System.IO;
+using static System.Windows.Forms.VisualStyles.VisualStyleElement.Tab;
 
 
 
@@ -86,9 +87,15 @@ namespace Salon.View
 
 
 
-            LoadPaymentMethod();
         }
+        public void ExpiredPromo() 
+        {
+            var repo = new DiscountRepository();
+            var controller = new DiscountController(repo);
+            controller.MarkExpiredPromo();
 
+            LoadDiscount();
+        }
         private void DataGridViewTheme()
         {
             ThemeManager.StyleDataGridView(dgv_user);
@@ -282,6 +289,14 @@ namespace Salon.View
 
             await FilterdDeletedRecords(currentPage, pageSize);
 
+
+            transaction_pagination.PageChanged += async (s, page) =>
+            {
+                 FilterTransactionReport(page, pageSize);
+            };
+
+             FilterTransactionReport(currentPage, pageSize);
+
             dgv_cart_product.AutoGenerateColumns = false;
             dgv_cart_product.DataSource = null;
             col_cart_product_name.DataPropertyName = "product_name";
@@ -306,6 +321,8 @@ namespace Salon.View
             lbl_cashier_name.Text = $"{UserSession.CurrentUser.first_Name} {UserSession.CurrentUser.last_Name}";
 
 
+            LoadPaymentMethod();
+            ExpiredPromo();
             await RefreshUsersAsync(1, 20);
 
 
@@ -323,7 +340,7 @@ namespace Salon.View
             await RefreshBatchInventory();
             LoadWalkIn();
 
-            LoadInvoiceTransaction();
+           
             //await RefreshTransactionAsync();
      
 
@@ -713,7 +730,7 @@ namespace Salon.View
                     {
                         MessageBox.Show("User Deactivated Successfully.", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
                         InsertDeletedRecord(user.user_id, null, "Manage User", user.first_Name, UserSession.CurrentUser.first_Name, DateTime.Today);
-                        await RefreshDeletedRecords();
+                        await FilterdDeletedRecords(currentPage,pageSize);
                         await RefreshUsersAsync(paginationControl1.CurrentPage, 20);
                         var fullName = user.first_Name + " " + user.last_Name;
                         Audit.AuditLog(DateTime.Now, "Deactivate", UserSession.CurrentUser.first_Name, "Manage User", $"Deactivated user {fullName} on {DateTime.Now:yyyy-MM-dd} at {DateTime.Now:HH:mm:ss}");
@@ -836,7 +853,7 @@ namespace Salon.View
                 {
 
 
-                    stylistForm.Updated += async (s, args) => { await RefreshCategoryAsync(customerPagination.CurrentPage, 25); };
+                    stylistForm.Updated += async (s, args) => { await RefreshCategoryAsync(paginationControl3.CurrentPage, pageSize); };
 
                     stylistForm.ShowDialog();
                 }
@@ -886,8 +903,8 @@ namespace Salon.View
                         var fullName = stylist.firstName + " " + stylist.lastName;
                         Audit.AuditLog(DateTime.Now, "Delete", UserSession.CurrentUser.first_Name, "Manage Stylist", $"Deleted stylist {fullName} on {DateTime.Now:yyyy-MM-dd} at {DateTime.Now:HH:mm:ss}");
                         InsertDeletedRecord(stylist.stylist_id, null, "Manage Stylist", fullName, UserSession.CurrentUser.first_Name, DateTime.Today);
-                        await RefreshStylistAsync(1, 25);
-                        await RefreshDeletedRecords();
+                        await RefreshStylistAsync(paginationControl3.CurrentPage, pageSize);
+                        await FilterdDeletedRecords(currentPage,pageSize);
                     }
                     else
                     {
@@ -1030,8 +1047,8 @@ namespace Salon.View
                         MessageBox.Show("Failed to Delete Customer.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                     }
 
-                    await RefreshDeletedRecords();
-                    await RefreshCustomers(customerPagination.CurrentPage, 25);
+                    await FilterdDeletedRecords(currentPage,pageSize);
+                    await RefreshCustomers(customerPagination.CurrentPage, pageSize);
                 }
             }
         }
@@ -1120,7 +1137,7 @@ namespace Salon.View
 
                             Audit.AuditLog(DateTime.Now, "Delete", UserSession.CurrentUser.first_Name, "Manage Categories", $"Deleted category '{category.categoryName}' on {DateTime.Now:yyyy-MM-dd} at {DateTime.Now:HH:mm:ss}");
 
-                            InsertDeletedRecord(category.category_id, null, "Manage Supplier", category.categoryName, UserSession.CurrentUser.first_Name, DateTime.Today);
+                            InsertDeletedRecord(category.category_id, null, "Manage Categories", category.categoryName, UserSession.CurrentUser.first_Name, DateTime.Today);
 
                         }
                         else
@@ -1129,8 +1146,8 @@ namespace Salon.View
                         }
 
 
-                        await RefreshCategoryAsync(paginationControl4.CurrentPage, 25);
-                        await RefreshDeletedRecords();
+                        await RefreshCategoryAsync(paginationControl4.CurrentPage, pageSize);
+                        await FilterdDeletedRecords(currentPage,pageSize);
                     }
 
 
@@ -1790,7 +1807,7 @@ namespace Salon.View
 
 
                     await FilterdDeletedRecords(currentPage, pageSize);
-                    await RefreshSupplierAsync(supplierPagination.CurrentPage, 25);
+                    await RefreshSupplierAsync(supplierPagination.CurrentPage, pageSize);
 
                 }
             }
@@ -3001,14 +3018,78 @@ namespace Salon.View
         // END OF LOG OUT
 
         // TRANSACTION HISTORY
+        public void FilterTransactionReport(int pageNumber, int pageSize)
+        {
+            DateTime startDate;
+            DateTime endDate;
 
-        public void LoadInvoiceTransaction(DateTime? start = null, DateTime? end = null)
+            string selectedRange = cmb_transaction_range.Text.Trim().ToLower();
+
+            if (string.IsNullOrWhiteSpace(selectedRange))
+            {
+                // No preset selected — use DateTimePicker values
+                if (dtp_transaction_start.Checked && dtp_transaction_end.Checked)
+                {
+                    startDate = dtp_transaction_start.Value.Date;
+                    endDate = dtp_transaction_end.Value.Date.AddDays(1).AddTicks(-1); // Include full day
+
+                    LoadInvoiceTransaction(startDate, endDate, pageNumber, pageSize);
+                }
+                else
+                {
+                    // No filter — show all records
+                    LoadInvoiceTransaction(null, null, pageNumber, pageSize);
+
+                }
+
+            }
+            else
+            {
+                switch (selectedRange)
+                {
+                    case "today":
+                        startDate = DateTime.Today;
+                        endDate = DateTime.Today.AddDays(1).AddTicks(-1);
+                        break;
+
+                    case "weekly":
+                        startDate = DateTime.Today.AddDays(-(int)DateTime.Today.DayOfWeek);
+                        endDate = startDate.AddDays(6).AddDays(1).AddTicks(-1);
+                        break;
+
+                    case "monthly":
+                        startDate = new DateTime(DateTime.Today.Year, DateTime.Today.Month, 1);
+                        endDate = startDate.AddMonths(1).AddTicks(-1);
+                        break;
+
+                    default:
+                        MessageBox.Show("Invalid range selected.");
+                        return;
+                }
+
+                // Optional: update DateTimePickers to reflect the selected range
+                dtp_transaction_start.Value = startDate;
+                dtp_transaction_end.Value = endDate;
+                LoadInvoiceTransaction(startDate, endDate, pageNumber, pageSize);
+            }
+
+
+        }
+
+       
+        public void LoadInvoiceTransaction(DateTime? start = null, DateTime? end = null, int PageNumber = 0, int PageSize = 0)
         {
             var repo = new InvoiceRepository();
             var controller = new InvoiceController(repo);
+            int offset = (PageNumber - 1) * pageSize;
             var transactions = (start.HasValue && end.HasValue)
-                             ?  controller.GetAllInvoice(start.Value, end.Value)
-                             :  controller.GetAllInvoice();
+                             ?  controller.GetAllInvoice(start.Value, end.Value, pageSize, offset)
+                             :  controller.GetAllInvoice(pageSize, offset);
+
+            int totalRecords = controller.GetTotalTransactionList();
+            int totalPages = (int)Math.Ceiling((double)totalRecords / pageSize);
+            transaction_pagination.SetTotalPages(totalPages);
+
             dgv_transaction_list.DataSource = null;
             dgv_transaction_list.AutoGenerateColumns = false;
 
@@ -3020,7 +3101,7 @@ namespace Salon.View
             col_tran_status.DataPropertyName = "status";
             col_date.DataPropertyName = "TimeStamp";
 
-            dgv_transaction_list.DataSource = controller.GetAllInvoice();
+            dgv_transaction_list.DataSource = transactions;
             ;
         }
 
@@ -3116,18 +3197,26 @@ namespace Salon.View
             }
         }
 
-        private async void btn_transaction_filter_Click(object sender, EventArgs e)
+        private  void btn_transaction_filter_Click(object sender, EventArgs e)
         {
             DateTime start = dtp_transaction_start.Value;
             DateTime end = dtp_transaction_end.Value;
 
-            //await RefreshTransactionAsync(start, end);
+            FilterTransactionReport(transaction_pagination.CurrentPage, pageSize);
         }
 
-        private async void btn_transaction_clear_Click(object sender, EventArgs e)
+        private  void btn_transaction_clear_Click(object sender, EventArgs e)
         {
             dtp_transaction_start.Value = DateTime.Today;
             dtp_transaction_end.Value = DateTime.Today;
+
+            cmb_transaction_range.Hint = string.Empty;
+            dtp_transaction_start.Value = DateTime.Today;
+            dtp_transaction_end.Value = DateTime.Today;
+            cmb_transaction_range.SelectedIndex = -1;
+            FilterTransactionReport(currentPage, pageSize);
+
+            cmb_transaction_range.Hint = "Select Range";
             //await RefreshTransactionAsync();
         }
 
@@ -3340,7 +3429,22 @@ namespace Salon.View
         {
             var repo = new UserRepository();
             var controller = new UserController(repo);
-            controller.DeletePermanent(id);
+          
+
+            if (controller.DeletePermanent(id))
+            {
+                DeleteDeletedRecord(id);
+
+                MessageBox.Show("User Deleted Successfully.", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
+
+
+
+            }
+            else
+            {
+                MessageBox.Show("Failed to Delete User.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+
+            }
         }
 
         // CATEGORY RECORD
@@ -3355,9 +3459,7 @@ namespace Salon.View
         {
             var repo = new CategoryRepository();
             var controller = new CategoryController(repo);
-            controller.PermanentDeleteCategory(id);
-
-
+  
 
             if (controller.IsCategoryBeingUsed(id))
             {
@@ -3379,7 +3481,7 @@ namespace Salon.View
                 }
                 else
                 {
-                    MessageBox.Show("Failed to Delete Stylist.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    MessageBox.Show("Failed to Delete Category.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
 
                 }
             }
@@ -3520,7 +3622,7 @@ namespace Salon.View
         {
             var repo = new SubCategoryRepository();
             var controller = new SubCategoryController(repo);
-            controller.PermanentDeleteSubCategory(id);
+
 
 
             if (controller.IsSubCategoryUsed(id))
@@ -3541,7 +3643,7 @@ namespace Salon.View
                 }
                 else
                 {
-                    MessageBox.Show("Failed to Delete supplier.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    MessageBox.Show("Failed to Delete sub-category.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
 
                 }
             }
@@ -3560,7 +3662,7 @@ namespace Salon.View
         {
             var repo = new ProductRepository();
             var controller = new ProductController(repo);
-            controller.PermanentDeleteProduct(id);
+
 
             if (controller.IsProductBeingUsed(id))
             {
@@ -3585,7 +3687,14 @@ namespace Salon.View
                 }
             }
         }
-   
+        // PRODUCT SIZE INGREDIENT
+
+        public void RestoreProductSizeRecord(int id)
+        {
+            var repo = new ProductSizeRepository();
+            var controller = new ProductSizeController(repo);
+            controller.RestoreProductSize(id);
+        }
         public void DeleteProductSizeRecord(int id, string name)
         {
             var repo = new ProductSizeRepository();
@@ -3655,7 +3764,13 @@ namespace Salon.View
             }
         }
 
-        // END OF PRODUCT RETAIL RECORD
+        public void RestoreProductRetailSizeRecord(int id)
+        {
+            var repo = new ProductSizeRepository();
+            var controller = new ProductSizeController(repo);
+            controller.RestoreProductSize(id);
+        }
+
 
         public void DeleteProductRetailSizeRecord(int id, string name)
         {
@@ -3686,6 +3801,8 @@ namespace Salon.View
                 }
             }
         }
+        // END OF PRODUCT RETAIL RECORD
+
         // SERVICE RECORD
         public void RestoreDeletedServiceRecord(int id)
         {
@@ -3744,11 +3861,28 @@ namespace Salon.View
             controller.RestoreDiscount(id);
         }
 
-        public void DeleteDiscountRecord(int id)
+        public void DeleteDiscountRecord(int id, int sub_id, string name)
         {
             var repo = new DiscountRepository();
             var controller = new DiscountController(repo);
-            controller.PermanentDeleteDiscount(id);
+       
+
+            if (MessageBox.Show($"Delete Discount {name}?", "Confirm Delete", MessageBoxButtons.YesNo) == DialogResult.Yes)
+            {
+
+
+                if (controller.PermanentDeleteDiscount(id))
+                {
+                    DeleteDeletedRecord(id);
+                    MessageBox.Show("Discount Deleted Successfully.", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
+
+                }
+                else
+                {
+                    MessageBox.Show("Failed to Delete product.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+
+                }
+            }
         }
 
         // SERVICE PRODUCT USAGE
@@ -3817,23 +3951,23 @@ namespace Salon.View
                             {
                                 case "Manage User":
                                     RestoreDeactivatedUserRecord(record.record_id);
-                                    await RefreshUsersAsync(pageSize,totalPages);
+                                    await RefreshUsersAsync(currentPage,pageSize);
                                     break;
-                                case "Category":
+                                case "Manage Categories":
                                     RestoreDeletedCategoryRecord(record.record_id);
-                                    //await RefreshCategoryAsync();
+                                    await RefreshCategoryAsync(currentPage,pageSize);
                                     break;
                                 case "Manage Stylist":
                                     RestoreDeletedStylistRecord(record.record_id);
-                                    await RefreshStylistAsync(1,25);
+                                    await RefreshStylistAsync(currentPage,pageSize);
                                     break;
                                 case "Manage Customer":
                                     RestoreDeletedCustomerRecord(record.record_id);
-                                    await RefreshCustomers(1,25);
+                                    await RefreshCustomers(currentPage,pageSize);
                                     break;
                                 case "Manage Supplier":
                                     RestoreDeletedSupplierRecord(record.record_id);
-                                    await RefreshSupplierAsync(1,25);
+                                    await RefreshSupplierAsync(currentPage,pageSize);
                                     break;
                                 case "Manage Sub-Categories":
                                     RestoreDeletedSubCategoryRecord(record.record_id);
@@ -3841,19 +3975,28 @@ namespace Salon.View
                                     break;
                                 case "Manage Products":
                                     RestoreDeletedProductRecord(record.record_id);
-
                                     await RefreshProductAsync(currentPage, pageSize);
+                                    break;
+                                case "Manage Product Size":
+                                    RestoreProductSizeRecord(record.record_id);
                                     break;
                                 case "Manage Products Retail":
                                     RestoreDeletedProductRetailRecord(record.record_id);
                                     LoadRetailProducts(currentPage, pageSize);
                                     break;
+                                case "Manage Product Retail Size":
+                                    RestoreProductSizeRecord(record.record_id);
+                                    break;
                                 case "Manage Services":
                                     RestoreDeletedServiceRecord(record.record_id);
                                     await RefreshServicesAsync(currentPage, pageSize);
                                     break;                           
-                                case "Manage Services, Product Usage":
+                                case "Manage Services Product Usage":
                                     RestoreDeletedServiceProductRecord(record.record_id);
+                                    break;
+                                case "Manage Discount":
+                                    RestoreDeletedDiscountRecord(record.record_id);
+                                    LoadDiscount();
                                     break;
 
 
@@ -3893,7 +4036,7 @@ namespace Salon.View
                                     DeleteUserRecord(record.record_id);
                                     await RefreshUsersAsync(currentPage, pageSize);
                                     break;
-                                case "Category":
+                                case "Manage Categories":
                                     DeleteCategoryRecord(record.record_id, record.name);
                                 await RefreshCategoryAsync(currentPage, pageSize);
                                 break;
@@ -3925,7 +4068,6 @@ namespace Salon.View
                                     break;
                                 case "Manage Product Size":
                                     DeleteProductSizeRecord(record.record_id, record.name);
-                                    await RefreshProductAsync(currentPage, pageSize);
                                 break;
                                     case "Manage Product Retail Size":
                                     DeleteProductRetailSizeRecord(record.record_id, record.name);
@@ -3938,10 +4080,14 @@ namespace Salon.View
                                 case "Manage Product Consumption":
                                     DeleteServiceProductUsage(record.record_id, record.sub_id, record.name);
                                     break;
+                                case "Manage Discount":
+                                    DeleteDiscountRecord(record.record_id, record.sub_id, record.name);
+                                    LoadDiscount();
+                                    break;
 
 
 
-                            }
+                        }
 
 
 
@@ -4996,14 +5142,12 @@ namespace Salon.View
                 var repo = new StockOutRepository();
                 var controller = new StockOutController(repo);
 
-                var transactionId = controller.GetTransactionId(product.product_id);
-                if (transactionId.transaction_id > 0)
-                {
+               
                     controller.DeductProductStockOut(product.product_id, product.product_size_id, product.quantity, "Sale", "used "+ product.quantity +"x " +product.size_label + " of " + product.product_name);
 
 
 
-                }
+                
 
 
                
@@ -5024,8 +5168,8 @@ namespace Salon.View
               $"Processed payment for invoice '{invoice_number}' on {DateTime.Now:yyyy-MM-dd} at {DateTime.Now:HH:mm:ss}"
           );
 
-            
-            LoadInvoiceTransaction();
+
+            FilterTransactionReport(currentPage, pageSize);
             Clear();
         }
 
@@ -5471,7 +5615,6 @@ namespace Salon.View
             col_discount_value.DataPropertyName = "discount_rate";
             col_discount_mode.DataPropertyName = "mode";
             col_discount_status_discount_status.DataPropertyName = "discount_status";
-            col_discount_status_display_text.DataPropertyName = "text_status";
             col_discount_status.DataPropertyName = "status";
             col_discount_vat_exempt.DataPropertyName = "vat_exempt";
             col_discount_defined.DataPropertyName = "is_defined";
@@ -5643,7 +5786,7 @@ namespace Salon.View
 
                     InsertDeletedRecord(discount_model.discount_id, null, "Manage Discount", discount_model.discount_type, UserSession.CurrentUser.first_Name, DateTime.Today);
                     LoadDiscount();
-                    await RefreshDeletedRecords();
+                   await FilterdDeletedRecords(currentPage,pageSize);
                 }
                 
             }
@@ -5699,6 +5842,20 @@ namespace Salon.View
             txt_password.ReadOnly = true;
             btn_update_smtp.Visible = false;
             btn_edit_smtp.Visible = true;
+
+            var model = new OwnerEmaillModel
+            {
+                shop_name = txt_business_name.Text,
+                email = txt_email.Text,
+                pass = txt_password.Text,
+
+            };
+            owner_controller = new OwnerEmailController(owner_repo);
+            var updated = owner_controller.Update(model);
+            if (updated)
+            {
+                MessageBox.Show("SMTP configuration updated successully!");
+            }
         }
 
         private void btn_save_smtp_Click(object sender, EventArgs e)
@@ -5864,6 +6021,45 @@ namespace Salon.View
                     MessageBox.Show("✅ Restore completed from: " + ofd.FileName);
                 }
             }
+        }
+
+        private async void btn_test_smtp_connection_Click(object sender, EventArgs e)
+        {
+            btn_test_email_connection.Enabled = false;
+
+            using (var loading = new LoadingScreenEmail())
+            {
+                loading.Show();
+                loading.Refresh(); // force immediate paint so the user sees it
+
+                try
+                {
+                    bool sent = await SendEmail(txt_email.Text, txt_password.Text, txt_business_name.Text);
+
+                    if (sent)
+                    {
+                        MessageBox.Show("Connection successful! Test email sent.");
+                    }
+                    else
+                    {
+                        MessageBox.Show("Connection failed. Could not send test email.");
+                    }
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show($"Connection failed: {ex.Message}");
+                }
+                finally
+                {
+                    loading.Close(); // close the loading screen
+                    btn_test_email_connection.Enabled = true;
+                }
+            }
+        }
+
+        private async Task<bool> SendEmail(string email, string password, string shop_name)
+        {
+            return await EmailMessage.SendTestEmailConnection(email, password, shop_name);
         }
 
     }

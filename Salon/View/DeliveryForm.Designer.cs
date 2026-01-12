@@ -43,6 +43,7 @@
             this.materialLabel1 = new MaterialSkin.Controls.MaterialLabel();
             this.materialLabel2 = new MaterialSkin.Controls.MaterialLabel();
             this.materialCard1 = new MaterialSkin.Controls.MaterialCard();
+            this.cmb_product_size = new MaterialSkin.Controls.MaterialComboBox();
             this.btn_save = new MaterialSkin.Controls.MaterialButton();
             this.btn_cancel = new MaterialSkin.Controls.MaterialButton();
             this.btn_delete = new MaterialSkin.Controls.MaterialButton();
@@ -50,7 +51,6 @@
             this.btn_add = new MaterialSkin.Controls.MaterialButton();
             this.dgv_Items = new System.Windows.Forms.DataGridView();
             this.errorProvider1 = new System.Windows.Forms.ErrorProvider(this.components);
-            this.cmb_product_size = new MaterialSkin.Controls.MaterialComboBox();
             this.product_id = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.col_product_name = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.col_product_size_id = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -314,6 +314,30 @@
             this.materialCard1.TabIndex = 15;
             this.materialCard1.Paint += new System.Windows.Forms.PaintEventHandler(this.materialCard1_Paint);
             // 
+            // cmb_product_size
+            // 
+            this.cmb_product_size.AutoResize = false;
+            this.cmb_product_size.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
+            this.cmb_product_size.Depth = 0;
+            this.cmb_product_size.DrawMode = System.Windows.Forms.DrawMode.OwnerDrawVariable;
+            this.cmb_product_size.DropDownHeight = 174;
+            this.cmb_product_size.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cmb_product_size.DropDownWidth = 121;
+            this.cmb_product_size.Font = new System.Drawing.Font("Microsoft Sans Serif", 14F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Pixel);
+            this.cmb_product_size.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(222)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
+            this.cmb_product_size.FormattingEnabled = true;
+            this.cmb_product_size.Hint = "Select Product Size";
+            this.cmb_product_size.IntegralHeight = false;
+            this.cmb_product_size.ItemHeight = 43;
+            this.cmb_product_size.Location = new System.Drawing.Point(48, 293);
+            this.cmb_product_size.MaxDropDownItems = 4;
+            this.cmb_product_size.MouseState = MaterialSkin.MouseState.OUT;
+            this.cmb_product_size.Name = "cmb_product_size";
+            this.cmb_product_size.Size = new System.Drawing.Size(400, 49);
+            this.cmb_product_size.StartIndex = 0;
+            this.cmb_product_size.TabIndex = 20;
+            this.cmb_product_size.SelectedIndexChanged += new System.EventHandler(this.cmb_product_size_SelectedIndexChanged);
+            // 
             // btn_save
             // 
             this.btn_save.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
@@ -459,30 +483,6 @@
             this.errorProvider1.BlinkStyle = System.Windows.Forms.ErrorBlinkStyle.NeverBlink;
             this.errorProvider1.ContainerControl = this;
             // 
-            // cmb_product_size
-            // 
-            this.cmb_product_size.AutoResize = false;
-            this.cmb_product_size.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
-            this.cmb_product_size.Depth = 0;
-            this.cmb_product_size.DrawMode = System.Windows.Forms.DrawMode.OwnerDrawVariable;
-            this.cmb_product_size.DropDownHeight = 174;
-            this.cmb_product_size.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.cmb_product_size.DropDownWidth = 121;
-            this.cmb_product_size.Font = new System.Drawing.Font("Microsoft Sans Serif", 14F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Pixel);
-            this.cmb_product_size.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(222)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
-            this.cmb_product_size.FormattingEnabled = true;
-            this.cmb_product_size.Hint = "Select Product Size";
-            this.cmb_product_size.IntegralHeight = false;
-            this.cmb_product_size.ItemHeight = 43;
-            this.cmb_product_size.Location = new System.Drawing.Point(48, 293);
-            this.cmb_product_size.MaxDropDownItems = 4;
-            this.cmb_product_size.MouseState = MaterialSkin.MouseState.OUT;
-            this.cmb_product_size.Name = "cmb_product_size";
-            this.cmb_product_size.Size = new System.Drawing.Size(400, 49);
-            this.cmb_product_size.StartIndex = 0;
-            this.cmb_product_size.TabIndex = 20;
-            this.cmb_product_size.SelectedIndexChanged += new System.EventHandler(this.cmb_product_size_SelectedIndexChanged);
-            // 
             // product_id
             // 
             this.product_id.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
@@ -507,6 +507,7 @@
             this.col_product_size_id.MinimumWidth = 6;
             this.col_product_size_id.Name = "col_product_size_id";
             this.col_product_size_id.ReadOnly = true;
+            this.col_product_size_id.Visible = false;
             this.col_product_size_id.Width = 130;
             // 
             // col_size_label

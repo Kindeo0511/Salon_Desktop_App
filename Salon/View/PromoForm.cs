@@ -33,7 +33,7 @@ namespace Salon.View
 
             var promo = controller.GetAllPromo();
 
-            var promoList = promo.Where(p=>p.discount_type == "Promo" && p.is_deleted == 0 && p.status == 1).ToList();
+            var promoList = promo.Where(p=>p.discount_type == "Promo" && p.is_deleted == 0 && p.status == "Active").ToList();
 
             
             cmb_promo.DisplayMember = "promo_code";

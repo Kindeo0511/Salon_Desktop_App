@@ -18,8 +18,7 @@ namespace Salon.Models
 
         public DateTime? start_date { get; set; }
         public DateTime? end_date { get; set; }
-        public int status { get; set; }
-        public string text_status => status > 0 ? "Active" : "Inactive";
+        public string status { get; set; }
         public int vat_exempt { get; set; }
         public int is_defined { get; set; }
         public int is_deleted { get; set; }

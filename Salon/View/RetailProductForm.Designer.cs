@@ -161,7 +161,7 @@
             this.btn_product_size_update.Enabled = false;
             this.btn_product_size_update.HighEmphasis = true;
             this.btn_product_size_update.Icon = null;
-            this.btn_product_size_update.Location = new System.Drawing.Point(471, 372);
+            this.btn_product_size_update.Location = new System.Drawing.Point(472, 371);
             this.btn_product_size_update.Margin = new System.Windows.Forms.Padding(4, 6, 4, 6);
             this.btn_product_size_update.MouseState = MaterialSkin.MouseState.HOVER;
             this.btn_product_size_update.Name = "btn_product_size_update";
@@ -209,7 +209,7 @@
             this.col_product_size_update,
             this.col_product_size_delete});
             this.dgv_product_size.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.dgv_product_size.Location = new System.Drawing.Point(14, 458);
+            this.dgv_product_size.Location = new System.Drawing.Point(14, 444);
             this.dgv_product_size.Name = "dgv_product_size";
             this.dgv_product_size.RowHeadersWidth = 51;
             this.dgv_product_size.RowTemplate.Height = 24;
@@ -650,6 +650,7 @@
             this.Padding = new System.Windows.Forms.Padding(0, 64, 0, 3);
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "RetailProductForm";
+            this.Load += new System.EventHandler(this.RetailProductForm_Load);
             ((System.ComponentModel.ISupportInitialize)(this.dgv_product_size)).EndInit();
             this.materialCard2.ResumeLayout(false);
             this.materialCard2.PerformLayout();

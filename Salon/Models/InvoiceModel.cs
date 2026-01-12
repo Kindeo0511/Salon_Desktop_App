@@ -21,6 +21,7 @@ namespace Salon.Models
         public string Notes { get; set; }
         public string PaymentMethod { get; set; }
         public DateTime? Timestamp { get; set; }
+        public DateTime created_at { get; set; }
         public string status { get; set; }
 
 

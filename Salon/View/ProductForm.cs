@@ -1,4 +1,8 @@
-﻿using Salon.Util;
+﻿using MaterialSkin.Controls;
+using Salon.Controller;
+using Salon.Models;
+using Salon.Repository;
+using Salon.Util;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -8,10 +12,6 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-using MaterialSkin.Controls;
-using Salon.Repository;
-using Salon.Controller;
-using Salon.Models;
 namespace Salon.View
 {
     public partial class ProductForm : MaterialForm
@@ -29,14 +29,17 @@ namespace Salon.View
         {
             InitializeComponent();
             ThemeManager.ApplyTheme(this);
+            ThemeManager.StyleDataGridView(dgv_product_size);
             _isSaving = true;
             this.mainForm = mainform;
+
   
         }
         public ProductForm(MainForm mainform, ProductModel productModel)
         {
             InitializeComponent();
             ThemeManager.ApplyTheme(this);
+            ThemeManager.StyleDataGridView(dgv_product_size);
             _isUpdating = true;
             this.mainForm = mainform;
             this.productModel = productModel;
@@ -66,9 +69,9 @@ namespace Salon.View
             var controller = new ProductSizeController(repo);
             var product_sizes = controller.GetProductSizeById(product_id);
 
-            if (product_sizes != null && product_sizes.Any())
+            if (product_sizes != null)
             {
-                dgv_product_size.DataSource = null;
+                
                 dgv_product_size.AutoGenerateColumns = false;
 
                 col_product_size_id.DataPropertyName = "product_size_id";
@@ -82,11 +85,7 @@ namespace Salon.View
            
         
             }
-            else 
-            {
-         
-        
-            }
+           
                
         }
         private bool IsValid()
@@ -203,7 +202,7 @@ namespace Salon.View
 
                         var productName = txt_product_name.Text;
                         Audit.AuditLog(DateTime.Now, "Create", UserSession.CurrentUser.first_Name, "Manage Products", $"Created product '{productName}' on {DateTime.Now:yyyy-MM-dd} at {DateTime.Now:HH:mm:ss}");
-                        this.Close();
+                   
 
                     }
                     else
@@ -219,7 +218,7 @@ namespace Salon.View
                         MessageBox.Show("Product updated successfully!", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
                         var productName = txt_product_name.Text;
                         Audit.AuditLog(DateTime.Now, "Update", UserSession.CurrentUser.first_Name, "Manage Products", $"Updated product '{productName}' on {DateTime.Now:yyyy-MM-dd} at {DateTime.Now:HH:mm:ss}");
-                        this.Close();
+                      
                     }
                     else
                     {
@@ -239,7 +238,7 @@ namespace Salon.View
 
             IsAccountExists();
 
-            //await mainForm.RefreshProductAsync();
+            await mainForm.RefreshProductAsync(1,25);
             await mainForm.RefreshTotalProduct();
 
 
@@ -251,9 +250,9 @@ namespace Salon.View
             if (!IsValid()) return;
 
             IsAccountExists();
-            //await mainForm.RefreshProductAsync();
-  
-            
+            await mainForm.RefreshProductAsync(1,25);
+
+
         }
 
         private void btn_cancel_Click(object sender, EventArgs e)
@@ -374,8 +373,18 @@ namespace Salon.View
             var repo = new ProductSizeRepository();
             var controller = new ProductSizeController(repo);
 
+            decimal cost = Convert.ToDecimal(txt_cost_price.Text);
 
-           return controller.UpdateProductSize(ProductSizeModel(product_id));
+            var model = new ProductSizeModel
+            {
+                product_size_id = Convert.ToInt32(txt_size_label.Tag),
+                product_id = product_id,
+                size_label = txt_size_label.Text,
+                content = Convert.ToInt32(txt_content.Text),
+                cost_price = cost,
+            };
+
+            return controller.UpdateProductSize(model);
 
             
         }
@@ -433,6 +442,7 @@ namespace Salon.View
                 }
                 else if (_isProductSizeUpdating)
                 {
+
                     if (UpdateProductSize(_product_id))
                     {
                         MessageBox.Show("Product Size updated successfully!", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
@@ -456,7 +466,9 @@ namespace Salon.View
         {
             string size_label = txt_size_label.Text;
             int content = Convert.ToInt32(txt_content.Text);
+
             decimal cost = Convert.ToDecimal(txt_cost_price.Text);
+
             var model = new ProductSizeModel 
             {
                 product_id = product_id,
@@ -485,10 +497,10 @@ namespace Salon.View
 
                 if (product_size_model != null) 
                 {
-
+                    txt_size_label.Tag = product_size_model.product_size_id;
                     txt_size_label.Text = product_size_model.size_label;
                     txt_content.Text = product_size_model.content.ToString();
-                    txt_cost_price.Text = product_size_model.cost_price.ToString("C2");
+                    txt_cost_price.Text = product_size_model.cost_price.ToString();
                     btn_product_size_update.Enabled = true;
                     btn_product_size_save.Enabled = false;
 

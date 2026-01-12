@@ -41,7 +41,7 @@ namespace Salon.View
             var deliveryItemController = new DeliveryItemController(_repo);
             int offset = (PageNumber - 1) * PageSize;
            
-            dgv_items.DataSource = deliveryItemController.GetAllDeliveryItems(delivery_id, PageNumber, offset);
+           var deliveries = deliveryItemController.GetAllDeliveryItems(delivery_id, PageSize, offset);
 
             int totalRecords = deliveryItemController.GetTotalDelivery();
             int totalPages = (int)Math.Ceiling((double)totalRecords / PageSize);
@@ -56,6 +56,7 @@ namespace Salon.View
             col_TotalPrice.DataPropertyName = "total_price";
             col_ExpiryDate.DataPropertyName = "expiry_date";
             col_notes.DataPropertyName = "notes";
+            dgv_items.DataSource = deliveries;
 
 
         }

@@ -114,7 +114,7 @@ namespace Salon.View
         {
             RefundProduct();
             refund_form.LoadCart(cart.InvoiceId);
-            main.LoadInvoiceTransaction();
+            main.FilterTransactionReport(1, 25);
         }
 
         private void btn_cancel_Click(object sender, EventArgs e)

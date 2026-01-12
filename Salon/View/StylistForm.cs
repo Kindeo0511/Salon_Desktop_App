@@ -42,6 +42,7 @@ namespace Salon.View
             dtp_day_of_birth.MaxDate = DateTime.Today;
             dtp_day_of_birth.MinDate = new DateTime(1900, 1, 1);
 
+
             if (_stylist != null)
             {
                 txt_first_name.Text = _stylist.firstName;
@@ -113,6 +114,7 @@ namespace Salon.View
 
             if (existingUser != null)
             {
+                MessageBox.Show("if existinguser != null statement.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
 
                 if (existingUser.is_deleted == 1)
                 {
@@ -141,6 +143,7 @@ namespace Salon.View
 
             else
             {
+      
                 if (_isSaving)
                 {
                     
@@ -201,7 +204,7 @@ namespace Salon.View
         {
 
 
-            if (!IsValid()) return;
+            //if (!IsValid()) return;
 
 
             IsAccountExists();

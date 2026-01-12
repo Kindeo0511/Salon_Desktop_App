@@ -88,7 +88,7 @@ namespace Salon.Repository
         {
             using (var con = Database.GetConnection())
             {
-                var sql = "SELECT * FROM tbl_customer_account WHERE email = @email";
+                var sql = "SELECT * FROM tbl_customer_account WHERE email = @email AND is_deleted = 1 LIMIT 1";
                 return con.Query<CustomerModel>(sql, new { email }).FirstOrDefault();
             }
         }

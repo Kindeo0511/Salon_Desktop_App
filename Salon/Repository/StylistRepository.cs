@@ -103,7 +103,7 @@ namespace Salon.Repository
         {
             using (var con = Database.GetConnection())
             {
-                var sql = "SELECT * FROM tbl_stylists WHERE email = @email LIMIT 1";
+                var sql = "SELECT * FROM tbl_stylists WHERE email = @email AND is_deleted = 1 LIMIT 1";
                 return con.QueryFirstOrDefault<StylistModel>(sql, new { email });
             }
         }

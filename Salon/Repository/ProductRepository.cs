@@ -16,7 +16,7 @@ namespace Salon.Repository
         {
             using (var con = Database.GetConnection())
             {
-                var sql = @"SELECT * FROM tbl_products WHERE product_type = 'Retail' AND is_deleted = 0 LIMIT @page_size OFFSET @off_set";
+                var sql = @"SELECT * FROM tbl_products WHERE product_type = 'Retail' AND is_deleted = 0";
                 return con.Query<ProductModel>(sql).ToList();
             }
         }
@@ -45,7 +45,8 @@ namespace Salon.Repository
                     FROM tbl_products p
                     JOIN tbl_product_size ps ON ps.product_id = p.product_id
                     WHERE p.is_deleted = 0  
-                      AND p.product_type = 'Retail' ";
+                      AND p.product_type = 'Retail'
+                      AND ps.is_deleted = 0;";
                 return con.Query<RetailProduct>(sql).ToList();
             }
         }
@@ -85,11 +86,10 @@ namespace Salon.Repository
         {
             using (var con = Database.GetConnection()) 
             {
-                var sql = @"SELECT p.product_id, p.product_name,p.product_type, p.brand, c.category_id, c.categoryName AS categoryName, p.unit_type,ps.size_label, ps.content, ps.selling_price, ps.cost_price
+                var sql = @"SELECT p.product_id, p.product_name,p.product_type, p.brand, p.unit_type,ps.size_label, ps.content, ps.selling_price, ps.cost_price
                             FROM tbl_products p
-                            JOIN tbl_category c ON p.category_id = c.category_id
                             JOIN tbl_product_size ps ON ps.product_id = p.product_id
-                            WHERE p.is_deleted = 0 AND c.is_deleted = 0 AND p.product_type = 'Ingredient'";
+                            WHERE p.is_deleted = 0 AND p.product_type = 'Ingredient'";
                 return con.Query<ProductModel>(sql).ToList();
             }
         }
@@ -97,11 +97,10 @@ namespace Salon.Repository
         {
             using (var con = Database.GetConnection())
             {
-                var sql = @"SELECT p.product_id, p.product_name,p.product_type, p.brand, c.category_id, c.categoryName AS categoryName, p.unit_type,ps.size_label, ps.content, ps.selling_price, ps.cost_price
+                var sql = @"SELECT p.product_id, p.product_name,p.product_type, p.brand, p.unit_type,ps.size_label, ps.content, ps.selling_price, ps.cost_price
                             FROM tbl_products p
-                            JOIN tbl_category c ON p.category_id = c.category_id
                             LEFT JOIN tbl_product_size ps ON ps.product_id = p.product_id
-                            WHERE p.is_deleted = 0 AND c.is_deleted = 0 AND p.product_type = 'Ingredient' 
+                            WHERE p.is_deleted = 0 AND p.product_type = 'Ingredient' 
                             LIMIT @page_size OFFSET @off_set";
                 var result = await con.QueryAsync<ProductModel>(sql, new { page_size, off_set});
 
@@ -112,11 +111,10 @@ namespace Salon.Repository
         {
             using (var con = Database.GetConnection())
             {
-                var sql = @"SELECT p.product_id, p.product_name,p.product_type, p.brand, c.category_id, c.categoryName AS categoryName, p.unit_type,ps.size_label, ps.content, ps.selling_price, ps.cost_price
+                var sql = @"SELECT p.product_id, p.product_name,p.product_type, p.brand, p.unit_type,ps.size_label, ps.content, ps.selling_price, ps.cost_price
                             FROM tbl_products p
-                            JOIN tbl_category c ON p.category_id = c.category_id
                             JOIN tbl_product_size ps ON ps.product_id = p.product_id
-                            WHERE p.is_deleted = 0 AND c.is_deleted = 0";
+                            WHERE p.is_deleted = 0 AND ps.is_deleted = 0";
                 return con.Query<ProductModel>(sql).ToList();
             }
         }

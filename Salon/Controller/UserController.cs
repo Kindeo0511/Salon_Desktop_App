@@ -70,9 +70,9 @@ namespace Salon.Controller
         {
             return _repo.DeleteUser(userId) > 0;
         }
-        public void DeletePermanent(int id) 
+        public bool DeletePermanent(int id) 
         {
-            _repo.PermanentDelete(id);
+            return _repo.PermanentDelete(id) > 0;
         }
 
         public bool GetUserExistsAsync(string username, int id = 0) 

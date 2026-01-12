@@ -65,9 +65,6 @@ namespace Salon.View
             {
                
                 stock_controller.VoidProductTransaction(transactionId.transaction_id, transactionId.product_size_id, qty);
-
-
-
                 inventory_controller.VoidProductInventory(cart.ProductId, transactionId.product_size_id, qty);
             }
        
@@ -78,7 +75,7 @@ namespace Salon.View
         {
             VoidProduct();
             void_form.LoadCart(cart.InvoiceId);
-            main.LoadInvoiceTransaction();
+            main.FilterTransactionReport(1, 25);
             this.Close();
             
         }

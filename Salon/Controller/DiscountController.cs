@@ -53,13 +53,18 @@ namespace Salon.Controller
         {
             discountRepository.DeleteDiscount(id);
         }
-        public void PermanentDeleteDiscount(int id) 
+        public bool PermanentDeleteDiscount(int id) 
         {
-            discountRepository.PermanentDelete(id);
+           return discountRepository.PermanentDelete(id) > 0;
         }
         public void RestoreDiscount(int id) 
         {
             discountRepository.RestoreDiscount(id);
+        }
+
+        public void MarkExpiredPromo() 
+        {
+            discountRepository.MarkExpiredPromo();
         }
         // DISCOUNT REPORT
 

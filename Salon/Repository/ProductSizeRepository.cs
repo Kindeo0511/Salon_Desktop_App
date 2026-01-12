@@ -67,7 +67,7 @@ namespace Salon.Repository
             using (var con = Database.GetConnection()) 
             {
                 var sql = @"SELECT * FROM tbl_product_size 
-                            WHERE product_id = @product_id AND content = @content";
+                            WHERE product_id = @product_id AND content = @content AND is_deleted = 1 LIMIT 1";
                 return con.QueryFirstOrDefault<ProductSizeModel>(sql, new { product_id, content });
             }
         }
@@ -107,7 +107,7 @@ namespace Salon.Repository
             {
                 var sql = @"DELETE FROM tbl_product_size 
                             WHERE product_size_id = @productSize_id";
-                return con.Execute(sql, new { product_id = productSize_id });
+                return con.Execute(sql, new { productSize_id = productSize_id });
             }
         }
         public int Restore(int productSizeId) 

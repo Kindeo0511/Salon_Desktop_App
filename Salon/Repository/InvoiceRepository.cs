@@ -37,9 +37,9 @@ namespace Salon.Repository
             {
                 var sql = @"
                 INSERT INTO tbl_invoice 
-                    (appointment_id,invoice_number, customer_id, total_amount, vat_amount, discount_amount, timestamp)
+                    (appointment_id,invoice_number, customer_id, total_amount, vat_amount, discount_amount, created_at)
                 VALUES 
-                    (@AppointmentID, @InvoiceNumber, @CustomerID, @TotalAmount, @VATAmount, @DiscountAmount, @Timestamp);
+                    (@AppointmentID, @InvoiceNumber, @CustomerID, @TotalAmount, @VATAmount, @DiscountAmount, CURRENT_TIMESTAMP());
                 SELECT LAST_INSERT_ID();
             ";
 
@@ -58,9 +58,9 @@ namespace Salon.Repository
             {
                 var sql = @"
                 INSERT INTO tbl_invoice 
-                    (invoice_number, total_amount, vat_amount, discount_amount,notes,payment_method_id, reference_number, status, timestamp)
+                    (invoice_number, total_amount, vat_amount, discount_amount,notes,payment_method_id, reference_number, status, created_at)
                 VALUES 
-                    (@InvoiceNumber, @TotalAmount, @VATAmount, @DiscountAmount,@Notes,@payment_method_id,@reference_number, @status, @Timestamp);
+                    (@InvoiceNumber, @TotalAmount, @VATAmount, @DiscountAmount,@Notes,@payment_method_id,@reference_number, @status, CURRENT_TIMESTAMP());
                 SELECT LAST_INSERT_ID();
             ";
 
@@ -84,14 +84,14 @@ namespace Salon.Repository
                                 notes = @Notes, 
                                 payment_method_id = @payment_method_id,
                                 reference_number = @reference_number,    
-                                status = @status
-                                timestamp = @TimeStamp
+                                status = @status,
+                                created_at = CURRENT_TIMESTAMP()
                               WHERE invoice_id = @InvoiceID";
                 con.Execute(sql, model);
             }
         }
 
-        public IEnumerable<InvoiceModel> GetInvoice() 
+        public IEnumerable<InvoiceModel> GetInvoice(int page_size, int off_set) 
         {
             using (var con = Database.GetConnection()) 
             {
@@ -102,19 +102,20 @@ namespace Salon.Repository
                             pm.name AS PaymentMethod,
                             i.reference_number,
                             i.status,
-                            i.timestamp AS Timestamp
+                            i.created_at AS Timestamp
                     FROM tbl_invoice  AS i
                     LEFT JOIN tbl_appointment AS a ON a.appointment_id = i.appointment_id
                     LEFT JOIN tbl_invoice_service_cart AS isc ON isc.invoice_id = i.invoice_id
                     LEFT JOIN tbl_products AS p ON isc.product_id = p.product_id
                     LEFT JOIN tbl_servicesname AS sn ON isc.service_id = sn.serviceName_id
                     LEFT JOIN tbl_payment_method AS pm ON pm.id = i.payment_method_id    
-                    GROUP BY isc.invoice_id";
+                    GROUP BY isc.invoice_id
+                    LIMIT @page_size OFFSET @off_set";
 
-                return con.Query<InvoiceModel>(sql).ToList();
+                return con.Query<InvoiceModel>(sql, new { page_size, off_set}).ToList();
             }
         }
-        public IEnumerable<InvoiceModel> GetInvoice(DateTime start_date, DateTime end_date)
+        public IEnumerable<InvoiceModel> GetInvoice(DateTime start_date, DateTime end_date, int page_size, int off_set)
         {
             using (var con = Database.GetConnection())
             {
@@ -125,20 +126,30 @@ namespace Salon.Repository
                             pm.name AS PaymentMethod,
                             i.reference_number,
                             i.status,
-                            i.timestamp AS Timestamp
+                            i.created_at AS Timestamp
                     FROM tbl_invoice  AS i
                     LEFT JOIN tbl_appointment AS a ON a.appointment_id = i.appointment_id
                     LEFT JOIN tbl_invoice_service_cart AS isc ON isc.invoice_id = i.invoice_id
                     LEFT JOIN tbl_products AS p ON isc.product_id = p.product_id
                     LEFT JOIN tbl_servicesname AS sn ON isc.service_id = sn.serviceName_id
                     LEFT JOIN tbl_payment_method AS pm ON pm.id = i.payment_method_id  
-                    WHERE i.timestamp BETWEEN @start_date AND @end_date
-                    GROUP BY isc.invoice_id";
+                    WHERE i.created_at BETWEEN @start_date AND @end_date
+                    GROUP BY isc.invoice_id
+                    LIMIT @page_size OFFSET @off_set";
 
-                return con.Query<InvoiceModel>(sql, new { start_date, end_date}).ToList();
+                return con.Query<InvoiceModel>(sql, new { start_date, end_date, page_size, off_set}).ToList();
             }
         }
 
+        public int TotalTransactionList() 
+        {
+            using (var con = Database.GetConnection())
+            {
+                var sql = "SELECT COUNT(*) FROM tbl_transaction";
+
+                return con.ExecuteScalar<int>(sql);
+            }
+        }
         // SALES REPORT
         public int CountTotalInvoice() 
         {

@@ -66,7 +66,7 @@ namespace Salon.View
             dtp_end.Value = discountModel.end_date ?? DateTime.Now;
 
 
-            chk_is_active.Checked = discountModel.status == 1;
+            chk_is_active.Checked = discountModel.status == "Active";
                 chk_vat_exempt.Checked = (discountModel.vat_exempt == 1);
 
 
@@ -118,7 +118,7 @@ namespace Salon.View
             int discount_value = Convert.ToInt32(txt_discount.Value);
             string mode = rad_percent.Checked ? rad_percent.Text : rad_fixed.Text;
             int vat_exempt = chk_vat_exempt.Checked ? 1 : 0;
-            int is_active = chk_is_active.Checked ? 1 : 0;
+            string is_active = chk_is_active.Checked ? "Active" : "";
 
             DateTime start_date = dtp_start.Value;
             DateTime end_date = dtp_end.Value;
@@ -165,7 +165,7 @@ namespace Salon.View
             int discount_value = Convert.ToInt32(txt_discount.Value);
             string mode = rad_percent.Checked ? rad_percent.Text : rad_fixed.Text;
             int vat_exempt = chk_vat_exempt.Checked ? 1 : 0;
-            int is_active = chk_is_active.Checked ? 1 : 0;
+            string is_active = chk_is_active.Checked ? "Active" : "";
 
             DateTime? start_date = (dtp_start.Visible && dtp_start.Checked) ? dtp_start.Value : (DateTime?)null;
             DateTime? end_date = (dtp_end.Visible && dtp_end.Checked) ? dtp_end.Value : (DateTime?)null;

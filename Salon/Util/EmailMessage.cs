@@ -1,4 +1,5 @@
-﻿using Salon.Controller;
+﻿using Mysqlx.Crud;
+using Salon.Controller;
 using Salon.Models;
 using Salon.Repository;
 using System;
@@ -9,6 +10,7 @@ using System.Net.Mail;
 using System.Text;
 using System.Threading.Tasks;
 using static System.Net.WebRequestMethods;
+using static System.Windows.Forms.VisualStyles.VisualStyleElement.Tab;
 
 
 namespace Salon.Util
@@ -80,7 +82,41 @@ namespace Salon.Util
                 await smtp.SendMailAsync(mail);
             }
         }
+        public static async Task<bool> SendTestEmailConnection(string user_email, string user_password, string shop_name)
+        {
+            try
+            {
+                using (var smtp = new SmtpClient("smtp.gmail.com", 587))
+                {
+                    smtp.EnableSsl = true;
+                    smtp.UseDefaultCredentials = false;
+                    smtp.Credentials = new NetworkCredential(user_email, user_password);
 
+                    var mail = new MailMessage() 
+                    {
+                        From = new MailAddress(user_email, shop_name),
+                        Subject = "SMTP Test",
+                        Body = "This is  a test connection message.",
+                        IsBodyHtml = true
+                    };
+                    mail.To.Add(user_email);
+                    await smtp.SendMailAsync (mail);
+                    return true;
+
+                }
+
+            }
+            catch (SmtpException smtpEx)
+            {
+                Console.WriteLine($"SMTP error: {smtpEx.StatusCode} - {smtpEx}");
+                return false;
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"General  error: {ex}");
+                return false;
+            }
+        }
         public static async Task<bool> SendEmailNotifDiscount(string to, string subject, string body)
         {
               owner_controller = new OwnerEmailController(owner_repo);
