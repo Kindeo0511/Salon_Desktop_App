@@ -26,6 +26,7 @@ namespace Salon.Models
         public DateTime AppointmentDate { get; set; }
         public DateTime StartTime { get; set; }
         public DateTime EndTime { get; set; }
+        public DateTime EndDuration { get; set; }
         public string Status { get; set; } // e.g., Scheduled, Completed, Canceled
         public string PaymentStatus { get; set; } // e.g., Paid, Unpaid
         public int Durations { get; set; }

@@ -50,7 +50,6 @@
             this.btn_update = new MaterialSkin.Controls.MaterialButton();
             this.btn_add = new MaterialSkin.Controls.MaterialButton();
             this.dgv_Items = new System.Windows.Forms.DataGridView();
-            this.errorProvider1 = new System.Windows.Forms.ErrorProvider(this.components);
             this.product_id = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.col_product_name = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.col_product_size_id = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -64,6 +63,7 @@
             this.col_expiry_date = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.col_note = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.col_view_delivered_items = new System.Windows.Forms.DataGridViewImageColumn();
+            this.errorProvider1 = new System.Windows.Forms.ErrorProvider(this.components);
             this.materialCard1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgv_Items)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.errorProvider1)).BeginInit();
@@ -408,7 +408,7 @@
             this.btn_update.Depth = 0;
             this.btn_update.HighEmphasis = true;
             this.btn_update.Icon = null;
-            this.btn_update.Location = new System.Drawing.Point(57, 512);
+            this.btn_update.Location = new System.Drawing.Point(57, 483);
             this.btn_update.Margin = new System.Windows.Forms.Padding(4, 6, 4, 6);
             this.btn_update.MouseState = MaterialSkin.MouseState.HOVER;
             this.btn_update.Name = "btn_update";
@@ -478,11 +478,6 @@
             this.dgv_Items.TabIndex = 16;
             this.dgv_Items.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgv_Items_CellClick);
             // 
-            // errorProvider1
-            // 
-            this.errorProvider1.BlinkStyle = System.Windows.Forms.ErrorBlinkStyle.NeverBlink;
-            this.errorProvider1.ContainerControl = this;
-            // 
             // product_id
             // 
             this.product_id.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
@@ -508,7 +503,7 @@
             this.col_product_size_id.Name = "col_product_size_id";
             this.col_product_size_id.ReadOnly = true;
             this.col_product_size_id.Visible = false;
-            this.col_product_size_id.Width = 130;
+            this.col_product_size_id.Width = 125;
             // 
             // col_size_label
             // 
@@ -541,7 +536,7 @@
             this.col_total_qty.MinimumWidth = 6;
             this.col_total_qty.Name = "col_total_qty";
             this.col_total_qty.ReadOnly = true;
-            this.col_total_qty.Width = 90;
+            this.col_total_qty.Width = 83;
             // 
             // col_price
             // 
@@ -593,6 +588,11 @@
             this.col_view_delivered_items.MinimumWidth = 6;
             this.col_view_delivered_items.Name = "col_view_delivered_items";
             this.col_view_delivered_items.ReadOnly = true;
+            // 
+            // errorProvider1
+            // 
+            this.errorProvider1.BlinkStyle = System.Windows.Forms.ErrorBlinkStyle.NeverBlink;
+            this.errorProvider1.ContainerControl = this;
             // 
             // DeliveryForm
             // 

@@ -33,8 +33,8 @@
             this.btn_update = new MaterialSkin.Controls.MaterialButton();
             this.btn_cancel = new MaterialSkin.Controls.MaterialButton();
             this.btn_save = new MaterialSkin.Controls.MaterialButton();
-            this.cmb_category_type = new MaterialSkin.Controls.MaterialComboBox();
             this.errorProvider1 = new System.Windows.Forms.ErrorProvider(this.components);
+            this.materialLabel1 = new MaterialSkin.Controls.MaterialLabel();
             ((System.ComponentModel.ISupportInitialize)(this.errorProvider1)).BeginInit();
             this.SuspendLayout();
             // 
@@ -44,14 +44,14 @@
             this.txt_category_name.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.txt_category_name.Depth = 0;
             this.txt_category_name.Font = new System.Drawing.Font("Roboto", 16F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
-            this.txt_category_name.Hint = "Category Name";
+            this.txt_category_name.Hint = "Enter category";
             this.txt_category_name.LeadingIcon = null;
-            this.txt_category_name.Location = new System.Drawing.Point(46, 155);
+            this.txt_category_name.Location = new System.Drawing.Point(124, 155);
             this.txt_category_name.MaxLength = 50;
             this.txt_category_name.MouseState = MaterialSkin.MouseState.OUT;
             this.txt_category_name.Multiline = false;
             this.txt_category_name.Name = "txt_category_name";
-            this.txt_category_name.Size = new System.Drawing.Size(300, 50);
+            this.txt_category_name.Size = new System.Drawing.Size(500, 50);
             this.txt_category_name.TabIndex = 12;
             this.txt_category_name.Text = "";
             this.txt_category_name.TrailingIcon = null;
@@ -64,7 +64,7 @@
             this.btn_update.Depth = 0;
             this.btn_update.HighEmphasis = true;
             this.btn_update.Icon = null;
-            this.btn_update.Location = new System.Drawing.Point(336, 311);
+            this.btn_update.Location = new System.Drawing.Point(323, 359);
             this.btn_update.Margin = new System.Windows.Forms.Padding(4, 6, 4, 6);
             this.btn_update.MouseState = MaterialSkin.MouseState.HOVER;
             this.btn_update.Name = "btn_update";
@@ -118,43 +118,29 @@
             this.btn_save.UseVisualStyleBackColor = true;
             this.btn_save.Click += new System.EventHandler(this.btn_save_Click);
             // 
-            // cmb_category_type
-            // 
-            this.cmb_category_type.AutoResize = false;
-            this.cmb_category_type.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
-            this.cmb_category_type.Depth = 0;
-            this.cmb_category_type.DrawMode = System.Windows.Forms.DrawMode.OwnerDrawVariable;
-            this.cmb_category_type.DropDownHeight = 174;
-            this.cmb_category_type.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.cmb_category_type.DropDownWidth = 121;
-            this.cmb_category_type.Font = new System.Drawing.Font("Microsoft Sans Serif", 14F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Pixel);
-            this.cmb_category_type.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(222)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
-            this.cmb_category_type.FormattingEnabled = true;
-            this.cmb_category_type.Hint = "Select Category Type";
-            this.cmb_category_type.IntegralHeight = false;
-            this.cmb_category_type.ItemHeight = 43;
-            this.cmb_category_type.Items.AddRange(new object[] {
-            "Service",
-            "Product"});
-            this.cmb_category_type.Location = new System.Drawing.Point(445, 156);
-            this.cmb_category_type.MaxDropDownItems = 4;
-            this.cmb_category_type.MouseState = MaterialSkin.MouseState.OUT;
-            this.cmb_category_type.Name = "cmb_category_type";
-            this.cmb_category_type.Size = new System.Drawing.Size(300, 49);
-            this.cmb_category_type.StartIndex = -1;
-            this.cmb_category_type.TabIndex = 21;
-            // 
             // errorProvider1
             // 
             this.errorProvider1.BlinkStyle = System.Windows.Forms.ErrorBlinkStyle.NeverBlink;
             this.errorProvider1.ContainerControl = this;
+            // 
+            // materialLabel1
+            // 
+            this.materialLabel1.AutoSize = true;
+            this.materialLabel1.Depth = 0;
+            this.materialLabel1.Font = new System.Drawing.Font("Roboto", 14F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
+            this.materialLabel1.Location = new System.Drawing.Point(121, 133);
+            this.materialLabel1.MouseState = MaterialSkin.MouseState.HOVER;
+            this.materialLabel1.Name = "materialLabel1";
+            this.materialLabel1.Size = new System.Drawing.Size(114, 19);
+            this.materialLabel1.TabIndex = 21;
+            this.materialLabel1.Text = "Category Name:";
             // 
             // CategoryForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(800, 450);
-            this.Controls.Add(this.cmb_category_type);
+            this.Controls.Add(this.materialLabel1);
             this.Controls.Add(this.btn_update);
             this.Controls.Add(this.btn_cancel);
             this.Controls.Add(this.btn_save);
@@ -176,7 +162,7 @@
         private MaterialSkin.Controls.MaterialButton btn_update;
         private MaterialSkin.Controls.MaterialButton btn_cancel;
         private MaterialSkin.Controls.MaterialButton btn_save;
-        private MaterialSkin.Controls.MaterialComboBox cmb_category_type;
         private System.Windows.Forms.ErrorProvider errorProvider1;
+        private MaterialSkin.Controls.MaterialLabel materialLabel1;
     }
 }

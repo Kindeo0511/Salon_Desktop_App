@@ -12,6 +12,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using System.Windows.Input;
+using static iText.StyledXmlParser.Jsoup.Select.Evaluator;
 
 namespace Salon.View
 {
@@ -53,6 +55,7 @@ namespace Salon.View
                 txt_email.Text = _stylist.email;
                 txt_address.Text = _stylist.address;
 
+                
 
                 btn_save.Visible = false;
                 btn_update.Visible = true;
@@ -64,8 +67,72 @@ namespace Salon.View
                 btn_update.Visible = false;
             }
         }
+        public void LoadSpecialists() 
+        {
+            var repo = new SpecialistRepository();
+            var controller = new SpecialistController(repo);
+            var specialists = controller.GetAllSpecialists();
 
-        private bool SaveStylist() 
+            var filter_special = specialists.Where(s => s.status == "Active" && s.is_deleted != 1);
+
+
+            var stylistSpecialistRepo = new Stylist_Specialist_Repository();
+            var stylistSpecialistController = new Stylist_specialist_Controller(stylistSpecialistRepo);
+
+            HashSet<int> assignedSpecialists = new HashSet<int>();
+
+ 
+            if (_stylist != null) 
+            {
+                assignedSpecialists = stylistSpecialistController.GetStylistById(_stylist.stylist_id).Select(ss => ss.specialist_id).ToHashSet();
+            }
+            
+            chk_services.Items.Clear();
+
+            
+            foreach (var specialist in filter_special) 
+            {
+                bool isChecked = assignedSpecialists.Contains(specialist.specialist_id);
+                chk_services.Items.Add(specialist, isChecked);
+            }
+
+
+
+        }
+        private void SaveSpecialists(int stylist_id)
+        {
+            var specialist_repo = new Stylist_Specialist_Repository();
+            var specialist_controller = new Stylist_specialist_Controller(specialist_repo);
+
+
+            if (_isSaving)
+            {
+                foreach (var item in chk_services.CheckedItems)
+                {
+                    var specialist = (SpecialistModel)item;
+                    if (specialist != null)
+                    {
+                        specialist_controller.CreateStylistSpecialist(specialist.specialist_id, stylist_id);
+                    }
+
+                }
+            }
+            else if (_isUpdating) 
+            {
+                foreach (var item in chk_services.CheckedItems)
+                {
+                    var specialist = (SpecialistModel)item;
+                    if (specialist != null)
+                    {
+                        specialist_controller.UpdateStylistSpecialist(specialist.specialist_id, stylist_id);
+                    }
+
+                }
+            }
+               
+           
+        }
+        private int SaveStylist() 
         {
             var repo = new StylistRepository();
             var stylistController = new Controller.StylistController(repo);
@@ -81,8 +148,11 @@ namespace Salon.View
      
                 
                 };
+            int id = stylistController.Add(stylist);
 
-           return stylistController.Add(stylist);
+            SaveSpecialists(id);
+
+           return id;
         }
 
         private bool UpdateStylist()
@@ -101,7 +171,7 @@ namespace Salon.View
 
             var repo = new StylistRepository();
             var stylistController = new Controller.StylistController(repo);
-
+            SaveSpecialists(_stylist.stylist_id);
             return stylistController.Update(_stylist);
             
             
@@ -111,6 +181,8 @@ namespace Salon.View
             var _repo = new StylistRepository();
             var userController = new StylistController(_repo);
             var existingUser = userController.GetEmail(txt_email.Text.Trim());
+
+       
 
             if (existingUser != null)
             {
@@ -146,10 +218,11 @@ namespace Salon.View
       
                 if (_isSaving)
                 {
-                    
+                 
 
-                    if (SaveStylist())
+                    if (SaveStylist() > 0)
                     {
+                                            
                         Added?.Invoke(this, EventArgs.Empty);
                         MessageBox.Show("Stylist added successfully!", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
                         this.Close();
@@ -188,7 +261,7 @@ namespace Salon.View
 
 
             // Run validation on UI thread
-            if (!IsValid()) return;
+            //if (!IsValid()) return;
 
             IsAccountExists();
 
@@ -225,148 +298,148 @@ namespace Salon.View
 
             bool validated = true;
 
-            // REQUIRED AND MIN LENGTH FIELD
-            if (!Validator.IsRequiredTextField(txt_first_name, errorProvider1, "First name is required."))
-            {
-                validated = false;
-            }
-            else if (!Validator.IsMinimumLength(txt_first_name, errorProvider1, "First name must be at least 3 characters.", 3))
-            {
-                validated = false;
-            }
-            // Allows letters, spaces, hyphens, apostrophes, accented characters
-            else if (!Validator.Pattern(txt_first_name, errorProvider1, @"^[A-Za-zÀ-ÿ'’\- ]+$", "First Name contains invalid characters."))
-            {
-                validated = false;
-            } 
-            else if (!Validator.DisallowSpaces(txt_first_name, errorProvider1, "No Space Allowed"))
-            {
-                validated = false;
-            }
+            //// REQUIRED AND MIN LENGTH FIELD
+            //if (!Validator.IsRequiredTextField(txt_first_name, errorProvider1, "First name is required."))
+            //{
+            //    validated = false;
+            //}
+            //else if (!Validator.IsMinimumLength(txt_first_name, errorProvider1, "First name must be at least 3 characters.", 3))
+            //{
+            //    validated = false;
+            //}
+            //// Allows letters, spaces, hyphens, apostrophes, accented characters
+            //else if (!Validator.Pattern(txt_first_name, errorProvider1, @"^[A-Za-zÀ-ÿ'’\- ]+$", "First Name contains invalid characters."))
+            //{
+            //    validated = false;
+            //} 
+            //else if (!Validator.DisallowSpaces(txt_first_name, errorProvider1, "No Space Allowed"))
+            //{
+            //    validated = false;
+            //}
 
 
-            if (!string.IsNullOrWhiteSpace(txt_middle_name.Text))
-            {
-                if (!Validator.IsMinimumLength(txt_middle_name, errorProvider1, "Middle name must be at least 3 characters.", 3))
-                {
-                    validated = false;
-                }
-                else if (!Validator.Pattern(txt_middle_name, errorProvider1, @"^[A-Za-z]+$", "Middle name should only contain letters."))
-                {
-                    validated = false;
-                }
-                else if (!Validator.DisallowSpaces(txt_middle_name, errorProvider1, "No space allowed in middle name."))
-                {
-                    validated = false;
-                }
-            }
+            //if (!string.IsNullOrWhiteSpace(txt_middle_name.Text))
+            //{
+            //    if (!Validator.IsMinimumLength(txt_middle_name, errorProvider1, "Middle name must be at least 3 characters.", 3))
+            //    {
+            //        validated = false;
+            //    }
+            //    else if (!Validator.Pattern(txt_middle_name, errorProvider1, @"^[A-Za-z]+$", "Middle name should only contain letters."))
+            //    {
+            //        validated = false;
+            //    }
+            //    else if (!Validator.DisallowSpaces(txt_middle_name, errorProvider1, "No space allowed in middle name."))
+            //    {
+            //        validated = false;
+            //    }
+            //}
 
 
-            if (!Validator.IsRequiredTextField(txt_last_name, errorProvider1, "Last name is required."))
-            {
-                validated = false;
-            }
-            else if (!Validator.IsMinimumLength(txt_last_name, errorProvider1, "Last name must be at least 3 characters.", 3))
-            {
-                validated = false;
-            }
-            else if (!Validator.Pattern(txt_last_name, errorProvider1, @"^[A-Za-z]+$", "Last name should only contain letters."))
-            {
-                validated = false;
-            }
-            else if (!Validator.DisallowSpaces(txt_last_name, errorProvider1, "No Space Allowed"))
-            {
-                validated = false;
-            }
+            //if (!Validator.IsRequiredTextField(txt_last_name, errorProvider1, "Last name is required."))
+            //{
+            //    validated = false;
+            //}
+            //else if (!Validator.IsMinimumLength(txt_last_name, errorProvider1, "Last name must be at least 3 characters.", 3))
+            //{
+            //    validated = false;
+            //}
+            //else if (!Validator.Pattern(txt_last_name, errorProvider1, @"^[A-Za-z]+$", "Last name should only contain letters."))
+            //{
+            //    validated = false;
+            //}
+            //else if (!Validator.DisallowSpaces(txt_last_name, errorProvider1, "No Space Allowed"))
+            //{
+            //    validated = false;
+            //}
 
-            if (!Validator.IsRequired(txt_email, errorProvider1, "Email is required."))
-            {
-                validated = false;
-            }
-            else if (!Validator.IsValidEmail(txt_email, errorProvider1))
-            {
-                validated = false;
-            }
-            else if (txt_email.Text.Count(c => c == '@') != 1)
-            {
-                errorProvider1.SetError(txt_email, "Email must contain exactly one '@' symbol.");
-                validated = false;
-            }
-            else if (!Validator.Pattern(
-                   txt_email,
-                   errorProvider1,
-                   @"^[^@\s]+@[^@\s]+\.[^@\s]+$",
-                   "Please enter a valid email address."))
-            {
-                validated = false;
-            }
-            else if (!Validator.DisallowSpaces(txt_email, errorProvider1, "No Space Allowed"))
-            {
-                validated = false;
-            }
-            else if (!Validator.IsStylistEmailExists(txt_email, errorProvider1, "Email already exists.", excludeId))
-            {
-                validated = false;
-            }
-
-
-
-            if (!Validator.IsRequiredTextField(txt_contact, errorProvider1, "Contact number is required."))
-            {
-                validated = false;
-            }
-            else if (txt_contact.Text.Length != 11)
-            {
-                errorProvider1.SetError(txt_contact, "Contact number must be exactly 11 digits.");
-                validated = false;
-            }
-            else if (!txt_contact.Text.StartsWith("09"))
-            {
-                errorProvider1.SetError(txt_contact, "Contact number should start with '09'.");
-                validated = false;
-            }
-
-            else if (!Validator.IsValidPhone(txt_contact, errorProvider1))
-            {
-                validated = false;
-            }
-            else if (!Validator.IsStylistPhoneExists(txt_contact, errorProvider1, "Contact number already exists.", excludeId))
-            {
-                validated = false;
-            }
+            //if (!Validator.IsRequired(txt_email, errorProvider1, "Email is required."))
+            //{
+            //    validated = false;
+            //}
+            //else if (!Validator.IsValidEmail(txt_email, errorProvider1))
+            //{
+            //    validated = false;
+            //}
+            //else if (txt_email.Text.Count(c => c == '@') != 1)
+            //{
+            //    errorProvider1.SetError(txt_email, "Email must contain exactly one '@' symbol.");
+            //    validated = false;
+            //}
+            //else if (!Validator.Pattern(
+            //       txt_email,
+            //       errorProvider1,
+            //       @"^[^@\s]+@[^@\s]+\.[^@\s]+$",
+            //       "Please enter a valid email address."))
+            //{
+            //    validated = false;
+            //}
+            //else if (!Validator.DisallowSpaces(txt_email, errorProvider1, "No Space Allowed"))
+            //{
+            //    validated = false;
+            //}
+            //else if (!Validator.IsStylistEmailExists(txt_email, errorProvider1, "Email already exists.", excludeId))
+            //{
+            //    validated = false;
+            //}
 
 
-            if (!Validator.IsAddressRequiredField(txt_address, errorProvider1, "Address is required."))
-            {
-                validated = false;
-            }
-            else if (!Validator.IsMinimumLength(txt_address, errorProvider1, "Address must be at least 10 characters.", 10))
-            {
-                validated = false;
-            }
-            else if (!Validator.MultiLinePattern(txt_address, errorProvider1, @"^[A-Za-z0-9\s.,#-]+$", "Address contains invalid characters."))
-            {
-                validated = false;
-            }
+
+            //if (!Validator.IsRequiredTextField(txt_contact, errorProvider1, "Contact number is required."))
+            //{
+            //    validated = false;
+            //}
+            //else if (txt_contact.Text.Length != 11)
+            //{
+            //    errorProvider1.SetError(txt_contact, "Contact number must be exactly 11 digits.");
+            //    validated = false;
+            //}
+            //else if (!txt_contact.Text.StartsWith("09"))
+            //{
+            //    errorProvider1.SetError(txt_contact, "Contact number should start with '09'.");
+            //    validated = false;
+            //}
+
+            //else if (!Validator.IsValidPhone(txt_contact, errorProvider1))
+            //{
+            //    validated = false;
+            //}
+            //else if (!Validator.IsStylistPhoneExists(txt_contact, errorProvider1, "Contact number already exists.", excludeId))
+            //{
+            //    validated = false;
+            //}
+
+
+            //if (!Validator.IsAddressRequiredField(txt_address, errorProvider1, "Address is required."))
+            //{
+            //    validated = false;
+            //}
+            //else if (!Validator.IsMinimumLength(txt_address, errorProvider1, "Address must be at least 10 characters.", 10))
+            //{
+            //    validated = false;
+            //}
+            //else if (!Validator.MultiLinePattern(txt_address, errorProvider1, @"^[A-Za-z0-9\s.,#-]+$", "Address contains invalid characters."))
+            //{
+            //    validated = false;
+            //}
 
 
         
 
          
-            if (birthDate > DateTime.Now.AddYears(-age))
-            {
-                age--;
-            }
+            //if (birthDate > DateTime.Now.AddYears(-age))
+            //{
+            //    age--;
+            //}
 
-            if (age < 18)
-            {
-                errorProvider1.SetError(dtp_day_of_birth, "Must be 18+ years old.");
-                validated = false;
-            }
-            else
-            {
-                errorProvider1.SetError(dtp_day_of_birth, "");
-            }
+            //if (age < 18)
+            //{
+            //    errorProvider1.SetError(dtp_day_of_birth, "Must be 18+ years old.");
+            //    validated = false;
+            //}
+            //else
+            //{
+            //    errorProvider1.SetError(dtp_day_of_birth, "");
+            //}
 
 
             return validated;
@@ -382,7 +455,7 @@ namespace Salon.View
 
         private void StylistForm_Load(object sender, EventArgs e)
         {
-
+            LoadSpecialists();
         }
 
         private void txt_first_name_KeyPress(object sender, KeyPressEventArgs e)

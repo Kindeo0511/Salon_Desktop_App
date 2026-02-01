@@ -33,9 +33,9 @@ namespace Salon.Controller
         {
             return _repo.GetStylistCost();
         }
-        public bool Add(StylistModel stylist)
+        public int Add(StylistModel stylist)
         {
-            return _repo.AddStylist(stylist) > 0;
+            return _repo.AddStylist(stylist);
         }
         public bool Update(StylistModel stylist)
         {

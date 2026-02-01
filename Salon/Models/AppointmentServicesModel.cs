@@ -11,16 +11,9 @@ namespace Salon.Models
         public int AppointmentServiceId { get; set; }
         public int AppointmentId { get; set; }
         public int ServiceId { get; set; }
-        public string ServiceName { get; set; }
-        public string SubCategoryname { get; set; }
-        public int Duration { get; set; }
-        public decimal Price { get; set; }
-        public int item_id { get; set; }
-        public string name { get; set; }
-        public decimal price { get; set; }
-        public decimal SellingPrice { get; set; }
-        public decimal VatAmount { get; set; }
-
-        public int bookings { get; set; }
+        public int? StylistId { get; set; }
+        public DateTime StartTime { get; set; }
+        public DateTime EndTime { get; set; }
+       
     }
 }

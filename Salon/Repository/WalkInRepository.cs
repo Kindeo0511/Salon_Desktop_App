@@ -25,7 +25,7 @@ namespace Salon.Repository
                             w.stylist_id,
                             CONCAT(s.firstName, ' ', s.middleName, ' ', s.lastName) AS StylistName,
                             w.date,
-                            w.start_time ,
+                            w.start_time,
                             w.end_time,
                             w.status,
                             w.payment_status	 
@@ -46,13 +46,17 @@ namespace Salon.Repository
             }
                
         }
-        public void AddWalkIn(WalkInModel walkIn)
+        public int AddWalkIn(WalkInModel walkIn)
         {
             using (var con = Database.GetConnection())
             {
-                var sql = @"INSERT INTO tbl_walk_in (name, stylist_id, serviceName_id, date, start_time, end_time, status, payment_status, cancel_request) 
-                          VALUES (@name, @stylist_id, @serviceName_id, @date, @start_time, @end_time, @status, @payment_status, @cancel_request)";
-                con.Execute(sql, walkIn);
+                var sql = @"INSERT INTO tbl_walk_in (name, serviceName_id, date, start_time, end_time, status, payment_status, cancel_request) 
+                          VALUES (@name, @serviceName_id, @date, @start_time, @end_time, @status, @payment_status, @cancel_request); 
+                            SELECT LAST_INSERT_ID();";
+     
+                int newId = con.QuerySingle<int>(sql, walkIn);
+                return newId;
+
             }
         }
         public void UpdateWalkIn(WalkInModel walkIn)
@@ -67,6 +71,11 @@ namespace Salon.Repository
             }
         }
         public void DeleteWalkIn(int id)
+        {
+            throw new NotImplementedException();
+        }
+
+        void IWalkIn.AddWalkIn(WalkInModel walkIn)
         {
             throw new NotImplementedException();
         }

@@ -32,10 +32,7 @@ namespace Salon.Controller
         {
             return repo.getAllCategoryByService();
         }
-        public IEnumerable<CategoryModel> getAllCategoryByProduct()
-        {
-            return repo.getAllCategoryByProduct();
-        }
+       
 
         public bool addCategory(CategoryModel category)
         {
@@ -72,9 +69,9 @@ namespace Salon.Controller
             return await repo.GetExistingCategoryAsync(category, type, excludeId);
         }
 
-        public CategoryModel GetCategoryAndType(string category, string type)
+        public CategoryModel GetCategoryAndType(string category)
         {
-            return repo.GetCategoryNameAndType(category, type);
+            return repo.GetCategoryNameAndType(category);
         }
 
     }

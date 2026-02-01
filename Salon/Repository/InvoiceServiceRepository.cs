@@ -75,8 +75,8 @@ namespace Salon.Repository
            using (var con = Database.GetConnection())
            {
                 var sql = @"
-                INSERT INTO tbl_invoice_service_cart (invoice_id, product_id,product_size_id, service_id,item_type, qty, unit_price, total_price, duration)
-                VALUES (@InvoiceId, @ProductId,@ProductSizeId, @ServiceId, @ItemType, @Quantity, @Price, @TotalPrice, @Duration);";
+                INSERT INTO tbl_invoice_service_cart (invoice_id, product_id,product_size_id, service_id,stylist_id,item_type, qty, unit_price, total_price, duration)
+                VALUES (@InvoiceId, @ProductId,@ProductSizeId, @ServiceId,@StylistId, @ItemType, @Quantity, @Price, @TotalPrice, @Duration);";
                 con.Execute(sql, model);
             }
         }

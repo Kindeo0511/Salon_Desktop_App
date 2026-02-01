@@ -43,23 +43,16 @@ namespace Salon.Repository
         {
             using (var con = Database.GetConnection())
             {
-                var sql = "SELECT * FROM tbl_category WHERE type = 'Service' AND is_deleted = 0";
+                var sql = "SELECT * FROM tbl_category WHERE is_deleted = 0";
                 return con.Query<CategoryModel>(sql).ToList();
             }
         }
-        public IEnumerable<CategoryModel> getAllCategoryByProduct()
-        {
-            using (var con = Database.GetConnection())
-            {
-                var sql = "SELECT * FROM tbl_category WHERE type = 'Product' AND is_deleted = 0";
-                return con.Query<CategoryModel>(sql).ToList();
-            }
-        }
+    
         public int addCategory(CategoryModel category)
         {
             using (var con = Database.GetConnection())
             {
-                var sql = "INSERT INTO tbl_category (categoryName, type) VALUES (@categoryName, @type)";
+                var sql = "INSERT INTO tbl_category (categoryName) VALUES (@categoryName)";
                 return con.Execute(sql, category);
             }
         }
@@ -67,7 +60,7 @@ namespace Salon.Repository
         {
             using (var con = Database.GetConnection())
             {
-                var sql = "UPDATE tbl_category SET categoryName = @categoryName, type = @type WHERE category_id = @category_id";
+                var sql = "UPDATE tbl_category SET categoryName = @categoryName WHERE category_id = @category_id";
                return con.Execute(sql, category);
             }
         }
@@ -121,12 +114,12 @@ namespace Salon.Repository
             }
         }
 
-        public CategoryModel GetCategoryNameAndType(string categoryName, string type)
+        public CategoryModel GetCategoryNameAndType(string categoryName)
         {
             using (var con = Database.GetConnection())
             {
-                var sql = @"SELECT * FROM tbl_category WHERE categoryName = @categoryName AND type = @type";
-                return con.QueryFirstOrDefault<CategoryModel>(sql, new { categoryName, type });
+                var sql = @"SELECT * FROM tbl_category WHERE categoryName = @categoryName";
+                return con.QueryFirstOrDefault<CategoryModel>(sql, new { categoryName });
             }
         }
 

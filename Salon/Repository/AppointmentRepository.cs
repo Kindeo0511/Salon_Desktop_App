@@ -24,7 +24,7 @@ namespace Salon.Repository
         a.appointment_id AS AppointmentId,
         a.customer_id AS CustomerId,
         CONCAT(c.firstName, ' ', c.middleName, ' ', c.lastName) AS CustomerName,
-        a.stylist_id AS StylistId,
+        isc.stylist_id AS StylistId,
         COALESCE(CONCAT(s.firstName, ' ', s.middleName, ' ', s.lastName), 'Stylist not assigned yet') AS StylistName,
          c.email As Email,
          c.phoneNumber AS PhoneNumber,
@@ -42,15 +42,17 @@ namespace Salon.Repository
         a.customer_type AS CustomerType
     FROM tbl_appointment a
     LEFT JOIN tbl_customer_account c ON a.customer_id = c.customer_id
-    LEFT JOIN tbl_stylists s ON a.stylist_id = s.stylist_id
     LEFT JOIN tbl_appointment_services aps ON a.appointment_id = aps.appointment_id
     LEFT JOIN tbl_servicesname sn ON a.serviceName_id = sn.serviceName_id
     LEFT JOIN tbl_service_product spd ON spd.service_id = sn.serviceName_id
     LEFT JOIN tbl_service_price spr ON spr.service_product_id = spd.service_product_id
+    LEFT JOIN tbl_invoice i ON i.appointment_id = a.appointment_id
+    LEFT JOIN tbl_invoice_service_cart isc ON isc.invoice_id = i.invoice_id
+    LEFT JOIN tbl_stylists s ON s.stylist_id = isc.stylist_id
     GROUP BY 
         a.appointment_id,
         a.customer_id,
-        a.stylist_id,
+        isc.stylist_id,
         a.Date,
         a.start_time,
         a.end_time,
@@ -61,7 +63,7 @@ namespace Salon.Repository
                 a.appointment_id AS AppointmentId,
                 a.customer_id AS CustomerId,
                 CONCAT(c.firstName, ' ', c.middleName, ' ', c.lastName) AS CustomerName,
-                a.stylist_id AS StylistId,
+                isc.stylist_id AS StylistId,
                 COALESCE(CONCAT(s.firstName, ' ', s.middleName, ' ', s.lastName), 'Stylist not assigned yet') AS StylistName,
                  c.email As Email,
                  c.phoneNumber AS PhoneNumber,
@@ -79,16 +81,18 @@ namespace Salon.Repository
                 a.customer_type AS CustomerType
             FROM tbl_appointment a
             LEFT JOIN tbl_customer_account c ON a.customer_id = c.customer_id
-            LEFT JOIN tbl_stylists s ON a.stylist_id = s.stylist_id
             LEFT JOIN tbl_appointment_services aps ON a.appointment_id = aps.appointment_id
             LEFT JOIN tbl_servicesname sn ON a.serviceName_id = sn.serviceName_id
             LEFT JOIN tbl_service_product spd ON spd.service_id = sn.serviceName_id
             LEFT JOIN tbl_service_price spr ON spr.service_product_id = spd.service_product_id
+            LEFT JOIN tbl_invoice i ON i.appointment_id = a.appointment_id
+            LEFT JOIN tbl_invoice_service_cart isc ON isc.invoice_id = i.invoice_id
+            LEFT JOIN tbl_stylists s ON s.stylist_id = isc.stylist_id
             WHERE a.Status = @status
           GROUP BY 
                 a.appointment_id,
                 a.customer_id,
-                a.stylist_id,
+                isc.stylist_id,
                 a.Date,
                 a.start_time,
                 a.end_time,
@@ -112,7 +116,7 @@ namespace Salon.Repository
         a.appointment_id AS AppointmentId,
         a.customer_id AS CustomerId,
         CONCAT(c.firstName, ' ', c.middleName, ' ', c.lastName) AS CustomerName,
-        a.stylist_id AS StylistId,
+        isc.stylist_id AS StylistId,
         COALESCE(CONCAT(s.firstName, ' ', s.middleName, ' ', s.lastName), 'Stylist not assigned yet') AS StylistName,
          c.email As Email,
          c.phoneNumber AS PhoneNumber,
@@ -130,15 +134,17 @@ namespace Salon.Repository
         a.customer_type AS CustomerType
     FROM tbl_appointment a
     LEFT JOIN tbl_customer_account c ON a.customer_id = c.customer_id
-    LEFT JOIN tbl_stylists s ON a.stylist_id = s.stylist_id
     LEFT JOIN tbl_appointment_services aps ON a.appointment_id = aps.appointment_id
     LEFT JOIN tbl_servicesname sn ON a.serviceName_id = sn.serviceName_id
     LEFT JOIN tbl_service_product spd ON spd.service_id = sn.serviceName_id
     LEFT JOIN tbl_service_price spr ON spr.service_product_id = spd.service_product_id
+    LEFT JOIN tbl_invoice i ON i.appointment_id = a.appointment_id
+    LEFT JOIN tbl_invoice_service_cart isc ON isc.invoice_id = i.invoice_id
+    LEFT JOIN tbl_stylists s ON s.stylist_id = isc.stylist_id
     GROUP BY 
         a.appointment_id,
         a.customer_id,
-        a.stylist_id,
+        isc.stylist_id,
         a.Date,
         a.start_time,
         a.end_time,
@@ -151,7 +157,7 @@ namespace Salon.Repository
                 a.appointment_id AS AppointmentId,
                 a.customer_id AS CustomerId,
                 CONCAT(c.firstName, ' ', c.middleName, ' ', c.lastName) AS CustomerName,
-                a.stylist_id AS StylistId,
+                isc.stylist_id AS StylistId,
                 COALESCE(CONCAT(s.firstName, ' ', s.middleName, ' ', s.lastName), 'Stylist not assigned yet') AS StylistName,
                  c.email As Email,
                  c.phoneNumber AS PhoneNumber,
@@ -168,16 +174,18 @@ namespace Salon.Repository
                 a.Payment_status AS PaymentStatus
             FROM tbl_appointment a
             LEFT JOIN tbl_customer_account c ON a.customer_id = c.customer_id
-            LEFT JOIN tbl_stylists s ON a.stylist_id = s.stylist_id
             LEFT JOIN tbl_appointment_services aps ON a.appointment_id = aps.appointment_id
             LEFT JOIN tbl_servicesname sn ON a.serviceName_id = sn.serviceName_id
             LEFT JOIN tbl_service_product spd ON spd.service_id = sn.serviceName_id
             LEFT JOIN tbl_service_price spr ON spr.service_product_id = spd.service_product_id
+            LEFT JOIN tbl_invoice i ON i.appointment_id = a.appointment_id
+            LEFT JOIN tbl_invoice_service_cart isc ON isc.invoice_id = i.invoice_id
+            LEFT JOIN tbl_stylists s ON s.stylist_id = isc.stylist_id
             WHERE a.Status = @status
           GROUP BY 
                 a.appointment_id,
                 a.customer_id,
-                a.stylist_id,
+                isc.stylist_id,
                 a.Date,
                 a.start_time,
                 a.end_time,
@@ -204,7 +212,7 @@ namespace Salon.Repository
     a.appointment_id AS AppointmentId,
     a.customer_id AS CustomerId,
     CONCAT(c.firstName, ' ', c.middleName, ' ', c.lastName) AS CustomerName,
-    a.stylist_id AS StylistId,
+    isc.stylist_id AS StylistId,
     COALESCE(CONCAT(s.firstName, ' ', s.middleName, ' ', s.lastName), 'Stylist not assigned yet') AS StylistName,
     sn.subCategory_id AS SubCategoryId,
      sn.servicename_id As ServiceId,
@@ -390,9 +398,9 @@ GROUP BY a.appointment_id;";
             {
                 var sql = @"
             INSERT INTO tbl_appointment 
-                (customer_id, stylist_id, Date, start_time, end_time, Status, payment_status,customer_type)
+                (customer_id, Date, start_time, end_time, Status, payment_status,customer_type)
             VALUES 
-                (@CustomerId, @StylistId, @AppointmentDate, @StartTime, @EndTime, @Status, @PaymentStatus, @CustomerType);
+                (@CustomerId, @AppointmentDate, @StartTime, @EndTime, @Status, @PaymentStatus, @CustomerType);
             SELECT LAST_INSERT_ID();
         ";
 
@@ -407,9 +415,9 @@ GROUP BY a.appointment_id;";
             {
                 var sql = @"
             INSERT INTO tbl_appointment 
-                (stylist_id, Date, start_time, end_time, Status, payment_status,customer_type)
+                ( Date, start_time, end_time, Status, payment_status,customer_type)
             VALUES 
-                (@StylistId, @AppointmentDate, @StartTime, @EndTime, @Status, @PaymentStatus, @CustomerType);
+                ( @AppointmentDate, @StartTime, @EndTime, @Status, @PaymentStatus, @CustomerType);
             SELECT LAST_INSERT_ID();
         ";
 

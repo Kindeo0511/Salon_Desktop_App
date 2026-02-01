@@ -17,8 +17,8 @@ namespace Salon.Repository
             using (var con = Database.GetConnection()) 
             {
                 con.Execute(@"
-                INSERT INTO tbl_appointment_services (appointment_id, serviceName_id)
-                VALUES (@AppointmentId, @ServiceId);", appointmentServices);
+                INSERT INTO tbl_appointment_services (appointment_id, serviceName_id, stylist_id, start_time, end_time)
+                VALUES (@AppointmentId, @ServiceId,@StylistId, @StartTime, @EndTime);", appointmentServices);
             }
                 
         }

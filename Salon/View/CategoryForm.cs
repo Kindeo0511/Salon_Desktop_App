@@ -44,8 +44,7 @@ namespace Salon.View
             {
 
                 txt_category_name.Text = category.categoryName;
-                cmb_category_type.Text = category.type;
-
+               
                 btn_save.Visible = false;
                 btn_update.Visible = true;
             }
@@ -65,11 +64,7 @@ namespace Salon.View
             string categoryName = txt_category_name.Text.Trim();
 
             validated &= Validator.ValidateCategoryName(categoryName, txt_category_name, errorProvider1);
-            validated &= Validator.ValidateCategoryType(cmb_category_type, errorProvider1);
-            if (!Validator.IsCategoryExists(txt_category_name, errorProvider1, "Category already exists.", cmb_category_type.Text, excludeId))
-            {
-                validated = false;
-            }
+         
             //var existing = await GetExistingCategory(categoryName, cmb_category_type.Text, excludeId);
 
             //if (existing != null)
@@ -110,7 +105,7 @@ namespace Salon.View
             var newCategory = new CategoryModel
             {
                 categoryName = txt_category_name.Text,
-                type = cmb_category_type.Text
+      
             };
            return controller.addCategory(newCategory);
 
@@ -121,7 +116,6 @@ namespace Salon.View
             var controller = new CategoryController(repo);
 
             category.categoryName = txt_category_name.Text;
-            category.type = cmb_category_type.Text;
            return controller.updateCategory(category);
 
         }
@@ -129,7 +123,7 @@ namespace Salon.View
         {
             var repo = new CategoryRepository();
             var controller = new CategoryController(repo);
-            var existingCategory = controller.GetCategoryAndType(txt_category_name.Text.Trim(), cmb_category_type.Text.Trim());
+            var existingCategory = controller.GetCategoryAndType(txt_category_name.Text.Trim());
 
             if (existingCategory != null)
             {

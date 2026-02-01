@@ -24,9 +24,9 @@ namespace Salon.Controller
         {
             return repo.GetWalkIn();
         }
-        public void AddWalkIn(WalkInModel walkIn)
+        public int AddWalkIn(WalkInModel walkIn)
         {
-            repo.AddWalkIn(walkIn);
+            return repo.AddWalkIn(walkIn);
         }
         public void UpdateWalkIn(WalkInModel walkIn)
         {

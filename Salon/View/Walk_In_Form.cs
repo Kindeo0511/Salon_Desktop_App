@@ -12,6 +12,7 @@ using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Web.UI.WebControls;
 using System.Windows.Forms;
 using System.Windows.Ink;
 using static System.Windows.Forms.VisualStyles.VisualStyleElement.ListView;
@@ -23,6 +24,7 @@ namespace Salon.View
         private int totalDuration = 0;
         private MainForm _mainForm;
         private WalkInModel _model;
+        private AppointmentModel appointmentModel;
         public Walk_In_Form(MainForm mainForm)
         {
             InitializeComponent();
@@ -37,7 +39,7 @@ namespace Salon.View
             LoadStylist();
 
            
-             LoadWalkInCode();
+           
 
 
         }
@@ -57,7 +59,7 @@ namespace Salon.View
 
 
             LoadWalkInCode();
-            LoadTimeSlots();
+           
 
             LoadSelectedData(_model);
         }
@@ -69,9 +71,7 @@ namespace Salon.View
             cmb_services.SelectedValue = model.serviceName_id;
             cmb_subcategory.SelectedValue = model.subCategoryId > 0 ? model.subCategoryId : 0;
             cmb_stylist.SelectedValue = model.stylist_id;
-            dtp_date.Value = model.date;
-
-            LoadTimeSlots(model.start_time != null ? model.date + model.start_time : (DateTime?)null);
+          
 
             btn_save.Visible = false;
             btn_update.Visible = true;
@@ -79,89 +79,6 @@ namespace Salon.View
 
         }
 
-        private void LoadTimeSlots()
-        {
-
-            time_slot_panel.Controls.Clear();
-            for (int hour = 9; hour <= 21; hour++)
-            {
-                MaterialButton button = new MaterialButton();
-                DateTime time = new DateTime(1, 1, 1, hour, 0, 0);
-                string formattedTime = time.ToString("hh:mm tt"); // 12-hour format with AM/PM
-                button.AutoSize = true;
-                button.Text = formattedTime;
-                button.Click += (sender, e) =>
-                {
-                    // Reset all buttons back to default
-                    foreach (Control ctrl in time_slot_panel.Controls)
-                    {
-                        if (ctrl is MaterialButton btn)
-                        {
-                            btn.UseAccentColor = false; // reset
-                        }
-                    }
-
-                    // Highlight the selected one
-                    var clickedButton = sender as MaterialButton;
-                    if (clickedButton != null)
-                    {
-                        clickedButton.UseAccentColor = true;
-
-                        // Store the actual DateTime value from THIS button
-                        selectedTime = DateTime.Parse(clickedButton.Text);
-                    }
-                };
-
-                time_slot_panel.Controls.Add(button);
-
-            }
-
-        }
-        private void LoadTimeSlots(DateTime? previousSelectedTime = null)
-        {
-            time_slot_panel.Controls.Clear();
-
-            for (int hour = 9; hour <= 21; hour++)
-            {
-                MaterialButton button = new MaterialButton();
-                DateTime time = new DateTime(1, 1, 1, hour, 0, 0);
-                string formattedTime = time.ToString("hh:mm tt"); // 12-hour format with AM/PM
-                button.AutoSize = true;
-                button.Text = formattedTime;
-
-                // If this button matches the previously selected time, highlight it
-                if (previousSelectedTime.HasValue &&
-                    time.ToString("hh:mm tt") == previousSelectedTime.Value.ToString("hh:mm tt"))
-                {
-                    button.UseAccentColor = true;
-                    selectedTime = previousSelectedTime.Value; // keep it in sync
-                }
-
-                button.Click += (sender, e) =>
-                {
-                    // Reset all buttons back to default
-                    foreach (Control ctrl in time_slot_panel.Controls)
-                    {
-                        if (ctrl is MaterialButton btn)
-                        {
-                            btn.UseAccentColor = false; // reset
-                        }
-                    }
-
-                    // Highlight the selected one
-                    var clickedButton = sender as MaterialButton;
-                    if (clickedButton != null)
-                    {
-                        clickedButton.UseAccentColor = true;
-
-                        // Store the actual DateTime value from THIS button
-                        selectedTime = DateTime.Parse(clickedButton.Text);
-                    }
-                };
-
-                time_slot_panel.Controls.Add(button);
-            }
-        }
         private void LoadWalkInCode() 
         {
             var repo = new WalkInRepository();
@@ -234,14 +151,7 @@ namespace Salon.View
 
         private void cmb_stylist_SelectedIndexChanged(object sender, EventArgs e)
         {
-            if (cmb_stylist.Text.Length > 0)
-            {
-                LoadTimeSlots();
-            }
-            else
-            {
-                time_slot_panel.Controls.Clear();
-            }
+           
         }
         private void Clear() 
         {
@@ -250,28 +160,121 @@ namespace Salon.View
             txt_price.Text = string.Empty;
             cmb_subcategory.SelectedIndex = -1;
             cmb_stylist.SelectedIndex = -1;
-            time_slot_panel.Controls.Clear();
+           
             LoadWalkInCode();
         }
 
         private void SaveWalkIn() 
         {
-            var repo = new WalkInRepository();
-            var controller = new Walk_In_Controller(repo);
-    
 
-            var model = new WalkInModel()
+            var repo = new AppointmentRepository();
+            var appointmentController = new AppointmentController(repo);
+
+            var service_repo = new AppointmentServiceRepository();
+            var service_controller = new AppointmentServiceController(service_repo);
+
+          
+
+            if (rad_guest.Checked)
             {
-                name = lbl_prefix.Text,
-                stylist_id = Convert.ToInt32(cmb_stylist.SelectedValue),
-                serviceName_id = Convert.ToInt32(cmb_services.SelectedValue),
-                date = dtp_date.Value.Date,
-                start_time = selectedTime.TimeOfDay,
-                end_time = selectedTime.TimeOfDay.Add(TimeSpan.FromMinutes(totalDuration)),
-                status = "Scheduled",
-                payment_status = "Unpaid",
+
+                appointmentModel = new AppointmentModel
+                {
+                    CustomerName = lbl_prefix.Text,
+                    AppointmentDate = DateTime.Now,
+                    StartTime = DateTime.Now,
+                    EndTime = DateTime.Now.Add(TimeSpan.FromMinutes(totalDuration)),
+                    Status = "Scheduled",
+                    CustomerType = "Guest",
+                    PaymentStatus = "Unpaid",
+                };
+            }
+            else
+            {
+                //appointmentModel = new AppointmentModel
+                //{
+                //    CustomerId = Convert.ToInt32(lbl_ID.Text),
+                //    CustomerName = txt_FullName.Text,
+                //    //StylistId = Convert.ToInt32(cmb_stylist.SelectedValue),
+                //    StylistName = cmb_stylist.Text,
+                //    AppointmentDate = cmb_Date.Value,
+                //    StartTime = cmb_Date.Value + selectedTime.TimeOfDay,
+                //    EndDuration = cmb_Date.Value + selectedTime.TimeOfDay,
+                //    EndTime = cmb_Date.Value + selectedTime.TimeOfDay.Add(TimeSpan.FromMinutes(totalDuration)),
+                //    Status = "Scheduled",
+                //    CustomerType = "Member",
+                //    PaymentStatus = "Unpaid",
+                //};
+            }
+            int appointment_id = appointmentModel.CustomerType == "Member"
+            ? appointmentController.CreateAppointment(appointmentModel)
+            : appointmentController.CreateWalkInAppointment(appointmentModel);
+
+            var invoiceModel = new InvoiceModel
+            {
+                AppointmentID = appointment_id,
+                InvoiceNumber = GenerateInvoiceNumber(),
+                TotalAmount = 0,
+                VATAmount = 0,
+                DiscountAmount = 0,
+                Timestamp = null,
+                CustomerID =null,
             };
-            controller.AddWalkIn(model);
+
+            int invoice_id = SaveInvoice(invoiceModel);
+
+            foreach (DataGridViewRow row in dgv_service_selected.Rows) 
+            {
+                if (row.IsNewRow) continue;
+                int? stylist_id = null;
+                int service_id = Convert.ToInt32(row.Cells["col_service_id"].Value);
+                if (row.Cells["col_stylist_id"].Value != null && int.TryParse(row.Cells["col_stylist_id"].Value.ToString(), out int parsed)) { stylist_id = parsed; }
+                int duration = 0;
+                var rawValue = row.Cells["col_duration"].Value?.ToString();
+
+                if (!string.IsNullOrWhiteSpace(rawValue))
+                {
+                    // If the cell contains "45 mins", strip non-numeric characters
+                    string digitsOnly = new string(rawValue.Where(char.IsDigit).ToArray());
+
+                    if (int.TryParse(digitsOnly, out int parse))
+                    {
+                        duration = parse;
+                    }
+                }
+
+                decimal price = Convert.ToDecimal(row.Cells["col_price"].Value.ToString());
+                var invoiceServiceCart = new ServiceCart
+                {
+                    InvoiceId = invoice_id,
+                    ServiceId = service_id,
+                    StylistId = stylist_id,
+                    ItemType = "Service",
+                    Quantity = 1,
+                    Price = price,
+                    Duration = duration
+                };
+                var start_time = DateTime.Now;
+                var endTimeDuration = DateTime.Now.Add(TimeSpan.FromMinutes(duration));
+                service_controller.AddServicesToAppointment(appointment_id, service_id, stylist_id, start_time, endTimeDuration);
+                SaveInvoiceServices(invoiceServiceCart);
+            }
+
+        }
+        private int SaveInvoice(InvoiceModel model)
+        {
+            var repo = new InvoiceRepository();
+            var invoiceController = new InvoiceController(repo);
+            var invoice_id = invoiceController.AddInvoice(model);
+
+            return invoice_id;
+        }
+        private void SaveInvoiceServices(ServiceCart cart)
+        {
+            var repo = new InvoiceServiceRepository();
+            var serviceController = new InvoiceServiceCartController(repo);
+            serviceController.AddServiceToInvoiceCart(cart);
+
         }
         private void UpdateWalkIn() 
         {
@@ -285,9 +288,9 @@ namespace Salon.View
                 name = lbl_prefix.Text,
                 stylist_id = Convert.ToInt32(cmb_stylist.SelectedValue),
                 serviceName_id = Convert.ToInt32(cmb_services.SelectedValue),
-                date = dtp_date.Value.Date,
-                start_time = selectedTime.TimeOfDay,
-                end_time = selectedTime.TimeOfDay.Add(TimeSpan.FromMinutes(totalDuration)),
+                date = DateTime.Now,
+                start_time = DateTime.Now.TimeOfDay,
+                end_time = DateTime.Now.TimeOfDay.Add(TimeSpan.FromMinutes(totalDuration)),
                 status = "Scheduled",
                 payment_status = "Unpaid",
             };
@@ -310,7 +313,7 @@ namespace Salon.View
                 
                 totalDuration = selectedService.duration;
                 txt_duration.Text = selectedService.duration.ToString() + " mins";
-                txt_price.Text = selectedService.servicePrice.ToString("C2");
+                txt_price.Text = selectedService.servicePrice.ToString();
 
             }
         }
@@ -351,6 +354,43 @@ namespace Salon.View
             MessageBox.Show("Walk-In appointment updated successfully!", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
             _mainForm.LoadWalkIn();
             this.Close();
+
+        }
+
+    
+
+        private void btn_add_service_Click_1(object sender, EventArgs e)
+        {
+            dgv_service_selected.Rows.Add(
+            cmb_services.SelectedValue,
+            cmb_services.Text,
+            cmb_stylist.SelectedValue,
+            cmb_stylist.Text,
+            txt_duration.Text,
+            txt_price.Text
+            );
+
+
+
+
+        }
+        private string GenerateInvoiceNumber()
+        {
+            string prefix = "INV";
+            string datePart = DateTime.Now.ToString("yyyyMMdd-HHmm");
+            return $"{prefix}-{datePart}";
+        }
+        private void rad_guest_CheckedChanged(object sender, EventArgs e)
+        {
+            if (rad_guest.Checked)
+            {
+                LoadWalkInCode();
+
+            }
+        }
+
+        private void rad_exists_CheckedChanged(object sender, EventArgs e)
+        {
 
         }
     }

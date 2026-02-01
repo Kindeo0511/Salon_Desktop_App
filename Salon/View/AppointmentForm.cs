@@ -61,7 +61,21 @@ namespace Salon.View
 
 
      
-            LoadStylist();
+            //LoadStylist();
+        }
+        public void LoadStylistForRow(int index) 
+        {
+            var repo = new StylistRepository();
+            var controller = new StylistController(repo);
+            var stylist = controller.GetAll();
+
+            DataGridViewComboBoxCell stylist_cell = (DataGridViewComboBoxCell)dgv_available_services.Rows[index].Cells["col_cmb_stylist"];
+
+            stylist_cell.DataSource = stylist;
+            stylist_cell.DisplayMember = "FullName";
+            stylist_cell.ValueMember = "stylist_id";
+            stylist_cell.Value = null;
+
         }
         public AppointmentForm(MainForm mainForm, AppointmentModel model, bool isUpdate)
         {
@@ -107,7 +121,7 @@ namespace Salon.View
  
             LoadCart(invoice_id);
 
-            LoadStylist();
+            //LoadStylist();
 
 
             cmb_stylist.SelectedValue = model.StylistId;
@@ -733,11 +747,11 @@ namespace Salon.View
                 model = new AppointmentModel
                 {
                     CustomerName = txt_FullName.Text,
-                    StylistId = Convert.ToInt32(cmb_stylist.SelectedValue),
+                    //StylistId = Convert.ToInt32(cmb_stylist.SelectedValue),
                     StylistName = cmb_stylist.Text,
                     AppointmentDate = cmb_Date.Value,
-                    StartTime = selectedTime,
-                    EndTime = selectedTime.Add(TimeSpan.FromMinutes(totalDuration)),
+                    StartTime = DateTime.Now,
+                    EndTime = DateTime.Now.Add(TimeSpan.FromMinutes(totalDuration)),
                     Status = "Scheduled",
                     CustomerType = "Guest",
                     PaymentStatus = "Unpaid",
@@ -749,10 +763,11 @@ namespace Salon.View
                 {
                     CustomerId = Convert.ToInt32(lbl_ID.Text),
                     CustomerName = txt_FullName.Text,
-                    StylistId = Convert.ToInt32(cmb_stylist.SelectedValue),
+                    //StylistId = Convert.ToInt32(cmb_stylist.SelectedValue),
                     StylistName = cmb_stylist.Text,
                     AppointmentDate = cmb_Date.Value,
                     StartTime = cmb_Date.Value + selectedTime.TimeOfDay,
+                    EndDuration = cmb_Date.Value + selectedTime.TimeOfDay,
                     EndTime = cmb_Date.Value + selectedTime.TimeOfDay.Add(TimeSpan.FromMinutes(totalDuration)),
                     Status = "Scheduled",
                     CustomerType = "Member",
@@ -854,6 +869,8 @@ namespace Salon.View
                 MessageBox.Show("This service is already in the cart.");
                 return;
             }
+
+
             var model = new ServiceCart
             {
                 ServiceId = service.serviceName_id,
@@ -907,10 +924,24 @@ namespace Salon.View
         {
             if(e.RowIndex < 0) return;
 
+            if (dgv_available_services.Columns[e.ColumnIndex].Name == "col_cmb_stylist")
+            {
+            //    if (dgv_available_services.Rows[e.RowIndex]
+            //.Cells["col_service_id"].Value == null)
+            //        return;
+
+            //    int serviceId = Convert.ToInt32(
+            //        dgv_available_services.Rows[e.RowIndex]
+            //        .Cells["col_service_id"].Value
+            //    );
+                LoadStylistForRow(e.RowIndex);
+            }
+
             if (e.RowIndex >= 0 && dgv_available_services.Columns[e.ColumnIndex].Name == "col_remove") 
             {
                selectedServices.RemoveAt(e.RowIndex);
             }
+
         }
 
         private void dgv_available_services_CellContentClick(object sender, DataGridViewCellEventArgs e)
@@ -928,6 +959,21 @@ namespace Salon.View
 
         private void dgv_available_services_CellValueChanged(object sender, DataGridViewCellEventArgs e)
         {
+            if (e.RowIndex < 0) return;
+
+
+            if (dgv_available_services.Columns[e.ColumnIndex].Name == "col_cmb_stylist")
+            {
+                int stylistId = Convert.ToInt32(dgv_available_services.Rows[e.RowIndex].Cells[e.ColumnIndex].Value);
+                string stylistName = dgv_available_services.Rows[e.RowIndex].Cells[e.ColumnIndex].FormattedValue.ToString();
+
+                selectedServices[e.RowIndex].StylistId = stylistId;
+ 
+
+                // Update available time slots for this stylist
+                LoadTimeSlots(stylistId);
+            }
+
             if (dgv_available_services.Columns[e.ColumnIndex].Name == "col_qty") 
             {
                 var row = dgv_available_services.Rows[e.RowIndex];
@@ -954,6 +1000,16 @@ namespace Salon.View
         private void AppointmentForm_Shown(object sender, EventArgs e)
         {
             materialCard1.AutoScrollPosition = new Point(0, 0);
+        }
+
+        private void dgv_available_services_DataError(object sender, DataGridViewDataErrorEventArgs e)
+        {
+            e.ThrowException = false;
+        }
+
+        private void materialLabel5_Click(object sender, EventArgs e)
+        {
+
         }
 
 

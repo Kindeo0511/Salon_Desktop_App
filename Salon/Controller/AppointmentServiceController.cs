@@ -17,12 +17,15 @@ namespace Salon.Controller
         }
 
 
-        public void AddServicesToAppointment(int appointmentId, int serviceId)
+        public void AddServicesToAppointment(int appointmentId, int serviceId,int? stylistId, DateTime startTime, DateTime endTime)
         {
             var appointmentService = new Models.AppointmentServicesModel
             {
                 AppointmentId = appointmentId,
-                ServiceId = serviceId
+                ServiceId = serviceId,
+                StylistId = stylistId,
+                StartTime = startTime,
+                EndTime = endTime,
             };
             repo.AddAppointmentService(appointmentService);
         }

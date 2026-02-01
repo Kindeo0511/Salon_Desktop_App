@@ -412,7 +412,7 @@ namespace Salon.View
 
 
             }
-            HideTab(materialTabControl1, walk_in_Tab);
+            //HideTab(materialTabControl1, walk_in_Tab);
         }
         private void HideTab(MaterialTabControl tabControl, TabPage tabPage)
         {
@@ -563,42 +563,42 @@ namespace Salon.View
         }
         public async Task RefreshPopularServices()
         {
-            var repo = new AppointmentServiceRepository();
-            var controller = new AppointmentServiceController(repo);
+            //var repo = new AppointmentServiceRepository();
+            //var controller = new AppointmentServiceController(repo);
 
-            foreach (var service in await controller.GetPopulatServicesAsync())
-            {
-                chart_popular_services.Series.Add(new PieSeries
-                {
-                    Title = service.ServiceName,
-                    Values = new ChartValues<int> { service.bookings },
-                    DataLabels = true,
-                    LabelPoint = chartPoint => $"{chartPoint.Y} ({chartPoint.Participation:P})"
+            //foreach (var service in await controller.GetPopulatServicesAsync())
+            //{
+            //    chart_popular_services.Series.Add(new PieSeries
+            //    {
+            //        Title = service.ServiceName,
+            //        Values = new ChartValues<int> { service.bookings },
+            //        DataLabels = true,
+            //        LabelPoint = chartPoint => $"{chartPoint.Y} ({chartPoint.Participation:P})"
 
-                });
+            //    });
 
-            }
-            chart_popular_services.LegendLocation = LegendLocation.Top;
+            //}
+            //chart_popular_services.LegendLocation = LegendLocation.Top;
         }
 
         public void LoadPopularServices()
         {
             var repo = new AppointmentServiceRepository();
-            var controller = new AppointmentServiceController(repo);
+            //var controller = new AppointmentServiceController(repo);
 
-            foreach (var service in controller.GetPopularServices())
-            {
-                chart_popular_services.Series.Add(new PieSeries
-                {
-                    Title = service.ServiceName,
-                    Values = new ChartValues<int> { service.bookings },
-                    DataLabels = true,
-                    LabelPoint = chartPoint => $"{chartPoint.Y} ({chartPoint.Participation:P})"
+            //foreach (var service in controller.GetPopularServices())
+            //{
+            //    chart_popular_services.Series.Add(new PieSeries
+            //    {
+            //        Title = service.ServiceName,
+            //        Values = new ChartValues<int> { service.bookings },
+            //        DataLabels = true,
+            //        LabelPoint = chartPoint => $"{chartPoint.Y} ({chartPoint.Participation:P})"
 
-                });
+            //    });
 
-            }
-            chart_popular_services.LegendLocation = LegendLocation.Top;
+            //}
+            //chart_popular_services.LegendLocation = LegendLocation.Top;
         }
         // END OF DASHBOARD
         private async void LoadTotalUser()
@@ -1070,7 +1070,6 @@ namespace Salon.View
             dgv_category.AutoGenerateColumns = false;
             col_category_id.DataPropertyName = "category_id";
             col_category_name.DataPropertyName = "categoryName";
-            col_category_type.DataPropertyName = "type";
             dgv_category.DataSource = categories;
         }
         public void LoadCategory()
@@ -1082,7 +1081,6 @@ namespace Salon.View
             dgv_category.AutoGenerateColumns = false;
             col_category_id.DataPropertyName = "category_id";
             col_category_name.DataPropertyName = "categoryName";
-            col_category_type.DataPropertyName = "type";
             dgv_category.DataSource = categories;
         }
 
@@ -2101,48 +2099,48 @@ namespace Salon.View
         public void LoadAppointments()
         {
             var repo = new AppointmentRepository();
-            var controller = new AppointmentController(repo);
-            var appointments = controller.GetAllShowAppointments(cmb_appointment_status.Text);
-            dgv_appointment.AutoGenerateColumns = false;
-            dgv_table_summary.AutoGenerateColumns = false;
+            //var controller = new AppointmentController(repo);
+            //var appointments = controller.GetAllShowAppointments(cmb_appointment_status.Text);
+            //dgv_appointment.AutoGenerateColumns = false;
+            //dgv_table_summary.AutoGenerateColumns = false;
 
-            appointment_id.DataPropertyName = "AppointmentId";
-            customer_id.DataPropertyName = "CustomerId";
-            customerName.DataPropertyName = "DisplayCustomerName";
-            col_app_subcat_id.DataPropertyName = "SubCategoryId";
-            col_appointment_selling_price.DataPropertyName = "selling_price";
-            col_appointment_vat_amount.DataPropertyName = "vat_amount";
-            col_appointment_email.DataPropertyName = "Email";
-            col_appointment_number.DataPropertyName = "PhoneNumber";
-            stylist_id.DataPropertyName = "StylistId";
-            stylistName.DataPropertyName = "StylistName";
-            date.DataPropertyName = "AppointmentDate";
-            startTime.DataPropertyName = "StartTime";
-            endTime.DataPropertyName = "EndTime";
-            status.DataPropertyName = "Status";
-            paymentStatus.DataPropertyName = "PaymentStatus";
-            col_book_type.DataPropertyName = "CustomerType";
+            //appointment_id.DataPropertyName = "AppointmentId";
+            //customer_id.DataPropertyName = "CustomerId";
+            //customerName.DataPropertyName = "DisplayCustomerName";
+            //col_app_subcat_id.DataPropertyName = "SubCategoryId";
+            //col_appointment_selling_price.DataPropertyName = "selling_price";
+            //col_appointment_vat_amount.DataPropertyName = "vat_amount";
+            //col_appointment_email.DataPropertyName = "Email";
+            //col_appointment_number.DataPropertyName = "PhoneNumber";
+            //stylist_id.DataPropertyName = "StylistId";
+            //stylistName.DataPropertyName = "StylistName";
+            //date.DataPropertyName = "AppointmentDate";
+            //startTime.DataPropertyName = "StartTime";
+            //endTime.DataPropertyName = "EndTime";
+            //status.DataPropertyName = "Status";
+            //paymentStatus.DataPropertyName = "PaymentStatus";
+            //col_book_type.DataPropertyName = "CustomerType";
 
-            dgv_appointment.DataSource = appointments;
+            //dgv_appointment.DataSource = appointments;
 
 
 
-            // DASHBOARD
-            col_db_app_id.DataPropertyName = "AppointmentId";
-            col_db_customer_id.DataPropertyName = "CustomerId";
-            col_db_customer_name.DataPropertyName = "DisplayCustomerName";
-            col_appointment_email.DataPropertyName = "Email";
-            col_appointment_number.DataPropertyName = "PhoneNumber";
-            col_db_stylist_id.DataPropertyName = "StylistId";
-            col_db_stylist_name.DataPropertyName = "StylistName";
-            col_db_date.DataPropertyName = "AppointmentDate";
-            col_db_start_time.DataPropertyName = "StartTime";
-            col_db_end_time.DataPropertyName = "EndTime";
-            col_db_status.DataPropertyName = "Status";
-            col_db_payment_status.DataPropertyName = "PaymentStatus";
-            col_db_booking_type.DataPropertyName = "CustomerType";
+            //// DASHBOARD
+            //col_db_app_id.DataPropertyName = "AppointmentId";
+            //col_db_customer_id.DataPropertyName = "CustomerId";
+            //col_db_customer_name.DataPropertyName = "DisplayCustomerName";
+            //col_appointment_email.DataPropertyName = "Email";
+            //col_appointment_number.DataPropertyName = "PhoneNumber";
+            //col_db_stylist_id.DataPropertyName = "StylistId";
+            //col_db_stylist_name.DataPropertyName = "StylistName";
+            //col_db_date.DataPropertyName = "AppointmentDate";
+            //col_db_start_time.DataPropertyName = "StartTime";
+            //col_db_end_time.DataPropertyName = "EndTime";
+            //col_db_status.DataPropertyName = "Status";
+            //col_db_payment_status.DataPropertyName = "PaymentStatus";
+            //col_db_booking_type.DataPropertyName = "CustomerType";
 
-            dgv_table_summary.DataSource = appointments;
+            //dgv_table_summary.DataSource = appointments;
         }
 
         private void btn_add_appointment_Click(object sender, EventArgs e)

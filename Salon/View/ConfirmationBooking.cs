@@ -1,4 +1,5 @@
-﻿using MaterialSkin.Controls;
+﻿using iText.Kernel.Pdf.Canvas.Parser.ClipperLib;
+using MaterialSkin.Controls;
 using Org.BouncyCastle.Asn1.Cmp;
 using Salon.Card;
 using Salon.Controller;
@@ -100,7 +101,7 @@ namespace Salon.View
           
             DateTime startTime = model.StartTime;
             DateTime endTime = model.EndTime;
-
+            
             string formattedStartTime = startTime.ToString("hh:mm tt");
             string formattedEndTime = endTime.ToString("hh:mm tt");
             lbl_id.Text = model.CustomerId.ToString();
@@ -109,7 +110,7 @@ namespace Salon.View
             
             lbl_Time.Text = formattedStartTime + " - " + formattedEndTime;
       
-            txt_stylist.Text = model.StylistName;
+            //txt_stylist.Text = model.StylistName;
             lbl_Date.Text = model.AppointmentDate.ToString();
 
             foreach (var service in appointmentForm.selectedServices)
@@ -168,6 +169,9 @@ namespace Salon.View
             var repo = new AppointmentRepository();
             var appointmentController = new AppointmentController(repo);
 
+            var service_repo = new AppointmentServiceRepository();
+            var service_controller = new AppointmentServiceController(service_repo);
+
             int appointment_id = model.CustomerType == "Member"
                 ? appointmentController.CreateAppointment(model)
                 : appointmentController.CreateWalkInAppointment(model);
@@ -195,11 +199,15 @@ namespace Salon.View
                     ProductId = null,
                     ProductSizeId = null,
                     ServiceId = service.ServiceId,
+                    StylistId = service.StylistId,
                     ItemType = service.ItemType,
                     Quantity = service.Quantity,
                     Price = service.Price,
                     Duration = service.Duration
                 };
+             
+                var endTimeDuration = DateTime.Now.Add(TimeSpan.FromMinutes(service.Duration));
+                service_controller.AddServicesToAppointment(appointment_id, service.ServiceId ?? 0, service.StylistId ?? 0,model.StartTime,endTimeDuration);
                 SaveInvoiceServices(invoiceServiceCart);
             }
         }
@@ -226,6 +234,7 @@ namespace Salon.View
                     InvoiceId = invoice_id,
                     ProductId = service.ProductId,
                     ServiceId = service.ServiceId,
+                    StylistId = service.StylistId,
                     ItemType = service.ItemType,
                     Quantity = service.Quantity,
                     Price = service.Price,

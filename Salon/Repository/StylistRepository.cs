@@ -52,8 +52,9 @@ namespace Salon.Repository
             using (var con = Database.GetConnection())
             {
                 var sql = @"INSERT INTO tbl_stylists (firstName, middleName, lastName, birth_date, contactNumber, email, address) 
-                            VALUES (@firstName, @middleName, @lastName, @birth_date, @contactNumber, @email, @address)";
-                return con.Execute(sql, stylist);
+                            VALUES (@firstName, @middleName, @lastName, @birth_date, @contactNumber, @email, @address);
+                            SELECT LAST_INSERT_ID();";
+                return con.QuerySingle<int>(sql, stylist);
             }
         }
         public int UpdateStylist(StylistModel stylist)
