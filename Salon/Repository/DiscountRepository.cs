@@ -58,7 +58,7 @@ namespace Salon.Repository
                           discount_id,
                           CONCAT(discount_type, ' ', promo_code) AS discount_and_promo_code,
                           discount_rate,
-                          expiry_date,
+                          end_date,
                           status,
                             vat_exempt
                         FROM tbl_discount

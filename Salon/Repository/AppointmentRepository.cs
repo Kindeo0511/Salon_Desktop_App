@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using static System.Windows.Forms.VisualStyles.VisualStyleElement;
 
 namespace Salon.Repository
 {
@@ -141,6 +142,7 @@ namespace Salon.Repository
     LEFT JOIN tbl_invoice i ON i.appointment_id = a.appointment_id
     LEFT JOIN tbl_invoice_service_cart isc ON isc.invoice_id = i.invoice_id
     LEFT JOIN tbl_stylists s ON s.stylist_id = isc.stylist_id
+    WHERE a.Status IS NOT NULL
     GROUP BY 
         a.appointment_id,
         a.customer_id,
@@ -181,7 +183,7 @@ namespace Salon.Repository
             LEFT JOIN tbl_invoice i ON i.appointment_id = a.appointment_id
             LEFT JOIN tbl_invoice_service_cart isc ON isc.invoice_id = i.invoice_id
             LEFT JOIN tbl_stylists s ON s.stylist_id = isc.stylist_id
-            WHERE a.Status = @status
+            WHERE a.Status = @status AND a.Status IS NOT NULL
           GROUP BY 
                 a.appointment_id,
                 a.customer_id,
@@ -202,6 +204,155 @@ namespace Salon.Repository
 
         }
 
+        public IEnumerable<AppointmentModel> ShowOnGoingQueue() 
+        {
+            using (var con = Database.GetConnection())
+            {
+
+                var sql = @"
+    SELECT 
+        a.appointment_id AS AppointmentId,
+        a.customer_id AS CustomerId,
+        CONCAT(c.firstName, ' ', c.middleName, ' ', c.lastName) AS CustomerName,
+        isc.stylist_id AS StylistId,
+        COALESCE(CONCAT(s.firstName, ' ', s.middleName, ' ', s.lastName), 'Stylist not assigned yet') AS StylistName,
+         c.email As Email,
+         c.phoneNumber AS PhoneNumber,
+         c.loyalty_points AS LoyaltyPoints,
+        sn.subCategory_id AS SubCategoryId,
+         sn.servicename_id As ServiceId,
+        GROUP_CONCAT(DISTINCT sn.serviceName SEPARATOR ', ') AS Services,
+       (sn.servicePrice) AS selling_price,
+        SUM(spr.vat_amount) AS vat_amount,
+        a.Date AS AppointmentDate,
+        a.start_time AS StartTime,
+        a.end_time AS EndTime,
+        aps.status As Status,
+        a.Payment_status AS PaymentStatus,
+        a.customer_type AS CustomerType
+    FROM tbl_appointment a
+    LEFT JOIN tbl_customer_account c ON a.customer_id = c.customer_id
+    LEFT JOIN tbl_appointment_services aps ON a.appointment_id = aps.appointment_id
+    LEFT JOIN tbl_servicesname sn ON a.serviceName_id = sn.serviceName_id
+    LEFT JOIN tbl_service_product spd ON spd.service_id = sn.serviceName_id
+    LEFT JOIN tbl_service_price spr ON spr.service_product_id = spd.service_product_id
+    LEFT JOIN tbl_invoice i ON i.appointment_id = a.appointment_id
+    LEFT JOIN tbl_invoice_service_cart isc ON isc.invoice_id = i.invoice_id
+    LEFT JOIN tbl_stylists s ON s.stylist_id = isc.stylist_id
+    GROUP BY 
+        a.appointment_id,
+        a.customer_id,
+        isc.stylist_id,
+        a.Date,
+        a.start_time,
+        a.end_time,
+        aps.status,
+        a.Payment_status,
+        a.customer_type
+    
+        ;";
+
+
+                var result = con.Query<AppointmentModel>(sql);
+
+                return result.ToList();
+            }
+
+
+        }
+
+        public IEnumerable<AppointmentModel> ShowWaitingQueue() 
+        {
+            using (var con = Database.GetConnection())
+            {
+
+                var sql = @"
+    SELECT 
+        a.appointment_id AS AppointmentId,
+        a.customer_id AS CustomerId,
+        CONCAT(c.firstName, ' ', c.middleName, ' ', c.lastName) AS CustomerName,
+        isc.stylist_id AS StylistId,
+        COALESCE(CONCAT(s.firstName, ' ', s.middleName, ' ', s.lastName), 'Stylist not assigned yet') AS StylistName,
+         c.email As Email,
+         c.phoneNumber AS PhoneNumber,
+            c.loyalty_points AS LoyaltyPoints,
+        sn.subCategory_id AS SubCategoryId,
+         sn.servicename_id As ServiceId,
+        GROUP_CONCAT(DISTINCT sn.serviceName SEPARATOR ', ') AS Services,
+       (sn.servicePrice) AS selling_price,
+        SUM(spr.vat_amount) AS vat_amount,
+        a.Date AS AppointmentDate,
+        a.start_time AS StartTime,
+        a.end_time AS EndTime,
+        aps.status As Status,
+        a.Payment_status AS PaymentStatus,
+        a.customer_type AS CustomerType
+    FROM tbl_appointment a
+    LEFT JOIN tbl_customer_account c ON a.customer_id = c.customer_id
+    LEFT JOIN tbl_appointment_services aps ON a.appointment_id = aps.appointment_id
+    LEFT JOIN tbl_servicesname sn ON a.serviceName_id = sn.serviceName_id
+    LEFT JOIN tbl_service_product spd ON spd.service_id = sn.serviceName_id
+    LEFT JOIN tbl_service_price spr ON spr.service_product_id = spd.service_product_id
+    LEFT JOIN tbl_invoice i ON i.appointment_id = a.appointment_id
+    LEFT JOIN tbl_invoice_service_cart isc ON isc.invoice_id = i.invoice_id
+    LEFT JOIN tbl_stylists s ON s.stylist_id = isc.stylist_id
+    GROUP BY 
+        a.appointment_id,
+        a.customer_id,
+        isc.stylist_id,
+        a.Date,
+        a.start_time,
+        a.end_time,
+        aps.status,
+        a.Payment_status,
+        a.customer_type
+    
+        ;";
+
+
+                var result = con.Query<AppointmentModel>(sql);
+
+                return result.ToList();
+            }
+
+        }
+        public IEnumerable<AppointmentModel> ShowQueue() 
+        {
+            using (var con = Database.GetConnection())
+            {
+
+                var sql = @"
+      SELECT DISTINCT
+    a.appointment_id AS AppointmentId,
+    aps.appointment_service_id AS AppointmentServiceId,
+    aps.servicename_id AS ServiceId,
+    sn.serviceName AS ServiceName,
+    aps.stylist_id AS StylistId,
+    COALESCE(CONCAT(s.firstName, ' ', s.lastName), 'Stylist not assigned yet') AS StylistName,
+    aps.start_time AS StartTime,
+    aps.end_time AS EndTime,
+    sn.duration AS Duration,
+    a.Payment_status AS PaymentStatus,
+    aps.status AS Status
+FROM tbl_appointment a
+LEFT JOIN tbl_appointment_services aps ON a.appointment_id = aps.appointment_id
+LEFT JOIN tbl_servicesname sn ON aps.servicename_id = sn.serviceName_id
+LEFT JOIN tbl_stylists s ON s.stylist_id = aps.stylist_id
+WHERE aps.status IN ('Waiting','On Going') 
+  AND DATE(a.Date) = CURDATE()
+
+    
+    
+        ;";
+                
+
+                var result =  con.Query<AppointmentModel>(sql);
+
+                return result.ToList();
+            }
+
+        }
+           
         public IEnumerable<AppointmentModel> GetAllAppointments()
         {
             using (var con = Database.GetConnection())
@@ -424,6 +575,16 @@ GROUP BY a.appointment_id;";
                 // QuerySingle will return the new ID
                 int newId = con.QuerySingle<int>(sql, appointment);
                 return newId;
+            }
+        }
+        public void UpdateAppointmentStatus(int AppointmentId, string status) 
+        {
+            using (var con = Database.GetConnection())
+            {
+                var sql = @"UPDATE tbl_appointment
+                        SET Status = @Status,                   
+                        WHERE appointment_id = @AppointmentId";
+                con.Execute(sql, new { AppointmentId, status});
             }
         }
         public void UpdateAppointment(AppointmentModel appointment) 

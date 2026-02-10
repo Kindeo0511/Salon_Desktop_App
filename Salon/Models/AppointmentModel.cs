@@ -9,6 +9,7 @@ namespace Salon.Models
 {
     public class AppointmentModel
     {
+        public int AppointmentServiceId { get; set; }
         public int AppointmentId { get; set; }
         public int? CustomerId { get; set; }
         public string CustomerName { get; set; }
@@ -29,7 +30,7 @@ namespace Salon.Models
         public DateTime EndDuration { get; set; }
         public string Status { get; set; } // e.g., Scheduled, Completed, Canceled
         public string PaymentStatus { get; set; } // e.g., Paid, Unpaid
-        public int Durations { get; set; }
+        public int Duration { get; set; }
         public int ServiceId { get; set; }
         public int SubCategoryId { get; set; }
         public string Services { get; set; }

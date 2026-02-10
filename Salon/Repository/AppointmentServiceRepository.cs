@@ -12,13 +12,37 @@ namespace Salon.Repository
 {
     public class AppointmentServiceRepository : IAppointmentServiceRepository
     {
+        public bool IsStylistAvailable(int stylistId, DateTime requestedStart, int durationMinutes)
+        {
+            
+                using (var con = Database.GetConnection())
+                {
+                    var requestedEnd = requestedStart.AddMinutes(durationMinutes);
+
+                    var sql = @"SELECT COUNT(*) 
+                    FROM tbl_appointment_services
+                    WHERE stylist_id = @StylistId
+                      AND @RequestedStart < end_time
+                      AND @RequestedEnd > start_time";
+
+                    int count = con.ExecuteScalar<int>(sql, new
+                    {
+                        StylistId = stylistId,
+                        RequestedStart = requestedStart,
+                        RequestedEnd = requestedEnd
+                    });
+
+                    return count == 0; 
+                }
+
+            }
         public void AddAppointmentService(AppointmentServicesModel appointmentServices)
         {
             using (var con = Database.GetConnection()) 
             {
                 con.Execute(@"
-                INSERT INTO tbl_appointment_services (appointment_id, serviceName_id, stylist_id, start_time, end_time)
-                VALUES (@AppointmentId, @ServiceId,@StylistId, @StartTime, @EndTime);", appointmentServices);
+                INSERT INTO tbl_appointment_services (appointment_id, serviceName_id, stylist_id, start_time, end_time, status)
+                VALUES (@AppointmentId, @ServiceId,@StylistId, @StartTime, @EndTime, @Status);", appointmentServices);
             }
                 
         }
@@ -28,6 +52,19 @@ namespace Salon.Repository
             {
                 var sql = "UPDATE tbl_appointment_services SET serviceName_id = @ServiceId WHERE appointment_id = @AppointmentId";
                 con.Execute(sql, model);
+            }
+        }
+        public bool StartWalkInService(int id, DateTime start_time, DateTime end_time)
+        {
+            using (var con = Database.GetConnection())
+            {
+                var sql = @"UPDATE tbl_appointment_services 
+                    SET status = 'On Going', 
+                        start_time = @start_time, 
+                        end_time = @end_time 
+                    WHERE appointment_service_id = @id";
+
+                return con.Execute(sql, new { id, start_time, end_time }) > 0;
             }
         }
         public void ClearDeleteAllServicesForAppointment(int id) 

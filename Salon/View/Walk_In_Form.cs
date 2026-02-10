@@ -25,6 +25,26 @@ namespace Salon.View
         private MainForm _mainForm;
         private WalkInModel _model;
         private AppointmentModel appointmentModel;
+        private bool isWaiting = false;
+        private bool isOnGoing = false;
+        private string status
+        {
+            get
+            {
+                if (isOnGoing)
+                {
+                    return "On Going";
+                }
+                else if (isWaiting)
+                {
+                    return "Waiting";
+                }
+                else
+                {
+                    return "Scheduled";
+                }
+            }
+        }
         public Walk_In_Form(MainForm mainForm)
         {
             InitializeComponent();
@@ -141,7 +161,7 @@ namespace Salon.View
             var controller = new StylistController(repo);
             var stylist = controller.GetAll();
 
-
+            var availble_stylist = stylist.Where(s=> s.Availability == "Available").ToList();
             cmb_stylist.ValueMember = "stylist_id";
             cmb_stylist.DisplayMember = "FullName";
 
@@ -184,7 +204,6 @@ namespace Salon.View
                     AppointmentDate = DateTime.Now,
                     StartTime = DateTime.Now,
                     EndTime = DateTime.Now.Add(TimeSpan.FromMinutes(totalDuration)),
-                    Status = "Scheduled",
                     CustomerType = "Guest",
                     PaymentStatus = "Unpaid",
                 };
@@ -244,6 +263,8 @@ namespace Salon.View
                 }
 
                 decimal price = Convert.ToDecimal(row.Cells["col_price"].Value.ToString());
+
+
                 var invoiceServiceCart = new ServiceCart
                 {
                     InvoiceId = invoice_id,
@@ -254,10 +275,32 @@ namespace Salon.View
                     Price = price,
                     Duration = duration
                 };
-                var start_time = DateTime.Now;
-                var endTimeDuration = DateTime.Now.Add(TimeSpan.FromMinutes(duration));
-                service_controller.AddServicesToAppointment(appointment_id, service_id, stylist_id, start_time, endTimeDuration);
-                SaveInvoiceServices(invoiceServiceCart);
+
+                var statusValue = Convert.ToString(row.Cells["col_status"].Value);
+                string rowStatus = "Scheduled"; // default
+
+                if (statusValue == "Ready to Start")
+                {
+                    rowStatus = "On Going";
+                    var start_time = DateTime.Now;
+                    var endTimeDuration = DateTime.Now.AddMinutes(duration);
+                    service_controller.AddServicesToAppointment(appointment_id, service_id, stylist_id, start_time, endTimeDuration, rowStatus);
+                    SaveInvoiceServices(invoiceServiceCart);
+                }
+                else if (statusValue == "Busy")
+                {
+                    rowStatus = "Waiting";
+                    DateTime? start_time = null;
+                    DateTime? end_time = DateTime.Now.AddMinutes(duration);
+                    service_controller.AddServicesToAppointment(appointment_id, service_id, stylist_id, start_time, end_time, rowStatus);
+                    SaveInvoiceServices(invoiceServiceCart);
+                }
+
+
+
+
+
+
             }
 
         }
@@ -361,17 +404,33 @@ namespace Salon.View
 
         private void btn_add_service_Click_1(object sender, EventArgs e)
         {
+            string stylistAvailability = Stylist_Is_Available()
+            ? "Ready to Start"
+            : "Busy";
+
+
             dgv_service_selected.Rows.Add(
             cmb_services.SelectedValue,
             cmb_services.Text,
             cmb_stylist.SelectedValue,
             cmb_stylist.Text,
             txt_duration.Text,
-            txt_price.Text
+            txt_price.Text,
+            stylistAvailability
             );
 
 
+        }
+        public bool Stylist_Is_Available()
+        {
+           var repo = new AppointmentServiceRepository();
+           var controller = new AppointmentServiceController(repo);
 
+            return controller.IsStylistAvailable(
+                Convert.ToInt32(cmb_stylist.SelectedValue),
+                DateTime.Now,
+                totalDuration
+                );
 
         }
         private string GenerateInvoiceNumber()

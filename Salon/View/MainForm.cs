@@ -112,6 +112,7 @@ namespace Salon.View
             ThemeManager.StyleDataGridView(dgv_delivery);
             ThemeManager.StyleDataGridView(dgv_inventory);
             ThemeManager.StyleDataGridView(dgv_walk_in);
+            ThemeManager.StyleDataGridView(dgv_waiting);
             ThemeManager.StyleDataGridView(dgv_appointment);
             ThemeManager.StyleDataGridView(dgv_table_summary);
             ThemeManager.StyleDataGridView(dgv_report_table);
@@ -281,6 +282,11 @@ namespace Salon.View
             };
             await RefreshAppointmentAsync(currentPage, pageSize);
 
+            appointment_pagination.PageChanged += async (s, page) =>
+            {
+                await RefreshAppointmentAsync(page, pageSize);
+            };
+            await RefreshAppointmentAsync(currentPage, pageSize);
 
             data_recovery_pagination.PageChanged += async (s, page) =>
             {
@@ -2003,28 +2009,65 @@ namespace Salon.View
 
         public void LoadWalkIn()
         {
-            var repo = new WalkInRepository();
-            var controller = new Walk_In_Controller(repo);
-            var walk_ins = controller.GetWalkIn();
+            var repo = new AppointmentRepository();
+            var controller = new AppointmentController(repo);
+            var Queue = controller.ShowQueue();
+            var OnGoing = Queue.Where(a => a.Status == "On Going").ToList();
+            var Waiting = Queue.Where(a => a.Status == "Waiting").ToList();
 
             dgv_walk_in.AutoGenerateColumns = false;
-            col_walk_in_id.DataPropertyName = "id";
-            col_walk_in_code.DataPropertyName = "name";
-            col_walk_in_stylist_id.DataPropertyName = "stylist_id";
+            col_walk_in_id.DataPropertyName = "AppointmentId";
+            col_walk_in_customer_name.DataPropertyName = "DisplayCustomerName";
+            col_walk_in_stylist_id.DataPropertyName = "StylistId";
             col_walk_in_stylist_name.DataPropertyName = "StylistName";
-            col_walk_in_subcategory_id.DataPropertyName = "subCategory_id";
-            col_walk_in_service_id.DataPropertyName = "serviceName_id";
-            col_walk_in_service.DataPropertyName = "serviceName";
-            col_walk_in_price.DataPropertyName = "selling_price";
-            col_walk_in_date.DataPropertyName = "date";
-            col_walk_in_start_time.DataPropertyName = "start_time";
-            col_walk_in_end_time.DataPropertyName = "end_time";
-            col_walk_in_status.DataPropertyName = "status";
-            col_walk_in_payment_status.DataPropertyName = "payment_status";
+            //col_walk_in_date.DataPropertyName = "AppointmentDate";
+            col_walk_in_start_time.DataPropertyName = "StartTime";
+            col_walk_in_end_time.DataPropertyName = "EndTime";
+            col_walk_in_status.DataPropertyName = "Status";
+            col_walk_in_payment_status.DataPropertyName = "PaymentStatus";
 
-            dgv_walk_in.DataSource = walk_ins;
+            dgv_walk_in.DataSource = OnGoing;
+
+            dgv_waiting.AutoGenerateColumns = false;
+            col_waiting_app_service_id.DataPropertyName = "AppointmentServiceId";
+            col_waiting_walk_id.DataPropertyName = "AppointmentId";
+            col_waiting_customer_name.DataPropertyName = "DisplayCustomerName";
+            col_waiting_stylist_id.DataPropertyName = "StylistId";
+            col_waiting_stylist_name.DataPropertyName = "StylistName";
+            col_waiting_service_time.DataPropertyName = "Duration";
+            col_waiting_status.DataPropertyName = "Status";
+
+
+            dgv_waiting.DataSource = Waiting;
+
         }
 
+        private void dgv_waiting_CellClick(object sender, DataGridViewCellEventArgs e)
+        {
+            if (e.RowIndex < 0) return;
+
+            if (e.RowIndex >= 0 && dgv_waiting.Columns[e.ColumnIndex].Name == "col_waiting_start_service") 
+            {
+              
+                var controller = new AppointmentServiceRepository();
+                int appointmentServiceId = Convert.ToInt32(dgv_waiting.Rows[e.RowIndex].Cells["col_waiting_app_service_id"].Value);
+                int service_duration = Convert.ToInt32(dgv_waiting.Rows[e.RowIndex].Cells["col_waiting_service_time"].Value);
+
+                var start_time = DateTime.Now;
+                var endTimeDuration = DateTime.Now.AddMinutes(service_duration);
+
+                if (controller.StartWalkInService(appointmentServiceId,start_time, endTimeDuration))
+                {
+                    MessageBox.Show("Service Started Successfully.", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    LoadWalkIn();
+                }
+                else
+                {
+                    MessageBox.Show("Failed to Start Service.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+
+            }
+        }
 
         private void btn_walk_in_Click(object sender, EventArgs e)
         {
@@ -4616,11 +4659,24 @@ namespace Salon.View
             }
             else if (e.RowIndex >= 0 && dgv_walk_in.Columns[e.ColumnIndex].Name == "btn_walk_in_payment")
             {
-                var walk_in_data = dgv_walk_in.Rows[e.RowIndex].DataBoundItem as WalkInModel;
+                //var walk_in_data = dgv_walk_in.Rows[e.RowIndex].DataBoundItem as WalkInModel;
 
-                using (var form = new Process_Walk_In_Payment_Form(this, walk_in_data))
+                //using (var form = new Process_Walk_In_Payment_Form(this, walk_in_data))
+                //{
+                //    form.ShowDialog();
+                //}
+                var appointment = dgv_appointment.Rows[e.RowIndex].DataBoundItem as AppointmentModel;
+
+                if (appointment.PaymentStatus.ToLower() == "paid")
                 {
-                    form.ShowDialog();
+                    return;
+                }
+
+                using (var paymentForm = new PaymentForm(this, appointment))
+                {
+                    //paymentForm.RefreshData += async (s, args) => { await RefreshCategoryAsync(appointment_pagination.CurrentPage, pageSize); };
+
+                    paymentForm.ShowDialog();
                 }
             }
         }
@@ -6060,6 +6116,7 @@ namespace Salon.View
             return await EmailMessage.SendTestEmailConnection(email, password, shop_name);
         }
 
+      
     }
 }
 

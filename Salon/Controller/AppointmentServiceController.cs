@@ -10,14 +10,14 @@ namespace Salon.Controller
 {
     public class AppointmentServiceController
     {
-        private readonly IAppointmentServiceRepository repo;
-        public AppointmentServiceController(IAppointmentServiceRepository repo)
+        private readonly AppointmentServiceRepository repo;
+        public AppointmentServiceController(AppointmentServiceRepository repo)
         {
             this.repo = repo;
         }
 
 
-        public void AddServicesToAppointment(int appointmentId, int serviceId,int? stylistId, DateTime startTime, DateTime endTime)
+        public void AddServicesToAppointment(int appointmentId, int serviceId,int? stylistId, DateTime? startTime, DateTime? endTime, string status)
         {
             var appointmentService = new Models.AppointmentServicesModel
             {
@@ -26,14 +26,22 @@ namespace Salon.Controller
                 StylistId = stylistId,
                 StartTime = startTime,
                 EndTime = endTime,
+                Status = status
             };
             repo.AddAppointmentService(appointmentService);
         }
 
+
         public void UpdateServicesAppointment(AppointmentServicesModel model) 
         {
             repo.UpdateAppointmentService(model);
-        } 
+        }
+
+        public bool IsStylistAvailable(int stylistId, DateTime requestedStart, int durationMinutes)
+        {
+            return repo.IsStylistAvailable(stylistId, requestedStart, durationMinutes);
+        }
+
         public void ClearDeleteAllServicesForAppointment(int id) 
         {
              repo.ClearDeleteAllServicesForAppointment(id);
@@ -59,6 +67,11 @@ namespace Salon.Controller
         public IEnumerable<AppointmentServicesModel> GetSelectedServices(int id) 
         {
             return repo.ServicesSelected(id);
+        }
+
+        public bool StartWalkInService(int id, DateTime start_time, DateTime end_time) 
+        {
+            return repo.StartWalkInService(id, start_time, end_time);
         }
     }
 }

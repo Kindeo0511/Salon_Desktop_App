@@ -207,7 +207,7 @@ namespace Salon.View
                 };
              
                 var endTimeDuration = DateTime.Now.Add(TimeSpan.FromMinutes(service.Duration));
-                service_controller.AddServicesToAppointment(appointment_id, service.ServiceId ?? 0, service.StylistId ?? 0,model.StartTime,endTimeDuration);
+                //service_controller.AddServicesToAppointment(appointment_id, service.ServiceId ?? 0, service.StylistId ?? 0,model.StartTime,endTimeDuration);
                 SaveInvoiceServices(invoiceServiceCart);
             }
         }

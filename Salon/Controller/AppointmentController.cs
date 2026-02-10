@@ -30,6 +30,10 @@ namespace Salon.Controller
         {
             return await repo.ShowAllAppointmentAsync(status, page_size, off_set);
         }
+        public IEnumerable<AppointmentModel> ShowQueue()
+        {
+            return  repo.ShowQueue();
+        }
         public IEnumerable<AppointmentModel> LoadAppointments()
         {
             return repo.GetAll();
@@ -57,6 +61,10 @@ namespace Salon.Controller
         {
             repo.UpdateAppointment(model);
         }
+        public void UpdateAppointmentStatus(int id, string status) 
+        {
+            repo.UpdateAppointmentStatus(id, status);
+        }
         public void UpdateWalkin(AppointmentModel model)
         {
             repo.UpdateWalkin(model);
@@ -74,7 +82,7 @@ namespace Salon.Controller
             repo.UpdateStatus(status, id);
         }
 
-
+      
         // VALIDATION
 
         //public async Task<bool> CheckIsSlotTaken(DateTime date, TimeSpan startTime) 

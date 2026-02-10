@@ -26,6 +26,7 @@ namespace Salon.View
     {
 
         private MainForm mainForm;
+        private AppointmentModel appointmentModel;
         private AppointmentModel model;
         private List<ServiceModel> _services = new List<ServiceModel>();
         private List<ProductModel> _products;
@@ -59,9 +60,69 @@ namespace Salon.View
             cmb_Date.MaxDate = DateTime.Today.AddMonths(3);
 
 
+            LoadSubcategory();
+            LoadServices();
+            LoadStylist();
+            LoadTimeSlots();
+        }
+        private void LoadSubcategory()
+        {
+            var repo = new SubCategoryRepository();
+            var controller = new SubCategoryController(repo);
+            var services = controller.getSubCategory();
 
-     
-            //LoadStylist();
+
+            cmb_subcategory.ValueMember = "subCategory_id";
+            cmb_subcategory.DisplayMember = "subCategoryName";
+
+            cmb_subcategory.DataSource = services;
+            cmb_subcategory.SelectedIndex = -1;
+
+        }
+        private void LoadServices()
+        {
+            var repo = new ServiceRepository();
+            var controller = new ServiceController(repo);
+            var services = controller.getServices();
+
+            cmb_services.DataSource = null;
+
+            cmb_services.ValueMember = "serviceName_id";
+            cmb_services.DisplayMember = "serviceName";
+
+            cmb_services.DataSource = services;
+
+            cmb_services.SelectedIndex = -1;
+            txt_duration.Text = string.Empty;
+            txt_price.Text = string.Empty;
+
+
+        }
+        private void LoadServices(int id)
+        {
+            var repo = new ServiceRepository();
+            var controller = new ServiceController(repo);
+            var services = controller.getServicesById(id);
+
+            cmb_services.DataSource = null;
+            cmb_services.ValueMember = "serviceName_id";
+            cmb_services.DisplayMember = "serviceName";
+
+            cmb_services.DataSource = services;
+
+        }
+        private void LoadStylist()
+        {
+            var repo = new StylistRepository();
+            var controller = new StylistController(repo);
+            var stylist = controller.GetAll();
+
+            var availble_stylist = stylist.Where(s => s.Availability == "Available").ToList();
+            cmb_stylist.ValueMember = "stylist_id";
+            cmb_stylist.DisplayMember = "FullName";
+
+            cmb_stylist.DataSource = stylist;
+            cmb_stylist.SelectedIndex = -1;
         }
         public void LoadStylistForRow(int index) 
         {
@@ -81,8 +142,10 @@ namespace Salon.View
         {
             InitializeComponent();
             ThemeManager.ApplyTheme(this);
-            LoadServices(); // populate _services once
-            LoadProduct();
+            LoadSubcategory();
+            LoadServices();
+            LoadStylist();
+            //LoadProduct();
             this.mainForm = mainForm;
             this.model = model;
             this.isUpdate = isUpdate;
@@ -125,7 +188,7 @@ namespace Salon.View
 
 
             cmb_stylist.SelectedValue = model.StylistId;
-            LoadTimeSlots(model.StylistId,model.StartTime != null ?  model.StartTime : (DateTime?)null);
+          
 
 
             //invoice_id = GetInvoiceId(this.model.AppointmentId);
@@ -138,13 +201,8 @@ namespace Salon.View
 
 
         }
-        public void LoadServices()
-        {
-            var repo = new ServiceRepository();
-            var controller = new ServiceController(repo);
 
-            //_services = controller.getServices().ToList();
-        }
+   
 
        
         public void LoadProduct()
@@ -169,208 +227,51 @@ namespace Salon.View
             cmb_stylist.SelectedIndex = -1;
          
             cmb_Date.Value = DateTime.Now;
-            time_slot_panel.Controls.Clear();
-
+          
           
             cmb_stylist.Hint = "Select Stylist";
              
         }
-        private void LoadTimeSlots(int stylist_id)
+        private void LoadTimeSlots()
         {
-
             var repo = new BusinessHourRepository();
             var controller = new TimeSlotController(repo);
             var businessHours = controller.GetBusinessHours();
 
-            var openTime = businessHours.open_time;
-            var closeTime = businessHours.close_time;
+            var openTime = businessHours.open_time;   // TimeSpan
+            var closeTime = businessHours.close_time; // TimeSpan
 
             var appointmentRepo = new AppointmentRepository();
             var appointmentController = new AppointmentController(appointmentRepo);
+            var todaysAppointments = appointmentController.GetTodayAppointment();
 
-            var styylistSchedule = appointmentController.CheckAppointmentTimeSlot(stylist_id, DateTime.Today);
-         
-            time_slot_panel.Controls.Clear();
-            for (DateTime time = DateTime.Today.Add(openTime); time <= DateTime.Today.Add(closeTime); time = time.AddMinutes(30))
+            cmb_time_slot.Items.Clear();
+
+            for (DateTime time = DateTime.Today.Add(openTime);
+                 time < DateTime.Today.Add(closeTime);
+                 time = time.AddMinutes(30))
             {
-                MaterialButton button = new MaterialButton();
-                string formattedTime = time.ToString("hh:mm tt"); // 12-hour format with AM/PM
-                button.AutoSize = true;
-                button.Text = formattedTime;
-                button.Tag = "Available"; // default
-
-                DateTime serviceEnd = time.AddMinutes(service_duration * service_qty);
-                // Disable if slot is in the past
                 if (time < DateTime.Now)
-                {
-                    button.Enabled = false;
-                    button.Tag = "Past";
-                }
+                    continue;
 
-                foreach (var schedudle in styylistSchedule) 
-                {
-                    DateTime appStart = schedudle.StartTime;
-                    DateTime appEnd = schedudle.EndTime;
+                bool taken = todaysAppointments.Any(appt =>
+                    (time < appt.EndTime && time.AddMinutes(30) > appt.StartTime));
 
-                    bool overlaps = time < appEnd && serviceEnd > appStart;
-                    if (overlaps) 
-                    {
-                        button.UseAccentColor = true;
-                        button.Tag = "Booked";
+                if (taken)
+                    continue;
+
+                // Show only the start time in 12-hour format
+                cmb_time_slot.Items.Add($"{time:hh:mm tt}");
+            }
+
+            cmb_time_slot.SelectedIndex = -1;
+        }
+
+
       
-                    }
-                    if (time >= appStart && time < appEnd)
-                    {
-
-                        button.UseAccentColor = true;
-                        button.Tag = "Booked";
-
-                    }
-                }
-                button.Click += (sender, e) =>
-                {
-                    // Reset all buttons back to default
-                    foreach (Control ctrl in time_slot_panel.Controls)
-                    {
-                        if (ctrl is MaterialButton btn && btn.Tag.ToString() == "Available")
-                        {
-                            btn.UseAccentColor = false; // reset
-                        }
-                    }
-
-                    // Highlight the selected one
-                    var clickedButton = sender as MaterialButton;
-                    if (clickedButton != null && clickedButton.Tag.ToString() == "Available")
-                    {
-                        clickedButton.UseAccentColor = true;
-
-                        // Store the actual DateTime value from THIS button
-                        selectedTime = DateTime.Parse(clickedButton.Text);
-                       
-                    }
-                    else if (clickedButton != null && clickedButton.Tag.ToString() == "Booked")
-                    {
-                        button.UseAccentColor = true;
-                        MessageBox.Show("This time slot is already booked. Please select another time.", "Time Slot Unavailable", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                    }
-
-                };
-
-                time_slot_panel.Controls.Add(button);
-
-            }
-
-        }
-        private void LoadTimeSlots(int stylist_id, DateTime? previousSelectedTime = null)
-        {
-            time_slot_panel.Controls.Clear();
-
-            var repo = new BusinessHourRepository();
-            var controller = new TimeSlotController(repo);
-
-    
-            var businessHours = controller.GetBusinessHours();
-
-            var openTime = businessHours.open_time;
-            var closeTime = businessHours.close_time;
-
-            var appointmentRepo = new AppointmentRepository();
-            var appointmentController = new AppointmentController(appointmentRepo);
-
-            var styylistSchedule = appointmentController.CheckAppointmentTimeSlot(stylist_id, DateTime.Today);
-
-            for (DateTime time = DateTime.Today.Add(openTime); time <= DateTime.Today.Add(closeTime); time = time.AddMinutes(30))
-            {
-                MaterialButton button = new MaterialButton();
-                string formattedTime = time.ToString("hh:mm tt"); // 12-hour format with AM/PM
-                button.AutoSize = true;
-                button.Text = formattedTime;
-                button.Tag = "Available"; // default
-
-                // Disable if slot is in the past
-                if (time < DateTime.Now)
-                {
-                    button.Enabled = false;
-                    button.Tag = "Past";
-                }
-                DateTime serviceEnd = time.AddMinutes(totalDuration);
-                foreach (var schedudle in styylistSchedule)
-                {
-                    DateTime appStart = schedudle.StartTime;
-                    DateTime appEnd = schedudle.EndTime;
-
-                    bool overlaps = time < appEnd && serviceEnd > appStart;
-                    if (overlaps)
-                    {
-                        button.UseAccentColor = true;
-                        button.Tag = "Booked";
-
-                    }
-                    if (time >= appStart && time < appEnd)
-                    {
-
-                        button.UseAccentColor = true;
-                        button.Tag = "Booked";
-
-                    }
-                }
-                // If this button matches the previously selected time, highlight it
-                if (previousSelectedTime.HasValue &&
-                    time.ToString("hh:mm tt") == previousSelectedTime.Value.ToString("hh:mm tt"))
-                {
-                    button.UseAccentColor = true;
-                    selectedTime = previousSelectedTime.Value; // keep it in sync
-                }
-
-                button.Click += (sender, e) =>
-                {
-                    // Reset all buttons back to default
-                    foreach (Control ctrl in time_slot_panel.Controls)
-                    {
-                        if (ctrl is MaterialButton btn && btn.Tag.ToString() == "Available")
-                        {
-                            btn.UseAccentColor = false; // reset
-                        }
-                    }
-
-
-                    // Highlight the selected one
-                    var clickedButton = sender as MaterialButton;
-                    if (clickedButton != null && clickedButton.Tag.ToString() == "Available")
-                    {
-                        clickedButton.UseAccentColor = true;
-
-                        // Store the actual DateTime value from THIS button
-                        selectedTime = DateTime.Parse(clickedButton.Text);
-
-                    }
-                    else if (clickedButton != null && clickedButton.Tag.ToString() == "Booked")
-                    {
-                        button.UseAccentColor = true;
-                        MessageBox.Show("This time slot is already booked. Please select another time.", "Time Slot Unavailable", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                    }
-                };
-
-                time_slot_panel.Controls.Add(button);
-            }
-        }
-
       
      
-        private void LoadStylist()
-        {
-            var repo = new StylistRepository();
-            var controller = new StylistController(repo);
-            var stylist = controller.GetAll();
-
-
-            cmb_stylist.ValueMember = "stylist_id";
-            cmb_stylist.DisplayMember = "FullName";
-
-            cmb_stylist.DataSource = stylist;
-            cmb_stylist.SelectedIndex = -1;
-        }
-
+     
        
         public int GetInvoiceId(int id)
         {
@@ -401,9 +302,9 @@ namespace Salon.View
                     dgv_available_services.DataSource = null;
                     col_service_id.DataPropertyName = "ServiceId";
                     col_service_name.DataPropertyName = "ItemName";
-                    col_service_category.DataPropertyName = "SubCategory";
-                    col_price.DataPropertyName = "Price";
-                    col_qty.DataPropertyName = "Quantity";
+                    col_service_category_2.DataPropertyName = "SubCategory";
+                    col_price_2.DataPropertyName = "Price";
+                    col_qty_2.DataPropertyName = "Quantity";
                     col_duration.DataPropertyName = "Duration";
                     dgv_available_services.DataSource = selectedServices;
 
@@ -664,7 +565,7 @@ namespace Salon.View
             dgv_available_services.CellValueChanged += dgv_available_services_CellValueChanged;
             dgv_available_services.CurrentCellDirtyStateChanged += dgv_available_services_CurrentCellDirtyStateChanged;
             LoadServicesForAutocomplete();
-            //LoadServices();
+            LoadServices();
 
 
         }
@@ -683,7 +584,7 @@ namespace Salon.View
             var controller = new Walk_In_Controller(repo);
             int walkInCode = controller.GetWalkInCode();
 
-            string prefix_code = $"W-{walkInCode.ToString().PadLeft(4, '0')}";
+            string prefix_code = $"A-{walkInCode.ToString().PadLeft(4, '0')}";
 
             txt_FullName.Text = prefix_code;
         }
@@ -698,19 +599,28 @@ namespace Salon.View
             }
         }
 
-        
-    
 
-       
 
-        
 
-        
 
-        private void btn_confirm_Click(object sender, EventArgs e)
+        private string GenerateInvoiceNumber()
         {
+            string prefix = "INV";
+            string datePart = DateTime.Now.ToString("yyyyMMdd-HHmm");
+            return $"{prefix}-{datePart}";
+        }
+
+
+        private void SaveAppointment()
+        {
+            var repo = new AppointmentRepository();
+            var appointmentController = new AppointmentController(repo);
+
+            var service_repo = new AppointmentServiceRepository();
+            var service_controller = new AppointmentServiceController(service_repo);
+
             //selectedServices.Clear();
-            totalDuration = 0;
+  
             //foreach (selectedServices card in fl_service.Controls.OfType<ServiceCard>())
             //{
             //    int serviceId = (int)card.SelectedServiceID;
@@ -733,14 +643,30 @@ namespace Salon.View
             //    totalDuration += cartItem.Duration;
             //    selectedServices.Add(cartItem);
             //}
-            foreach (var service in selectedServices) 
+            int totalDuration = 0;
+
+            foreach (DataGridViewRow row in dgv_service_selected.Rows)
             {
-                
-                totalDuration += service.Duration * service.Quantity;
-        
+                int duration = 0;
+
+                var rawValue = row.Cells["col_duration"].Value?.ToString();
+
+                if (!string.IsNullOrWhiteSpace(rawValue))
+                {
+                    // If the cell contains "45 mins", strip non-numeric characters
+                    string digitsOnly = new string(rawValue.Where(char.IsDigit).ToArray());
+
+                    if (int.TryParse(digitsOnly, out int parsed))
+                    {
+                        duration = parsed;
+                    }
+                }
+
+                totalDuration += duration;
             }
 
 
+            var startTime = DateTime.Parse(cmb_time_slot.SelectedItem.ToString());
 
             if (rad_guest.Checked)
             {
@@ -750,8 +676,8 @@ namespace Salon.View
                     //StylistId = Convert.ToInt32(cmb_stylist.SelectedValue),
                     StylistName = cmb_stylist.Text,
                     AppointmentDate = cmb_Date.Value,
-                    StartTime = DateTime.Now,
-                    EndTime = DateTime.Now.Add(TimeSpan.FromMinutes(totalDuration)),
+                    StartTime = startTime,
+                    EndTime = startTime.Add(TimeSpan.FromMinutes(totalDuration)),
                     Status = "Scheduled",
                     CustomerType = "Guest",
                     PaymentStatus = "Unpaid",
@@ -774,17 +700,108 @@ namespace Salon.View
                     PaymentStatus = "Unpaid",
                 };
             }
-            using (var summaryForm = new ConfirmationBooking(model, mainForm, this))
+            int appointment_id = model.CustomerType == "Member"
+              ? appointmentController.CreateAppointment(model)
+              : appointmentController.CreateWalkInAppointment(model);
+
+            var invoiceModel = new InvoiceModel
             {
-                summaryForm.ShowDialog();
+                AppointmentID = appointment_id,
+                InvoiceNumber = GenerateInvoiceNumber(),
+                TotalAmount = 0,
+                VATAmount = 0,
+                DiscountAmount = 0,
+                Timestamp = null,
+                CustomerID = null,
+            };
+
+            int invoice_id = SaveInvoice(invoiceModel);
+
+            foreach (DataGridViewRow row in dgv_service_selected.Rows)
+            {
+                if (row.IsNewRow) continue;
+                int? stylist_id = null;
+                int service_id = Convert.ToInt32(row.Cells["col_service_id"].Value);
+                if (row.Cells["col_stylist_id"].Value != null && int.TryParse(row.Cells["col_stylist_id"].Value.ToString(), out int parsed)) { stylist_id = parsed; }
+                int duration = 0;
+                var rawValue = row.Cells["col_duration"].Value?.ToString();
+
+                if (!string.IsNullOrWhiteSpace(rawValue))
+                {
+                    // If the cell contains "45 mins", strip non-numeric characters
+                    string digitsOnly = new string(rawValue.Where(char.IsDigit).ToArray());
+
+                    if (int.TryParse(digitsOnly, out int parse))
+                    {
+                        duration = parse;
+                    }
+                }
+
+                decimal price = Convert.ToDecimal(row.Cells["col_price"].Value.ToString());
+
+
+                var invoiceServiceCart = new ServiceCart
+                {
+                    InvoiceId = invoice_id,
+                    ServiceId = service_id,
+                    StylistId = stylist_id,
+                    ItemType = "Service",
+                    Quantity = 1,
+                    Price = price,
+                    Duration = duration
+                };
+
+                var statusValue = Convert.ToString(row.Cells["col_status"].Value);
+                string rowStatus = "Scheduled"; // default
+
+                rowStatus = "Waiting";
+                var start_time = DateTime.Now;
+                var endTimeDuration = DateTime.Now.AddMinutes(duration);
+                service_controller.AddServicesToAppointment(appointment_id, service_id, stylist_id, start_time, endTimeDuration, rowStatus);
+                SaveInvoiceServices(invoiceServiceCart);
+
+
             }
 
+            //using (var summaryForm = new ConfirmationBooking(model, mainForm, this))
+            //{
+            //    summaryForm.ShowDialog();
+            //}
+
+            mainForm.LoadWalkIn();
+            mainForm.LoadAppointments();
+        }
+
+        private void btn_confirm_Click(object sender, EventArgs e)
+        {
+            SaveAppointment();
+            MessageBox.Show("Appointment saved successfully!", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
+        
+            this.Close();
+
+       
+
+        }
+       
+
+
+
+                private int SaveInvoice(InvoiceModel model)
+        {
+            var repo = new InvoiceRepository();
+            var invoiceController = new InvoiceController(repo);
+            var invoice_id = invoiceController.AddInvoice(model);
+
+            return invoice_id;
+        }
+        private void SaveInvoiceServices(ServiceCart cart)
+        {
+            var repo = new InvoiceServiceRepository();
+            var serviceController = new InvoiceServiceCartController(repo);
+            serviceController.AddServiceToInvoiceCart(cart);
 
         }
 
-      
-
-      
 
         private void rad_guest_CheckedChanged_1(object sender, EventArgs e)
         {
@@ -816,22 +833,9 @@ namespace Salon.View
             }
         }
 
-        private void cmb_stylist_SelectedIndexChanged(object sender, EventArgs e)
-        {
-            if (cmb_stylist.Text.Length > 0)
-            {
-                LoadTimeSlots(Convert.ToInt32(cmb_stylist.SelectedValue));
-            }
-            else
-            {
-                time_slot_panel.Controls.Clear();
-            }
-        }
+    
 
-        private void groupBox2_Enter(object sender, EventArgs e)
-        {
-
-        }
+      
         private void LoadServicesForAutocomplete()
         {
       
@@ -846,10 +850,7 @@ namespace Salon.View
   
             source.AddRange(service.Select(s => s.serviceName).ToArray());
 
-            txt_search_service.AutoCompleteMode = AutoCompleteMode.SuggestAppend;
-            txt_search_service.AutoCompleteSource = AutoCompleteSource.CustomSource;
-            txt_search_service.AutoCompleteCustomSource = source;
-
+          
         
 
         }
@@ -886,9 +887,9 @@ namespace Salon.View
             dgv_available_services.DataSource = null;
             col_service_id.DataPropertyName = "ServiceId";
             col_service_name.DataPropertyName = "ItemName";
-            col_service_category.DataPropertyName = "subCategoryName";
-            col_price.DataPropertyName = "Price";
-            col_qty.DataPropertyName = "Quantity";
+            col_service_category_2.DataPropertyName = "subCategoryName";
+            col_price_2.DataPropertyName = "Price";
+            col_qty_2.DataPropertyName = "Quantity";
             col_duration.DataPropertyName = "Duration";
 
             dgv_available_services.DataSource = selectedServices;
@@ -896,29 +897,7 @@ namespace Salon.View
 
       
 
-        private void txt_search_service_KeyDown(object sender, KeyEventArgs e)
-        {
-            if (e.KeyCode == Keys.Enter)
-            {
-                string selected = txt_search_service.Text;
-                if (selected != null)
-                {
-                    InsertServicesToCart(txt_search_service.Text.Trim());
-                    if (cmb_stylist.Text.Length > 0)
-                    {
-                        LoadTimeSlots(Convert.ToInt32(cmb_stylist.SelectedValue));
-                    }
-                    else
-                    {
-                        time_slot_panel.Controls.Clear();
-                    }
-                    txt_search_service.Clear();
-                }
-
-               
-            }
-
-        }
+      
 
         private void dgv_available_services_CellClick(object sender, DataGridViewCellEventArgs e)
         {
@@ -971,7 +950,7 @@ namespace Salon.View
  
 
                 // Update available time slots for this stylist
-                LoadTimeSlots(stylistId);
+              
             }
 
             if (dgv_available_services.Columns[e.ColumnIndex].Name == "col_qty") 
@@ -983,11 +962,11 @@ namespace Salon.View
 
                 if (cmb_stylist.Text.Length > 0)
                 {
-                    LoadTimeSlots(Convert.ToInt32(cmb_stylist.SelectedValue));
+                    //LoadTimeSlots(Convert.ToInt32(cmb_stylist.SelectedValue));
                 }
                 else
                 {
-                    time_slot_panel.Controls.Clear();
+                   
                 }
             }
         }
@@ -1010,6 +989,57 @@ namespace Salon.View
         private void materialLabel5_Click(object sender, EventArgs e)
         {
 
+        }
+
+        //private void cmb_services_SelectedValueChanged(object sender, EventArgs e)
+        //{
+        //    if (model == null)
+        //    {
+
+        //        LoadServices(Convert.ToInt32(cmb_subcategory.SelectedValue));
+        //    }
+        //}
+        public bool Stylist_Is_Available()
+        {
+            var repo = new AppointmentServiceRepository();
+            var controller = new AppointmentServiceController(repo);
+
+            return controller.IsStylistAvailable(
+                Convert.ToInt32(cmb_stylist.SelectedValue),
+                DateTime.Now,
+                totalDuration
+                );
+
+        }
+        private void btn_add_service_Click(object sender, EventArgs e)
+        {
+            string stylistAvailability = Stylist_Is_Available()
+          ? "Ready to Start"
+          : "Busy";
+
+
+            dgv_service_selected.Rows.Add(
+            cmb_services.SelectedValue,
+            cmb_services.Text,
+            cmb_stylist.SelectedValue,
+            cmb_stylist.Text,
+            txt_duration.Text,
+            txt_price.Text,
+            stylistAvailability
+            );
+
+        }
+
+        private void cmb_services_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if (cmb_services.SelectedItem is ServiceModel selectedService)
+            {
+
+                totalDuration = selectedService.duration;
+                txt_duration.Text = selectedService.duration.ToString() + " mins";
+                txt_price.Text = selectedService.servicePrice.ToString();
+
+            }
         }
 
 
