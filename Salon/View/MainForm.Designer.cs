@@ -31,13 +31,13 @@
             this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainForm));
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle6 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle7 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle8 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle4 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle5 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle6 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle7 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle8 = new System.Windows.Forms.DataGridViewCellStyle();
             this.materialTabControl1 = new MaterialSkin.Controls.MaterialTabControl();
             this.dashboardTab = new System.Windows.Forms.TabPage();
             this.tableLayoutPanel2 = new System.Windows.Forms.TableLayoutPanel();
@@ -113,6 +113,7 @@
             this.stylist_email = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.stylist_address = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.col_stylist_status = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.col_stylist_duty = new System.Windows.Forms.DataGridViewButtonColumn();
             this.stylist_btn_update = new System.Windows.Forms.DataGridViewImageColumn();
             this.stylist_btn_delete = new System.Windows.Forms.DataGridViewImageColumn();
             this.panel4 = new System.Windows.Forms.Panel();
@@ -260,11 +261,41 @@
             this.serviceTabSelector = new MaterialSkin.Controls.MaterialTabSelector();
             this.walk_in_Tab = new System.Windows.Forms.TabPage();
             this.materialCard7 = new MaterialSkin.Controls.MaterialCard();
-            this.dgv_waiting = new System.Windows.Forms.DataGridView();
+            this.tableLayoutPanel5 = new System.Windows.Forms.TableLayoutPanel();
+            this.panel8 = new System.Windows.Forms.Panel();
+            this.dgv_walk_in = new System.Windows.Forms.DataGridView();
+            this.col_walk_in_id = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.col_walk_in_customer_name = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.col_walk_in_price = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.col_walk_in_stylist_id = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.col_walk_in_stylist_name = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.col_walk_in_start_time = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.col_walk_in_end_time = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.col_walk_in_status = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.col_walk_in_payment_status = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.btn_walk_in_payment = new System.Windows.Forms.DataGridViewImageColumn();
+            this.btn_walk_in_update = new System.Windows.Forms.DataGridViewImageColumn();
             this.contextMenuStrip1 = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.cancelledToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.noShowToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.dgv_walk_in = new System.Windows.Forms.DataGridView();
+            this.panel9 = new System.Windows.Forms.Panel();
+            this.materialLabel28 = new MaterialSkin.Controls.MaterialLabel();
+            this.panel10 = new System.Windows.Forms.Panel();
+            this.dgv_waiting = new System.Windows.Forms.DataGridView();
+            this.col_waiting_walk_id = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.col_waiting_app_service_id = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.col_waiting_customer_id = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.col_waiting_customer_name = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.col_waiting_stylist_id = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.col_waiting_stylist_name = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.col_waiting_service_time = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.col_waiting_status = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.col_waiting_assign_stylist = new System.Windows.Forms.DataGridViewImageColumn();
+            this.col_waiting_start_service = new System.Windows.Forms.DataGridViewButtonColumn();
+            this.col_waiting_update = new System.Windows.Forms.DataGridViewImageColumn();
+            this.panel11 = new System.Windows.Forms.Panel();
+            this.materialLabel30 = new MaterialSkin.Controls.MaterialLabel();
+            this.panel7 = new System.Windows.Forms.Panel();
             this.materialCard28 = new MaterialSkin.Controls.MaterialCard();
             this.materialButton1 = new MaterialSkin.Controls.MaterialButton();
             this.cmb_walk_in_status = new MaterialSkin.Controls.MaterialComboBox();
@@ -272,6 +303,24 @@
             this.appointmentTab = new System.Windows.Forms.TabPage();
             this.materialCard23 = new MaterialSkin.Controls.MaterialCard();
             this.dgv_appointment = new System.Windows.Forms.DataGridView();
+            this.appointment_id = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.customer_id = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.customerName = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.col_app_subcat_id = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.col_appointment_selling_price = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.col_appointment_vat_amount = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.col_appointment_email = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.col_appointment_number = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.stylist_id = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.stylistName = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.date = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.startTime = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.endTime = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.status = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.paymentStatus = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.col_book_type = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.col_update_appointment = new System.Windows.Forms.DataGridViewImageColumn();
+            this.col_pay = new System.Windows.Forms.DataGridViewButtonColumn();
             this.materialCard22 = new MaterialSkin.Controls.MaterialCard();
             this.btn_refresh_appointment = new MaterialSkin.Controls.MaterialButton();
             this.cmb_appointment_status = new MaterialSkin.Controls.MaterialComboBox();
@@ -548,36 +597,15 @@
             this.printDocument1 = new System.Drawing.Printing.PrintDocument();
             this.printPreviewDialog1 = new System.Windows.Forms.PrintPreviewDialog();
             this.folderBrowserDialog1 = new System.Windows.Forms.FolderBrowserDialog();
-            this.tableLayoutPanel5 = new System.Windows.Forms.TableLayoutPanel();
-            this.panel7 = new System.Windows.Forms.Panel();
-            this.panel8 = new System.Windows.Forms.Panel();
-            this.materialLabel28 = new MaterialSkin.Controls.MaterialLabel();
-            this.panel9 = new System.Windows.Forms.Panel();
-            this.panel10 = new System.Windows.Forms.Panel();
-            this.panel11 = new System.Windows.Forms.Panel();
-            this.materialLabel30 = new MaterialSkin.Controls.MaterialLabel();
-            this.col_walk_in_id = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.col_walk_in_customer_name = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.col_walk_in_price = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.col_walk_in_stylist_id = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.col_walk_in_stylist_name = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.col_walk_in_start_time = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.col_walk_in_end_time = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.col_walk_in_status = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.col_walk_in_payment_status = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.btn_walk_in_payment = new System.Windows.Forms.DataGridViewImageColumn();
-            this.btn_walk_in_update = new System.Windows.Forms.DataGridViewImageColumn();
-            this.col_waiting_walk_id = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.col_waiting_app_service_id = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.col_waiting_customer_id = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.col_waiting_customer_name = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.col_waiting_stylist_id = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.col_waiting_stylist_name = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.col_waiting_service_time = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.col_waiting_status = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.col_waiting_assign_stylist = new System.Windows.Forms.DataGridViewImageColumn();
-            this.col_waiting_start_service = new System.Windows.Forms.DataGridViewButtonColumn();
-            this.col_waiting_update = new System.Windows.Forms.DataGridViewImageColumn();
+            this.panel12 = new System.Windows.Forms.Panel();
+            this.materialLabel31 = new MaterialSkin.Controls.MaterialLabel();
+            this.dgv_stylist_track = new System.Windows.Forms.DataGridView();
+            this.col_duty_stylist_name = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.col_duty_stylist_client = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.col_duty_stylist_service = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.col_duty_stylist_start_end_time = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.col_duty_stylist_available = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.col_duty_stylist_status = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.paginationControl1 = new Salon.Util.PaginationControl();
             this.paginationControl3 = new Salon.Util.PaginationControl();
             this.customerPagination = new Salon.Util.PaginationControl();
@@ -595,24 +623,6 @@
             this.inventory_report_pagination = new Salon.Util.PaginationControl();
             this.audit_pagination = new Salon.Util.PaginationControl();
             this.data_recovery_pagination = new Salon.Util.PaginationControl();
-            this.appointment_id = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.customer_id = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.customerName = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.col_app_subcat_id = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.col_appointment_selling_price = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.col_appointment_vat_amount = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.col_appointment_email = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.col_appointment_number = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.stylist_id = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.stylistName = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.date = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.startTime = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.endTime = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.status = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.paymentStatus = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.col_book_type = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.col_update_appointment = new System.Windows.Forms.DataGridViewImageColumn();
-            this.col_pay = new System.Windows.Forms.DataGridViewButtonColumn();
             this.materialTabControl1.SuspendLayout();
             this.dashboardTab.SuspendLayout();
             this.tableLayoutPanel2.SuspendLayout();
@@ -683,9 +693,15 @@
             this.materialCard20.SuspendLayout();
             this.walk_in_Tab.SuspendLayout();
             this.materialCard7.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.dgv_waiting)).BeginInit();
-            this.contextMenuStrip1.SuspendLayout();
+            this.tableLayoutPanel5.SuspendLayout();
+            this.panel8.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgv_walk_in)).BeginInit();
+            this.contextMenuStrip1.SuspendLayout();
+            this.panel9.SuspendLayout();
+            this.panel10.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.dgv_waiting)).BeginInit();
+            this.panel11.SuspendLayout();
+            this.panel7.SuspendLayout();
             this.materialCard28.SuspendLayout();
             this.appointmentTab.SuspendLayout();
             this.materialCard23.SuspendLayout();
@@ -746,11 +762,8 @@
             this.materialCard30.SuspendLayout();
             this.groupBox7.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.errorProvider1)).BeginInit();
-            this.tableLayoutPanel5.SuspendLayout();
-            this.panel8.SuspendLayout();
-            this.panel9.SuspendLayout();
-            this.panel10.SuspendLayout();
-            this.panel11.SuspendLayout();
+            this.panel12.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.dgv_stylist_track)).BeginInit();
             this.SuspendLayout();
             // 
             // materialTabControl1
@@ -1340,10 +1353,10 @@
             // 
             this.userTab.Controls.Add(this.materialCard11);
             this.userTab.ImageKey = "user.png";
-            this.userTab.Location = new System.Drawing.Point(4, 36);
+            this.userTab.Location = new System.Drawing.Point(4, 68);
             this.userTab.Name = "userTab";
             this.userTab.Padding = new System.Windows.Forms.Padding(50);
-            this.userTab.Size = new System.Drawing.Size(1928, 995);
+            this.userTab.Size = new System.Drawing.Size(1928, 963);
             this.userTab.TabIndex = 0;
             this.userTab.Text = "Manage User";
             this.userTab.UseVisualStyleBackColor = true;
@@ -1362,7 +1375,7 @@
             this.materialCard11.MouseState = MaterialSkin.MouseState.HOVER;
             this.materialCard11.Name = "materialCard11";
             this.materialCard11.Padding = new System.Windows.Forms.Padding(14);
-            this.materialCard11.Size = new System.Drawing.Size(1828, 895);
+            this.materialCard11.Size = new System.Drawing.Size(1828, 863);
             this.materialCard11.TabIndex = 5;
             // 
             // dgv_user
@@ -1600,10 +1613,10 @@
             // 
             this.stylistTab.Controls.Add(this.materialCard13);
             this.stylistTab.ImageKey = "stylist.png";
-            this.stylistTab.Location = new System.Drawing.Point(4, 36);
+            this.stylistTab.Location = new System.Drawing.Point(4, 68);
             this.stylistTab.Name = "stylistTab";
             this.stylistTab.Padding = new System.Windows.Forms.Padding(50);
-            this.stylistTab.Size = new System.Drawing.Size(1928, 995);
+            this.stylistTab.Size = new System.Drawing.Size(1928, 963);
             this.stylistTab.TabIndex = 1;
             this.stylistTab.Text = "Manage Stylist";
             this.stylistTab.UseVisualStyleBackColor = true;
@@ -1622,7 +1635,7 @@
             this.materialCard13.MouseState = MaterialSkin.MouseState.HOVER;
             this.materialCard13.Name = "materialCard13";
             this.materialCard13.Padding = new System.Windows.Forms.Padding(14);
-            this.materialCard13.Size = new System.Drawing.Size(1828, 895);
+            this.materialCard13.Size = new System.Drawing.Size(1828, 863);
             this.materialCard13.TabIndex = 7;
             // 
             // dgv_stylist
@@ -1645,6 +1658,7 @@
             this.stylist_email,
             this.stylist_address,
             this.col_stylist_status,
+            this.col_stylist_duty,
             this.stylist_btn_update,
             this.stylist_btn_delete});
             this.dgv_stylist.Dock = System.Windows.Forms.DockStyle.Top;
@@ -1736,6 +1750,18 @@
             this.col_stylist_status.ReadOnly = true;
             this.col_stylist_status.Width = 106;
             // 
+            // col_stylist_duty
+            // 
+            this.col_stylist_duty.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
+            this.col_stylist_duty.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.col_stylist_duty.HeaderText = "Duty";
+            this.col_stylist_duty.MinimumWidth = 6;
+            this.col_stylist_duty.Name = "col_stylist_duty";
+            this.col_stylist_duty.ReadOnly = true;
+            this.col_stylist_duty.Resizable = System.Windows.Forms.DataGridViewTriState.True;
+            this.col_stylist_duty.Text = "";
+            this.col_stylist_duty.Width = 64;
+            // 
             // stylist_btn_update
             // 
             this.stylist_btn_update.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
@@ -1820,10 +1846,10 @@
             this.customerTab.Controls.Add(this.materialCard12);
             this.customerTab.Controls.Add(this.materialCard10);
             this.customerTab.ImageKey = "group_24dp_E3E3E3_FILL0_wght400_GRAD0_opsz24.png";
-            this.customerTab.Location = new System.Drawing.Point(4, 36);
+            this.customerTab.Location = new System.Drawing.Point(4, 68);
             this.customerTab.Name = "customerTab";
             this.customerTab.Padding = new System.Windows.Forms.Padding(50);
-            this.customerTab.Size = new System.Drawing.Size(1928, 995);
+            this.customerTab.Size = new System.Drawing.Size(1928, 963);
             this.customerTab.TabIndex = 3;
             this.customerTab.Text = "Customer";
             this.customerTab.UseVisualStyleBackColor = true;
@@ -1841,7 +1867,7 @@
             this.materialCard12.MouseState = MaterialSkin.MouseState.HOVER;
             this.materialCard12.Name = "materialCard12";
             this.materialCard12.Padding = new System.Windows.Forms.Padding(14);
-            this.materialCard12.Size = new System.Drawing.Size(1828, 820);
+            this.materialCard12.Size = new System.Drawing.Size(1828, 788);
             this.materialCard12.TabIndex = 9;
             // 
             // dgv_customer
@@ -2025,10 +2051,10 @@
             this.supplierTab.Controls.Add(this.materialCard25);
             this.supplierTab.Controls.Add(this.materialCard24);
             this.supplierTab.ImageKey = "supplier (2).png";
-            this.supplierTab.Location = new System.Drawing.Point(4, 36);
+            this.supplierTab.Location = new System.Drawing.Point(4, 68);
             this.supplierTab.Name = "supplierTab";
             this.supplierTab.Padding = new System.Windows.Forms.Padding(50);
-            this.supplierTab.Size = new System.Drawing.Size(1928, 995);
+            this.supplierTab.Size = new System.Drawing.Size(1928, 963);
             this.supplierTab.TabIndex = 12;
             this.supplierTab.Text = "Supplier";
             this.supplierTab.UseVisualStyleBackColor = true;
@@ -2046,7 +2072,7 @@
             this.materialCard25.MouseState = MaterialSkin.MouseState.HOVER;
             this.materialCard25.Name = "materialCard25";
             this.materialCard25.Padding = new System.Windows.Forms.Padding(14);
-            this.materialCard25.Size = new System.Drawing.Size(1828, 820);
+            this.materialCard25.Size = new System.Drawing.Size(1828, 788);
             this.materialCard25.TabIndex = 17;
             // 
             // dgv_supplier
@@ -2209,10 +2235,10 @@
             this.categoriesTab.Controls.Add(this.materialCard15);
             this.categoriesTab.Controls.Add(this.materialCard14);
             this.categoriesTab.ImageKey = "folder.png";
-            this.categoriesTab.Location = new System.Drawing.Point(4, 36);
+            this.categoriesTab.Location = new System.Drawing.Point(4, 68);
             this.categoriesTab.Name = "categoriesTab";
             this.categoriesTab.Padding = new System.Windows.Forms.Padding(50);
-            this.categoriesTab.Size = new System.Drawing.Size(1928, 995);
+            this.categoriesTab.Size = new System.Drawing.Size(1928, 963);
             this.categoriesTab.TabIndex = 4;
             this.categoriesTab.Text = "Categories";
             this.categoriesTab.UseVisualStyleBackColor = true;
@@ -2229,7 +2255,7 @@
             this.materialCard15.MouseState = MaterialSkin.MouseState.HOVER;
             this.materialCard15.Name = "materialCard15";
             this.materialCard15.Padding = new System.Windows.Forms.Padding(14);
-            this.materialCard15.Size = new System.Drawing.Size(1828, 820);
+            this.materialCard15.Size = new System.Drawing.Size(1828, 788);
             this.materialCard15.TabIndex = 11;
             // 
             // dgv_category
@@ -2256,7 +2282,7 @@
             this.dgv_category.RowHeadersVisible = false;
             this.dgv_category.RowHeadersWidth = 51;
             this.dgv_category.RowTemplate.Height = 24;
-            this.dgv_category.Size = new System.Drawing.Size(1800, 792);
+            this.dgv_category.Size = new System.Drawing.Size(1800, 760);
             this.dgv_category.TabIndex = 8;
             this.dgv_category.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgv_category_CellClick);
             // 
@@ -2364,10 +2390,10 @@
             this.subCategoryTab.Controls.Add(this.materialCard17);
             this.subCategoryTab.Controls.Add(this.materialCard16);
             this.subCategoryTab.ImageKey = "folder (1).png";
-            this.subCategoryTab.Location = new System.Drawing.Point(4, 36);
+            this.subCategoryTab.Location = new System.Drawing.Point(4, 68);
             this.subCategoryTab.Name = "subCategoryTab";
             this.subCategoryTab.Padding = new System.Windows.Forms.Padding(50);
-            this.subCategoryTab.Size = new System.Drawing.Size(1928, 995);
+            this.subCategoryTab.Size = new System.Drawing.Size(1928, 963);
             this.subCategoryTab.TabIndex = 5;
             this.subCategoryTab.Text = "Sub-Categories";
             this.subCategoryTab.UseVisualStyleBackColor = true;
@@ -2385,7 +2411,7 @@
             this.materialCard17.MouseState = MaterialSkin.MouseState.HOVER;
             this.materialCard17.Name = "materialCard17";
             this.materialCard17.Padding = new System.Windows.Forms.Padding(14);
-            this.materialCard17.Size = new System.Drawing.Size(1828, 820);
+            this.materialCard17.Size = new System.Drawing.Size(1828, 788);
             this.materialCard17.TabIndex = 13;
             this.materialCard17.Paint += new System.Windows.Forms.PaintEventHandler(this.materialCard17_Paint);
             // 
@@ -2539,10 +2565,10 @@
             this.productsTab.Controls.Add(this.productTabControl);
             this.productsTab.Controls.Add(this.productTabSelector);
             this.productsTab.ImageKey = "skin-care.png";
-            this.productsTab.Location = new System.Drawing.Point(4, 36);
+            this.productsTab.Location = new System.Drawing.Point(4, 68);
             this.productsTab.Name = "productsTab";
             this.productsTab.Padding = new System.Windows.Forms.Padding(50);
-            this.productsTab.Size = new System.Drawing.Size(1928, 995);
+            this.productsTab.Size = new System.Drawing.Size(1928, 963);
             this.productsTab.TabIndex = 6;
             this.productsTab.Text = " Product";
             this.productsTab.UseVisualStyleBackColor = true;
@@ -2558,7 +2584,7 @@
             this.productTabControl.Multiline = true;
             this.productTabControl.Name = "productTabControl";
             this.productTabControl.SelectedIndex = 0;
-            this.productTabControl.Size = new System.Drawing.Size(1828, 847);
+            this.productTabControl.Size = new System.Drawing.Size(1828, 815);
             this.productTabControl.TabIndex = 16;
             // 
             // tabPageIngredient
@@ -2568,7 +2594,7 @@
             this.tabPageIngredient.Location = new System.Drawing.Point(4, 38);
             this.tabPageIngredient.Name = "tabPageIngredient";
             this.tabPageIngredient.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPageIngredient.Size = new System.Drawing.Size(1820, 805);
+            this.tabPageIngredient.Size = new System.Drawing.Size(1820, 773);
             this.tabPageIngredient.TabIndex = 0;
             this.tabPageIngredient.Text = "Ingredient";
             this.tabPageIngredient.UseVisualStyleBackColor = true;
@@ -2586,7 +2612,7 @@
             this.materialCard19.MouseState = MaterialSkin.MouseState.HOVER;
             this.materialCard19.Name = "materialCard19";
             this.materialCard19.Padding = new System.Windows.Forms.Padding(14);
-            this.materialCard19.Size = new System.Drawing.Size(1814, 724);
+            this.materialCard19.Size = new System.Drawing.Size(1814, 692);
             this.materialCard19.TabIndex = 15;
             // 
             // dgv_product
@@ -2985,10 +3011,10 @@
             this.deliveryTab.Controls.Add(this.materialCard27);
             this.deliveryTab.Controls.Add(this.materialCard26);
             this.deliveryTab.ImageKey = "express-delivery.png";
-            this.deliveryTab.Location = new System.Drawing.Point(4, 36);
+            this.deliveryTab.Location = new System.Drawing.Point(4, 68);
             this.deliveryTab.Name = "deliveryTab";
             this.deliveryTab.Padding = new System.Windows.Forms.Padding(50);
-            this.deliveryTab.Size = new System.Drawing.Size(1928, 995);
+            this.deliveryTab.Size = new System.Drawing.Size(1928, 963);
             this.deliveryTab.TabIndex = 13;
             this.deliveryTab.Text = "Delivery";
             this.deliveryTab.UseVisualStyleBackColor = true;
@@ -3006,7 +3032,7 @@
             this.materialCard27.MouseState = MaterialSkin.MouseState.HOVER;
             this.materialCard27.Name = "materialCard27";
             this.materialCard27.Padding = new System.Windows.Forms.Padding(14);
-            this.materialCard27.Size = new System.Drawing.Size(1828, 820);
+            this.materialCard27.Size = new System.Drawing.Size(1828, 788);
             this.materialCard27.TabIndex = 19;
             // 
             // dgv_delivery
@@ -3162,10 +3188,10 @@
             // 
             this.inventoryTab.Controls.Add(this.materialCard29);
             this.inventoryTab.ImageKey = "warehouse.png";
-            this.inventoryTab.Location = new System.Drawing.Point(4, 36);
+            this.inventoryTab.Location = new System.Drawing.Point(4, 68);
             this.inventoryTab.Name = "inventoryTab";
             this.inventoryTab.Padding = new System.Windows.Forms.Padding(50);
-            this.inventoryTab.Size = new System.Drawing.Size(1928, 995);
+            this.inventoryTab.Size = new System.Drawing.Size(1928, 963);
             this.inventoryTab.TabIndex = 14;
             this.inventoryTab.Text = "Inventory";
             this.inventoryTab.UseVisualStyleBackColor = true;
@@ -3184,7 +3210,7 @@
             this.materialCard29.MouseState = MaterialSkin.MouseState.HOVER;
             this.materialCard29.Name = "materialCard29";
             this.materialCard29.Padding = new System.Windows.Forms.Padding(14);
-            this.materialCard29.Size = new System.Drawing.Size(1828, 895);
+            this.materialCard29.Size = new System.Drawing.Size(1828, 863);
             this.materialCard29.TabIndex = 2;
             // 
             // inventoryTabControl
@@ -3198,7 +3224,7 @@
             this.inventoryTabControl.Multiline = true;
             this.inventoryTabControl.Name = "inventoryTabControl";
             this.inventoryTabControl.SelectedIndex = 0;
-            this.inventoryTabControl.Size = new System.Drawing.Size(1800, 765);
+            this.inventoryTabControl.Size = new System.Drawing.Size(1800, 733);
             this.inventoryTabControl.TabIndex = 1;
             this.inventoryTabControl.SelectedIndexChanged += new System.EventHandler(this.inventoryTabControl_SelectedIndexChanged);
             // 
@@ -3209,7 +3235,7 @@
             this.inventory.Location = new System.Drawing.Point(4, 38);
             this.inventory.Name = "inventory";
             this.inventory.Padding = new System.Windows.Forms.Padding(3);
-            this.inventory.Size = new System.Drawing.Size(1792, 723);
+            this.inventory.Size = new System.Drawing.Size(1792, 691);
             this.inventory.TabIndex = 0;
             this.inventory.Text = "Inventory";
             this.inventory.UseVisualStyleBackColor = true;
@@ -3442,9 +3468,9 @@
             this.servicesTab.Controls.Add(this.servicesTabControl);
             this.servicesTab.Controls.Add(this.serviceTabSelector);
             this.servicesTab.ImageKey = "services.png";
-            this.servicesTab.Location = new System.Drawing.Point(4, 36);
+            this.servicesTab.Location = new System.Drawing.Point(4, 68);
             this.servicesTab.Name = "servicesTab";
-            this.servicesTab.Size = new System.Drawing.Size(1928, 995);
+            this.servicesTab.Size = new System.Drawing.Size(1928, 963);
             this.servicesTab.TabIndex = 7;
             this.servicesTab.Text = "Services";
             this.servicesTab.UseVisualStyleBackColor = true;
@@ -3460,7 +3486,7 @@
             this.servicesTabControl.Multiline = true;
             this.servicesTabControl.Name = "servicesTabControl";
             this.servicesTabControl.SelectedIndex = 0;
-            this.servicesTabControl.Size = new System.Drawing.Size(1928, 947);
+            this.servicesTabControl.Size = new System.Drawing.Size(1928, 915);
             this.servicesTabControl.TabIndex = 18;
             // 
             // tabPageService
@@ -3470,7 +3496,7 @@
             this.tabPageService.Location = new System.Drawing.Point(4, 38);
             this.tabPageService.Name = "tabPageService";
             this.tabPageService.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPageService.Size = new System.Drawing.Size(1920, 905);
+            this.tabPageService.Size = new System.Drawing.Size(1920, 873);
             this.tabPageService.TabIndex = 0;
             this.tabPageService.Text = "Service";
             this.tabPageService.UseVisualStyleBackColor = true;
@@ -3488,7 +3514,7 @@
             this.materialCard21.MouseState = MaterialSkin.MouseState.HOVER;
             this.materialCard21.Name = "materialCard21";
             this.materialCard21.Padding = new System.Windows.Forms.Padding(14);
-            this.materialCard21.Size = new System.Drawing.Size(1914, 828);
+            this.materialCard21.Size = new System.Drawing.Size(1914, 796);
             this.materialCard21.TabIndex = 17;
             // 
             // dgv_service
@@ -3725,10 +3751,10 @@
             // 
             this.walk_in_Tab.Controls.Add(this.materialCard7);
             this.walk_in_Tab.Controls.Add(this.materialCard28);
-            this.walk_in_Tab.Location = new System.Drawing.Point(4, 36);
+            this.walk_in_Tab.Location = new System.Drawing.Point(4, 68);
             this.walk_in_Tab.Name = "walk_in_Tab";
             this.walk_in_Tab.Padding = new System.Windows.Forms.Padding(50);
-            this.walk_in_Tab.Size = new System.Drawing.Size(1928, 995);
+            this.walk_in_Tab.Size = new System.Drawing.Size(1928, 963);
             this.walk_in_Tab.TabIndex = 19;
             this.walk_in_Tab.Text = "Queue";
             this.walk_in_Tab.UseVisualStyleBackColor = true;
@@ -3748,66 +3774,30 @@
             this.materialCard7.Size = new System.Drawing.Size(1828, 788);
             this.materialCard7.TabIndex = 19;
             // 
-            // dgv_waiting
+            // tableLayoutPanel5
             // 
-            this.dgv_waiting.AllowUserToAddRows = false;
-            this.dgv_waiting.AllowUserToDeleteRows = false;
-            this.dgv_waiting.AllowUserToResizeColumns = false;
-            this.dgv_waiting.AllowUserToResizeRows = false;
-            this.dgv_waiting.BorderStyle = System.Windows.Forms.BorderStyle.None;
-            this.dgv_waiting.CellBorderStyle = System.Windows.Forms.DataGridViewCellBorderStyle.None;
-            this.dgv_waiting.ColumnHeadersBorderStyle = System.Windows.Forms.DataGridViewHeaderBorderStyle.None;
-            this.dgv_waiting.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dgv_waiting.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
-            this.col_waiting_walk_id,
-            this.col_waiting_app_service_id,
-            this.col_waiting_customer_id,
-            this.col_waiting_customer_name,
-            this.col_waiting_stylist_id,
-            this.col_waiting_stylist_name,
-            this.col_waiting_service_time,
-            this.col_waiting_status,
-            this.col_waiting_assign_stylist,
-            this.col_waiting_start_service,
-            this.col_waiting_update});
-            this.dgv_waiting.ContextMenuStrip = this.contextMenuStrip1;
-            this.dgv_waiting.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.dgv_waiting.EnableHeadersVisualStyles = false;
-            this.dgv_waiting.Location = new System.Drawing.Point(0, 75);
-            this.dgv_waiting.Name = "dgv_waiting";
-            this.dgv_waiting.ReadOnly = true;
-            this.dgv_waiting.RowHeadersBorderStyle = System.Windows.Forms.DataGridViewHeaderBorderStyle.None;
-            this.dgv_waiting.RowHeadersVisible = false;
-            this.dgv_waiting.RowHeadersWidth = 51;
-            this.dgv_waiting.RowTemplate.Height = 24;
-            this.dgv_waiting.Size = new System.Drawing.Size(1294, 299);
-            this.dgv_waiting.TabIndex = 15;
-            this.dgv_waiting.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgv_waiting_CellClick);
+            this.tableLayoutPanel5.ColumnCount = 1;
+            this.tableLayoutPanel5.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
+            this.tableLayoutPanel5.Controls.Add(this.panel8, 0, 0);
+            this.tableLayoutPanel5.Controls.Add(this.panel10, 0, 1);
+            this.tableLayoutPanel5.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.tableLayoutPanel5.Location = new System.Drawing.Point(14, 14);
+            this.tableLayoutPanel5.Name = "tableLayoutPanel5";
+            this.tableLayoutPanel5.RowCount = 2;
+            this.tableLayoutPanel5.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
+            this.tableLayoutPanel5.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
+            this.tableLayoutPanel5.Size = new System.Drawing.Size(1123, 760);
+            this.tableLayoutPanel5.TabIndex = 16;
             // 
-            // contextMenuStrip1
+            // panel8
             // 
-            this.contextMenuStrip1.ImageScalingSize = new System.Drawing.Size(20, 20);
-            this.contextMenuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.cancelledToolStripMenuItem,
-            this.noShowToolStripMenuItem});
-            this.contextMenuStrip1.Name = "contextMenuStrip1";
-            this.contextMenuStrip1.Size = new System.Drawing.Size(148, 56);
-            // 
-            // cancelledToolStripMenuItem
-            // 
-            this.cancelledToolStripMenuItem.Image = ((System.Drawing.Image)(resources.GetObject("cancelledToolStripMenuItem.Image")));
-            this.cancelledToolStripMenuItem.Name = "cancelledToolStripMenuItem";
-            this.cancelledToolStripMenuItem.Size = new System.Drawing.Size(147, 26);
-            this.cancelledToolStripMenuItem.Text = "Cancelled";
-            this.cancelledToolStripMenuItem.Click += new System.EventHandler(this.cancelledToolStripMenuItem_Click);
-            // 
-            // noShowToolStripMenuItem
-            // 
-            this.noShowToolStripMenuItem.Image = ((System.Drawing.Image)(resources.GetObject("noShowToolStripMenuItem.Image")));
-            this.noShowToolStripMenuItem.Name = "noShowToolStripMenuItem";
-            this.noShowToolStripMenuItem.Size = new System.Drawing.Size(147, 26);
-            this.noShowToolStripMenuItem.Text = "No Show";
-            this.noShowToolStripMenuItem.Click += new System.EventHandler(this.noShowToolStripMenuItem_Click);
+            this.panel8.Controls.Add(this.dgv_walk_in);
+            this.panel8.Controls.Add(this.panel9);
+            this.panel8.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.panel8.Location = new System.Drawing.Point(3, 3);
+            this.panel8.Name = "panel8";
+            this.panel8.Size = new System.Drawing.Size(1117, 374);
+            this.panel8.TabIndex = 16;
             // 
             // dgv_walk_in
             // 
@@ -3841,9 +3831,350 @@
             this.dgv_walk_in.RowHeadersVisible = false;
             this.dgv_walk_in.RowHeadersWidth = 51;
             this.dgv_walk_in.RowTemplate.Height = 24;
-            this.dgv_walk_in.Size = new System.Drawing.Size(1294, 299);
+            this.dgv_walk_in.Size = new System.Drawing.Size(1117, 299);
             this.dgv_walk_in.TabIndex = 14;
             this.dgv_walk_in.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgv_walk_in_CellContentClick);
+            // 
+            // col_walk_in_id
+            // 
+            this.col_walk_in_id.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
+            this.col_walk_in_id.HeaderText = "walk_in_id";
+            this.col_walk_in_id.MinimumWidth = 6;
+            this.col_walk_in_id.Name = "col_walk_in_id";
+            this.col_walk_in_id.ReadOnly = true;
+            this.col_walk_in_id.Visible = false;
+            // 
+            // col_walk_in_customer_name
+            // 
+            this.col_walk_in_customer_name.HeaderText = "Customer";
+            this.col_walk_in_customer_name.MinimumWidth = 6;
+            this.col_walk_in_customer_name.Name = "col_walk_in_customer_name";
+            this.col_walk_in_customer_name.ReadOnly = true;
+            this.col_walk_in_customer_name.Width = 125;
+            // 
+            // col_walk_in_price
+            // 
+            this.col_walk_in_price.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
+            this.col_walk_in_price.HeaderText = "Selling Price";
+            this.col_walk_in_price.MinimumWidth = 6;
+            this.col_walk_in_price.Name = "col_walk_in_price";
+            this.col_walk_in_price.ReadOnly = true;
+            this.col_walk_in_price.Visible = false;
+            this.col_walk_in_price.Width = 109;
+            // 
+            // col_walk_in_stylist_id
+            // 
+            this.col_walk_in_stylist_id.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
+            this.col_walk_in_stylist_id.HeaderText = "stylist_id";
+            this.col_walk_in_stylist_id.MinimumWidth = 6;
+            this.col_walk_in_stylist_id.Name = "col_walk_in_stylist_id";
+            this.col_walk_in_stylist_id.ReadOnly = true;
+            this.col_walk_in_stylist_id.Visible = false;
+            this.col_walk_in_stylist_id.Width = 85;
+            // 
+            // col_walk_in_stylist_name
+            // 
+            this.col_walk_in_stylist_name.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
+            this.col_walk_in_stylist_name.HeaderText = "Stylist Name";
+            this.col_walk_in_stylist_name.MinimumWidth = 6;
+            this.col_walk_in_stylist_name.Name = "col_walk_in_stylist_name";
+            this.col_walk_in_stylist_name.ReadOnly = true;
+            // 
+            // col_walk_in_start_time
+            // 
+            this.col_walk_in_start_time.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
+            dataGridViewCellStyle2.Format = "t";
+            dataGridViewCellStyle2.NullValue = null;
+            this.col_walk_in_start_time.DefaultCellStyle = dataGridViewCellStyle2;
+            this.col_walk_in_start_time.HeaderText = "Start Time";
+            this.col_walk_in_start_time.MinimumWidth = 6;
+            this.col_walk_in_start_time.Name = "col_walk_in_start_time";
+            this.col_walk_in_start_time.ReadOnly = true;
+            this.col_walk_in_start_time.Width = 138;
+            // 
+            // col_walk_in_end_time
+            // 
+            this.col_walk_in_end_time.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
+            dataGridViewCellStyle3.Format = "t";
+            dataGridViewCellStyle3.NullValue = null;
+            this.col_walk_in_end_time.DefaultCellStyle = dataGridViewCellStyle3;
+            this.col_walk_in_end_time.HeaderText = "End TIme";
+            this.col_walk_in_end_time.MinimumWidth = 6;
+            this.col_walk_in_end_time.Name = "col_walk_in_end_time";
+            this.col_walk_in_end_time.ReadOnly = true;
+            this.col_walk_in_end_time.Width = 133;
+            // 
+            // col_walk_in_status
+            // 
+            this.col_walk_in_status.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
+            this.col_walk_in_status.HeaderText = "Status";
+            this.col_walk_in_status.MinimumWidth = 6;
+            this.col_walk_in_status.Name = "col_walk_in_status";
+            this.col_walk_in_status.ReadOnly = true;
+            this.col_walk_in_status.Resizable = System.Windows.Forms.DataGridViewTriState.True;
+            this.col_walk_in_status.Width = 106;
+            // 
+            // col_walk_in_payment_status
+            // 
+            this.col_walk_in_payment_status.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
+            this.col_walk_in_payment_status.HeaderText = "Payment Status";
+            this.col_walk_in_payment_status.MinimumWidth = 6;
+            this.col_walk_in_payment_status.Name = "col_walk_in_payment_status";
+            this.col_walk_in_payment_status.ReadOnly = true;
+            this.col_walk_in_payment_status.Resizable = System.Windows.Forms.DataGridViewTriState.True;
+            this.col_walk_in_payment_status.Width = 187;
+            // 
+            // btn_walk_in_payment
+            // 
+            this.btn_walk_in_payment.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
+            this.btn_walk_in_payment.HeaderText = "Process Payment";
+            this.btn_walk_in_payment.Image = ((System.Drawing.Image)(resources.GetObject("btn_walk_in_payment.Image")));
+            this.btn_walk_in_payment.ImageLayout = System.Windows.Forms.DataGridViewImageCellLayout.Zoom;
+            this.btn_walk_in_payment.MinimumWidth = 6;
+            this.btn_walk_in_payment.Name = "btn_walk_in_payment";
+            this.btn_walk_in_payment.ReadOnly = true;
+            this.btn_walk_in_payment.Width = 184;
+            // 
+            // btn_walk_in_update
+            // 
+            this.btn_walk_in_update.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
+            this.btn_walk_in_update.HeaderText = "Update";
+            this.btn_walk_in_update.Image = ((System.Drawing.Image)(resources.GetObject("btn_walk_in_update.Image")));
+            this.btn_walk_in_update.ImageLayout = System.Windows.Forms.DataGridViewImageCellLayout.Zoom;
+            this.btn_walk_in_update.MinimumWidth = 6;
+            this.btn_walk_in_update.Name = "btn_walk_in_update";
+            this.btn_walk_in_update.ReadOnly = true;
+            this.btn_walk_in_update.Width = 95;
+            // 
+            // contextMenuStrip1
+            // 
+            this.contextMenuStrip1.ImageScalingSize = new System.Drawing.Size(20, 20);
+            this.contextMenuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.cancelledToolStripMenuItem,
+            this.noShowToolStripMenuItem});
+            this.contextMenuStrip1.Name = "contextMenuStrip1";
+            this.contextMenuStrip1.Size = new System.Drawing.Size(148, 56);
+            // 
+            // cancelledToolStripMenuItem
+            // 
+            this.cancelledToolStripMenuItem.Image = ((System.Drawing.Image)(resources.GetObject("cancelledToolStripMenuItem.Image")));
+            this.cancelledToolStripMenuItem.Name = "cancelledToolStripMenuItem";
+            this.cancelledToolStripMenuItem.Size = new System.Drawing.Size(147, 26);
+            this.cancelledToolStripMenuItem.Text = "Cancelled";
+            this.cancelledToolStripMenuItem.Click += new System.EventHandler(this.cancelledToolStripMenuItem_Click);
+            // 
+            // noShowToolStripMenuItem
+            // 
+            this.noShowToolStripMenuItem.Image = ((System.Drawing.Image)(resources.GetObject("noShowToolStripMenuItem.Image")));
+            this.noShowToolStripMenuItem.Name = "noShowToolStripMenuItem";
+            this.noShowToolStripMenuItem.Size = new System.Drawing.Size(147, 26);
+            this.noShowToolStripMenuItem.Text = "No Show";
+            this.noShowToolStripMenuItem.Click += new System.EventHandler(this.noShowToolStripMenuItem_Click);
+            // 
+            // panel9
+            // 
+            this.panel9.Controls.Add(this.materialLabel28);
+            this.panel9.Dock = System.Windows.Forms.DockStyle.Top;
+            this.panel9.Location = new System.Drawing.Point(0, 0);
+            this.panel9.Name = "panel9";
+            this.panel9.Size = new System.Drawing.Size(1117, 75);
+            this.panel9.TabIndex = 16;
+            // 
+            // materialLabel28
+            // 
+            this.materialLabel28.AutoSize = true;
+            this.materialLabel28.Depth = 0;
+            this.materialLabel28.Font = new System.Drawing.Font("Roboto", 24F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Pixel);
+            this.materialLabel28.FontType = MaterialSkin.MaterialSkinManager.fontType.H5;
+            this.materialLabel28.Location = new System.Drawing.Point(24, 20);
+            this.materialLabel28.MouseState = MaterialSkin.MouseState.HOVER;
+            this.materialLabel28.Name = "materialLabel28";
+            this.materialLabel28.Size = new System.Drawing.Size(228, 29);
+            this.materialLabel28.TabIndex = 15;
+            this.materialLabel28.Text = "ON - GOING SERVICE";
+            // 
+            // panel10
+            // 
+            this.panel10.Controls.Add(this.dgv_waiting);
+            this.panel10.Controls.Add(this.panel11);
+            this.panel10.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.panel10.Location = new System.Drawing.Point(3, 383);
+            this.panel10.Name = "panel10";
+            this.panel10.Size = new System.Drawing.Size(1117, 374);
+            this.panel10.TabIndex = 17;
+            // 
+            // dgv_waiting
+            // 
+            this.dgv_waiting.AllowUserToAddRows = false;
+            this.dgv_waiting.AllowUserToDeleteRows = false;
+            this.dgv_waiting.AllowUserToResizeColumns = false;
+            this.dgv_waiting.AllowUserToResizeRows = false;
+            this.dgv_waiting.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            this.dgv_waiting.CellBorderStyle = System.Windows.Forms.DataGridViewCellBorderStyle.None;
+            this.dgv_waiting.ColumnHeadersBorderStyle = System.Windows.Forms.DataGridViewHeaderBorderStyle.None;
+            this.dgv_waiting.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dgv_waiting.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
+            this.col_waiting_walk_id,
+            this.col_waiting_app_service_id,
+            this.col_waiting_customer_id,
+            this.col_waiting_customer_name,
+            this.col_waiting_stylist_id,
+            this.col_waiting_stylist_name,
+            this.col_waiting_service_time,
+            this.col_waiting_status,
+            this.col_waiting_assign_stylist,
+            this.col_waiting_start_service,
+            this.col_waiting_update});
+            this.dgv_waiting.ContextMenuStrip = this.contextMenuStrip1;
+            this.dgv_waiting.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.dgv_waiting.EnableHeadersVisualStyles = false;
+            this.dgv_waiting.Location = new System.Drawing.Point(0, 75);
+            this.dgv_waiting.Name = "dgv_waiting";
+            this.dgv_waiting.ReadOnly = true;
+            this.dgv_waiting.RowHeadersBorderStyle = System.Windows.Forms.DataGridViewHeaderBorderStyle.None;
+            this.dgv_waiting.RowHeadersVisible = false;
+            this.dgv_waiting.RowHeadersWidth = 51;
+            this.dgv_waiting.RowTemplate.Height = 24;
+            this.dgv_waiting.Size = new System.Drawing.Size(1117, 299);
+            this.dgv_waiting.TabIndex = 15;
+            this.dgv_waiting.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgv_waiting_CellClick);
+            // 
+            // col_waiting_walk_id
+            // 
+            this.col_waiting_walk_id.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
+            this.col_waiting_walk_id.HeaderText = "walk_in_id";
+            this.col_waiting_walk_id.MinimumWidth = 6;
+            this.col_waiting_walk_id.Name = "col_waiting_walk_id";
+            this.col_waiting_walk_id.ReadOnly = true;
+            this.col_waiting_walk_id.Visible = false;
+            // 
+            // col_waiting_app_service_id
+            // 
+            this.col_waiting_app_service_id.HeaderText = "service_id";
+            this.col_waiting_app_service_id.MinimumWidth = 6;
+            this.col_waiting_app_service_id.Name = "col_waiting_app_service_id";
+            this.col_waiting_app_service_id.ReadOnly = true;
+            this.col_waiting_app_service_id.Visible = false;
+            this.col_waiting_app_service_id.Width = 125;
+            // 
+            // col_waiting_customer_id
+            // 
+            this.col_waiting_customer_id.HeaderText = "customer_id";
+            this.col_waiting_customer_id.MinimumWidth = 6;
+            this.col_waiting_customer_id.Name = "col_waiting_customer_id";
+            this.col_waiting_customer_id.ReadOnly = true;
+            this.col_waiting_customer_id.Visible = false;
+            this.col_waiting_customer_id.Width = 125;
+            // 
+            // col_waiting_customer_name
+            // 
+            this.col_waiting_customer_name.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
+            this.col_waiting_customer_name.HeaderText = "Customer";
+            this.col_waiting_customer_name.MinimumWidth = 6;
+            this.col_waiting_customer_name.Name = "col_waiting_customer_name";
+            this.col_waiting_customer_name.ReadOnly = true;
+            // 
+            // col_waiting_stylist_id
+            // 
+            this.col_waiting_stylist_id.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
+            this.col_waiting_stylist_id.HeaderText = "stylist_id";
+            this.col_waiting_stylist_id.MinimumWidth = 6;
+            this.col_waiting_stylist_id.Name = "col_waiting_stylist_id";
+            this.col_waiting_stylist_id.ReadOnly = true;
+            this.col_waiting_stylist_id.Visible = false;
+            this.col_waiting_stylist_id.Width = 85;
+            // 
+            // col_waiting_stylist_name
+            // 
+            this.col_waiting_stylist_name.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
+            this.col_waiting_stylist_name.HeaderText = "Stylist Name";
+            this.col_waiting_stylist_name.MinimumWidth = 6;
+            this.col_waiting_stylist_name.Name = "col_waiting_stylist_name";
+            this.col_waiting_stylist_name.ReadOnly = true;
+            // 
+            // col_waiting_service_time
+            // 
+            this.col_waiting_service_time.HeaderText = "service time";
+            this.col_waiting_service_time.MinimumWidth = 6;
+            this.col_waiting_service_time.Name = "col_waiting_service_time";
+            this.col_waiting_service_time.ReadOnly = true;
+            this.col_waiting_service_time.Visible = false;
+            this.col_waiting_service_time.Width = 125;
+            // 
+            // col_waiting_status
+            // 
+            this.col_waiting_status.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
+            this.col_waiting_status.HeaderText = "Status";
+            this.col_waiting_status.MinimumWidth = 6;
+            this.col_waiting_status.Name = "col_waiting_status";
+            this.col_waiting_status.ReadOnly = true;
+            this.col_waiting_status.Resizable = System.Windows.Forms.DataGridViewTriState.True;
+            this.col_waiting_status.Width = 106;
+            // 
+            // col_waiting_assign_stylist
+            // 
+            this.col_waiting_assign_stylist.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
+            this.col_waiting_assign_stylist.HeaderText = "Assign Stylist";
+            this.col_waiting_assign_stylist.Image = ((System.Drawing.Image)(resources.GetObject("col_waiting_assign_stylist.Image")));
+            this.col_waiting_assign_stylist.ImageLayout = System.Windows.Forms.DataGridViewImageCellLayout.Zoom;
+            this.col_waiting_assign_stylist.MinimumWidth = 6;
+            this.col_waiting_assign_stylist.Name = "col_waiting_assign_stylist";
+            this.col_waiting_assign_stylist.ReadOnly = true;
+            this.col_waiting_assign_stylist.Width = 158;
+            // 
+            // col_waiting_start_service
+            // 
+            this.col_waiting_start_service.HeaderText = "Start Service";
+            this.col_waiting_start_service.MinimumWidth = 6;
+            this.col_waiting_start_service.Name = "col_waiting_start_service";
+            this.col_waiting_start_service.ReadOnly = true;
+            this.col_waiting_start_service.Resizable = System.Windows.Forms.DataGridViewTriState.True;
+            this.col_waiting_start_service.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Automatic;
+            this.col_waiting_start_service.Text = "Start";
+            this.col_waiting_start_service.Width = 125;
+            // 
+            // col_waiting_update
+            // 
+            this.col_waiting_update.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
+            this.col_waiting_update.HeaderText = "Update";
+            this.col_waiting_update.Image = ((System.Drawing.Image)(resources.GetObject("col_waiting_update.Image")));
+            this.col_waiting_update.ImageLayout = System.Windows.Forms.DataGridViewImageCellLayout.Zoom;
+            this.col_waiting_update.MinimumWidth = 6;
+            this.col_waiting_update.Name = "col_waiting_update";
+            this.col_waiting_update.ReadOnly = true;
+            this.col_waiting_update.Width = 95;
+            // 
+            // panel11
+            // 
+            this.panel11.Controls.Add(this.materialLabel30);
+            this.panel11.Dock = System.Windows.Forms.DockStyle.Top;
+            this.panel11.Location = new System.Drawing.Point(0, 0);
+            this.panel11.Name = "panel11";
+            this.panel11.Size = new System.Drawing.Size(1117, 75);
+            this.panel11.TabIndex = 17;
+            // 
+            // materialLabel30
+            // 
+            this.materialLabel30.AutoSize = true;
+            this.materialLabel30.Depth = 0;
+            this.materialLabel30.Font = new System.Drawing.Font("Roboto", 24F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Pixel);
+            this.materialLabel30.FontType = MaterialSkin.MaterialSkinManager.fontType.H5;
+            this.materialLabel30.Location = new System.Drawing.Point(24, 20);
+            this.materialLabel30.MouseState = MaterialSkin.MouseState.HOVER;
+            this.materialLabel30.Name = "materialLabel30";
+            this.materialLabel30.Size = new System.Drawing.Size(99, 29);
+            this.materialLabel30.TabIndex = 15;
+            this.materialLabel30.Text = "WAITING";
+            // 
+            // panel7
+            // 
+            this.panel7.Controls.Add(this.dgv_stylist_track);
+            this.panel7.Controls.Add(this.panel12);
+            this.panel7.Dock = System.Windows.Forms.DockStyle.Right;
+            this.panel7.Location = new System.Drawing.Point(1137, 14);
+            this.panel7.Name = "panel7";
+            this.panel7.Size = new System.Drawing.Size(677, 760);
+            this.panel7.TabIndex = 17;
             // 
             // materialCard28
             // 
@@ -4007,6 +4338,171 @@
             this.dgv_appointment.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgv_appointment_CellContentClick);
             this.dgv_appointment.CellFormatting += new System.Windows.Forms.DataGridViewCellFormattingEventHandler(this.dgv_appointment_CellFormatting);
             this.dgv_appointment.MouseDown += new System.Windows.Forms.MouseEventHandler(this.dgv_appointment_MouseDown);
+            // 
+            // appointment_id
+            // 
+            this.appointment_id.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
+            this.appointment_id.HeaderText = "app_id";
+            this.appointment_id.MinimumWidth = 6;
+            this.appointment_id.Name = "appointment_id";
+            this.appointment_id.ReadOnly = true;
+            this.appointment_id.Visible = false;
+            // 
+            // customer_id
+            // 
+            this.customer_id.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
+            this.customer_id.HeaderText = "customer_id";
+            this.customer_id.MinimumWidth = 6;
+            this.customer_id.Name = "customer_id";
+            this.customer_id.ReadOnly = true;
+            this.customer_id.Visible = false;
+            // 
+            // customerName
+            // 
+            this.customerName.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
+            this.customerName.HeaderText = "Client Name";
+            this.customerName.MinimumWidth = 6;
+            this.customerName.Name = "customerName";
+            this.customerName.ReadOnly = true;
+            // 
+            // col_app_subcat_id
+            // 
+            this.col_app_subcat_id.HeaderText = "SubCategoryID";
+            this.col_app_subcat_id.MinimumWidth = 6;
+            this.col_app_subcat_id.Name = "col_app_subcat_id";
+            this.col_app_subcat_id.ReadOnly = true;
+            this.col_app_subcat_id.Visible = false;
+            this.col_app_subcat_id.Width = 125;
+            // 
+            // col_appointment_selling_price
+            // 
+            this.col_appointment_selling_price.HeaderText = "Selling Price";
+            this.col_appointment_selling_price.MinimumWidth = 6;
+            this.col_appointment_selling_price.Name = "col_appointment_selling_price";
+            this.col_appointment_selling_price.ReadOnly = true;
+            this.col_appointment_selling_price.Visible = false;
+            this.col_appointment_selling_price.Width = 125;
+            // 
+            // col_appointment_vat_amount
+            // 
+            this.col_appointment_vat_amount.HeaderText = "Vat";
+            this.col_appointment_vat_amount.MinimumWidth = 6;
+            this.col_appointment_vat_amount.Name = "col_appointment_vat_amount";
+            this.col_appointment_vat_amount.ReadOnly = true;
+            this.col_appointment_vat_amount.Visible = false;
+            this.col_appointment_vat_amount.Width = 125;
+            // 
+            // col_appointment_email
+            // 
+            this.col_appointment_email.HeaderText = "Email";
+            this.col_appointment_email.MinimumWidth = 6;
+            this.col_appointment_email.Name = "col_appointment_email";
+            this.col_appointment_email.ReadOnly = true;
+            this.col_appointment_email.Visible = false;
+            this.col_appointment_email.Width = 125;
+            // 
+            // col_appointment_number
+            // 
+            this.col_appointment_number.HeaderText = "Number";
+            this.col_appointment_number.MinimumWidth = 6;
+            this.col_appointment_number.Name = "col_appointment_number";
+            this.col_appointment_number.ReadOnly = true;
+            this.col_appointment_number.Visible = false;
+            this.col_appointment_number.Width = 125;
+            // 
+            // stylist_id
+            // 
+            this.stylist_id.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
+            this.stylist_id.HeaderText = "stylist_id";
+            this.stylist_id.MinimumWidth = 6;
+            this.stylist_id.Name = "stylist_id";
+            this.stylist_id.ReadOnly = true;
+            this.stylist_id.Visible = false;
+            // 
+            // stylistName
+            // 
+            this.stylistName.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
+            this.stylistName.HeaderText = "Stylist Name";
+            this.stylistName.MinimumWidth = 6;
+            this.stylistName.Name = "stylistName";
+            this.stylistName.ReadOnly = true;
+            // 
+            // date
+            // 
+            this.date.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
+            this.date.HeaderText = "Date";
+            this.date.MinimumWidth = 6;
+            this.date.Name = "date";
+            this.date.ReadOnly = true;
+            // 
+            // startTime
+            // 
+            this.startTime.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
+            dataGridViewCellStyle4.Format = "t";
+            dataGridViewCellStyle4.NullValue = null;
+            this.startTime.DefaultCellStyle = dataGridViewCellStyle4;
+            this.startTime.HeaderText = "Start Time";
+            this.startTime.MinimumWidth = 6;
+            this.startTime.Name = "startTime";
+            this.startTime.ReadOnly = true;
+            // 
+            // endTime
+            // 
+            this.endTime.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
+            dataGridViewCellStyle5.Format = "t";
+            dataGridViewCellStyle5.NullValue = null;
+            this.endTime.DefaultCellStyle = dataGridViewCellStyle5;
+            this.endTime.HeaderText = "End TIme";
+            this.endTime.MinimumWidth = 6;
+            this.endTime.Name = "endTime";
+            this.endTime.ReadOnly = true;
+            // 
+            // status
+            // 
+            this.status.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
+            this.status.HeaderText = "Status";
+            this.status.MinimumWidth = 6;
+            this.status.Name = "status";
+            this.status.ReadOnly = true;
+            this.status.Resizable = System.Windows.Forms.DataGridViewTriState.True;
+            // 
+            // paymentStatus
+            // 
+            this.paymentStatus.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
+            this.paymentStatus.HeaderText = "Payment Status";
+            this.paymentStatus.MinimumWidth = 6;
+            this.paymentStatus.Name = "paymentStatus";
+            this.paymentStatus.ReadOnly = true;
+            this.paymentStatus.Resizable = System.Windows.Forms.DataGridViewTriState.True;
+            // 
+            // col_book_type
+            // 
+            this.col_book_type.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
+            this.col_book_type.HeaderText = "Customer Type";
+            this.col_book_type.MinimumWidth = 6;
+            this.col_book_type.Name = "col_book_type";
+            this.col_book_type.ReadOnly = true;
+            // 
+            // col_update_appointment
+            // 
+            this.col_update_appointment.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
+            this.col_update_appointment.HeaderText = "Update";
+            this.col_update_appointment.Image = ((System.Drawing.Image)(resources.GetObject("col_update_appointment.Image")));
+            this.col_update_appointment.ImageLayout = System.Windows.Forms.DataGridViewImageCellLayout.Zoom;
+            this.col_update_appointment.MinimumWidth = 6;
+            this.col_update_appointment.Name = "col_update_appointment";
+            this.col_update_appointment.ReadOnly = true;
+            // 
+            // col_pay
+            // 
+            this.col_pay.HeaderText = "Process Payment";
+            this.col_pay.MinimumWidth = 6;
+            this.col_pay.Name = "col_pay";
+            this.col_pay.ReadOnly = true;
+            this.col_pay.Text = "Check Out";
+            this.col_pay.UseColumnTextForButtonValue = true;
+            this.col_pay.Visible = false;
+            this.col_pay.Width = 125;
             // 
             // materialCard22
             // 
@@ -8041,308 +8537,100 @@
             this.printPreviewDialog1.Name = "printPreviewDialog1";
             this.printPreviewDialog1.Visible = false;
             // 
-            // tableLayoutPanel5
+            // panel12
             // 
-            this.tableLayoutPanel5.ColumnCount = 1;
-            this.tableLayoutPanel5.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
-            this.tableLayoutPanel5.Controls.Add(this.panel8, 0, 0);
-            this.tableLayoutPanel5.Controls.Add(this.panel10, 0, 1);
-            this.tableLayoutPanel5.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.tableLayoutPanel5.Location = new System.Drawing.Point(14, 14);
-            this.tableLayoutPanel5.Name = "tableLayoutPanel5";
-            this.tableLayoutPanel5.RowCount = 2;
-            this.tableLayoutPanel5.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
-            this.tableLayoutPanel5.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
-            this.tableLayoutPanel5.Size = new System.Drawing.Size(1300, 760);
-            this.tableLayoutPanel5.TabIndex = 16;
+            this.panel12.Controls.Add(this.materialLabel31);
+            this.panel12.Dock = System.Windows.Forms.DockStyle.Top;
+            this.panel12.Location = new System.Drawing.Point(0, 0);
+            this.panel12.Name = "panel12";
+            this.panel12.Size = new System.Drawing.Size(677, 75);
+            this.panel12.TabIndex = 17;
             // 
-            // panel7
+            // materialLabel31
             // 
-            this.panel7.Dock = System.Windows.Forms.DockStyle.Right;
-            this.panel7.Location = new System.Drawing.Point(1314, 14);
-            this.panel7.Name = "panel7";
-            this.panel7.Size = new System.Drawing.Size(500, 760);
-            this.panel7.TabIndex = 17;
+            this.materialLabel31.AutoSize = true;
+            this.materialLabel31.Depth = 0;
+            this.materialLabel31.Font = new System.Drawing.Font("Roboto", 24F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Pixel);
+            this.materialLabel31.FontType = MaterialSkin.MaterialSkinManager.fontType.H5;
+            this.materialLabel31.Location = new System.Drawing.Point(24, 20);
+            this.materialLabel31.MouseState = MaterialSkin.MouseState.HOVER;
+            this.materialLabel31.Name = "materialLabel31";
+            this.materialLabel31.Size = new System.Drawing.Size(197, 29);
+            this.materialLabel31.TabIndex = 15;
+            this.materialLabel31.Text = "STYLIST ON DUTY";
             // 
-            // panel8
+            // dgv_stylist_track
             // 
-            this.panel8.Controls.Add(this.dgv_walk_in);
-            this.panel8.Controls.Add(this.panel9);
-            this.panel8.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.panel8.Location = new System.Drawing.Point(3, 3);
-            this.panel8.Name = "panel8";
-            this.panel8.Size = new System.Drawing.Size(1294, 374);
-            this.panel8.TabIndex = 16;
+            this.dgv_stylist_track.AllowUserToAddRows = false;
+            this.dgv_stylist_track.AllowUserToDeleteRows = false;
+            this.dgv_stylist_track.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dgv_stylist_track.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
+            this.col_duty_stylist_name,
+            this.col_duty_stylist_client,
+            this.col_duty_stylist_service,
+            this.col_duty_stylist_start_end_time,
+            this.col_duty_stylist_available,
+            this.col_duty_stylist_status});
+            this.dgv_stylist_track.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.dgv_stylist_track.Location = new System.Drawing.Point(0, 75);
+            this.dgv_stylist_track.Name = "dgv_stylist_track";
+            this.dgv_stylist_track.ReadOnly = true;
+            this.dgv_stylist_track.RowHeadersVisible = false;
+            this.dgv_stylist_track.RowHeadersWidth = 51;
+            this.dgv_stylist_track.RowTemplate.Height = 24;
+            this.dgv_stylist_track.Size = new System.Drawing.Size(677, 685);
+            this.dgv_stylist_track.TabIndex = 18;
             // 
-            // materialLabel28
+            // col_duty_stylist_name
             // 
-            this.materialLabel28.AutoSize = true;
-            this.materialLabel28.Depth = 0;
-            this.materialLabel28.Font = new System.Drawing.Font("Roboto", 24F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Pixel);
-            this.materialLabel28.FontType = MaterialSkin.MaterialSkinManager.fontType.H5;
-            this.materialLabel28.Location = new System.Drawing.Point(24, 20);
-            this.materialLabel28.MouseState = MaterialSkin.MouseState.HOVER;
-            this.materialLabel28.Name = "materialLabel28";
-            this.materialLabel28.Size = new System.Drawing.Size(228, 29);
-            this.materialLabel28.TabIndex = 15;
-            this.materialLabel28.Text = "ON - GOING SERVICE";
+            this.col_duty_stylist_name.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
+            this.col_duty_stylist_name.HeaderText = "Name";
+            this.col_duty_stylist_name.MinimumWidth = 6;
+            this.col_duty_stylist_name.Name = "col_duty_stylist_name";
+            this.col_duty_stylist_name.ReadOnly = true;
             // 
-            // panel9
+            // col_duty_stylist_client
             // 
-            this.panel9.Controls.Add(this.materialLabel28);
-            this.panel9.Dock = System.Windows.Forms.DockStyle.Top;
-            this.panel9.Location = new System.Drawing.Point(0, 0);
-            this.panel9.Name = "panel9";
-            this.panel9.Size = new System.Drawing.Size(1294, 75);
-            this.panel9.TabIndex = 16;
+            this.col_duty_stylist_client.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
+            this.col_duty_stylist_client.HeaderText = "Client";
+            this.col_duty_stylist_client.MinimumWidth = 6;
+            this.col_duty_stylist_client.Name = "col_duty_stylist_client";
+            this.col_duty_stylist_client.ReadOnly = true;
             // 
-            // panel10
+            // col_duty_stylist_service
             // 
-            this.panel10.Controls.Add(this.dgv_waiting);
-            this.panel10.Controls.Add(this.panel11);
-            this.panel10.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.panel10.Location = new System.Drawing.Point(3, 383);
-            this.panel10.Name = "panel10";
-            this.panel10.Size = new System.Drawing.Size(1294, 374);
-            this.panel10.TabIndex = 17;
+            this.col_duty_stylist_service.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
+            this.col_duty_stylist_service.HeaderText = "Service ";
+            this.col_duty_stylist_service.MinimumWidth = 6;
+            this.col_duty_stylist_service.Name = "col_duty_stylist_service";
+            this.col_duty_stylist_service.ReadOnly = true;
             // 
-            // panel11
+            // col_duty_stylist_start_end_time
             // 
-            this.panel11.Controls.Add(this.materialLabel30);
-            this.panel11.Dock = System.Windows.Forms.DockStyle.Top;
-            this.panel11.Location = new System.Drawing.Point(0, 0);
-            this.panel11.Name = "panel11";
-            this.panel11.Size = new System.Drawing.Size(1294, 75);
-            this.panel11.TabIndex = 17;
+            this.col_duty_stylist_start_end_time.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
+            this.col_duty_stylist_start_end_time.HeaderText = "Start Time/ End Time";
+            this.col_duty_stylist_start_end_time.MinimumWidth = 6;
+            this.col_duty_stylist_start_end_time.Name = "col_duty_stylist_start_end_time";
+            this.col_duty_stylist_start_end_time.ReadOnly = true;
+            this.col_duty_stylist_start_end_time.Width = 196;
             // 
-            // materialLabel30
+            // col_duty_stylist_available
             // 
-            this.materialLabel30.AutoSize = true;
-            this.materialLabel30.Depth = 0;
-            this.materialLabel30.Font = new System.Drawing.Font("Roboto", 24F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Pixel);
-            this.materialLabel30.FontType = MaterialSkin.MaterialSkinManager.fontType.H5;
-            this.materialLabel30.Location = new System.Drawing.Point(24, 20);
-            this.materialLabel30.MouseState = MaterialSkin.MouseState.HOVER;
-            this.materialLabel30.Name = "materialLabel30";
-            this.materialLabel30.Size = new System.Drawing.Size(99, 29);
-            this.materialLabel30.TabIndex = 15;
-            this.materialLabel30.Text = "WAITING";
+            this.col_duty_stylist_available.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
+            this.col_duty_stylist_available.HeaderText = "Availability Next";
+            this.col_duty_stylist_available.MinimumWidth = 6;
+            this.col_duty_stylist_available.Name = "col_duty_stylist_available";
+            this.col_duty_stylist_available.ReadOnly = true;
+            this.col_duty_stylist_available.Width = 191;
             // 
-            // col_walk_in_id
+            // col_duty_stylist_status
             // 
-            this.col_walk_in_id.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
-            this.col_walk_in_id.HeaderText = "walk_in_id";
-            this.col_walk_in_id.MinimumWidth = 6;
-            this.col_walk_in_id.Name = "col_walk_in_id";
-            this.col_walk_in_id.ReadOnly = true;
-            this.col_walk_in_id.Visible = false;
-            // 
-            // col_walk_in_customer_name
-            // 
-            this.col_walk_in_customer_name.HeaderText = "Customer";
-            this.col_walk_in_customer_name.MinimumWidth = 6;
-            this.col_walk_in_customer_name.Name = "col_walk_in_customer_name";
-            this.col_walk_in_customer_name.ReadOnly = true;
-            this.col_walk_in_customer_name.Width = 125;
-            // 
-            // col_walk_in_price
-            // 
-            this.col_walk_in_price.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
-            this.col_walk_in_price.HeaderText = "Selling Price";
-            this.col_walk_in_price.MinimumWidth = 6;
-            this.col_walk_in_price.Name = "col_walk_in_price";
-            this.col_walk_in_price.ReadOnly = true;
-            this.col_walk_in_price.Visible = false;
-            this.col_walk_in_price.Width = 109;
-            // 
-            // col_walk_in_stylist_id
-            // 
-            this.col_walk_in_stylist_id.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
-            this.col_walk_in_stylist_id.HeaderText = "stylist_id";
-            this.col_walk_in_stylist_id.MinimumWidth = 6;
-            this.col_walk_in_stylist_id.Name = "col_walk_in_stylist_id";
-            this.col_walk_in_stylist_id.ReadOnly = true;
-            this.col_walk_in_stylist_id.Visible = false;
-            this.col_walk_in_stylist_id.Width = 85;
-            // 
-            // col_walk_in_stylist_name
-            // 
-            this.col_walk_in_stylist_name.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
-            this.col_walk_in_stylist_name.HeaderText = "Stylist Name";
-            this.col_walk_in_stylist_name.MinimumWidth = 6;
-            this.col_walk_in_stylist_name.Name = "col_walk_in_stylist_name";
-            this.col_walk_in_stylist_name.ReadOnly = true;
-            // 
-            // col_walk_in_start_time
-            // 
-            this.col_walk_in_start_time.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
-            dataGridViewCellStyle2.Format = "t";
-            dataGridViewCellStyle2.NullValue = null;
-            this.col_walk_in_start_time.DefaultCellStyle = dataGridViewCellStyle2;
-            this.col_walk_in_start_time.HeaderText = "Start Time";
-            this.col_walk_in_start_time.MinimumWidth = 6;
-            this.col_walk_in_start_time.Name = "col_walk_in_start_time";
-            this.col_walk_in_start_time.ReadOnly = true;
-            this.col_walk_in_start_time.Width = 138;
-            // 
-            // col_walk_in_end_time
-            // 
-            this.col_walk_in_end_time.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
-            dataGridViewCellStyle3.Format = "t";
-            dataGridViewCellStyle3.NullValue = null;
-            this.col_walk_in_end_time.DefaultCellStyle = dataGridViewCellStyle3;
-            this.col_walk_in_end_time.HeaderText = "End TIme";
-            this.col_walk_in_end_time.MinimumWidth = 6;
-            this.col_walk_in_end_time.Name = "col_walk_in_end_time";
-            this.col_walk_in_end_time.ReadOnly = true;
-            this.col_walk_in_end_time.Width = 133;
-            // 
-            // col_walk_in_status
-            // 
-            this.col_walk_in_status.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
-            this.col_walk_in_status.HeaderText = "Status";
-            this.col_walk_in_status.MinimumWidth = 6;
-            this.col_walk_in_status.Name = "col_walk_in_status";
-            this.col_walk_in_status.ReadOnly = true;
-            this.col_walk_in_status.Resizable = System.Windows.Forms.DataGridViewTriState.True;
-            this.col_walk_in_status.Width = 106;
-            // 
-            // col_walk_in_payment_status
-            // 
-            this.col_walk_in_payment_status.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
-            this.col_walk_in_payment_status.HeaderText = "Payment Status";
-            this.col_walk_in_payment_status.MinimumWidth = 6;
-            this.col_walk_in_payment_status.Name = "col_walk_in_payment_status";
-            this.col_walk_in_payment_status.ReadOnly = true;
-            this.col_walk_in_payment_status.Resizable = System.Windows.Forms.DataGridViewTriState.True;
-            this.col_walk_in_payment_status.Width = 187;
-            // 
-            // btn_walk_in_payment
-            // 
-            this.btn_walk_in_payment.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
-            this.btn_walk_in_payment.HeaderText = "Process Payment";
-            this.btn_walk_in_payment.Image = ((System.Drawing.Image)(resources.GetObject("btn_walk_in_payment.Image")));
-            this.btn_walk_in_payment.ImageLayout = System.Windows.Forms.DataGridViewImageCellLayout.Zoom;
-            this.btn_walk_in_payment.MinimumWidth = 6;
-            this.btn_walk_in_payment.Name = "btn_walk_in_payment";
-            this.btn_walk_in_payment.ReadOnly = true;
-            this.btn_walk_in_payment.Width = 184;
-            // 
-            // btn_walk_in_update
-            // 
-            this.btn_walk_in_update.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
-            this.btn_walk_in_update.HeaderText = "Update";
-            this.btn_walk_in_update.Image = ((System.Drawing.Image)(resources.GetObject("btn_walk_in_update.Image")));
-            this.btn_walk_in_update.ImageLayout = System.Windows.Forms.DataGridViewImageCellLayout.Zoom;
-            this.btn_walk_in_update.MinimumWidth = 6;
-            this.btn_walk_in_update.Name = "btn_walk_in_update";
-            this.btn_walk_in_update.ReadOnly = true;
-            this.btn_walk_in_update.Width = 95;
-            // 
-            // col_waiting_walk_id
-            // 
-            this.col_waiting_walk_id.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
-            this.col_waiting_walk_id.HeaderText = "walk_in_id";
-            this.col_waiting_walk_id.MinimumWidth = 6;
-            this.col_waiting_walk_id.Name = "col_waiting_walk_id";
-            this.col_waiting_walk_id.ReadOnly = true;
-            this.col_waiting_walk_id.Visible = false;
-            // 
-            // col_waiting_app_service_id
-            // 
-            this.col_waiting_app_service_id.HeaderText = "service_id";
-            this.col_waiting_app_service_id.MinimumWidth = 6;
-            this.col_waiting_app_service_id.Name = "col_waiting_app_service_id";
-            this.col_waiting_app_service_id.ReadOnly = true;
-            this.col_waiting_app_service_id.Visible = false;
-            this.col_waiting_app_service_id.Width = 125;
-            // 
-            // col_waiting_customer_id
-            // 
-            this.col_waiting_customer_id.HeaderText = "customer_id";
-            this.col_waiting_customer_id.MinimumWidth = 6;
-            this.col_waiting_customer_id.Name = "col_waiting_customer_id";
-            this.col_waiting_customer_id.ReadOnly = true;
-            this.col_waiting_customer_id.Visible = false;
-            this.col_waiting_customer_id.Width = 125;
-            // 
-            // col_waiting_customer_name
-            // 
-            this.col_waiting_customer_name.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
-            this.col_waiting_customer_name.HeaderText = "Customer";
-            this.col_waiting_customer_name.MinimumWidth = 6;
-            this.col_waiting_customer_name.Name = "col_waiting_customer_name";
-            this.col_waiting_customer_name.ReadOnly = true;
-            // 
-            // col_waiting_stylist_id
-            // 
-            this.col_waiting_stylist_id.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
-            this.col_waiting_stylist_id.HeaderText = "stylist_id";
-            this.col_waiting_stylist_id.MinimumWidth = 6;
-            this.col_waiting_stylist_id.Name = "col_waiting_stylist_id";
-            this.col_waiting_stylist_id.ReadOnly = true;
-            this.col_waiting_stylist_id.Visible = false;
-            this.col_waiting_stylist_id.Width = 85;
-            // 
-            // col_waiting_stylist_name
-            // 
-            this.col_waiting_stylist_name.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
-            this.col_waiting_stylist_name.HeaderText = "Stylist Name";
-            this.col_waiting_stylist_name.MinimumWidth = 6;
-            this.col_waiting_stylist_name.Name = "col_waiting_stylist_name";
-            this.col_waiting_stylist_name.ReadOnly = true;
-            // 
-            // col_waiting_service_time
-            // 
-            this.col_waiting_service_time.HeaderText = "service time";
-            this.col_waiting_service_time.MinimumWidth = 6;
-            this.col_waiting_service_time.Name = "col_waiting_service_time";
-            this.col_waiting_service_time.ReadOnly = true;
-            this.col_waiting_service_time.Visible = false;
-            this.col_waiting_service_time.Width = 125;
-            // 
-            // col_waiting_status
-            // 
-            this.col_waiting_status.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
-            this.col_waiting_status.HeaderText = "Status";
-            this.col_waiting_status.MinimumWidth = 6;
-            this.col_waiting_status.Name = "col_waiting_status";
-            this.col_waiting_status.ReadOnly = true;
-            this.col_waiting_status.Resizable = System.Windows.Forms.DataGridViewTriState.True;
-            this.col_waiting_status.Width = 106;
-            // 
-            // col_waiting_assign_stylist
-            // 
-            this.col_waiting_assign_stylist.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
-            this.col_waiting_assign_stylist.HeaderText = "Assign Stylist";
-            this.col_waiting_assign_stylist.Image = ((System.Drawing.Image)(resources.GetObject("col_waiting_assign_stylist.Image")));
-            this.col_waiting_assign_stylist.ImageLayout = System.Windows.Forms.DataGridViewImageCellLayout.Zoom;
-            this.col_waiting_assign_stylist.MinimumWidth = 6;
-            this.col_waiting_assign_stylist.Name = "col_waiting_assign_stylist";
-            this.col_waiting_assign_stylist.ReadOnly = true;
-            this.col_waiting_assign_stylist.Width = 158;
-            // 
-            // col_waiting_start_service
-            // 
-            this.col_waiting_start_service.HeaderText = "Start Service";
-            this.col_waiting_start_service.MinimumWidth = 6;
-            this.col_waiting_start_service.Name = "col_waiting_start_service";
-            this.col_waiting_start_service.ReadOnly = true;
-            this.col_waiting_start_service.Resizable = System.Windows.Forms.DataGridViewTriState.True;
-            this.col_waiting_start_service.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Automatic;
-            this.col_waiting_start_service.Text = "Start";
-            this.col_waiting_start_service.Width = 125;
-            // 
-            // col_waiting_update
-            // 
-            this.col_waiting_update.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
-            this.col_waiting_update.HeaderText = "Update";
-            this.col_waiting_update.Image = ((System.Drawing.Image)(resources.GetObject("col_waiting_update.Image")));
-            this.col_waiting_update.ImageLayout = System.Windows.Forms.DataGridViewImageCellLayout.Zoom;
-            this.col_waiting_update.MinimumWidth = 6;
-            this.col_waiting_update.Name = "col_waiting_update";
-            this.col_waiting_update.ReadOnly = true;
-            this.col_waiting_update.Width = 95;
+            this.col_duty_stylist_status.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
+            this.col_duty_stylist_status.HeaderText = "Status";
+            this.col_duty_stylist_status.MinimumWidth = 6;
+            this.col_duty_stylist_status.Name = "col_duty_stylist_status";
+            this.col_duty_stylist_status.ReadOnly = true;
+            this.col_duty_stylist_status.Width = 108;
             // 
             // paginationControl1
             // 
@@ -8495,171 +8783,6 @@
             this.data_recovery_pagination.Size = new System.Drawing.Size(388, 50);
             this.data_recovery_pagination.TabIndex = 7;
             // 
-            // appointment_id
-            // 
-            this.appointment_id.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
-            this.appointment_id.HeaderText = "app_id";
-            this.appointment_id.MinimumWidth = 6;
-            this.appointment_id.Name = "appointment_id";
-            this.appointment_id.ReadOnly = true;
-            this.appointment_id.Visible = false;
-            // 
-            // customer_id
-            // 
-            this.customer_id.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
-            this.customer_id.HeaderText = "customer_id";
-            this.customer_id.MinimumWidth = 6;
-            this.customer_id.Name = "customer_id";
-            this.customer_id.ReadOnly = true;
-            this.customer_id.Visible = false;
-            // 
-            // customerName
-            // 
-            this.customerName.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
-            this.customerName.HeaderText = "Client Name";
-            this.customerName.MinimumWidth = 6;
-            this.customerName.Name = "customerName";
-            this.customerName.ReadOnly = true;
-            // 
-            // col_app_subcat_id
-            // 
-            this.col_app_subcat_id.HeaderText = "SubCategoryID";
-            this.col_app_subcat_id.MinimumWidth = 6;
-            this.col_app_subcat_id.Name = "col_app_subcat_id";
-            this.col_app_subcat_id.ReadOnly = true;
-            this.col_app_subcat_id.Visible = false;
-            this.col_app_subcat_id.Width = 125;
-            // 
-            // col_appointment_selling_price
-            // 
-            this.col_appointment_selling_price.HeaderText = "Selling Price";
-            this.col_appointment_selling_price.MinimumWidth = 6;
-            this.col_appointment_selling_price.Name = "col_appointment_selling_price";
-            this.col_appointment_selling_price.ReadOnly = true;
-            this.col_appointment_selling_price.Visible = false;
-            this.col_appointment_selling_price.Width = 125;
-            // 
-            // col_appointment_vat_amount
-            // 
-            this.col_appointment_vat_amount.HeaderText = "Vat";
-            this.col_appointment_vat_amount.MinimumWidth = 6;
-            this.col_appointment_vat_amount.Name = "col_appointment_vat_amount";
-            this.col_appointment_vat_amount.ReadOnly = true;
-            this.col_appointment_vat_amount.Visible = false;
-            this.col_appointment_vat_amount.Width = 125;
-            // 
-            // col_appointment_email
-            // 
-            this.col_appointment_email.HeaderText = "Email";
-            this.col_appointment_email.MinimumWidth = 6;
-            this.col_appointment_email.Name = "col_appointment_email";
-            this.col_appointment_email.ReadOnly = true;
-            this.col_appointment_email.Visible = false;
-            this.col_appointment_email.Width = 125;
-            // 
-            // col_appointment_number
-            // 
-            this.col_appointment_number.HeaderText = "Number";
-            this.col_appointment_number.MinimumWidth = 6;
-            this.col_appointment_number.Name = "col_appointment_number";
-            this.col_appointment_number.ReadOnly = true;
-            this.col_appointment_number.Visible = false;
-            this.col_appointment_number.Width = 125;
-            // 
-            // stylist_id
-            // 
-            this.stylist_id.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
-            this.stylist_id.HeaderText = "stylist_id";
-            this.stylist_id.MinimumWidth = 6;
-            this.stylist_id.Name = "stylist_id";
-            this.stylist_id.ReadOnly = true;
-            this.stylist_id.Visible = false;
-            // 
-            // stylistName
-            // 
-            this.stylistName.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
-            this.stylistName.HeaderText = "Stylist Name";
-            this.stylistName.MinimumWidth = 6;
-            this.stylistName.Name = "stylistName";
-            this.stylistName.ReadOnly = true;
-            // 
-            // date
-            // 
-            this.date.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
-            this.date.HeaderText = "Date";
-            this.date.MinimumWidth = 6;
-            this.date.Name = "date";
-            this.date.ReadOnly = true;
-            // 
-            // startTime
-            // 
-            this.startTime.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
-            dataGridViewCellStyle4.Format = "t";
-            dataGridViewCellStyle4.NullValue = null;
-            this.startTime.DefaultCellStyle = dataGridViewCellStyle4;
-            this.startTime.HeaderText = "Start Time";
-            this.startTime.MinimumWidth = 6;
-            this.startTime.Name = "startTime";
-            this.startTime.ReadOnly = true;
-            // 
-            // endTime
-            // 
-            this.endTime.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
-            dataGridViewCellStyle5.Format = "t";
-            dataGridViewCellStyle5.NullValue = null;
-            this.endTime.DefaultCellStyle = dataGridViewCellStyle5;
-            this.endTime.HeaderText = "End TIme";
-            this.endTime.MinimumWidth = 6;
-            this.endTime.Name = "endTime";
-            this.endTime.ReadOnly = true;
-            // 
-            // status
-            // 
-            this.status.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
-            this.status.HeaderText = "Status";
-            this.status.MinimumWidth = 6;
-            this.status.Name = "status";
-            this.status.ReadOnly = true;
-            this.status.Resizable = System.Windows.Forms.DataGridViewTriState.True;
-            // 
-            // paymentStatus
-            // 
-            this.paymentStatus.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
-            this.paymentStatus.HeaderText = "Payment Status";
-            this.paymentStatus.MinimumWidth = 6;
-            this.paymentStatus.Name = "paymentStatus";
-            this.paymentStatus.ReadOnly = true;
-            this.paymentStatus.Resizable = System.Windows.Forms.DataGridViewTriState.True;
-            // 
-            // col_book_type
-            // 
-            this.col_book_type.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
-            this.col_book_type.HeaderText = "Customer Type";
-            this.col_book_type.MinimumWidth = 6;
-            this.col_book_type.Name = "col_book_type";
-            this.col_book_type.ReadOnly = true;
-            // 
-            // col_update_appointment
-            // 
-            this.col_update_appointment.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
-            this.col_update_appointment.HeaderText = "Update";
-            this.col_update_appointment.Image = ((System.Drawing.Image)(resources.GetObject("col_update_appointment.Image")));
-            this.col_update_appointment.ImageLayout = System.Windows.Forms.DataGridViewImageCellLayout.Zoom;
-            this.col_update_appointment.MinimumWidth = 6;
-            this.col_update_appointment.Name = "col_update_appointment";
-            this.col_update_appointment.ReadOnly = true;
-            // 
-            // col_pay
-            // 
-            this.col_pay.HeaderText = "Process Payment";
-            this.col_pay.MinimumWidth = 6;
-            this.col_pay.Name = "col_pay";
-            this.col_pay.ReadOnly = true;
-            this.col_pay.Text = "Check Out";
-            this.col_pay.UseColumnTextForButtonValue = true;
-            this.col_pay.Visible = false;
-            this.col_pay.Width = 125;
-            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(120F, 120F);
@@ -8768,9 +8891,17 @@
             this.materialCard20.PerformLayout();
             this.walk_in_Tab.ResumeLayout(false);
             this.materialCard7.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.dgv_waiting)).EndInit();
-            this.contextMenuStrip1.ResumeLayout(false);
+            this.tableLayoutPanel5.ResumeLayout(false);
+            this.panel8.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.dgv_walk_in)).EndInit();
+            this.contextMenuStrip1.ResumeLayout(false);
+            this.panel9.ResumeLayout(false);
+            this.panel9.PerformLayout();
+            this.panel10.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.dgv_waiting)).EndInit();
+            this.panel11.ResumeLayout(false);
+            this.panel11.PerformLayout();
+            this.panel7.ResumeLayout(false);
             this.materialCard28.ResumeLayout(false);
             this.materialCard28.PerformLayout();
             this.appointmentTab.ResumeLayout(false);
@@ -8853,13 +8984,9 @@
             this.groupBox7.ResumeLayout(false);
             this.groupBox7.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.errorProvider1)).EndInit();
-            this.tableLayoutPanel5.ResumeLayout(false);
-            this.panel8.ResumeLayout(false);
-            this.panel9.ResumeLayout(false);
-            this.panel9.PerformLayout();
-            this.panel10.ResumeLayout(false);
-            this.panel11.ResumeLayout(false);
-            this.panel11.PerformLayout();
+            this.panel12.ResumeLayout(false);
+            this.panel12.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.dgv_stylist_track)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -9193,17 +9320,6 @@
         private System.Windows.Forms.DataGridView dgv_transaction_list;
         private MaterialSkin.Controls.MaterialButton btn_tran_refund;
         private MaterialSkin.Controls.MaterialButton btn_void_product;
-        private System.Windows.Forms.DataGridViewTextBoxColumn col_stylist_id;
-        private System.Windows.Forms.DataGridViewTextBoxColumn stylist_first_name;
-        private System.Windows.Forms.DataGridViewTextBoxColumn stylist_middle_name;
-        private System.Windows.Forms.DataGridViewTextBoxColumn stylist_last_name;
-        private System.Windows.Forms.DataGridViewTextBoxColumn stylist_day_of_birth;
-        private System.Windows.Forms.DataGridViewTextBoxColumn stylist_contact;
-        private System.Windows.Forms.DataGridViewTextBoxColumn stylist_email;
-        private System.Windows.Forms.DataGridViewTextBoxColumn stylist_address;
-        private System.Windows.Forms.DataGridViewTextBoxColumn col_stylist_status;
-        private System.Windows.Forms.DataGridViewImageColumn stylist_btn_update;
-        private System.Windows.Forms.DataGridViewImageColumn stylist_btn_delete;
         private System.Windows.Forms.DataGridViewTextBoxColumn col_retail_product_id;
         private System.Windows.Forms.DataGridViewTextBoxColumn col_retail_product_name;
         private System.Windows.Forms.DataGridViewTextBoxColumn col_retail_product_type;
@@ -9441,5 +9557,26 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn col_book_type;
         private System.Windows.Forms.DataGridViewImageColumn col_update_appointment;
         private System.Windows.Forms.DataGridViewButtonColumn col_pay;
+        private System.Windows.Forms.DataGridViewTextBoxColumn col_stylist_id;
+        private System.Windows.Forms.DataGridViewTextBoxColumn stylist_first_name;
+        private System.Windows.Forms.DataGridViewTextBoxColumn stylist_middle_name;
+        private System.Windows.Forms.DataGridViewTextBoxColumn stylist_last_name;
+        private System.Windows.Forms.DataGridViewTextBoxColumn stylist_day_of_birth;
+        private System.Windows.Forms.DataGridViewTextBoxColumn stylist_contact;
+        private System.Windows.Forms.DataGridViewTextBoxColumn stylist_email;
+        private System.Windows.Forms.DataGridViewTextBoxColumn stylist_address;
+        private System.Windows.Forms.DataGridViewTextBoxColumn col_stylist_status;
+        private System.Windows.Forms.DataGridViewButtonColumn col_stylist_duty;
+        private System.Windows.Forms.DataGridViewImageColumn stylist_btn_update;
+        private System.Windows.Forms.DataGridViewImageColumn stylist_btn_delete;
+        private System.Windows.Forms.Panel panel12;
+        private MaterialSkin.Controls.MaterialLabel materialLabel31;
+        private System.Windows.Forms.DataGridView dgv_stylist_track;
+        private System.Windows.Forms.DataGridViewTextBoxColumn col_duty_stylist_name;
+        private System.Windows.Forms.DataGridViewTextBoxColumn col_duty_stylist_client;
+        private System.Windows.Forms.DataGridViewTextBoxColumn col_duty_stylist_service;
+        private System.Windows.Forms.DataGridViewTextBoxColumn col_duty_stylist_start_end_time;
+        private System.Windows.Forms.DataGridViewTextBoxColumn col_duty_stylist_available;
+        private System.Windows.Forms.DataGridViewTextBoxColumn col_duty_stylist_status;
     }
 }

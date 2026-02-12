@@ -497,6 +497,34 @@ GROUP BY a.appointment_id;";
                 return con.Query<AppointmentModel>(sql).ToList();
             }
         }
+        public IEnumerable<AppointmentModel> StylistTrackingPanel() 
+        {
+            using (var con = Database.GetConnection()) 
+            {
+                var sql = @"SELECT 
+							a_s.stylist_id,
+                            CONCAT(s.firstName, ' ', s.lastName) AS StylistName,
+                            CONCAT(ca.firstName, ' ', ca.lastName) AS CustomerName,
+                            sn.serviceName AS Services,
+                            a_s.start_time AS StartTime,
+                            a_s.end_time   AS EndTime,
+                            a_s.status     AS Status
+                        FROM tbl_appointment a
+                 
+                        LEFT JOIN tbl_customer_account ca 
+                               ON ca.customer_id = a.customer_id   
+                        LEFT JOIN tbl_appointment_services a_s 
+                               ON a_s.appointment_id = a.appointment_id
+                        LEFT JOIN tbl_stylists s 
+                               ON s.stylist_id = a_s.stylist_id
+                        LEFT JOIN tbl_servicesname sn 
+                               ON sn.serviceName_id = a_s.serviceName_id
+                        WHERE  DATE(a.Date) = CURRENT_DATE();
+
+                            ";
+                return con.Query<AppointmentModel>(sql).ToList();
+            }
+        }
         public AppointmentModel GetTotalAppointment()
         {
             using (var con = Database.GetConnection())
@@ -549,9 +577,9 @@ GROUP BY a.appointment_id;";
             {
                 var sql = @"
             INSERT INTO tbl_appointment 
-                (customer_id, Date, start_time, end_time, Status, payment_status,customer_type)
+                (customer_id, stylist_id, Date, start_time, end_time, Status, payment_status,customer_type)
             VALUES 
-                (@CustomerId, @AppointmentDate, @StartTime, @EndTime, @Status, @PaymentStatus, @CustomerType);
+                (@CustomerId, StylistId, @AppointmentDate, @StartTime, @EndTime, @Status, @PaymentStatus, @CustomerType);
             SELECT LAST_INSERT_ID();
         ";
 

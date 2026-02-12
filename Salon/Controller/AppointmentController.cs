@@ -46,6 +46,11 @@ namespace Salon.Controller
         {
             return repo.GetTodayAppointment();
         }
+
+        public IEnumerable<AppointmentModel> GetStylistTrack() 
+        {
+            return repo.StylistTrackingPanel();
+        }
         public int CreateAppointment(AppointmentModel model)
         {
            

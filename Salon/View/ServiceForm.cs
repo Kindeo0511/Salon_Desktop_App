@@ -22,9 +22,11 @@ namespace Salon.View
         private readonly MainForm mainform;
         private ServiceModel serviceModel;
         private int service_id = 0;
-        
+        private StylistModel _stylist;
         private bool _isSaving = false;
         private bool _isUpdating = false;
+        private List<int> ss_id = new List<int>();
+
 
         private bool _isAddingProductUsage = false;
         private bool _isUpdatingProductUsage = false;
@@ -38,10 +40,11 @@ namespace Salon.View
             this.mainform = mainform;
             _isSaving = true;
             LoadSubCategory();
+            LoadStylist();
 
-         
-   
-            
+
+
+
         }
         public ServiceForm(MainForm mainform, ServiceModel serviceModel)
         {
@@ -51,7 +54,7 @@ namespace Salon.View
             this.mainform = mainform;
             this.serviceModel = serviceModel;
             LoadSubCategory();
-
+            LoadStylist();
             if (serviceModel != null) 
             {
                 service_id = serviceModel.serviceName_id;
@@ -67,6 +70,34 @@ namespace Salon.View
             }
 
      
+        }
+        private void LoadStylist() 
+        {
+            var repo = new StylistRepository();
+            var controller = new StylistController(repo);
+            var stylist = controller.GetStylistSpecialist();
+
+
+            HashSet<int> assignedSpecialists = new HashSet<int>();
+
+
+
+            if (serviceModel != null)
+            {
+                var assigned = controller.GetStylistsByServiceId(serviceModel.serviceName_id);
+                assignedSpecialists = assigned.Select(ss => ss.stylist_id).ToHashSet();
+            }
+
+            stylist_list_box.Items.Clear();
+
+            foreach (var item in stylist)
+            {
+                bool isChecked = assignedSpecialists.Contains(item.stylist_id);
+                stylist_list_box.Items.Add(item, isChecked); // add the object itself
+
+
+            }
+
         }
         private void LoadProducts()
         {
@@ -93,7 +124,70 @@ namespace Salon.View
             cmb_sub_category.DataSource = subcategories;
             cmb_sub_category.SelectedIndex = -1;
         }
+        private bool AssignStylistToService(int serviceId)
+        {
+            var repo = new StylistRepository();
+            var controller = new StylistController(repo);
 
+            bool assigned = false;
+      
+            if (_isSaving)
+            {
+                foreach (var stylist in stylist_list_box.CheckedItems)
+                {
+                    var model = stylist as StylistModel;
+                    if (model != null)
+                    {
+
+
+                        controller.AssignService(model.stylist_id, serviceId);
+                        assigned = true;
+
+                    }
+                }
+
+
+            }
+            else if (_isUpdating)
+            {
+                // Get all existing assignments for this service
+                var existingAssignments = controller.GetStylistsByServiceId(serviceId)
+                                                    .Select(x => x.stylist_id)
+                                                    .ToHashSet();
+
+                foreach (var stylist in stylist_list_box.Items)
+                {
+                    var model = stylist as StylistModel;
+                    if (model == null) continue;
+
+                    bool isChecked = stylist_list_box.CheckedItems.Contains(stylist);
+
+                    if (isChecked)
+                    {
+                        // Assign only if not already assigned
+                        if (!existingAssignments.Contains(model.stylist_id))
+                        {
+                            controller.AssignService(model.stylist_id, serviceId);
+                        }
+                    }
+                    else
+                    {
+                        // Unassign if it was previously assigned
+                        if (existingAssignments.Contains(model.stylist_id))
+                        {
+                            controller.UnassignService(model.stylist_id, serviceId);
+                        }
+                    }
+                }
+
+                assigned = true;
+            }
+
+            return assigned;
+
+        }
+      
+        
         private int AddService() 
         {
 
@@ -108,8 +202,10 @@ namespace Salon.View
                 status = cmb_status.Text == "Active" ? Status.Active : Status.Inactive,
             };
             int id = controller.addService(service);
+            AssignStylistToService(id);
             service_id = id;
 
+          
 
             return id;
 
@@ -125,6 +221,10 @@ namespace Salon.View
             serviceModel.servicePrice = Convert.ToDecimal(txt_price.Text);
             serviceModel.duration = (int)txt_duration.Value;
             serviceModel.status = cmb_status.Text == "Active" ? Status.Active : Status.Inactive;
+
+
+            AssignStylistToService(serviceModel.serviceName_id);
+
             return controller.updateService(serviceModel);
           
      
@@ -170,6 +270,7 @@ namespace Salon.View
 
                     if (AddService() > 0)
                     {
+                      
                         MessageBox.Show("Service added successfully!", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
                         var fullName = txt_service_name.Text;
                         Audit.AuditLog(DateTime.Now, "Create", UserSession.CurrentUser.first_Name, "Manage Services", $"Created service '{fullName}' on {DateTime.Now:yyyy-MM-dd} at {DateTime.Now:HH:mm:ss}");

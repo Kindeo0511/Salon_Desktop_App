@@ -20,6 +20,10 @@ namespace Salon.Models
         public int TotalService { get; set; }
         public int is_deleted { get; set; }
 
+        // tbl_stylist_services model
+
+        public int stylist_id { get; set; }
+
     }
     public enum Status
     {

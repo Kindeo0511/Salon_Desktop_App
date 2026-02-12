@@ -27,6 +27,15 @@ namespace Salon.Models
         public DateTime AppointmentDate { get; set; }
         public DateTime StartTime { get; set; }
         public DateTime EndTime { get; set; }
+        public string DisplayTime
+        {
+            get
+            {
+                TimeSpan duration = EndTime - StartTime;
+                return duration.ToString(@"hh\:mm"); 
+            }
+        }
+
         public DateTime EndDuration { get; set; }
         public string Status { get; set; } // e.g., Scheduled, Completed, Canceled
         public string PaymentStatus { get; set; } // e.g., Paid, Unpaid

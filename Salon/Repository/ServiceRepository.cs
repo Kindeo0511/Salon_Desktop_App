@@ -115,7 +115,7 @@ tbl_subcategory.subCategoryName,tbl_servicesname.duration, tbl_servicesname.stat
             {
                 var sql = @"INSERT INTO tbl_servicesname (subCategory_id, serviceName, servicePrice, duration, status) VALUES (@subCategory_id, @serviceName, @servicePrice, @duration, @status);
                             SELECT LAST_INSERT_ID();";
-               return con.Execute(sql, service);
+                return con.ExecuteScalar<int>(sql, service);
             }
         }
         public int updateService(ServiceModel service)

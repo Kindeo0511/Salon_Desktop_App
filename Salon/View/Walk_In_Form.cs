@@ -201,6 +201,7 @@ namespace Salon.View
                 appointmentModel = new AppointmentModel
                 {
                     CustomerName = lbl_prefix.Text,
+                    StylistId = Convert.ToInt32(cmb_stylist.SelectedValue),
                     AppointmentDate = DateTime.Now,
                     StartTime = DateTime.Now,
                     EndTime = DateTime.Now.Add(TimeSpan.FromMinutes(totalDuration)),

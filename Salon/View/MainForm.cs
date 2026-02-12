@@ -784,6 +784,9 @@ namespace Salon.View
                 }
             }
 
+           
+
+
         }
 
 
@@ -813,8 +816,10 @@ namespace Salon.View
             col_stylist_status.DataPropertyName = "status";
 
             dgv_stylist.DataSource = stylists;
+
+        
         }
-        // STYLIST
+    
         public void LoadStylist()
         {
             var _repo = new StylistRepository();
@@ -831,7 +836,10 @@ namespace Salon.View
             stylist_email.DataPropertyName = "email";
             stylist_address.DataPropertyName = "address";
             col_stylist_status.DataPropertyName = "status";
+            col_stylist_duty.DataPropertyName = "DutyDisplay";
             dgv_stylist.DataSource = stylists;
+
+          
         }
 
         private void btn_add_stylist_Click(object sender, EventArgs e)
@@ -860,10 +868,41 @@ namespace Salon.View
 
 
                     stylistForm.Updated += async (s, args) => { await RefreshCategoryAsync(paginationControl3.CurrentPage, pageSize); };
-
                     stylistForm.ShowDialog();
                 }
 
+
+            }
+            else if (e.RowIndex >= 0 && dgv_stylist.Columns[e.ColumnIndex].Name == "col_stylist_duty")
+            {
+                var _repo = new StylistRepository();
+                var stylistController = new StylistController(_repo);
+
+                var stylist = dgv_stylist.Rows[e.RowIndex].DataBoundItem as StylistModel;
+ 
+                // Flip the boolean
+                bool newDuty = !stylist.is_duty;
+                string dutyText = newDuty ? "ON" : "OFF";
+
+                string message = $"Set stylist {stylist.firstName} {stylist.lastName} {dutyText} duty?";
+
+                if (MessageBox.Show(message, "INFORMATION", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
+                {
+                    stylistController.UpdateDuty(stylist.stylist_id, newDuty);
+                    stylist.is_duty = newDuty; // update model
+                    var fullName = stylist.firstName + " " + stylist.lastName;
+
+                    Audit.AuditLog(DateTime.Now, "Update", UserSession.CurrentUser.first_Name, "Manage Stylist", $"Updated {fullName}'s duty to {dutyText} on {DateTime.Now:yyyy-MM-dd} at {DateTime.Now:HH:mm:ss}");
+                    await RefreshStylistAsync(paginationControl3.CurrentPage, pageSize);
+              
+                }
+                else 
+                {
+                    return;
+                }
+
+                    
+                
 
 
             }
@@ -910,7 +949,7 @@ namespace Salon.View
                         Audit.AuditLog(DateTime.Now, "Delete", UserSession.CurrentUser.first_Name, "Manage Stylist", $"Deleted stylist {fullName} on {DateTime.Now:yyyy-MM-dd} at {DateTime.Now:HH:mm:ss}");
                         InsertDeletedRecord(stylist.stylist_id, null, "Manage Stylist", fullName, UserSession.CurrentUser.first_Name, DateTime.Today);
                         await RefreshStylistAsync(paginationControl3.CurrentPage, pageSize);
-                        await FilterdDeletedRecords(currentPage,pageSize);
+                        await FilterdDeletedRecords(currentPage, pageSize);
                     }
                     else
                     {
@@ -941,11 +980,40 @@ namespace Salon.View
 
                 }
             }
+
+            if (dgv_stylist.Columns[e.ColumnIndex].Name == "col_stylist_duty")
+            {
+                var stylist = dgv_stylist.Rows[e.RowIndex].DataBoundItem as StylistModel;
+                if (stylist != null)
+                {
+                    // Set the button text based on the boolean
+                    e.Value = stylist.is_duty ? "ON" : "OFF";
+
+                    // Button colors
+                    if (stylist.is_duty)
+                    {
+                        e.CellStyle.BackColor = Color.LightGreen;
+                        e.CellStyle.ForeColor = Color.Black;
+                        e.CellStyle.SelectionBackColor = Color.Green;
+                        e.CellStyle.SelectionForeColor = Color.White;
+                    }
+                    else
+                    {
+                        e.CellStyle.BackColor = Color.LightCoral;
+                        e.CellStyle.ForeColor = Color.Black;
+                        e.CellStyle.SelectionBackColor = Color.Red;
+                        e.CellStyle.SelectionForeColor = Color.White;
+                    }
+
+                }
+            }
         }
+
+
 
         // END OF STYLIST
 
-        // CUSTOMERS
+            // CUSTOMERS
         public async Task RefreshCustomers(int PageNumber, int PageSize)
         {
             var controller = new CustomerController(new CustomerRepository());
@@ -2040,6 +2108,8 @@ namespace Salon.View
 
             dgv_waiting.DataSource = Waiting;
 
+            LoadStylistTrackPanel();
+
         }
 
         private void dgv_waiting_CellClick(object sender, DataGridViewCellEventArgs e)
@@ -2076,7 +2146,24 @@ namespace Salon.View
                 form.ShowDialog();
             }
         }
+        public void LoadStylistTrackPanel() 
+        {
+            var repo = new AppointmentRepository();
+            var controller = new AppointmentController(repo);
+            var stylistTrack = controller.GetStylistTrack();
 
+            dgv_stylist_track.AutoGenerateColumns = false;
+            col_duty_stylist_name.DataPropertyName = "StylistName";
+            col_duty_stylist_client.DataPropertyName = "DisplayCustomerName";
+            col_duty_stylist_service.DataPropertyName = "Services";
+            col_duty_stylist_start_end_time.DataPropertyName = "DisplayTime";
+            col_duty_stylist_available.DataPropertyName = "EndTime";
+            col_duty_stylist_status.DataPropertyName = "Status";
+
+            dgv_stylist_track.DataSource = stylistTrack;
+
+
+        }
         // END OF WALK IN
 
 
@@ -2137,6 +2224,8 @@ namespace Salon.View
             col_db_payment_status.DataPropertyName = "PaymentStatus";
             col_db_booking_type.DataPropertyName = "CustomerType";
             dgv_table_summary.DataSource = appointments;
+
+         
         }
 
         public void LoadAppointments()

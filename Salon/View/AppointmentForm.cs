@@ -38,6 +38,7 @@ namespace Salon.View
         private int service_duration = 0;
         private int service_qty = 0;
         private bool isUpdate = false;
+        private int ss_id = 0;
         public string CustomerId
         {
             get => lbl_ID.Text;
@@ -62,7 +63,7 @@ namespace Salon.View
 
             LoadSubcategory();
             LoadServices();
-            LoadStylist();
+
             LoadTimeSlots();
         }
         private void LoadSubcategory()
@@ -90,6 +91,7 @@ namespace Salon.View
             cmb_services.ValueMember = "serviceName_id";
             cmb_services.DisplayMember = "serviceName";
 
+
             cmb_services.DataSource = services;
 
             cmb_services.SelectedIndex = -1;
@@ -111,13 +113,13 @@ namespace Salon.View
             cmb_services.DataSource = services;
 
         }
-        private void LoadStylist()
+        private void LoadStylist(int id)
         {
             var repo = new StylistRepository();
             var controller = new StylistController(repo);
-            var stylist = controller.GetAll();
+            var stylist = controller.GetStylistSpecialistById(id);
 
-            var availble_stylist = stylist.Where(s => s.Availability == "Available").ToList();
+            cmb_stylist.DataSource = null;
             cmb_stylist.ValueMember = "stylist_id";
             cmb_stylist.DisplayMember = "FullName";
 
@@ -144,7 +146,7 @@ namespace Salon.View
             ThemeManager.ApplyTheme(this);
             LoadSubcategory();
             LoadServices();
-            LoadStylist();
+    
             //LoadProduct();
             this.mainForm = mainForm;
             this.model = model;
@@ -673,7 +675,7 @@ namespace Salon.View
                 model = new AppointmentModel
                 {
                     CustomerName = txt_FullName.Text,
-                    //StylistId = Convert.ToInt32(cmb_stylist.SelectedValue),
+                    StylistId = Convert.ToInt32(cmb_stylist.SelectedValue),
                     StylistName = cmb_stylist.Text,
                     AppointmentDate = cmb_Date.Value,
                     StartTime = startTime,
@@ -689,7 +691,7 @@ namespace Salon.View
                 {
                     CustomerId = Convert.ToInt32(lbl_ID.Text),
                     CustomerName = txt_FullName.Text,
-                    //StylistId = Convert.ToInt32(cmb_stylist.SelectedValue),
+                    StylistId = Convert.ToInt32(cmb_stylist.SelectedValue),
                     StylistName = cmb_stylist.Text,
                     AppointmentDate = cmb_Date.Value,
                     StartTime = cmb_Date.Value + selectedTime.TimeOfDay,
@@ -1038,6 +1040,17 @@ namespace Salon.View
                 totalDuration = selectedService.duration;
                 txt_duration.Text = selectedService.duration.ToString() + " mins";
                 txt_price.Text = selectedService.servicePrice.ToString();
+               
+
+            }
+        }
+
+        private void cmb_services_SelectedValueChanged(object sender, EventArgs e)
+        {
+            if (cmb_services.SelectedItem is ServiceModel selectedService)
+            {
+              
+                LoadStylist(selectedService.serviceName_id);
 
             }
         }

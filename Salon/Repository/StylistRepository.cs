@@ -20,6 +20,46 @@ namespace Salon.Repository
                 return con.Query<StylistModel>(sql).ToList();
             }
         }
+        public int GetSSId(int stylist_id, int service_id) 
+        {
+            using (var con = Database.GetConnection())
+            {
+                var sql = @"SELECT ss_id FROM tbl_stylist_services WHERE stylist_id = @stylist_id AND service_id = @service_id";
+                return con.QuerySingleOrDefault<int>(sql, new { stylist_id, service_id });
+            }
+        }
+        public IEnumerable<StylistModel> GetStylistSpecialist() 
+        {
+            using (var con = Database.GetConnection())
+            {
+                var sql = @"SELECT DISTINCT 
+    
+    sp.stylist_id,
+    CONCAT(s.firstName, ' ', s.lastName) AS StylistName,
+    ts.name AS StylistSpecialty
+FROM tbl_stylist_specialists sp
+LEFT JOIN tbl_stylists s ON s.stylist_id = sp.stylist_id
+LEFT JOIN tbl_specialist ts ON ts.specialist_id = sp.specialist_id
+WHERE s.is_deleted = 0; ";
+                return con.Query<StylistModel>(sql).ToList();
+            }
+        }
+        public IEnumerable<StylistModel> StylistId(int id)
+        {
+            using (var con = Database.GetConnection())
+            {
+                var sql = @"SELECT * FROM tbl_stylist_services WHERE stylist_id = @id";
+                return con.Query<StylistModel>(sql, new { id }).ToList();
+            }
+        }
+        public IEnumerable<StylistModel> GetStylistsByServiceId(int serviceId)
+        {
+            using (var con = Database.GetConnection())
+            {
+                var sql = @"SELECT * FROM tbl_stylist_services WHERE service_id = @serviceId";
+                return con.Query<StylistModel>(sql, new { serviceId }).ToList();
+            }
+        }
         public async Task<IEnumerable<StylistModel>> GetAllStylistAsync(int PageSize, int Offset) 
         {
             using (var con = Database.GetConnection())
@@ -35,6 +75,19 @@ namespace Salon.Repository
             {
                 var sql = "SELECT stylist_id, CONCAT(firstName,' ',middleName,' ',lastName) as fullName FROM tbl_stylists WHERE is_deleted = 0";
                 return con.Query<StylistModel>(sql).ToList();
+            }
+        }
+        public IEnumerable<StylistModel> GetStylistSpecialist(int id)
+        {
+            using (var con = Database.GetConnection())
+            {
+                var sql = @"
+                        SELECT ss_id, ss.stylist_id, s.firstName, s.middleName, s.lastName
+                        FROM tbl_stylist_services ss
+                        LEFT JOIN tbl_stylists s ON s.stylist_id = ss.stylist_id
+                        LEFT JOIN tbl_servicesname sn ON sn.serviceName_id = ss.service_id
+                        WHERE  s.is_deleted = 0 AND ss.service_id = @id;";
+                return con.Query<StylistModel>(sql, new { id }).ToList();
             }
         }
         public StylistModel GetStylistCost()
@@ -57,6 +110,57 @@ namespace Salon.Repository
                 return con.QuerySingle<int>(sql, stylist);
             }
         }
+        public bool AssignService(int stylist_id, int service_id) 
+        {
+            using (var con = Database.GetConnection())
+            {
+                var sql = @"INSERT INTO tbl_stylist_services (stylist_id, service_id) VALUES (@stylist_id, @service_id)";
+                try
+                {
+                    con.Execute(sql, new { stylist_id, service_id });
+                    return true;
+                }
+                catch (Exception)
+                {
+                    return false;
+                }
+            }
+        }
+        public bool UnassignService(int stylist_id, int service_id)
+        {
+            using (var con = Database.GetConnection())
+            {
+                var sql = @"DELETE FROM tbl_stylist_services WHERE stylist_id = @stylist_id AND service_id = @service_id;";
+                try
+                {
+                    con.Execute(sql, new {stylist_id, service_id });
+                    return true;
+                }
+                catch (Exception ex)
+                {
+            
+                    return false;
+                }
+            }
+        }
+        public bool UpdateAssignService(int ss_id)
+        {
+            using (var con = Database.GetConnection())
+            {
+                var sql = @"DELETE FROM tbl_stylist_services WHERE ss_id = @ss_id;";
+                try
+                {
+                    con.Execute(sql, new { ss_id });
+                    return true;
+                }
+                catch (Exception ex)
+                {
+             
+                    return false;
+                }
+            }
+
+        }
         public int UpdateStylist(StylistModel stylist)
         {
             using (var con = Database.GetConnection())
@@ -65,6 +169,14 @@ namespace Salon.Repository
                             birth_date = @birth_date, contactNumber = @contactNumber, email = @email, address = @address
                             WHERE stylist_id = @stylist_id";
                 return con.Execute(sql, stylist);
+            }
+        }
+        public bool UpdateStylistDuty(int id, bool duty_value)
+        {
+            using (var con = Database.GetConnection())
+            {
+                var sql = @"UPDATE tbl_stylists SET is_duty = @duty_value WHERE stylist_id = @id";
+                return con.Execute(sql, new { id, duty_value}) > 0;
             }
         }
         public int DeleteStylist(int stylist_id)

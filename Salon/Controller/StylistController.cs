@@ -1,10 +1,12 @@
-﻿using Salon.Models;
+﻿using Laundry.Data;
+using Salon.Models;
 using Salon.Repository;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using static iText.StyledXmlParser.Jsoup.Select.Evaluator;
 
 namespace Salon.Controller
 {
@@ -21,6 +23,22 @@ namespace Salon.Controller
         {
             return _repo.GetAllStylist();
         }
+        public int GetSSId(int stylist_id, int service_id) 
+        {
+            return _repo.GetSSId(stylist_id, service_id);
+        }
+        public IEnumerable<StylistModel> GetStylistSpecialist()
+        {
+            return _repo.GetStylistSpecialist();
+        }
+        public IEnumerable<StylistModel> GetStylistById(int id)
+        {
+            return _repo.StylistId(id);
+        }
+        public IEnumerable<StylistModel> GetStylistsByServiceId(int serviceId)
+        {
+            return _repo.GetStylistsByServiceId(serviceId);
+        }
         public async Task<IEnumerable<StylistModel>> RefreshStlyistAsync(int PageSize, int Offset) 
         {
             return await _repo.GetAllStylistAsync(PageSize, Offset);
@@ -28,6 +46,10 @@ namespace Salon.Controller
         public IEnumerable<StylistModel> StylistFullName() 
         {
             return _repo.GetStylistWithFullName();
+        }
+        public IEnumerable<StylistModel> GetStylistSpecialistById(int id)
+        {
+            return _repo.GetStylistSpecialist(id);
         }
         public StylistModel getStylistTotalCost() 
         {
@@ -37,9 +59,25 @@ namespace Salon.Controller
         {
             return _repo.AddStylist(stylist);
         }
+        public bool AssignService(int stylist_id, int service_id) 
+        {
+            return _repo.AssignService(stylist_id, service_id);
+        }
+        public bool UpdateAssignService(int ss_id)
+        {
+            return _repo.UpdateAssignService(ss_id);
+        }
+        public bool UnassignService(int stylist_id, int service_id) 
+        {
+            return _repo.UnassignService(stylist_id, service_id);
+        }
         public bool Update(StylistModel stylist)
         {
             return _repo.UpdateStylist(stylist) > 0;
+        }
+        public bool UpdateDuty(int id, bool duty_value)
+        {
+            return _repo.UpdateStylistDuty(id, duty_value);
         }
         public bool Delete(int stylist_id)
         {

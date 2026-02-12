@@ -14,6 +14,8 @@ namespace Salon.Models
         public string EndTime { get; set; }   // "05:00 PM"
         public bool IsWorking { get; set; }
 
+        public string StylistName { get; set; }
+        public string StylistSpecialty { get; set; }
         public int stylist_id { get; set; }
         public string firstName { get; set; }
         public string middleName { get; set; }
@@ -27,10 +29,21 @@ namespace Salon.Models
         public string status { get; set; }
 
         public string FullName => $"{firstName} {lastName}";
+        public override string ToString()
+        {
+            return $"{StylistName} ({StylistSpecialty})";
+        }
 
         public int is_deleted { get; set; }
         public decimal stylist_cost { get; set; }
+        public bool is_duty { get; set; }
+        public string DutyDisplay => is_duty ? "ON" : "OFF";
 
+        //
+
+        // SERVICE MODEL
+        public int ss_id { get; set; }
+        public int service_id { get; set; }
 
         // REPORT SUMMARY
 
