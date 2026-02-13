@@ -24,20 +24,28 @@ namespace Salon.Models
         public int LoyaltyPoints { get; set; }
         public int StylistId { get; set; }
         public string StylistName { get; set; }
+        public string AppointmentType { get; set; }
         public DateTime AppointmentDate { get; set; }
         public DateTime StartTime { get; set; }
         public DateTime EndTime { get; set; }
-        public string DisplayTime
-        {
-            get
-            {
-                TimeSpan duration = EndTime - StartTime;
-                return duration.ToString(@"hh\:mm"); 
-            }
-        }
+   
+        public string DisplayTime =>
+            (StartTime != DateTime.MinValue && EndTime != DateTime.MinValue)
+            ? $"{StartTime:hh:mm tt} - {EndTime:hh:mm tt}"
+            : "-";
+
+     
+        public string AvailabilityNext =>
+            DutyStatus == "Busy" && EndTime != DateTime.MinValue
+                ? EndTime.ToString("hh:mm tt")
+                : DutyStatus == "Waiting" && StartTime != DateTime.MinValue
+                    ? StartTime.ToString("hh:mm tt")
+                    : "Available Now";
+
 
         public DateTime EndDuration { get; set; }
         public string Status { get; set; } // e.g., Scheduled, Completed, Canceled
+        public string DutyStatus { get; set; } // e.g., On Duty, Off Duty
         public string PaymentStatus { get; set; } // e.g., Paid, Unpaid
         public int Duration { get; set; }
         public int ServiceId { get; set; }

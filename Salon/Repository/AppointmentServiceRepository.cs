@@ -36,6 +36,22 @@ namespace Salon.Repository
                 }
 
             }
+        public void DeleteAppointmentServiceByAppointmentId(int appointment_id) 
+        {
+            using (var con = Database.GetConnection()) 
+            {
+                var sql = @"DELETE FROM tbl_appointment_services WHERE appointment_id = @appointment_id";
+                con.Execute(sql, new { appointment_id = appointment_id });
+            }
+        }
+        public void DeleteAppointmentServiceByAppointmentServiceId(int appointment_service_id)
+        {
+            using (var con = Database.GetConnection())
+            {
+                var sql = @"DELETE FROM tbl_appointment_services WHERE appointment_service_id = @appointment_service_id";
+                con.Execute(sql, new { appointment_service_id = appointment_service_id });
+            }
+        }
         public void AddAppointmentService(AppointmentServicesModel appointmentServices)
         {
             using (var con = Database.GetConnection()) 
@@ -45,6 +61,14 @@ namespace Salon.Repository
                 VALUES (@AppointmentId, @ServiceId,@StylistId, @StartTime, @EndTime, @Status);", appointmentServices);
             }
                 
+        }
+        public bool MarkAsCompleted(int appointmentServiceId) 
+        {
+            using (var con = Database.GetConnection()) 
+            {
+                var sql = @"UPDATE tbl_appointment_services SET status = 'Completed' WHERE appointment_service_id = @AppointmentServiceId";
+                return con.Execute(sql, new { AppointmentServiceId = appointmentServiceId }) > 0;
+            }
         }
         public void UpdateAppointmentService(AppointmentServicesModel model) 
         {
@@ -118,14 +142,24 @@ namespace Salon.Repository
                     aps.appointment_id AS AppointmentId,
                     aps.serviceName_id AS ServiceId,
                     sn.serviceName AS ServiceName,
-                    MAX(spr.selling_price) AS SellingPrice,
-                    MAX(spr.vat_amount) AS VatAmount
+                    s.stylist_id AS StylistId,
+                    s.firstName,
+                    s.lastName,
+                    sn.duration AS Duration,
+                    sn.servicePrice AS SellingPrice,
+                    MAX(spr.vat_amount) AS VatAmount,
+                    aps.start_time AS StartTime,
+                    aps.end_time AS EndTime,
+                    aps.status
+        
                 FROM tbl_appointment_services aps
                 INNER JOIN tbl_servicesname sn ON sn.serviceName_id = aps.serviceName_id
                 LEFT JOIN tbl_service_product spd ON spd.service_id = sn.serviceName_id
                 LEFT JOIN tbl_service_price spr ON spr.service_product_id = spd.service_product_id
+                LEFT JOIN tbl_stylists s ON s.stylist_id = aps.stylist_id
                 WHERE aps.appointment_id = @AppointmentId
                 GROUP BY aps.appointment_service_id, aps.appointment_id, aps.serviceName_id, sn.serviceName;
+                
                 ";
 
 
@@ -158,7 +192,30 @@ namespace Salon.Repository
 
 
         //}
-
+        public IEnumerable<AppointmentServicesModel> GetViewSelectedServices(int id) 
+        {
+            using (var con = Database.GetConnection())
+            {
+                var sql = @"SELECT DISTINCT
+                        aps.appointment_service_id AS AppointmentServiceId,
+                        aps.appointment_id AS AppointmentId,
+                        aps.serviceName_id AS ServiceId,
+                        s.firstName,
+                        s.lastName,
+                        sn.serviceName AS ServiceName,
+                        aps.start_time AS StartTime,
+                        aps.end_time AS EndTime,
+                        aps.status
+                    FROM tbl_appointment_services aps
+                    INNER JOIN tbl_servicesname sn ON sn.serviceName_id = aps.serviceName_id
+                    LEFT JOIN tbl_service_product spd ON spd.service_id = sn.serviceName_id
+                    LEFT JOIN tbl_service_price spr ON spr.service_product_id = spd.service_product_id
+                    LEFT JOIN tbl_stylists s ON s.stylist_id = aps.stylist_id
+                    WHERE aps.appointment_id = @id
+                    ;";
+                return con.Query<AppointmentServicesModel>(sql, new { id = id }).ToList();
+            }
+        }
         public IEnumerable<AppointmentServicesModel>  ServicesSelected(int id) 
         {
             using (var con = Database.GetConnection()) 

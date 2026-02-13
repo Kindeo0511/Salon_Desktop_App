@@ -30,13 +30,22 @@ namespace Salon.Controller
             };
             repo.AddAppointmentService(appointmentService);
         }
-
-
+        public void DeleteAppointmentService(int appointmentServiceId) 
+        {
+            repo.DeleteAppointmentServiceByAppointmentId(appointmentServiceId);
+        }
+        public void DeleteAppointmentServiceById(int appointmentServiceId)
+        {
+            repo.DeleteAppointmentServiceByAppointmentServiceId(appointmentServiceId);
+        }
         public void UpdateServicesAppointment(AppointmentServicesModel model) 
         {
             repo.UpdateAppointmentService(model);
         }
-
+        public bool MarkServiceAsCompleted(int appointmentServiceId) 
+        {
+            return repo.MarkAsCompleted(appointmentServiceId);
+        }
         public bool IsStylistAvailable(int stylistId, DateTime requestedStart, int durationMinutes)
         {
             return repo.IsStylistAvailable(stylistId, requestedStart, durationMinutes);
@@ -67,6 +76,10 @@ namespace Salon.Controller
         public IEnumerable<AppointmentServicesModel> GetSelectedServices(int id) 
         {
             return repo.ServicesSelected(id);
+        }
+        public IEnumerable<AppointmentServicesModel> ViewSelectedServices(int id) 
+        {
+            return repo.GetViewSelectedServices(id);
         }
 
         public bool StartWalkInService(int id, DateTime start_time, DateTime end_time) 

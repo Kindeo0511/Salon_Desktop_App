@@ -34,6 +34,10 @@ namespace Salon.Controller
         {
             return  repo.ShowQueue();
         }
+        public IEnumerable<AppointmentModel> ShowOnGoingQueue()
+        {
+            return repo.ShowOnGoingQueue();
+        }
         public IEnumerable<AppointmentModel> LoadAppointments()
         {
             return repo.GetAll();

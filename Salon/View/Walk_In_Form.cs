@@ -23,7 +23,6 @@ namespace Salon.View
         private DateTime selectedTime;
         private int totalDuration = 0;
         private MainForm _mainForm;
-        private WalkInModel _model;
         private AppointmentModel appointmentModel;
         private bool isWaiting = false;
         private bool isOnGoing = false;
@@ -63,13 +62,15 @@ namespace Salon.View
 
 
         }
-        public Walk_In_Form(MainForm mainForm, WalkInModel model)
+        public Walk_In_Form(MainForm mainForm, AppointmentModel model)
         {
             InitializeComponent();
             ThemeManager.ApplyTheme(this);
             _mainForm = mainForm;
-            _model = model;
+            appointmentModel = model;
 
+            rad_guest.Checked = appointmentModel.AppointmentType == "Walk-In";
+            rad_exists.Checked = appointmentModel.AppointmentType == "Member";
 
             LoadSubcategory();
 
@@ -81,16 +82,16 @@ namespace Salon.View
             LoadWalkInCode();
            
 
-            LoadSelectedData(_model);
+            LoadSelectedData(appointmentModel);
+
+            LoadSelectedServices(appointmentModel.AppointmentId);
         }
-        private void LoadSelectedData(WalkInModel model) 
+        private void LoadSelectedData(AppointmentModel model) 
         {
             cmb_stylist.MouseWheel += cmb_stylist_MouseWheel;
 
-            lbl_prefix.Text = model.name;
-            cmb_services.SelectedValue = model.serviceName_id;
-            cmb_subcategory.SelectedValue = model.subCategoryId > 0 ? model.subCategoryId : 0;
-            cmb_stylist.SelectedValue = model.stylist_id;
+    
+           
           
 
             btn_save.Visible = false;
@@ -99,6 +100,32 @@ namespace Salon.View
 
         }
 
+        public void LoadSelectedServices(int appointment_id) 
+        {
+            var service_repo = new AppointmentServiceRepository();
+            var service_controller = new AppointmentServiceController(service_repo);
+            var services = service_controller.GetServicesByAppointmentId(appointment_id);
+
+            dgv_service_selected.Rows.Clear();
+            foreach (var service in services) 
+            {
+                dgv_service_selected.Rows.Add(
+                service.AppointmentServiceId,
+                service.ServiceId,
+                service.ServiceName,
+                service.StylistId,
+                service.StylistName,
+                service.Duration + " mins",
+                service.SellingPrice,
+                service.StartTime,
+                service.EndTime,
+                service.Status  
+                  );
+            }
+
+          
+
+        }
         private void LoadWalkInCode() 
         {
             var repo = new WalkInRepository();
@@ -205,6 +232,7 @@ namespace Salon.View
                     AppointmentDate = DateTime.Now,
                     StartTime = DateTime.Now,
                     EndTime = DateTime.Now.Add(TimeSpan.FromMinutes(totalDuration)),
+                    AppointmentType = "Walk-In",
                     CustomerType = "Guest",
                     PaymentStatus = "Unpaid",
                 };
@@ -320,25 +348,65 @@ namespace Salon.View
             serviceController.AddServiceToInvoiceCart(cart);
 
         }
-        private void UpdateWalkIn() 
+        private void UpdateWalkIn()
         {
-            var repo = new WalkInRepository();
-            var controller = new Walk_In_Controller(repo);
+            var service_repo = new AppointmentServiceRepository();
+            var service_controller = new AppointmentServiceController(service_repo);
 
 
-            var model = new WalkInModel()
+            service_controller.DeleteAppointmentService(appointmentModel.AppointmentId);
+            foreach (DataGridViewRow row in dgv_service_selected.Rows)
             {
-                id = _model.id,
-                name = lbl_prefix.Text,
-                stylist_id = Convert.ToInt32(cmb_stylist.SelectedValue),
-                serviceName_id = Convert.ToInt32(cmb_services.SelectedValue),
-                date = DateTime.Now,
-                start_time = DateTime.Now.TimeOfDay,
-                end_time = DateTime.Now.TimeOfDay.Add(TimeSpan.FromMinutes(totalDuration)),
-                status = "Scheduled",
-                payment_status = "Unpaid",
-            };
-            controller.UpdateWalkIn(model);
+                if (row.IsNewRow) continue;
+
+                int? stylist_id = null;
+                int service_id = Convert.ToInt32(row.Cells["col_service_id"].Value);
+                if (row.Cells["col_stylist_id"].Value != null &&
+                    int.TryParse(row.Cells["col_stylist_id"].Value.ToString(), out int parsed))
+                {
+                    stylist_id = parsed;
+                }
+
+                int duration = 0;
+                var rawValue = row.Cells["col_duration"].Value?.ToString();
+                if (!string.IsNullOrWhiteSpace(rawValue))
+                {
+                    string digitsOnly = new string(rawValue.Where(char.IsDigit).ToArray());
+                    if (int.TryParse(digitsOnly, out int parse))
+                    {
+                        duration = parse;
+                    }
+                }
+
+                decimal price = Convert.ToDecimal(row.Cells["col_price"].Value.ToString());
+                var statusValue = Convert.ToString(row.Cells["col_status"].Value);
+
+                DateTime? start_time = null;
+                DateTime? end_time = null;
+                string rowStatus = statusValue; // preserve whatever status is in the grid
+
+                if (statusValue == "Ready to Start" || statusValue == "On Going")
+                {
+                    rowStatus = "On Going";
+                    start_time = DateTime.Now;
+                    end_time = DateTime.Now.AddMinutes(duration);
+                }
+                else if (statusValue == "Busy")
+                {
+                    rowStatus = "Waiting";
+                    end_time = DateTime.Now.AddMinutes(duration);
+                }
+              
+
+                service_controller.AddServicesToAppointment(
+                    appointmentModel.AppointmentId,
+                    service_id,
+                    stylist_id,
+                    start_time,
+                    end_time,
+                    rowStatus
+                );
+            }
         }
         private void btn_save_Click(object sender, EventArgs e)
         {
@@ -364,7 +432,7 @@ namespace Salon.View
 
         private void cmb_subcategory_SelectedIndexChanged(object sender, EventArgs e)
         {
-            if (_model == null)
+            if (appointmentModel == null)
             {
 
                 LoadServices(Convert.ToInt32(cmb_subcategory.SelectedValue));
@@ -392,15 +460,7 @@ namespace Salon.View
             ((HandledMouseEventArgs)e).Handled = true;
         }
 
-        private void btn_update_Click(object sender, EventArgs e)
-        {
-            UpdateWalkIn();
-            MessageBox.Show("Walk-In appointment updated successfully!", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
-            _mainForm.LoadWalkIn();
-            this.Close();
-
-        }
-
+ 
     
 
         private void btn_add_service_Click_1(object sender, EventArgs e)
@@ -411,12 +471,15 @@ namespace Salon.View
 
 
             dgv_service_selected.Rows.Add(
+            0, 
             cmb_services.SelectedValue,
             cmb_services.Text,
             cmb_stylist.SelectedValue,
             cmb_stylist.Text,
             txt_duration.Text,
             txt_price.Text,
+            null,
+            null,
             stylistAvailability
             );
 
@@ -452,6 +515,38 @@ namespace Salon.View
         private void rad_exists_CheckedChanged(object sender, EventArgs e)
         {
 
+        }
+
+        private void btn_update_Click_1(object sender, EventArgs e)
+        {
+            UpdateWalkIn();
+            MessageBox.Show("Walk-In appointment updated successfully!", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            _mainForm.LoadWalkIn();
+            this.Close();
+        }
+
+        private void dgv_service_selected_CellClick(object sender, DataGridViewCellEventArgs e)
+        {
+            if (e.RowIndex < 0) return;
+
+            if (e.RowIndex >= 0 && dgv_service_selected.Columns[e.ColumnIndex].Name == "btn_remove") 
+            {
+                int appointmentServiceId = Convert.ToInt32(dgv_service_selected.Rows[e.RowIndex].Cells["col_appointment_service_id"].Value);             
+                string serviceName = dgv_service_selected.Rows[e.RowIndex].Cells["col_service_name"].Value.ToString();
+
+
+                var confirmResult = MessageBox.Show($"Are you sure to remove {serviceName}?", "Confirm Remove", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+
+                if (confirmResult == DialogResult.Yes)
+                {
+                    var repo = new AppointmentServiceRepository();
+                    var controller = new AppointmentServiceController(repo);
+                    controller.DeleteAppointmentServiceById(appointmentServiceId);
+                    MessageBox.Show($"{serviceName} removed successfully!", "Removed", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    LoadSelectedServices(appointmentModel.AppointmentId);
+                    _mainForm.LoadWalkIn();
+                }
+            }
         }
     }
 }

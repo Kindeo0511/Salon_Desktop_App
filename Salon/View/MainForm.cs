@@ -114,6 +114,7 @@ namespace Salon.View
             ThemeManager.StyleDataGridView(dgv_walk_in);
             ThemeManager.StyleDataGridView(dgv_waiting);
             ThemeManager.StyleDataGridView(dgv_appointment);
+            ThemeManager.StyleDataGridView(dgv_stylist_track);
             ThemeManager.StyleDataGridView(dgv_table_summary);
             ThemeManager.StyleDataGridView(dgv_report_table);
             ThemeManager.StyleDataGridView(dgv_inventory_report);
@@ -2080,7 +2081,8 @@ namespace Salon.View
             var repo = new AppointmentRepository();
             var controller = new AppointmentController(repo);
             var Queue = controller.ShowQueue();
-            var OnGoing = Queue.Where(a => a.Status == "On Going").ToList();
+            var OnGoing = controller.ShowOnGoingQueue();
+
             var Waiting = Queue.Where(a => a.Status == "Waiting").ToList();
 
             dgv_walk_in.AutoGenerateColumns = false;
@@ -2089,6 +2091,7 @@ namespace Salon.View
             col_walk_in_stylist_id.DataPropertyName = "StylistId";
             col_walk_in_stylist_name.DataPropertyName = "StylistName";
             //col_walk_in_date.DataPropertyName = "AppointmentDate";
+            col_walk_in_appointment_type.DataPropertyName = "AppointmentType";
             col_walk_in_start_time.DataPropertyName = "StartTime";
             col_walk_in_end_time.DataPropertyName = "EndTime";
             col_walk_in_status.DataPropertyName = "Status";
@@ -2157,8 +2160,9 @@ namespace Salon.View
             col_duty_stylist_client.DataPropertyName = "DisplayCustomerName";
             col_duty_stylist_service.DataPropertyName = "Services";
             col_duty_stylist_start_end_time.DataPropertyName = "DisplayTime";
-            col_duty_stylist_available.DataPropertyName = "EndTime";
+            col_duty_stylist_available.DataPropertyName = "AvailabilityNext";
             col_duty_stylist_status.DataPropertyName = "Status";
+            col_duty_stylist_duty_status.DataPropertyName = "DutyStatus";
 
             dgv_stylist_track.DataSource = stylistTrack;
 
@@ -4739,14 +4743,36 @@ namespace Salon.View
 
             if (e.RowIndex >= 0 && dgv_walk_in.Columns[e.ColumnIndex].Name == "btn_walk_in_update")
             {
-                var walk_in_data = dgv_walk_in.Rows[e.RowIndex].DataBoundItem as WalkInModel;
+                var walk_in_data = dgv_walk_in.Rows[e.RowIndex].DataBoundItem as AppointmentModel;
 
                 using (var form = new Walk_In_Form(this, walk_in_data))
                 {
                     form.ShowDialog();
                 }
             }
-            else if (e.RowIndex >= 0 && dgv_walk_in.Columns[e.ColumnIndex].Name == "btn_walk_in_payment")
+            //else if (e.RowIndex >= 0 && dgv_walk_in.Columns[e.ColumnIndex].Name == "btn_walk_in_payment")
+            //{
+            //    //var walk_in_data = dgv_walk_in.Rows[e.RowIndex].DataBoundItem as WalkInModel;
+
+            //    //using (var form = new Process_Walk_In_Payment_Form(this, walk_in_data))
+            //    //{
+            //    //    form.ShowDialog();
+            //    //}
+            //    var appointment = dgv_appointment.Rows[e.RowIndex].DataBoundItem as AppointmentModel;
+
+            //    if (appointment.PaymentStatus.ToLower() == "paid")
+            //    {
+            //        return;
+            //    }
+
+            //    using (var paymentForm = new PaymentForm(this, appointment))
+            //    {
+            //        //paymentForm.RefreshData += async (s, args) => { await RefreshCategoryAsync(appointment_pagination.CurrentPage, pageSize); };
+
+            //        paymentForm.ShowDialog();
+            //    }
+            //}
+            else if (e.RowIndex >= 0 && dgv_walk_in.Columns[e.ColumnIndex].Name == "btn_walk_in_view_details")
             {
                 //var walk_in_data = dgv_walk_in.Rows[e.RowIndex].DataBoundItem as WalkInModel;
 
@@ -4754,19 +4780,22 @@ namespace Salon.View
                 //{
                 //    form.ShowDialog();
                 //}
-                var appointment = dgv_appointment.Rows[e.RowIndex].DataBoundItem as AppointmentModel;
+                var appointment = dgv_walk_in.Rows[e.RowIndex].DataBoundItem as AppointmentModel;
 
-                if (appointment.PaymentStatus.ToLower() == "paid")
+                if (appointment.AppointmentType.ToLower() == "walk-in")
                 {
-                    return;
+                    using (var detailsForm = new ViewDetailsForm(this, appointment))
+                    {
+                        detailsForm.ShowDialog();
+                    }
                 }
 
-                using (var paymentForm = new PaymentForm(this, appointment))
-                {
-                    //paymentForm.RefreshData += async (s, args) => { await RefreshCategoryAsync(appointment_pagination.CurrentPage, pageSize); };
+                //using (var paymentForm = new PaymentForm(this, appointment))
+                //{
+                //    //paymentForm.RefreshData += async (s, args) => { await RefreshCategoryAsync(appointment_pagination.CurrentPage, pageSize); };
 
-                    paymentForm.ShowDialog();
-                }
+                //    paymentForm.ShowDialog();
+                //}
             }
         }
 
@@ -6205,7 +6234,10 @@ namespace Salon.View
             return await EmailMessage.SendTestEmailConnection(email, password, shop_name);
         }
 
-      
+        private void dgv_stylist_track_CellFormatting(object sender, DataGridViewCellFormattingEventArgs e)
+        {
+
+        }
     }
 }
 
