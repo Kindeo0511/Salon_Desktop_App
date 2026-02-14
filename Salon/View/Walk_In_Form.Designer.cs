@@ -439,6 +439,7 @@
             this.col_appointment_service_id.HeaderText = "aps_id";
             this.col_appointment_service_id.MinimumWidth = 6;
             this.col_appointment_service_id.Name = "col_appointment_service_id";
+            this.col_appointment_service_id.Visible = false;
             this.col_appointment_service_id.Width = 77;
             // 
             // col_service_id
@@ -447,15 +448,15 @@
             this.col_service_id.HeaderText = "service_id";
             this.col_service_id.MinimumWidth = 6;
             this.col_service_id.Name = "col_service_id";
+            this.col_service_id.Visible = false;
             this.col_service_id.Width = 98;
             // 
             // col_service_name
             // 
-            this.col_service_name.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
+            this.col_service_name.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
             this.col_service_name.HeaderText = "Name";
             this.col_service_name.MinimumWidth = 6;
             this.col_service_name.Name = "col_service_name";
-            this.col_service_name.Width = 73;
             // 
             // col_stylist_id
             // 
@@ -463,15 +464,15 @@
             this.col_stylist_id.HeaderText = "stylist_id";
             this.col_stylist_id.MinimumWidth = 6;
             this.col_stylist_id.Name = "col_stylist_id";
+            this.col_stylist_id.Visible = false;
             this.col_stylist_id.Width = 87;
             // 
             // col_stylist
             // 
-            this.col_stylist.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
+            this.col_stylist.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
             this.col_stylist.HeaderText = "Stylist";
             this.col_stylist.MinimumWidth = 6;
             this.col_stylist.Name = "col_stylist";
-            this.col_stylist.Width = 71;
             // 
             // col_duration
             // 
@@ -494,6 +495,7 @@
             this.col_start_time.HeaderText = "start_time";
             this.col_start_time.MinimumWidth = 6;
             this.col_start_time.Name = "col_start_time";
+            this.col_start_time.Visible = false;
             this.col_start_time.Width = 125;
             // 
             // col_end_time
@@ -501,6 +503,7 @@
             this.col_end_time.HeaderText = "end_time";
             this.col_end_time.MinimumWidth = 6;
             this.col_end_time.Name = "col_end_time";
+            this.col_end_time.Visible = false;
             this.col_end_time.Width = 125;
             // 
             // col_status

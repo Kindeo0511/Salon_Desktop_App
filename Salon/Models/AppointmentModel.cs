@@ -13,9 +13,33 @@ namespace Salon.Models
         public int AppointmentId { get; set; }
         public int? CustomerId { get; set; }
         public string CustomerName { get; set; }
-        public string DisplayCustomerName
+
+      public string DisplayCustomerName
         {
-            get { return CustomerId.HasValue ? CustomerName : $"W-{AppointmentId.ToString().PadLeft(4, '0')}"; }
+            get
+            {
+                if (CustomerId.HasValue && !string.IsNullOrEmpty(CustomerName))
+                {
+                    // Registered customer
+                    return CustomerName;
+                }
+                else if (AppointmentType == "Appointment")
+                {
+                    // Appointment without customer record (walk-in appointment)
+                    return $"A-{AppointmentId.ToString().PadLeft(4, '0')}";
+                }
+                else if (AppointmentType == "Walk-In")
+                {
+                    // Pure walk-in (no appointment, no customer record)
+                    return $"W-{AppointmentId.ToString().PadLeft(4, '0')}";
+                }
+                else
+                {
+                    // No valid identifiers
+                    return "-";
+                }
+
+            }
         }
         
         public string Email { get; set; }

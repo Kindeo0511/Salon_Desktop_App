@@ -1,4 +1,5 @@
 ﻿using Dapper;
+using iText.Kernel.Pdf.Canvas.Parser.ClipperLib;
 using Laundry.Data;
 using MySql.Data.MySqlClient;
 using Salon.Models;
@@ -266,7 +267,7 @@ namespace Salon.Repository
             {
 
                 var sql = @"
-           SELECT 
+             SELECT 
             a.appointment_id AS AppointmentId,
             aps.servicename_id AS ServiceId,
             aps.stylist_id AS StylistId,
@@ -276,12 +277,21 @@ namespace Salon.Repository
             a.appointment_type AS AppointmentType,
             sn.duration AS Duration,
             a.Payment_status AS PaymentStatus,
+            CASE
+                WHEN SUM(CASE WHEN aps.status = 'Completed' THEN 1 ELSE 0 END) = COUNT(*)
+                    THEN 'Completed'
+                WHEN SUM(CASE WHEN aps.status = 'On Going' THEN 1 ELSE 0 END) > 0
+                    THEN 'On Going'
+                WHEN SUM(CASE WHEN aps.status = 'Waiting' THEN 1 ELSE 0 END) > 0
+                    THEN 'Waiting'
+                ELSE 'Unknown'
+            END AS AppointmentStatus,
             aps.status AS Status
         FROM tbl_appointment a
         LEFT JOIN tbl_appointment_services aps ON a.appointment_id = aps.appointment_id
         LEFT JOIN tbl_servicesname sn ON aps.servicename_id = sn.serviceName_id
         LEFT JOIN tbl_stylists s ON s.stylist_id = aps.stylist_id
-        WHERE aps.status = 'On Going'
+        WHERE aps.status = 'On Going' OR aps.status = 'Completed' AND a.payment_status != 'Paid'
           AND DATE(a.Date) = CURDATE()
           GROUP BY a.appointment_id
                 ;";
@@ -480,13 +490,35 @@ GROUP BY a.appointment_id;";
             {
                 var sql = @"SELECT 
     s.stylist_id,
-    a.appointment_id AS AppointmentId,
+    CASE 
+        WHEN a_s.status = 'On Going' THEN a.appointment_id
+        ELSE NULL
+    END AS AppointmentId,
     CONCAT(s.firstName, ' ', s.lastName) AS StylistName,
-    COALESCE(CONCAT(ca.firstName, ' ', ca.lastName), '-') AS CustomerName,
-    COALESCE(sn.serviceName, '-') AS Services,
-    a_s.start_time AS StartTime,
-    a_s.end_time   AS EndTime,
-    a_s.status     AS Status,
+    CASE 
+        WHEN a_s.status = 'On Going' THEN COALESCE(CONCAT(ca.firstName, ' ', ca.lastName), '')
+        ELSE ''
+    END AS CustomerName,
+    CASE 
+        WHEN a_s.status = 'On Going' THEN COALESCE(sn.serviceName, '')
+        ELSE ''
+    END AS Services,
+    CASE 
+        WHEN a_s.status = 'On Going' THEN a_s.start_time
+        ELSE NULL
+    END AS StartTime,
+    CASE 
+        WHEN a_s.status = 'On Going' THEN a_s.end_time
+        ELSE NULL
+    END AS EndTime,
+    CASE 
+        WHEN a_s.status = 'On Going' THEN a.appointment_type
+        ELSE NULL
+    END AS AppointmentType,
+    CASE 
+        WHEN a_s.status = 'On Going' THEN a_s.status
+        ELSE NULL
+    END AS Status,
     CASE 
         WHEN a_s.status = 'On Going' THEN 'Busy'
         ELSE 'Available'
@@ -501,16 +533,49 @@ LEFT JOIN tbl_appointment_services a_s
            WHERE stylist_id = s.stylist_id
              AND DATE(start_time) = CURRENT_DATE()
        )
-LEFT JOIN tbl_appointment a  
+LEFT JOIN tbl_appointment a   
        ON a.appointment_id = a_s.appointment_id
-LEFT JOIN tbl_customer_account ca  
+LEFT JOIN tbl_customer_account ca   
        ON ca.customer_id = a.customer_id
-LEFT JOIN tbl_servicesname sn  
+LEFT JOIN tbl_servicesname sn   
        ON sn.serviceName_id = a_s.serviceName_id
 WHERE s.is_duty = 1;
                             ";
                 return con.Query<AppointmentModel>(sql).ToList();
             }
+
+//            SELECT
+//    s.stylist_id,
+//    a.appointment_id AS AppointmentId,
+//    CONCAT(s.firstName, ' ', s.lastName) AS StylistName,
+//    COALESCE(CONCAT(ca.firstName, ' ', ca.lastName), '-') AS CustomerName,
+//    COALESCE(sn.serviceName, '-') AS Services,
+//    a_s.start_time AS StartTime,
+//    a_s.end_time AS EndTime,
+//    a.appointment_type AS AppointmentType,
+//    a_s.status AS Status,
+//    CASE
+//        WHEN a_s.status = 'On Going' THEN 'Busy'
+//        ELSE 'Available'
+//    END AS DutyStatus
+//FROM tbl_stylists s
+//LEFT JOIN tbl_appointment_services a_s
+//       ON a_s.stylist_id = s.stylist_id
+//       AND DATE(a_s.start_time) = CURRENT_DATE()
+//       AND a_s.start_time = (
+//           SELECT MAX(start_time)
+//           FROM tbl_appointment_services
+//           WHERE stylist_id = s.stylist_id
+//             AND DATE(start_time) = CURRENT_DATE()
+           	 
+//       )
+//LEFT JOIN tbl_appointment a
+//       ON a.appointment_id = a_s.appointment_id
+//LEFT JOIN tbl_customer_account ca
+//       ON ca.customer_id = a.customer_id
+//LEFT JOIN tbl_servicesname sn
+//       ON sn.serviceName_id = a_s.serviceName_id
+//WHERE s.is_duty = 1;
         }
         public AppointmentModel GetTotalAppointment()
         {

@@ -316,7 +316,7 @@ namespace Salon.View
                     service_controller.AddServicesToAppointment(appointment_id, service_id, stylist_id, start_time, endTimeDuration, rowStatus);
                     SaveInvoiceServices(invoiceServiceCart);
                 }
-                else if (statusValue == "Busy")
+                else if (statusValue == "Busy" || statusValue == "Waiting")
                 {
                     rowStatus = "Waiting";
                     DateTime? start_time = null;

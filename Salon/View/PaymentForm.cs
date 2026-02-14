@@ -82,7 +82,7 @@ namespace Salon.View
              
 
 
-                lbl_book_type.Text = model.CustomerType.ToString();
+                lbl_book_type.Text = model.AppointmentType.ToString();
 
                 
 
@@ -549,7 +549,7 @@ namespace Salon.View
             lbl_Time.Text = formattedStartTime + " - " + formattedEndTime;
        
             payment_status = model.PaymentStatus;
-            lbl_book_type.Text = model.CustomerType.ToString();
+            lbl_book_type.Text = model.AppointmentType.ToString();
              
 
             int baseHeight = 400; // estimated in pixels or logical units
@@ -751,7 +751,7 @@ namespace Salon.View
             //await mainForm.RefreshAppointmentAsync();
             //await mainForm.RefreshTotalSales();
             mainForm.FilterTransactionReport(1,25);
-
+            mainForm.LoadWalkIn();
             this.Close();
         }
 

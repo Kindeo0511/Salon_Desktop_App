@@ -4750,28 +4750,28 @@ namespace Salon.View
                     form.ShowDialog();
                 }
             }
-            //else if (e.RowIndex >= 0 && dgv_walk_in.Columns[e.ColumnIndex].Name == "btn_walk_in_payment")
-            //{
-            //    //var walk_in_data = dgv_walk_in.Rows[e.RowIndex].DataBoundItem as WalkInModel;
+            else if (e.RowIndex >= 0 && dgv_walk_in.Columns[e.ColumnIndex].Name == "btn_walk_in_payment")
+            {
+                //var walk_in_data = dgv_walk_in.Rows[e.RowIndex].DataBoundItem as WalkInModel;
 
-            //    //using (var form = new Process_Walk_In_Payment_Form(this, walk_in_data))
-            //    //{
-            //    //    form.ShowDialog();
-            //    //}
-            //    var appointment = dgv_appointment.Rows[e.RowIndex].DataBoundItem as AppointmentModel;
+                //using (var form = new Process_Walk_In_Payment_Form(this, walk_in_data))
+                //{
+                //    form.ShowDialog();
+                //}
+                var appointment = dgv_walk_in.Rows[e.RowIndex].DataBoundItem as AppointmentModel;
 
-            //    if (appointment.PaymentStatus.ToLower() == "paid")
-            //    {
-            //        return;
-            //    }
+                if (appointment.PaymentStatus.ToLower() == "paid")
+                {
+                    return;
+                }
 
-            //    using (var paymentForm = new PaymentForm(this, appointment))
-            //    {
-            //        //paymentForm.RefreshData += async (s, args) => { await RefreshCategoryAsync(appointment_pagination.CurrentPage, pageSize); };
+                using (var paymentForm = new PaymentForm(this, appointment))
+                {
+                    paymentForm.RefreshData += async (s, args) => { await RefreshCategoryAsync(appointment_pagination.CurrentPage, pageSize); };
 
-            //        paymentForm.ShowDialog();
-            //    }
-            //}
+                    paymentForm.ShowDialog();
+                }
+            }
             else if (e.RowIndex >= 0 && dgv_walk_in.Columns[e.ColumnIndex].Name == "btn_walk_in_view_details")
             {
                 //var walk_in_data = dgv_walk_in.Rows[e.RowIndex].DataBoundItem as WalkInModel;
