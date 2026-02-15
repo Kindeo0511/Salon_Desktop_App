@@ -203,6 +203,7 @@ namespace Salon.Repository
                         s.firstName,
                         s.lastName,
                         sn.serviceName AS ServiceName,
+                        sn.duration AS Duration,
                         aps.start_time AS StartTime,
                         aps.end_time AS EndTime,
                         aps.status

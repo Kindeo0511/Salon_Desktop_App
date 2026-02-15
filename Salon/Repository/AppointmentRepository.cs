@@ -131,6 +131,7 @@ namespace Salon.Repository
         a.Date AS AppointmentDate,
         a.start_time AS StartTime,
         a.end_time AS EndTime,
+        a.appointment_type AS AppointmentType,
         a.Status,
         a.Payment_status AS PaymentStatus,
         a.customer_type AS CustomerType
@@ -143,7 +144,7 @@ namespace Salon.Repository
     LEFT JOIN tbl_invoice i ON i.appointment_id = a.appointment_id
     LEFT JOIN tbl_invoice_service_cart isc ON isc.invoice_id = i.invoice_id
     LEFT JOIN tbl_stylists s ON s.stylist_id = isc.stylist_id
-    WHERE a.Status IS NOT NULL
+    WHERE a.Status IS NOT NULL AND a.appointment_type = 'Appointment'
     GROUP BY 
         a.appointment_id,
         a.customer_id,
@@ -173,6 +174,7 @@ namespace Salon.Repository
                 a.Date AS AppointmentDate,
                 a.start_time AS StartTime,
                 a.end_time AS EndTime,
+                a.appointment_type AS AppointmentType,
                 a.Status,
                 a.Payment_status AS PaymentStatus
             FROM tbl_appointment a
@@ -184,7 +186,7 @@ namespace Salon.Repository
             LEFT JOIN tbl_invoice i ON i.appointment_id = a.appointment_id
             LEFT JOIN tbl_invoice_service_cart isc ON isc.invoice_id = i.invoice_id
             LEFT JOIN tbl_stylists s ON s.stylist_id = isc.stylist_id
-            WHERE a.Status = @status AND a.Status IS NOT NULL
+            WHERE a.Status = @status AND a.Status IS NOT NULL AND a.appointment_type = 'Appointment'
           GROUP BY 
                 a.appointment_id,
                 a.customer_id,
@@ -269,6 +271,8 @@ namespace Salon.Repository
                 var sql = @"
              SELECT 
             a.appointment_id AS AppointmentId,
+            a.customer_id AS CustomerId,
+            CONCAT(ca.firstName, ' ', ca.middleName, ' ', ca.lastName) AS CustomerName,
             aps.servicename_id AS ServiceId,
             aps.stylist_id AS StylistId,
             COALESCE(CONCAT(s.firstName, ' ', s.lastName), 'Stylist not assigned yet') AS StylistName,
@@ -291,6 +295,7 @@ namespace Salon.Repository
         LEFT JOIN tbl_appointment_services aps ON a.appointment_id = aps.appointment_id
         LEFT JOIN tbl_servicesname sn ON aps.servicename_id = sn.serviceName_id
         LEFT JOIN tbl_stylists s ON s.stylist_id = aps.stylist_id
+        LEFT JOIN tbl_customer_account ca on ca.customer_id = a.customer_id
         WHERE aps.status = 'On Going' OR aps.status = 'Completed' AND a.payment_status != 'Paid'
           AND DATE(a.Date) = CURDATE()
           GROUP BY a.appointment_id
@@ -310,6 +315,8 @@ namespace Salon.Repository
                 var sql = @"
       SELECT DISTINCT
     a.appointment_id AS AppointmentId,
+    a.customer_id AS CustomerId,
+    CONCAT (ca.firstName, "" "", ca.lastName) AS CustomerName,
     aps.appointment_service_id AS AppointmentServiceId,
     aps.servicename_id AS ServiceId,
     sn.serviceName AS ServiceName,
@@ -318,6 +325,7 @@ namespace Salon.Repository
     aps.start_time AS StartTime,
     aps.end_time AS EndTime,
     a.appointment_type AS AppointmentType,
+    a.customer_type AS CustomerType,
     sn.duration AS Duration,
     a.Payment_status AS PaymentStatus,
     aps.status AS Status
@@ -325,9 +333,11 @@ FROM tbl_appointment a
 LEFT JOIN tbl_appointment_services aps ON a.appointment_id = aps.appointment_id
 LEFT JOIN tbl_servicesname sn ON aps.servicename_id = sn.serviceName_id
 LEFT JOIN tbl_stylists s ON s.stylist_id = aps.stylist_id
+LEFT JOIN tbl_customer_account ca on ca.customer_id = a.customer_id
 WHERE aps.status IN ('Waiting','On Going') 
   AND DATE(a.Date) = CURDATE()
 
+  GROUP BY a.appointment_id, aps.appointment_service_id
     
     
         ;";
@@ -629,9 +639,9 @@ WHERE s.is_duty = 1;
             {
                 var sql = @"
             INSERT INTO tbl_appointment 
-                (customer_id, stylist_id, Date, start_time, end_time,appointment_type, Status, payment_status,customer_type)
+                (customer_id, Date, start_time, end_time,appointment_type, Status, payment_status,customer_type)
             VALUES 
-                (@CustomerId, StylistId, @AppointmentDate, @StartTime, @EndTime,@AppointmentType, @Status, @PaymentStatus, @CustomerType);
+                (@CustomerId, @AppointmentDate, @StartTime, @EndTime,@AppointmentType, @Status, @PaymentStatus, @CustomerType);
             SELECT LAST_INSERT_ID();
         ";
 
@@ -672,7 +682,7 @@ WHERE s.is_duty = 1;
             using (var con = Database.GetConnection()) 
             {
                 var sql = @"UPDATE tbl_appointment
-                        SET stylist_id = @StylistId,
+                        SET 
                         Date = @AppointmentDate,
                         start_time = @StartTime,
                         end_time = @EndTime
@@ -685,8 +695,7 @@ WHERE s.is_duty = 1;
             using (var con = Database.GetConnection())
             {
                 var sql = @"UPDATE tbl_appointment
-                        SET stylist_id = @StylistId,
-                        Date = @AppointmentDate,
+                        SET Date = @AppointmentDate,
                         start_time = @StartTime,
                         end_time = @EndTime
                         WHERE appointment_id = @AppointmentId";

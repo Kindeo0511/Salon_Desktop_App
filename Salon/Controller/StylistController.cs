@@ -47,6 +47,10 @@ namespace Salon.Controller
         {
             return _repo.GetStylistWithFullName();
         }
+        public IEnumerable<StylistModel> LoadStylistBasedOnServiceId(int id)
+        {
+            return _repo.LoadStylistBasedOnService(id);
+        }
         public IEnumerable<StylistModel> GetStylistSpecialistById(int id)
         {
             return _repo.GetStylistSpecialist(id);

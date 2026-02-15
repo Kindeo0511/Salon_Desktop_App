@@ -2104,6 +2104,8 @@ namespace Salon.View
             col_waiting_walk_id.DataPropertyName = "AppointmentId";
             col_waiting_customer_name.DataPropertyName = "DisplayCustomerName";
             col_waiting_stylist_id.DataPropertyName = "StylistId";
+            col_waiting_book_type.DataPropertyName = "AppointmentType";
+            col_waiting_customer_type.DataPropertyName ="CustomerType";
             col_waiting_stylist_name.DataPropertyName = "StylistName";
             col_waiting_service_time.DataPropertyName = "Duration";
             col_waiting_status.DataPropertyName = "Status";
@@ -2119,9 +2121,9 @@ namespace Salon.View
         {
             if (e.RowIndex < 0) return;
 
-            if (e.RowIndex >= 0 && dgv_waiting.Columns[e.ColumnIndex].Name == "col_waiting_start_service") 
+            if (e.RowIndex >= 0 && dgv_waiting.Columns[e.ColumnIndex].Name == "col_waiting_start_service")
             {
-              
+
                 var controller = new AppointmentServiceRepository();
                 int appointmentServiceId = Convert.ToInt32(dgv_waiting.Rows[e.RowIndex].Cells["col_waiting_app_service_id"].Value);
                 int service_duration = Convert.ToInt32(dgv_waiting.Rows[e.RowIndex].Cells["col_waiting_service_time"].Value);
@@ -2129,7 +2131,7 @@ namespace Salon.View
                 var start_time = DateTime.Now;
                 var endTimeDuration = DateTime.Now.AddMinutes(service_duration);
 
-                if (controller.StartWalkInService(appointmentServiceId,start_time, endTimeDuration))
+                if (controller.StartWalkInService(appointmentServiceId, start_time, endTimeDuration))
                 {
                     MessageBox.Show("Service Started Successfully.", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
                     LoadWalkIn();
@@ -2139,6 +2141,40 @@ namespace Salon.View
                     MessageBox.Show("Failed to Start Service.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
 
+            }
+            else if (e.RowIndex >= 0 && dgv_waiting.Columns[e.ColumnIndex].Name == "col_waiting_update")
+            {
+                var type = dgv_waiting.Rows[e.RowIndex].Cells["col_waiting_book_type"].Value?.ToString();
+
+                if (type == "Appointment")
+                {
+                    // Do nothing for appointments
+                    return;
+                }
+                else
+                {
+                    MessageBox.Show("WALK IN");
+                }
+
+                // Handle walk-in update logic here
+            }
+            else if (e.RowIndex >= 0 && dgv_waiting.Columns[e.ColumnIndex].Name == "col_waiting_view_details")
+            {
+                var type = dgv_waiting.Rows[e.RowIndex].Cells["col_waiting_book_type"].Value?.ToString();
+                if (type == "Appointment")
+                {
+                    var apppointment = dgv_waiting.Rows[e.RowIndex].DataBoundItem as AppointmentModel;
+                    using (var form = new ViewDetailsForm(this, apppointment, true))
+                    {
+                        form.ShowDialog();
+                    }
+
+                }
+                else
+                {
+                    MessageBox.Show("WALK IN");
+                }
+                // Handle walk-in delete logic here
             }
         }
 
@@ -2299,22 +2335,22 @@ namespace Salon.View
             if (e.RowIndex < 0) return;
 
 
-            if (e.RowIndex >= 0 && dgv_appointment.Columns[e.ColumnIndex].Name == "col_pay")
-            {
-                var appointment = dgv_appointment.Rows[e.RowIndex].DataBoundItem as AppointmentModel;
+            //if (e.RowIndex >= 0 && dgv_appointment.Columns[e.ColumnIndex].Name == "col_pay")
+            //{
+            //    var appointment = dgv_appointment.Rows[e.RowIndex].DataBoundItem as AppointmentModel;
 
-                if (appointment.PaymentStatus.ToLower() == "paid")
-                {
-                    return;
-                }
+            //    if (appointment.PaymentStatus.ToLower() == "paid")
+            //    {
+            //        return;
+            //    }
 
-                using (var paymentForm = new PaymentForm(this, appointment))
-                {
-                    //paymentForm.RefreshData += async (s, args) => { await RefreshCategoryAsync(appointment_pagination.CurrentPage, pageSize); };
+            //    using (var paymentForm = new PaymentForm(this, appointment))
+            //    {
+            //        //paymentForm.RefreshData += async (s, args) => { await RefreshCategoryAsync(appointment_pagination.CurrentPage, pageSize); };
 
-                    paymentForm.ShowDialog();
-                }
-            }
+            //        paymentForm.ShowDialog();
+            //    }
+            //}
 
             if (e.RowIndex >= 0 && dgv_appointment.Columns[e.ColumnIndex].Name == "col_update_appointment")
             {
@@ -4743,12 +4779,26 @@ namespace Salon.View
 
             if (e.RowIndex >= 0 && dgv_walk_in.Columns[e.ColumnIndex].Name == "btn_walk_in_update")
             {
-                var walk_in_data = dgv_walk_in.Rows[e.RowIndex].DataBoundItem as AppointmentModel;
-
-                using (var form = new Walk_In_Form(this, walk_in_data))
+                string book_type = dgv_walk_in.Rows[e.RowIndex].Cells["col_walk_in_appointment_type"].Value.ToString().ToLower();
+                if (book_type == "appointment")
                 {
-                    form.ShowDialog();
+                    var appointment_data = dgv_walk_in.Rows[e.RowIndex].DataBoundItem as AppointmentModel;
+
+                    using (var form = new AppointmentForm(this, appointment_data, true))
+                    {
+                        form.ShowDialog();
+                    }
                 }
+                else 
+                {
+                    var walk_in_data = dgv_walk_in.Rows[e.RowIndex].DataBoundItem as AppointmentModel;
+
+                    using (var form = new Walk_In_Form(this, walk_in_data))
+                    {
+                        form.ShowDialog();
+                    }
+                }
+                  
             }
             else if (e.RowIndex >= 0 && dgv_walk_in.Columns[e.ColumnIndex].Name == "btn_walk_in_payment")
             {
@@ -6238,7 +6288,16 @@ namespace Salon.View
         {
 
         }
+
+        private void dgv_waiting_CellFormatting(object sender, DataGridViewCellFormattingEventArgs e)
+        {
+           
+
+        }
+
     }
+    
 }
+
 
 

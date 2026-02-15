@@ -40,7 +40,7 @@ namespace Salon.Repository
 FROM tbl_stylist_specialists sp
 LEFT JOIN tbl_stylists s ON s.stylist_id = sp.stylist_id
 LEFT JOIN tbl_specialist ts ON ts.specialist_id = sp.specialist_id
-WHERE s.is_deleted = 0; ";
+WHERE s.is_deleted = 0;  AND ";
                 return con.Query<StylistModel>(sql).ToList();
             }
         }
@@ -69,6 +69,17 @@ WHERE s.is_deleted = 0; ";
                 return result.ToList();
             }
         }
+        public IEnumerable<StylistModel> LoadStylistBasedOnService(int id) 
+        {
+            using (var con = Database.GetConnection()) 
+            {
+                var sql = @"SELECT ss.stylist_id AS StylistId, s.firstName AS firstName, s.lastName AS lastName FROM `tbl_stylist_services` ss
+                            JOIN tbl_stylists s ON s.stylist_id = ss.stylist_id
+                            WHERE ss.service_id = @id;";
+
+                return con.Query<StylistModel>(sql, new { id }).ToList();
+            }
+        }
         public IEnumerable<StylistModel> GetStylistWithFullName()
         {
             using (var con = Database.GetConnection())
@@ -86,7 +97,7 @@ WHERE s.is_deleted = 0; ";
                         FROM tbl_stylist_services ss
                         LEFT JOIN tbl_stylists s ON s.stylist_id = ss.stylist_id
                         LEFT JOIN tbl_servicesname sn ON sn.serviceName_id = ss.service_id
-                        WHERE  s.is_deleted = 0 AND ss.service_id = @id;";
+                        WHERE  s.is_deleted = 0 AND ss.service_id = @id And s.is_duty = 1;";
                 return con.Query<StylistModel>(sql, new { id }).ToList();
             }
         }

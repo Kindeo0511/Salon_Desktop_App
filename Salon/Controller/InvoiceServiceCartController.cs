@@ -38,6 +38,10 @@ namespace Salon.Controller
         {
             repo.UpdateServiceToCart(id, status);
         }
+        public void GetInvoiceServiceById(int invoice_id, int service_id) 
+        {
+            repo.GetServiceInvoiceId(invoice_id, service_id);
+        }
         public void RefundProduct(int id) 
         {
             repo.RefundServiceToCart(id);

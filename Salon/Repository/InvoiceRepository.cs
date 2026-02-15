@@ -141,6 +141,7 @@ namespace Salon.Repository
             }
         }
 
+      
         public int TotalTransactionList() 
         {
             using (var con = Database.GetConnection())

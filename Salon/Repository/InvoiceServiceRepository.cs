@@ -101,6 +101,24 @@ namespace Salon.Repository
                 con.Execute(sql, new { Id = id, Status = status });
             }
         }
+        public bool DeleteInvoiceById(int id)
+        {
+            using (var con = Database.GetConnection())
+            {
+                var sql = "DELETE FROM tbl_invoice_service_cart WHERE service_cart_id = @id";
+                int rowsAffected = con.Execute(sql, new { id = id });
+                return rowsAffected > 0;
+            }
+        }
+        public int GetServiceInvoiceId(int invoice_id, int service_id) 
+        {
+            using (var con = Database.GetConnection()) 
+            {
+                var sql = @"SELECT service_cart_id FROM tbl_invoice_service_cart
+                            WHERE invoice_id = @InvoiceId AND service_id = @ServiceId AND item_type = 'Service'";
+                return con.QuerySingleOrDefault<int>(sql, new { InvoiceId = invoice_id, ServiceId = service_id });
+            }
+        }
         public void RefundServiceToCart(int id)
         {
             using (var con = Database.GetConnection())

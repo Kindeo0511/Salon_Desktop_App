@@ -43,7 +43,7 @@ namespace Salon.Controller
         {
             return repo.GetInvoice(start, end, page_size, off_set);
         }
-
+        
         public int GetTotalTransactionList()
         {
             return repo.TotalTransactionList();

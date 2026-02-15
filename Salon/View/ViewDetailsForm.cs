@@ -31,10 +31,47 @@ namespace Salon.View
             this.mainForm = main;
             this.appointmentModel = model;
 
+            LoadSelectedAppointmentDetails(model);
             LoadServices(appointmentModel.AppointmentId);
-            LoadWalkInCode();
+        
 
         }
+        public ViewDetailsForm(MainForm main, AppointmentModel model, bool IsViewDetails)
+        {
+            InitializeComponent();
+            ThemeManager.ApplyTheme(this);
+            this.mainForm = main;
+            this.appointmentModel = model;
+        
+            LoadSelectedAppointmentDetails(model);
+            LoadServices(appointmentModel.AppointmentId);
+            if (IsViewDetails)
+            {
+                dgv_service_selected.Columns["col_mark_as_completed"].Visible = false;
+            }
+
+        }
+        public void LoadSelectedAppointmentDetails(AppointmentModel model) 
+        {
+            LoadWalkInCode();
+
+            rad_walk_in.Checked = model.AppointmentType == "Walk-In";
+            rad_appointment.Checked = model.AppointmentType == "Appointment";
+
+            rad_guest.Checked = model.CustomerType == "Walk-In";
+            rad_exists.Checked = model.CustomerType == "Member";
+
+            rad_appointment.Enabled = false;
+            rad_walk_in.Enabled = false;
+            rad_guest.Enabled = false;
+            rad_exists.Enabled = false;
+
+
+
+
+
+        }
+     
         private void LoadWalkInCode()
         {
             var repo = new WalkInRepository();
@@ -56,7 +93,7 @@ namespace Salon.View
             col_service_id.DataPropertyName = "AppointmentServiceId";
             col_stylist.DataPropertyName = "StylistName";
             col_service_name.DataPropertyName = "ServiceName";
-            
+            col_service_time.DataPropertyName = "Duration";
             col_time.DataPropertyName = "DisplayTime";
             col_status.DataPropertyName = "Status";
        
@@ -118,6 +155,39 @@ namespace Salon.View
                 dgv_service_selected.CommitEdit(DataGridViewDataErrorContexts.Commit);
             }
         }
-    
+
+        private void dgv_service_selected_CellClick(object sender, DataGridViewCellEventArgs e)
+        {
+            if (e.RowIndex < 0) return;
+            if (e.RowIndex >= 0 && dgv_service_selected.Columns[e.ColumnIndex].Name == "col_start_service") 
+            {
+                string status = dgv_service_selected.Rows[e.RowIndex].Cells["col_status"].Value.ToString();
+
+                if (status == "On Going")
+                {
+                    return;
+                }
+                else 
+                {
+                    var controller = new AppointmentServiceRepository();
+                    int appointmentServiceId = Convert.ToInt32(dgv_service_selected.Rows[e.RowIndex].Cells["col_service_id"].Value);
+                    int service_duration = Convert.ToInt32(dgv_service_selected.Rows[e.RowIndex].Cells["col_service_time"].Value);
+
+                    var start_time = DateTime.Now;
+                    var endTimeDuration = DateTime.Now.AddMinutes(service_duration);
+
+                    if (controller.StartWalkInService(appointmentServiceId, start_time, endTimeDuration))
+                    {
+                        MessageBox.Show("Service Started Successfully.", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                        mainForm.LoadWalkIn();
+                        LoadServices(appointmentModel.AppointmentId);
+                    }
+                    else
+                    {
+                        MessageBox.Show("Failed to Start Service.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    }
+                }
+            }
+        }
     }
 }
