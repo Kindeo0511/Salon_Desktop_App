@@ -306,6 +306,8 @@ namespace Salon.View
 
             dgv_cart_product.AutoGenerateColumns = false;
             dgv_cart_product.DataSource = null;
+            col_cart_product_id.DataPropertyName = "product_id";
+            col_cart_product_size_id.DataPropertyName = "product_size_id";
             col_cart_product_name.DataPropertyName = "product_name";
             col_cart_product_category.DataPropertyName = "size_label";
             col_cart_product_brand.DataPropertyName = "brand";
@@ -2090,11 +2092,12 @@ namespace Salon.View
             col_walk_in_customer_name.DataPropertyName = "DisplayCustomerName";
             col_walk_in_stylist_id.DataPropertyName = "StylistId";
             col_walk_in_stylist_name.DataPropertyName = "StylistName";
-            //col_walk_in_date.DataPropertyName = "AppointmentDate";
+            col_walk_in_date.DataPropertyName = "AppointmentDate";
             col_walk_in_appointment_type.DataPropertyName = "AppointmentType";
+            col_walk_in_customer_type.DataPropertyName = "CustomerType";
             col_walk_in_start_time.DataPropertyName = "StartTime";
             col_walk_in_end_time.DataPropertyName = "EndTime";
-            col_walk_in_status.DataPropertyName = "Status";
+            col_walk_in_status.DataPropertyName = "AppointmentStatus";
             col_walk_in_payment_status.DataPropertyName = "PaymentStatus";
 
             dgv_walk_in.DataSource = OnGoing;
@@ -2121,39 +2124,37 @@ namespace Salon.View
         {
             if (e.RowIndex < 0) return;
 
-            if (e.RowIndex >= 0 && dgv_waiting.Columns[e.ColumnIndex].Name == "col_waiting_start_service")
-            {
+             //   if (e.RowIndex >= 0 && dgv_waiting.Columns[e.ColumnIndex].Name == "col_waiting_assign_stylist") 
+             //   {
+             //       int service_id = Convert.ToInt32(dgv_waiting.Rows[e.RowIndex].Cells["col_waiting_app_service_id"].Value);
 
-                var controller = new AppointmentServiceRepository();
-                int appointmentServiceId = Convert.ToInt32(dgv_waiting.Rows[e.RowIndex].Cells["col_waiting_app_service_id"].Value);
-                int service_duration = Convert.ToInt32(dgv_waiting.Rows[e.RowIndex].Cells["col_waiting_service_time"].Value);
-
-                var start_time = DateTime.Now;
-                var endTimeDuration = DateTime.Now.AddMinutes(service_duration);
-
-                if (controller.StartWalkInService(appointmentServiceId, start_time, endTimeDuration))
-                {
-                    MessageBox.Show("Service Started Successfully.", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                    LoadWalkIn();
-                }
-                else
-                {
-                    MessageBox.Show("Failed to Start Service.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                }
-
-            }
-            else if (e.RowIndex >= 0 && dgv_waiting.Columns[e.ColumnIndex].Name == "col_waiting_update")
-            {
+             //    using (var form = new AssignStylistForm(this, service_id))
+             //       {
+             //           form.ShowDialog();
+             //       }
+             //}
+             if (e.RowIndex >= 0 && dgv_waiting.Columns[e.ColumnIndex].Name == "col_waiting_update")
+             {
                 var type = dgv_waiting.Rows[e.RowIndex].Cells["col_waiting_book_type"].Value?.ToString();
 
                 if (type == "Appointment")
                 {
-                    // Do nothing for appointments
-                    return;
+                    var appointment_data = dgv_walk_in.Rows[e.RowIndex].DataBoundItem as AppointmentModel;
+
+                    using (var form = new AppointmentForm(this, appointment_data, true, true))
+                    {
+                        form.ShowDialog();
+                    }
+                   
                 }
                 else
                 {
-                    MessageBox.Show("WALK IN");
+                    var walk_in_data = dgv_walk_in.Rows[e.RowIndex].DataBoundItem as AppointmentModel;
+
+                    using (var form = new Walk_In_Form(this, walk_in_data))
+                    {
+                        form.ShowDialog();
+                    }
                 }
 
                 // Handle walk-in update logic here
@@ -2172,9 +2173,13 @@ namespace Salon.View
                 }
                 else
                 {
-                    MessageBox.Show("WALK IN");
+                    var apppointment = dgv_waiting.Rows[e.RowIndex].DataBoundItem as AppointmentModel;
+                    using (var form = new ViewDetailsForm(this, apppointment, true))
+                    {
+                        form.ShowDialog();
+                    }
                 }
-                // Handle walk-in delete logic here
+                
             }
         }
 
@@ -3265,7 +3270,12 @@ namespace Salon.View
 
             col_invoice_id.DataPropertyName = "InvoiceID";
             col_invoice_number.DataPropertyName = "InvoiceNumber";
-            col_amount.DataPropertyName = "TotalAmount";
+            col_invoice_service_name.DataPropertyName = "ServiceName";
+            col_invoice_product_name.DataPropertyName = "ItemName";
+            col_invoice_qty.DataPropertyName = "Quantity";
+            col_invoice_vat_amount.DataPropertyName = "VatAmount";
+            col_invoice_discount_amount.DataPropertyName = "DiscountAmount";
+            col_amount.DataPropertyName = "Total_price";
             col_payment_method.DataPropertyName = "PaymentMethod";
             col_invoice_ref_num.DataPropertyName = "reference_number";
             col_tran_status.DataPropertyName = "status";
@@ -3325,13 +3335,7 @@ namespace Salon.View
         //    dgv_transaction_history.DataSource = transactions;
         //}
         private InvoiceModel invoice_model;
-        private void btn_void_product_Click(object sender, EventArgs e)
-        {
-            using (var form = new VoirdForm(this, invoice_model))
-            {
-                form.ShowDialog();
-            }
-        }
+      
         private void btn_tran_refund_Click(object sender, EventArgs e)
         {
             using (var form = new RefundForm(this, invoice_model))
@@ -3351,7 +3355,7 @@ namespace Salon.View
 
                 if (status != "Voided" && status != "Refunded")
                 {
-                    btn_void_product.Enabled = true;
+                    
                     btn_tran_refund.Enabled = true;
 
                     var model = dgv_transaction_list.Rows[e.RowIndex].DataBoundItem as InvoiceModel;
@@ -3361,7 +3365,7 @@ namespace Salon.View
                 }
                 else
                 {
-                    btn_void_product.Enabled = false;
+                
                     btn_tran_refund.Enabled = false;
                 }
             }
@@ -4784,7 +4788,7 @@ namespace Salon.View
                 {
                     var appointment_data = dgv_walk_in.Rows[e.RowIndex].DataBoundItem as AppointmentModel;
 
-                    using (var form = new AppointmentForm(this, appointment_data, true))
+                    using (var form = new AppointmentForm(this, appointment_data, true, true))
                     {
                         form.ShowDialog();
                     }
@@ -4810,17 +4814,28 @@ namespace Salon.View
                 //}
                 var appointment = dgv_walk_in.Rows[e.RowIndex].DataBoundItem as AppointmentModel;
 
+               
                 if (appointment.PaymentStatus.ToLower() == "paid")
                 {
                     return;
                 }
 
-                using (var paymentForm = new PaymentForm(this, appointment))
-                {
-                    paymentForm.RefreshData += async (s, args) => { await RefreshCategoryAsync(appointment_pagination.CurrentPage, pageSize); };
 
-                    paymentForm.ShowDialog();
+                if (appointment.Status != "Completed")
+                {
+                    MessageBox.Show("Cannot process payment for an appointment that is not completed.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    return;
                 }
+                else 
+                {
+                    using (var paymentForm = new PaymentForm(this, appointment))
+                    {
+                        paymentForm.RefreshData += async (s, args) => { await RefreshCategoryAsync(appointment_pagination.CurrentPage, pageSize); };
+
+                        paymentForm.ShowDialog();
+                    }
+                }
+               
             }
             else if (e.RowIndex >= 0 && dgv_walk_in.Columns[e.ColumnIndex].Name == "btn_walk_in_view_details")
             {
@@ -4834,7 +4849,14 @@ namespace Salon.View
 
                 if (appointment.AppointmentType.ToLower() == "walk-in")
                 {
-                    using (var detailsForm = new ViewDetailsForm(this, appointment))
+                    using (var detailsForm = new ViewDetailsForm(this, appointment, false))
+                    {
+                        detailsForm.ShowDialog();
+                    }
+                }
+                else 
+                {
+                    using (var detailsForm = new ViewDetailsForm(this, appointment, false))
                     {
                         detailsForm.ShowDialog();
                     }
@@ -5417,9 +5439,34 @@ namespace Salon.View
 
         private void btn_void_Click(object sender, EventArgs e)
         {
-           
-        }
+            if (dgv_cart_product.CurrentRow != null)
+            {
+                var product = (RetailProduct)dgv_cart_product.CurrentRow.DataBoundItem;
+                cart.Remove(product);   // remove whole item from cart
+                lbl_sub_total.Text = SubTotal().ToString("N2");
+                calculate();
+            }
+            else
+            {
+                MessageBox.Show("Please select a product row to void.",
+                                "No Selection",
+                                MessageBoxButtons.OK,
+                                MessageBoxIcon.Warning);
+            }
 
+
+        }
+        private void VoidProduct(RetailProduct product)
+        {
+            if (product == null) return;
+
+            // Remove the product from the BindingList (cart)
+            cart.Remove(product);
+
+            // Update totals
+            lbl_sub_total.Text = SubTotal().ToString("N2");
+            calculate();
+        }
         private void dgv_transaction_list_CellContentClick(object sender, DataGridViewCellEventArgs e)
         {
 
@@ -5538,7 +5585,7 @@ namespace Salon.View
             discountAppliedAlready = false;
             OverallDiscountApplied = false;
             txt_received.Text = "0.00";
-         
+            
             dgv_cart_product.Refresh();
             lbl_sub_total.Text = SubTotal().ToString("N2");
             calculate();
@@ -5738,6 +5785,9 @@ namespace Salon.View
                     }
                 }
             }
+
+
+           
         }
 
         private void RecalculateSummary()
@@ -6295,6 +6345,43 @@ namespace Salon.View
 
         }
 
+        private void btn_print_transactions_Click(object sender, EventArgs e)
+        {
+            var repo = new InvoiceRepository();
+            var controller = new InvoiceController(repo);
+            var invoice_report = controller.GetAllInvoice(25, 0);
+
+            var filtered = invoice_report
+                .Where(s => s.Timestamp >= dtp_transaction_start.Value
+                         && s.Timestamp <= dtp_transaction_end.Value)
+                .ToList();
+
+            var columns = new List<(string, Func<InvoiceModel, string>, int)>
+    {
+        ("InvoiceID",     i => i.InvoiceID.ToString(), 110),
+        ("InvoiceNumber", i => i.InvoiceNumber,        180),
+        ("ServiceName",   i => i.ServiceName,          280),
+        ("ItemName",      i => i.ItemName,             350),
+        ("Quantity",      i => i.Quantity.ToString(),  420),
+        ("VatAmount",     i => i.VATAmount.ToString("F2"), 490),
+        ("DiscountAmount",i => i.DiscountAmount.ToString("F2"), 560),
+        ("Total_Price",   i => i.Total_Price.ToString("F2"), 630),
+        ("Timestamp",     i => i.timestamp.ToString("g"), 700)
+    };
+
+            var salesSummaries = new List<(string, Func<IEnumerable<InvoiceModel>, string>)>
+    {
+        ("Total Sale",    items => items.Sum(i => i.Total_Price).ToString("F2")),
+        ("Total VAT",     items => items.Sum(i => i.VATAmount).ToString("F2")),
+        ("Total Discount",items => items.Sum(i => i.DiscountAmount).ToString("F2")),
+        ("Net Sales",     items => items.Sum(i => i.Total_Price - i.DiscountAmount).ToString("F2"))
+    };
+
+            var printer = new ReportPrinter<InvoiceModel>(
+                filtered, "Transaction History Report", columns, salesSummaries);
+
+            printer.Print();
+        }
     }
     
 }

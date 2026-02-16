@@ -34,12 +34,6 @@
             this.materialLabel1 = new MaterialSkin.Controls.MaterialLabel();
             this.lbl_prefix = new MaterialSkin.Controls.MaterialLabel();
             this.dgv_service_selected = new System.Windows.Forms.DataGridView();
-            this.btn_save = new MaterialSkin.Controls.MaterialButton();
-            this.materialButton1 = new MaterialSkin.Controls.MaterialButton();
-            this.materialLabel2 = new MaterialSkin.Controls.MaterialLabel();
-            this.panel1 = new System.Windows.Forms.Panel();
-            this.rad_walk_in = new MaterialSkin.Controls.MaterialRadioButton();
-            this.rad_appointment = new MaterialSkin.Controls.MaterialRadioButton();
             this.col_service_id = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.col_service_name = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.col_stylist_id = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -49,6 +43,12 @@
             this.col_service_time = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.col_mark_as_completed = new System.Windows.Forms.DataGridViewCheckBoxColumn();
             this.col_start_service = new System.Windows.Forms.DataGridViewButtonColumn();
+            this.btn_save = new MaterialSkin.Controls.MaterialButton();
+            this.materialButton1 = new MaterialSkin.Controls.MaterialButton();
+            this.materialLabel2 = new MaterialSkin.Controls.MaterialLabel();
+            this.panel1 = new System.Windows.Forms.Panel();
+            this.rad_appointment = new MaterialSkin.Controls.MaterialRadioButton();
+            this.rad_walk_in = new MaterialSkin.Controls.MaterialRadioButton();
             ((System.ComponentModel.ISupportInitialize)(this.dgv_service_selected)).BeginInit();
             this.panel1.SuspendLayout();
             this.SuspendLayout();
@@ -59,7 +59,7 @@
             this.materialLabel5.Depth = 0;
             this.materialLabel5.Font = new System.Drawing.Font("Roboto Medium", 20F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Pixel);
             this.materialLabel5.FontType = MaterialSkin.MaterialSkinManager.fontType.H6;
-            this.materialLabel5.Location = new System.Drawing.Point(44, 183);
+            this.materialLabel5.Location = new System.Drawing.Point(44, 143);
             this.materialLabel5.MouseState = MaterialSkin.MouseState.HOVER;
             this.materialLabel5.Name = "materialLabel5";
             this.materialLabel5.Size = new System.Drawing.Size(107, 24);
@@ -70,7 +70,7 @@
             // 
             this.rad_exists.AutoSize = true;
             this.rad_exists.Depth = 0;
-            this.rad_exists.Location = new System.Drawing.Point(573, 183);
+            this.rad_exists.Location = new System.Drawing.Point(573, 143);
             this.rad_exists.Margin = new System.Windows.Forms.Padding(0);
             this.rad_exists.MouseLocation = new System.Drawing.Point(-1, -1);
             this.rad_exists.MouseState = MaterialSkin.MouseState.HOVER;
@@ -86,7 +86,7 @@
             // 
             this.rad_guest.AutoSize = true;
             this.rad_guest.Depth = 0;
-            this.rad_guest.Location = new System.Drawing.Point(316, 183);
+            this.rad_guest.Location = new System.Drawing.Point(316, 143);
             this.rad_guest.Margin = new System.Windows.Forms.Padding(0);
             this.rad_guest.MouseLocation = new System.Drawing.Point(-1, -1);
             this.rad_guest.MouseState = MaterialSkin.MouseState.HOVER;
@@ -104,12 +104,12 @@
             this.materialLabel1.Depth = 0;
             this.materialLabel1.Font = new System.Drawing.Font("Roboto", 24F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Pixel);
             this.materialLabel1.FontType = MaterialSkin.MaterialSkinManager.fontType.H5;
-            this.materialLabel1.Location = new System.Drawing.Point(43, 110);
+            this.materialLabel1.Location = new System.Drawing.Point(43, 70);
             this.materialLabel1.MouseState = MaterialSkin.MouseState.HOVER;
             this.materialLabel1.Name = "materialLabel1";
-            this.materialLabel1.Size = new System.Drawing.Size(149, 29);
+            this.materialLabel1.Size = new System.Drawing.Size(139, 29);
             this.materialLabel1.TabIndex = 56;
-            this.materialLabel1.Text = "Walk-In Code:";
+            this.materialLabel1.Text = "Client Name:";
             // 
             // lbl_prefix
             // 
@@ -117,7 +117,7 @@
             this.lbl_prefix.Depth = 0;
             this.lbl_prefix.Font = new System.Drawing.Font("Roboto", 24F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Pixel);
             this.lbl_prefix.FontType = MaterialSkin.MaterialSkinManager.fontType.H5;
-            this.lbl_prefix.Location = new System.Drawing.Point(311, 119);
+            this.lbl_prefix.Location = new System.Drawing.Point(311, 79);
             this.lbl_prefix.MouseState = MaterialSkin.MouseState.HOVER;
             this.lbl_prefix.Name = "lbl_prefix";
             this.lbl_prefix.Size = new System.Drawing.Size(126, 29);
@@ -145,103 +145,9 @@
             this.dgv_service_selected.Size = new System.Drawing.Size(817, 278);
             this.dgv_service_selected.TabIndex = 60;
             this.dgv_service_selected.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgv_service_selected_CellClick);
+            this.dgv_service_selected.CellFormatting += new System.Windows.Forms.DataGridViewCellFormattingEventHandler(this.dgv_service_selected_CellFormatting);
             this.dgv_service_selected.CellValueChanged += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgv_service_selected_CellValueChanged);
             this.dgv_service_selected.CurrentCellDirtyStateChanged += new System.EventHandler(this.dgv_service_selected_CurrentCellDirtyStateChanged);
-            // 
-            // btn_save
-            // 
-            this.btn_save.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
-            this.btn_save.Density = MaterialSkin.Controls.MaterialButton.MaterialButtonDensity.Default;
-            this.btn_save.Depth = 0;
-            this.btn_save.HighEmphasis = true;
-            this.btn_save.Icon = null;
-            this.btn_save.Location = new System.Drawing.Point(588, 646);
-            this.btn_save.Margin = new System.Windows.Forms.Padding(4, 6, 4, 6);
-            this.btn_save.MouseState = MaterialSkin.MouseState.HOVER;
-            this.btn_save.Name = "btn_save";
-            this.btn_save.NoAccentTextColor = System.Drawing.Color.Empty;
-            this.btn_save.Padding = new System.Windows.Forms.Padding(0, 0, 0, 14);
-            this.btn_save.Size = new System.Drawing.Size(86, 36);
-            this.btn_save.TabIndex = 61;
-            this.btn_save.Text = "Confirm";
-            this.btn_save.Type = MaterialSkin.Controls.MaterialButton.MaterialButtonType.Contained;
-            this.btn_save.UseAccentColor = false;
-            this.btn_save.UseVisualStyleBackColor = true;
-            this.btn_save.Click += new System.EventHandler(this.btn_save_Click);
-            // 
-            // materialButton1
-            // 
-            this.materialButton1.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
-            this.materialButton1.Density = MaterialSkin.Controls.MaterialButton.MaterialButtonDensity.Default;
-            this.materialButton1.Depth = 0;
-            this.materialButton1.HighEmphasis = true;
-            this.materialButton1.Icon = null;
-            this.materialButton1.Location = new System.Drawing.Point(776, 646);
-            this.materialButton1.Margin = new System.Windows.Forms.Padding(4, 6, 4, 6);
-            this.materialButton1.MouseState = MaterialSkin.MouseState.HOVER;
-            this.materialButton1.Name = "materialButton1";
-            this.materialButton1.NoAccentTextColor = System.Drawing.Color.Empty;
-            this.materialButton1.Padding = new System.Windows.Forms.Padding(0, 0, 0, 14);
-            this.materialButton1.Size = new System.Drawing.Size(77, 36);
-            this.materialButton1.TabIndex = 62;
-            this.materialButton1.Text = "cancel";
-            this.materialButton1.Type = MaterialSkin.Controls.MaterialButton.MaterialButtonType.Contained;
-            this.materialButton1.UseAccentColor = false;
-            this.materialButton1.UseVisualStyleBackColor = true;
-            // 
-            // materialLabel2
-            // 
-            this.materialLabel2.AutoSize = true;
-            this.materialLabel2.Depth = 0;
-            this.materialLabel2.Font = new System.Drawing.Font("Roboto Medium", 20F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Pixel);
-            this.materialLabel2.FontType = MaterialSkin.MaterialSkinManager.fontType.H6;
-            this.materialLabel2.Location = new System.Drawing.Point(44, 260);
-            this.materialLabel2.MouseState = MaterialSkin.MouseState.HOVER;
-            this.materialLabel2.Name = "materialLabel2";
-            this.materialLabel2.Size = new System.Drawing.Size(127, 24);
-            this.materialLabel2.TabIndex = 63;
-            this.materialLabel2.Text = "Booking Type:";
-            // 
-            // panel1
-            // 
-            this.panel1.Controls.Add(this.rad_appointment);
-            this.panel1.Controls.Add(this.rad_walk_in);
-            this.panel1.Location = new System.Drawing.Point(304, 241);
-            this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(549, 74);
-            this.panel1.TabIndex = 64;
-            // 
-            // rad_walk_in
-            // 
-            this.rad_walk_in.AutoSize = true;
-            this.rad_walk_in.Depth = 0;
-            this.rad_walk_in.Location = new System.Drawing.Point(12, 14);
-            this.rad_walk_in.Margin = new System.Windows.Forms.Padding(0);
-            this.rad_walk_in.MouseLocation = new System.Drawing.Point(-1, -1);
-            this.rad_walk_in.MouseState = MaterialSkin.MouseState.HOVER;
-            this.rad_walk_in.Name = "rad_walk_in";
-            this.rad_walk_in.Ripple = true;
-            this.rad_walk_in.Size = new System.Drawing.Size(97, 37);
-            this.rad_walk_in.TabIndex = 58;
-            this.rad_walk_in.TabStop = true;
-            this.rad_walk_in.Text = "WALK-IN";
-            this.rad_walk_in.UseVisualStyleBackColor = true;
-            // 
-            // rad_appointment
-            // 
-            this.rad_appointment.AutoSize = true;
-            this.rad_appointment.Depth = 0;
-            this.rad_appointment.Location = new System.Drawing.Point(269, 14);
-            this.rad_appointment.Margin = new System.Windows.Forms.Padding(0);
-            this.rad_appointment.MouseLocation = new System.Drawing.Point(-1, -1);
-            this.rad_appointment.MouseState = MaterialSkin.MouseState.HOVER;
-            this.rad_appointment.Name = "rad_appointment";
-            this.rad_appointment.Ripple = true;
-            this.rad_appointment.Size = new System.Drawing.Size(145, 37);
-            this.rad_appointment.TabIndex = 59;
-            this.rad_appointment.TabStop = true;
-            this.rad_appointment.Text = "APPOINTMENT";
-            this.rad_appointment.UseVisualStyleBackColor = true;
             // 
             // col_service_id
             // 
@@ -250,7 +156,7 @@
             this.col_service_id.MinimumWidth = 6;
             this.col_service_id.Name = "col_service_id";
             this.col_service_id.Visible = false;
-            this.col_service_id.Width = 75;
+            this.col_service_id.Width = 125;
             // 
             // col_service_name
             // 
@@ -321,10 +227,106 @@
             this.col_start_service.UseColumnTextForButtonValue = true;
             this.col_start_service.Width = 125;
             // 
+            // btn_save
+            // 
+            this.btn_save.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
+            this.btn_save.Density = MaterialSkin.Controls.MaterialButton.MaterialButtonDensity.Default;
+            this.btn_save.Depth = 0;
+            this.btn_save.HighEmphasis = true;
+            this.btn_save.Icon = null;
+            this.btn_save.Location = new System.Drawing.Point(588, 655);
+            this.btn_save.Margin = new System.Windows.Forms.Padding(4, 6, 4, 6);
+            this.btn_save.MouseState = MaterialSkin.MouseState.HOVER;
+            this.btn_save.Name = "btn_save";
+            this.btn_save.NoAccentTextColor = System.Drawing.Color.Empty;
+            this.btn_save.Padding = new System.Windows.Forms.Padding(0, 0, 0, 14);
+            this.btn_save.Size = new System.Drawing.Size(86, 36);
+            this.btn_save.TabIndex = 61;
+            this.btn_save.Text = "Confirm";
+            this.btn_save.Type = MaterialSkin.Controls.MaterialButton.MaterialButtonType.Contained;
+            this.btn_save.UseAccentColor = false;
+            this.btn_save.UseVisualStyleBackColor = true;
+            this.btn_save.Click += new System.EventHandler(this.btn_save_Click);
+            // 
+            // materialButton1
+            // 
+            this.materialButton1.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
+            this.materialButton1.Density = MaterialSkin.Controls.MaterialButton.MaterialButtonDensity.Default;
+            this.materialButton1.Depth = 0;
+            this.materialButton1.HighEmphasis = true;
+            this.materialButton1.Icon = null;
+            this.materialButton1.Location = new System.Drawing.Point(776, 655);
+            this.materialButton1.Margin = new System.Windows.Forms.Padding(4, 6, 4, 6);
+            this.materialButton1.MouseState = MaterialSkin.MouseState.HOVER;
+            this.materialButton1.Name = "materialButton1";
+            this.materialButton1.NoAccentTextColor = System.Drawing.Color.Empty;
+            this.materialButton1.Padding = new System.Windows.Forms.Padding(0, 0, 0, 14);
+            this.materialButton1.Size = new System.Drawing.Size(77, 36);
+            this.materialButton1.TabIndex = 62;
+            this.materialButton1.Text = "cancel";
+            this.materialButton1.Type = MaterialSkin.Controls.MaterialButton.MaterialButtonType.Contained;
+            this.materialButton1.UseAccentColor = false;
+            this.materialButton1.UseVisualStyleBackColor = true;
+            this.materialButton1.Click += new System.EventHandler(this.materialButton1_Click);
+            // 
+            // materialLabel2
+            // 
+            this.materialLabel2.AutoSize = true;
+            this.materialLabel2.Depth = 0;
+            this.materialLabel2.Font = new System.Drawing.Font("Roboto Medium", 20F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Pixel);
+            this.materialLabel2.FontType = MaterialSkin.MaterialSkinManager.fontType.H6;
+            this.materialLabel2.Location = new System.Drawing.Point(44, 220);
+            this.materialLabel2.MouseState = MaterialSkin.MouseState.HOVER;
+            this.materialLabel2.Name = "materialLabel2";
+            this.materialLabel2.Size = new System.Drawing.Size(127, 24);
+            this.materialLabel2.TabIndex = 63;
+            this.materialLabel2.Text = "Booking Type:";
+            // 
+            // panel1
+            // 
+            this.panel1.Controls.Add(this.rad_appointment);
+            this.panel1.Controls.Add(this.rad_walk_in);
+            this.panel1.Location = new System.Drawing.Point(304, 194);
+            this.panel1.Name = "panel1";
+            this.panel1.Size = new System.Drawing.Size(549, 74);
+            this.panel1.TabIndex = 64;
+            // 
+            // rad_appointment
+            // 
+            this.rad_appointment.AutoSize = true;
+            this.rad_appointment.Depth = 0;
+            this.rad_appointment.Location = new System.Drawing.Point(269, 14);
+            this.rad_appointment.Margin = new System.Windows.Forms.Padding(0);
+            this.rad_appointment.MouseLocation = new System.Drawing.Point(-1, -1);
+            this.rad_appointment.MouseState = MaterialSkin.MouseState.HOVER;
+            this.rad_appointment.Name = "rad_appointment";
+            this.rad_appointment.Ripple = true;
+            this.rad_appointment.Size = new System.Drawing.Size(145, 37);
+            this.rad_appointment.TabIndex = 59;
+            this.rad_appointment.TabStop = true;
+            this.rad_appointment.Text = "APPOINTMENT";
+            this.rad_appointment.UseVisualStyleBackColor = true;
+            // 
+            // rad_walk_in
+            // 
+            this.rad_walk_in.AutoSize = true;
+            this.rad_walk_in.Depth = 0;
+            this.rad_walk_in.Location = new System.Drawing.Point(12, 14);
+            this.rad_walk_in.Margin = new System.Windows.Forms.Padding(0);
+            this.rad_walk_in.MouseLocation = new System.Drawing.Point(-1, -1);
+            this.rad_walk_in.MouseState = MaterialSkin.MouseState.HOVER;
+            this.rad_walk_in.Name = "rad_walk_in";
+            this.rad_walk_in.Ripple = true;
+            this.rad_walk_in.Size = new System.Drawing.Size(97, 37);
+            this.rad_walk_in.TabIndex = 58;
+            this.rad_walk_in.TabStop = true;
+            this.rad_walk_in.Text = "WALK-IN";
+            this.rad_walk_in.UseVisualStyleBackColor = true;
+            // 
             // ViewDetailsForm
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
-            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.AutoScaleDimensions = new System.Drawing.SizeF(120F, 120F);
+            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Dpi;
             this.ClientSize = new System.Drawing.Size(900, 700);
             this.Controls.Add(this.panel1);
             this.Controls.Add(this.materialLabel2);
@@ -336,9 +338,12 @@
             this.Controls.Add(this.rad_guest);
             this.Controls.Add(this.materialLabel1);
             this.Controls.Add(this.lbl_prefix);
+            this.FormStyle = MaterialSkin.Controls.MaterialForm.FormStyles.ActionBar_None;
             this.Name = "ViewDetailsForm";
+            this.Padding = new System.Windows.Forms.Padding(3, 24, 3, 3);
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "ViewDetailsForm";
+            this.Load += new System.EventHandler(this.ViewDetailsForm_Load);
             ((System.ComponentModel.ISupportInitialize)(this.dgv_service_selected)).EndInit();
             this.panel1.ResumeLayout(false);
             this.panel1.PerformLayout();

@@ -20,6 +20,14 @@ namespace Salon.Repository
 
             }
         }
+        public string GetInvoiceNumberById(int id)
+        {
+            using (var con = Database.GetConnection())
+            {
+                var sql = "SELECT invoice_number FROM tbl_invoice WHERE invoice_id = @id";
+                return con.QuerySingleOrDefault<string>(sql, new { id = id });
+            }
+        }
         public int GetInvoiceByNumber(string id)
         {
             using (var con = Database.GetConnection())
@@ -95,22 +103,28 @@ namespace Salon.Repository
         {
             using (var con = Database.GetConnection()) 
             {
-                var sql = @"SELECT isc.invoice_id AS InvoiceID,
-  		                    i.invoice_number AS InvoiceNumber,
-		                    i.total_amount AS TotalAmount,		
-                            i.payment_method_id,
-                            pm.name AS PaymentMethod,
-                            i.reference_number,
-                            i.status,
+                var sql = @"SELECT
+                            isc.invoice_id AS InvoiceID,
+                            i.invoice_number AS InvoiceNumber,
+                            isc.service_id,
+                            sn.serviceName AS ServiceName,
+                            isc.product_id,
+                            p.product_name AS ItemName,
+                            isc.qty AS Quantity,
+                            i.vat_amount AS VatAmount,
+                            i.discount_amount AS DiscountAmount,
+                            i.total_amount AS Total_Price,
                             i.created_at AS Timestamp
+
                     FROM tbl_invoice  AS i
                     LEFT JOIN tbl_appointment AS a ON a.appointment_id = i.appointment_id
                     LEFT JOIN tbl_invoice_service_cart AS isc ON isc.invoice_id = i.invoice_id
                     LEFT JOIN tbl_products AS p ON isc.product_id = p.product_id
                     LEFT JOIN tbl_servicesname AS sn ON isc.service_id = sn.serviceName_id
                     LEFT JOIN tbl_payment_method AS pm ON pm.id = i.payment_method_id    
+                    WHERE i.status = 'paid'
                     GROUP BY isc.invoice_id
-                    LIMIT @page_size OFFSET @off_set";
+                    LIMIT @page_size OFFSET @off_set;";
 
                 return con.Query<InvoiceModel>(sql, new { page_size, off_set}).ToList();
             }
@@ -119,13 +133,17 @@ namespace Salon.Repository
         {
             using (var con = Database.GetConnection())
             {
-                var sql = @"SELECT isc.invoice_id AS InvoiceID,
-  		                    i.invoice_number AS InvoiceNumber,
-		                    i.total_amount AS TotalAmount,		
-                            i.payment_method_id,
-                            pm.name AS PaymentMethod,
-                            i.reference_number,
-                            i.status,
+                var sql = @"SELECT 
+                            isc.invoice_id AS InvoiceID,
+                            i.invoice_number AS InvoiceNumber,
+                            isc.service_id,
+                            sn.serviceName AS ServiceName,
+                            isc.product_id,
+                            p.product_name AS ItemName,
+                            isc.qty AS Quantity,
+                            i.vat_amount AS VatAmount,
+                            i.discount_amount AS DiscountAmount,
+                             i.total_amount AS Total_Price,
                             i.created_at AS Timestamp
                     FROM tbl_invoice  AS i
                     LEFT JOIN tbl_appointment AS a ON a.appointment_id = i.appointment_id
@@ -133,7 +151,7 @@ namespace Salon.Repository
                     LEFT JOIN tbl_products AS p ON isc.product_id = p.product_id
                     LEFT JOIN tbl_servicesname AS sn ON isc.service_id = sn.serviceName_id
                     LEFT JOIN tbl_payment_method AS pm ON pm.id = i.payment_method_id  
-                    WHERE i.created_at BETWEEN @start_date AND @end_date
+                    WHERE i.created_at BETWEEN @start_date AND @end_date AND i.status = 'paid'
                     GROUP BY isc.invoice_id
                     LIMIT @page_size OFFSET @off_set";
 

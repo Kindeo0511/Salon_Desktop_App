@@ -50,7 +50,10 @@ namespace Salon.View
 
         public void SaveProduct(int product_id, int product_size, int qty, decimal price) 
         {
-          
+            var repo = new InvoiceServiceRepository();
+            var serviceController = new InvoiceServiceCartController(repo);
+
+            var existingProductInCart = serviceController.CheckIfServiceExistInCart(paymentForm.invoice_id, product_id, product_size);
 
             var invoiceServiceCart = new ServiceCart
             {
@@ -61,13 +64,32 @@ namespace Salon.View
                 Quantity = qty,
                 Price = price,
             };
-            SaveInvoiceServices(invoiceServiceCart);
+
+            if (existingProductInCart)
+            {
+                UpdateInvoiceServiceQty(paymentForm.invoice_id, product_id, product_size, qty);
+            }
+            else 
+            {
+                SaveInvoiceServices(invoiceServiceCart);
+            }
+
+               
         }
         private void SaveInvoiceServices(ServiceCart cart)
         {
             var repo = new InvoiceServiceRepository();
             var serviceController = new InvoiceServiceCartController(repo);
+
             serviceController.AddServiceToInvoiceCart(cart);
+
+        }
+        private void UpdateInvoiceServiceQty(int invoice_id, int product_id, int product_size_id, int newQty)
+        {
+            var repo = new InvoiceServiceRepository();
+            var serviceController = new InvoiceServiceCartController(repo);
+
+            serviceController.UpdateServiceQtyInCart(invoice_id, product_id, product_size_id, newQty);
 
         }
 

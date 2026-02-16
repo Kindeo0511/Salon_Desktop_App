@@ -34,6 +34,14 @@ namespace Salon.Controller
         {
             repo.UpdateServicesInvoice(model);
         }
+        public bool CheckIfServiceExistInCart(int invoice_id, int product_id, int product_size_id) 
+        {
+            return repo.CheckIfServiceExistInCart(invoice_id, product_id, product_size_id);
+        }
+        public bool UpdateServiceQtyInCart(int invoice_id, int product_id, int product_size_id, int newQty) 
+        {
+            return repo.UpdateServiceQtyInCart(invoice_id, product_id, product_size_id, newQty);
+        }
         public void VoidProductByInvoiceId(int id, string status) 
         {
             repo.UpdateServiceToCart(id, status);

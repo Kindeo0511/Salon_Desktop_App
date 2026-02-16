@@ -273,23 +273,17 @@ namespace Salon.Repository
             a.appointment_id AS AppointmentId,
             a.customer_id AS CustomerId,
             CONCAT(ca.firstName, ' ', ca.middleName, ' ', ca.lastName) AS CustomerName,
+            a.customer_type AS CustomerType,
             aps.servicename_id AS ServiceId,
             aps.stylist_id AS StylistId,
             COALESCE(CONCAT(s.firstName, ' ', s.lastName), 'Stylist not assigned yet') AS StylistName,
+            a.Date AS AppointmentDate,
             aps.start_time AS StartTime,
             aps.end_time AS EndTime,
             a.appointment_type AS AppointmentType,
             sn.duration AS Duration,
             a.Payment_status AS PaymentStatus,
-            CASE
-                WHEN SUM(CASE WHEN aps.status = 'Completed' THEN 1 ELSE 0 END) = COUNT(*)
-                    THEN 'Completed'
-                WHEN SUM(CASE WHEN aps.status = 'On Going' THEN 1 ELSE 0 END) > 0
-                    THEN 'On Going'
-                WHEN SUM(CASE WHEN aps.status = 'Waiting' THEN 1 ELSE 0 END) > 0
-                    THEN 'Waiting'
-                ELSE 'Unknown'
-            END AS AppointmentStatus,
+            a.Status AS AppointmentStatus,
             aps.status AS Status
         FROM tbl_appointment a
         LEFT JOIN tbl_appointment_services aps ON a.appointment_id = aps.appointment_id
@@ -672,7 +666,7 @@ WHERE s.is_duty = 1;
             using (var con = Database.GetConnection())
             {
                 var sql = @"UPDATE tbl_appointment
-                        SET Status = @Status,                   
+                        SET Status = @Status                   
                         WHERE appointment_id = @AppointmentId";
                 con.Execute(sql, new { AppointmentId, status});
             }

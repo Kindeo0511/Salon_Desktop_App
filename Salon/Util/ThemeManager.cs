@@ -15,24 +15,41 @@ namespace Salon.Util
    
             private static MaterialSkinManager skinManager;
 
-            public static void ApplyTheme(MaterialForm form)
+        public static void ApplyTheme(MaterialForm form)
+        {
+            if (skinManager == null)
             {
-                if (skinManager == null)
-                {
-                    skinManager = MaterialSkinManager.Instance;
-                    skinManager.Theme = MaterialSkinManager.Themes.LIGHT;
-                    skinManager.ColorScheme = new ColorScheme(
-                       Primary.DeepPurple500,     // Elegant purple base
-                       Primary.DeepPurple700,     // Rich header/nav tone
-                       Primary.DeepPurple200,     // Soft accent for controls
-                       Accent.Pink200,            // Feminine, vibrant accent
-                       TextShade.WHITE            // Clean, readable text
-                   );
-
+                skinManager = MaterialSkinManager.Instance;
+                skinManager.Theme = MaterialSkinManager.Themes.LIGHT;
+                skinManager.ColorScheme = new ColorScheme(
+              Primary.Blue700,        // deep royal/navy header
+              Primary.Blue900,        // darker hover/active tone
+              Primary.LightBlue200,   // lighter accents
+              Accent.LightBlue100,    // subtle highlight
+              TextShade.WHITE         // white text for strong contrast
+  );
             }
 
             skinManager.AddFormToManage(form);
-            }
+        }
+        //public static void ApplyTheme(MaterialForm form)
+        //{
+        //    if (skinManager == null)
+        //    {
+        //        skinManager = MaterialSkinManager.Instance;
+        //        skinManager.Theme = MaterialSkinManager.Themes.LIGHT;
+        //        skinManager.ColorScheme = new ColorScheme(
+        //           Primary.DeepPurple500,     // Elegant purple base
+        //           Primary.DeepPurple700,     // Rich header/nav tone
+        //           Primary.DeepPurple200,     // Soft accent for controls
+        //           Accent.Pink200,            // Feminine, vibrant accent
+        //           TextShade.WHITE            // Clean, readable text
+        //       );
+
+        //}
+
+        //skinManager.AddFormToManage(form);
+        //}
 
         ////public static Color Primary = ColorTranslator.FromHtml("#2C3E50");
         //public static Color Primary = ColorTranslator.FromHtml("#202225"); // Header
@@ -49,34 +66,71 @@ namespace Salon.Util
 
         public static void StyleDataGridView(DataGridView dgv)
         {
-            // Background — soft lavender-gray
-            dgv.BackgroundColor = Color.FromArgb(245, 240, 250); // light, elegant base
+            // Background — clean white
+            dgv.BackgroundColor = Color.White;
             dgv.BorderStyle = BorderStyle.None;
 
-            // Column Headers — deep plum with white text
+            // Column Headers — light blue with white text
             dgv.EnableHeadersVisualStyles = false;
-            dgv.ColumnHeadersDefaultCellStyle.BackColor = Color.FromArgb(102, 51, 153); // rich purple
+            dgv.ColumnHeadersDefaultCellStyle.BackColor = Color.FromArgb(70, 130, 180); // steel blue
             dgv.ColumnHeadersDefaultCellStyle.ForeColor = Color.White;
             dgv.ColumnHeadersDefaultCellStyle.Font = new Font("Poppins", 11, FontStyle.Bold);
 
             // Row Headers — match column headers
-            dgv.RowHeadersDefaultCellStyle.BackColor = Color.FromArgb(102, 51, 153);
+            dgv.RowHeadersDefaultCellStyle.BackColor = Color.FromArgb(70, 130, 180);
             dgv.RowHeadersDefaultCellStyle.ForeColor = Color.White;
 
-            // Rows — soft blush with dark text
-            dgv.DefaultCellStyle.BackColor = Color.FromArgb(255, 235, 245); // blush pink
-            dgv.DefaultCellStyle.ForeColor = Color.FromArgb(60, 30, 80);    // deep plum text
-            dgv.DefaultCellStyle.SelectionBackColor = Color.FromArgb(255, 182, 193); // light rose
+            // Rows — white background with dark blue text
+            dgv.DefaultCellStyle.BackColor = Color.White;
+            dgv.DefaultCellStyle.ForeColor = Color.FromArgb(25, 25, 112); // midnight blue text
+            dgv.DefaultCellStyle.SelectionBackColor = Color.FromArgb(173, 216, 230); // light blue highlight
             dgv.DefaultCellStyle.SelectionForeColor = Color.Black;
             dgv.DefaultCellStyle.Font = new Font("Poppins", 10, FontStyle.Regular);
 
-            // Grid lines — subtle lavender
-            dgv.GridColor = Color.FromArgb(230, 220, 240);
+            // Grid lines — subtle light gray-blue
+            dgv.GridColor = Color.FromArgb(220, 230, 240);
 
             // Auto sizing for a cleaner look
             dgv.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
             dgv.CellBorderStyle = DataGridViewCellBorderStyle.SingleHorizontal;
         }
+        //public static void StyleDataGridView(DataGridView dgv)
+        //{
+        //    // Background — soft lavender-gray
+        //    dgv.BackgroundColor = Color.FromArgb(245, 240, 250); // light, elegant base
+        //    dgv.BorderStyle = BorderStyle.None;
+
+        //    // Column Headers — deep plum with white text
+        //    dgv.EnableHeadersVisualStyles = false;
+        //    dgv.ColumnHeadersDefaultCellStyle.BackColor = Color.FromArgb(102, 51, 153); // rich purple
+        //    dgv.ColumnHeadersDefaultCellStyle.ForeColor = Color.White;
+        //    dgv.ColumnHeadersDefaultCellStyle.Font = new Font("Poppins", 11, FontStyle.Bold);
+
+        //    // Row Headers — match column headers
+        //    dgv.RowHeadersDefaultCellStyle.BackColor = Color.FromArgb(102, 51, 153);
+        //    dgv.RowHeadersDefaultCellStyle.ForeColor = Color.White;
+
+        //    // Rows — soft blush with dark text
+        //    dgv.DefaultCellStyle.BackColor = Color.FromArgb(255, 235, 245); // blush pink
+        //    dgv.DefaultCellStyle.ForeColor = Color.FromArgb(60, 30, 80);    // deep plum text
+        //    dgv.DefaultCellStyle.SelectionBackColor = Color.FromArgb(255, 182, 193); // light rose
+        //    dgv.DefaultCellStyle.SelectionForeColor = Color.Black;
+        //    dgv.DefaultCellStyle.Font = new Font("Poppins", 10, FontStyle.Regular);
+
+        //    // Grid lines — subtle lavender
+        //    dgv.GridColor = Color.FromArgb(230, 220, 240);
+
+        //    // Auto sizing for a cleaner look
+        //    dgv.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
+        //    dgv.CellBorderStyle = DataGridViewCellBorderStyle.SingleHorizontal;
+        //}
+
+
+
+
+
+
+
 
         //public static void DatagridViewTheme(DataGridView dgv)
         //{

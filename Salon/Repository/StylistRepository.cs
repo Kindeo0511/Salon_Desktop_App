@@ -40,7 +40,7 @@ namespace Salon.Repository
 FROM tbl_stylist_specialists sp
 LEFT JOIN tbl_stylists s ON s.stylist_id = sp.stylist_id
 LEFT JOIN tbl_specialist ts ON ts.specialist_id = sp.specialist_id
-WHERE s.is_deleted = 0;  AND ";
+WHERE s.is_deleted = 0;  ";
                 return con.Query<StylistModel>(sql).ToList();
             }
         }

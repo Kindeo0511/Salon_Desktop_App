@@ -18,12 +18,24 @@ namespace Salon.View
     public partial class SearchCustomerForm : MaterialForm
     {
         private AppointmentForm appointmentForm;
+        private Walk_In_Form walk_in_form;
+        private bool isWalkin;
+
         public SearchCustomerForm(AppointmentForm appointmentForm)
         {
             InitializeComponent();
             ThemeManager.ApplyTheme(this);
             LoadCustomers();
             this.appointmentForm = appointmentForm;
+            this.isWalkin = false;
+        }
+        public SearchCustomerForm(Walk_In_Form walk_in_form, bool Is_Walkin)
+        {
+            InitializeComponent();
+            ThemeManager.ApplyTheme(this);
+            LoadCustomers();
+            this.walk_in_form = walk_in_form;
+            this.isWalkin = Is_Walkin;
         }
 
         public void LoadCustomers()
@@ -82,8 +94,17 @@ namespace Salon.View
 
                 if (customer != null) 
                 {
-                    appointmentForm.CustomerId = customer.customer_id.ToString();
-                    appointmentForm.FullName = customer.fullName;
+                    if (isWalkin)
+                    {
+                        walk_in_form.CustomerId = customer.customer_id.ToString();
+                        walk_in_form.FullName = customer.fullName;
+                    }
+                    else
+                    {
+                        appointmentForm.CustomerId = customer.customer_id.ToString();
+                        appointmentForm.FullName = customer.fullName;
+                    }
+                  
 
                     this.Close();
                 }

@@ -78,7 +78,7 @@
             this.col_price = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.col_start_time = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.col_end_time = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.col_status = new System.Windows.Forms.DataGridViewComboBoxColumn();
+            this.col_status = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.col_btn_remove = new System.Windows.Forms.DataGridViewImageColumn();
             ((System.ComponentModel.ISupportInitialize)(this.errorProvider1)).BeginInit();
             this.materialCard1.SuspendLayout();
@@ -151,6 +151,7 @@
             this.lbl_service_id.Size = new System.Drawing.Size(107, 19);
             this.lbl_service_id.TabIndex = 66;
             this.lbl_service_id.Text = "materialLabel8";
+            this.lbl_service_id.Visible = false;
             // 
             // cmb_time_slot
             // 
@@ -731,7 +732,7 @@
             this.col_service_id.MinimumWidth = 6;
             this.col_service_id.Name = "col_service_id";
             this.col_service_id.Visible = false;
-            this.col_service_id.Width = 98;
+            this.col_service_id.Width = 75;
             // 
             // col_service_name
             // 
@@ -790,16 +791,10 @@
             // col_status
             // 
             this.col_status.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
-            this.col_status.DisplayStyle = System.Windows.Forms.DataGridViewComboBoxDisplayStyle.ComboBox;
             this.col_status.HeaderText = "Status";
-            this.col_status.Items.AddRange(new object[] {
-            "Ready to Start",
-            "Waiting",
-            "Busy"});
             this.col_status.MinimumWidth = 6;
             this.col_status.Name = "col_status";
             this.col_status.Resizable = System.Windows.Forms.DataGridViewTriState.True;
-            this.col_status.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Automatic;
             this.col_status.Visible = false;
             this.col_status.Width = 73;
             // 
@@ -892,7 +887,7 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn col_price;
         private System.Windows.Forms.DataGridViewTextBoxColumn col_start_time;
         private System.Windows.Forms.DataGridViewTextBoxColumn col_end_time;
-        private System.Windows.Forms.DataGridViewComboBoxColumn col_status;
+        private System.Windows.Forms.DataGridViewTextBoxColumn col_status;
         private System.Windows.Forms.DataGridViewImageColumn col_btn_remove;
     }
 }

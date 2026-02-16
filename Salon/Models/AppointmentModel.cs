@@ -49,6 +49,7 @@ namespace Salon.Models
         public int StylistId { get; set; }
         public string StylistName { get; set; }
         public string AppointmentType { get; set; }
+        public string AppointmentStatus { get; set; }
         public DateTime AppointmentDate { get; set; }
         public DateTime StartTime { get; set; }
         public DateTime EndTime { get; set; }
@@ -80,6 +81,9 @@ namespace Salon.Models
 
         public decimal selling_price { get; set; }
         public decimal vat_amount { get; set; }
+
+        
+
 
         // SUMMARY DASHBOARD
 

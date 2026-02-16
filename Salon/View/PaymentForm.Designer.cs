@@ -29,10 +29,10 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(PaymentForm));
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle4 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle5 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle6 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(PaymentForm));
             this.btn_confirm_payment = new MaterialSkin.Controls.MaterialButton();
             this.btn_cancel = new MaterialSkin.Controls.MaterialButton();
             this.printDocument = new System.Drawing.Printing.PrintDocument();
@@ -48,19 +48,6 @@
             this.materialLabel10 = new MaterialSkin.Controls.MaterialLabel();
             this.btn_add_on = new MaterialSkin.Controls.MaterialButton();
             this.dgv_table = new System.Windows.Forms.DataGridView();
-            this.col_service_id = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.col_service_cart_id = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.col_item_name = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.col_category = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.col_qty = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.col_unit_price = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.col_total = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.col_final_price = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.col_discounted = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.col_vat_exempt = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.col_discount_applied = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.col_status = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.col_btn_apply_discount = new System.Windows.Forms.DataGridViewImageColumn();
             this.materialLabel5 = new MaterialSkin.Controls.MaterialLabel();
             this.lbl_change_amount = new MaterialSkin.Controls.MaterialLabel();
             this.materialCard1 = new MaterialSkin.Controls.MaterialCard();
@@ -126,6 +113,23 @@
             this.col_product_status = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.col_prod_btn_discount = new System.Windows.Forms.DataGridViewImageColumn();
             this.btn_remove = new System.Windows.Forms.DataGridViewImageColumn();
+            this.materialLabel11 = new MaterialSkin.Controls.MaterialLabel();
+            this.lbl_customer_type = new MaterialSkin.Controls.MaterialLabel();
+            this.materialLabel12 = new MaterialSkin.Controls.MaterialLabel();
+            this.lbl_invoice_number = new MaterialSkin.Controls.MaterialLabel();
+            this.col_service_id = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.col_service_cart_id = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.col_item_name = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.col_category = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.col_qty = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.col_unit_price = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.col_total = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.col_final_price = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.col_discounted = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.col_vat_exempt = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.col_discount_applied = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.col_status = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.col_btn_apply_discount = new System.Windows.Forms.DataGridViewImageColumn();
             ((System.ComponentModel.ISupportInitialize)(this.errorProvider1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.dgv_table)).BeginInit();
             this.materialCard1.SuspendLayout();
@@ -195,7 +199,7 @@
             this.lbl_Time.Depth = 0;
             this.lbl_Time.Font = new System.Drawing.Font("Roboto Medium", 20F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Pixel);
             this.lbl_Time.FontType = MaterialSkin.MaterialSkinManager.fontType.H6;
-            this.lbl_Time.Location = new System.Drawing.Point(292, 171);
+            this.lbl_Time.Location = new System.Drawing.Point(694, 189);
             this.lbl_Time.MouseState = MaterialSkin.MouseState.HOVER;
             this.lbl_Time.Name = "lbl_Time";
             this.lbl_Time.Size = new System.Drawing.Size(41, 24);
@@ -208,7 +212,7 @@
             this.materialLabel8.Depth = 0;
             this.materialLabel8.Font = new System.Drawing.Font("Roboto Medium", 20F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Pixel);
             this.materialLabel8.FontType = MaterialSkin.MaterialSkinManager.fontType.H6;
-            this.materialLabel8.Location = new System.Drawing.Point(55, 171);
+            this.materialLabel8.Location = new System.Drawing.Point(547, 189);
             this.materialLabel8.Margin = new System.Windows.Forms.Padding(3, 0, 25, 0);
             this.materialLabel8.MouseState = MaterialSkin.MouseState.HOVER;
             this.materialLabel8.Name = "materialLabel8";
@@ -223,12 +227,12 @@
             this.lbl_book_type.Depth = 0;
             this.lbl_book_type.Font = new System.Drawing.Font("Roboto Medium", 20F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Pixel);
             this.lbl_book_type.FontType = MaterialSkin.MaterialSkinManager.fontType.H6;
-            this.lbl_book_type.Location = new System.Drawing.Point(802, 40);
+            this.lbl_book_type.Location = new System.Drawing.Point(743, 119);
             this.lbl_book_type.MouseState = MaterialSkin.MouseState.HOVER;
             this.lbl_book_type.Name = "lbl_book_type";
-            this.lbl_book_type.Size = new System.Drawing.Size(40, 24);
+            this.lbl_book_type.Size = new System.Drawing.Size(88, 24);
             this.lbl_book_type.TabIndex = 32;
-            this.lbl_book_type.Text = "type";
+            this.lbl_book_type.Text = "book type";
             // 
             // materialLabel7
             // 
@@ -251,7 +255,7 @@
             this.lbl_Date.Depth = 0;
             this.lbl_Date.Font = new System.Drawing.Font("Roboto Medium", 20F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Pixel);
             this.lbl_Date.FontType = MaterialSkin.MaterialSkinManager.fontType.H6;
-            this.lbl_Date.Location = new System.Drawing.Point(292, 109);
+            this.lbl_Date.Location = new System.Drawing.Point(292, 189);
             this.lbl_Date.MouseState = MaterialSkin.MouseState.HOVER;
             this.lbl_Date.Name = "lbl_Date";
             this.lbl_Date.Size = new System.Drawing.Size(41, 24);
@@ -264,7 +268,7 @@
             this.materialLabel6.Depth = 0;
             this.materialLabel6.Font = new System.Drawing.Font("Roboto Medium", 20F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Pixel);
             this.materialLabel6.FontType = MaterialSkin.MaterialSkinManager.fontType.H6;
-            this.materialLabel6.Location = new System.Drawing.Point(55, 109);
+            this.materialLabel6.Location = new System.Drawing.Point(55, 189);
             this.materialLabel6.Margin = new System.Windows.Forms.Padding(3, 0, 25, 0);
             this.materialLabel6.MouseState = MaterialSkin.MouseState.HOVER;
             this.materialLabel6.Name = "materialLabel6";
@@ -279,7 +283,7 @@
             this.txt_name.Depth = 0;
             this.txt_name.Font = new System.Drawing.Font("Roboto Medium", 20F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Pixel);
             this.txt_name.FontType = MaterialSkin.MaterialSkinManager.fontType.H6;
-            this.txt_name.Location = new System.Drawing.Point(292, 40);
+            this.txt_name.Location = new System.Drawing.Point(292, 119);
             this.txt_name.MouseState = MaterialSkin.MouseState.HOVER;
             this.txt_name.Name = "txt_name";
             this.txt_name.Size = new System.Drawing.Size(51, 24);
@@ -293,7 +297,7 @@
             this.materialLabel3.Depth = 0;
             this.materialLabel3.Font = new System.Drawing.Font("Roboto Medium", 20F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Pixel);
             this.materialLabel3.FontType = MaterialSkin.MaterialSkinManager.fontType.H6;
-            this.materialLabel3.Location = new System.Drawing.Point(55, 40);
+            this.materialLabel3.Location = new System.Drawing.Point(55, 119);
             this.materialLabel3.Margin = new System.Windows.Forms.Padding(3, 0, 25, 0);
             this.materialLabel3.MouseState = MaterialSkin.MouseState.HOVER;
             this.materialLabel3.Name = "materialLabel3";
@@ -372,135 +376,6 @@
             this.dgv_table.TabIndex = 34;
             this.dgv_table.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgv_table_CellClick);
             // 
-            // col_service_id
-            // 
-            this.col_service_id.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
-            this.col_service_id.HeaderText = "service_id";
-            this.col_service_id.MinimumWidth = 6;
-            this.col_service_id.Name = "col_service_id";
-            this.col_service_id.ReadOnly = true;
-            this.col_service_id.Visible = false;
-            this.col_service_id.Width = 125;
-            // 
-            // col_service_cart_id
-            // 
-            this.col_service_cart_id.FillWeight = 5F;
-            this.col_service_cart_id.HeaderText = "cart_id";
-            this.col_service_cart_id.MinimumWidth = 6;
-            this.col_service_cart_id.Name = "col_service_cart_id";
-            this.col_service_cart_id.ReadOnly = true;
-            this.col_service_cart_id.Visible = false;
-            this.col_service_cart_id.Width = 125;
-            // 
-            // col_item_name
-            // 
-            this.col_item_name.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
-            this.col_item_name.HeaderText = "Item Name";
-            this.col_item_name.MinimumWidth = 6;
-            this.col_item_name.Name = "col_item_name";
-            this.col_item_name.ReadOnly = true;
-            // 
-            // col_category
-            // 
-            this.col_category.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
-            this.col_category.HeaderText = "Category";
-            this.col_category.MinimumWidth = 6;
-            this.col_category.Name = "col_category";
-            this.col_category.ReadOnly = true;
-            // 
-            // col_qty
-            // 
-            this.col_qty.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
-            this.col_qty.HeaderText = "Qty";
-            this.col_qty.MinimumWidth = 6;
-            this.col_qty.Name = "col_qty";
-            this.col_qty.ReadOnly = true;
-            this.col_qty.Width = 54;
-            // 
-            // col_unit_price
-            // 
-            this.col_unit_price.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
-            dataGridViewCellStyle4.Format = "C2";
-            dataGridViewCellStyle4.NullValue = null;
-            this.col_unit_price.DefaultCellStyle = dataGridViewCellStyle4;
-            this.col_unit_price.HeaderText = "Unit Price";
-            this.col_unit_price.MinimumWidth = 6;
-            this.col_unit_price.Name = "col_unit_price";
-            this.col_unit_price.ReadOnly = true;
-            this.col_unit_price.Width = 91;
-            // 
-            // col_total
-            // 
-            this.col_total.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
-            dataGridViewCellStyle5.Format = "C2";
-            dataGridViewCellStyle5.NullValue = null;
-            this.col_total.DefaultCellStyle = dataGridViewCellStyle5;
-            this.col_total.HeaderText = "Total";
-            this.col_total.MinimumWidth = 6;
-            this.col_total.Name = "col_total";
-            this.col_total.ReadOnly = true;
-            this.col_total.Visible = false;
-            this.col_total.Width = 125;
-            // 
-            // col_final_price
-            // 
-            this.col_final_price.HeaderText = "Total Price";
-            this.col_final_price.MinimumWidth = 6;
-            this.col_final_price.Name = "col_final_price";
-            this.col_final_price.ReadOnly = true;
-            this.col_final_price.Width = 125;
-            // 
-            // col_discounted
-            // 
-            dataGridViewCellStyle6.Format = "C2";
-            dataGridViewCellStyle6.NullValue = null;
-            this.col_discounted.DefaultCellStyle = dataGridViewCellStyle6;
-            this.col_discounted.HeaderText = "Discounted";
-            this.col_discounted.MinimumWidth = 6;
-            this.col_discounted.Name = "col_discounted";
-            this.col_discounted.ReadOnly = true;
-            this.col_discounted.Width = 125;
-            // 
-            // col_vat_exempt
-            // 
-            this.col_vat_exempt.HeaderText = "Vat Exempt";
-            this.col_vat_exempt.MinimumWidth = 6;
-            this.col_vat_exempt.Name = "col_vat_exempt";
-            this.col_vat_exempt.ReadOnly = true;
-            this.col_vat_exempt.Visible = false;
-            this.col_vat_exempt.Width = 125;
-            // 
-            // col_discount_applied
-            // 
-            this.col_discount_applied.HeaderText = "Discount Applied";
-            this.col_discount_applied.MinimumWidth = 6;
-            this.col_discount_applied.Name = "col_discount_applied";
-            this.col_discount_applied.ReadOnly = true;
-            this.col_discount_applied.Visible = false;
-            this.col_discount_applied.Width = 125;
-            // 
-            // col_status
-            // 
-            this.col_status.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
-            this.col_status.HeaderText = "Status";
-            this.col_status.MinimumWidth = 6;
-            this.col_status.Name = "col_status";
-            this.col_status.ReadOnly = true;
-            this.col_status.Width = 71;
-            // 
-            // col_btn_apply_discount
-            // 
-            this.col_btn_apply_discount.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
-            this.col_btn_apply_discount.HeaderText = "Apply Discount";
-            this.col_btn_apply_discount.Image = ((System.Drawing.Image)(resources.GetObject("col_btn_apply_discount.Image")));
-            this.col_btn_apply_discount.ImageLayout = System.Windows.Forms.DataGridViewImageCellLayout.Zoom;
-            this.col_btn_apply_discount.MinimumWidth = 6;
-            this.col_btn_apply_discount.Name = "col_btn_apply_discount";
-            this.col_btn_apply_discount.ReadOnly = true;
-            this.col_btn_apply_discount.Resizable = System.Windows.Forms.DataGridViewTriState.True;
-            this.col_btn_apply_discount.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Automatic;
-            this.col_btn_apply_discount.Width = 124;
-            // 
             // materialLabel5
             // 
             this.materialLabel5.AutoSize = true;
@@ -532,6 +407,10 @@
             this.materialCard1.AutoScroll = true;
             this.materialCard1.AutoScrollMargin = new System.Drawing.Size(0, 25);
             this.materialCard1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
+            this.materialCard1.Controls.Add(this.lbl_invoice_number);
+            this.materialCard1.Controls.Add(this.materialLabel12);
+            this.materialCard1.Controls.Add(this.lbl_customer_type);
+            this.materialCard1.Controls.Add(this.materialLabel11);
             this.materialCard1.Controls.Add(this.lbl_products_label);
             this.materialCard1.Controls.Add(this.panel1);
             this.materialCard1.Controls.Add(this.flowLayoutPanel1);
@@ -1500,10 +1379,196 @@
             this.btn_remove.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Automatic;
             this.btn_remove.Width = 86;
             // 
+            // materialLabel11
+            // 
+            this.materialLabel11.AutoSize = true;
+            this.materialLabel11.Depth = 0;
+            this.materialLabel11.Font = new System.Drawing.Font("Roboto Medium", 20F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Pixel);
+            this.materialLabel11.FontType = MaterialSkin.MaterialSkinManager.fontType.H6;
+            this.materialLabel11.Location = new System.Drawing.Point(544, 119);
+            this.materialLabel11.Margin = new System.Windows.Forms.Padding(3, 0, 25, 0);
+            this.materialLabel11.MouseState = MaterialSkin.MouseState.HOVER;
+            this.materialLabel11.Name = "materialLabel11";
+            this.materialLabel11.Padding = new System.Windows.Forms.Padding(0, 0, 25, 0);
+            this.materialLabel11.Size = new System.Drawing.Size(100, 24);
+            this.materialLabel11.TabIndex = 42;
+            this.materialLabel11.Text = "Book Type:";
+            // 
+            // lbl_customer_type
+            // 
+            this.lbl_customer_type.AutoSize = true;
+            this.lbl_customer_type.Depth = 0;
+            this.lbl_customer_type.Font = new System.Drawing.Font("Roboto Medium", 20F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Pixel);
+            this.lbl_customer_type.FontType = MaterialSkin.MaterialSkinManager.fontType.H6;
+            this.lbl_customer_type.Location = new System.Drawing.Point(743, 40);
+            this.lbl_customer_type.MouseState = MaterialSkin.MouseState.HOVER;
+            this.lbl_customer_type.Name = "lbl_customer_type";
+            this.lbl_customer_type.Size = new System.Drawing.Size(129, 24);
+            this.lbl_customer_type.TabIndex = 43;
+            this.lbl_customer_type.Text = "customer type";
+            // 
+            // materialLabel12
+            // 
+            this.materialLabel12.AutoSize = true;
+            this.materialLabel12.Depth = 0;
+            this.materialLabel12.Font = new System.Drawing.Font("Roboto Medium", 20F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Pixel);
+            this.materialLabel12.FontType = MaterialSkin.MaterialSkinManager.fontType.H6;
+            this.materialLabel12.Location = new System.Drawing.Point(52, 51);
+            this.materialLabel12.Margin = new System.Windows.Forms.Padding(3, 0, 25, 0);
+            this.materialLabel12.MouseState = MaterialSkin.MouseState.HOVER;
+            this.materialLabel12.Name = "materialLabel12";
+            this.materialLabel12.Padding = new System.Windows.Forms.Padding(0, 0, 25, 0);
+            this.materialLabel12.Size = new System.Drawing.Size(146, 24);
+            this.materialLabel12.TabIndex = 44;
+            this.materialLabel12.Text = "Invoice Number:";
+            // 
+            // lbl_invoice_number
+            // 
+            this.lbl_invoice_number.AutoSize = true;
+            this.lbl_invoice_number.Depth = 0;
+            this.lbl_invoice_number.Font = new System.Drawing.Font("Roboto Medium", 20F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Pixel);
+            this.lbl_invoice_number.FontType = MaterialSkin.MaterialSkinManager.fontType.H6;
+            this.lbl_invoice_number.Location = new System.Drawing.Point(292, 51);
+            this.lbl_invoice_number.MouseState = MaterialSkin.MouseState.HOVER;
+            this.lbl_invoice_number.Name = "lbl_invoice_number";
+            this.lbl_invoice_number.Size = new System.Drawing.Size(137, 24);
+            this.lbl_invoice_number.TabIndex = 45;
+            this.lbl_invoice_number.Text = "invoice number";
+            // 
+            // col_service_id
+            // 
+            this.col_service_id.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
+            this.col_service_id.HeaderText = "service_id";
+            this.col_service_id.MinimumWidth = 6;
+            this.col_service_id.Name = "col_service_id";
+            this.col_service_id.ReadOnly = true;
+            this.col_service_id.Visible = false;
+            this.col_service_id.Width = 73;
+            // 
+            // col_service_cart_id
+            // 
+            this.col_service_cart_id.FillWeight = 5F;
+            this.col_service_cart_id.HeaderText = "cart_id";
+            this.col_service_cart_id.MinimumWidth = 6;
+            this.col_service_cart_id.Name = "col_service_cart_id";
+            this.col_service_cart_id.ReadOnly = true;
+            this.col_service_cart_id.Visible = false;
+            this.col_service_cart_id.Width = 125;
+            // 
+            // col_item_name
+            // 
+            this.col_item_name.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
+            this.col_item_name.HeaderText = "Item Name";
+            this.col_item_name.MinimumWidth = 6;
+            this.col_item_name.Name = "col_item_name";
+            this.col_item_name.ReadOnly = true;
+            // 
+            // col_category
+            // 
+            this.col_category.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
+            this.col_category.HeaderText = "Category";
+            this.col_category.MinimumWidth = 6;
+            this.col_category.Name = "col_category";
+            this.col_category.ReadOnly = true;
+            // 
+            // col_qty
+            // 
+            this.col_qty.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
+            this.col_qty.HeaderText = "Qty";
+            this.col_qty.MinimumWidth = 6;
+            this.col_qty.Name = "col_qty";
+            this.col_qty.ReadOnly = true;
+            this.col_qty.Width = 54;
+            // 
+            // col_unit_price
+            // 
+            this.col_unit_price.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
+            dataGridViewCellStyle4.Format = "C2";
+            dataGridViewCellStyle4.NullValue = null;
+            this.col_unit_price.DefaultCellStyle = dataGridViewCellStyle4;
+            this.col_unit_price.HeaderText = "Unit Price";
+            this.col_unit_price.MinimumWidth = 6;
+            this.col_unit_price.Name = "col_unit_price";
+            this.col_unit_price.ReadOnly = true;
+            this.col_unit_price.Width = 91;
+            // 
+            // col_total
+            // 
+            this.col_total.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
+            dataGridViewCellStyle5.Format = "C2";
+            dataGridViewCellStyle5.NullValue = null;
+            this.col_total.DefaultCellStyle = dataGridViewCellStyle5;
+            this.col_total.HeaderText = "Total";
+            this.col_total.MinimumWidth = 6;
+            this.col_total.Name = "col_total";
+            this.col_total.ReadOnly = true;
+            this.col_total.Visible = false;
+            this.col_total.Width = 65;
+            // 
+            // col_final_price
+            // 
+            this.col_final_price.HeaderText = "Total Price";
+            this.col_final_price.MinimumWidth = 6;
+            this.col_final_price.Name = "col_final_price";
+            this.col_final_price.ReadOnly = true;
+            this.col_final_price.Width = 125;
+            // 
+            // col_discounted
+            // 
+            this.col_discounted.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
+            dataGridViewCellStyle6.Format = "C2";
+            dataGridViewCellStyle6.NullValue = null;
+            this.col_discounted.DefaultCellStyle = dataGridViewCellStyle6;
+            this.col_discounted.HeaderText = "Discounted";
+            this.col_discounted.MinimumWidth = 6;
+            this.col_discounted.Name = "col_discounted";
+            this.col_discounted.ReadOnly = true;
+            this.col_discounted.Width = 102;
+            // 
+            // col_vat_exempt
+            // 
+            this.col_vat_exempt.HeaderText = "Vat Exempt";
+            this.col_vat_exempt.MinimumWidth = 6;
+            this.col_vat_exempt.Name = "col_vat_exempt";
+            this.col_vat_exempt.ReadOnly = true;
+            this.col_vat_exempt.Visible = false;
+            this.col_vat_exempt.Width = 125;
+            // 
+            // col_discount_applied
+            // 
+            this.col_discount_applied.HeaderText = "Discount Applied";
+            this.col_discount_applied.MinimumWidth = 6;
+            this.col_discount_applied.Name = "col_discount_applied";
+            this.col_discount_applied.ReadOnly = true;
+            this.col_discount_applied.Visible = false;
+            this.col_discount_applied.Width = 125;
+            // 
+            // col_status
+            // 
+            this.col_status.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
+            this.col_status.HeaderText = "Status";
+            this.col_status.MinimumWidth = 6;
+            this.col_status.Name = "col_status";
+            this.col_status.ReadOnly = true;
+            this.col_status.Width = 71;
+            // 
+            // col_btn_apply_discount
+            // 
+            this.col_btn_apply_discount.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
+            this.col_btn_apply_discount.HeaderText = "Apply Discount";
+            this.col_btn_apply_discount.Image = ((System.Drawing.Image)(resources.GetObject("col_btn_apply_discount.Image")));
+            this.col_btn_apply_discount.ImageLayout = System.Windows.Forms.DataGridViewImageCellLayout.Zoom;
+            this.col_btn_apply_discount.MinimumWidth = 6;
+            this.col_btn_apply_discount.Name = "col_btn_apply_discount";
+            this.col_btn_apply_discount.ReadOnly = true;
+            this.col_btn_apply_discount.Resizable = System.Windows.Forms.DataGridViewTriState.True;
+            this.col_btn_apply_discount.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Automatic;
+            this.col_btn_apply_discount.Width = 114;
+            // 
             // PaymentForm
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
-            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.AutoScaleDimensions = new System.Drawing.SizeF(120F, 120F);
+            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Dpi;
             this.AutoSize = true;
             this.ClientSize = new System.Drawing.Size(1885, 800);
             this.Controls.Add(this.materialCard1);
@@ -1616,6 +1681,10 @@
         private System.Windows.Forms.TextBox txt_reference;
         private MaterialSkin.Controls.MaterialLabel lbl_reference;
         private MaterialSkin.Controls.MaterialButton btn_promo;
+        private MaterialSkin.Controls.MaterialLabel lbl_customer_type;
+        private MaterialSkin.Controls.MaterialLabel materialLabel11;
+        private MaterialSkin.Controls.MaterialLabel materialLabel12;
+        private MaterialSkin.Controls.MaterialLabel lbl_invoice_number;
         private System.Windows.Forms.DataGridViewTextBoxColumn col_service_id;
         private System.Windows.Forms.DataGridViewTextBoxColumn col_service_cart_id;
         private System.Windows.Forms.DataGridViewTextBoxColumn col_item_name;

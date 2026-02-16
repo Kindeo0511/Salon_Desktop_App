@@ -80,7 +80,27 @@ namespace Salon.Repository
                 con.Execute(sql, model);
             }
         }
-
+        public bool CheckIfServiceExistInCart(int invoice_id, int product_id, int product_size_id) 
+        {
+            using (var con = Database.GetConnection()) 
+            {
+                var sql = @"SELECT COUNT(*) FROM tbl_invoice_service_cart
+                            WHERE invoice_id = @InvoiceId AND product_id = @ProductId AND product_size_id = @product_size_id";
+                int count = con.QuerySingle<int>(sql, new { InvoiceId = invoice_id, ProductId = product_id, product_size_id = product_size_id });
+                return count > 0;
+            }
+        }
+        public bool UpdateServiceQtyInCart(int invoice_id, int product_id, int product_size_id, int newQty) 
+        {
+            using (var con = Database.GetConnection()) 
+            {
+                var sql = @"UPDATE tbl_invoice_service_cart
+                            SET qty = qty + @NewQty
+                            WHERE invoice_id = @InvoiceId AND product_id = @ProductId AND product_size_id = @ProductSizeId";
+                int rowsAffected = con.Execute(sql, new { NewQty = newQty, InvoiceId = invoice_id, ProductId = product_id, ProductSizeId = product_size_id });
+                return rowsAffected > 0;
+            }
+        }
         public void UpdateServicesInvoice(ServiceCart model) 
         {
             using (var con = Database.GetConnection()) 

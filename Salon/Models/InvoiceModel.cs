@@ -11,8 +11,13 @@ namespace Salon.Models
         public int InvoiceID { get; set; }
         public string InvoiceNumber { get; set; }
         public string Name { get; set; }
+        public string ServiceName { get; set; }
+        public string ItemName { get; set; }
+        public int Quantity { get; set; }
+
         public int AppointmentID { get; set; }
         public int? CustomerID { get; set; }
+        public decimal Total_Price { get; set; }
         public decimal TotalAmount { get; set; }
         public decimal VATAmount { get; set; }
         public decimal DiscountAmount { get; set; }

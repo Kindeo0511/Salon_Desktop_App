@@ -1,4 +1,5 @@
-﻿using MaterialSkin.Controls;
+﻿using iText.Layout.Element;
+using MaterialSkin.Controls;
 using Salon.Controller;
 using Salon.Models;
 using Salon.Repository;
@@ -49,11 +50,17 @@ namespace Salon.View
             {
                 dgv_service_selected.Columns["col_mark_as_completed"].Visible = false;
             }
+            else 
+            {
+                dgv_service_selected.Columns["col_mark_as_completed"].Visible = true;
+                dgv_service_selected.Columns["col_start_service"].Visible = false;
+            }
 
         }
         public void LoadSelectedAppointmentDetails(AppointmentModel model) 
         {
-            LoadWalkInCode();
+
+            lbl_prefix.Text = model.DisplayCustomerName;
 
             rad_walk_in.Checked = model.AppointmentType == "Walk-In";
             rad_appointment.Checked = model.AppointmentType == "Appointment";
@@ -96,8 +103,9 @@ namespace Salon.View
             col_service_time.DataPropertyName = "Duration";
             col_time.DataPropertyName = "DisplayTime";
             col_status.DataPropertyName = "Status";
-       
-           
+            col_mark_as_completed.DataPropertyName = "IsCompleted";
+
+
 
 
             dgv_service_selected.DataSource = services;
@@ -124,17 +132,41 @@ namespace Salon.View
                     {
 
                         MessageBox.Show($"Service {serviceName} marked as completed.", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                        mainForm.LoadWalkIn();
-                        this.Close();
+                    
                     }
                     
 
                 }
              }
+            MarkOverallAppointmentStatus(appointmentModel.AppointmentId);
+            mainForm.LoadWalkIn();
+            this.Close();
+        }
+        public void MarkOverallAppointmentStatus(int appointment_id)
+        {
+            var repo = new AppointmentRepository();
+            var controller = new AppointmentController(repo);
+
+            bool allCompleted = true; // assume completed until proven otherwise
+
+            foreach (DataGridViewRow row in dgv_service_selected.Rows)
+            {
+                var status = row.Cells["col_status"].Value?.ToString();
+
+                if (status != "Completed")
+                {
+                    allCompleted = false;
+                    break; // no need to check further
+                }
+            }
+
+            string newStatus = allCompleted ? "Completed" : "On Going";
+            controller.UpdateAppointmentStatus(appointment_id, newStatus);
         }
 
         private void dgv_service_selected_CellValueChanged(object sender, DataGridViewCellEventArgs e)
         {
+            
             if (dgv_service_selected.Columns[e.ColumnIndex].Name == "col_mark_as_completed")
             {
                 var row = dgv_service_selected.Rows[e.RowIndex];
@@ -159,19 +191,28 @@ namespace Salon.View
         private void dgv_service_selected_CellClick(object sender, DataGridViewCellEventArgs e)
         {
             if (e.RowIndex < 0) return;
-            if (e.RowIndex >= 0 && dgv_service_selected.Columns[e.ColumnIndex].Name == "col_start_service") 
+            var dgv = dgv_service_selected;
+
+
+            if (e.RowIndex >= 0 && dgv.Columns[e.ColumnIndex].Name == "col_start_service")
             {
-                string status = dgv_service_selected.Rows[e.RowIndex].Cells["col_status"].Value.ToString();
+                string status = dgv.Rows[e.RowIndex].Cells["col_status"].Value.ToString();
 
                 if (status == "On Going")
                 {
+                    MessageBox.Show("Service is already on going. Please mark it as completed once done.", "Info", MessageBoxButtons.OK, MessageBoxIcon.Information);
                     return;
                 }
-                else 
+                else if (status == "Completed") 
+                {
+                    MessageBox.Show("Service is already completed.", "Info", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    return;
+                }
+                else
                 {
                     var controller = new AppointmentServiceRepository();
-                    int appointmentServiceId = Convert.ToInt32(dgv_service_selected.Rows[e.RowIndex].Cells["col_service_id"].Value);
-                    int service_duration = Convert.ToInt32(dgv_service_selected.Rows[e.RowIndex].Cells["col_service_time"].Value);
+                    int appointmentServiceId = Convert.ToInt32(dgv.Rows[e.RowIndex].Cells["col_service_id"].Value);
+                    int service_duration = Convert.ToInt32(dgv.Rows[e.RowIndex].Cells["col_service_time"].Value);
 
                     var start_time = DateTime.Now;
                     var endTimeDuration = DateTime.Now.AddMinutes(service_duration);
@@ -188,6 +229,63 @@ namespace Salon.View
                     }
                 }
             }
+
+            else if (e.RowIndex >= 0 && dgv_service_selected.Columns[e.ColumnIndex].Name == "col_mark_as_completed")
+            {
+                var status = dgv_service_selected.Rows[e.RowIndex].Cells["col_status"].Value.ToString();
+
+                if (status == "Waiting")
+                {
+                    MessageBox.Show("Service is still waiting to start. Please start the service first.", "Info", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    return;
+                }
+            }
+
+        }
+
+        private void dgv_service_selected_CellFormatting(object sender, DataGridViewCellFormattingEventArgs e)
+        {
+            if (dgv_service_selected.Columns[e.ColumnIndex].Name == "col_mark_as_completed" && e.RowIndex >= 0)
+            {
+                var row = dgv_service_selected.Rows[e.RowIndex];
+                var status = row.Cells["col_status"].Value?.ToString();
+
+                if (status == "Completed")
+                {
+                    // Force checkbox to show checked
+                    e.Value = true;
+                    e.FormattingApplied = true;
+
+                    // Make the checkbox cell read-only
+                    row.Cells["col_mark_as_completed"].ReadOnly = true;
+                }
+                else if (status == "Waiting") 
+                {
+                    e.Value = false;
+                    e.FormattingApplied = true;
+
+                    // Make the checkbox cell read-only
+                    row.Cells["col_mark_as_completed"].ReadOnly = true;
+                }
+                else
+                {
+                    // Allow editing if not completed
+                    row.Cells["col_mark_as_completed"].ReadOnly = false;
+                }
+            }
+
+
+
+        }
+
+        private void ViewDetailsForm_Load(object sender, EventArgs e)
+        {
+            ThemeManager.StyleDataGridView(dgv_service_selected);
+        }
+
+        private void materialButton1_Click(object sender, EventArgs e)
+        {
+            this.Close();
         }
     }
 }

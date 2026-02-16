@@ -153,7 +153,10 @@ namespace Salon.View
             this.isUpdate = isUpdate;
             cmb_Date.MinDate = model.AppointmentDate.Date;
             cmb_Date.MaxDate = DateTime.Today.AddMonths(3);
-  
+
+           
+
+
             //this.isUpdate = isUpdate;
             if (model.CustomerId == null)
             {
@@ -170,6 +173,72 @@ namespace Salon.View
             txt_FullName.Text = model.DisplayCustomerName;
             lbl_ID.Text = model.CustomerId.ToString();
           
+            btn_update.Visible = true;
+
+            cmb_Date.Value = model.AppointmentDate;
+
+            btn_confirm.Visible = false;
+
+
+
+
+            int invoice_id = GetInvoiceId(model.AppointmentId);
+
+            //LoadCart(invoice_id);
+
+            //LoadStylist();
+
+
+            cmb_stylist.SelectedValue = model.StylistId;
+
+
+
+            //invoice_id = GetInvoiceId(this.model.AppointmentId);
+
+            //LoadCart(invoice_id);
+
+            // Services
+
+            LoadSelectedServices(model.AppointmentId);
+
+
+        }
+        public AppointmentForm(MainForm mainForm, AppointmentModel model, bool isUpdate, bool QueueUpdate)
+        {
+            InitializeComponent();
+            ThemeManager.ApplyTheme(this);
+            LoadSubcategory();
+            LoadServices();
+            LoadTimeSlots();
+            //LoadProduct();
+            this.mainForm = mainForm;
+            this.model = model;
+            this.isUpdate = isUpdate;
+            cmb_Date.MinDate = model.AppointmentDate.Date;
+            cmb_Date.MaxDate = DateTime.Today.AddMonths(3);
+            txt_FullName.ReadOnly = true;
+            cmb_Date.Enabled = false;
+            rad_exists.Enabled = false;
+            rad_guest.Enabled = false;
+            btn_search.Enabled = false;
+            btn_register_customer.Enabled = false;
+            //this.isUpdate = isUpdate;
+            if (model.CustomerId == null)
+            {
+                rad_guest.Checked = true;
+            }
+            else
+            {
+                rad_exists.Checked = true;
+            }
+            dgv_service_selected.Columns["col_status"].Visible = true;
+            //customerModel.customer_name = model.CustomerName;
+            //customerModel.phoneNumber = model.PhoneNumber;
+            //customerModel.email = model.Email;
+            //customerModel.customer_id = model.CustomerId;
+            txt_FullName.Text = model.DisplayCustomerName;
+            lbl_ID.Text = model.CustomerId.ToString();
+
             btn_update.Visible = true;
 
             cmb_Date.Value = model.AppointmentDate;
@@ -891,7 +960,6 @@ namespace Salon.View
                 model = new AppointmentModel
                 {
                     CustomerName = txt_FullName.Text,
-                    StylistId = Convert.ToInt32(cmb_stylist.SelectedValue),
                     StylistName = cmb_stylist.Text,
                     AppointmentDate = cmb_Date.Value,
                     StartTime = startTime,
@@ -908,7 +976,6 @@ namespace Salon.View
                 {
                     CustomerId = Convert.ToInt32(lbl_ID.Text),
                     CustomerName = txt_FullName.Text,
-                    StylistId = Convert.ToInt32(cmb_stylist.SelectedValue),
                     StylistName = cmb_stylist.Text,
                     AppointmentDate = cmb_Date.Value,
                     StartTime = cmb_Date.Value + selectedTime.TimeOfDay,
@@ -1293,9 +1360,34 @@ namespace Salon.View
 
                 int appointmentServiceId = Convert.ToInt32(dgv_service_selected.Rows[e.RowIndex].Cells["col_appointment_service_id"].Value);
                 int serviceId = Convert.ToInt32(dgv_service_selected.Rows[e.RowIndex].Cells["col_service_id"].Value);
-                controller.DeleteAppointmentServiceById(appointmentServiceId);
-                inv_service_controller.GetInvoiceServiceById(invoice_id, serviceId);
-                LoadSelectedServices(model.AppointmentId);
+                string status = Convert.ToString(dgv_service_selected.Rows[e.RowIndex].Cells["col_status"].Value);
+                if (status == "Completed")
+                {
+                    MessageBox.Show("Cannot remove a completed service.", "Action Denied", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    return;
+                }
+                else if (status == "On Going")
+                {
+                    MessageBox.Show("Cannot remove a service that is currently on going.", "Action Denied", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    return;
+                }
+                else 
+                {
+                    var confimmation = MessageBox.Show("Are you sure you want to remove this service?", "Confirm Removal", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+                    if (confimmation == DialogResult.Yes)
+                    {
+                        controller.DeleteAppointmentServiceById(appointmentServiceId);
+                        inv_service_controller.GetInvoiceServiceById(invoice_id, serviceId);
+                        LoadSelectedServices(model.AppointmentId);
+                    }
+                    else 
+                    {
+                        return;
+                    }
+                    
+                  
+
+                }
 
             }
         }

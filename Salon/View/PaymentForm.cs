@@ -79,9 +79,9 @@ namespace Salon.View
                 lbl_Date.Text = model.AppointmentDate.ToString("yyyy-MM-dd");
                 lbl_Time.Text =  formattedStartTime + " - " + formattedEndTime;
 
-             
 
 
+                lbl_customer_type.Text = model.CustomerType.ToString();
                 lbl_book_type.Text = model.AppointmentType.ToString();
 
                 
@@ -264,10 +264,11 @@ namespace Salon.View
             var repo = new InvoiceRepository();
             var controller = new InvoiceController(repo);
             int invoice_id = controller.GetInvoice(id);
-
+            lbl_invoice_number.Text = controller.GetInvoiceNumberById(invoice_id).ToString();
             return invoice_id;
 
         }
+     
         public decimal CalculateSubTotal() 
         {
             decimal subtotal = 0m;

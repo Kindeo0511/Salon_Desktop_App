@@ -518,6 +518,12 @@
     <Compile Include="View\AppointmentStatusForm.Designer.cs">
       <DependentUpon>AppointmentStatusForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="View\AssignStylistForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="View\AssignStylistForm.Designer.cs">
+      <DependentUpon>AssignStylistForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="View\CategoryForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -869,6 +875,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="View\AppointmentStatusForm.resx">
       <DependentUpon>AppointmentStatusForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="View\AssignStylistForm.resx">
+      <DependentUpon>AssignStylistForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="View\CategoryForm.resx">
       <DependentUpon>CategoryForm.cs</DependentUpon>

@@ -44,6 +44,17 @@ namespace Salon.View
                 }
             }
         }
+        public string CustomerId
+        {
+            get => lbl_ID.Text;
+            set => lbl_ID.Text = value;
+        }
+
+        public string FullName
+        {
+            get => lbl_ID.Text;
+            set => lbl_prefix.Text = value;
+        }
         public Walk_In_Form(MainForm mainForm)
         {
             InitializeComponent();
@@ -55,7 +66,7 @@ namespace Salon.View
 
             LoadServices();
 
-            LoadStylist();
+            
 
            
            
@@ -75,9 +86,6 @@ namespace Salon.View
             LoadSubcategory();
 
             LoadServices();
-
-            LoadStylist();
-
 
             LoadWalkInCode();
            
@@ -182,20 +190,19 @@ namespace Salon.View
             cmb_services.DataSource = services;
         
         }
-        private void LoadStylist()
+        private void LoadStylist(int id)
         {
             var repo = new StylistRepository();
             var controller = new StylistController(repo);
-            var stylist = controller.GetAll();
+            var stylist = controller.GetStylistSpecialistById(id);
 
-            var availble_stylist = stylist.Where(s=> s.Availability == "Available").ToList();
+            cmb_stylist.DataSource = null;
             cmb_stylist.ValueMember = "stylist_id";
             cmb_stylist.DisplayMember = "FullName";
 
             cmb_stylist.DataSource = stylist;
             cmb_stylist.SelectedIndex = -1;
         }
-
         private void cmb_stylist_SelectedIndexChanged(object sender, EventArgs e)
         {
            
@@ -239,20 +246,28 @@ namespace Salon.View
             }
             else
             {
-                //appointmentModel = new AppointmentModel
-                //{
-                //    CustomerId = Convert.ToInt32(lbl_ID.Text),
-                //    CustomerName = txt_FullName.Text,
-                //    //StylistId = Convert.ToInt32(cmb_stylist.SelectedValue),
-                //    StylistName = cmb_stylist.Text,
-                //    AppointmentDate = cmb_Date.Value,
-                //    StartTime = cmb_Date.Value + selectedTime.TimeOfDay,
-                //    EndDuration = cmb_Date.Value + selectedTime.TimeOfDay,
-                //    EndTime = cmb_Date.Value + selectedTime.TimeOfDay.Add(TimeSpan.FromMinutes(totalDuration)),
-                //    Status = "Scheduled",
-                //    CustomerType = "Member",
-                //    PaymentStatus = "Unpaid",
-                //};
+                appointmentModel = new AppointmentModel
+                {
+                    CustomerName = lbl_prefix.Text,
+                    StylistId = Convert.ToInt32(cmb_stylist.SelectedValue),
+                    AppointmentDate = DateTime.Now,
+                    StartTime = DateTime.Now,
+                    EndTime = DateTime.Now.Add(TimeSpan.FromMinutes(totalDuration)),
+                    AppointmentType = "Walk-In",
+                    CustomerType = "Member",
+                    PaymentStatus = "Unpaid",
+                    //CustomerId = Convert.ToInt32(lbl_ID.Text),
+                    //CustomerName = lbl_prefix.Text,
+                    ////StylistId = Convert.ToInt32(cmb_stylist.SelectedValue),
+                    //StylistName = cmb_stylist.Text,
+                    //AppointmentDate = cmb_Date.Value,
+                    //StartTime = cmb_Date.Value + selectedTime.TimeOfDay,
+                    //EndDuration = cmb_Date.Value + selectedTime.TimeOfDay,
+                    //EndTime = cmb_Date.Value + selectedTime.TimeOfDay.Add(TimeSpan.FromMinutes(totalDuration)),
+                    //Status = "Scheduled",
+                    //CustomerType = "Member",
+                    //PaymentStatus = "Unpaid",
+                };
             }
             int appointment_id = appointmentModel.CustomerType == "Member"
             ? appointmentController.CreateAppointment(appointmentModel)
@@ -546,6 +561,33 @@ namespace Salon.View
                     LoadSelectedServices(appointmentModel.AppointmentId);
                     _mainForm.LoadWalkIn();
                 }
+            }
+        }
+
+        private void btn_search_Click(object sender, EventArgs e)
+        {
+            using (var searchForm = new SearchCustomerForm(this, true))
+            {
+                searchForm.ShowDialog();
+            }
+
+        }
+
+        private void btn_register_customer_Click(object sender, EventArgs e)
+        {
+            using (var registerCustomer = new CustomerForm(_mainForm))
+            {
+                registerCustomer.ShowDialog();
+            }
+        }
+
+        private void cmb_services_SelectedValueChanged(object sender, EventArgs e)
+        {
+            if (cmb_services.SelectedItem is ServiceModel selectedService)
+            {
+
+                LoadStylist(selectedService.serviceName_id);
+
             }
         }
     }
