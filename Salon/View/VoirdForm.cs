@@ -81,17 +81,7 @@ namespace Salon.View
 
         private void dgv_products_CellClick(object sender, DataGridViewCellEventArgs e)
         {
-            if (e.RowIndex < 0) return;
-
-            if (e.RowIndex >= 0 && dgv_products.Columns[e.ColumnIndex].Name == "col_btn_void") 
-            {
-                var details = dgv_products.Rows[e.RowIndex].DataBoundItem as InvoiceServicesCart;
-
-                using (var form = new VoidModalForm(mainForm, this,details)) 
-                {
-                    form.ShowDialog();
-                }
-            }
+           
         }
 
         private void btn_cancel_Click(object sender, EventArgs e)

@@ -32,60 +32,72 @@ namespace Salon.Repository
         {
             using (var con =  Database.GetConnection()) 
             {
-                var sql = @"SELECT si.stock_in_id, ps.product_size_id
+                var sql = @"SELECT si.stock_in_id, si.product_size_id
                         FROM tbl_stock_in si
-                        LEFT JOIN tbl_products p ON p.product_id = td.product_id
-                        LEFT JOIN tbl_product_size ps ON ps.product_id = p.product_id
-                        LEFT JOIN tbl_delivery d ON d.invoice = t.reference_no
+                        LEFT JOIN tbl_products p ON p.product_id = si.product_id
+                        LEFT JOIN tbl_product_size ps ON ps.product_id = si.product_id
+                        LEFT JOIN tbl_delivery d ON d.delivery_id = si.delivery_id
                         LEFT JOIN tbl_delivery_items d_i ON d_i.delivery_id = d.delivery_id
-                        WHERE p.product_id = @ProductId AND td.total_remaining > 0 ORDER BY d_i.expiry_date ASC
+                        WHERE p.product_id = @ProductId ORDER BY d_i.expiry_date ASC
                         LIMIT 1;";
 
                 return con.QueryFirstOrDefault<StockOutModel>(sql, new { ProductId = product_id });
             }
         }
+        public void RefundProduct(int stock_in_id, int product_size, int qty)
+        {
+            using (var con = Database.GetConnection())
+            {
+                var sql = @"UPDATE tbl_stock_in si
+                            LEFT JOIN tbl_products p ON p.product_id = si.product_id
+                            LEFT JOIN tbl_product_size ps ON ps.product_id = p.product_id
+                            LEFT JOIN tbl_delivery d ON d.delivery_id = si.delivery_id
+                            LEFT JOIN tbl_delivery_items d_i ON d_i.delivery_id = d.delivery_id
+                            SET si.total_remaining = GREATEST(si.total_remaining + (ps.content * @Qty),0),
+                                 si.qty_remaining = GREATEST(si.qty_remaining + @Qty, 0)
+                            WHERE si.stock_in_id =@Id AND si.product_size_id = @Size ORDER BY d_i.expiry_date ASC
+                            LIMIT 1;;
+";
 
-        public void UpdateTransaction(int transaction_id, int deduct) 
+                con.Execute(sql, new { Id = stock_in_id, Size = product_size, Qty = @qty });
+            }
+        }
+        public void UpdateTransaction(int stock_in_id, int deduct) 
         {
             using (var con = Database.GetConnection()) 
             {
-                var sql = @"UPDATE tbl_transaction_details td
+                var sql = @"UPDATE tbl_stock_in si
                             LEFT JOIN tbl_products p ON p.product_id = td.product_id
                             LEFT JOIN tbl_product_size ps ON ps.product_id = p.product_id
                             LEFT JOIN tbl_stock_transaction t ON t.transaction_id = td.transaction_id
                             LEFT JOIN tbl_delivery d ON d.invoice = t.reference_no
                             LEFT JOIN tbl_delivery_items d_i ON d_i.delivery_id = d.delivery_id
-                            SET td.total_remaining = GREATEST(td.total_remaining - @qty_deduct,0),
-                                td.qty_remaining = GREATEST((td.total_remaining - @qty_deduct) / ps.content,0)
-                            WHERE td.transaction_id = @Id  AND td.total_remaining > 0 ORDER BY d_i.expiry_date ASC
+                            SET si.total_remaining = GREATEST(si.total_remaining - @qty_deduct,0),
+                                si.qty_remaining = GREATEST((si.total_remaining - @qty_deduct) / ps.content,0)
+                            WHERE si.stock_in_id = @Id  AND si.total_remaining > 0 ORDER BY d_i.expiry_date ASC
                             LIMIT 1;
                             ";
-                con.Execute(sql, new { Id = transaction_id, qty_deduct = deduct });
+                con.Execute(sql, new { Id = stock_in_id, qty_deduct = deduct });
             }
         }
 
-        public void UpdateProducTransaction(int transaction_id, int product_size, int qty) 
+        public void UpdateProducTransaction(int stock_in_id, int product_size, int qty) 
         {
             using (var con  = Database.GetConnection()) 
             {
-                var sql = @"UPDATE tbl_transaction_details td
-JOIN tbl_products p 
-       ON p.product_id = td.product_id
-JOIN tbl_product_size ps 
-       ON ps.product_size_id = td.product_size_id
-JOIN tbl_stock_transaction t 
-       ON t.transaction_id = td.transaction_id
-JOIN tbl_delivery d 
-       ON d.invoice = t.reference_no
-SET td.total_remaining = GREATEST(td.total_remaining - (ps.content * @Qty), 0),
-    td.qty_remaining   = GREATEST(td.qty_remaining - @Qty, 0)
-WHERE td.transaction_id = @TransactionId
-  AND td.product_size_id = @Size
-  AND td.total_remaining >= 0
-LIMIT 1;
+                var sql = @"UPDATE tbl_stock_in si
+                            LEFT JOIN tbl_products p ON p.product_id = si.product_id
+                            LEFT JOIN tbl_product_size ps ON ps.product_id = p.product_id
+                            LEFT JOIN tbl_stock_transaction t ON t.transaction_id = td.transaction_id
+                            LEFT JOIN tbl_delivery d ON d.invoice = t.reference_no
+                            LEFT JOIN tbl_delivery_items d_i ON d_i.delivery_id = d.delivery_id
+                            SET si.total_remaining = GREATEST(si.total_remaining - @qty_deduct,0),
+                                si.qty_remaining = GREATEST((si.total_remaining - @qty_deduct) / ps.content,0)
+                            WHERE si.stock_in_id = @Id  AND si.total_remaining > 0 ORDER BY d_i.expiry_date ASC
+                            LIMIT 1;
 ";
 
-                con.Execute(sql, new { TransactionId = transaction_id, Size = product_size, Qty=@qty });
+                con.Execute(sql, new { Id = stock_in_id, Size = product_size, Qty=@qty });
             }
         }
         public void VoidProductTransaction(int transaction_id, int product_size, int qty)

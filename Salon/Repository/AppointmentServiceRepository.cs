@@ -23,7 +23,8 @@ namespace Salon.Repository
                     FROM tbl_appointment_services
                     WHERE stylist_id = @StylistId
                       AND @RequestedStart < end_time
-                      AND @RequestedEnd > start_time";
+                      AND @RequestedEnd > start_time
+                      AND status = 'On Going'";
 
                     int count = con.ExecuteScalar<int>(sql, new
                     {
@@ -62,6 +63,15 @@ namespace Salon.Repository
             }
                 
         }
+        public bool CheckIfServiceExists(int appointmentId, int serviceId) 
+        {
+            using (var con = Database.GetConnection()) 
+            {
+                var sql = @"SELECT COUNT(*) FROM tbl_appointment_services WHERE appointment_id = @AppointmentId AND serviceName_id = @ServiceId";
+                int count = con.ExecuteScalar<int>(sql, new { AppointmentId = appointmentId, ServiceId = serviceId });
+                return count > 0;
+            }
+        }
         public bool MarkAsCompleted(int appointmentServiceId) 
         {
             using (var con = Database.GetConnection()) 
@@ -76,6 +86,14 @@ namespace Salon.Repository
             {
                 var sql = "UPDATE tbl_appointment_services SET serviceName_id = @ServiceId WHERE appointment_id = @AppointmentId";
                 con.Execute(sql, model);
+            }
+        }
+        public bool ChangeStylist(int appointmentServiceId, int newStylistId) 
+        {
+            using (var con = Database.GetConnection()) 
+            {
+                var sql = @"UPDATE tbl_appointment_services SET stylist_id = @NewStylistId WHERE appointment_service_id = @AppointmentServiceId";
+                return con.Execute(sql, new { NewStylistId = newStylistId, AppointmentServiceId = appointmentServiceId }) > 0;
             }
         }
         public bool StartWalkInService(int id, DateTime start_time, DateTime end_time)

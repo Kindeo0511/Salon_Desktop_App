@@ -93,7 +93,7 @@ namespace Salon.Repository
             using (var con = Database.GetConnection())
             {
                 var sql = @"UPDATE tbl_users SET first_Name = @first_Name, middle_Name = @middle_Name, last_Name = @last_Name, 
-                            birth_date = @birth_date, phone_Number = @phone_Number, email = @email, address = @address, 
+                            birth_date = @birth_date, phone_Number = @phone_Number, email = @email, address = @address, userName = @userName, userPassword = @userPassword, Position = @Position
                              WHERE user_id = @user_id";
                 return con.Execute(sql, user);
             }

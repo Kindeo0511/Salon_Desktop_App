@@ -438,8 +438,7 @@ namespace Salon.View
             lbl_Vat.Text = vat_amount.ToString("N2");
             _vatAmount = vat_amount;
 
-            // Step 2: Loyalty points (use already redeemed value, don’t redeem again)
-            points_discount_amount = Convert.ToDecimal(lbl_point_amount.Text);
+
 
             // Step 3: Final payable
             final_price = base_price - discount_amount;
@@ -680,7 +679,7 @@ namespace Salon.View
                 TotalAmount = totalAmount,
                 VATAmount = _vatAmount,
                 DiscountAmount = _discountAmount,
-                payment_method_id = Convert.ToInt32(cmb_payment_method.SelectedValue),
+                PaymentMethod = cmb_payment_method.Text,
                 reference_number = txt_reference.Text.Trim(),
                 Notes = txt_reason.Text,
                 status = "Paid"

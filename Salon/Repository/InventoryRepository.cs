@@ -197,19 +197,25 @@ LEFT JOIN tbl_category AS c
         {
         using (var con = Database.GetConnection()) 
             {
-                var sql = @"UPDATE tbl_inventory i
-                        JOIN (
-                            SELECT p.product_id,
-                                   (ps.content * @Qty) AS total_content,
-                                   @Qty AS total_units
-                            FROM tbl_products p
-                            JOIN tbl_product_size ps ON ps.product_id = p.product_id
-                            WHERE p.product_id = @Id
-                              AND ps.product_size_id = @SizeId
-                        ) x ON x.product_id = i.product_id
-                        SET i.total_remaining = GREATEST(i.total_remaining + x.total_content, 0),
-                            i.qty = GREATEST(i.qty + x.total_units, 0);
-                        ";
+
+                var sql = @"
+UPDATE tbl_inventory i
+JOIN (
+    SELECT ps.product_id,
+           ps.product_size_id,
+           (ps.content * @Qty) AS total_content,
+           @Qty AS total_units
+    FROM tbl_product_size ps
+    WHERE ps.product_id = @Id
+      AND ps.product_size_id = @SizeId
+) x ON x.product_id = i.product_id
+   AND x.product_size_id = i.product_size_id
+SET i.total_remaining = GREATEST(i.total_remaining + x.total_content, 0),
+    i.qty = GREATEST(i.qty + x.total_units, 0)
+WHERE i.product_id = @Id
+  AND i.product_size_id = @SizeId;
+";
+
                 con.Execute(sql, new { Id = id, SizeId = size_id, Qty = qty });
             }
               

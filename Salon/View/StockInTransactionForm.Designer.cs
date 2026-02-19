@@ -32,10 +32,14 @@
             this.materialTabControl1 = new MaterialSkin.Controls.MaterialTabControl();
             this.tabPage1 = new System.Windows.Forms.TabPage();
             this.dgv_products = new System.Windows.Forms.DataGridView();
+            this.col_product_supplier_name = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.col_product_name = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.col_product_type = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.col_product_size = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.col_product_qty = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.materialCard1 = new MaterialSkin.Controls.MaterialCard();
             this.tabPage2 = new System.Windows.Forms.TabPage();
             this.dgv_stock_out = new System.Windows.Forms.DataGridView();
-            this.materialCard2 = new MaterialSkin.Controls.MaterialCard();
             this.col_stk_out_name = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.col_stk_out_product_type = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.col_stk_out_product_brand = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -49,11 +53,7 @@
             this.col_stk_out_unit_type = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.col_stk_out_out_type = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.col_stk_out_created_at = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.col_product_supplier_name = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.col_product_name = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.col_product_type = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.col_product_size = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.col_product_qty = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.materialCard2 = new MaterialSkin.Controls.MaterialCard();
             this.materialTabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgv_products)).BeginInit();
@@ -130,6 +130,42 @@
             this.dgv_products.Size = new System.Drawing.Size(1492, 525);
             this.dgv_products.TabIndex = 0;
             // 
+            // col_product_supplier_name
+            // 
+            this.col_product_supplier_name.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
+            this.col_product_supplier_name.HeaderText = "Supplier";
+            this.col_product_supplier_name.MinimumWidth = 6;
+            this.col_product_supplier_name.Name = "col_product_supplier_name";
+            // 
+            // col_product_name
+            // 
+            this.col_product_name.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
+            this.col_product_name.HeaderText = "Product Name";
+            this.col_product_name.MinimumWidth = 6;
+            this.col_product_name.Name = "col_product_name";
+            // 
+            // col_product_type
+            // 
+            this.col_product_type.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
+            this.col_product_type.HeaderText = "Product Type";
+            this.col_product_type.MinimumWidth = 6;
+            this.col_product_type.Name = "col_product_type";
+            // 
+            // col_product_size
+            // 
+            this.col_product_size.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
+            this.col_product_size.HeaderText = "Size";
+            this.col_product_size.MinimumWidth = 6;
+            this.col_product_size.Name = "col_product_size";
+            // 
+            // col_product_qty
+            // 
+            this.col_product_qty.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
+            this.col_product_qty.HeaderText = "Quantity";
+            this.col_product_qty.MinimumWidth = 6;
+            this.col_product_qty.Name = "col_product_qty";
+            this.col_product_qty.Width = 82;
+            // 
             // materialCard1
             // 
             this.materialCard1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
@@ -193,20 +229,6 @@
             this.dgv_stock_out.Size = new System.Drawing.Size(1492, 525);
             this.dgv_stock_out.TabIndex = 2;
             // 
-            // materialCard2
-            // 
-            this.materialCard2.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
-            this.materialCard2.Depth = 0;
-            this.materialCard2.Dock = System.Windows.Forms.DockStyle.Top;
-            this.materialCard2.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(222)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
-            this.materialCard2.Location = new System.Drawing.Point(50, 0);
-            this.materialCard2.Margin = new System.Windows.Forms.Padding(14);
-            this.materialCard2.MouseState = MaterialSkin.MouseState.HOVER;
-            this.materialCard2.Name = "materialCard2";
-            this.materialCard2.Padding = new System.Windows.Forms.Padding(14);
-            this.materialCard2.Size = new System.Drawing.Size(1492, 69);
-            this.materialCard2.TabIndex = 3;
-            // 
             // col_stk_out_name
             // 
             this.col_stk_out_name.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
@@ -220,7 +242,7 @@
             this.col_stk_out_product_type.HeaderText = "Product Type";
             this.col_stk_out_product_type.MinimumWidth = 6;
             this.col_stk_out_product_type.Name = "col_stk_out_product_type";
-            this.col_stk_out_product_type.Width = 115;
+            this.col_stk_out_product_type.Width = 106;
             // 
             // col_stk_out_product_brand
             // 
@@ -229,7 +251,7 @@
             this.col_stk_out_product_brand.MinimumWidth = 6;
             this.col_stk_out_product_brand.Name = "col_stk_out_product_brand";
             this.col_stk_out_product_brand.Visible = false;
-            this.col_stk_out_product_brand.Width = 70;
+            this.col_stk_out_product_brand.Width = 125;
             // 
             // col_stk_out_product_unit_type
             // 
@@ -237,7 +259,7 @@
             this.col_stk_out_product_unit_type.HeaderText = "Unit Type";
             this.col_stk_out_product_unit_type.MinimumWidth = 6;
             this.col_stk_out_product_unit_type.Name = "col_stk_out_product_unit_type";
-            this.col_stk_out_product_unit_type.Width = 92;
+            this.col_stk_out_product_unit_type.Width = 85;
             // 
             // col_stk_out_qty_delivered
             // 
@@ -245,7 +267,7 @@
             this.col_stk_out_qty_delivered.HeaderText = "Qty Delivered";
             this.col_stk_out_qty_delivered.MinimumWidth = 6;
             this.col_stk_out_qty_delivered.Name = "col_stk_out_qty_delivered";
-            this.col_stk_out_qty_delivered.Width = 116;
+            this.col_stk_out_qty_delivered.Width = 107;
             // 
             // col_stk_out_total_qty_delivered
             // 
@@ -254,7 +276,7 @@
             this.col_stk_out_total_qty_delivered.MinimumWidth = 6;
             this.col_stk_out_total_qty_delivered.Name = "col_stk_out_total_qty_delivered";
             this.col_stk_out_total_qty_delivered.Visible = false;
-            this.col_stk_out_total_qty_delivered.Width = 150;
+            this.col_stk_out_total_qty_delivered.Width = 125;
             // 
             // col_stk_out_qty_remaining
             // 
@@ -262,7 +284,7 @@
             this.col_stk_out_qty_remaining.HeaderText = "Qty Remaining";
             this.col_stk_out_qty_remaining.MinimumWidth = 6;
             this.col_stk_out_qty_remaining.Name = "col_stk_out_qty_remaining";
-            this.col_stk_out_qty_remaining.Width = 122;
+            this.col_stk_out_qty_remaining.Width = 112;
             // 
             // col_stk_out_total_remaining
             // 
@@ -311,46 +333,24 @@
             this.col_stk_out_created_at.Name = "col_stk_out_created_at";
             this.col_stk_out_created_at.Width = 90;
             // 
-            // col_product_supplier_name
+            // materialCard2
             // 
-            this.col_product_supplier_name.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
-            this.col_product_supplier_name.HeaderText = "Supplier";
-            this.col_product_supplier_name.MinimumWidth = 6;
-            this.col_product_supplier_name.Name = "col_product_supplier_name";
-            // 
-            // col_product_name
-            // 
-            this.col_product_name.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
-            this.col_product_name.HeaderText = "Product Name";
-            this.col_product_name.MinimumWidth = 6;
-            this.col_product_name.Name = "col_product_name";
-            // 
-            // col_product_type
-            // 
-            this.col_product_type.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
-            this.col_product_type.HeaderText = "Product Type";
-            this.col_product_type.MinimumWidth = 6;
-            this.col_product_type.Name = "col_product_type";
-            // 
-            // col_product_size
-            // 
-            this.col_product_size.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
-            this.col_product_size.HeaderText = "Size";
-            this.col_product_size.MinimumWidth = 6;
-            this.col_product_size.Name = "col_product_size";
-            // 
-            // col_product_qty
-            // 
-            this.col_product_qty.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
-            this.col_product_qty.HeaderText = "Quantity";
-            this.col_product_qty.MinimumWidth = 6;
-            this.col_product_qty.Name = "col_product_qty";
-            this.col_product_qty.Width = 82;
+            this.materialCard2.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
+            this.materialCard2.Depth = 0;
+            this.materialCard2.Dock = System.Windows.Forms.DockStyle.Top;
+            this.materialCard2.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(222)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
+            this.materialCard2.Location = new System.Drawing.Point(50, 0);
+            this.materialCard2.Margin = new System.Windows.Forms.Padding(14);
+            this.materialCard2.MouseState = MaterialSkin.MouseState.HOVER;
+            this.materialCard2.Name = "materialCard2";
+            this.materialCard2.Padding = new System.Windows.Forms.Padding(14);
+            this.materialCard2.Size = new System.Drawing.Size(1492, 69);
+            this.materialCard2.TabIndex = 3;
             // 
             // StockInTransactionForm
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
-            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.AutoScaleDimensions = new System.Drawing.SizeF(120F, 120F);
+            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Dpi;
             this.AutoSize = true;
             this.ClientSize = new System.Drawing.Size(1600, 800);
             this.Controls.Add(this.materialTabControl1);

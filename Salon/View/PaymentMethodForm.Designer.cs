@@ -36,9 +36,9 @@
             this.materialLabel3 = new MaterialSkin.Controls.MaterialLabel();
             this.chk_yes = new MaterialSkin.Controls.MaterialCheckbox();
             this.panel1 = new System.Windows.Forms.Panel();
-            this.btn_save = new MaterialSkin.Controls.MaterialButton();
-            this.btn_cancel = new MaterialSkin.Controls.MaterialButton();
             this.btn_update = new MaterialSkin.Controls.MaterialButton();
+            this.btn_cancel = new MaterialSkin.Controls.MaterialButton();
+            this.btn_save = new MaterialSkin.Controls.MaterialButton();
             this.panel1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -146,27 +146,28 @@
             this.panel1.Size = new System.Drawing.Size(894, 100);
             this.panel1.TabIndex = 7;
             // 
-            // btn_save
+            // btn_update
             // 
-            this.btn_save.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            this.btn_update.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left)));
-            this.btn_save.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
-            this.btn_save.Density = MaterialSkin.Controls.MaterialButton.MaterialButtonDensity.Default;
-            this.btn_save.Depth = 0;
-            this.btn_save.HighEmphasis = true;
-            this.btn_save.Icon = null;
-            this.btn_save.Location = new System.Drawing.Point(43, 27);
-            this.btn_save.Margin = new System.Windows.Forms.Padding(4, 6, 4, 6);
-            this.btn_save.MouseState = MaterialSkin.MouseState.HOVER;
-            this.btn_save.Name = "btn_save";
-            this.btn_save.NoAccentTextColor = System.Drawing.Color.Empty;
-            this.btn_save.Size = new System.Drawing.Size(64, 36);
-            this.btn_save.TabIndex = 0;
-            this.btn_save.Text = "Save";
-            this.btn_save.Type = MaterialSkin.Controls.MaterialButton.MaterialButtonType.Contained;
-            this.btn_save.UseAccentColor = false;
-            this.btn_save.UseVisualStyleBackColor = true;
-            this.btn_save.Click += new System.EventHandler(this.btn_save_Click);
+            this.btn_update.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
+            this.btn_update.Density = MaterialSkin.Controls.MaterialButton.MaterialButtonDensity.Default;
+            this.btn_update.Depth = 0;
+            this.btn_update.HighEmphasis = true;
+            this.btn_update.Icon = null;
+            this.btn_update.Location = new System.Drawing.Point(43, 0);
+            this.btn_update.Margin = new System.Windows.Forms.Padding(4, 6, 4, 6);
+            this.btn_update.MouseState = MaterialSkin.MouseState.HOVER;
+            this.btn_update.Name = "btn_update";
+            this.btn_update.NoAccentTextColor = System.Drawing.Color.Empty;
+            this.btn_update.Size = new System.Drawing.Size(129, 36);
+            this.btn_update.TabIndex = 2;
+            this.btn_update.Text = "save changes";
+            this.btn_update.Type = MaterialSkin.Controls.MaterialButton.MaterialButtonType.Contained;
+            this.btn_update.UseAccentColor = false;
+            this.btn_update.UseVisualStyleBackColor = true;
+            this.btn_update.Visible = false;
+            this.btn_update.Click += new System.EventHandler(this.btn_update_Click);
             // 
             // btn_cancel
             // 
@@ -189,28 +190,27 @@
             this.btn_cancel.UseAccentColor = false;
             this.btn_cancel.UseVisualStyleBackColor = true;
             // 
-            // btn_update
+            // btn_save
             // 
-            this.btn_update.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            this.btn_save.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left)));
-            this.btn_update.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
-            this.btn_update.Density = MaterialSkin.Controls.MaterialButton.MaterialButtonDensity.Default;
-            this.btn_update.Depth = 0;
-            this.btn_update.HighEmphasis = true;
-            this.btn_update.Icon = null;
-            this.btn_update.Location = new System.Drawing.Point(43, 27);
-            this.btn_update.Margin = new System.Windows.Forms.Padding(4, 6, 4, 6);
-            this.btn_update.MouseState = MaterialSkin.MouseState.HOVER;
-            this.btn_update.Name = "btn_update";
-            this.btn_update.NoAccentTextColor = System.Drawing.Color.Empty;
-            this.btn_update.Size = new System.Drawing.Size(129, 36);
-            this.btn_update.TabIndex = 2;
-            this.btn_update.Text = "save changes";
-            this.btn_update.Type = MaterialSkin.Controls.MaterialButton.MaterialButtonType.Contained;
-            this.btn_update.UseAccentColor = false;
-            this.btn_update.UseVisualStyleBackColor = true;
-            this.btn_update.Visible = false;
-            this.btn_update.Click += new System.EventHandler(this.btn_update_Click);
+            this.btn_save.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
+            this.btn_save.Density = MaterialSkin.Controls.MaterialButton.MaterialButtonDensity.Default;
+            this.btn_save.Depth = 0;
+            this.btn_save.HighEmphasis = true;
+            this.btn_save.Icon = null;
+            this.btn_save.Location = new System.Drawing.Point(43, 27);
+            this.btn_save.Margin = new System.Windows.Forms.Padding(4, 6, 4, 6);
+            this.btn_save.MouseState = MaterialSkin.MouseState.HOVER;
+            this.btn_save.Name = "btn_save";
+            this.btn_save.NoAccentTextColor = System.Drawing.Color.Empty;
+            this.btn_save.Size = new System.Drawing.Size(64, 36);
+            this.btn_save.TabIndex = 0;
+            this.btn_save.Text = "Save";
+            this.btn_save.Type = MaterialSkin.Controls.MaterialButton.MaterialButtonType.Contained;
+            this.btn_save.UseAccentColor = false;
+            this.btn_save.UseVisualStyleBackColor = true;
+            this.btn_save.Click += new System.EventHandler(this.btn_save_Click);
             // 
             // PaymentMethodForm
             // 

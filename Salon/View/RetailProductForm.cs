@@ -26,6 +26,10 @@ namespace Salon.View
         private bool _isProductSizeSaving = false;
         private bool _isProductSizeUpdating = false;
 
+        private bool allowTabChange = false;
+        private bool productInfoCreated = false;
+
+
         public event EventHandler RefreshData;
         public RetailProductForm()
         {
@@ -62,6 +66,10 @@ namespace Salon.View
 
                 btn_save.Visible = false;
                 btn_update.Visible = true;
+
+                btn_next.Visible = false;
+                btn_back.Visible = false;
+                allowTabChange = true;
             }
            
 
@@ -419,6 +427,45 @@ namespace Salon.View
 
         private void RetailProductForm_Load(object sender, EventArgs e)
         {
+
+        }
+
+        private void btn_next_Click(object sender, EventArgs e)
+        {
+            // Only run ProductRetailInfo once when leaving tab 0
+            if (productTabControl.SelectedIndex == 0 && !productInfoCreated)
+            {
+                ProductRetailInfo();
+                productInfoCreated = true; // mark as done
+            }
+
+            if (productTabControl.SelectedIndex < productTabControl.TabCount - 1)
+            {
+                allowTabChange = true;
+                productTabControl.SelectedIndex++;
+                allowTabChange = false;
+            }
+
+        }
+
+        private void btn_back_Click(object sender, EventArgs e)
+        {
+            if (productTabControl.SelectedIndex > 0)
+            {
+                allowTabChange = true;
+                productTabControl.SelectedIndex--;
+                allowTabChange = false;
+            }
+        }
+
+        private void productTabControl_Selecting(object sender, TabControlCancelEventArgs e)
+        {
+            // Cancel only if the user clicked the tab header
+            if (!allowTabChange)
+            {
+                e.Cancel = true;
+            }
+
 
         }
     }

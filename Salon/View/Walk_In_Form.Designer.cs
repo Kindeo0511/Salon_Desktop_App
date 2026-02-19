@@ -30,22 +30,14 @@
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Walk_In_Form));
             this.materialCard1 = new MaterialSkin.Controls.MaterialCard();
+            this.lbl_ID = new MaterialSkin.Controls.MaterialLabel();
+            this.btn_search = new MaterialSkin.Controls.MaterialButton();
+            this.btn_register_customer = new MaterialSkin.Controls.MaterialButton();
             this.materialLabel5 = new MaterialSkin.Controls.MaterialLabel();
             this.rad_exists = new MaterialSkin.Controls.MaterialRadioButton();
             this.rad_guest = new MaterialSkin.Controls.MaterialRadioButton();
             this.btn_add_service = new MaterialSkin.Controls.MaterialButton();
             this.dgv_service_selected = new System.Windows.Forms.DataGridView();
-            this.col_appointment_service_id = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.col_service_id = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.col_service_name = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.col_stylist_id = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.col_stylist = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.col_duration = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.col_price = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.col_start_time = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.col_end_time = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.col_status = new System.Windows.Forms.DataGridViewComboBoxColumn();
-            this.btn_remove = new System.Windows.Forms.DataGridViewImageColumn();
             this.btn_update = new MaterialSkin.Controls.MaterialButton();
             this.materialLabel3 = new MaterialSkin.Controls.MaterialLabel();
             this.materialLabel2 = new MaterialSkin.Controls.MaterialLabel();
@@ -59,9 +51,18 @@
             this.cmb_subcategory = new MaterialSkin.Controls.MaterialComboBox();
             this.cmb_services = new MaterialSkin.Controls.MaterialComboBox();
             this.lbl_prefix = new MaterialSkin.Controls.MaterialLabel();
-            this.btn_search = new MaterialSkin.Controls.MaterialButton();
-            this.btn_register_customer = new MaterialSkin.Controls.MaterialButton();
-            this.lbl_ID = new MaterialSkin.Controls.MaterialLabel();
+            this.col_appointment_service_id = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.col_service_id = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.col_service_name = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.col_stylist_id = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.col_stylist = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.col_duration = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.col_price = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.col_start_time = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.col_end_time = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.col_status = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.btn_mark_as_waiting = new System.Windows.Forms.DataGridViewButtonColumn();
+            this.btn_remove = new System.Windows.Forms.DataGridViewImageColumn();
             this.materialCard1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgv_service_selected)).BeginInit();
             this.SuspendLayout();
@@ -102,6 +103,64 @@
             this.materialCard1.Padding = new System.Windows.Forms.Padding(14);
             this.materialCard1.Size = new System.Drawing.Size(885, 720);
             this.materialCard1.TabIndex = 0;
+            // 
+            // lbl_ID
+            // 
+            this.lbl_ID.AutoSize = true;
+            this.lbl_ID.Depth = 0;
+            this.lbl_ID.Font = new System.Drawing.Font("Roboto", 14F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
+            this.lbl_ID.Location = new System.Drawing.Point(40, 30);
+            this.lbl_ID.MouseState = MaterialSkin.MouseState.HOVER;
+            this.lbl_ID.Name = "lbl_ID";
+            this.lbl_ID.Size = new System.Drawing.Size(1, 0);
+            this.lbl_ID.TabIndex = 57;
+            this.lbl_ID.Visible = false;
+            // 
+            // btn_search
+            // 
+            this.btn_search.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.btn_search.AutoSize = false;
+            this.btn_search.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
+            this.btn_search.Density = MaterialSkin.Controls.MaterialButton.MaterialButtonDensity.Default;
+            this.btn_search.Depth = 0;
+            this.btn_search.Enabled = false;
+            this.btn_search.HighEmphasis = true;
+            this.btn_search.Icon = ((System.Drawing.Image)(resources.GetObject("btn_search.Icon")));
+            this.btn_search.ImageAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.btn_search.Location = new System.Drawing.Point(270, 231);
+            this.btn_search.Margin = new System.Windows.Forms.Padding(4, 6, 4, 6);
+            this.btn_search.MouseState = MaterialSkin.MouseState.HOVER;
+            this.btn_search.Name = "btn_search";
+            this.btn_search.NoAccentTextColor = System.Drawing.Color.Empty;
+            this.btn_search.Size = new System.Drawing.Size(200, 40);
+            this.btn_search.TabIndex = 55;
+            this.btn_search.Text = " search member";
+            this.btn_search.Type = MaterialSkin.Controls.MaterialButton.MaterialButtonType.Contained;
+            this.btn_search.UseAccentColor = false;
+            this.btn_search.UseVisualStyleBackColor = true;
+            this.btn_search.Click += new System.EventHandler(this.btn_search_Click);
+            // 
+            // btn_register_customer
+            // 
+            this.btn_register_customer.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.btn_register_customer.AutoSize = false;
+            this.btn_register_customer.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
+            this.btn_register_customer.Density = MaterialSkin.Controls.MaterialButton.MaterialButtonDensity.Default;
+            this.btn_register_customer.Depth = 0;
+            this.btn_register_customer.HighEmphasis = true;
+            this.btn_register_customer.Icon = null;
+            this.btn_register_customer.Location = new System.Drawing.Point(570, 231);
+            this.btn_register_customer.Margin = new System.Windows.Forms.Padding(4, 6, 4, 6);
+            this.btn_register_customer.MouseState = MaterialSkin.MouseState.HOVER;
+            this.btn_register_customer.Name = "btn_register_customer";
+            this.btn_register_customer.NoAccentTextColor = System.Drawing.Color.Empty;
+            this.btn_register_customer.Size = new System.Drawing.Size(200, 40);
+            this.btn_register_customer.TabIndex = 56;
+            this.btn_register_customer.Text = "register Member";
+            this.btn_register_customer.Type = MaterialSkin.Controls.MaterialButton.MaterialButtonType.Contained;
+            this.btn_register_customer.UseAccentColor = false;
+            this.btn_register_customer.UseVisualStyleBackColor = true;
+            this.btn_register_customer.Click += new System.EventHandler(this.btn_register_customer_Click);
             // 
             // materialLabel5
             // 
@@ -172,6 +231,13 @@
             // 
             // dgv_service_selected
             // 
+            this.dgv_service_selected.AllowUserToAddRows = false;
+            this.dgv_service_selected.AllowUserToDeleteRows = false;
+            this.dgv_service_selected.AllowUserToResizeColumns = false;
+            this.dgv_service_selected.AllowUserToResizeRows = false;
+            this.dgv_service_selected.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            this.dgv_service_selected.CellBorderStyle = System.Windows.Forms.DataGridViewCellBorderStyle.None;
+            this.dgv_service_selected.ColumnHeadersBorderStyle = System.Windows.Forms.DataGridViewHeaderBorderStyle.None;
             this.dgv_service_selected.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dgv_service_selected.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.col_appointment_service_id,
@@ -184,114 +250,20 @@
             this.col_start_time,
             this.col_end_time,
             this.col_status,
+            this.btn_mark_as_waiting,
             this.btn_remove});
             this.dgv_service_selected.Location = new System.Drawing.Point(17, 844);
             this.dgv_service_selected.Name = "dgv_service_selected";
+            this.dgv_service_selected.RowHeadersBorderStyle = System.Windows.Forms.DataGridViewHeaderBorderStyle.None;
+            this.dgv_service_selected.RowHeadersVisible = false;
             this.dgv_service_selected.RowHeadersWidth = 51;
             this.dgv_service_selected.RowTemplate.Height = 24;
             this.dgv_service_selected.Size = new System.Drawing.Size(817, 278);
             this.dgv_service_selected.TabIndex = 37;
             this.dgv_service_selected.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgv_service_selected_CellClick);
-            // 
-            // col_appointment_service_id
-            // 
-            this.col_appointment_service_id.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
-            this.col_appointment_service_id.HeaderText = "aps_id";
-            this.col_appointment_service_id.MinimumWidth = 6;
-            this.col_appointment_service_id.Name = "col_appointment_service_id";
-            this.col_appointment_service_id.Visible = false;
-            this.col_appointment_service_id.Width = 125;
-            // 
-            // col_service_id
-            // 
-            this.col_service_id.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
-            this.col_service_id.HeaderText = "service_id";
-            this.col_service_id.MinimumWidth = 6;
-            this.col_service_id.Name = "col_service_id";
-            this.col_service_id.Visible = false;
-            this.col_service_id.Width = 125;
-            // 
-            // col_service_name
-            // 
-            this.col_service_name.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
-            this.col_service_name.HeaderText = "Name";
-            this.col_service_name.MinimumWidth = 6;
-            this.col_service_name.Name = "col_service_name";
-            // 
-            // col_stylist_id
-            // 
-            this.col_stylist_id.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
-            this.col_stylist_id.HeaderText = "stylist_id";
-            this.col_stylist_id.MinimumWidth = 6;
-            this.col_stylist_id.Name = "col_stylist_id";
-            this.col_stylist_id.Visible = false;
-            this.col_stylist_id.Width = 125;
-            // 
-            // col_stylist
-            // 
-            this.col_stylist.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
-            this.col_stylist.HeaderText = "Stylist";
-            this.col_stylist.MinimumWidth = 6;
-            this.col_stylist.Name = "col_stylist";
-            // 
-            // col_duration
-            // 
-            this.col_duration.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
-            this.col_duration.HeaderText = "Duration";
-            this.col_duration.MinimumWidth = 6;
-            this.col_duration.Name = "col_duration";
-            this.col_duration.Width = 86;
-            // 
-            // col_price
-            // 
-            this.col_price.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
-            this.col_price.HeaderText = "Price";
-            this.col_price.MinimumWidth = 6;
-            this.col_price.Name = "col_price";
-            this.col_price.Width = 67;
-            // 
-            // col_start_time
-            // 
-            this.col_start_time.HeaderText = "start_time";
-            this.col_start_time.MinimumWidth = 6;
-            this.col_start_time.Name = "col_start_time";
-            this.col_start_time.Visible = false;
-            this.col_start_time.Width = 125;
-            // 
-            // col_end_time
-            // 
-            this.col_end_time.HeaderText = "end_time";
-            this.col_end_time.MinimumWidth = 6;
-            this.col_end_time.Name = "col_end_time";
-            this.col_end_time.Visible = false;
-            this.col_end_time.Width = 125;
-            // 
-            // col_status
-            // 
-            this.col_status.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
-            this.col_status.DisplayStyle = System.Windows.Forms.DataGridViewComboBoxDisplayStyle.ComboBox;
-            this.col_status.HeaderText = "Status";
-            this.col_status.Items.AddRange(new object[] {
-            "Ready to Start",
-            "On Going",
-            "Waiting",
-            "Busy",
-            "Completed"});
-            this.col_status.MinimumWidth = 6;
-            this.col_status.Name = "col_status";
-            this.col_status.Resizable = System.Windows.Forms.DataGridViewTriState.True;
-            this.col_status.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Automatic;
-            this.col_status.Width = 73;
-            // 
-            // btn_remove
-            // 
-            this.btn_remove.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
-            this.btn_remove.HeaderText = "Delete";
-            this.btn_remove.Image = ((System.Drawing.Image)(resources.GetObject("btn_remove.Image")));
-            this.btn_remove.ImageLayout = System.Windows.Forms.DataGridViewImageCellLayout.Zoom;
-            this.btn_remove.MinimumWidth = 6;
-            this.btn_remove.Name = "btn_remove";
-            this.btn_remove.Width = 53;
+            this.dgv_service_selected.CellFormatting += new System.Windows.Forms.DataGridViewCellFormattingEventHandler(this.dgv_service_selected_CellFormatting);
+            this.dgv_service_selected.CellValueChanged += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgv_service_selected_CellValueChanged);
+            this.dgv_service_selected.CurrentCellDirtyStateChanged += new System.EventHandler(this.dgv_service_selected_CurrentCellDirtyStateChanged);
             // 
             // btn_update
             // 
@@ -300,7 +272,7 @@
             this.btn_update.Depth = 0;
             this.btn_update.HighEmphasis = true;
             this.btn_update.Icon = null;
-            this.btn_update.Location = new System.Drawing.Point(30, 1146);
+            this.btn_update.Location = new System.Drawing.Point(17, 1178);
             this.btn_update.Margin = new System.Windows.Forms.Padding(4, 6, 4, 6);
             this.btn_update.MouseState = MaterialSkin.MouseState.HOVER;
             this.btn_update.Name = "btn_update";
@@ -536,67 +508,111 @@
             this.lbl_prefix.Location = new System.Drawing.Point(301, 49);
             this.lbl_prefix.MouseState = MaterialSkin.MouseState.HOVER;
             this.lbl_prefix.Name = "lbl_prefix";
-            this.lbl_prefix.Size = new System.Drawing.Size(126, 29);
+            this.lbl_prefix.Size = new System.Drawing.Size(1, 0);
             this.lbl_prefix.TabIndex = 0;
-            this.lbl_prefix.Text = "prefix_code";
             // 
-            // btn_search
+            // col_appointment_service_id
             // 
-            this.btn_search.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.btn_search.AutoSize = false;
-            this.btn_search.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
-            this.btn_search.Density = MaterialSkin.Controls.MaterialButton.MaterialButtonDensity.Default;
-            this.btn_search.Depth = 0;
-            this.btn_search.HighEmphasis = true;
-            this.btn_search.Icon = ((System.Drawing.Image)(resources.GetObject("btn_search.Icon")));
-            this.btn_search.ImageAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.btn_search.Location = new System.Drawing.Point(270, 231);
-            this.btn_search.Margin = new System.Windows.Forms.Padding(4, 6, 4, 6);
-            this.btn_search.MouseState = MaterialSkin.MouseState.HOVER;
-            this.btn_search.Name = "btn_search";
-            this.btn_search.NoAccentTextColor = System.Drawing.Color.Empty;
-            this.btn_search.Size = new System.Drawing.Size(200, 40);
-            this.btn_search.TabIndex = 55;
-            this.btn_search.Text = " search member";
-            this.btn_search.Type = MaterialSkin.Controls.MaterialButton.MaterialButtonType.Contained;
-            this.btn_search.UseAccentColor = false;
-            this.btn_search.UseVisualStyleBackColor = true;
-            this.btn_search.Click += new System.EventHandler(this.btn_search_Click);
+            this.col_appointment_service_id.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
+            this.col_appointment_service_id.HeaderText = "aps_id";
+            this.col_appointment_service_id.MinimumWidth = 6;
+            this.col_appointment_service_id.Name = "col_appointment_service_id";
+            this.col_appointment_service_id.Visible = false;
+            this.col_appointment_service_id.Width = 77;
             // 
-            // btn_register_customer
+            // col_service_id
             // 
-            this.btn_register_customer.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.btn_register_customer.AutoSize = false;
-            this.btn_register_customer.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
-            this.btn_register_customer.Density = MaterialSkin.Controls.MaterialButton.MaterialButtonDensity.Default;
-            this.btn_register_customer.Depth = 0;
-            this.btn_register_customer.HighEmphasis = true;
-            this.btn_register_customer.Icon = null;
-            this.btn_register_customer.Location = new System.Drawing.Point(570, 231);
-            this.btn_register_customer.Margin = new System.Windows.Forms.Padding(4, 6, 4, 6);
-            this.btn_register_customer.MouseState = MaterialSkin.MouseState.HOVER;
-            this.btn_register_customer.Name = "btn_register_customer";
-            this.btn_register_customer.NoAccentTextColor = System.Drawing.Color.Empty;
-            this.btn_register_customer.Size = new System.Drawing.Size(200, 40);
-            this.btn_register_customer.TabIndex = 56;
-            this.btn_register_customer.Text = "register Member";
-            this.btn_register_customer.Type = MaterialSkin.Controls.MaterialButton.MaterialButtonType.Contained;
-            this.btn_register_customer.UseAccentColor = false;
-            this.btn_register_customer.UseVisualStyleBackColor = true;
-            this.btn_register_customer.Click += new System.EventHandler(this.btn_register_customer_Click);
+            this.col_service_id.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
+            this.col_service_id.HeaderText = "service_id";
+            this.col_service_id.MinimumWidth = 6;
+            this.col_service_id.Name = "col_service_id";
+            this.col_service_id.Visible = false;
+            this.col_service_id.Width = 98;
             // 
-            // lbl_ID
+            // col_service_name
             // 
-            this.lbl_ID.AutoSize = true;
-            this.lbl_ID.Depth = 0;
-            this.lbl_ID.Font = new System.Drawing.Font("Roboto", 14F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
-            this.lbl_ID.Location = new System.Drawing.Point(40, 30);
-            this.lbl_ID.MouseState = MaterialSkin.MouseState.HOVER;
-            this.lbl_ID.Name = "lbl_ID";
-            this.lbl_ID.Size = new System.Drawing.Size(16, 19);
-            this.lbl_ID.TabIndex = 57;
-            this.lbl_ID.Text = "ID";
-            this.lbl_ID.Visible = false;
+            this.col_service_name.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
+            this.col_service_name.HeaderText = "Name";
+            this.col_service_name.MinimumWidth = 6;
+            this.col_service_name.Name = "col_service_name";
+            // 
+            // col_stylist_id
+            // 
+            this.col_stylist_id.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
+            this.col_stylist_id.HeaderText = "stylist_id";
+            this.col_stylist_id.MinimumWidth = 6;
+            this.col_stylist_id.Name = "col_stylist_id";
+            this.col_stylist_id.Visible = false;
+            this.col_stylist_id.Width = 87;
+            // 
+            // col_stylist
+            // 
+            this.col_stylist.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
+            this.col_stylist.HeaderText = "Stylist";
+            this.col_stylist.MinimumWidth = 6;
+            this.col_stylist.Name = "col_stylist";
+            // 
+            // col_duration
+            // 
+            this.col_duration.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
+            this.col_duration.HeaderText = "Duration";
+            this.col_duration.MinimumWidth = 6;
+            this.col_duration.Name = "col_duration";
+            this.col_duration.Width = 86;
+            // 
+            // col_price
+            // 
+            this.col_price.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
+            this.col_price.HeaderText = "Price";
+            this.col_price.MinimumWidth = 6;
+            this.col_price.Name = "col_price";
+            this.col_price.Width = 67;
+            // 
+            // col_start_time
+            // 
+            this.col_start_time.HeaderText = "start_time";
+            this.col_start_time.MinimumWidth = 6;
+            this.col_start_time.Name = "col_start_time";
+            this.col_start_time.Visible = false;
+            this.col_start_time.Width = 125;
+            // 
+            // col_end_time
+            // 
+            this.col_end_time.HeaderText = "end_time";
+            this.col_end_time.MinimumWidth = 6;
+            this.col_end_time.Name = "col_end_time";
+            this.col_end_time.Visible = false;
+            this.col_end_time.Width = 125;
+            // 
+            // col_status
+            // 
+            this.col_status.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
+            this.col_status.HeaderText = "Status";
+            this.col_status.MinimumWidth = 6;
+            this.col_status.Name = "col_status";
+            this.col_status.Resizable = System.Windows.Forms.DataGridViewTriState.True;
+            this.col_status.Width = 73;
+            // 
+            // btn_mark_as_waiting
+            // 
+            this.btn_mark_as_waiting.HeaderText = "Mark Waiting";
+            this.btn_mark_as_waiting.MinimumWidth = 6;
+            this.btn_mark_as_waiting.Name = "btn_mark_as_waiting";
+            this.btn_mark_as_waiting.Resizable = System.Windows.Forms.DataGridViewTriState.True;
+            this.btn_mark_as_waiting.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Automatic;
+            this.btn_mark_as_waiting.Text = "Waiting";
+            this.btn_mark_as_waiting.UseColumnTextForButtonValue = true;
+            this.btn_mark_as_waiting.Width = 125;
+            // 
+            // btn_remove
+            // 
+            this.btn_remove.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
+            this.btn_remove.HeaderText = "Delete";
+            this.btn_remove.Image = ((System.Drawing.Image)(resources.GetObject("btn_remove.Image")));
+            this.btn_remove.ImageLayout = System.Windows.Forms.DataGridViewImageCellLayout.Zoom;
+            this.btn_remove.MinimumWidth = 6;
+            this.btn_remove.Name = "btn_remove";
+            this.btn_remove.Width = 53;
             // 
             // Walk_In_Form
             // 
@@ -613,6 +629,7 @@
             this.Sizable = false;
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "                                            Walk-In Appointment Form ";
+            this.Load += new System.EventHandler(this.Walk_In_Form_Load);
             this.materialCard1.ResumeLayout(false);
             this.materialCard1.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgv_service_selected)).EndInit();
@@ -641,6 +658,9 @@
         private MaterialSkin.Controls.MaterialLabel materialLabel5;
         private MaterialSkin.Controls.MaterialRadioButton rad_exists;
         private MaterialSkin.Controls.MaterialRadioButton rad_guest;
+        private MaterialSkin.Controls.MaterialButton btn_search;
+        private MaterialSkin.Controls.MaterialButton btn_register_customer;
+        private MaterialSkin.Controls.MaterialLabel lbl_ID;
         private System.Windows.Forms.DataGridViewTextBoxColumn col_appointment_service_id;
         private System.Windows.Forms.DataGridViewTextBoxColumn col_service_id;
         private System.Windows.Forms.DataGridViewTextBoxColumn col_service_name;
@@ -650,10 +670,8 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn col_price;
         private System.Windows.Forms.DataGridViewTextBoxColumn col_start_time;
         private System.Windows.Forms.DataGridViewTextBoxColumn col_end_time;
-        private System.Windows.Forms.DataGridViewComboBoxColumn col_status;
+        private System.Windows.Forms.DataGridViewTextBoxColumn col_status;
+        private System.Windows.Forms.DataGridViewButtonColumn btn_mark_as_waiting;
         private System.Windows.Forms.DataGridViewImageColumn btn_remove;
-        private MaterialSkin.Controls.MaterialButton btn_search;
-        private MaterialSkin.Controls.MaterialButton btn_register_customer;
-        private MaterialSkin.Controls.MaterialLabel lbl_ID;
     }
 }

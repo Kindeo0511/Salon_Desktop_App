@@ -37,6 +37,15 @@ namespace Salon.Repository
 
             }
         }
+        public int GetServiceCartId(int id)
+        {
+            using (var con = Database.GetConnection())
+            {
+                var sql = "SELECT service_cart_id FROM tbl_invoice_service_cart WHERE invoice_id = @id";
+                return con.QueryFirstOrDefault<int>(sql, new { id });
+
+            }
+        }
         public int CreateInvoice(InvoiceModel model)
         {
 
@@ -90,7 +99,7 @@ namespace Salon.Repository
                                 vat_amount = @VatAmount,
                                 discount_amount = @DiscountAmount,
                                 notes = @Notes, 
-                                payment_method_id = @payment_method_id,
+                                payment_type = @PaymentMethod,
                                 reference_number = @reference_number,    
                                 status = @status,
                                 created_at = CURRENT_TIMESTAMP()
@@ -114,6 +123,8 @@ namespace Salon.Repository
                             i.vat_amount AS VatAmount,
                             i.discount_amount AS DiscountAmount,
                             i.total_amount AS Total_Price,
+                            i.payment_type AS PaymentMethod,
+                            i.reference_number,
                             i.created_at AS Timestamp
 
                     FROM tbl_invoice  AS i
@@ -122,8 +133,7 @@ namespace Salon.Repository
                     LEFT JOIN tbl_products AS p ON isc.product_id = p.product_id
                     LEFT JOIN tbl_servicesname AS sn ON isc.service_id = sn.serviceName_id
                     LEFT JOIN tbl_payment_method AS pm ON pm.id = i.payment_method_id    
-                    WHERE i.status = 'paid'
-                    GROUP BY isc.invoice_id
+                    WHERE i.status IS NOT NULL
                     LIMIT @page_size OFFSET @off_set;";
 
                 return con.Query<InvoiceModel>(sql, new { page_size, off_set}).ToList();
@@ -144,6 +154,8 @@ namespace Salon.Repository
                             i.vat_amount AS VatAmount,
                             i.discount_amount AS DiscountAmount,
                              i.total_amount AS Total_Price,
+                            i.payment_type AS PaymentMethod,
+                            i.reference_number,
                             i.created_at AS Timestamp
                     FROM tbl_invoice  AS i
                     LEFT JOIN tbl_appointment AS a ON a.appointment_id = i.appointment_id
@@ -151,8 +163,7 @@ namespace Salon.Repository
                     LEFT JOIN tbl_products AS p ON isc.product_id = p.product_id
                     LEFT JOIN tbl_servicesname AS sn ON isc.service_id = sn.serviceName_id
                     LEFT JOIN tbl_payment_method AS pm ON pm.id = i.payment_method_id  
-                    WHERE i.created_at BETWEEN @start_date AND @end_date AND i.status = 'paid'
-                    GROUP BY isc.invoice_id
+                    WHERE i.created_at BETWEEN @start_date AND @end_date AND i.status IS NOT NULL
                     LIMIT @page_size OFFSET @off_set";
 
                 return con.Query<InvoiceModel>(sql, new { start_date, end_date, page_size, off_set}).ToList();
@@ -183,7 +194,7 @@ namespace Salon.Repository
         {
             using (var con = Database.GetConnection()) 
             {
-                var sql = "SELECT * FROM sales_report_summary_view";
+                var sql = "SELECT * FROM salesreport_summary";
 
                 return con.QueryFirstOrDefault<InvoiceModel>(sql);
             }

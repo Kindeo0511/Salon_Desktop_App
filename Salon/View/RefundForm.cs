@@ -36,7 +36,7 @@ namespace Salon.View
             lbl_staff.Text = $"{UserSession.CurrentUser.first_Name}, {UserSession.CurrentUser.last_Name}";
             lbl_date.Text = this.invoiceModel.Timestamp.ToString();
             int invoice_id = GetInvoiceNumber(invoiceModel.InvoiceNumber);
-
+            int service_cart_id = GetInvoiceServiceCartId(invoice_id);
             LoadCart(invoice_id);
         }
         public void LoadCart(int invoice_id)
@@ -56,7 +56,13 @@ namespace Salon.View
             col_price.DataPropertyName = "Price";
             col_qty.DataPropertyName = "Quantity";
             col_refund_qty.DataPropertyName = "RefundQty";
+            col_item_discount.DataPropertyName = "ItemDiscount";
+            col_over_all_discount.DataPropertyName = "OverAllDiscount";
             col_total.DataPropertyName = "TotalPrice";
+            col_vat_amount.DataPropertyName = "VatAmount";
+            col_total_amount.DataPropertyName = "InvoiceTotal";
+            col_payment_method.DataPropertyName = "PaymentMethod";
+            col_ref_number.DataPropertyName = "ReferenceNumber";
             col_status.DataPropertyName = "Status";
 
             dgv_products.DataSource = services;
@@ -66,9 +72,18 @@ namespace Salon.View
         {
             var repo = new InvoiceRepository();
             var controller = new InvoiceController(repo);
-            int invoice_id = controller.GetInvoiceNumber(id);
+            int service_cart_id = controller.GetInvoiceNumber(id);
 
-            return invoice_id;
+            return service_cart_id;
+
+        }
+        public int GetInvoiceServiceCartId(int id)
+        {
+            var repo = new InvoiceRepository();
+            var controller = new InvoiceController(repo);
+            int service_cart_id = controller.GetInvoiceServiceCartId(id);
+
+            return service_cart_id;
 
         }
 

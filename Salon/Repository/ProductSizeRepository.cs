@@ -27,6 +27,23 @@ namespace Salon.Repository
                 return con.Query<ProductSizeModel>(sql, new { product_id = product_id });
             }
         }
+
+
+        public ProductSizeModel GetSingleProductSizeById(int product_id)
+        {
+            using (var con = Database.GetConnection())
+            {
+                var sql = @"SELECT ps.product_size_id, ps.product_id, p.product_name, 
+                           ps.size_label, ps.content, ps.selling_price, 
+                           ps.cost_price, ps.is_deleted
+                    FROM tbl_product_size ps
+                    JOIN tbl_products p ON p.product_id = ps.product_id
+                    WHERE ps.product_id = @product_id 
+                      AND ps.is_deleted = 0;";
+
+                return con.QueryFirstOrDefault<ProductSizeModel>(sql, new { product_id });
+            }
+        }
         public IEnumerable<ProductSizeModel> GetProductSize(int product_id) 
         {
             using (var con = Database.GetConnection())

@@ -24,6 +24,11 @@ namespace Salon.Controller
             return repo.GetOpenHour();
         }
 
+        public string CreateOrUpdateBusinessHours(BusinessHour model) 
+        {
+            return repo.CreateOrUpdate(model);
+        }
+
 
 
     }

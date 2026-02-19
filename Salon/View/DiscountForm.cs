@@ -50,18 +50,19 @@ namespace Salon.View
 
             string discount_status = discountModel.discount_status;
 
-            if (discount_status == "Draft")
-            {
-                rad_draft.Checked = true;
-                rad_published.Checked = false;
-            }
-            else if (discount_status == "Published")
-            {
-                LockPublishedFields();
-                rad_published.Checked = true;
-                rad_draft.Checked = false;
-            }
-
+            //if (discount_status == "Draft")
+            //{
+            //    rad_draft.Checked = true;
+            //    rad_published.Checked = false;
+            //}
+            //else if (discount_status == "Published")
+            //{
+            //    LockPublishedFields();
+            //    rad_published.Checked = true;
+            //    rad_draft.Checked = false;
+            //}
+            dtp_start.Checked = discountModel.start_date.HasValue;
+            dtp_end.Checked = discountModel.end_date.HasValue;
             dtp_start.Value = discountModel.start_date ?? DateTime.Now;
             dtp_end.Value = discountModel.end_date ?? DateTime.Now;
 
@@ -98,8 +99,7 @@ namespace Salon.View
             btn_update_draft.Enabled = false;
             btn_save_draft.Enabled = false;
             btn_published.Enabled = false;
-            rad_draft.Enabled = false;
-            rad_published.Enabled = false; 
+        
         
         }
         private  void btn_update_discount_Click(object sender, EventArgs e)
@@ -110,7 +110,7 @@ namespace Salon.View
           
             this.Close();
         }
-        private void UpdateDiscount(string discount_status)
+        private void UpdateDiscount()
         {
             int id = discountModel.discount_id;
             string discount_type = cmb_discount_type.Text;
@@ -130,7 +130,6 @@ namespace Salon.View
                 promo_code = promo_name,
                 discount_rate = discount_value,
                 mode = mode,
-                discount_status = discount_status,
                 vat_exempt = vat_exempt,
                 is_defined = isSystemDefined,
                 start_date = start_date,
@@ -158,7 +157,7 @@ namespace Salon.View
                 main.LoadDiscount();
             }
         }
-        private void AddDiscount(string discount_status)
+        private void AddDiscount()
         {
             string discount_type = cmb_discount_type.Text;
             string promo_name = txt_promo_name.Text.Trim();
@@ -179,12 +178,11 @@ namespace Salon.View
                 promo_code = promo_name,
                 discount_rate = discount_value,
                 mode = mode,
-                discount_status = discount_status,  
-               vat_exempt = vat_exempt,
-               is_defined = isSystemDefined,
-               start_date = start_date,
-               end_date = end_date,
-               status = is_active
+                vat_exempt = vat_exempt,
+                is_defined = isSystemDefined,
+                start_date = start_date,
+                end_date = end_date,
+                status = is_active
                
             };
             int id = discount_controller.AddDiscount(discount);
@@ -223,8 +221,7 @@ namespace Salon.View
             rad_fixed.Checked = false;
             rad_percent.Checked = false;
             chk_is_active.Checked = false;
-            rad_draft.Checked = false;
-            rad_published.Checked = false;
+
             txt_promo_name.Text = "";
     
            
@@ -513,9 +510,28 @@ namespace Salon.View
             UpdateEmailPreview();
         }
 
-        private void btn_save_draft_Click(object sender, EventArgs e)
+        private async void btn_save_draft_Click(object sender, EventArgs e)
         {
-            AddDiscount("Draft");
+            AddDiscount();
+
+            if (chk_send_email.Checked) 
+            {
+                using (var form = new LoadingScreenEmail())
+                {
+                    form.Show();
+                    form.Refresh();
+
+                    try
+                    {
+                        QueueEmailNotifications();
+                        await ProcessEmailQueue();
+                    }
+                    finally
+                    {
+                        form.Close();
+                    }
+                }
+            }
             clear_discount_fields();
 
             this.Close();
@@ -527,7 +543,7 @@ namespace Salon.View
 
             if (is_saving) 
             {
-                AddDiscount("Published");
+                AddDiscount();
               
             }
             else if(is_updating)
@@ -535,7 +551,7 @@ namespace Salon.View
                 string currentStatus = discountModel.discount_status;
           
             
-                 UpdateDiscount("Published");
+                 UpdateDiscount();
                    
                 
                 
@@ -565,9 +581,27 @@ namespace Salon.View
 
         }
 
-        private void btn_update_draft_Click(object sender, EventArgs e)
+        private async void btn_update_draft_Click(object sender, EventArgs e)
         {
-            UpdateDiscount("Draft");
+            UpdateDiscount();
+            if (chk_send_email.Checked) 
+            {
+                using (var form = new LoadingScreenEmail())
+                {
+                    form.Show();
+                    form.Refresh();
+
+                    try
+                    {
+                        QueueEmailNotifications();
+                        await ProcessEmailQueue();
+                    }
+                    finally
+                    {
+                        form.Close();
+                    }
+                }
+            }
 
             this.Close();
         }

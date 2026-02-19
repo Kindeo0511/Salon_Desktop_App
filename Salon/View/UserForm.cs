@@ -1,4 +1,5 @@
 ﻿using MaterialSkin.Controls;
+using Microsoft.Reporting.Map.WebForms.BingMaps;
 using Salon.Controller;
 using Salon.Models;
 using Salon.Repository;
@@ -21,7 +22,7 @@ namespace Salon.View
     {
         private MainForm _mainForm;
         private UsersModel _user;
-        private int user_id = 0;
+        private int user_id;
         private bool _isViewed = false;
         private bool _isSaving = false;
         private bool _isUpdating = false;
@@ -58,7 +59,7 @@ namespace Salon.View
         {
             InitializeComponent();
             ThemeManager.ApplyTheme(this);
-            _isUpdating = true;
+      
             this._mainForm = mainForm;
             this._user = user;
             int currentYear = DateTime.Now.Year; 
@@ -69,11 +70,11 @@ namespace Salon.View
             dtp_day_of_birth.MinDate = new DateTime(minYear, 1, 1);      // e.g., Jan 1, 1960 if it's 2025
             dtp_day_of_birth.MaxDate = new DateTime(maxYear, 12, 31);    // e.g., Dec 31, 2007 if it's 2025
 
-
+            _isUpdating = true;
 
             if (_user != null)
             {
-             
+         
                 user_id = _user.user_id;
                 txt_first_name.Text = _user.first_Name;
                 txt_middle_name.Text = _user.middle_Name;
@@ -90,16 +91,15 @@ namespace Salon.View
                 btn_save.Visible = false;
                 btn_update.Visible = true;
 
-                btn_update_account.Enabled = true;
-                btn_account_cancel.Enabled = true;
+
+
             }
             else
             {
                 btn_save.Visible = true;
                 btn_update.Visible = false;
 
-                btn_update_account.Enabled = false;
-                btn_account_cancel.Enabled = false;
+           
             }
 
             
@@ -115,7 +115,7 @@ namespace Salon.View
             this._mainForm = mainForm;
             this._user = user;
             this._isViewed = isViewed;
-
+   
 
             if (_isViewed)
             {
@@ -134,6 +134,7 @@ namespace Salon.View
                 chk_show_password.ReadOnly = true;
                 cmb_role.Enabled = false;
 
+                user_id = _user.user_id;
                 txt_first_name.Text = _user.first_Name;
                 txt_middle_name.Text = _user.middle_Name;
                 txt_last_name.Text = _user.last_Name;
@@ -163,7 +164,8 @@ namespace Salon.View
 
         private int SaveUser()
         {
-            var user = new UsersModel
+      
+        var user = new UsersModel
             {
                 first_Name = txt_first_name.Text.Trim(),
                 middle_Name = txt_middle_name.Text.Trim(),
@@ -172,8 +174,12 @@ namespace Salon.View
                 phone_Number = txt_contact.Text.Trim(),
                 email = txt_email.Text.Trim(),
                 address = txt_address.Text.Trim(),
+                userName = txt_username.Text.Trim(),
+                userPassword = HashPassword(txt_password.Text.Trim()),
+                Position = cmb_role.Text.Trim()
 
-            };
+
+        };
             var _repo = new UserRepository();
             var userController = new UserController(_repo);
 
@@ -190,18 +196,27 @@ namespace Salon.View
 
             if(_user == null) return false;
 
-                _user.first_Name = txt_first_name.Text.Trim();
-                _user.middle_Name = txt_middle_name.Text.Trim();
-                _user.last_Name = txt_last_name.Text.Trim();
-                _user.birth_date = dtp_day_of_birth.Value;
-                _user.phone_Number = txt_contact.Text.Trim();
-                _user.email = txt_email.Text.Trim();
-                _user.address = txt_address.Text.Trim();
-        
-               
+            var user = new UsersModel
+            {
+                user_id = user_id,
+                first_Name = txt_first_name.Text.Trim(),
+                middle_Name = txt_middle_name.Text.Trim(),
+                last_Name = txt_last_name.Text.Trim(),
+                birth_date = dtp_day_of_birth.Value,
+                phone_Number = txt_contact.Text.Trim(),
+                email = txt_email.Text.Trim(),
+                address = txt_address.Text.Trim(),
+                userName = txt_username.Text.Trim(),
+                userPassword = HashPassword(txt_password.Text.Trim()),
+                Position = cmb_role.Text.Trim()
+
+
+            };
+
+
             try 
             { 
-                return userController.UpdateUser(_user);
+                return userController.UpdateUser(user);
             } 
             catch (Exception ex) 
             { 
@@ -453,6 +468,32 @@ namespace Salon.View
             else if (!Validator.IsUserExists(txt_username, errorProvider1, "Username already exists.", excludeId))
             {
                 validated = false;
+            }
+
+        
+
+            // Check if password is empty
+            if (string.IsNullOrWhiteSpace(txt_password.Text))
+            {
+                validated = false;
+
+                errorProvider1.SetError(txt_password, "Password cannot be empty.");
+
+            }
+
+            // Check if confirm password is empty
+            else if (string.IsNullOrWhiteSpace(txt_confirm_password.Text))
+            {
+                validated = false;
+                errorProvider1.SetError(txt_confirm_password, "Confirm Password cannot be empty.");
+            }
+
+            // Check if passwords match
+            else if (txt_password.Text != txt_confirm_password.Text)
+            {
+                validated = false;
+                errorProvider1.SetError(txt_confirm_password, "Passwords do not match.");
+
             }
 
 
@@ -749,9 +790,8 @@ namespace Salon.View
             var userController = new UserController(_repo);
             var existingUser = userController.UserAccountExistsByEmail(txt_email.Text.Trim());
 
-            if (existingUser != null) 
-            {
-                if (existingUser.is_deactivate == 1)
+           
+                if (existingUser != null && existingUser.is_deactivate == 1)
                 {
                     var result = MessageBox.Show("This account exists but is deactivated. Do you want to restore it?",
                                    "Restore Account",
@@ -773,10 +813,11 @@ namespace Salon.View
 
                     }
                 }
-            }
-          
-            else 
+            
+
+            else
             {
+
                 if (_isSaving)
                 {
                     int result = SaveUser();
@@ -794,10 +835,11 @@ namespace Salon.View
                 }
                 else if (_isUpdating) 
                 {
-                    if (UpdateUser()) 
+                
+                    if (UpdateUser())
                     {
                         MessageBox.Show("User updated successfully!", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                      
+
                     }
                     else
                     {
@@ -806,10 +848,10 @@ namespace Salon.View
 
 
 
-                }
-               
             }
-          
+
+            }
+
         }
         private async void btn_save_Click(object sender, EventArgs e)
         {
@@ -829,23 +871,14 @@ namespace Salon.View
             btn_save.Enabled = true;
             _isSaving = false;
 
-            if (user_id != 0)
-            {
-                btn_update_account.Enabled = true;
-                btn_account_cancel.Enabled = true;
-            }
-            else 
-            {
-                btn_update_account.Enabled = false;
-                btn_account_cancel.Enabled = false;
-            }
+           
         }
 
         private async void btn_update_Click(object sender, EventArgs e)
         {
             btn_update.Enabled = false;
 
-            // Run validation on UI thread
+
             if (!IsValid())
             {
 
@@ -857,13 +890,13 @@ namespace Salon.View
 
 
             // Offload only the save logic
-          
+
             string fullName = txt_first_name.Text + " " + txt_last_name.Text;
             Audit.AuditLog(DateTime.Now, "Update", UserSession.CurrentUser.first_Name, "Manage User", $"Updated user {fullName} on {DateTime.Now:yyyy-MM-dd} at {DateTime.Now:HH:mm:ss}");
             Clear();
-            MessageBox.Show("User updated successfully!", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
+
             await _mainForm.RefreshUsersAsync(1, 25);
-            //await _mainForm.RefreshAuditLog();
+            await _mainForm.RefreshAuditLog();
 
             this.Close();
 
@@ -871,33 +904,9 @@ namespace Salon.View
 
             btn_update.Enabled = true;
         }
-        private void UpdateUserAccount() 
-        {
-            var _repo = new UserRepository();
-            var userController = new UserController(_repo);
-
-            var user_model = new UsersModel
-            {
-                user_id = user_id,
-                userName = txt_username.Text.Trim(),
-                userPassword = HashPassword(txt_password.Text.Trim()),
-                Position = cmb_role.Text.Trim()
-            };
-            userController.UpdateUserAccount(user_model);
-
-            MessageBox.Show("User account updated successfully!", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
-        }
-
-        private async void btn_update_account_Click(object sender, EventArgs e)
-        {
-            if (!IsValidAccount()) return;
-
-            UpdateUserAccount();
+      
 
      
-            await _mainForm.RefreshUsersAsync(1,25);
-            //await _mainForm.RefreshAuditLog();
-        }
 
         private void btn_save_KeyDown(object sender, KeyEventArgs e)
         {
@@ -926,7 +935,7 @@ namespace Salon.View
         {
             if (e.KeyCode == Keys.Enter) 
             {
-                btn_update_account.PerformClick();
+                //btn_update_account.PerformClick();
                 e.SuppressKeyPress = true;
             }
         }

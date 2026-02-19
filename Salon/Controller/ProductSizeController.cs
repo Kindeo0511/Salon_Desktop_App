@@ -27,6 +27,10 @@ namespace Salon.Controller
         {
             return repo.GetProductSize(product_id);
         }
+        public ProductSizeModel GetSingleProductSizeById(int product_id) 
+        {
+            return repo.GetSingleProductSizeById(product_id);
+        }
         public bool AddProductSize(ProductSizeModel model) 
         {
            return repo.Add(model) > 0;

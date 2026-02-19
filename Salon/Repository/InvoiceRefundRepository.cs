@@ -17,8 +17,8 @@ namespace Salon.Repository
             using (var con = Database.GetConnection()) 
             {
                 var sql = @"INSERT INTO tbl_invoice_refund
-                            (service_cart_id, refund_qty, reason, refunded_by, refunded_at)
-                            VALUES (@service_cart_id, @refund_qty, @reason, @refunded_by, @refunded_at)";
+                            (service_cart_id, refund_qty,refund_amount, refund_vat, status, reason, refunded_by, refunded_at)
+                            VALUES (@service_cart_id, @refund_qty, @refund_amount, @refund_vat, @status, @reason, @refunded_by, @refunded_at)";
 
                 con.Execute(sql, model);
             }

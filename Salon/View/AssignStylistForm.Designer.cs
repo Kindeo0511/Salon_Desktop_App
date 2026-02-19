@@ -69,6 +69,7 @@
             this.cmb_stylist.Size = new System.Drawing.Size(645, 49);
             this.cmb_stylist.StartIndex = 0;
             this.cmb_stylist.TabIndex = 31;
+            this.cmb_stylist.SelectedIndexChanged += new System.EventHandler(this.cmb_stylist_SelectedIndexChanged);
             // 
             // btn_confirm
             // 
@@ -88,6 +89,7 @@
             this.btn_confirm.Type = MaterialSkin.Controls.MaterialButton.MaterialButtonType.Contained;
             this.btn_confirm.UseAccentColor = false;
             this.btn_confirm.UseVisualStyleBackColor = true;
+            this.btn_confirm.Click += new System.EventHandler(this.btn_confirm_Click);
             // 
             // btn_cancel
             // 

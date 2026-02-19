@@ -488,6 +488,46 @@ GROUP BY a.appointment_id;";
                 return con.Query<AppointmentModel>(sql).ToList();
             }
         }
+        public bool GetStylistStatus(int stylistId) 
+        {
+            using (var con = Database.GetConnection())
+            {
+                var sql = @"
+            SELECT 
+                CASE 
+                    WHEN a_s.status = 'On Going' THEN 1
+                    ELSE 0
+                END AS IsAvailable
+            FROM tbl_stylists s
+            LEFT JOIN tbl_appointment_services a_s  
+                   ON a_s.stylist_id = s.stylist_id
+                   AND DATE(a_s.start_time) = CURRENT_DATE()
+                   AND a_s.start_time = (
+                       SELECT MAX(start_time)
+                       FROM tbl_appointment_services
+                       WHERE stylist_id = s.stylist_id
+                         AND DATE(start_time) = CURRENT_DATE()
+                   )
+            WHERE s.is_duty = 1 AND s.stylist_id = @stylistId;
+        ";
+
+                int dutyFlag = con.ExecuteScalar<int>(sql, new { stylistId });
+                return dutyFlag == 1; // true if off duty
+     
+            }
+        }
+        public bool IsStylistOffDuty(int stylistId)
+        {
+            using (var con = Database.GetConnection())
+            {
+                var sql = "SELECT is_duty FROM tbl_stylists WHERE stylist_id = @stylistId;";
+                int dutyFlag = con.ExecuteScalar<int>(sql, new { stylistId });
+                return dutyFlag == 0; // true if off duty
+            }
+        }
+
+
+
         public IEnumerable<AppointmentModel> StylistTrackingPanel() 
         {
             using (var con = Database.GetConnection()) 

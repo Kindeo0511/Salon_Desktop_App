@@ -32,6 +32,10 @@ namespace Salon.View
         private bool _isUpdatingProductUsage = false;
         public event EventHandler RefreshData;
 
+        private bool serviceCreated = false;
+        private int service_product_id = 0;
+
+        private bool allowTabChange = false;
         public ServiceForm(MainForm mainform)
         {
             InitializeComponent();
@@ -57,6 +61,7 @@ namespace Salon.View
             LoadStylist();
             if (serviceModel != null) 
             {
+
                 service_id = serviceModel.serviceName_id;
                 txt_service_name.Text = serviceModel.serviceName;
                 txt_duration.Value = serviceModel.duration;
@@ -65,6 +70,11 @@ namespace Salon.View
                 txt_price.Text = serviceModel.servicePrice.ToString("F2");
                 btn_save.Visible= false;
                 btn_update.Visible= true;
+
+
+                btn_next.Visible = false;
+                btn_back.Visible = false;
+                allowTabChange = true;
 
                 RefreshServiceProductUsage(serviceModel.serviceName_id);
             }
@@ -418,6 +428,8 @@ namespace Salon.View
             dgv_Service_Product.AutoGenerateColumns = false;
             col_service_id.DataPropertyName = "service_id";
             col_product_id.DataPropertyName = "product_id";
+            col_product__size_id.DataPropertyName = "product_size_id";
+            col_product_size_label.DataPropertyName = "size_label";
             col_product_name.DataPropertyName = "product_name";
             col_brand.DataPropertyName = "brand";
             col_total_usage.DataPropertyName = "qty_required";
@@ -440,6 +452,7 @@ namespace Salon.View
             {
                 service_id = service_id,
                 product_id = (int)cmb_product.SelectedValue,
+                product_size_id = Convert.ToInt32(lbl_size_id.Text),
                 total_usage_amount = double.Parse(txt_total_usage.Text),
 
             };
@@ -451,11 +464,13 @@ namespace Salon.View
         {
             var repo = new ServiceProductUsageRepository();
             var controller = new ServiceProductUsageController(repo);
-            var model = new ServiceProductUsageModel 
-            { 
-          
+            var model = new ServiceProductUsageModel
+            {
+
+                service_product_id = Convert.ToInt32(lbl_service_product_id.Text),
                 service_id = service_id,
                 product_id = (int)cmb_product.SelectedValue,
+                product_size_id = Convert.ToInt32(lbl_size_id.Text),
                 total_usage_amount = double.Parse(txt_total_usage.Text),
 
             };
@@ -475,10 +490,8 @@ namespace Salon.View
             var controller = new ServiceProductUsageController(repo);
             var existingServiceUsage = controller.GetServiceProductUsage(service_id, Convert.ToInt32(cmb_product.SelectedValue), txt_brand.Text, Convert.ToInt32(txt_total_usage.Text));
 
-            if (existingServiceUsage != null)
-            {
 
-                if (existingServiceUsage.is_deleted == 1)
+                if (existingServiceUsage != null && existingServiceUsage.is_deleted == 1)
                 {
                     var result = MessageBox.Show("This Product Consumption exists but is deleted. Do you want to restore it?",
                                    "Restore Account",
@@ -499,7 +512,7 @@ namespace Salon.View
 
                     }
                 }
-            }
+            
 
             else
             {
@@ -546,6 +559,26 @@ namespace Salon.View
             }
 
         }
+        private void LoadProductSize(int product_id) 
+        {
+            var repo = new ProductSizeRepository();
+            var controller = new ProductSizeController(repo);
+
+            var productSize = controller.GetSingleProductSizeById(product_id);
+
+            if (productSize != null)
+            {
+                lbl_size_id.Text = productSize.product_size_id.ToString();
+                txt_size.Text = productSize.size_label;
+            }
+            else
+            {
+                lbl_size_id.Text = string.Empty;
+                txt_size.Text = string.Empty;
+            }
+
+
+        }
         private void cmb_product_SelectedIndexChanged(object sender, EventArgs e)
         {
             if (cmb_product.SelectedIndex >= 0)
@@ -555,7 +588,7 @@ namespace Salon.View
                 {
                     txt_brand.Text = selectedProduct.brand;
 
-
+            
 
 
                 }
@@ -651,6 +684,8 @@ namespace Salon.View
 
                     cmb_product.Hint = string.Empty;
                     cmb_product.SelectedValue = productUsage.product_id;
+                    lbl_service_product_id.Text = productUsage.service_product_id.ToString();
+                    //lbl_size_id.Text = productUsage.product_size_id.ToString();
                     txt_total_usage.Text = productUsage.qty_required.ToString();
 
 
@@ -685,6 +720,67 @@ namespace Salon.View
                     }
                 }
             }
+        }
+
+        private void materialTabControl1_Selecting(object sender, TabControlCancelEventArgs e)
+        {
+            // Cancel only if the user clicked the tab header
+            if (!allowTabChange)
+            {
+                e.Cancel = true;
+            }
+        }
+
+        private void btn_next_Click(object sender, EventArgs e)
+        {
+
+            if (materialTabControl1.SelectedIndex == 0 && !serviceCreated)
+            {
+                if (!IsValid()) return;
+
+                IsServiceExists();
+                serviceCreated = true; // mark as done
+            }
+
+      
+            if (materialTabControl1.SelectedIndex < materialTabControl1.TabCount - 1)
+            {
+                allowTabChange = true; // allow programmatic change
+                materialTabControl1.SelectedIndex++;
+                allowTabChange = false; // reset
+            }
+        }
+
+        private void btn_back_Click(object sender, EventArgs e)
+        {
+
+            if (materialTabControl1.SelectedIndex > 0)
+            {
+                allowTabChange = true;
+                materialTabControl1.SelectedIndex--;
+                allowTabChange = false;
+            }
+        }
+
+        private void cmb_product_SelectedValueChanged(object sender, EventArgs e)
+        {
+            var selectedProduct = cmb_product.SelectedItem as ProductModel;
+
+            if (selectedProduct != null)
+            {
+                LoadProductSize(selectedProduct.product_id);
+
+         
+            }
+            else
+            {
+                // Hide or clear when no product is selected
+                lbl_size_id.Text = string.Empty;
+                txt_size.Text = string.Empty;
+
+             
+            }
+
         }
     }
 }

@@ -25,7 +25,7 @@ namespace Salon.Repository
         {
             using (var con = Database.GetConnection())
             {
-                var sql = "SELECT * FROM tbl_discount WHERE discount_status = 'Published' AND is_deleted = 0";
+                var sql = "SELECT * FROM tbl_discount WHERE is_deleted = 0";
                 return con.Query<DiscountModel>(sql);
             }
 
@@ -45,7 +45,7 @@ namespace Salon.Repository
         {
             using (var con = Database.GetConnection()) 
             {
-                var sql = "SELECT * FROM tbl_discount WHERE discount_type = @type AND discount_status ='Published' AND is_deleted = 0";
+                var sql = "SELECT * FROM tbl_discount WHERE discount_type = @type AND is_deleted = 0";
                 return con.QueryFirstOrDefault<DiscountModel>(sql, new { type = type });
             }
 
@@ -84,9 +84,9 @@ namespace Salon.Repository
             using (var con = Database.GetConnection())
             {
                 var sql = @"INSERT INTO tbl_discount 
-                    (discount_type, promo_code, discount_rate, mode,discount_status, status, vat_exempt, is_defined,start_date, end_date)
+                    (discount_type, promo_code, discount_rate, mode, status, vat_exempt, is_defined,start_date, end_date)
                     VALUES 
-                    (@discount_type, @promo_code, @discount_rate, @mode,@discount_status, @status, @vat_exempt, @is_defined,@start_date, @end_date);
+                    (@discount_type, @promo_code, @discount_rate, @mode, @status, @vat_exempt, @is_defined,@start_date, @end_date);
                     SELECT LAST_INSERT_ID();";
 
                 return con.ExecuteScalar<int>(sql, model);
@@ -101,7 +101,6 @@ namespace Salon.Repository
                     discount_type =@discount_type, 
                     promo_code =@promo_code,
                     discount_rate=@discount_rate, mode = @mode,
-                    discount_status=@discount_status,
                     status = @status, vat_exempt = @vat_exempt,
                     is_defined = @is_defined,
                     start_date = @start_date,

@@ -29,6 +29,7 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(ConfigureSettingsForm));
             this.errorProvider1 = new System.Windows.Forms.ErrorProvider(this.components);
             this.materialTabControl1 = new MaterialSkin.Controls.MaterialTabControl();
             this.personalTabPage = new System.Windows.Forms.TabPage();
@@ -36,18 +37,17 @@
             this.btn_personal_tab_next = new MaterialSkin.Controls.MaterialButton();
             this.materialCard1 = new MaterialSkin.Controls.MaterialCard();
             this.materialLabel7 = new MaterialSkin.Controls.MaterialLabel();
-            this.textBox5 = new System.Windows.Forms.TextBox();
-            this.maskedTextBox2 = new System.Windows.Forms.MaskedTextBox();
+            this.txt_address = new System.Windows.Forms.TextBox();
             this.materialLabel6 = new MaterialSkin.Controls.MaterialLabel();
-            this.maskedTextBox1 = new System.Windows.Forms.MaskedTextBox();
+            this.txt_contact = new System.Windows.Forms.MaskedTextBox();
             this.materialLabel5 = new MaterialSkin.Controls.MaterialLabel();
             this.textBox4 = new System.Windows.Forms.TextBox();
             this.materialLabel4 = new MaterialSkin.Controls.MaterialLabel();
-            this.textBox3 = new System.Windows.Forms.TextBox();
+            this.txt_last_name = new System.Windows.Forms.TextBox();
             this.materialLabel3 = new MaterialSkin.Controls.MaterialLabel();
-            this.textBox2 = new System.Windows.Forms.TextBox();
+            this.txt_middle_name = new System.Windows.Forms.TextBox();
             this.materialLabel2 = new MaterialSkin.Controls.MaterialLabel();
-            this.textBox1 = new System.Windows.Forms.TextBox();
+            this.txt_first_name = new System.Windows.Forms.TextBox();
             this.materialLabel1 = new MaterialSkin.Controls.MaterialLabel();
             this.panel3 = new System.Windows.Forms.Panel();
             this.materialProgressBar1 = new MaterialSkin.Controls.MaterialProgressBar();
@@ -61,11 +61,11 @@
             this.materialProgressBar2 = new MaterialSkin.Controls.MaterialProgressBar();
             this.materialLabel9 = new MaterialSkin.Controls.MaterialLabel();
             this.chk_show_password = new MaterialSkin.Controls.MaterialCheckbox();
-            this.textBox8 = new System.Windows.Forms.TextBox();
+            this.txt_confirm_password = new System.Windows.Forms.TextBox();
             this.materialLabel12 = new MaterialSkin.Controls.MaterialLabel();
-            this.textBox9 = new System.Windows.Forms.TextBox();
+            this.txt_HashPassword = new System.Windows.Forms.TextBox();
             this.materialLabel13 = new MaterialSkin.Controls.MaterialLabel();
-            this.textBox10 = new System.Windows.Forms.TextBox();
+            this.txt_username = new System.Windows.Forms.TextBox();
             this.materialLabel14 = new MaterialSkin.Controls.MaterialLabel();
             this.generalPageTab = new System.Windows.Forms.TabPage();
             this.panel6 = new System.Windows.Forms.Panel();
@@ -73,8 +73,8 @@
             this.btn_vat_tab_next = new MaterialSkin.Controls.MaterialButton();
             this.materialCard3 = new MaterialSkin.Controls.MaterialCard();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
-            this.dateTimePicker2 = new System.Windows.Forms.DateTimePicker();
-            this.dateTimePicker1 = new System.Windows.Forms.DateTimePicker();
+            this.dtp_closing = new System.Windows.Forms.DateTimePicker();
+            this.dtp_opening = new System.Windows.Forms.DateTimePicker();
             this.materialLabel16 = new MaterialSkin.Controls.MaterialLabel();
             this.materialLabel15 = new MaterialSkin.Controls.MaterialLabel();
             this.panel5 = new System.Windows.Forms.Panel();
@@ -82,9 +82,12 @@
             this.materialLabel10 = new MaterialSkin.Controls.MaterialLabel();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.materialLabel11 = new MaterialSkin.Controls.MaterialLabel();
-            this.numericUpDown1 = new System.Windows.Forms.NumericUpDown();
+            this.txt_vat = new System.Windows.Forms.NumericUpDown();
             this.tabPage1 = new System.Windows.Forms.TabPage();
             this.materialCard30 = new MaterialSkin.Controls.MaterialCard();
+            this.panel7 = new System.Windows.Forms.Panel();
+            this.btn_smtp_back = new MaterialSkin.Controls.MaterialButton();
+            this.btn_smtp_next = new MaterialSkin.Controls.MaterialButton();
             this.btn_edit_smtp = new MaterialSkin.Controls.MaterialButton();
             this.btn_update_smtp = new MaterialSkin.Controls.MaterialButton();
             this.groupBox7 = new System.Windows.Forms.GroupBox();
@@ -101,9 +104,18 @@
             this.materialLabel24 = new MaterialSkin.Controls.MaterialLabel();
             this.txt_business_name = new System.Windows.Forms.TextBox();
             this.materialLabel25 = new MaterialSkin.Controls.MaterialLabel();
-            this.panel7 = new System.Windows.Forms.Panel();
-            this.btn_smtp_back = new MaterialSkin.Controls.MaterialButton();
-            this.btn_smtp_next = new MaterialSkin.Controls.MaterialButton();
+            this.groupBox3 = new System.Windows.Forms.GroupBox();
+            this.btn_add_payment_method = new MaterialSkin.Controls.MaterialButton();
+            this.dgv_payment_method = new System.Windows.Forms.DataGridView();
+            this.col_payment_method_id = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.col_payment_method_name = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.col_payment_method_required_display_text = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.col_payment_method_required = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.col_payment_method_status_display_text = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.col_payment_method_status = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.col_payment_method_update = new System.Windows.Forms.DataGridViewImageColumn();
+            this.col_payment_method_delete = new System.Windows.Forms.DataGridViewImageColumn();
+            this.dtp_day_of_birth = new System.Windows.Forms.DateTimePicker();
             ((System.ComponentModel.ISupportInitialize)(this.errorProvider1)).BeginInit();
             this.materialTabControl1.SuspendLayout();
             this.personalTabPage.SuspendLayout();
@@ -120,11 +132,13 @@
             this.groupBox2.SuspendLayout();
             this.panel5.SuspendLayout();
             this.groupBox1.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.numericUpDown1)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.txt_vat)).BeginInit();
             this.tabPage1.SuspendLayout();
             this.materialCard30.SuspendLayout();
-            this.groupBox7.SuspendLayout();
             this.panel7.SuspendLayout();
+            this.groupBox7.SuspendLayout();
+            this.groupBox3.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.dgv_payment_method)).BeginInit();
             this.SuspendLayout();
             // 
             // errorProvider1
@@ -196,19 +210,19 @@
             // materialCard1
             // 
             this.materialCard1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
+            this.materialCard1.Controls.Add(this.dtp_day_of_birth);
             this.materialCard1.Controls.Add(this.materialLabel7);
-            this.materialCard1.Controls.Add(this.textBox5);
-            this.materialCard1.Controls.Add(this.maskedTextBox2);
+            this.materialCard1.Controls.Add(this.txt_address);
             this.materialCard1.Controls.Add(this.materialLabel6);
-            this.materialCard1.Controls.Add(this.maskedTextBox1);
+            this.materialCard1.Controls.Add(this.txt_contact);
             this.materialCard1.Controls.Add(this.materialLabel5);
             this.materialCard1.Controls.Add(this.textBox4);
             this.materialCard1.Controls.Add(this.materialLabel4);
-            this.materialCard1.Controls.Add(this.textBox3);
+            this.materialCard1.Controls.Add(this.txt_last_name);
             this.materialCard1.Controls.Add(this.materialLabel3);
-            this.materialCard1.Controls.Add(this.textBox2);
+            this.materialCard1.Controls.Add(this.txt_middle_name);
             this.materialCard1.Controls.Add(this.materialLabel2);
-            this.materialCard1.Controls.Add(this.textBox1);
+            this.materialCard1.Controls.Add(this.txt_first_name);
             this.materialCard1.Controls.Add(this.materialLabel1);
             this.materialCard1.Controls.Add(this.panel3);
             this.materialCard1.Depth = 0;
@@ -236,26 +250,15 @@
             this.materialLabel7.TabIndex = 14;
             this.materialLabel7.Text = "Address:";
             // 
-            // textBox5
+            // txt_address
             // 
-            this.textBox5.BackColor = System.Drawing.SystemColors.Menu;
-            this.textBox5.Location = new System.Drawing.Point(442, 596);
-            this.textBox5.MaxLength = 255;
-            this.textBox5.Multiline = true;
-            this.textBox5.Name = "textBox5";
-            this.textBox5.Size = new System.Drawing.Size(450, 100);
-            this.textBox5.TabIndex = 13;
-            // 
-            // maskedTextBox2
-            // 
-            this.maskedTextBox2.BackColor = System.Drawing.SystemColors.Menu;
-            this.maskedTextBox2.Location = new System.Drawing.Point(442, 521);
-            this.maskedTextBox2.Margin = new System.Windows.Forms.Padding(3, 3, 100, 50);
-            this.maskedTextBox2.Mask = "00/00/0000";
-            this.maskedTextBox2.Name = "maskedTextBox2";
-            this.maskedTextBox2.Size = new System.Drawing.Size(450, 22);
-            this.maskedTextBox2.TabIndex = 12;
-            this.maskedTextBox2.ValidatingType = typeof(System.DateTime);
+            this.txt_address.BackColor = System.Drawing.SystemColors.Menu;
+            this.txt_address.Location = new System.Drawing.Point(442, 596);
+            this.txt_address.MaxLength = 255;
+            this.txt_address.Multiline = true;
+            this.txt_address.Name = "txt_address";
+            this.txt_address.Size = new System.Drawing.Size(450, 100);
+            this.txt_address.TabIndex = 13;
             // 
             // materialLabel6
             // 
@@ -271,16 +274,16 @@
             this.materialLabel6.TabIndex = 11;
             this.materialLabel6.Text = "Date of Birth:";
             // 
-            // maskedTextBox1
+            // txt_contact
             // 
-            this.maskedTextBox1.BackColor = System.Drawing.SystemColors.Menu;
-            this.maskedTextBox1.Location = new System.Drawing.Point(442, 446);
-            this.maskedTextBox1.Margin = new System.Windows.Forms.Padding(3, 3, 100, 50);
-            this.maskedTextBox1.Mask = "0000-000-0000";
-            this.maskedTextBox1.Name = "maskedTextBox1";
-            this.maskedTextBox1.PromptChar = '0';
-            this.maskedTextBox1.Size = new System.Drawing.Size(450, 22);
-            this.maskedTextBox1.TabIndex = 10;
+            this.txt_contact.BackColor = System.Drawing.SystemColors.Menu;
+            this.txt_contact.Location = new System.Drawing.Point(442, 446);
+            this.txt_contact.Margin = new System.Windows.Forms.Padding(3, 3, 100, 50);
+            this.txt_contact.Mask = "0000-000-0000";
+            this.txt_contact.Name = "txt_contact";
+            this.txt_contact.PromptChar = '0';
+            this.txt_contact.Size = new System.Drawing.Size(450, 22);
+            this.txt_contact.TabIndex = 10;
             // 
             // materialLabel5
             // 
@@ -319,14 +322,14 @@
             this.materialLabel4.TabIndex = 6;
             this.materialLabel4.Text = "Email:";
             // 
-            // textBox3
+            // txt_last_name
             // 
-            this.textBox3.BackColor = System.Drawing.SystemColors.Menu;
-            this.textBox3.Location = new System.Drawing.Point(442, 296);
-            this.textBox3.Margin = new System.Windows.Forms.Padding(3, 3, 100, 50);
-            this.textBox3.Name = "textBox3";
-            this.textBox3.Size = new System.Drawing.Size(450, 22);
-            this.textBox3.TabIndex = 5;
+            this.txt_last_name.BackColor = System.Drawing.SystemColors.Menu;
+            this.txt_last_name.Location = new System.Drawing.Point(442, 296);
+            this.txt_last_name.Margin = new System.Windows.Forms.Padding(3, 3, 100, 50);
+            this.txt_last_name.Name = "txt_last_name";
+            this.txt_last_name.Size = new System.Drawing.Size(450, 22);
+            this.txt_last_name.TabIndex = 5;
             // 
             // materialLabel3
             // 
@@ -342,14 +345,14 @@
             this.materialLabel3.TabIndex = 4;
             this.materialLabel3.Text = "Last Name:";
             // 
-            // textBox2
+            // txt_middle_name
             // 
-            this.textBox2.BackColor = System.Drawing.SystemColors.Menu;
-            this.textBox2.Location = new System.Drawing.Point(442, 221);
-            this.textBox2.Margin = new System.Windows.Forms.Padding(3, 50, 100, 50);
-            this.textBox2.Name = "textBox2";
-            this.textBox2.Size = new System.Drawing.Size(450, 22);
-            this.textBox2.TabIndex = 3;
+            this.txt_middle_name.BackColor = System.Drawing.SystemColors.Menu;
+            this.txt_middle_name.Location = new System.Drawing.Point(442, 221);
+            this.txt_middle_name.Margin = new System.Windows.Forms.Padding(3, 50, 100, 50);
+            this.txt_middle_name.Name = "txt_middle_name";
+            this.txt_middle_name.Size = new System.Drawing.Size(450, 22);
+            this.txt_middle_name.TabIndex = 3;
             // 
             // materialLabel2
             // 
@@ -365,14 +368,14 @@
             this.materialLabel2.TabIndex = 2;
             this.materialLabel2.Text = "Middle Name:";
             // 
-            // textBox1
+            // txt_first_name
             // 
-            this.textBox1.BackColor = System.Drawing.SystemColors.Menu;
-            this.textBox1.Location = new System.Drawing.Point(442, 141);
-            this.textBox1.Margin = new System.Windows.Forms.Padding(3, 3, 100, 50);
-            this.textBox1.Name = "textBox1";
-            this.textBox1.Size = new System.Drawing.Size(450, 22);
-            this.textBox1.TabIndex = 1;
+            this.txt_first_name.BackColor = System.Drawing.SystemColors.Menu;
+            this.txt_first_name.Location = new System.Drawing.Point(442, 141);
+            this.txt_first_name.Margin = new System.Windows.Forms.Padding(3, 3, 100, 50);
+            this.txt_first_name.Name = "txt_first_name";
+            this.txt_first_name.Size = new System.Drawing.Size(450, 22);
+            this.txt_first_name.TabIndex = 1;
             // 
             // materialLabel1
             // 
@@ -494,11 +497,11 @@
             this.materialCard2.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
             this.materialCard2.Controls.Add(this.panel4);
             this.materialCard2.Controls.Add(this.chk_show_password);
-            this.materialCard2.Controls.Add(this.textBox8);
+            this.materialCard2.Controls.Add(this.txt_confirm_password);
             this.materialCard2.Controls.Add(this.materialLabel12);
-            this.materialCard2.Controls.Add(this.textBox9);
+            this.materialCard2.Controls.Add(this.txt_HashPassword);
             this.materialCard2.Controls.Add(this.materialLabel13);
-            this.materialCard2.Controls.Add(this.textBox10);
+            this.materialCard2.Controls.Add(this.txt_username);
             this.materialCard2.Controls.Add(this.materialLabel14);
             this.materialCard2.Depth = 0;
             this.materialCard2.Dock = System.Windows.Forms.DockStyle.Fill;
@@ -563,15 +566,15 @@
             this.chk_show_password.Text = "Show Password";
             this.chk_show_password.UseVisualStyleBackColor = false;
             // 
-            // textBox8
+            // txt_confirm_password
             // 
-            this.textBox8.BackColor = System.Drawing.SystemColors.Menu;
-            this.textBox8.Location = new System.Drawing.Point(442, 379);
-            this.textBox8.Margin = new System.Windows.Forms.Padding(3, 3, 100, 50);
-            this.textBox8.Name = "textBox8";
-            this.textBox8.Size = new System.Drawing.Size(450, 22);
-            this.textBox8.TabIndex = 5;
-            this.textBox8.UseSystemPasswordChar = true;
+            this.txt_confirm_password.BackColor = System.Drawing.SystemColors.Menu;
+            this.txt_confirm_password.Location = new System.Drawing.Point(442, 379);
+            this.txt_confirm_password.Margin = new System.Windows.Forms.Padding(3, 3, 100, 50);
+            this.txt_confirm_password.Name = "txt_confirm_password";
+            this.txt_confirm_password.Size = new System.Drawing.Size(450, 22);
+            this.txt_confirm_password.TabIndex = 5;
+            this.txt_confirm_password.UseSystemPasswordChar = true;
             // 
             // materialLabel12
             // 
@@ -587,15 +590,15 @@
             this.materialLabel12.TabIndex = 4;
             this.materialLabel12.Text = "Confirm Password:";
             // 
-            // textBox9
+            // txt_HashPassword
             // 
-            this.textBox9.BackColor = System.Drawing.SystemColors.Menu;
-            this.textBox9.Location = new System.Drawing.Point(442, 304);
-            this.textBox9.Margin = new System.Windows.Forms.Padding(3, 3, 100, 50);
-            this.textBox9.Name = "textBox9";
-            this.textBox9.Size = new System.Drawing.Size(450, 22);
-            this.textBox9.TabIndex = 3;
-            this.textBox9.UseSystemPasswordChar = true;
+            this.txt_HashPassword.BackColor = System.Drawing.SystemColors.Menu;
+            this.txt_HashPassword.Location = new System.Drawing.Point(442, 304);
+            this.txt_HashPassword.Margin = new System.Windows.Forms.Padding(3, 3, 100, 50);
+            this.txt_HashPassword.Name = "txt_HashPassword";
+            this.txt_HashPassword.Size = new System.Drawing.Size(450, 22);
+            this.txt_HashPassword.TabIndex = 3;
+            this.txt_HashPassword.UseSystemPasswordChar = true;
             // 
             // materialLabel13
             // 
@@ -611,14 +614,14 @@
             this.materialLabel13.TabIndex = 2;
             this.materialLabel13.Text = "Password:";
             // 
-            // textBox10
+            // txt_username
             // 
-            this.textBox10.BackColor = System.Drawing.SystemColors.Menu;
-            this.textBox10.Location = new System.Drawing.Point(442, 228);
-            this.textBox10.Margin = new System.Windows.Forms.Padding(3, 3, 100, 50);
-            this.textBox10.Name = "textBox10";
-            this.textBox10.Size = new System.Drawing.Size(450, 22);
-            this.textBox10.TabIndex = 1;
+            this.txt_username.BackColor = System.Drawing.SystemColors.Menu;
+            this.txt_username.Location = new System.Drawing.Point(442, 228);
+            this.txt_username.Margin = new System.Windows.Forms.Padding(3, 3, 100, 50);
+            this.txt_username.Name = "txt_username";
+            this.txt_username.Size = new System.Drawing.Size(450, 22);
+            this.txt_username.TabIndex = 1;
             // 
             // materialLabel14
             // 
@@ -704,6 +707,7 @@
             // materialCard3
             // 
             this.materialCard3.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
+            this.materialCard3.Controls.Add(this.groupBox3);
             this.materialCard3.Controls.Add(this.groupBox2);
             this.materialCard3.Controls.Add(this.panel5);
             this.materialCard3.Controls.Add(this.groupBox1);
@@ -720,8 +724,8 @@
             // 
             // groupBox2
             // 
-            this.groupBox2.Controls.Add(this.dateTimePicker2);
-            this.groupBox2.Controls.Add(this.dateTimePicker1);
+            this.groupBox2.Controls.Add(this.dtp_closing);
+            this.groupBox2.Controls.Add(this.dtp_opening);
             this.groupBox2.Controls.Add(this.materialLabel16);
             this.groupBox2.Controls.Add(this.materialLabel15);
             this.groupBox2.Location = new System.Drawing.Point(20, 318);
@@ -732,24 +736,24 @@
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "BUSINESS HOUR";
             // 
-            // dateTimePicker2
+            // dtp_closing
             // 
-            this.dateTimePicker2.Format = System.Windows.Forms.DateTimePickerFormat.Time;
-            this.dateTimePicker2.Location = new System.Drawing.Point(466, 135);
-            this.dateTimePicker2.Name = "dateTimePicker2";
-            this.dateTimePicker2.ShowUpDown = true;
-            this.dateTimePicker2.Size = new System.Drawing.Size(457, 22);
-            this.dateTimePicker2.TabIndex = 24;
+            this.dtp_closing.Format = System.Windows.Forms.DateTimePickerFormat.Time;
+            this.dtp_closing.Location = new System.Drawing.Point(466, 135);
+            this.dtp_closing.Name = "dtp_closing";
+            this.dtp_closing.ShowUpDown = true;
+            this.dtp_closing.Size = new System.Drawing.Size(457, 22);
+            this.dtp_closing.TabIndex = 24;
             // 
-            // dateTimePicker1
+            // dtp_opening
             // 
-            this.dateTimePicker1.Format = System.Windows.Forms.DateTimePickerFormat.Time;
-            this.dateTimePicker1.Location = new System.Drawing.Point(466, 61);
-            this.dateTimePicker1.Name = "dateTimePicker1";
-            this.dateTimePicker1.RightToLeft = System.Windows.Forms.RightToLeft.No;
-            this.dateTimePicker1.ShowUpDown = true;
-            this.dateTimePicker1.Size = new System.Drawing.Size(457, 22);
-            this.dateTimePicker1.TabIndex = 23;
+            this.dtp_opening.Format = System.Windows.Forms.DateTimePickerFormat.Time;
+            this.dtp_opening.Location = new System.Drawing.Point(466, 61);
+            this.dtp_opening.Name = "dtp_opening";
+            this.dtp_opening.RightToLeft = System.Windows.Forms.RightToLeft.No;
+            this.dtp_opening.ShowUpDown = true;
+            this.dtp_opening.Size = new System.Drawing.Size(457, 22);
+            this.dtp_opening.TabIndex = 23;
             // 
             // materialLabel16
             // 
@@ -815,7 +819,7 @@
             // groupBox1
             // 
             this.groupBox1.Controls.Add(this.materialLabel11);
-            this.groupBox1.Controls.Add(this.numericUpDown1);
+            this.groupBox1.Controls.Add(this.txt_vat);
             this.groupBox1.Location = new System.Drawing.Point(20, 129);
             this.groupBox1.Name = "groupBox1";
             this.groupBox1.Padding = new System.Windows.Forms.Padding(5);
@@ -837,14 +841,14 @@
             this.materialLabel11.TabIndex = 20;
             this.materialLabel11.Text = "VAT:";
             // 
-            // numericUpDown1
+            // txt_vat
             // 
-            this.numericUpDown1.BackColor = System.Drawing.SystemColors.Menu;
-            this.numericUpDown1.DecimalPlaces = 2;
-            this.numericUpDown1.Location = new System.Drawing.Point(466, 34);
-            this.numericUpDown1.Name = "numericUpDown1";
-            this.numericUpDown1.Size = new System.Drawing.Size(457, 22);
-            this.numericUpDown1.TabIndex = 19;
+            this.txt_vat.BackColor = System.Drawing.SystemColors.Menu;
+            this.txt_vat.DecimalPlaces = 2;
+            this.txt_vat.Location = new System.Drawing.Point(466, 34);
+            this.txt_vat.Name = "txt_vat";
+            this.txt_vat.Size = new System.Drawing.Size(457, 22);
+            this.txt_vat.TabIndex = 19;
             // 
             // tabPage1
             // 
@@ -881,6 +885,61 @@
             this.materialCard30.Padding = new System.Windows.Forms.Padding(14);
             this.materialCard30.Size = new System.Drawing.Size(992, 949);
             this.materialCard30.TabIndex = 31;
+            // 
+            // panel7
+            // 
+            this.panel7.BackColor = System.Drawing.Color.Silver;
+            this.panel7.Controls.Add(this.btn_smtp_back);
+            this.panel7.Controls.Add(this.btn_smtp_next);
+            this.panel7.Dock = System.Windows.Forms.DockStyle.Bottom;
+            this.panel7.Location = new System.Drawing.Point(14, 853);
+            this.panel7.Name = "panel7";
+            this.panel7.Padding = new System.Windows.Forms.Padding(0, 3, 0, 0);
+            this.panel7.Size = new System.Drawing.Size(964, 82);
+            this.panel7.TabIndex = 35;
+            // 
+            // btn_smtp_back
+            // 
+            this.btn_smtp_back.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.btn_smtp_back.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
+            this.btn_smtp_back.Density = MaterialSkin.Controls.MaterialButton.MaterialButtonDensity.Default;
+            this.btn_smtp_back.Depth = 0;
+            this.btn_smtp_back.HighEmphasis = true;
+            this.btn_smtp_back.Icon = null;
+            this.btn_smtp_back.Location = new System.Drawing.Point(725, 25);
+            this.btn_smtp_back.Margin = new System.Windows.Forms.Padding(4, 6, 4, 6);
+            this.btn_smtp_back.MouseState = MaterialSkin.MouseState.HOVER;
+            this.btn_smtp_back.Name = "btn_smtp_back";
+            this.btn_smtp_back.NoAccentTextColor = System.Drawing.Color.Empty;
+            this.btn_smtp_back.Size = new System.Drawing.Size(64, 36);
+            this.btn_smtp_back.TabIndex = 1;
+            this.btn_smtp_back.Text = "back";
+            this.btn_smtp_back.Type = MaterialSkin.Controls.MaterialButton.MaterialButtonType.Contained;
+            this.btn_smtp_back.UseAccentColor = false;
+            this.btn_smtp_back.UseVisualStyleBackColor = true;
+            // 
+            // btn_smtp_next
+            // 
+            this.btn_smtp_next.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.btn_smtp_next.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
+            this.btn_smtp_next.Density = MaterialSkin.Controls.MaterialButton.MaterialButtonDensity.Default;
+            this.btn_smtp_next.Depth = 0;
+            this.btn_smtp_next.HighEmphasis = true;
+            this.btn_smtp_next.Icon = null;
+            this.btn_smtp_next.Location = new System.Drawing.Point(836, 25);
+            this.btn_smtp_next.Margin = new System.Windows.Forms.Padding(4, 6, 4, 6);
+            this.btn_smtp_next.MouseState = MaterialSkin.MouseState.HOVER;
+            this.btn_smtp_next.Name = "btn_smtp_next";
+            this.btn_smtp_next.NoAccentTextColor = System.Drawing.Color.Empty;
+            this.btn_smtp_next.Size = new System.Drawing.Size(86, 36);
+            this.btn_smtp_next.TabIndex = 0;
+            this.btn_smtp_next.Text = "confirm";
+            this.btn_smtp_next.Type = MaterialSkin.Controls.MaterialButton.MaterialButtonType.Contained;
+            this.btn_smtp_next.UseAccentColor = false;
+            this.btn_smtp_next.UseVisualStyleBackColor = true;
+            this.btn_smtp_next.Click += new System.EventHandler(this.btn_smtp_next_Click);
             // 
             // btn_edit_smtp
             // 
@@ -1094,59 +1153,149 @@
             this.materialLabel25.TabIndex = 26;
             this.materialLabel25.Text = "Sender Gmail Address:";
             // 
-            // panel7
+            // groupBox3
             // 
-            this.panel7.BackColor = System.Drawing.Color.Silver;
-            this.panel7.Controls.Add(this.btn_smtp_back);
-            this.panel7.Controls.Add(this.btn_smtp_next);
-            this.panel7.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.panel7.Location = new System.Drawing.Point(14, 853);
-            this.panel7.Name = "panel7";
-            this.panel7.Padding = new System.Windows.Forms.Padding(0, 3, 0, 0);
-            this.panel7.Size = new System.Drawing.Size(964, 82);
-            this.panel7.TabIndex = 35;
+            this.groupBox3.Controls.Add(this.btn_add_payment_method);
+            this.groupBox3.Controls.Add(this.dgv_payment_method);
+            this.groupBox3.Location = new System.Drawing.Point(20, 538);
+            this.groupBox3.Name = "groupBox3";
+            this.groupBox3.Size = new System.Drawing.Size(948, 257);
+            this.groupBox3.TabIndex = 26;
+            this.groupBox3.TabStop = false;
+            this.groupBox3.Text = "Payment Method";
             // 
-            // btn_smtp_back
+            // btn_add_payment_method
             // 
-            this.btn_smtp_back.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.btn_smtp_back.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
-            this.btn_smtp_back.Density = MaterialSkin.Controls.MaterialButton.MaterialButtonDensity.Default;
-            this.btn_smtp_back.Depth = 0;
-            this.btn_smtp_back.HighEmphasis = true;
-            this.btn_smtp_back.Icon = null;
-            this.btn_smtp_back.Location = new System.Drawing.Point(725, 25);
-            this.btn_smtp_back.Margin = new System.Windows.Forms.Padding(4, 6, 4, 6);
-            this.btn_smtp_back.MouseState = MaterialSkin.MouseState.HOVER;
-            this.btn_smtp_back.Name = "btn_smtp_back";
-            this.btn_smtp_back.NoAccentTextColor = System.Drawing.Color.Empty;
-            this.btn_smtp_back.Size = new System.Drawing.Size(64, 36);
-            this.btn_smtp_back.TabIndex = 1;
-            this.btn_smtp_back.Text = "back";
-            this.btn_smtp_back.Type = MaterialSkin.Controls.MaterialButton.MaterialButtonType.Contained;
-            this.btn_smtp_back.UseAccentColor = false;
-            this.btn_smtp_back.UseVisualStyleBackColor = true;
+            this.btn_add_payment_method.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
+            this.btn_add_payment_method.Density = MaterialSkin.Controls.MaterialButton.MaterialButtonDensity.Default;
+            this.btn_add_payment_method.Depth = 0;
+            this.btn_add_payment_method.HighEmphasis = true;
+            this.btn_add_payment_method.Icon = null;
+            this.btn_add_payment_method.Location = new System.Drawing.Point(7, 56);
+            this.btn_add_payment_method.Margin = new System.Windows.Forms.Padding(4, 6, 4, 6);
+            this.btn_add_payment_method.MouseState = MaterialSkin.MouseState.HOVER;
+            this.btn_add_payment_method.Name = "btn_add_payment_method";
+            this.btn_add_payment_method.NoAccentTextColor = System.Drawing.Color.Empty;
+            this.btn_add_payment_method.Size = new System.Drawing.Size(86, 36);
+            this.btn_add_payment_method.TabIndex = 1;
+            this.btn_add_payment_method.Text = "add new";
+            this.btn_add_payment_method.Type = MaterialSkin.Controls.MaterialButton.MaterialButtonType.Contained;
+            this.btn_add_payment_method.UseAccentColor = false;
+            this.btn_add_payment_method.UseVisualStyleBackColor = true;
+            this.btn_add_payment_method.Click += new System.EventHandler(this.btn_add_payment_method_Click);
             // 
-            // btn_smtp_next
+            // dgv_payment_method
             // 
-            this.btn_smtp_next.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.btn_smtp_next.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
-            this.btn_smtp_next.Density = MaterialSkin.Controls.MaterialButton.MaterialButtonDensity.Default;
-            this.btn_smtp_next.Depth = 0;
-            this.btn_smtp_next.HighEmphasis = true;
-            this.btn_smtp_next.Icon = null;
-            this.btn_smtp_next.Location = new System.Drawing.Point(876, 25);
-            this.btn_smtp_next.Margin = new System.Windows.Forms.Padding(4, 6, 4, 6);
-            this.btn_smtp_next.MouseState = MaterialSkin.MouseState.HOVER;
-            this.btn_smtp_next.Name = "btn_smtp_next";
-            this.btn_smtp_next.NoAccentTextColor = System.Drawing.Color.Empty;
-            this.btn_smtp_next.Size = new System.Drawing.Size(64, 36);
-            this.btn_smtp_next.TabIndex = 0;
-            this.btn_smtp_next.Text = "Next";
-            this.btn_smtp_next.Type = MaterialSkin.Controls.MaterialButton.MaterialButtonType.Contained;
-            this.btn_smtp_next.UseAccentColor = false;
-            this.btn_smtp_next.UseVisualStyleBackColor = true;
+            this.dgv_payment_method.AllowUserToAddRows = false;
+            this.dgv_payment_method.AllowUserToDeleteRows = false;
+            this.dgv_payment_method.AllowUserToResizeColumns = false;
+            this.dgv_payment_method.AllowUserToResizeRows = false;
+            this.dgv_payment_method.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            this.dgv_payment_method.CellBorderStyle = System.Windows.Forms.DataGridViewCellBorderStyle.None;
+            this.dgv_payment_method.ColumnHeadersBorderStyle = System.Windows.Forms.DataGridViewHeaderBorderStyle.None;
+            this.dgv_payment_method.ColumnHeadersHeight = 29;
+            this.dgv_payment_method.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.DisableResizing;
+            this.dgv_payment_method.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
+            this.col_payment_method_id,
+            this.col_payment_method_name,
+            this.col_payment_method_required_display_text,
+            this.col_payment_method_required,
+            this.col_payment_method_status_display_text,
+            this.col_payment_method_status,
+            this.col_payment_method_update,
+            this.col_payment_method_delete});
+            this.dgv_payment_method.Dock = System.Windows.Forms.DockStyle.Bottom;
+            this.dgv_payment_method.EnableHeadersVisualStyles = false;
+            this.dgv_payment_method.Location = new System.Drawing.Point(3, 101);
+            this.dgv_payment_method.Name = "dgv_payment_method";
+            this.dgv_payment_method.RowHeadersBorderStyle = System.Windows.Forms.DataGridViewHeaderBorderStyle.None;
+            this.dgv_payment_method.RowHeadersVisible = false;
+            this.dgv_payment_method.RowHeadersWidth = 51;
+            this.dgv_payment_method.RowTemplate.Height = 24;
+            this.dgv_payment_method.Size = new System.Drawing.Size(942, 153);
+            this.dgv_payment_method.TabIndex = 0;
+            // 
+            // col_payment_method_id
+            // 
+            this.col_payment_method_id.HeaderText = "id";
+            this.col_payment_method_id.MinimumWidth = 6;
+            this.col_payment_method_id.Name = "col_payment_method_id";
+            this.col_payment_method_id.Visible = false;
+            this.col_payment_method_id.Width = 125;
+            // 
+            // col_payment_method_name
+            // 
+            this.col_payment_method_name.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
+            this.col_payment_method_name.HeaderText = "Name";
+            this.col_payment_method_name.MinimumWidth = 6;
+            this.col_payment_method_name.Name = "col_payment_method_name";
+            // 
+            // col_payment_method_required_display_text
+            // 
+            this.col_payment_method_required_display_text.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
+            this.col_payment_method_required_display_text.HeaderText = "Required";
+            this.col_payment_method_required_display_text.MinimumWidth = 6;
+            this.col_payment_method_required_display_text.Name = "col_payment_method_required_display_text";
+            this.col_payment_method_required_display_text.Width = 90;
+            // 
+            // col_payment_method_required
+            // 
+            this.col_payment_method_required.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
+            this.col_payment_method_required.HeaderText = "required_bool";
+            this.col_payment_method_required.MinimumWidth = 6;
+            this.col_payment_method_required.Name = "col_payment_method_required";
+            this.col_payment_method_required.Visible = false;
+            this.col_payment_method_required.Width = 125;
+            // 
+            // col_payment_method_status_display_text
+            // 
+            this.col_payment_method_status_display_text.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
+            this.col_payment_method_status_display_text.HeaderText = "Status";
+            this.col_payment_method_status_display_text.MinimumWidth = 6;
+            this.col_payment_method_status_display_text.Name = "col_payment_method_status_display_text";
+            this.col_payment_method_status_display_text.Width = 71;
+            // 
+            // col_payment_method_status
+            // 
+            this.col_payment_method_status.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
+            this.col_payment_method_status.HeaderText = "status_bool";
+            this.col_payment_method_status.MinimumWidth = 6;
+            this.col_payment_method_status.Name = "col_payment_method_status";
+            this.col_payment_method_status.Visible = false;
+            this.col_payment_method_status.Width = 125;
+            // 
+            // col_payment_method_update
+            // 
+            this.col_payment_method_update.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
+            this.col_payment_method_update.HeaderText = "Update";
+            this.col_payment_method_update.Image = ((System.Drawing.Image)(resources.GetObject("col_payment_method_update.Image")));
+            this.col_payment_method_update.ImageLayout = System.Windows.Forms.DataGridViewImageCellLayout.Zoom;
+            this.col_payment_method_update.MinimumWidth = 6;
+            this.col_payment_method_update.Name = "col_payment_method_update";
+            this.col_payment_method_update.Resizable = System.Windows.Forms.DataGridViewTriState.True;
+            this.col_payment_method_update.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Automatic;
+            this.col_payment_method_update.Width = 79;
+            // 
+            // col_payment_method_delete
+            // 
+            this.col_payment_method_delete.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
+            this.col_payment_method_delete.HeaderText = "Delete";
+            this.col_payment_method_delete.Image = ((System.Drawing.Image)(resources.GetObject("col_payment_method_delete.Image")));
+            this.col_payment_method_delete.ImageLayout = System.Windows.Forms.DataGridViewImageCellLayout.Zoom;
+            this.col_payment_method_delete.MinimumWidth = 6;
+            this.col_payment_method_delete.Name = "col_payment_method_delete";
+            this.col_payment_method_delete.Resizable = System.Windows.Forms.DataGridViewTriState.True;
+            this.col_payment_method_delete.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Automatic;
+            this.col_payment_method_delete.Width = 74;
+            // 
+            // dtp_day_of_birth
+            // 
+            this.dtp_day_of_birth.Format = System.Windows.Forms.DateTimePickerFormat.Custom;
+            this.dtp_day_of_birth.Location = new System.Drawing.Point(442, 521);
+            this.dtp_day_of_birth.Margin = new System.Windows.Forms.Padding(3, 3, 3, 100);
+            this.dtp_day_of_birth.Name = "dtp_day_of_birth";
+            this.dtp_day_of_birth.Size = new System.Drawing.Size(450, 22);
+            this.dtp_day_of_birth.TabIndex = 17;
             // 
             // ConfigureSettingsForm
             // 
@@ -1186,14 +1335,17 @@
             this.panel5.PerformLayout();
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.numericUpDown1)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.txt_vat)).EndInit();
             this.tabPage1.ResumeLayout(false);
             this.materialCard30.ResumeLayout(false);
             this.materialCard30.PerformLayout();
-            this.groupBox7.ResumeLayout(false);
-            this.groupBox7.PerformLayout();
             this.panel7.ResumeLayout(false);
             this.panel7.PerformLayout();
+            this.groupBox7.ResumeLayout(false);
+            this.groupBox7.PerformLayout();
+            this.groupBox3.ResumeLayout(false);
+            this.groupBox3.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.dgv_payment_method)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -1205,29 +1357,28 @@
         private System.Windows.Forms.TabPage accountTabPage;
         private MaterialSkin.Controls.MaterialCard materialCard1;
         private MaterialSkin.Controls.MaterialLabel materialLabel1;
-        private System.Windows.Forms.TextBox textBox1;
-        private System.Windows.Forms.TextBox textBox2;
+        private System.Windows.Forms.TextBox txt_first_name;
+        private System.Windows.Forms.TextBox txt_middle_name;
         private MaterialSkin.Controls.MaterialLabel materialLabel2;
-        private System.Windows.Forms.TextBox textBox3;
+        private System.Windows.Forms.TextBox txt_last_name;
         private MaterialSkin.Controls.MaterialLabel materialLabel3;
         private MaterialSkin.Controls.MaterialLabel materialLabel5;
         private System.Windows.Forms.TextBox textBox4;
         private MaterialSkin.Controls.MaterialLabel materialLabel4;
-        private System.Windows.Forms.MaskedTextBox maskedTextBox1;
-        private System.Windows.Forms.MaskedTextBox maskedTextBox2;
+        private System.Windows.Forms.MaskedTextBox txt_contact;
         private MaterialSkin.Controls.MaterialLabel materialLabel6;
         private MaterialSkin.Controls.MaterialLabel materialLabel7;
-        private System.Windows.Forms.TextBox textBox5;
+        private System.Windows.Forms.TextBox txt_address;
         private System.Windows.Forms.Panel panel1;
         private MaterialSkin.Controls.MaterialButton btn_personal_tab_next;
         private System.Windows.Forms.Panel panel2;
         private MaterialSkin.Controls.MaterialButton btn_account_tab_next;
         private MaterialSkin.Controls.MaterialCard materialCard2;
-        private System.Windows.Forms.TextBox textBox8;
+        private System.Windows.Forms.TextBox txt_confirm_password;
         private MaterialSkin.Controls.MaterialLabel materialLabel12;
-        private System.Windows.Forms.TextBox textBox9;
+        private System.Windows.Forms.TextBox txt_HashPassword;
         private MaterialSkin.Controls.MaterialLabel materialLabel13;
-        private System.Windows.Forms.TextBox textBox10;
+        private System.Windows.Forms.TextBox txt_username;
         private MaterialSkin.Controls.MaterialLabel materialLabel14;
         private MaterialSkin.Controls.MaterialCheckbox chk_show_password;
         private MaterialSkin.Controls.MaterialButton btn_account_tab_back;
@@ -1245,14 +1396,14 @@
         private System.Windows.Forms.Panel panel5;
         private MaterialSkin.Controls.MaterialProgressBar materialProgressBar3;
         private MaterialSkin.Controls.MaterialLabel materialLabel10;
-        private System.Windows.Forms.NumericUpDown numericUpDown1;
+        private System.Windows.Forms.NumericUpDown txt_vat;
         private System.Windows.Forms.GroupBox groupBox1;
         private MaterialSkin.Controls.MaterialLabel materialLabel11;
         private System.Windows.Forms.GroupBox groupBox2;
         private MaterialSkin.Controls.MaterialLabel materialLabel16;
         private MaterialSkin.Controls.MaterialLabel materialLabel15;
-        private System.Windows.Forms.DateTimePicker dateTimePicker2;
-        private System.Windows.Forms.DateTimePicker dateTimePicker1;
+        private System.Windows.Forms.DateTimePicker dtp_closing;
+        private System.Windows.Forms.DateTimePicker dtp_opening;
         private System.Windows.Forms.TabPage tabPage1;
         private MaterialSkin.Controls.MaterialCard materialCard30;
         private MaterialSkin.Controls.MaterialButton btn_edit_smtp;
@@ -1274,5 +1425,17 @@
         private System.Windows.Forms.Panel panel7;
         private MaterialSkin.Controls.MaterialButton btn_smtp_back;
         private MaterialSkin.Controls.MaterialButton btn_smtp_next;
+        private System.Windows.Forms.GroupBox groupBox3;
+        private MaterialSkin.Controls.MaterialButton btn_add_payment_method;
+        private System.Windows.Forms.DataGridView dgv_payment_method;
+        private System.Windows.Forms.DataGridViewTextBoxColumn col_payment_method_id;
+        private System.Windows.Forms.DataGridViewTextBoxColumn col_payment_method_name;
+        private System.Windows.Forms.DataGridViewTextBoxColumn col_payment_method_required_display_text;
+        private System.Windows.Forms.DataGridViewTextBoxColumn col_payment_method_required;
+        private System.Windows.Forms.DataGridViewTextBoxColumn col_payment_method_status_display_text;
+        private System.Windows.Forms.DataGridViewTextBoxColumn col_payment_method_status;
+        private System.Windows.Forms.DataGridViewImageColumn col_payment_method_update;
+        private System.Windows.Forms.DataGridViewImageColumn col_payment_method_delete;
+        private System.Windows.Forms.DateTimePicker dtp_day_of_birth;
     }
 }

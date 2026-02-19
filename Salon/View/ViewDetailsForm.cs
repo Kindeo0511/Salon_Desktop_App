@@ -20,6 +20,8 @@ namespace Salon.View
     {
         private MainForm mainForm;
         private AppointmentModel appointmentModel;
+        private bool StartServiceClicked = false;
+        private bool MarkAsCompletedClicked = false;
         public ViewDetailsForm()
         {
             InitializeComponent();
@@ -55,6 +57,25 @@ namespace Salon.View
                 dgv_service_selected.Columns["col_mark_as_completed"].Visible = true;
                 dgv_service_selected.Columns["col_start_service"].Visible = false;
             }
+
+        }
+
+        public bool Stylist_Is_Available()
+        {
+            var repo = new AppointmentRepository();
+            var controller = new AppointmentController(repo);
+
+            return controller.GetStylistAvailability(
+                Convert.ToInt32(appointmentModel.StylistId));
+
+        }
+        public bool Stylist_Is_Off_Duty()
+        {
+            var repo = new AppointmentRepository();
+            var controller = new AppointmentController(repo);
+
+            return controller.IsStylistOfDuty(
+                Convert.ToInt32(appointmentModel.StylistId));
 
         }
         public void LoadSelectedAppointmentDetails(AppointmentModel model) 
@@ -97,7 +118,8 @@ namespace Salon.View
 
 
             dgv_service_selected.AutoGenerateColumns = false;
-            col_service_id.DataPropertyName = "AppointmentServiceId";
+            col_aps_id.DataPropertyName = "AppointmentServiceId";
+            col_service_id.DataPropertyName = "ServiceId";
             col_stylist.DataPropertyName = "StylistName";
             col_service_name.DataPropertyName = "ServiceName";
             col_service_time.DataPropertyName = "Duration";
@@ -120,25 +142,36 @@ namespace Salon.View
         }
         private void btn_save_Click(object sender, EventArgs e)
         {
-           
-             foreach (DataGridViewRow row in dgv_service_selected.Rows)
+
+            if (MarkAsCompletedClicked)
             {
-                int appointmentServiceId = Convert.ToInt32(row.Cells["col_service_id"].Value);
-                string serviceName = row.Cells["col_service_name"].Value.ToString();
-                bool isCompleted = Convert.ToBoolean(row.Cells["col_mark_as_completed"].Value);
-                if (isCompleted)
+                foreach (DataGridViewRow row in dgv_service_selected.Rows)
                 {
-                    if (MarkAsCompleted(appointmentServiceId)) 
+                    int appointmentServiceId = Convert.ToInt32(row.Cells["col_aps_id"].Value);
+                    string serviceName = row.Cells["col_service_name"].Value.ToString();
+                    bool isCompleted = Convert.ToBoolean(row.Cells["col_mark_as_completed"].Value);
+                    if (isCompleted)
                     {
+                        if (MarkAsCompleted(appointmentServiceId))
+                        {
 
-                        MessageBox.Show($"Service {serviceName} marked as completed.", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                    
+                            MessageBox.Show($"Service {serviceName} marked as completed.", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
+
+                        }
+
+
                     }
-                    
-
                 }
-             }
-            MarkOverallAppointmentStatus(appointmentModel.AppointmentId);
+                MarkOverallAppointmentStatus(appointmentModel.AppointmentId);
+            }
+            else if (StartServiceClicked) 
+            {
+
+
+                MarkOverallAppointmentStatusWhenStart(appointmentModel.AppointmentId);
+            }
+
+
             mainForm.LoadWalkIn();
             this.Close();
         }
@@ -193,25 +226,36 @@ namespace Salon.View
             if (e.RowIndex < 0) return;
             var dgv = dgv_service_selected;
 
+            bool IsStylistAvailable = Stylist_Is_Available();
+ 
+            bool stylistOffDuty = Stylist_Is_Off_Duty();
 
             if (e.RowIndex >= 0 && dgv.Columns[e.ColumnIndex].Name == "col_start_service")
             {
                 string status = dgv.Rows[e.RowIndex].Cells["col_status"].Value.ToString();
-
+                StartServiceClicked = true;
                 if (status == "On Going")
                 {
                     MessageBox.Show("Service is already on going. Please mark it as completed once done.", "Info", MessageBoxButtons.OK, MessageBoxIcon.Information);
                     return;
                 }
-                else if (status == "Completed") 
+                else if (status == "Completed")
                 {
                     MessageBox.Show("Service is already completed.", "Info", MessageBoxButtons.OK, MessageBoxIcon.Information);
                     return;
                 }
+                else if (IsStylistAvailable)
+                {
+                    MessageBox.Show("Stylist is currently busy with another service. Please wait until they are ready to start this service.", "Info", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                }
+                else if (stylistOffDuty)
+                {
+                    MessageBox.Show("Stylist is currently off duty. Please wait until they are back to start this service.", "Info", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                }
                 else
                 {
                     var controller = new AppointmentServiceRepository();
-                    int appointmentServiceId = Convert.ToInt32(dgv.Rows[e.RowIndex].Cells["col_service_id"].Value);
+                    int appointmentServiceId = Convert.ToInt32(dgv.Rows[e.RowIndex].Cells["col_aps_id"].Value);
                     int service_duration = Convert.ToInt32(dgv.Rows[e.RowIndex].Cells["col_service_time"].Value);
 
                     var start_time = DateTime.Now;
@@ -219,9 +263,10 @@ namespace Salon.View
 
                     if (controller.StartWalkInService(appointmentServiceId, start_time, endTimeDuration))
                     {
+                   
                         MessageBox.Show("Service Started Successfully.", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                        mainForm.LoadWalkIn();
                         LoadServices(appointmentModel.AppointmentId);
+                      
                     }
                     else
                     {
@@ -229,11 +274,21 @@ namespace Salon.View
                     }
                 }
             }
+            else if (e.RowIndex >= 0 && dgv.Columns[e.ColumnIndex].Name == "col_change_stylist")
+            {
+               
+                int appointment_service_id = Convert.ToInt32(dgv.Rows[e.RowIndex].Cells["col_aps_id"].Value);
+                int service_id = Convert.ToInt32(dgv.Rows[e.RowIndex].Cells["col_service_id"].Value);
+                using (var form = new AssignStylistForm(mainForm, appointment_service_id, service_id))
+                {
+                    form.ShowDialog();
+                }
+            }
 
             else if (e.RowIndex >= 0 && dgv_service_selected.Columns[e.ColumnIndex].Name == "col_mark_as_completed")
             {
                 var status = dgv_service_selected.Rows[e.RowIndex].Cells["col_status"].Value.ToString();
-
+                MarkAsCompletedClicked = true;
                 if (status == "Waiting")
                 {
                     MessageBox.Show("Service is still waiting to start. Please start the service first.", "Info", MessageBoxButtons.OK, MessageBoxIcon.Information);
@@ -274,10 +329,46 @@ namespace Salon.View
                 }
             }
 
+            if (dgv_service_selected.Columns[e.ColumnIndex].Name == "col_status" && e.RowIndex >= 0)
+            {
+                var status = e.Value?.ToString();
 
+                if (status == "On Going")
+                {
+                    e.CellStyle.BackColor = Color.LightYellow;
+                    e.CellStyle.ForeColor = Color.Black;
+                }
+                else if (status == "Completed")
+                {
+                    e.CellStyle.BackColor = Color.LightGreen;
+                    e.CellStyle.ForeColor = Color.Black;
+                }
+
+            }
 
         }
+        public void MarkOverallAppointmentStatusWhenStart(int appointment_id)
+        {
+            var repo = new AppointmentRepository();
+            var controller = new AppointmentController(repo);
 
+            bool anyOnGoing = false;
+
+            foreach (DataGridViewRow row in dgv_service_selected.Rows)
+            {
+                var status = row.Cells["col_status"].Value?.ToString();
+
+                if (status == "On Going")
+                {
+                    anyOnGoing = true;
+                    break; // no need to check further
+                }
+            }
+
+            string newStatus = anyOnGoing ? "On Going" : "Waiting";
+
+            controller.UpdateAppointmentStatus(appointment_id, newStatus);
+        }
         private void ViewDetailsForm_Load(object sender, EventArgs e)
         {
             ThemeManager.StyleDataGridView(dgv_service_selected);
@@ -286,6 +377,11 @@ namespace Salon.View
         private void materialButton1_Click(object sender, EventArgs e)
         {
             this.Close();
+        }
+
+        private void dgv_service_selected_CellContentClick(object sender, DataGridViewCellEventArgs e)
+        {
+
         }
     }
 }

@@ -26,6 +26,7 @@ namespace Salon.View
         private AppointmentModel appointmentModel;
         private bool isWaiting = false;
         private bool isOnGoing = false;
+
         private string status
         {
             get
@@ -340,13 +341,35 @@ namespace Salon.View
                     SaveInvoiceServices(invoiceServiceCart);
                 }
 
-
+                MarkOverallAppointmentStatus(appointment_id);
 
 
 
 
             }
 
+        }
+        public void MarkOverallAppointmentStatus(int appointment_id)
+        {
+            var repo = new AppointmentRepository();
+            var controller = new AppointmentController(repo);
+
+            bool anyOnGoing = false;
+
+            foreach (DataGridViewRow row in dgv_service_selected.Rows)
+            {
+                var status = row.Cells["col_status"].Value?.ToString();
+
+                if (status == "On Going" || status == "Ready to Start")
+                {
+                    anyOnGoing = true;
+                    break; // no need to check further
+                }
+            }
+
+            string newStatus = anyOnGoing ? "On Going" : "Waiting";
+
+            controller.UpdateAppointmentStatus(appointment_id, newStatus);
         }
         private int SaveInvoice(InvoiceModel model)
         {
@@ -363,10 +386,25 @@ namespace Salon.View
             serviceController.AddServiceToInvoiceCart(cart);
 
         }
+        public int GetInvoiceId(int id)
+        {
+            var repo = new InvoiceRepository();
+            var controller = new InvoiceController(repo);
+            int invoice_id = controller.GetInvoice(id);
+
+            return invoice_id;
+
+        }
         private void UpdateWalkIn()
         {
             var service_repo = new AppointmentServiceRepository();
             var service_controller = new AppointmentServiceController(service_repo);
+
+
+
+            var service_invoice_repo = new InvoiceServiceRepository();
+            var service_invoice_controller = new InvoiceServiceCartController(service_invoice_repo);
+            int invoice_id = GetInvoiceId(appointmentModel.AppointmentId);
 
 
             service_controller.DeleteAppointmentService(appointmentModel.AppointmentId);
@@ -392,7 +430,7 @@ namespace Salon.View
                         duration = parse;
                     }
                 }
-
+                
                 decimal price = Convert.ToDecimal(row.Cells["col_price"].Value.ToString());
                 var statusValue = Convert.ToString(row.Cells["col_status"].Value);
 
@@ -411,18 +449,42 @@ namespace Salon.View
                     rowStatus = "Waiting";
                     end_time = DateTime.Now.AddMinutes(duration);
                 }
-              
+                bool service_exists = service_invoice_controller.CheckIfServiceExistInCart(invoice_id,service_id);
+                if (!service_exists)
+                {
+             
+                    var invoiceServiceCart = new ServiceCart
+                    {
+                        InvoiceId = invoice_id,
+                        ServiceId = service_id,
+                        StylistId = stylist_id,
+                        ItemType = "Service",
+                        Quantity = 1,
+                        Price = price,
+                        Duration = duration
+                    };
 
-                service_controller.AddServicesToAppointment(
-                    appointmentModel.AppointmentId,
-                    service_id,
-                    stylist_id,
-                    start_time,
-                    end_time,
-                    rowStatus
-                );
+                    SaveInvoiceServices(invoiceServiceCart);
+
+                }
+                bool serviceExistInAppointment = service_controller.CheckIfServiceExists(appointmentModel.AppointmentId, service_id);
+                if (!serviceExistInAppointment) 
+                {
+                    service_controller.AddServicesToAppointment(
+                       appointmentModel.AppointmentId,
+                       service_id,
+                       stylist_id,
+                       start_time,
+                       end_time,
+                       rowStatus
+                   );
+                }
+
+               
+                MarkOverallAppointmentStatus(appointmentModel.AppointmentId);
             }
         }
+
         private void btn_save_Click(object sender, EventArgs e)
         {
             SaveWalkIn();
@@ -475,9 +537,12 @@ namespace Salon.View
             ((HandledMouseEventArgs)e).Handled = true;
         }
 
- 
-    
 
+
+        public void CheckIngredients() 
+        {
+            
+        }
         private void btn_add_service_Click_1(object sender, EventArgs e)
         {
             string stylistAvailability = Stylist_Is_Available()
@@ -485,18 +550,70 @@ namespace Salon.View
             : "Busy";
 
 
-            dgv_service_selected.Rows.Add(
-            0, 
-            cmb_services.SelectedValue,
-            cmb_services.Text,
-            cmb_stylist.SelectedValue,
-            cmb_stylist.Text,
-            txt_duration.Text,
-            txt_price.Text,
-            null,
-            null,
-            stylistAvailability
-            );
+            if (string.IsNullOrEmpty(cmb_services.Text)) 
+            {
+                MessageBox.Show("Please select a service.",
+                                "Service Not Selected", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+
+                return;
+            }
+            if (string.IsNullOrEmpty(cmb_stylist.Text)) 
+            {
+                MessageBox.Show("Please select a stylist.",
+                                "Stylist Not Selected", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
+
+            // Get the selected service ID
+            var selectedServiceId = cmb_services.SelectedValue;
+
+            // Check if the service is already in the grid
+            bool alreadyAdded = false;
+            foreach (DataGridViewRow row in dgv_service_selected.Rows)
+            {
+                if (row.Cells["col_service_id"].Value?.ToString() == selectedServiceId.ToString())
+                {
+                    alreadyAdded = true;
+                    break;
+                }
+            }
+            if (!rad_exists.Checked && !rad_guest.Checked) 
+            {
+                MessageBox.Show("Please select a client type.",
+                                "Customer Not Selected", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
+            if (rad_exists.Checked) 
+            {
+                if (string.IsNullOrEmpty(lbl_prefix.Text))
+                {
+                    MessageBox.Show("Please select a member.",
+                                    "Member Not Selected", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    return;
+                }
+            }
+            if (alreadyAdded)
+            {
+                MessageBox.Show("This service has already been added.",
+                                "Duplicate Service", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
+            else
+            {
+                dgv_service_selected.Rows.Add(
+                    0,
+                    cmb_services.SelectedValue,
+                    cmb_services.Text,
+                    cmb_stylist.SelectedValue,
+                    cmb_stylist.Text,
+                    txt_duration.Text,
+                    txt_price.Text,
+                    null,
+                    null,
+                    stylistAvailability
+                );
+            }
+           
 
 
         }
@@ -529,7 +646,14 @@ namespace Salon.View
 
         private void rad_exists_CheckedChanged(object sender, EventArgs e)
         {
-
+            if (rad_exists.Checked)
+            {
+                btn_search.Enabled = true;
+            }
+            else 
+            {
+                btn_search.Enabled = false;
+            }
         }
 
         private void btn_update_Click_1(object sender, EventArgs e)
@@ -544,9 +668,10 @@ namespace Salon.View
         {
             if (e.RowIndex < 0) return;
 
-            if (e.RowIndex >= 0 && dgv_service_selected.Columns[e.ColumnIndex].Name == "btn_remove") 
+            if (e.RowIndex >= 0 && dgv_service_selected.Columns[e.ColumnIndex].Name == "btn_remove")
             {
-                int appointmentServiceId = Convert.ToInt32(dgv_service_selected.Rows[e.RowIndex].Cells["col_appointment_service_id"].Value);             
+                int appointmentServiceId = Convert.ToInt32(dgv_service_selected.Rows[e.RowIndex].Cells["col_appointment_service_id"].Value);
+                int serviceId = Convert.ToInt32(dgv_service_selected.Rows[e.RowIndex].Cells["col_service_id"].Value);
                 string serviceName = dgv_service_selected.Rows[e.RowIndex].Cells["col_service_name"].Value.ToString();
 
 
@@ -554,13 +679,66 @@ namespace Salon.View
 
                 if (confirmResult == DialogResult.Yes)
                 {
-                    var repo = new AppointmentServiceRepository();
-                    var controller = new AppointmentServiceController(repo);
-                    controller.DeleteAppointmentServiceById(appointmentServiceId);
-                    MessageBox.Show($"{serviceName} removed successfully!", "Removed", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                    LoadSelectedServices(appointmentModel.AppointmentId);
-                    _mainForm.LoadWalkIn();
+                    if (appointmentServiceId == 0)
+                    {
+                        // Not saved yet, just remove from the grid
+                        dgv_service_selected.Rows.RemoveAt(e.RowIndex); // ✅ use RemoveAt for index
+
+                        MessageBox.Show($"{serviceName} removed successfully!",
+                                        "Removed", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    }
+                    else
+                    {
+                        // Saved in DB, delete through repository
+                        var repo = new AppointmentServiceRepository();
+                        var controller = new AppointmentServiceController(repo);
+
+
+                        var inv_repo = new InvoiceServiceRepository();
+                        var inv_service_controller = new InvoiceServiceCartController(inv_repo);
+
+                        int invoice_id = GetInvoiceId(appointmentModel.AppointmentId);
+
+                        int invoice_service_id = inv_service_controller.GetInvoiceServiceById(invoice_id, serviceId);
+                        
+                        inv_service_controller.DeleteServiceFromInvoiceCart(invoice_service_id);
+                        controller.DeleteAppointmentServiceById(appointmentServiceId);
+
+                        MessageBox.Show($"{serviceName} removed successfully!",
+                                        "Removed", MessageBoxButtons.OK, MessageBoxIcon.Information);
+
+                        LoadSelectedServices(appointmentModel.AppointmentId);
+                        _mainForm.LoadWalkIn();
+                    }
+
+                  
                 }
+            }
+            else if (e.RowIndex >= 0  && dgv_service_selected.Columns[e.ColumnIndex].Name == "btn_mark_as_waiting") 
+            {
+                string status = Convert.ToString(dgv_service_selected.Rows[e.RowIndex].Cells["col_status"].Value);
+                if (status == "Waiting")
+                {
+                    MessageBox.Show("This service is already marked as Waiting.",
+                                    "Info", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                }
+                else if (status == "Busy") 
+                {
+                    MessageBox.Show("This service is currently Busy and cannot be marked as Waiting.",
+                                    "Info", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                }
+                else
+                {
+                    var row = dgv_service_selected.Rows[e.RowIndex];
+                    row.Cells["col_status"].Value = "Waiting";
+
+
+                }
+
+
+
+
+
             }
         }
 
@@ -589,6 +767,26 @@ namespace Salon.View
                 LoadStylist(selectedService.serviceName_id);
 
             }
+        }
+
+        private void dgv_service_selected_CellValueChanged(object sender, DataGridViewCellEventArgs e)
+        {
+           
+        }
+
+        private void dgv_service_selected_CurrentCellDirtyStateChanged(object sender, EventArgs e)
+        {
+          
+        }
+
+        private void dgv_service_selected_CellFormatting(object sender, DataGridViewCellFormattingEventArgs e)
+        {
+            
+        }
+
+        private void Walk_In_Form_Load(object sender, EventArgs e)
+        {
+            ThemeManager.StyleDataGridView(dgv_service_selected);
         }
     }
 }

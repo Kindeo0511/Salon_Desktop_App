@@ -12,6 +12,8 @@ namespace Salon.Models
         public int service_id { get; set; }
         public string brand { get; set; }
         public int product_id { get; set; }
+        public int product_size_id { get; set; }
+        public string size_label { get; set; }
         public string serviceName { get; set; }
         public string product_name { get; set; }
         public string unit_type { get; set; }

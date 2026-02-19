@@ -155,48 +155,50 @@ namespace Salon.Util
             }
         }
 
-       
+
         public static async Task EmailOTPNotification(string to, string recipientName, string otp)
         {
+            owner_controller = new OwnerEmailController(owner_repo);
+            var owner = owner_controller.GetOwnerEmail();
+
             string subject = "Your OTP Code";
 
             string body = $@"
-            <html>
-            <head>
-              <style>
-                body {{ font-family: Arial; background-color: #f4f4f4; padding: 20px; }}
-                .container {{ background-color: #fff; padding: 20px; border-radius: 8px; }}
-                .header {{ font-size: 18px; font-weight: bold; color: #333; }}
-                .otp {{ font-size: 24px; font-weight: bold; color: #007BFF; }}
-                .footer {{ font-size: 12px; color: #999; margin-top: 20px; }}
-              </style>
-            </head>
-            <body>
-              <div class='container'>
-                <div class='header'>🔐 Forgot Password OTP</div>
-                <p>Hello {recipientName},</p>
-                <p>Use the following code to reset your password:</p>
-                <p class='otp'>{otp}</p>
-                <p>This code will expire in 5 minutes.</p>
-                <div class='footer'>
-                  This is an automated message. Please do not reply.<br>
-                  &copy; 2025 HCSANSOR
-                </div>
-              </div>
-            </body>
-            </html>";
+    <html>
+    <head>
+      <style>
+        body {{ font-family: Arial; background-color: #f4f4f4; padding: 20px; }}
+        .container {{ background-color: #fff; padding: 20px; border-radius: 8px; }}
+        .header {{ font-size: 18px; font-weight: bold; color: #333; }}
+        .otp {{ font-size: 24px; font-weight: bold; color: #007BFF; }}
+        .footer {{ font-size: 12px; color: #999; margin-top: 20px; }}
+      </style>
+    </head>
+    <body>
+      <div class='container'>
+        <div class='header'>🔐 Forgot Password OTP</div>
+        <p>Hello {recipientName},</p>
+        <p>Use the following code to reset your password:</p>
+        <p class='otp'>{otp}</p>
+        <p>This code will expire in 5 minutes.</p>
+        <div class='footer'>
+          This is an automated message. Please do not reply.<br>
+          &copy; 2025 HCSANSOR
+        </div>
+      </div>
+    </body>
+    </html>";
 
             using (var smtp = new SmtpClient("smtp.gmail.com", 587))
             {
                 smtp.EnableSsl = true;
-                smtp.Credentials = new NetworkCredential("", "");
+                smtp.Credentials = new NetworkCredential(owner.email, owner.pass);
 
-                var mail = new MailMessage("", to, subject, body)
+                using (var mail = new MailMessage(owner.email, to, subject, body))
                 {
-                    IsBodyHtml = true
-                };
-
-                await smtp.SendMailAsync(mail);
+                    mail.IsBodyHtml = true;
+                    await smtp.SendMailAsync(mail);
+                }
             }
         }
 

@@ -50,7 +50,14 @@ namespace Salon.Controller
         {
             return repo.GetTodayAppointment();
         }
-
+        public bool GetStylistAvailability(int stylistId)
+        {
+            return repo.GetStylistStatus(stylistId);
+        }
+        public bool IsStylistOfDuty(int stylistId)
+        {
+            return repo.IsStylistOffDuty(stylistId);
+        }
         public IEnumerable<AppointmentModel> GetStylistTrack() 
         {
             return repo.StylistTrackingPanel();

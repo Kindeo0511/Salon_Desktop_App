@@ -8,7 +8,7 @@ namespace Salon.Models
 {
     public class StockOutModel
     {
-        public int transaction_id { get; set; }
+        public int stock_in_id { get; set; }
         public int product_size_id { get; set; }
         public string product_name { get; set; }
         public string size_label { get; set; }

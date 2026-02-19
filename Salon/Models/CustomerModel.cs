@@ -25,7 +25,7 @@ namespace Salon.Models
   
             get
             {
-                return $"{firstName} {middleName} {lastName} - {email}";
+                return $"{firstName} {middleName} {lastName}";
             }
         }
 

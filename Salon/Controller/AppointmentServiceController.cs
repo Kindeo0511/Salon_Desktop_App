@@ -42,6 +42,10 @@ namespace Salon.Controller
         {
             repo.UpdateAppointmentService(model);
         }
+        public bool CheckIfServiceExists(int appointmentId, int serviceId) 
+        {
+            return repo.CheckIfServiceExists(appointmentId, serviceId);
+        }
         public bool MarkServiceAsCompleted(int appointmentServiceId) 
         {
             return repo.MarkAsCompleted(appointmentServiceId);
@@ -81,7 +85,10 @@ namespace Salon.Controller
         {
             return repo.GetViewSelectedServices(id);
         }
-
+        public bool ChangeStylist(int appointmentServiceId, int newStylistId) 
+        {
+            return repo.ChangeStylist(appointmentServiceId, newStylistId);
+        }
         public bool StartWalkInService(int id, DateTime start_time, DateTime end_time) 
         {
             return repo.StartWalkInService(id, start_time, end_time);

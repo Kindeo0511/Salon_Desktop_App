@@ -17,6 +17,7 @@ namespace Salon.View
     public partial class PaymentMethodForm : MaterialForm
     {
         private readonly MainForm main;
+        private readonly ConfigureSettingsForm settings;
         private readonly PaymentMethodModel paymentMethod;
         private bool IsSave = false;
         private bool IsUpdate = false;
@@ -25,6 +26,12 @@ namespace Salon.View
             InitializeComponent();
             ThemeManager.ApplyTheme(this);
             this.main = main;
+        }
+        public PaymentMethodForm(ConfigureSettingsForm settingsForm)
+        {
+            InitializeComponent();
+            ThemeManager.ApplyTheme(this);
+            this.settings = settingsForm;
         }
         public PaymentMethodForm(MainForm main, PaymentMethodModel paymentMethod)
         {
@@ -97,6 +104,7 @@ namespace Salon.View
             {
                 MessageBox.Show("Payment Method added successfully!", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 main.LoadPaymentMethod();
+                settings.LoadPaymentMethod();
             }
         }
 

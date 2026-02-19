@@ -21,6 +21,9 @@ namespace Salon.Models
         public decimal TotalAmount { get; set; }
         public decimal VATAmount { get; set; }
         public decimal DiscountAmount { get; set; }
+        public decimal NetSales { get; set; }
+        public decimal NetProfit { get; set; }
+        public decimal TotalCost { get; set; }
         public int payment_method_id { get; set; }
         public string reference_number { get; set; }
         public string Notes { get; set; }

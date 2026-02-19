@@ -25,6 +25,10 @@ namespace Salon.View
         private bool _isProductSizeSaving = false;
         private bool _isProductSizeUpdating = false;
         public event EventHandler RefreshData;
+
+        private bool productInfoCreated = false; 
+        private bool allowTabChange = false;
+
         public ProductForm(MainForm mainform)
         {
             InitializeComponent();
@@ -54,6 +58,10 @@ namespace Salon.View
 
                 btn_save.Visible = false;
                 btn_update.Visible = true;
+
+                btn_next.Visible = false;
+                btn_back.Visible = false;
+                allowTabChange = true;
 
 
                 // PRODUCT SIZE
@@ -234,12 +242,10 @@ namespace Salon.View
         }
         private async void btn_save_Click(object sender, EventArgs e)
         {
-            if (!IsValid()) return;
+     
 
-            IsAccountExists();
-
-            await mainForm.RefreshProductAsync(1,25);
-            await mainForm.RefreshTotalProduct();
+            //await mainForm.RefreshProductAsync(1,25);
+            //await mainForm.RefreshTotalProduct();
 
 
 
@@ -251,6 +257,7 @@ namespace Salon.View
 
             IsAccountExists();
             await mainForm.RefreshProductAsync(1,25);
+            await mainForm.RefreshTotalProduct();
 
 
         }
@@ -481,6 +488,9 @@ namespace Salon.View
         }
         private async void btn_product_size_save_Click(object sender, EventArgs e)
         {
+  
+
+
             _isProductSizeSaving = true;
             ProductSize();
             LoadProductSizeById(_product_id);
@@ -547,6 +557,56 @@ namespace Salon.View
             txt_size_label.Text = string.Empty;
             txt_content.Text = string.Empty;
             txt_cost_price.Text = string.Empty;
+        }
+
+        private void btn_next_Click(object sender, EventArgs e)
+        {
+          
+            if (productTabControl.SelectedIndex == 0 && !productInfoCreated)
+            {
+                if (!IsValid()) return;
+
+                IsAccountExists();
+                productInfoCreated = true; // mark as done
+            }
+
+
+            if (productTabControl.SelectedIndex < productTabControl.TabCount - 1)
+            {
+                allowTabChange = true; // allow programmatic change
+                productTabControl.SelectedIndex++;
+                allowTabChange = false; // reset
+            }
+
+
+            //if (productTabControl.SelectedIndex < productTabControl.TabCount - 1)
+            //{
+            //    productTabControl.SelectedIndex++; // move forward }
+
+            //}
+        }
+
+        private void productTabControl_Selecting(object sender, TabControlCancelEventArgs e)
+        {
+            // Cancel only if the user clicked the tab header
+            if (!allowTabChange)
+            {
+                e.Cancel = true;
+            }
+
+
+
+        }
+
+        private void btn_back_Click(object sender, EventArgs e)
+        {
+            if (productTabControl.SelectedIndex > 0)
+            {
+                allowTabChange = true;
+                productTabControl.SelectedIndex--;
+                allowTabChange = false;
+            }
+
         }
         // END OF PRODUCTS
 

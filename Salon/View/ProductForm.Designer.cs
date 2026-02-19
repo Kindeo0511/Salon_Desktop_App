@@ -43,6 +43,7 @@
             this.productTabControl = new MaterialSkin.Controls.MaterialTabControl();
             this.tabPage1 = new System.Windows.Forms.TabPage();
             this.materialCard1 = new MaterialSkin.Controls.MaterialCard();
+            this.btn_next = new MaterialSkin.Controls.MaterialButton();
             this.tabPage2 = new System.Windows.Forms.TabPage();
             this.materialCard2 = new MaterialSkin.Controls.MaterialCard();
             this.txt_content = new MaterialSkin.Controls.MaterialTextBox();
@@ -63,6 +64,7 @@
             this.materialLabel2 = new MaterialSkin.Controls.MaterialLabel();
             this.materialLabel8 = new MaterialSkin.Controls.MaterialLabel();
             this.materialLabel5 = new MaterialSkin.Controls.MaterialLabel();
+            this.btn_back = new MaterialSkin.Controls.MaterialButton();
             ((System.ComponentModel.ISupportInitialize)(this.errorProvider1)).BeginInit();
             this.productTabControl.SuspendLayout();
             this.tabPage1.SuspendLayout();
@@ -80,7 +82,7 @@
             this.btn_update.DrawShadows = false;
             this.btn_update.HighEmphasis = true;
             this.btn_update.Icon = null;
-            this.btn_update.Location = new System.Drawing.Point(559, 387);
+            this.btn_update.Location = new System.Drawing.Point(461, 398);
             this.btn_update.Margin = new System.Windows.Forms.Padding(4, 6, 4, 6);
             this.btn_update.MouseState = MaterialSkin.MouseState.HOVER;
             this.btn_update.Name = "btn_update";
@@ -102,7 +104,7 @@
             this.btn_cancel.Depth = 0;
             this.btn_cancel.HighEmphasis = true;
             this.btn_cancel.Icon = null;
-            this.btn_cancel.Location = new System.Drawing.Point(733, 387);
+            this.btn_cancel.Location = new System.Drawing.Point(739, 398);
             this.btn_cancel.Margin = new System.Windows.Forms.Padding(4, 6, 4, 6);
             this.btn_cancel.MouseState = MaterialSkin.MouseState.HOVER;
             this.btn_cancel.Name = "btn_cancel";
@@ -121,9 +123,10 @@
             this.btn_save.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
             this.btn_save.Density = MaterialSkin.Controls.MaterialButton.MaterialButtonDensity.Default;
             this.btn_save.Depth = 0;
+            this.btn_save.DrawShadows = false;
             this.btn_save.HighEmphasis = true;
             this.btn_save.Icon = null;
-            this.btn_save.Location = new System.Drawing.Point(559, 387);
+            this.btn_save.Location = new System.Drawing.Point(18, 409);
             this.btn_save.Margin = new System.Windows.Forms.Padding(4, 6, 4, 6);
             this.btn_save.MouseState = MaterialSkin.MouseState.HOVER;
             this.btn_save.Name = "btn_save";
@@ -134,6 +137,7 @@
             this.btn_save.Type = MaterialSkin.Controls.MaterialButton.MaterialButtonType.Contained;
             this.btn_save.UseAccentColor = false;
             this.btn_save.UseVisualStyleBackColor = true;
+            this.btn_save.Visible = false;
             this.btn_save.Click += new System.EventHandler(this.btn_save_Click);
             // 
             // txt_brand
@@ -245,6 +249,7 @@
             // 
             // errorProvider1
             // 
+            this.errorProvider1.BlinkStyle = System.Windows.Forms.ErrorBlinkStyle.NeverBlink;
             this.errorProvider1.ContainerControl = this;
             // 
             // productTabSelector
@@ -274,6 +279,7 @@
             this.productTabControl.SelectedIndex = 0;
             this.productTabControl.Size = new System.Drawing.Size(900, 518);
             this.productTabControl.TabIndex = 40;
+            this.productTabControl.Selecting += new System.Windows.Forms.TabControlCancelEventHandler(this.productTabControl_Selecting);
             // 
             // tabPage1
             // 
@@ -290,6 +296,7 @@
             // 
             this.materialCard1.AutoScrollMargin = new System.Drawing.Size(0, 25);
             this.materialCard1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
+            this.materialCard1.Controls.Add(this.btn_next);
             this.materialCard1.Controls.Add(this.btn_cancel);
             this.materialCard1.Controls.Add(this.btn_update);
             this.materialCard1.Controls.Add(this.btn_save);
@@ -310,6 +317,27 @@
             this.materialCard1.Size = new System.Drawing.Size(886, 483);
             this.materialCard1.TabIndex = 37;
             // 
+            // btn_next
+            // 
+            this.btn_next.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
+            this.btn_next.Density = MaterialSkin.Controls.MaterialButton.MaterialButtonDensity.Default;
+            this.btn_next.Depth = 0;
+            this.btn_next.DrawShadows = false;
+            this.btn_next.HighEmphasis = true;
+            this.btn_next.Icon = null;
+            this.btn_next.Location = new System.Drawing.Point(231, 398);
+            this.btn_next.Margin = new System.Windows.Forms.Padding(4, 6, 4, 6);
+            this.btn_next.MouseState = MaterialSkin.MouseState.HOVER;
+            this.btn_next.Name = "btn_next";
+            this.btn_next.NoAccentTextColor = System.Drawing.Color.Empty;
+            this.btn_next.Size = new System.Drawing.Size(64, 36);
+            this.btn_next.TabIndex = 37;
+            this.btn_next.Text = "next";
+            this.btn_next.Type = MaterialSkin.Controls.MaterialButton.MaterialButtonType.Contained;
+            this.btn_next.UseAccentColor = false;
+            this.btn_next.UseVisualStyleBackColor = true;
+            this.btn_next.Click += new System.EventHandler(this.btn_next_Click);
+            // 
             // tabPage2
             // 
             this.tabPage2.BackColor = System.Drawing.SystemColors.Control;
@@ -327,6 +355,7 @@
             this.materialCard2.AutoScroll = true;
             this.materialCard2.AutoScrollMargin = new System.Drawing.Size(0, 50);
             this.materialCard2.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
+            this.materialCard2.Controls.Add(this.btn_back);
             this.materialCard2.Controls.Add(this.txt_content);
             this.materialCard2.Controls.Add(this.txt_cost_price);
             this.materialCard2.Controls.Add(this.btn_product_size_cancel);
@@ -595,10 +624,31 @@
             this.materialLabel5.TabIndex = 42;
             this.materialLabel5.Text = "Content:";
             // 
+            // btn_back
+            // 
+            this.btn_back.AutoSize = false;
+            this.btn_back.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
+            this.btn_back.Density = MaterialSkin.Controls.MaterialButton.MaterialButtonDensity.Default;
+            this.btn_back.Depth = 0;
+            this.btn_back.HighEmphasis = true;
+            this.btn_back.Icon = null;
+            this.btn_back.Location = new System.Drawing.Point(21, 343);
+            this.btn_back.Margin = new System.Windows.Forms.Padding(4, 6, 4, 6);
+            this.btn_back.MouseState = MaterialSkin.MouseState.HOVER;
+            this.btn_back.Name = "btn_back";
+            this.btn_back.NoAccentTextColor = System.Drawing.Color.Empty;
+            this.btn_back.Size = new System.Drawing.Size(129, 36);
+            this.btn_back.TabIndex = 51;
+            this.btn_back.Text = "back";
+            this.btn_back.Type = MaterialSkin.Controls.MaterialButton.MaterialButtonType.Contained;
+            this.btn_back.UseAccentColor = false;
+            this.btn_back.UseVisualStyleBackColor = true;
+            this.btn_back.Click += new System.EventHandler(this.btn_back_Click);
+            // 
             // ProductForm
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
-            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.AutoScaleDimensions = new System.Drawing.SizeF(120F, 120F);
+            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Dpi;
             this.AutoScroll = true;
             this.ClientSize = new System.Drawing.Size(900, 600);
             this.Controls.Add(this.productTabControl);
@@ -660,5 +710,7 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn col_product_cost_price;
         private System.Windows.Forms.DataGridViewButtonColumn col_product_size_update;
         private System.Windows.Forms.DataGridViewButtonColumn col_product_size_delete;
+        private MaterialSkin.Controls.MaterialButton btn_next;
+        private MaterialSkin.Controls.MaterialButton btn_back;
     }
 }

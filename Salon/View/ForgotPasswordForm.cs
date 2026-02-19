@@ -32,54 +32,54 @@ namespace Salon.View
         {
             var validated = true;
 
-            if (rad_sms.Checked)
-            {
-                if (!Validator.IsRequiredTextField(txt_number, errorProvider1, "Phone number is required"))
-                {
-                    validated = false;
-                }
-                else if (!Validator.Pattern(txt_number, errorProvider1, @"^\d+$", "Phone number must contain digits only."))
-                {
-                    validated = false;
-                }
-                else if (!Validator.Pattern(txt_number, errorProvider1, @"^09\d{9}$", "Contact number should start with '09' and be 11 digits long."))
-                {
-                    validated = false;
-                }
-            }
-            else if (rad_email.Checked) 
-            {
-                if (!Validator.IsRequiredTextField(txt_username, errorProvider1, "Email address should not be empty."))
-                {
-                    validated = false;
-                }
-                else if (txt_username.Text.Contains(" "))
-                {
-                    errorProvider1.SetError(txt_username, "Email address should not contain spaces.");
-                    validated = false;
-                }
-                else if (txt_username.Text.Count(c => c == '@') != 1)
-                {
-                    errorProvider1.SetError(txt_username, "Email address must contain exactly one '@' symbol.");
-                    validated = false;
-                }
-                else if (!Validator.Pattern(
-                  txt_username,
-                  errorProvider1,
-                  @"^[^@\s]+@[^@\s]+\.[^@\s]+$",
-                  "Please enter a valid email address."))
-                    {
-                        validated = false;
-                    }
+            //if (rad_sms.Checked)
+            //{
+            //    if (!Validator.IsRequiredTextField(txt_number, errorProvider1, "Phone number is required"))
+            //    {
+            //        validated = false;
+            //    }
+            //    else if (!Validator.Pattern(txt_number, errorProvider1, @"^\d+$", "Phone number must contain digits only."))
+            //    {
+            //        validated = false;
+            //    }
+            //    else if (!Validator.Pattern(txt_number, errorProvider1, @"^09\d{9}$", "Contact number should start with '09' and be 11 digits long."))
+            //    {
+            //        validated = false;
+            //    }
+            //}
+            //else if (rad_email.Checked) 
+            //{
+            //    if (!Validator.IsRequiredTextField(txt_username, errorProvider1, "Email address should not be empty."))
+            //    {
+            //        validated = false;
+            //    }
+            //    else if (txt_username.Text.Contains(" "))
+            //    {
+            //        errorProvider1.SetError(txt_username, "Email address should not contain spaces.");
+            //        validated = false;
+            //    }
+            //    else if (txt_username.Text.Count(c => c == '@') != 1)
+            //    {
+            //        errorProvider1.SetError(txt_username, "Email address must contain exactly one '@' symbol.");
+            //        validated = false;
+            //    }
+            //    else if (!Validator.Pattern(
+            //      txt_username,
+            //      errorProvider1,
+            //      @"^[^@\s]+@[^@\s]+\.[^@\s]+$",
+            //      "Please enter a valid email address."))
+            //        {
+            //            validated = false;
+            //        }
 
 
-            }
+            //}
 
 
 
             return validated;
         }
-        private bool GetUserByEmailOrPhone(string email, string phone, string method)
+        private bool GetUserByEmailOrPhone(string email)
         {
             var repo = new UserRepository();
             var controller = new UserController(repo);
@@ -89,10 +89,7 @@ namespace Salon.View
             {
                 user = controller.GetUser(email);
             }
-            else if (!string.IsNullOrEmpty(phone))
-            {
-                user = controller.GetUserByPhone(phone);
-            }
+            
 
             if (user != null)
             {
@@ -107,15 +104,9 @@ namespace Salon.View
                 currentOtp = otp;
                 MessageBox.Show("OTP SENT");
 
-                // 🔐 Send OTP based on selected method
-                if (method == "Email" && !string.IsNullOrEmpty(user.email))
-                {
-                    _ = EmailMessage.EmailOTPNotification(user.email, user.first_Name, otp.Code);
-                }
-                else if (method == "SMS" && !string.IsNullOrEmpty(user.phone_Number))
-                {
-                    _ = SmsSender.SendOtpAsync(user.phone_Number, user.first_Name, otp.Code); // You’ll need to implement this
-                }
+                _ = EmailMessage.EmailOTPNotification(user.email, user.first_Name, otp.Code);
+            
+           
 
         
                 return true;
@@ -132,19 +123,18 @@ namespace Salon.View
         private void btn_next_Click(object sender, EventArgs e)
         {
 
-            string method = rad_email.Checked ? "Email" :
-                 rad_sms.Checked ? "SMS" : null;
+            
             if (!IsValidEmailOrSMS()) return;
 
-            if (string.IsNullOrEmpty(method))
+            if (string.IsNullOrWhiteSpace(txt_username.Text))
             {
-                MessageBox.Show("Please select an OTP delivery method.");
+                MessageBox.Show("Please enter an email.");
                 return;
             }
 
 
 
-            bool userFound = GetUserByEmailOrPhone(txt_username.Text, txt_number.Text, method);
+            bool userFound = GetUserByEmailOrPhone(txt_username.Text);
 
             if (userFound)
             {
@@ -273,17 +263,7 @@ namespace Salon.View
 
         }
 
-        private void rad_sms_CheckedChanged(object sender, EventArgs e)
-        {
-            txt_number.Visible = rad_sms.Checked;
-            lbl_number.Visible = rad_sms.Checked;
-        }
-
-        private void rad_email_CheckedChanged(object sender, EventArgs e)
-        {
-            lbl_email.Visible = rad_email.Checked;
-            txt_username.Visible = rad_email.Checked;
-        }
+        
         private string HashPassword(string password)
         {
             return BCrypt.Net.BCrypt.HashPassword(password);
@@ -296,7 +276,6 @@ namespace Salon.View
             var model = new UsersModel
             {
                 email = txt_username.Text,
-                phone_Number = txt_number.Text,
                 userPassword = HashPassword(txt_password.Text.Trim()),
             };
 
@@ -370,8 +349,7 @@ namespace Salon.View
 
         private void send_otp_Click(object sender, EventArgs e)
         {
-            string method = rad_email.Checked ? "Email" :
-                rad_sms.Checked ? "SMS" : null;
+          
 
             if (!IsValidEmailOrSMS()) return;
             var otp = new OtpEntryModel
@@ -380,12 +358,12 @@ namespace Salon.View
                 Expiry = DateTime.Now.AddMinutes(5)
             };
 
-            if (string.IsNullOrEmpty(method))
+            if (string.IsNullOrEmpty(txt_username.Text))
             {
-                MessageBox.Show("Please select an OTP delivery method.");
+                MessageBox.Show("Please enter an email.");
                 return;
             }
-            bool userFound = GetUserByEmailOrPhone(txt_username.Text, txt_number.Text, method);
+            bool userFound = GetUserByEmailOrPhone(txt_username.Text);
 
             // Disable resend button and start countdown
             send_otp.Enabled = false;
@@ -399,7 +377,7 @@ namespace Salon.View
             txt_count_down.Text = countdown.ToString();
             otp_timer.Interval = 1000; 
             otp_timer.Start();
-            lbl_number.Visible = true;
+          
         }
 
         private void otp_timer_Tick(object sender, EventArgs e)
@@ -410,7 +388,6 @@ namespace Salon.View
             if (countdown <= 0)
             {
                 otp_timer.Stop();
-                lbl_number.Visible = false;
                 send_otp.Enabled = true;
                 txt_count_down.Visible = false;
                 btn_confirm.Enabled = true; // Re-enable if verification failed

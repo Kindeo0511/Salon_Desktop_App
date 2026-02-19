@@ -11,6 +11,9 @@ namespace Salon.Models
         public int refund_id { get; set; }
         public int service_cart_id { get; set; }
         public int refund_qty { get; set; }
+        public decimal refund_amount { get; set; }
+        public decimal refund_vat { get; set; }
+        public string status { get; set; }
         public string reason { get; set; }
         public string refunded_by { get; set; }
         public DateTime refunded_at { get; set; }

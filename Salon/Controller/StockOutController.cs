@@ -25,6 +25,10 @@ namespace Salon.Controller
         {
             return repo.GetTransactionId(product_id);
         }
+        public void RefundProduct(int stock_in_id, int product_size, int qty) 
+        {
+             repo.RefundProduct(stock_in_id, product_size, qty);
+        }
         public void UpdateProductTransaction(int transaction_id, int product_size_id, int qty) 
         {
             repo.UpdateProducTransaction(transaction_id, product_size_id,  qty);
@@ -35,9 +39,9 @@ namespace Salon.Controller
             repo.VoidProductTransaction(transaction_id, size, qty);
         }
 
-        public void UpdateTransaction(int transaction_id, int qty) 
+        public void UpdateTransaction(int stock_in_id, int qty) 
         {
-            repo.UpdateTransaction(transaction_id, qty);
+            repo.UpdateTransaction(stock_in_id, qty);
         }
         public void DeductStockOut(int product_id, int deduction, string out_type, string unit_type) 
         {

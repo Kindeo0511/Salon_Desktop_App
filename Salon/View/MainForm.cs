@@ -2124,15 +2124,7 @@ namespace Salon.View
         {
             if (e.RowIndex < 0) return;
 
-             //   if (e.RowIndex >= 0 && dgv_waiting.Columns[e.ColumnIndex].Name == "col_waiting_assign_stylist") 
-             //   {
-             //       int service_id = Convert.ToInt32(dgv_waiting.Rows[e.RowIndex].Cells["col_waiting_app_service_id"].Value);
-
-             //    using (var form = new AssignStylistForm(this, service_id))
-             //       {
-             //           form.ShowDialog();
-             //       }
-             //}
+            
              if (e.RowIndex >= 0 && dgv_waiting.Columns[e.ColumnIndex].Name == "col_waiting_update")
              {
                 var type = dgv_waiting.Rows[e.RowIndex].Cells["col_waiting_book_type"].Value?.ToString();
@@ -2573,6 +2565,7 @@ namespace Salon.View
                 : controller.GetSalesReportView(pageSize, offset);
 
 
+
             int totalRecords = controller.GetCountTotalInvoice();
             int totalPages = (int)Math.Ceiling((double)totalRecords / pageSize);
             sales_report_pagination.SetTotalPages(totalPages);
@@ -2582,15 +2575,27 @@ namespace Salon.View
             var total_vat = dgv_sales.Sum(s => s.VatAmount);
             var total_discount = dgv_sales.Sum(s => s.DiscountAmount);
             var total_refund = dgv_sales.Sum(s => s.RefundAmount);
-            
-            var net_sales = total_sales - total_discount;
+            var total_cost = dgv_sales.Sum(s => s.TotalCost);
+     
+
+
             if (dgv_sales != null)
             {
+                // Net sales should exclude discounts and refunds
+                var net_price = total_sales - total_vat; // Net Price (excl. VAT)
+
+                // Net of VAT (sales without VAT)
+                var sales_excl_vat = total_sales - total_vat;
+
+                // Profit approximation (net sales minus VAT)
+                var net_profit = net_price - total_cost;
+
                 lbl_report_total_sales.Text = total_sales.ToString("C2");
                 lbl_report_total_vat.Text = total_vat.ToString("C2");
                 lbl_report_total_discount.Text = total_discount.ToString("C2");
                 lbl_report_total_refund.Text = total_refund.ToString("C2");
-                lbl_report_net_sales.Text = net_sales.ToString("C2");
+                lbl_net_price.Text = sales_excl_vat.ToString("C2");
+                lbl_report_profit.Text = net_profit.ToString("C2");
 
 
                 dgv_report_table.AutoGenerateColumns = false;
@@ -4547,9 +4552,9 @@ namespace Salon.View
             await RefreshAppointmentAsync(currentPage, pageSize);
         }
 
-        private async void btn_refresh_transaction_Click(object sender, EventArgs e)
+        private void btn_refresh_transaction_Click(object sender, EventArgs e)
         {
-            //await RefreshTransactionAsync();
+             FilterTransactionReport(currentPage, pageSize);
         }
 
         private async void btn_refresh_data_recovery_Click(object sender, EventArgs e)
@@ -5584,6 +5589,8 @@ namespace Salon.View
             currentFixedDiscount = 0m;
             discountAppliedAlready = false;
             OverallDiscountApplied = false;
+
+            currentAmount = 0m;
             txt_received.Text = "0.00";
             
             dgv_cart_product.Refresh();
@@ -6336,14 +6343,60 @@ namespace Salon.View
 
         private void dgv_stylist_track_CellFormatting(object sender, DataGridViewCellFormattingEventArgs e)
         {
+            // Skip header and new row
+            if (e.RowIndex < 0 || e.RowIndex >= dgv_stylist_track.Rows.Count) return;
 
+
+            var status = dgv_stylist_track.Rows[e.RowIndex].Cells["col_duty_stylist_duty_status"].Value?.ToString();
+
+            var row = dgv_stylist_track.Rows[e.RowIndex];
+
+                if (status == "Busy")
+                {
+                row.DefaultCellStyle.BackColor = Color.IndianRed;   // softer red, less aggressive
+                row.DefaultCellStyle.ForeColor = Color.White;
+                row.DefaultCellStyle.Font = new Font("Poppins", 10, FontStyle.Bold);
+
+                }
+            else if (status == "Available")
+                {
+                    row.DefaultCellStyle.BackColor = Color.LightGreen;   // available rows in green
+                    row.DefaultCellStyle.ForeColor = Color.Black;
+                    row.DefaultCellStyle.Font = new Font("Poppins", 10, FontStyle.Bold);
+                }
+       
+
+
+
+
+            
         }
 
         private void dgv_waiting_CellFormatting(object sender, DataGridViewCellFormattingEventArgs e)
         {
-           
+            // Skip header and new row
+            if (e.RowIndex < 0 || e.RowIndex >= dgv_waiting.Rows.Count) return;
 
+
+            if (dgv_waiting.Columns[e.ColumnIndex].Name == "col_waiting_status" && e.RowIndex >= 0)
+            {
+                var status = e.Value?.ToString();
+
+                if (status == "Waiting")
+                {
+
+                    e.CellStyle.BackColor = Color.LightCoral;   // softer red, not too aggressive
+                    e.CellStyle.ForeColor = Color.White;        // ensures contrast
+                    e.CellStyle.Font = new Font("Poppins", 10, FontStyle.Bold); // optional emphasis
+
+                }
+
+
+            }
         }
+
+
+        
 
         private void btn_print_transactions_Click(object sender, EventArgs e)
         {
@@ -6381,6 +6434,78 @@ namespace Salon.View
                 filtered, "Transaction History Report", columns, salesSummaries);
 
             printer.Print();
+        }
+
+        private void dgv_walk_in_CellFormatting(object sender, DataGridViewCellFormattingEventArgs e)
+        {
+            // Skip header and new row
+            if (e.RowIndex < 0 || e.RowIndex >= dgv_walk_in.Rows.Count) return;
+
+            if (dgv_walk_in.Columns[e.ColumnIndex].Name == "col_walk_in_status" && e.RowIndex >= 0)
+            {
+                var status = e.Value?.ToString();
+
+                if (status == "On Going")
+                {
+                    e.CellStyle.BackColor = Color.LightYellow;
+                    e.CellStyle.ForeColor = Color.Black;
+                }
+                else if (status == "Completed")
+                {
+                    e.CellStyle.BackColor = Color.LightGreen;
+                    e.CellStyle.ForeColor = Color.Black;
+                }
+               
+            }
+
+        }
+
+        private void dgv_transaction_list_CellFormatting(object sender, DataGridViewCellFormattingEventArgs e)
+        {
+            // Skip header and new row
+            if (e.RowIndex < 0 || e.RowIndex >= dgv_transaction_list.Rows.Count) return;
+
+            var columnName = dgv_transaction_list.Columns[e.ColumnIndex].Name;
+
+            if (columnName == "col_invoice_product_name")
+            {
+                var productName = e.Value?.ToString();
+                if (string.IsNullOrWhiteSpace(productName))
+                {
+                    e.Value = "N/A";
+                    e.CellStyle.ForeColor = Color.Gray; // optional placeholder style
+                }
+            }
+            else if (columnName == "col_invoice_ref_num")
+            {
+                var reference = e.Value?.ToString();
+                if (string.IsNullOrWhiteSpace(reference))
+                {
+                    e.Value = "N/A";
+                    e.CellStyle.ForeColor = Color.Gray;
+                }
+            }
+
+        }
+
+        private void materialCard8_Paint(object sender, PaintEventArgs e)
+        {
+
+        }
+
+        private async void btn_refresh_deivery_Click(object sender, EventArgs e)
+        {
+            await RefreshDeliveryAsync(currentPage, pageSize);
+        }
+
+        private void btn_inventory_refresh_Click(object sender, EventArgs e)
+        {
+             LoadInventory(currentPage, pageSize);
+        }
+
+        private void materialButton1_Click(object sender, EventArgs e)
+        {
+            LoadWalkIn();
         }
     }
     

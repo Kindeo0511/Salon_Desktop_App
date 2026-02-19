@@ -297,6 +297,28 @@ namespace Salon.View
 
 
         }
+        public void MarkOverallAppointmentStatus(int appointment_id)
+        {
+            var repo = new AppointmentRepository();
+            var controller = new AppointmentController(repo);
+
+            bool anyOnGoing = false;
+
+            foreach (DataGridViewRow row in dgv_service_selected.Rows)
+            {
+                var status = row.Cells["col_status"].Value?.ToString();
+
+                if (status == "On Going" || status == "Ready to Start")
+                {
+                    anyOnGoing = true;
+                    break; // no need to check further
+                }
+            }
+
+            string newStatus = anyOnGoing ? "On Going" : "Waiting";
+
+            controller.UpdateAppointmentStatus(appointment_id, newStatus);
+        }
         private void LoadCart(int invoice_id)
         {
             var repo = new InvoiceServiceRepository();
@@ -360,52 +382,15 @@ namespace Salon.View
             cmb_stylist.Hint = "Select Stylist";
              
         }
-        //private void LoadTimeSlots()
-        //{
-        //    var repo = new BusinessHourRepository();
-        //    var controller = new TimeSlotController(repo);
-        //    var businessHours = controller.GetBusinessHours();
-
-        //    var openTime = businessHours.open_time;   // TimeSpan
-        //    var closeTime = businessHours.close_time; // TimeSpan
-
-
-        //    var appointmentRepo = new AppointmentRepository();
-        //    var appointmentController = new AppointmentController(appointmentRepo);
-        //    var todaysAppointments = appointmentController.GetTodayAppointment();
-
-        //    cmb_time_slot.Items.Clear();
-
-        //    for (DateTime time = DateTime.Today.Add(openTime);
-        //         time < DateTime.Today.Add(closeTime);
-        //         time = time.AddMinutes(30))
-        //    {
-        //        if (time < DateTime.Now)
-        //            continue;
-
-        //        bool taken = todaysAppointments.Any(appt =>
-        //            (time < appt.EndTime && time.AddMinutes(30) > appt.StartTime));
-
-        //        if (taken)
-        //            continue;
-
-        //        // Show only the start time in 12-hour format
-        //        cmb_time_slot.Items.Add($"{time:hh:mm tt}");
-        //    }
-
-        //    cmb_time_slot.SelectedIndex = -1;
-        //}
-
-
-        private void LoadTimeSlots(int slotSizeMinutes = 30) // 1 minute increments
+        private void LoadTimeSlots()
         {
             var repo = new BusinessHourRepository();
             var controller = new TimeSlotController(repo);
             var businessHours = controller.GetBusinessHours();
 
-            // Full 24-hour range
-            var openTime = TimeSpan.Zero;                  // 00:00
-            var closeTime = new TimeSpan(23, 59, 59);      // 23:59:59
+            var openTime = businessHours.open_time;   // TimeSpan
+            var closeTime = businessHours.close_time; // TimeSpan
+
 
             var appointmentRepo = new AppointmentRepository();
             var appointmentController = new AppointmentController(appointmentRepo);
@@ -414,23 +399,60 @@ namespace Salon.View
             cmb_time_slot.Items.Clear();
 
             for (DateTime time = DateTime.Today.Add(openTime);
-                 time <= DateTime.Today.Add(closeTime);
-                 time = time.AddMinutes(slotSizeMinutes))
+                 time < DateTime.Today.Add(closeTime);
+                 time = time.AddMinutes(30))
             {
-                // REMOVE this check if you want *all* slots, even past ones:
-                // if (time < DateTime.Now) continue;
+                if (time < DateTime.Now)
+                    continue;
 
                 bool taken = todaysAppointments.Any(appt =>
-                    (time < appt.EndTime && time.AddMinutes(slotSizeMinutes) > appt.StartTime));
+                    (time < appt.EndTime && time.AddMinutes(30) > appt.StartTime));
 
                 if (taken)
                     continue;
 
+                // Show only the start time in 12-hour format
                 cmb_time_slot.Items.Add($"{time:hh:mm tt}");
             }
 
             cmb_time_slot.SelectedIndex = -1;
         }
+
+
+        //private void LoadTimeSlots(int slotSizeMinutes = 30) // 1 minute increments
+        //{
+        //    var repo = new BusinessHourRepository();
+        //    var controller = new TimeSlotController(repo);
+        //    var businessHours = controller.GetBusinessHours();
+
+        //    // Full 24-hour range
+        //    var openTime = TimeSpan.Zero;                  // 00:00
+        //    var closeTime = new TimeSpan(23, 59, 59);      // 23:59:59
+
+        //    var appointmentRepo = new AppointmentRepository();
+        //    var appointmentController = new AppointmentController(appointmentRepo);
+        //    var todaysAppointments = appointmentController.GetTodayAppointment();
+
+        //    cmb_time_slot.Items.Clear();
+
+        //    for (DateTime time = DateTime.Today.Add(openTime);
+        //         time <= DateTime.Today.Add(closeTime);
+        //         time = time.AddMinutes(slotSizeMinutes))
+        //    {
+        //        // REMOVE this check if you want *all* slots, even past ones:
+        //        // if (time < DateTime.Now) continue;
+
+        //        bool taken = todaysAppointments.Any(appt =>
+        //            (time < appt.EndTime && time.AddMinutes(slotSizeMinutes) > appt.StartTime));
+
+        //        if (taken)
+        //            continue;
+
+        //        cmb_time_slot.Items.Add($"{time:hh:mm tt}");
+        //    }
+
+        //    cmb_time_slot.SelectedIndex = -1;
+        //}
 
 
 
@@ -618,6 +640,8 @@ namespace Salon.View
         {
             var repo = new InvoiceServiceRepository();
             var controller = new InvoiceServiceCartController(repo);
+
+         
             return controller.DeleteServiceFromInvoiceCart(invoice_id);
 
 
@@ -628,92 +652,124 @@ namespace Salon.View
             var controller = new AppointmentServiceController(repo);
             controller.DeleteAppointmentService(appointment_id);
         }
-      
+
         private void UpdateAppointment(AppointmentModel model)
         {
-            var repo = new AppointmentRepository();
-            var appointmentController = new AppointmentController(repo);
-
-            var service_repo = new AppointmentServiceRepository();
-            var service_controller = new AppointmentServiceController(service_repo);
-
-            // Call the right update method based on booking type
-            if (model.CustomerType == "Member")
-                appointmentController.UpdateTheAppointment(model);
-            else
-                appointmentController.UpdateWalkin(model);
-
-            // Shared logic
-            int invoice_id = GetInvoiceId(model.AppointmentId);
-
-            DeleteServiceFromCart(invoice_id);
-            DeleteAppointmentService(model.AppointmentId);
-
-            foreach (DataGridViewRow row in dgv_service_selected.Rows)
+            try
             {
-                if (row.IsNewRow) continue;
+                var repo = new AppointmentRepository();
+                var appointmentController = new AppointmentController(repo);
+
+                var service_repo = new AppointmentServiceRepository();
+                var service_controller = new AppointmentServiceController(service_repo);
+
+                var service_invoice_repo = new InvoiceServiceRepository();
+                var service_invoice_controller = new InvoiceServiceCartController(service_invoice_repo);
+                int invoice_id = GetInvoiceId(appointmentModel.AppointmentId);
+
+                // Call the right update method based on booking type
+                if (model.CustomerType == "Member")
+                    appointmentController.UpdateTheAppointment(model);
+                else
+                    appointmentController.UpdateWalkin(model);
 
 
-                int? stylist_id = null;
-                int service_id = Convert.ToInt32(row.Cells["col_service_id"].Value);
-                if (row.Cells["col_stylist_id"].Value != null &&
-                    int.TryParse(row.Cells["col_stylist_id"].Value.ToString(), out int parsed))
+
+
+                //DeleteServiceFromCart(invoice_id);
+                DeleteAppointmentService(model.AppointmentId);
+
+                // Commit any pending edits in the grid
+                dgv_service_selected.EndEdit();
+
+                foreach (DataGridViewRow row in dgv_service_selected.Rows)
                 {
-                    stylist_id = parsed;
-                }
+                    if (row.IsNewRow) continue;
+                    if (row.Cells["col_service_id"].Value == null) continue;
+                    if (row.Cells["col_price"].Value == null) continue;
 
-                int duration = 0;
-                var rawValue = row.Cells["col_duration"].Value?.ToString();
-                if (!string.IsNullOrWhiteSpace(rawValue))
-                {
-                    string digitsOnly = new string(rawValue.Where(char.IsDigit).ToArray());
-                    if (int.TryParse(digitsOnly, out int parse))
+                    int? stylist_id = null;
+                    int service_id = Convert.ToInt32(row.Cells["col_service_id"].Value);
+
+                    if (row.Cells["col_stylist_id"].Value != null &&
+                        int.TryParse(row.Cells["col_stylist_id"].Value.ToString(), out int parsed))
                     {
-                        duration = parse;
+                        stylist_id = parsed;
                     }
+
+                    int duration = 0;
+                    var rawValue = row.Cells["col_duration"].Value?.ToString();
+                    if (!string.IsNullOrWhiteSpace(rawValue))
+                    {
+                        string digitsOnly = new string(rawValue.Where(char.IsDigit).ToArray());
+                        if (int.TryParse(digitsOnly, out int parse))
+                        {
+                            duration = parse;
+                        }
+                    }
+
+                    decimal price = Convert.ToDecimal(row.Cells["col_price"].Value.ToString());
+                    var statusValue = Convert.ToString(row.Cells["col_status"].Value);
+
+                    DateTime? start_time = null;
+                    DateTime? end_time = null;
+                    string rowStatus = statusValue; // preserve whatever status is in the grid
+
+                    if (statusValue == "Ready to Start" || statusValue == "On Going")
+                    {
+                        rowStatus = "On Going";
+                        start_time = DateTime.Now;
+                        end_time = DateTime.Now.AddMinutes(duration);
+                    }
+                    else if (statusValue == "Busy")
+                    {
+                        rowStatus = "Waiting";
+                        end_time = DateTime.Now.AddMinutes(duration);
+                    }
+                    bool service_exists = service_invoice_controller.CheckIfServiceExistInCart(invoice_id, service_id);
+                    if (!service_exists)
+                    {
+
+
+                        var invoiceServiceCart = new ServiceCart
+                        {
+                            InvoiceId = invoice_id,
+                            ProductId = null,
+                            ServiceId = service_id,
+                            StylistId = stylist_id,
+                            ItemType = "Service",
+                            Quantity = 1,
+                            Price = price,
+                            Duration = duration
+                        };
+
+
+                        SaveInvoiceServices(invoiceServiceCart);
+
+                    }
+                    bool serviceExistInAppointment = service_controller.CheckIfServiceExists(appointmentModel.AppointmentId, service_id);
+                    if (!serviceExistInAppointment)
+                    {
+                        service_controller.AddServicesToAppointment(
+                        model.AppointmentId,
+                        service_id,
+                        stylist_id,
+                        start_time,
+                        end_time,
+                        rowStatus
+                       );
+                    }
+
+
+                  
+
+          
+                    MarkOverallAppointmentStatus(model.AppointmentId);
                 }
-
-                decimal price = Convert.ToDecimal(row.Cells["col_price"].Value.ToString());
-                var statusValue = Convert.ToString(row.Cells["col_status"].Value);
-
-                DateTime? start_time = null;
-                DateTime? end_time = null;
-                string rowStatus = statusValue; // preserve whatever status is in the grid
-
-                if (statusValue == "Ready to Start" || statusValue == "On Going")
-                {
-                    rowStatus = "On Going";
-                    start_time = DateTime.Now;
-                    end_time = DateTime.Now.AddMinutes(duration);
-                }
-                else if (statusValue == "Busy")
-                {
-                    rowStatus = "Waiting";
-                    end_time = DateTime.Now.AddMinutes(duration);
-                }
-
-
-                var invoiceServiceCart = new ServiceCart
-                {
-                    InvoiceId = invoice_id,
-                    ProductId = null,
-                    ServiceId = service_id,
-                    StylistId = stylist_id,
-                    ItemType = "Service",
-                    Quantity = 1,
-                    Price = price,
-                    Duration = duration
-                };
-
-                service_controller.AddServicesToAppointment(
-                                 model.AppointmentId,
-                                 service_id,
-                                 stylist_id,
-                                 start_time,
-                                 end_time,
-                                 rowStatus
-                             );
-                SaveInvoiceServices(invoiceServiceCart);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Error in UpdateAppointment: {ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
 
@@ -1304,6 +1360,8 @@ namespace Salon.View
             //? "Ready to Start"
             //: "Busy";
 
+
+
             dgv_service_selected.Rows.Add(
               0,
               cmb_services.SelectedValue,
@@ -1319,7 +1377,18 @@ namespace Salon.View
            
 
         }
+        private void CheckProductStockForSelectedServices()
+        {
+            var inventoryRepo = new InventoryRepository();
+            var inventoryController = new InventoryController(inventoryRepo);
+            var inventoryProductList = inventoryController.GetAllInventory();
 
+            
+
+
+
+        }
+     
         private void cmb_services_SelectedIndexChanged(object sender, EventArgs e)
         {
             if (cmb_services.SelectedItem is ServiceModel selectedService)
@@ -1355,12 +1424,15 @@ namespace Salon.View
                 var inv_repo = new InvoiceServiceRepository();
                 var inv_service_controller = new InvoiceServiceCartController(inv_repo);
 
-                int invoice_id = GetInvoiceId(model.AppointmentId);
-
-
                 int appointmentServiceId = Convert.ToInt32(dgv_service_selected.Rows[e.RowIndex].Cells["col_appointment_service_id"].Value);
                 int serviceId = Convert.ToInt32(dgv_service_selected.Rows[e.RowIndex].Cells["col_service_id"].Value);
                 string status = Convert.ToString(dgv_service_selected.Rows[e.RowIndex].Cells["col_status"].Value);
+
+
+                int invoice_id = GetInvoiceId(model.AppointmentId);
+                int invoice_service_id = inv_service_controller.GetInvoiceServiceById(invoice_id, serviceId);
+
+    
                 if (status == "Completed")
                 {
                     MessageBox.Show("Cannot remove a completed service.", "Action Denied", MessageBoxButtons.OK, MessageBoxIcon.Warning);
@@ -1377,7 +1449,9 @@ namespace Salon.View
                     if (confimmation == DialogResult.Yes)
                     {
                         controller.DeleteAppointmentServiceById(appointmentServiceId);
-                        inv_service_controller.GetInvoiceServiceById(invoice_id, serviceId);
+       
+
+                        inv_service_controller.DeleteServiceFromInvoiceCart(invoice_service_id);
                         LoadSelectedServices(model.AppointmentId);
                     }
                     else 

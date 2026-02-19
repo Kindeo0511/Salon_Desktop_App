@@ -800,12 +800,6 @@
     <Compile Include="View\ViewDetailsForm.Designer.cs">
       <DependentUpon>ViewDetailsForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="View\VoidModalForm.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="View\VoidModalForm.Designer.cs">
-      <DependentUpon>VoidModalForm.cs</DependentUpon>
-    </Compile>
     <Compile Include="View\VoirdForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -1016,9 +1010,6 @@
     </EmbeddedResource>
     <EmbeddedResource Include="View\ViewDetailsForm.resx">
       <DependentUpon>ViewDetailsForm.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="View\VoidModalForm.resx">
-      <DependentUpon>VoidModalForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="View\VoirdForm.resx">
       <DependentUpon>VoirdForm.cs</DependentUpon>

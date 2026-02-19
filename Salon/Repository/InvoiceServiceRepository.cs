@@ -51,18 +51,32 @@ namespace Salon.Repository
             using (var con = Database.GetConnection())
             {
                 var sql = @"
-                   SELECT isc.invoice_id AS InvoiceId,
-                   isc.product_id AS ProductId,
-                   p.product_name AS ItemName,
-                   isc.unit_price AS Price,
-                   isc.qty AS Quantity,
-                   ir.refund_qty AS RefundQty,
-                   isc.is_voided AS Voided,
-                   isc.is_refunded AS Refunded
-            FROM tbl_invoice_service_cart AS isc
-            LEFT JOIN tbl_products AS p ON isc.product_id = p.product_id
-            LEFT JOIN tbl_invoice_refund AS ir ON ir.service_cart_id = isc.service_cart_id
-            WHERE isc.invoice_id = @InvoiceId AND isc.item_type = 'Product';
+                        SELECT 
+    isc.invoice_id AS InvoiceId,
+    isc.product_id AS ProductId,
+    p.product_name AS ItemName,
+    isc.unit_price AS Price,
+    isc.qty AS Quantity,
+    i.discount_amount AS OverAllDiscount,
+    isc.discount_amount AS ItemDiscount,
+    ir.refund_qty AS RefundQty,
+    i.payment_type AS PaymentMethod,
+    i.reference_number AS ReferenceNumber,
+    i.total_amount AS InvoiceTotal,       
+    i.vat_amount AS VatAmount,          
+    isc.is_voided AS Voided,
+    isc.is_refunded AS Refunded,
+    invTotals.InvoiceTotalBeforeDiscount
+FROM tbl_invoice_service_cart AS isc
+LEFT JOIN tbl_products AS p ON isc.product_id = p.product_id
+LEFT JOIN tbl_invoice_refund AS ir ON ir.service_cart_id = isc.service_cart_id
+LEFT JOIN tbl_invoice i ON i.invoice_id = isc.invoice_id
+LEFT JOIN (
+    SELECT invoice_id, SUM(unit_price * qty) AS InvoiceTotalBeforeDiscount
+    FROM tbl_invoice_service_cart
+    GROUP BY invoice_id
+) invTotals ON invTotals.invoice_id = isc.invoice_id
+WHERE isc.invoice_id = @InvoiceId;;
                 ";
                return  con.Query<InvoiceServicesCart>(sql, new { InvoiceId = invoiceId }).ToList();
                 
@@ -70,6 +84,7 @@ namespace Salon.Repository
             }
 
         }
+      
         public void AddServiceToCart(ServiceCart model)
         {
            using (var con = Database.GetConnection())
@@ -78,6 +93,16 @@ namespace Salon.Repository
                 INSERT INTO tbl_invoice_service_cart (invoice_id, product_id,product_size_id, service_id,stylist_id,item_type, qty, unit_price, total_price, duration)
                 VALUES (@InvoiceId, @ProductId,@ProductSizeId, @ServiceId,@StylistId, @ItemType, @Quantity, @Price, @TotalPrice, @Duration);";
                 con.Execute(sql, model);
+            }
+        }
+        public bool CheckIfServiceExistInCart(int invoice_id, int service_id) 
+        {
+            using (var con = Database.GetConnection()) 
+            {
+                var sql = @"SELECT COUNT(*) FROM tbl_invoice_service_cart
+                            WHERE invoice_id = @InvoiceId AND service_id = @ServiceId AND item_type = 'Service'";
+                int count = con.QuerySingle<int>(sql, new { InvoiceId = invoice_id, ServiceId = service_id });
+                return count > 0;
             }
         }
         public bool CheckIfServiceExistInCart(int invoice_id, int product_id, int product_size_id) 
@@ -154,7 +179,7 @@ namespace Salon.Repository
             using (var con = Database.GetConnection())
             {
                 var sql = @"
-                DELETE FROM tbl_invoice_service_cart WHERE invoice_id = @Id;";
+                DELETE FROM tbl_invoice_service_cart WHERE service_cart_id = @Id;";
                 int rowsAffected =  con.Execute(sql, new { Id = id });
 
                 return rowsAffected > 0;
@@ -169,15 +194,15 @@ namespace Salon.Repository
             }
         }
 
-        public ServiceCart GetInvoiceCartId(int id)
+        public ServiceCart GetInvoiceCartId(int id, int product_id)
         {
             using (var con = Database.GetConnection())
             {
                 var sql = @"SELECT service_cart_id
                             FROM `tbl_invoice_service_cart`
-                            WHERE item_type ='Product' AND invoice_id =@Id";
+                            WHERE item_type ='Product' AND invoice_id =@Id AND product_id = @ProductId";
 
-                return con.QuerySingleOrDefault<ServiceCart>(sql, new { Id = id });
+                return con.QuerySingleOrDefault<ServiceCart>(sql, new { Id = id, ProductId = product_id });
             }
         }
 

@@ -167,8 +167,9 @@ namespace Salon.View
             var controller = new ServiceProductUsageController(repo);
 
             ServiceProductUsageModel.product_id = (int)cmb_product.SelectedValue;
+           
             ServiceProductUsageModel.total_usage_amount = double.Parse(txt_total_usage.Text);
-       
+           
             controller.UpdateServiceProduct(ServiceProductUsageModel);
             MessageBox.Show("Product usage updated successfully!", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
        

@@ -38,6 +38,10 @@ namespace Salon.Controller
         {
             return repo.CheckIfServiceExistInCart(invoice_id, product_id, product_size_id);
         }
+        public bool CheckIfServiceExistInCart(int invoice_id, int service_id) 
+        {
+            return repo.CheckIfServiceExistInCart(invoice_id, service_id);
+        }
         public bool UpdateServiceQtyInCart(int invoice_id, int product_id, int product_size_id, int newQty) 
         {
             return repo.UpdateServiceQtyInCart(invoice_id, product_id, product_size_id, newQty);
@@ -46,9 +50,9 @@ namespace Salon.Controller
         {
             repo.UpdateServiceToCart(id, status);
         }
-        public void GetInvoiceServiceById(int invoice_id, int service_id) 
+        public int GetInvoiceServiceById(int invoice_id, int service_id) 
         {
-            repo.GetServiceInvoiceId(invoice_id, service_id);
+           return  repo.GetServiceInvoiceId(invoice_id, service_id);
         }
         public void RefundProduct(int id) 
         {
@@ -62,9 +66,9 @@ namespace Salon.Controller
         {
             repo.RemoveProductFromCart(id);
         }
-        public ServiceCart GetServiceFromInvoiceCart(int id) 
+        public ServiceCart GetServiceFromInvoiceCart(int id, int product_id) 
         {
-            return repo.GetInvoiceCartId(id);
+            return repo.GetInvoiceCartId(id, product_id);
         }
     }
 }

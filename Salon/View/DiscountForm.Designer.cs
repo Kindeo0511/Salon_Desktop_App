@@ -45,9 +45,6 @@
             this.chk_vat_exempt = new System.Windows.Forms.CheckBox();
             this.chk_is_active = new System.Windows.Forms.CheckBox();
             this.materialCard1 = new MaterialSkin.Controls.MaterialCard();
-            this.rad_published = new System.Windows.Forms.RadioButton();
-            this.rad_draft = new System.Windows.Forms.RadioButton();
-            this.materialLabel10 = new MaterialSkin.Controls.MaterialLabel();
             this.dtp_end = new System.Windows.Forms.DateTimePicker();
             this.materialLabel9 = new MaterialSkin.Controls.MaterialLabel();
             this.materialLabel8 = new MaterialSkin.Controls.MaterialLabel();
@@ -55,6 +52,7 @@
             this.materialLabel7 = new MaterialSkin.Controls.MaterialLabel();
             this.email_flow_panel = new System.Windows.Forms.FlowLayoutPanel();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.email_preview = new System.Windows.Forms.WebBrowser();
             this.materialLabel13 = new MaterialSkin.Controls.MaterialLabel();
             this.txt_optional_message = new System.Windows.Forms.TextBox();
             this.materialLabel12 = new MaterialSkin.Controls.MaterialLabel();
@@ -64,16 +62,15 @@
             this.btn_update_draft = new MaterialSkin.Controls.MaterialButton();
             this.btn_published = new MaterialSkin.Controls.MaterialButton();
             this.btn_save_draft = new MaterialSkin.Controls.MaterialButton();
-            this.email_preview = new System.Windows.Forms.WebBrowser();
-            this.panel2 = new System.Windows.Forms.Panel();
             this.panel3 = new System.Windows.Forms.Panel();
+            this.materialLabel14 = new MaterialSkin.Controls.MaterialLabel();
+            this.chk_send_email = new System.Windows.Forms.CheckBox();
             ((System.ComponentModel.ISupportInitialize)(this.errorProvider1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.txt_discount)).BeginInit();
             this.materialCard1.SuspendLayout();
             this.email_flow_panel.SuspendLayout();
             this.groupBox1.SuspendLayout();
             this.panel1.SuspendLayout();
-            this.panel2.SuspendLayout();
             this.SuspendLayout();
             // 
             // btn_cancel_discount
@@ -265,7 +262,8 @@
             this.materialCard1.AutoScroll = true;
             this.materialCard1.AutoScrollMargin = new System.Drawing.Size(0, 25);
             this.materialCard1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
-            this.materialCard1.Controls.Add(this.materialLabel10);
+            this.materialCard1.Controls.Add(this.chk_send_email);
+            this.materialCard1.Controls.Add(this.materialLabel14);
             this.materialCard1.Controls.Add(this.dtp_end);
             this.materialCard1.Controls.Add(this.materialLabel9);
             this.materialCard1.Controls.Add(this.materialLabel8);
@@ -286,7 +284,6 @@
             this.materialCard1.Controls.Add(this.materialLabel2);
             this.materialCard1.Controls.Add(this.email_flow_panel);
             this.materialCard1.Controls.Add(this.panel1);
-            this.materialCard1.Controls.Add(this.panel2);
             this.materialCard1.Controls.Add(this.panel3);
             this.materialCard1.Depth = 0;
             this.materialCard1.Dock = System.Windows.Forms.DockStyle.Fill;
@@ -298,43 +295,6 @@
             this.materialCard1.Padding = new System.Windows.Forms.Padding(14);
             this.materialCard1.Size = new System.Drawing.Size(900, 533);
             this.materialCard1.TabIndex = 39;
-            // 
-            // rad_published
-            // 
-            this.rad_published.AutoSize = true;
-            this.rad_published.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.rad_published.Location = new System.Drawing.Point(249, 20);
-            this.rad_published.Name = "rad_published";
-            this.rad_published.Size = new System.Drawing.Size(103, 24);
-            this.rad_published.TabIndex = 46;
-            this.rad_published.TabStop = true;
-            this.rad_published.Text = "Published";
-            this.rad_published.UseVisualStyleBackColor = true;
-            this.rad_published.CheckedChanged += new System.EventHandler(this.radioButton1_CheckedChanged);
-            // 
-            // rad_draft
-            // 
-            this.rad_draft.AutoSize = true;
-            this.rad_draft.BackColor = System.Drawing.Color.Transparent;
-            this.rad_draft.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.rad_draft.Location = new System.Drawing.Point(37, 20);
-            this.rad_draft.Name = "rad_draft";
-            this.rad_draft.Size = new System.Drawing.Size(68, 24);
-            this.rad_draft.TabIndex = 45;
-            this.rad_draft.Text = "Draft";
-            this.rad_draft.UseVisualStyleBackColor = false;
-            // 
-            // materialLabel10
-            // 
-            this.materialLabel10.AutoSize = true;
-            this.materialLabel10.Depth = 0;
-            this.materialLabel10.Font = new System.Drawing.Font("Roboto", 14F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
-            this.materialLabel10.Location = new System.Drawing.Point(48, 522);
-            this.materialLabel10.MouseState = MaterialSkin.MouseState.HOVER;
-            this.materialLabel10.Name = "materialLabel10";
-            this.materialLabel10.Size = new System.Drawing.Size(51, 19);
-            this.materialLabel10.TabIndex = 44;
-            this.materialLabel10.Text = "Status:";
             // 
             // dtp_end
             // 
@@ -399,9 +359,9 @@
             // email_flow_panel
             // 
             this.email_flow_panel.Controls.Add(this.groupBox1);
-            this.email_flow_panel.Location = new System.Drawing.Point(51, 571);
+            this.email_flow_panel.Location = new System.Drawing.Point(51, 608);
             this.email_flow_panel.Name = "email_flow_panel";
-            this.email_flow_panel.Size = new System.Drawing.Size(752, 570);
+            this.email_flow_panel.Size = new System.Drawing.Size(752, 533);
             this.email_flow_panel.TabIndex = 48;
             // 
             // groupBox1
@@ -414,10 +374,18 @@
             this.groupBox1.Controls.Add(this.materialLabel11);
             this.groupBox1.Location = new System.Drawing.Point(3, 3);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(741, 532);
+            this.groupBox1.Size = new System.Drawing.Size(741, 407);
             this.groupBox1.TabIndex = 47;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "EMAIL NOTIFICATION";
+            // 
+            // email_preview
+            // 
+            this.email_preview.Location = new System.Drawing.Point(22, 277);
+            this.email_preview.MinimumSize = new System.Drawing.Size(20, 20);
+            this.email_preview.Name = "email_preview";
+            this.email_preview.Size = new System.Drawing.Size(690, 250);
+            this.email_preview.TabIndex = 50;
             // 
             // materialLabel13
             // 
@@ -498,17 +466,18 @@
             this.btn_update_draft.DrawShadows = false;
             this.btn_update_draft.HighEmphasis = true;
             this.btn_update_draft.Icon = null;
-            this.btn_update_draft.Location = new System.Drawing.Point(37, 18);
+            this.btn_update_draft.Location = new System.Drawing.Point(84, 18);
             this.btn_update_draft.Margin = new System.Windows.Forms.Padding(4, 6, 4, 6);
             this.btn_update_draft.MouseState = MaterialSkin.MouseState.HOVER;
             this.btn_update_draft.Name = "btn_update_draft";
             this.btn_update_draft.NoAccentTextColor = System.Drawing.Color.Empty;
-            this.btn_update_draft.Size = new System.Drawing.Size(126, 36);
+            this.btn_update_draft.Size = new System.Drawing.Size(77, 36);
             this.btn_update_draft.TabIndex = 18;
-            this.btn_update_draft.Text = "update draft";
+            this.btn_update_draft.Text = "update ";
             this.btn_update_draft.Type = MaterialSkin.Controls.MaterialButton.MaterialButtonType.Contained;
             this.btn_update_draft.UseAccentColor = false;
             this.btn_update_draft.UseVisualStyleBackColor = true;
+            this.btn_update_draft.Visible = false;
             this.btn_update_draft.Click += new System.EventHandler(this.btn_update_draft_Click);
             // 
             // btn_published
@@ -520,7 +489,7 @@
             this.btn_published.Depth = 0;
             this.btn_published.HighEmphasis = true;
             this.btn_published.Icon = null;
-            this.btn_published.Location = new System.Drawing.Point(252, 18);
+            this.btn_published.Location = new System.Drawing.Point(430, 18);
             this.btn_published.Margin = new System.Windows.Forms.Padding(4, 6, 4, 6);
             this.btn_published.MouseState = MaterialSkin.MouseState.HOVER;
             this.btn_published.Name = "btn_published";
@@ -531,6 +500,7 @@
             this.btn_published.Type = MaterialSkin.Controls.MaterialButton.MaterialButtonType.Contained;
             this.btn_published.UseAccentColor = false;
             this.btn_published.UseVisualStyleBackColor = true;
+            this.btn_published.Visible = false;
             this.btn_published.Click += new System.EventHandler(this.btn_published_Click);
             // 
             // btn_save_draft
@@ -543,35 +513,18 @@
             this.btn_save_draft.DrawShadows = false;
             this.btn_save_draft.HighEmphasis = true;
             this.btn_save_draft.Icon = null;
-            this.btn_save_draft.Location = new System.Drawing.Point(37, 18);
+            this.btn_save_draft.Location = new System.Drawing.Point(80, 18);
             this.btn_save_draft.Margin = new System.Windows.Forms.Padding(4, 6, 4, 6);
             this.btn_save_draft.MouseState = MaterialSkin.MouseState.HOVER;
             this.btn_save_draft.Name = "btn_save_draft";
             this.btn_save_draft.NoAccentTextColor = System.Drawing.Color.Empty;
-            this.btn_save_draft.Size = new System.Drawing.Size(107, 36);
+            this.btn_save_draft.Size = new System.Drawing.Size(64, 36);
             this.btn_save_draft.TabIndex = 16;
-            this.btn_save_draft.Text = "save draft";
+            this.btn_save_draft.Text = "save";
             this.btn_save_draft.Type = MaterialSkin.Controls.MaterialButton.MaterialButtonType.Contained;
             this.btn_save_draft.UseAccentColor = false;
             this.btn_save_draft.UseVisualStyleBackColor = true;
             this.btn_save_draft.Click += new System.EventHandler(this.btn_save_draft_Click);
-            // 
-            // email_preview
-            // 
-            this.email_preview.Location = new System.Drawing.Point(22, 277);
-            this.email_preview.MinimumSize = new System.Drawing.Size(20, 20);
-            this.email_preview.Name = "email_preview";
-            this.email_preview.Size = new System.Drawing.Size(690, 250);
-            this.email_preview.TabIndex = 50;
-            // 
-            // panel2
-            // 
-            this.panel2.Controls.Add(this.rad_draft);
-            this.panel2.Controls.Add(this.rad_published);
-            this.panel2.Location = new System.Drawing.Point(340, 497);
-            this.panel2.Name = "panel2";
-            this.panel2.Size = new System.Drawing.Size(454, 58);
-            this.panel2.TabIndex = 50;
             // 
             // panel3
             // 
@@ -579,6 +532,29 @@
             this.panel3.Name = "panel3";
             this.panel3.Size = new System.Drawing.Size(436, 73);
             this.panel3.TabIndex = 51;
+            // 
+            // materialLabel14
+            // 
+            this.materialLabel14.AutoSize = true;
+            this.materialLabel14.Depth = 0;
+            this.materialLabel14.Font = new System.Drawing.Font("Roboto", 14F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
+            this.materialLabel14.Location = new System.Drawing.Point(48, 542);
+            this.materialLabel14.MouseState = MaterialSkin.MouseState.HOVER;
+            this.materialLabel14.Name = "materialLabel14";
+            this.materialLabel14.Size = new System.Drawing.Size(132, 19);
+            this.materialLabel14.TabIndex = 52;
+            this.materialLabel14.Text = "Email Notification:";
+            // 
+            // chk_send_email
+            // 
+            this.chk_send_email.AutoSize = true;
+            this.chk_send_email.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.chk_send_email.Location = new System.Drawing.Point(340, 534);
+            this.chk_send_email.Name = "chk_send_email";
+            this.chk_send_email.Size = new System.Drawing.Size(229, 29);
+            this.chk_send_email.TabIndex = 53;
+            this.chk_send_email.Text = "Send email notification";
+            this.chk_send_email.UseVisualStyleBackColor = true;
             // 
             // DiscountForm
             // 
@@ -603,8 +579,6 @@
             this.groupBox1.PerformLayout();
             this.panel1.ResumeLayout(false);
             this.panel1.PerformLayout();
-            this.panel2.ResumeLayout(false);
-            this.panel2.PerformLayout();
             this.ResumeLayout(false);
 
         }
@@ -631,9 +605,6 @@
         private MaterialSkin.Controls.MaterialLabel materialLabel9;
         private MaterialSkin.Controls.MaterialLabel materialLabel8;
         private System.Windows.Forms.DateTimePicker dtp_start;
-        private MaterialSkin.Controls.MaterialLabel materialLabel10;
-        private System.Windows.Forms.RadioButton rad_published;
-        private System.Windows.Forms.RadioButton rad_draft;
         private System.Windows.Forms.GroupBox groupBox1;
         private System.Windows.Forms.TextBox txt_email_subject;
         private MaterialSkin.Controls.MaterialLabel materialLabel11;
@@ -646,7 +617,8 @@
         private MaterialSkin.Controls.MaterialButton btn_published;
         private MaterialSkin.Controls.MaterialButton btn_update_draft;
         private System.Windows.Forms.WebBrowser email_preview;
-        private System.Windows.Forms.Panel panel2;
         private System.Windows.Forms.Panel panel3;
+        private MaterialSkin.Controls.MaterialLabel materialLabel14;
+        private System.Windows.Forms.CheckBox chk_send_email;
     }
 }
