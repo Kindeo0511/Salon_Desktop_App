@@ -48,7 +48,17 @@ namespace Salon.View
             }
           
         }
+        private bool HasCustomerChanges()
+        {
+            return txt_supplier_name.Text != supplierModel.supplier_name
+                 || txt_address.Text != supplierModel.address
+                 || txt_email.Text != supplierModel.email
+                 || txt_contact.Text != supplierModel.contact;
 
+
+
+
+        }
         private bool IsValid()
         {
            
@@ -194,6 +204,13 @@ namespace Salon.View
         private async void btn_update_Click(object sender, EventArgs e)
         {
             if (!IsValid()) return;
+
+            if (!HasCustomerChanges()) 
+            {
+                MessageBox.Show("No changes detected.", "Information", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                this.Close();
+                return;
+            }
             IsAccountExists();
 
             //await mainform.RefreshSupplierAsync();

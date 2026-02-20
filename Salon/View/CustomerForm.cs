@@ -101,10 +101,7 @@ namespace Salon.View
             {
                 validated = false;
             }
-            else if (!Validator.DisallowSpaces(txt_first_name, errorProvider1, "No Space Allowed"))
-            {
-                validated = false;
-            }
+       
 
 
             // Middle name (optional)
@@ -137,12 +134,50 @@ namespace Salon.View
             {
                 validated = false;
             }
-            else if (!Validator.DisallowSpaces(txt_last_name, errorProvider1, "No Space Allowed"))
+
+            string contact = txt_contact.Text.Trim();
+
+            // Contact Number (numeric check)
+            if (string.IsNullOrWhiteSpace(txt_contact.Text))
             {
+                errorProvider1.SetError(txt_contact, "Valid contact number is required.");
+                validated = false;
+            }
+            else if (!contact.All(char.IsDigit))
+            {
+                errorProvider1.SetError(txt_contact, "Contact number must contain digits only.");
+                validated = false;
+            }
+            else if (!contact.StartsWith("09"))
+            {
+                errorProvider1.SetError(txt_contact, "Contact number must start with 09.");
                 validated = false;
             }
 
-          
+            else if (!Validator.IsCustomerPhoneExists(txt_contact, errorProvider1, "Contact number already exists.", excludeId))
+            {
+                validated = false;
+            }
+            else
+            {
+                errorProvider1.SetError(txt_contact, "");
+            }
+
+            // Email (basic format check)
+            if (string.IsNullOrWhiteSpace(txt_email.Text) || !txt_email.Text.Contains("@"))
+            {
+                errorProvider1.SetError(txt_email, "Valid email is required.");
+                validated = false;
+            }
+            else if (!Validator.IsCustomerEmailExists(txt_email, errorProvider1, "Email already exists.", excludeId))
+            {
+                validated = false;
+            }
+            else
+            {
+                errorProvider1.SetError(txt_email, "");
+            }
+
 
             return validated;
         }
@@ -229,12 +264,27 @@ namespace Salon.View
 
 
             //await mainform.RefreshCustomers();
-      
-        }
 
+        }
+        private bool HasCustomerChanges()
+        {
+           return txt_first_name.Text != customer.firstName
+                || txt_middle_name.Text != customer.middleName
+                || txt_last_name.Text != customer.lastName
+                || txt_contact.Text != customer.phoneNumber
+                || txt_email.Text != customer.email;
+        
+
+        }
         private async void btn_update_Click(object sender, EventArgs e)
         {
             if (!IsValid()) return;
+
+            if (!HasCustomerChanges()) 
+            {
+                MessageBox.Show("No changes detected.", "No Changes", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                return;
+            }
             IsAccountExists();
             
             //await mainform.RefreshCustomers();

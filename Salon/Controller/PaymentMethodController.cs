@@ -17,9 +17,9 @@ namespace Salon.Controller
             this.repo = repo;
         }
 
-        public IEnumerable<PaymentMethodModel> GetAllPaymentMethod()
+        public  IEnumerable<PaymentMethodModel> GetAllPaymentMethod()
         {
-            return repo.GetPaymentMethod();
+             return repo.GetPaymentMethod();
         }
 
         public bool AddPaymentMethod(PaymentMethodModel model) 

@@ -41,16 +41,16 @@
             this.materialLabel8 = new MaterialSkin.Controls.MaterialLabel();
             this.lbl_qty_sold = new MaterialSkin.Controls.MaterialLabel();
             this.materialCard1 = new MaterialSkin.Controls.MaterialCard();
-            this.materialLabel11 = new MaterialSkin.Controls.MaterialLabel();
-            this.lbl_payment_method = new MaterialSkin.Controls.MaterialLabel();
-            this.materialLabel12 = new MaterialSkin.Controls.MaterialLabel();
-            this.materialLabel13 = new MaterialSkin.Controls.MaterialLabel();
-            this.lbl_refund_number = new MaterialSkin.Controls.MaterialLabel();
-            this.lbl_refund_amount = new MaterialSkin.Controls.MaterialLabel();
-            this.materialLabel7 = new MaterialSkin.Controls.MaterialLabel();
-            this.txt_qty = new System.Windows.Forms.TextBox();
             this.lbl_vat_amount = new MaterialSkin.Controls.MaterialLabel();
             this.materialLabel6 = new MaterialSkin.Controls.MaterialLabel();
+            this.txt_qty = new System.Windows.Forms.TextBox();
+            this.materialLabel7 = new MaterialSkin.Controls.MaterialLabel();
+            this.lbl_refund_amount = new MaterialSkin.Controls.MaterialLabel();
+            this.lbl_refund_number = new MaterialSkin.Controls.MaterialLabel();
+            this.materialLabel13 = new MaterialSkin.Controls.MaterialLabel();
+            this.lbl_payment_method = new MaterialSkin.Controls.MaterialLabel();
+            this.materialLabel12 = new MaterialSkin.Controls.MaterialLabel();
+            this.materialLabel11 = new MaterialSkin.Controls.MaterialLabel();
             this.materialCard1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -126,8 +126,7 @@
             "Wrong Item",
             "Wrong Size",
             "Customer Changed Mind",
-            "Duplicate Entry",
-            "Other"});
+            ""});
             this.cmb_reason.Location = new System.Drawing.Point(53, 534);
             this.cmb_reason.MaxDropDownItems = 4;
             this.cmb_reason.MouseState = MaterialSkin.MouseState.OUT;
@@ -278,18 +277,92 @@
             this.materialCard1.TabIndex = 17;
             this.materialCard1.Paint += new System.Windows.Forms.PaintEventHandler(this.materialCard1_Paint);
             // 
-            // materialLabel11
+            // lbl_vat_amount
             // 
-            this.materialLabel11.AutoSize = true;
-            this.materialLabel11.Depth = 0;
-            this.materialLabel11.Font = new System.Drawing.Font("Roboto", 14F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
-            this.materialLabel11.Location = new System.Drawing.Point(45, 421);
-            this.materialLabel11.Margin = new System.Windows.Forms.Padding(3, 0, 3, 40);
-            this.materialLabel11.MouseState = MaterialSkin.MouseState.HOVER;
-            this.materialLabel11.Name = "materialLabel11";
-            this.materialLabel11.Size = new System.Drawing.Size(84, 19);
-            this.materialLabel11.TabIndex = 17;
-            this.materialLabel11.Text = "Refund Qty:";
+            this.lbl_vat_amount.AutoSize = true;
+            this.lbl_vat_amount.Depth = 0;
+            this.lbl_vat_amount.Font = new System.Drawing.Font("Roboto", 14F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
+            this.lbl_vat_amount.Location = new System.Drawing.Point(333, 244);
+            this.lbl_vat_amount.MouseState = MaterialSkin.MouseState.HOVER;
+            this.lbl_vat_amount.Name = "lbl_vat_amount";
+            this.lbl_vat_amount.Size = new System.Drawing.Size(85, 19);
+            this.lbl_vat_amount.TabIndex = 26;
+            this.lbl_vat_amount.Text = "vat_amount";
+            // 
+            // materialLabel6
+            // 
+            this.materialLabel6.AutoSize = true;
+            this.materialLabel6.Depth = 0;
+            this.materialLabel6.Font = new System.Drawing.Font("Roboto", 14F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
+            this.materialLabel6.Location = new System.Drawing.Point(53, 244);
+            this.materialLabel6.Margin = new System.Windows.Forms.Padding(3, 0, 3, 40);
+            this.materialLabel6.MouseState = MaterialSkin.MouseState.HOVER;
+            this.materialLabel6.Name = "materialLabel6";
+            this.materialLabel6.Size = new System.Drawing.Size(85, 19);
+            this.materialLabel6.TabIndex = 25;
+            this.materialLabel6.Text = "Vat Amount";
+            // 
+            // txt_qty
+            // 
+            this.txt_qty.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.txt_qty.Location = new System.Drawing.Point(313, 424);
+            this.txt_qty.Name = "txt_qty";
+            this.txt_qty.Size = new System.Drawing.Size(137, 22);
+            this.txt_qty.TabIndex = 24;
+            this.txt_qty.TextChanged += new System.EventHandler(this.txt_qty_TextChanged);
+            this.txt_qty.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txt_qty_KeyPress);
+            // 
+            // materialLabel7
+            // 
+            this.materialLabel7.AutoSize = true;
+            this.materialLabel7.Depth = 0;
+            this.materialLabel7.Font = new System.Drawing.Font("Roboto", 14F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
+            this.materialLabel7.Location = new System.Drawing.Point(53, 303);
+            this.materialLabel7.Margin = new System.Windows.Forms.Padding(3, 0, 3, 40);
+            this.materialLabel7.MouseState = MaterialSkin.MouseState.HOVER;
+            this.materialLabel7.Name = "materialLabel7";
+            this.materialLabel7.Size = new System.Drawing.Size(84, 19);
+            this.materialLabel7.TabIndex = 23;
+            this.materialLabel7.Text = "Net Refund:";
+            // 
+            // lbl_refund_amount
+            // 
+            this.lbl_refund_amount.AutoSize = true;
+            this.lbl_refund_amount.Depth = 0;
+            this.lbl_refund_amount.Font = new System.Drawing.Font("Roboto", 14F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
+            this.lbl_refund_amount.Location = new System.Drawing.Point(333, 303);
+            this.lbl_refund_amount.Margin = new System.Windows.Forms.Padding(3, 0, 3, 40);
+            this.lbl_refund_amount.MouseState = MaterialSkin.MouseState.HOVER;
+            this.lbl_refund_amount.Name = "lbl_refund_amount";
+            this.lbl_refund_amount.Size = new System.Drawing.Size(76, 19);
+            this.lbl_refund_amount.TabIndex = 22;
+            this.lbl_refund_amount.Text = "net_refund";
+            // 
+            // lbl_refund_number
+            // 
+            this.lbl_refund_number.AutoSize = true;
+            this.lbl_refund_number.Depth = 0;
+            this.lbl_refund_number.Font = new System.Drawing.Font("Roboto", 14F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
+            this.lbl_refund_number.Location = new System.Drawing.Point(333, 701);
+            this.lbl_refund_number.Margin = new System.Windows.Forms.Padding(3, 0, 3, 40);
+            this.lbl_refund_number.MouseState = MaterialSkin.MouseState.HOVER;
+            this.lbl_refund_number.Name = "lbl_refund_number";
+            this.lbl_refund_number.Size = new System.Drawing.Size(108, 19);
+            this.lbl_refund_number.TabIndex = 21;
+            this.lbl_refund_number.Text = "refund_number";
+            // 
+            // materialLabel13
+            // 
+            this.materialLabel13.AutoSize = true;
+            this.materialLabel13.Depth = 0;
+            this.materialLabel13.Font = new System.Drawing.Font("Roboto", 14F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
+            this.materialLabel13.Location = new System.Drawing.Point(58, 701);
+            this.materialLabel13.Margin = new System.Windows.Forms.Padding(3, 0, 3, 40);
+            this.materialLabel13.MouseState = MaterialSkin.MouseState.HOVER;
+            this.materialLabel13.Name = "materialLabel13";
+            this.materialLabel13.Size = new System.Drawing.Size(103, 19);
+            this.materialLabel13.TabIndex = 20;
+            this.materialLabel13.Text = "Reference No.:";
             // 
             // lbl_payment_method
             // 
@@ -317,92 +390,18 @@
             this.materialLabel12.TabIndex = 18;
             this.materialLabel12.Text = "Payment Method:";
             // 
-            // materialLabel13
+            // materialLabel11
             // 
-            this.materialLabel13.AutoSize = true;
-            this.materialLabel13.Depth = 0;
-            this.materialLabel13.Font = new System.Drawing.Font("Roboto", 14F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
-            this.materialLabel13.Location = new System.Drawing.Point(58, 701);
-            this.materialLabel13.Margin = new System.Windows.Forms.Padding(3, 0, 3, 40);
-            this.materialLabel13.MouseState = MaterialSkin.MouseState.HOVER;
-            this.materialLabel13.Name = "materialLabel13";
-            this.materialLabel13.Size = new System.Drawing.Size(103, 19);
-            this.materialLabel13.TabIndex = 20;
-            this.materialLabel13.Text = "Reference No.:";
-            // 
-            // lbl_refund_number
-            // 
-            this.lbl_refund_number.AutoSize = true;
-            this.lbl_refund_number.Depth = 0;
-            this.lbl_refund_number.Font = new System.Drawing.Font("Roboto", 14F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
-            this.lbl_refund_number.Location = new System.Drawing.Point(333, 701);
-            this.lbl_refund_number.Margin = new System.Windows.Forms.Padding(3, 0, 3, 40);
-            this.lbl_refund_number.MouseState = MaterialSkin.MouseState.HOVER;
-            this.lbl_refund_number.Name = "lbl_refund_number";
-            this.lbl_refund_number.Size = new System.Drawing.Size(108, 19);
-            this.lbl_refund_number.TabIndex = 21;
-            this.lbl_refund_number.Text = "refund_number";
-            // 
-            // lbl_refund_amount
-            // 
-            this.lbl_refund_amount.AutoSize = true;
-            this.lbl_refund_amount.Depth = 0;
-            this.lbl_refund_amount.Font = new System.Drawing.Font("Roboto", 14F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
-            this.lbl_refund_amount.Location = new System.Drawing.Point(333, 303);
-            this.lbl_refund_amount.Margin = new System.Windows.Forms.Padding(3, 0, 3, 40);
-            this.lbl_refund_amount.MouseState = MaterialSkin.MouseState.HOVER;
-            this.lbl_refund_amount.Name = "lbl_refund_amount";
-            this.lbl_refund_amount.Size = new System.Drawing.Size(76, 19);
-            this.lbl_refund_amount.TabIndex = 22;
-            this.lbl_refund_amount.Text = "net_refund";
-            // 
-            // materialLabel7
-            // 
-            this.materialLabel7.AutoSize = true;
-            this.materialLabel7.Depth = 0;
-            this.materialLabel7.Font = new System.Drawing.Font("Roboto", 14F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
-            this.materialLabel7.Location = new System.Drawing.Point(53, 303);
-            this.materialLabel7.Margin = new System.Windows.Forms.Padding(3, 0, 3, 40);
-            this.materialLabel7.MouseState = MaterialSkin.MouseState.HOVER;
-            this.materialLabel7.Name = "materialLabel7";
-            this.materialLabel7.Size = new System.Drawing.Size(84, 19);
-            this.materialLabel7.TabIndex = 23;
-            this.materialLabel7.Text = "Net Refund:";
-            // 
-            // txt_qty
-            // 
-            this.txt_qty.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.txt_qty.Location = new System.Drawing.Point(313, 424);
-            this.txt_qty.Name = "txt_qty";
-            this.txt_qty.Size = new System.Drawing.Size(137, 22);
-            this.txt_qty.TabIndex = 24;
-            this.txt_qty.TextChanged += new System.EventHandler(this.txt_qty_TextChanged);
-            this.txt_qty.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txt_qty_KeyPress);
-            // 
-            // lbl_vat_amount
-            // 
-            this.lbl_vat_amount.AutoSize = true;
-            this.lbl_vat_amount.Depth = 0;
-            this.lbl_vat_amount.Font = new System.Drawing.Font("Roboto", 14F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
-            this.lbl_vat_amount.Location = new System.Drawing.Point(333, 244);
-            this.lbl_vat_amount.MouseState = MaterialSkin.MouseState.HOVER;
-            this.lbl_vat_amount.Name = "lbl_vat_amount";
-            this.lbl_vat_amount.Size = new System.Drawing.Size(85, 19);
-            this.lbl_vat_amount.TabIndex = 26;
-            this.lbl_vat_amount.Text = "vat_amount";
-            // 
-            // materialLabel6
-            // 
-            this.materialLabel6.AutoSize = true;
-            this.materialLabel6.Depth = 0;
-            this.materialLabel6.Font = new System.Drawing.Font("Roboto", 14F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
-            this.materialLabel6.Location = new System.Drawing.Point(53, 244);
-            this.materialLabel6.Margin = new System.Windows.Forms.Padding(3, 0, 3, 40);
-            this.materialLabel6.MouseState = MaterialSkin.MouseState.HOVER;
-            this.materialLabel6.Name = "materialLabel6";
-            this.materialLabel6.Size = new System.Drawing.Size(85, 19);
-            this.materialLabel6.TabIndex = 25;
-            this.materialLabel6.Text = "Vat Amount";
+            this.materialLabel11.AutoSize = true;
+            this.materialLabel11.Depth = 0;
+            this.materialLabel11.Font = new System.Drawing.Font("Roboto", 14F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
+            this.materialLabel11.Location = new System.Drawing.Point(45, 421);
+            this.materialLabel11.Margin = new System.Windows.Forms.Padding(3, 0, 3, 40);
+            this.materialLabel11.MouseState = MaterialSkin.MouseState.HOVER;
+            this.materialLabel11.Name = "materialLabel11";
+            this.materialLabel11.Size = new System.Drawing.Size(84, 19);
+            this.materialLabel11.TabIndex = 17;
+            this.materialLabel11.Text = "Refund Qty:";
             // 
             // RefundModalForm
             // 

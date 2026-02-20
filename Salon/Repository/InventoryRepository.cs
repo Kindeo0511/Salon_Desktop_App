@@ -71,6 +71,32 @@ namespace Salon.Repository
             }
 
         }
+        public double GetStockByProductSize(int productId, int productSizeId)
+        {
+            using (var con = Database.GetConnection())
+            {
+                var sql = @"SELECT total_remaining 
+                    FROM tbl_inventory 
+                    WHERE product_id = @productId 
+                      AND product_size_id = @productSizeId;
+";
+
+                return con.QueryFirstOrDefault<double>(sql, new { productId, productSizeId });
+            }
+        }
+        public double GetProductQtyStockkByProductSize(int productId, int productSizeId)
+        {
+            using (var con = Database.GetConnection())
+            {
+                var sql = @"SELECT qty 
+                    FROM tbl_inventory 
+                    WHERE product_id = @productId 
+                      AND product_size_id = @productSizeId;
+";
+
+                return con.QueryFirstOrDefault<double>(sql, new { productId, productSizeId });
+            }
+        }
         public int TotalInventory() 
         {
             using (var con = Database.GetConnection()) 

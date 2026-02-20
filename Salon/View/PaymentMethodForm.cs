@@ -21,6 +21,7 @@ namespace Salon.View
         private readonly PaymentMethodModel paymentMethod;
         private bool IsSave = false;
         private bool IsUpdate = false;
+        private bool configureSettings = false;
         public PaymentMethodForm(MainForm main)
         {
             InitializeComponent();
@@ -32,6 +33,8 @@ namespace Salon.View
             InitializeComponent();
             ThemeManager.ApplyTheme(this);
             this.settings = settingsForm;
+            configureSettings = true;
+        
         }
         public PaymentMethodForm(MainForm main, PaymentMethodModel paymentMethod)
         {
@@ -103,8 +106,12 @@ namespace Salon.View
                 
             {
                 MessageBox.Show("Payment Method added successfully!", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                main.LoadPaymentMethod();
-                settings.LoadPaymentMethod();
+               
+
+               
+                    main.LoadPaymentMethod();
+                
+            
             }
         }
 
@@ -116,6 +123,11 @@ namespace Salon.View
                 MessageBox.Show("Payment Method updated successfully!", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 main.LoadPaymentMethod();
             }
+        }
+
+        private void btn_cancel_Click(object sender, EventArgs e)
+        {
+            this.Close();
         }
     }
 }

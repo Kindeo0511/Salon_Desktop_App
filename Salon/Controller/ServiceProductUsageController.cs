@@ -43,6 +43,11 @@ namespace Salon.Controller
             return _repository.UpdateServiceProduct(model) > 0;
         }
 
+        public IEnumerable<ServiceProductUsageModel> GetServiceProductUsage(int serviceId)
+        {
+            return _repository.GetServiceProductUsage(serviceId);
+        }
+
         public bool DeleteServiceProduct(int id)
         {
             return _repository.DeleteServiceProduct(id) > 0;

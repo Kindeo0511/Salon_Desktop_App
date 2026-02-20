@@ -51,7 +51,7 @@ namespace Salon.View
             col_DeliveryItemId.DataPropertyName = "delivery_item_id";
             col_DeliveryId.DataPropertyName = "delivery_id";
             col_ProductId.DataPropertyName = "product_name";
-            col_Quantity.DataPropertyName = "qty";
+            col_Quantity.DataPropertyName = "qty_delivered";
             col_UnitPrice.DataPropertyName = "unit_price";
             col_TotalPrice.DataPropertyName = "total_price";
             col_ExpiryDate.DataPropertyName = "expiry_date";

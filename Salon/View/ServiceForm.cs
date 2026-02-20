@@ -54,6 +54,7 @@ namespace Salon.View
         {
             InitializeComponent();
             ThemeManager.ApplyTheme(this);
+            ThemeManager.StyleDataGridView(dgv_Service_Product);
             _isUpdating = true;
             this.mainform = mainform;
             this.serviceModel = serviceModel;
@@ -72,8 +73,8 @@ namespace Salon.View
                 btn_update.Visible= true;
 
 
-                btn_next.Visible = false;
-                btn_back.Visible = false;
+       
+        
                 allowTabChange = true;
 
                 RefreshServiceProductUsage(serviceModel.serviceName_id);
@@ -323,10 +324,61 @@ namespace Salon.View
             await mainform.RefreshTotalServices();
 
         }
+        private bool HasServiceChange()
+        {
+            decimal currentPrice = 0;
+            bool priceParsed = decimal.TryParse(txt_price.Text, out currentPrice);
+
+            bool hasChanges =
+                txt_service_name.Text.Trim() != (serviceModel?.serviceName?.Trim() ?? string.Empty)
+                || (cmb_sub_category.SelectedValue == null
+                    || (int)cmb_sub_category.SelectedValue != (serviceModel?.subCategory_id ?? -1))
+                || (cmb_status.SelectedValue == null
+                    || (Status)cmb_status.SelectedValue != (serviceModel?.status ?? Status.Active))
+                || !priceParsed
+                || currentPrice != (serviceModel?.servicePrice ?? 0);
+
+            // Current checked stylists
+            var currentServices = stylist_list_box.CheckedItems
+                                                  .Cast<StylistModel>()
+                                                  .Select(s => s.stylist_id)
+                                                  .ToList();
+
+            var stylistSpecialistRepo = new Stylist_Specialist_Repository();
+            var stylistSpecialistController = new Stylist_specialist_Controller(stylistSpecialistRepo);
+
+            var originalServices = new List<int>();
+
+            if (_stylist != null)
+            {
+                var result = stylistSpecialistController.GetStylistById(_stylist.stylist_id);
+                if (result != null)
+                {
+                    // ✅ compare stylist_id, not specialist_id
+                    originalServices = result.Select(ss => ss.stylist_id).ToList();
+                }
+            }
+
+            // Compare sets
+            if (currentServices.Count != originalServices.Count ||
+                !currentServices.All(originalServices.Contains) ||
+                !originalServices.All(currentServices.Contains))
+            {
+                hasChanges = true;
+            }
+
+            return hasChanges;
+        }
 
         private async void btn_update_Click(object sender, EventArgs e)
         {
             if (!IsValid()) return;
+
+            //if (!HasServiceChange()) 
+            //{
+            //    MessageBox.Show("No changes detected.", "Information", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            //    return;
+            //}
             IsServiceExists();
 
             await mainform.RefreshServicesAsync(1, 25);
@@ -355,15 +407,28 @@ namespace Salon.View
             validated &= Validator.ValidateServiceCategory(cmb_sub_category, errorProvider1);
             validated &= Validator.ValidateDuration(txt_duration, errorProvider1);
 
-          
+
             //if (!Validator.IsServicesExists(txt_service_name, errorProvider1, "Service already exits.", scid, excludeId))
             //{
             //    validated = false;
             //}
 
-         
 
 
+            if (string.IsNullOrWhiteSpace(txt_price.Text))
+            {
+                errorProvider1.SetError(txt_price, "Price is required.");
+                validated = false;
+            }
+            else if (!decimal.TryParse(txt_price.Text, out decimal price) || price < 0)
+            {
+                errorProvider1.SetError(txt_price, "Price must be a valid non-negative number.");
+                validated = false;
+            }
+            else
+            {
+                errorProvider1.SetError(txt_price, string.Empty);
+            }
 
 
             if (!Validator.IsComboBoxSelected(cmb_sub_category, errorProvider1, "Category Type is Required"))
@@ -376,8 +441,14 @@ namespace Salon.View
                 validated = false;
             }
 
-          
 
+            // Services (CheckedListBox must have at least one checked item)
+            if (stylist_list_box.CheckedItems.Count == 0)
+            {
+                errorProvider1.SetError(stylist_list_box, "Select at least one stylist.");
+                validated = false;
+            }
+            else errorProvider1.SetError(stylist_list_box, "");
 
 
 
@@ -724,42 +795,19 @@ namespace Salon.View
 
         private void materialTabControl1_Selecting(object sender, TabControlCancelEventArgs e)
         {
-            // Cancel only if the user clicked the tab header
-            if (!allowTabChange)
-            {
-                e.Cancel = true;
-            }
+          
         }
 
         private void btn_next_Click(object sender, EventArgs e)
         {
 
-            if (materialTabControl1.SelectedIndex == 0 && !serviceCreated)
-            {
-                if (!IsValid()) return;
-
-                IsServiceExists();
-                serviceCreated = true; // mark as done
-            }
-
-      
-            if (materialTabControl1.SelectedIndex < materialTabControl1.TabCount - 1)
-            {
-                allowTabChange = true; // allow programmatic change
-                materialTabControl1.SelectedIndex++;
-                allowTabChange = false; // reset
-            }
+           
         }
 
         private void btn_back_Click(object sender, EventArgs e)
         {
 
-            if (materialTabControl1.SelectedIndex > 0)
-            {
-                allowTabChange = true;
-                materialTabControl1.SelectedIndex--;
-                allowTabChange = false;
-            }
+           
         }
 
         private void cmb_product_SelectedValueChanged(object sender, EventArgs e)

@@ -51,10 +51,17 @@ namespace Salon.View
 
         }
 
-        private async Task<CategoryModel> GetExistingCategory(string category, string type, int id = 0)
+        private async Task<CategoryModel> GetExistingCategory(string category, int id = 0)
         {
             var controller = new CategoryController(new CategoryRepository());
-            return await controller.CheckCategoryExistsAsync(category, type, id);
+            return await controller.CheckCategoryExistsAsync(category, id);
+        }
+        private bool HasCategoryChanges()
+        {
+            return txt_category_name.Text != category.categoryName
+             ;
+
+
         }
         private async Task<bool> IsValid()
         {
@@ -64,38 +71,48 @@ namespace Salon.View
             string categoryName = txt_category_name.Text.Trim();
 
             validated &= Validator.ValidateCategoryName(categoryName, txt_category_name, errorProvider1);
-         
-            //var existing = await GetExistingCategory(categoryName, cmb_category_type.Text, excludeId);
 
-            //if (existing != null)
-            //{
-            //    if (existing.is_deleted)
-            //    {
-            //        var confirm = MessageBox.Show(
-            //            $"\"{existing.categoryName}\" exists but is inactive.\nRestore this category?",
-            //            "Restore Category",
-            //            MessageBoxButtons.YesNo,
-            //            MessageBoxIcon.Question
-            //        );
+            var existing = await GetExistingCategory(categoryName, excludeId);
 
-            //        if (confirm == DialogResult.Yes)
-            //        {
-            //            existing.is_deleted = false;
-            //            mainForm.RestoreDeletedCategoryRecord(existing.category_id);
-            //            mainForm.DeleteDeletedRecord(existing.category_id);
-            //            MessageBox.Show("✅ Category restored.", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
-            //            await mainForm.RefreshCategoryAsync();
+            if (existing != null) 
+            {
+                errorProvider1.SetError(txt_category_name, $"Category already exists.");
+                validated = true;
+            }
+            else 
+            {
+                errorProvider1.SetError(txt_category_name, string.Empty);
+            }
 
-            //        }
+                //if (existing != null)
+                //{
+                //    if (existing.is_deleted)
+                //    {
+                //        var confirm = MessageBox.Show(
+                //            $"\"{existing.categoryName}\" exists but is inactive.\nRestore this category?",
+                //            "Restore Category",
+                //            MessageBoxButtons.YesNo,
+                //            MessageBoxIcon.Question
+                //        );
 
-            //        return false;
-            //    }
+                //        if (confirm == DialogResult.Yes)
+                //        {
+                //            existing.is_deleted = false;
+                //            mainForm.RestoreDeletedCategoryRecord(existing.category_id);
+                //            mainForm.DeleteDeletedRecord(existing.category_id);
+                //            MessageBox.Show("✅ Category restored.", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                //            await mainForm.RefreshCategoryAsync();
 
-            //    MessageBox.Show($"❌ Category already exists (ID: {existing.category_id}).", "Duplicate Category", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-            //    return false;
-            //}
+                //        }
 
-            return validated;
+                //        return false;
+                //    }
+
+                //    MessageBox.Show($"❌ Category already exists (ID: {existing.category_id}).", "Duplicate Category", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                //    return false;
+                //}
+
+                return validated;
         }
 
         private bool addCategory()
@@ -210,6 +227,13 @@ namespace Salon.View
         {
             if (!await IsValid()) return;
 
+            if (!HasCategoryChanges()) 
+            {
+                MessageBox.Show("No changes detected.", "No Changes", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                this.Close();
+                return;
+
+            }
             IsAccountExists();
             //await mainForm.RefreshCategoryAsync();
 

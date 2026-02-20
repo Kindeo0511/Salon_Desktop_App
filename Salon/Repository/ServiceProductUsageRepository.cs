@@ -86,6 +86,35 @@ namespace Salon.Repository
             }
                
         }
+
+        public IEnumerable<ServiceProductUsageModel> GetServiceProductUsage(int serviceId)
+        {
+            using (var con = Database.GetConnection())
+            {
+                var sql = @"SELECT 
+                        sp.service_product_id,
+                        sp.service_id,
+                        s.serviceName,
+                        p.product_id,
+                        p.product_name,
+                        sp.product_size_id,
+                        ps.size_label,
+                        p.brand,
+                        p.unit_type,
+                        sp.qty_required
+                    FROM tbl_service_product AS sp
+                    LEFT JOIN tbl_servicesname AS s 
+                        ON s.serviceName_id = sp.service_id
+                    LEFT JOIN tbl_products AS p 
+                        ON p.product_id = sp.product_id
+                    LEFT JOIN tbl_product_size AS ps 
+                        ON ps.product_size_id = sp.product_size_id
+                    WHERE sp.service_id = @serviceId
+                      AND sp.is_deleted = 0;";
+
+                return con.Query<ServiceProductUsageModel>(sql, new { serviceId });
+            }
+        }
         public int DeleteServiceProduct(int id)
         {
             using (var con = Database.GetConnection()) 

@@ -80,7 +80,7 @@ namespace Salon.Repository
         {
             using (var con = Database.GetConnection())
             {
-                var sql = "UPDATE tbl_customer_account SET firstName = @firstName, middleName = @middleName, lastName = @lastName, phoneNumber = @phoneNumber, email = @email, customer_type =@customer_type WHERE customer_id = @customer_id";
+                var sql = "UPDATE tbl_customer_account SET firstName = @firstName, middleName = @middleName, lastName = @lastName, phoneNumber = @phoneNumber, email = @email, customer_type = 'Member' WHERE customer_id = @customer_id";
                 return con.Execute(sql, customer);
             }
         }

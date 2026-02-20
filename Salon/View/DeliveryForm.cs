@@ -67,6 +67,17 @@ namespace Salon.View
             validated &= Validator.ValidateNotes(txt_notes.Text.Trim(), txt_notes, errorProvider1);
             validated &= Validator.ValidateSellingPrice(txt_price.Text.Trim(), txt_price, errorProvider1);
 
+            // Product size must be selected
+            if (cmb_product_size.SelectedIndex < 0) // nothing selected
+            {
+                errorProvider1.SetError(cmb_product_size, "Please select a product size.");
+                validated = false;
+            }
+            else
+            {
+                errorProvider1.SetError(cmb_product_size, "");
+            }
+
             return validated;
 
         }
@@ -240,6 +251,7 @@ namespace Salon.View
             cb_product_names.Hint = string.Empty;
             cb_supplier_name.Hint = string.Empty;
             cb_product_names.SelectedIndex = -1;
+            cmb_product_size.SelectedIndex = -1;
             txt_notes.Clear();
             txt_price.Clear();
             txt_total.Clear();
@@ -283,10 +295,10 @@ namespace Salon.View
 
         private void btn_add_Click(object sender, EventArgs e)
         {
+      
+            if (!IsValid()) return;
             int qty = Convert.ToInt32(txt_qty.Text);
             total_qty = qty * content;
-            if (!IsValid()) return;
- 
 
             string product_id_size = cmb_product_size.SelectedValue.ToString();
             bool isDuplicate = dgv_Items.Rows
@@ -467,7 +479,7 @@ namespace Salon.View
                         };
                         inventoryController.AddInventory(inventoryModel);
                     }
-                    mainform.LoadInventory(1,25);
+                  
                 }
                 //bool exists = inventoryController.ProductExists(product_id);
 
@@ -536,9 +548,8 @@ namespace Salon.View
             }
             RefreshData?.Invoke(this, EventArgs.Empty);
             MessageBox.Show("Delivery has been added successfully.", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
-            //await mainform.RefreshDeliveryAsync();
             //await mainform.RefreshInventoryAsync();
-    
+            mainform.LoadInventory(1, 25);
             this.Close(); 
 
         }

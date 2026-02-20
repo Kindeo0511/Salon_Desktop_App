@@ -682,7 +682,7 @@ namespace Salon.View
                     if (appointmentServiceId == 0)
                     {
                         // Not saved yet, just remove from the grid
-                        dgv_service_selected.Rows.RemoveAt(e.RowIndex); // ✅ use RemoveAt for index
+                        dgv_service_selected.Rows.RemoveAt(e.RowIndex); 
 
                         MessageBox.Show($"{serviceName} removed successfully!",
                                         "Removed", MessageBoxButtons.OK, MessageBoxIcon.Information);

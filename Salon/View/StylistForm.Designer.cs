@@ -42,14 +42,14 @@
             this.materialLabel4 = new MaterialSkin.Controls.MaterialLabel();
             this.txt_last_name = new System.Windows.Forms.TextBox();
             this.materialLabel5 = new MaterialSkin.Controls.MaterialLabel();
-            this.txt_contact = new System.Windows.Forms.TextBox();
             this.materialLabel6 = new MaterialSkin.Controls.MaterialLabel();
             this.txt_email = new System.Windows.Forms.TextBox();
             this.materialCard1 = new MaterialSkin.Controls.MaterialCard();
-            this.materialLabel7 = new MaterialSkin.Controls.MaterialLabel();
-            this.txt_address = new System.Windows.Forms.TextBox();
-            this.materialLabel8 = new MaterialSkin.Controls.MaterialLabel();
             this.chk_services = new System.Windows.Forms.CheckedListBox();
+            this.materialLabel8 = new MaterialSkin.Controls.MaterialLabel();
+            this.txt_address = new System.Windows.Forms.TextBox();
+            this.materialLabel7 = new MaterialSkin.Controls.MaterialLabel();
+            this.txt_contact = new System.Windows.Forms.TextBox();
             ((System.ComponentModel.ISupportInitialize)(this.errorProvider1)).BeginInit();
             this.materialCard1.SuspendLayout();
             this.SuspendLayout();
@@ -228,16 +228,6 @@
             this.materialLabel5.TabIndex = 39;
             this.materialLabel5.Text = "Contact #:";
             // 
-            // txt_contact
-            // 
-            this.txt_contact.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.txt_contact.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.txt_contact.Location = new System.Drawing.Point(474, 330);
-            this.txt_contact.Margin = new System.Windows.Forms.Padding(3, 3, 3, 50);
-            this.txt_contact.Name = "txt_contact";
-            this.txt_contact.Size = new System.Drawing.Size(450, 30);
-            this.txt_contact.TabIndex = 40;
-            // 
             // materialLabel6
             // 
             this.materialLabel6.AutoSize = true;
@@ -266,6 +256,7 @@
             this.materialCard1.AutoScroll = true;
             this.materialCard1.AutoScrollMargin = new System.Drawing.Size(0, 25);
             this.materialCard1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
+            this.materialCard1.Controls.Add(this.txt_contact);
             this.materialCard1.Controls.Add(this.chk_services);
             this.materialCard1.Controls.Add(this.materialLabel8);
             this.materialCard1.Controls.Add(this.btn_save);
@@ -279,7 +270,6 @@
             this.materialCard1.Controls.Add(this.materialLabel6);
             this.materialCard1.Controls.Add(this.dtp_day_of_birth);
             this.materialCard1.Controls.Add(this.materialLabel2);
-            this.materialCard1.Controls.Add(this.txt_contact);
             this.materialCard1.Controls.Add(this.materialLabel3);
             this.materialCard1.Controls.Add(this.materialLabel5);
             this.materialCard1.Controls.Add(this.txt_middle_name);
@@ -296,27 +286,17 @@
             this.materialCard1.Size = new System.Drawing.Size(994, 733);
             this.materialCard1.TabIndex = 43;
             // 
-            // materialLabel7
+            // chk_services
             // 
-            this.materialLabel7.AutoSize = true;
-            this.materialLabel7.Depth = 0;
-            this.materialLabel7.Font = new System.Drawing.Font("Roboto Medium", 20F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Pixel);
-            this.materialLabel7.FontType = MaterialSkin.MaterialSkinManager.fontType.H6;
-            this.materialLabel7.Location = new System.Drawing.Point(53, 575);
-            this.materialLabel7.MouseState = MaterialSkin.MouseState.HOVER;
-            this.materialLabel7.Name = "materialLabel7";
-            this.materialLabel7.Size = new System.Drawing.Size(79, 24);
-            this.materialLabel7.TabIndex = 43;
-            this.materialLabel7.Text = "Address:";
-            // 
-            // txt_address
-            // 
-            this.txt_address.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.txt_address.Location = new System.Drawing.Point(474, 579);
-            this.txt_address.Multiline = true;
-            this.txt_address.Name = "txt_address";
-            this.txt_address.Size = new System.Drawing.Size(450, 122);
-            this.txt_address.TabIndex = 44;
+            this.chk_services.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.chk_services.CheckOnClick = true;
+            this.chk_services.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.chk_services.FormattingEnabled = true;
+            this.chk_services.Location = new System.Drawing.Point(38, 765);
+            this.chk_services.Name = "chk_services";
+            this.chk_services.Size = new System.Drawing.Size(900, 177);
+            this.chk_services.Sorted = true;
+            this.chk_services.TabIndex = 46;
             // 
             // materialLabel8
             // 
@@ -331,17 +311,38 @@
             this.materialLabel8.TabIndex = 45;
             this.materialLabel8.Text = "Specialist:";
             // 
-            // chk_services
+            // txt_address
             // 
-            this.chk_services.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.chk_services.CheckOnClick = true;
-            this.chk_services.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.chk_services.FormattingEnabled = true;
-            this.chk_services.Location = new System.Drawing.Point(38, 765);
-            this.chk_services.Name = "chk_services";
-            this.chk_services.Size = new System.Drawing.Size(900, 177);
-            this.chk_services.Sorted = true;
-            this.chk_services.TabIndex = 46;
+            this.txt_address.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.txt_address.Location = new System.Drawing.Point(474, 579);
+            this.txt_address.Multiline = true;
+            this.txt_address.Name = "txt_address";
+            this.txt_address.Size = new System.Drawing.Size(450, 122);
+            this.txt_address.TabIndex = 44;
+            // 
+            // materialLabel7
+            // 
+            this.materialLabel7.AutoSize = true;
+            this.materialLabel7.Depth = 0;
+            this.materialLabel7.Font = new System.Drawing.Font("Roboto Medium", 20F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Pixel);
+            this.materialLabel7.FontType = MaterialSkin.MaterialSkinManager.fontType.H6;
+            this.materialLabel7.Location = new System.Drawing.Point(53, 575);
+            this.materialLabel7.MouseState = MaterialSkin.MouseState.HOVER;
+            this.materialLabel7.Name = "materialLabel7";
+            this.materialLabel7.Size = new System.Drawing.Size(79, 24);
+            this.materialLabel7.TabIndex = 43;
+            this.materialLabel7.Text = "Address:";
+            // 
+            // txt_contact
+            // 
+            this.txt_contact.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.txt_contact.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.txt_contact.Location = new System.Drawing.Point(474, 330);
+            this.txt_contact.Margin = new System.Windows.Forms.Padding(3, 3, 3, 50);
+            this.txt_contact.MaxLength = 11;
+            this.txt_contact.Name = "txt_contact";
+            this.txt_contact.Size = new System.Drawing.Size(450, 30);
+            this.txt_contact.TabIndex = 48;
             // 
             // StylistForm
             // 
@@ -378,7 +379,6 @@
         private MaterialSkin.Controls.MaterialLabel materialLabel4;
         private System.Windows.Forms.TextBox txt_last_name;
         private MaterialSkin.Controls.MaterialLabel materialLabel5;
-        private System.Windows.Forms.TextBox txt_contact;
         private System.Windows.Forms.TextBox txt_email;
         private MaterialSkin.Controls.MaterialLabel materialLabel6;
         private MaterialSkin.Controls.MaterialCard materialCard1;
@@ -386,5 +386,6 @@
         private System.Windows.Forms.TextBox txt_address;
         private MaterialSkin.Controls.MaterialLabel materialLabel8;
         private System.Windows.Forms.CheckedListBox chk_services;
+        private System.Windows.Forms.TextBox txt_contact;
     }
 }

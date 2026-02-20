@@ -51,6 +51,14 @@ namespace Salon.View
             }
 
         }
+        private bool HasCSubCategoryChanges()
+        {
+            return txt_subcategory_name.Text != subCategoryModel.subCategoryName
+                 || (cmb_category.SelectedValue != null && (int)cmb_category.SelectedValue != subCategoryModel.category_id)
+             ;
+
+
+        }
         private bool Validated()
         {
 
@@ -208,6 +216,13 @@ namespace Salon.View
         {
             if (!Validated()) return;
 
+            if (!HasCSubCategoryChanges()) 
+            {
+                MessageBox.Show("No changes detected.", "Information", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                this.Close();
+                return;
+          
+            }
             IsAccountExists();
 
             //await mainform.RefreshSubCategoryAsync();

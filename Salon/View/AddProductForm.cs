@@ -100,7 +100,7 @@ namespace Salon.View
             if (e.RowIndex >= 0 && dgv_product_list.Columns[e.ColumnIndex].Name == "btn_add") 
             {
                 var model = dgv_product_list.Rows[e.RowIndex].DataBoundItem as RetailProduct;
-
+            
                 using (var form = new ProductModalForm(this,model)) 
                 {
                     form.ShowDialog();
@@ -108,6 +108,7 @@ namespace Salon.View
             }
         }
 
+       
         private void btn_confirm_Click(object sender, EventArgs e)
         {
             paymentForm.LoadServices(paymentForm.invoice_id);

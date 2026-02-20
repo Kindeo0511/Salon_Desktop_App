@@ -67,8 +67,7 @@ namespace Salon.View
                 btn_save.Visible = false;
                 btn_update.Visible = true;
 
-                btn_next.Visible = false;
-                btn_back.Visible = false;
+               
                 allowTabChange = true;
             }
            
@@ -203,9 +202,54 @@ namespace Salon.View
             cmb_unit_type.Text = string.Empty;
        
         }
+        private bool HasProductChanges()
+        {
+            return txt_product_name.Text != model.product_name
+               || txt_brand.Text != model.brand
+               || cmb_unit_type.Text != model.unit_type;
+
+        }
+        private bool IsValid()
+        {
+            int excludeId = model?.product_id ?? 0;
+            bool validated = true;
+
+
+
+
+
+            // REQUIRED FIELD
+            string productName = txt_product_name.Text.Trim();
+            string brandName = txt_brand.Text.Trim();
+            string unitType = cmb_unit_type.Text.Trim();
+
+
+            validated &= Validator.ValidateProductName(productName, txt_product_name, errorProvider1);
+            validated &= Validator.ValidateBrandName(brandName, txt_brand, errorProvider1);
+
+            validated &= Validator.ValidateUnitType(cmb_unit_type, errorProvider1);
+
+
+
+            if (!Validator.IsProductExists(txt_product_name, errorProvider1, "Product already exits.", excludeId))
+            {
+                validated = false;
+            }
+
+
+
+
+
+
+
+            return validated;
+
+
+        }
+
         private void btn_save_Click(object sender, EventArgs e)
         {
-
+            if (!IsValid()) return;
 
             ProductRetailInfo();
             //mainForm.LoadRetailProducts();
@@ -213,6 +257,13 @@ namespace Salon.View
         }
         private void btn_update_Click(object sender, EventArgs e)
         {
+            if (!IsValid()) return;
+
+            if (!HasProductChanges()) 
+            {
+                MessageBox.Show("No changes detected.", "Information", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                return;
+            }
             ProductRetailInfo();
             //mainForm.LoadRetailProducts();
         }
@@ -361,8 +412,101 @@ namespace Salon.View
             }
 
         }
+        private bool IsProductSizeValid()
+        {
+            int excludeId = model?.product_size_id ?? 0;
+            bool validated = true;
+
+            // Size label required
+            if (string.IsNullOrWhiteSpace(txt_size_label.Text))
+            {
+                errorProvider1.SetError(txt_size_label, "Size label is required.");
+                validated = false;
+            }
+            else errorProvider1.SetError(txt_size_label, "");
+
+            // Content must be numeric and > 0
+            int contentValue = 0;
+            if (string.IsNullOrWhiteSpace(txt_content.Text))
+            {
+                errorProvider1.SetError(txt_content, "Content is required.");
+                validated = false;
+            }
+            else if (!int.TryParse(txt_content.Text, out contentValue) || contentValue <= 0)
+            {
+                errorProvider1.SetError(txt_content, "Content must be a positive number.");
+                validated = false;
+            }
+            else errorProvider1.SetError(txt_content, "");
+
+            // Selling price must be decimal and > 0
+            decimal price = 0;
+            if (string.IsNullOrWhiteSpace(txt_selling_price.Text))
+            {
+                errorProvider1.SetError(txt_selling_price, "Selling price is required.");
+                validated = false;
+            }
+            else if (!decimal.TryParse(txt_selling_price.Text, out price) || price <= 0)
+            {
+                errorProvider1.SetError(txt_selling_price, "Selling price must be a positive amount.");
+                validated = false;
+            }
+            else errorProvider1.SetError(txt_selling_price, "");
+
+            // Cost must be decimal and > 0
+            decimal cost = 0;
+            if (string.IsNullOrWhiteSpace(txt_cost_price.Text))
+            {
+                errorProvider1.SetError(txt_cost_price, "Cost price is required.");
+                validated = false;
+            }
+            else if (!decimal.TryParse(txt_cost_price.Text, out cost) || cost <= 0)
+            {
+                errorProvider1.SetError(txt_cost_price, "Cost price must be a positive amount.");
+                validated = false;
+            }
+            else errorProvider1.SetError(txt_cost_price, "");
+
+            // Selling price must not be less than cost price
+            if (validated && price < cost)
+            {
+                errorProvider1.SetError(txt_selling_price, "Selling price cannot be less than cost price.");
+                validated = false;
+            }
+
+            // Duplicate check (only if parsing succeeded)
+            if (validated)
+            {
+                int product_size_id = excludeId;
+                int product_id = _product_id;
+
+                if (ProductSizeExists(product_id, product_size_id, contentValue, cost))
+                {
+                    errorProvider1.SetError(txt_size_label, "Duplicate product size detected.");
+                    validated = false;
+                }
+            }
+
+            return validated;
+        }
+        private bool ProductSizeExists(int product_id, int product_size_id, int content, decimal cost)
+        {
+            var repo = new ProductSizeRepository();
+            var controller = new ProductSizeController(repo);
+            bool exists = controller.GetProductSize(product_id)
+           .Any(ps => ps.product_id == product_id
+                   && ps.size_label == txt_size_label.Text.Trim()
+                   && ps.content == content
+                   && ps.is_deleted == 0
+                   && ps.product_size_id != product_size_id
+                   && ps.cost_price == cost)
+              ;
+
+            return exists;
+        }
         private void btn_product_size_save_Click(object sender, EventArgs e)
         {
+            if (!IsProductSizeValid()) return;
             _isProductSizeUpdating = false;
             _isProductSizeSaving = true;
             ProductSize();
@@ -427,46 +571,35 @@ namespace Salon.View
 
         private void RetailProductForm_Load(object sender, EventArgs e)
         {
-
+         
         }
 
         private void btn_next_Click(object sender, EventArgs e)
         {
-            // Only run ProductRetailInfo once when leaving tab 0
-            if (productTabControl.SelectedIndex == 0 && !productInfoCreated)
-            {
-                ProductRetailInfo();
-                productInfoCreated = true; // mark as done
-            }
-
-            if (productTabControl.SelectedIndex < productTabControl.TabCount - 1)
-            {
-                allowTabChange = true;
-                productTabControl.SelectedIndex++;
-                allowTabChange = false;
-            }
+          
 
         }
 
         private void btn_back_Click(object sender, EventArgs e)
         {
-            if (productTabControl.SelectedIndex > 0)
-            {
-                allowTabChange = true;
-                productTabControl.SelectedIndex--;
-                allowTabChange = false;
-            }
+            
         }
 
         private void productTabControl_Selecting(object sender, TabControlCancelEventArgs e)
         {
-            // Cancel only if the user clicked the tab header
-            if (!allowTabChange)
-            {
-                e.Cancel = true;
-            }
+           
 
 
+        }
+
+        private void btn_cancel_Click(object sender, EventArgs e)
+        {
+            this.Close();
+        }
+
+        private void btn_product_size_cancel_Click(object sender, EventArgs e)
+        {
+            this.Close();
         }
     }
 }

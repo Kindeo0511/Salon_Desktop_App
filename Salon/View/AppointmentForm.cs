@@ -1359,6 +1359,75 @@ namespace Salon.View
             //  string stylistAvailability = Stylist_Is_Available()
             //? "Ready to Start"
             //: "Busy";
+            int serviceId = Convert.ToInt32(cmb_services.SelectedValue);
+
+            // Validate stock first
+            if (!CheckInventoryIngredientStock(serviceId))
+            {
+                // Show detailed shortages
+                CheckProductStockForSelectedServices(serviceId);
+
+                // Block adding the row
+                return;
+            }
+
+            if (string.IsNullOrEmpty(cmb_services.Text))
+            {
+                MessageBox.Show("Please select a service.",
+                                "Service Not Selected", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+
+                return;
+            }
+            if (string.IsNullOrEmpty(cmb_stylist.Text))
+            {
+                MessageBox.Show("Please select a stylist.",
+                                "Stylist Not Selected", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
+            if (string.IsNullOrEmpty(cmb_time_slot.Text))
+            {
+                MessageBox.Show("Please select a time slot.",
+                                "Timeslot Not Selected", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
+
+            // Get the selected service ID
+            var selectedServiceId = cmb_services.SelectedValue;
+
+            // Check if the service is already in the grid
+            bool alreadyAdded = false;
+            foreach (DataGridViewRow row in dgv_service_selected.Rows)
+            {
+                if (row.Cells["col_service_id"].Value?.ToString() == selectedServiceId.ToString())
+                {
+                    alreadyAdded = true;
+                    break;
+                }
+            }
+            if (!rad_exists.Checked && !rad_guest.Checked)
+            {
+                MessageBox.Show("Please select a client type.",
+                                "Customer Not Selected", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
+            if (rad_exists.Checked)
+            {
+                if (string.IsNullOrEmpty(txt_FullName.Text))
+                {
+                    MessageBox.Show("Please select a member.",
+                                    "Member Not Selected", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    return;
+                }
+            }
+            if (alreadyAdded)
+            {
+                MessageBox.Show("This service has already been added.",
+                                "Duplicate Service", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
+
+
+
 
 
 
@@ -1377,18 +1446,68 @@ namespace Salon.View
            
 
         }
-        private void CheckProductStockForSelectedServices()
+
+        public bool CheckInventoryIngredientStock(int serviceId)
         {
             var inventoryRepo = new InventoryRepository();
             var inventoryController = new InventoryController(inventoryRepo);
-            var inventoryProductList = inventoryController.GetAllInventory();
 
-            
+            var usageRepo = new ServiceProductUsageRepository();
+            var usageController = new ServiceProductUsageController(usageRepo);
 
+            var ingredients = usageController.GetServiceProductUsage(serviceId);
 
+            foreach (var ing in ingredients)
+            {
+                var stock = inventoryController.GetStockByProductSize(ing.product_id, ing.product_size_id);
+                if (stock < ing.qty_required)
+                {
+                    return false; // insufficient
+                }
+            }
 
+            return true; // all sufficient
         }
-     
+
+        private void CheckProductStockForSelectedServices(int serviceId)
+        {
+            var inventoryRepo = new InventoryRepository();
+            var inventoryController = new InventoryController(inventoryRepo);
+
+            var usageRepo = new ServiceProductUsageRepository();
+            var usageController = new ServiceProductUsageController(usageRepo);
+
+            var ingredients = usageController.GetServiceProductUsage(serviceId);
+
+            var shortages = new List<string>();
+
+            foreach (var ing in ingredients)
+            {
+                var stock = inventoryController.GetStockByProductSize(ing.product_id, ing.product_size_id);
+                if (stock < ing.qty_required)
+                {
+                    shortages.Add($"{ing.product_name} ({ing.size_label}) - Required: {ing.qty_required}, Available: {stock}");
+                }
+            }
+
+            if (shortages.Any())
+            {
+                MessageBox.Show("Insufficient stock:\n" + string.Join("\n", shortages),
+                                "Stock Check",
+                                MessageBoxButtons.OK,
+                                MessageBoxIcon.Warning);
+            }
+            else
+            {
+                MessageBox.Show("All ingredients have sufficient stock.",
+                                "Stock Check",
+                                MessageBoxButtons.OK,
+                                MessageBoxIcon.Information);
+            }
+        }
+
+
+
         private void cmb_services_SelectedIndexChanged(object sender, EventArgs e)
         {
             if (cmb_services.SelectedItem is ServiceModel selectedService)
@@ -1409,6 +1528,9 @@ namespace Salon.View
               
                 LoadStylist(selectedService.serviceName_id);
 
+                
+
+
             }
         }
 
@@ -1427,41 +1549,50 @@ namespace Salon.View
                 int appointmentServiceId = Convert.ToInt32(dgv_service_selected.Rows[e.RowIndex].Cells["col_appointment_service_id"].Value);
                 int serviceId = Convert.ToInt32(dgv_service_selected.Rows[e.RowIndex].Cells["col_service_id"].Value);
                 string status = Convert.ToString(dgv_service_selected.Rows[e.RowIndex].Cells["col_status"].Value);
+                string serviceName = Convert.ToString(dgv_service_selected.Rows[e.RowIndex].Cells["col_service_name"].Value);   
 
 
-                int invoice_id = GetInvoiceId(model.AppointmentId);
-                int invoice_service_id = inv_service_controller.GetInvoiceServiceById(invoice_id, serviceId);
 
-    
+
+
                 if (status == "Completed")
                 {
                     MessageBox.Show("Cannot remove a completed service.", "Action Denied", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                     return;
                 }
-                else if (status == "On Going")
+                if (status == "On Going")
                 {
                     MessageBox.Show("Cannot remove a service that is currently on going.", "Action Denied", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                     return;
                 }
+
+                var confirmResult = MessageBox.Show($"Are you sure to remove {serviceName}?", "Confirm Remove", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+
+
+                if (appointmentServiceId == 0)
+                {
+                    // Not saved yet, just remove from the grid
+                    dgv_service_selected.Rows.RemoveAt(e.RowIndex);
+
+                    MessageBox.Show($"{serviceName} removed successfully!",
+                                    "Removed", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                }
                 else 
                 {
-                    var confimmation = MessageBox.Show("Are you sure you want to remove this service?", "Confirm Removal", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
-                    if (confimmation == DialogResult.Yes)
-                    {
-                        controller.DeleteAppointmentServiceById(appointmentServiceId);
-       
 
-                        inv_service_controller.DeleteServiceFromInvoiceCart(invoice_service_id);
-                        LoadSelectedServices(model.AppointmentId);
-                    }
-                    else 
-                    {
-                        return;
-                    }
+                    int invoice_id = GetInvoiceId(model.AppointmentId);
+                    int invoice_service_id = inv_service_controller.GetInvoiceServiceById(invoice_id, serviceId);
+                    controller.DeleteAppointmentServiceById(appointmentServiceId);
+                    inv_service_controller.DeleteServiceFromInvoiceCart(invoice_service_id);
+                    LoadSelectedServices(model.AppointmentId);
+                }
+
+
+                    
                     
                   
 
-                }
+                
 
             }
         }

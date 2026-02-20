@@ -1,4 +1,5 @@
 ﻿using MaterialSkin.Controls;
+using Microsoft.ReportingServices.ReportProcessing.ReportObjectModel;
 using Mysqlx.Crud;
 using Salon.Controller;
 using Salon.Models;
@@ -22,8 +23,23 @@ namespace Salon.View
         {
             InitializeComponent();
             ThemeManager.ApplyTheme(this);
-          
+            int currentYear = DateTime.Now.Year;
 
+            int minYear = currentYear - 65; // Oldest allowed: 65 years old
+            int maxYear = currentYear - 18; // Youngest allowed: 18 years old
+
+
+            dtp_day_of_birth.MinDate = new DateTime(minYear, 1, 1);      // e.g., Jan 1, 1960 if it's 2025
+            dtp_day_of_birth.MaxDate = new DateTime(maxYear, 12, 31);    // e.g., Dec 31, 2007 if it's 2025
+
+            DateTime defaultDate = new DateTime(currentYear - 25, 1, 1); // e.g., 25 years old
+
+            if (defaultDate < dtp_day_of_birth.MinDate)
+                defaultDate = dtp_day_of_birth.MinDate;
+            else if (defaultDate > dtp_day_of_birth.MaxDate)
+                defaultDate = dtp_day_of_birth.MaxDate;
+
+            dtp_day_of_birth.Value = defaultDate;
         }
 
   
@@ -31,6 +47,9 @@ namespace Salon.View
 
         private void btn_personal_tab_next_Click(object sender, EventArgs e)
         {
+
+            if (!IsValid()) return;
+
             if (materialTabControl1.SelectedIndex < materialTabControl1.TabCount - 1)
             {
                 materialTabControl1.SelectedIndex++; // move forward }
@@ -40,6 +59,7 @@ namespace Salon.View
 
         private void btn_account_tab_back_Click(object sender, EventArgs e)
         {
+        
             if (materialTabControl1.SelectedIndex > 0)
             {
                 materialTabControl1.SelectedIndex--; // move backward }
@@ -48,6 +68,7 @@ namespace Salon.View
 
         private void btn_account_tab_next_Click(object sender, EventArgs e)
         {
+            if (!AccountValid()) return;
             if (materialTabControl1.SelectedIndex < materialTabControl1.TabCount - 1)
             {
                 materialTabControl1.SelectedIndex++; // move forward }
@@ -65,11 +86,257 @@ namespace Salon.View
 
         private void btn_vat_tab_next_Click(object sender, EventArgs e)
         {
+            if (!VatValid()) return;
+
             if (materialTabControl1.SelectedIndex < materialTabControl1.TabCount - 1)
             {
                 materialTabControl1.SelectedIndex++; // move forward }
 
             }
+        }
+        private bool VatValid() 
+        {
+            bool validated = true;
+
+            // VAT validation
+            if (txt_vat.Value == 0) // treat 0 as "empty" or not set
+            {
+                errorProvider1.SetError(txt_vat, "VAT is required.");
+                validated = false;
+            }
+            else if (txt_vat.Value < 0 || txt_vat.Value > 100)
+            {
+                errorProvider1.SetError(txt_vat, "VAT must be between 0% and 100%.");
+                validated = false;
+            }
+            else if (txt_vat.Value % 1 != 0)
+            {
+                errorProvider1.SetError(txt_vat, "VAT must be a whole number.");
+                validated = false;
+            }
+            else
+            {
+                errorProvider1.SetError(txt_vat, string.Empty);
+            }
+
+            return validated;
+        }
+        private bool IsValid()
+        {
+            DateTime birthDate = dtp_day_of_birth.Value;
+            int age = DateTime.Now.Year - birthDate.Year;
+          
+
+            bool validated = true;
+
+            // First Name
+            if (string.IsNullOrWhiteSpace(txt_first_name.Text))
+            {
+                errorProvider1.SetError(txt_first_name, "First name is required.");
+                validated = false;
+            }
+            else if (txt_first_name.Text.Trim().Length < 3)
+            {
+                errorProvider1.SetError(txt_first_name, "First name must be at least 3 characters.");
+                validated = false;
+            }
+            else if (!System.Text.RegularExpressions.Regex.IsMatch(txt_first_name.Text.Trim(), @"^[A-Za-z]+(?: [A-Za-z]+)*$"))
+            {
+                errorProvider1.SetError(txt_first_name, "First name should only contain letters and no special characters.");
+                validated = false;
+            }
+            else
+            {
+                errorProvider1.SetError(txt_first_name, string.Empty);
+            }
+
+            // Middle Name (optional)
+            if (!string.IsNullOrWhiteSpace(txt_middle_name.Text))
+            {
+                if (txt_middle_name.Text.Trim().Length < 2)
+                {
+                    errorProvider1.SetError(txt_middle_name, "Middle name must be at least 2 characters.");
+                    validated = false;
+                }
+                else if (!System.Text.RegularExpressions.Regex.IsMatch(txt_middle_name.Text.Trim(), @"^[A-Za-z]+(?: [A-Za-z]+)*$"))
+                {
+                    errorProvider1.SetError(txt_middle_name, "Middle name should only contain letters and no special characters.");
+                    validated = false;
+                }
+                else
+                {
+                    errorProvider1.SetError(txt_middle_name, string.Empty);
+                }
+            }
+
+            // Last Name
+            if (string.IsNullOrWhiteSpace(txt_last_name.Text))
+            {
+                errorProvider1.SetError(txt_last_name, "Last name is required.");
+                validated = false;
+            }
+            else if (txt_last_name.Text.Trim().Length < 2)
+            {
+                errorProvider1.SetError(txt_last_name, "Last name must be at least 2 characters.");
+                validated = false;
+            }
+            else if (!System.Text.RegularExpressions.Regex.IsMatch(txt_last_name.Text.Trim(), @"^[A-Za-z]+(?: [A-Za-z]+)*$"))
+            {
+                errorProvider1.SetError(txt_last_name, "Last name should only contain letters and no special characters.");
+                validated = false;
+            }
+            else
+            {
+                errorProvider1.SetError(txt_last_name, string.Empty);
+            }
+
+            // Email
+            if (string.IsNullOrWhiteSpace(txt_user_email.Text))
+            {
+                errorProvider1.SetError(txt_user_email, "Email is required.");
+                validated = false;
+            }
+            else if (!System.Text.RegularExpressions.Regex.IsMatch(txt_user_email.Text.Trim(), @"^[^@\s]+@[^@\s]+\.[^@\s]+$"))
+            {
+                errorProvider1.SetError(txt_user_email, "Please enter a valid email address.");
+                validated = false;
+            }
+            else
+            {
+                errorProvider1.SetError(txt_email, string.Empty);
+            }
+
+            // Contact
+            if (string.IsNullOrWhiteSpace(txt_contact.Text))
+            {
+                errorProvider1.SetError(txt_contact, "Contact number is required.");
+                validated = false;
+            }
+            else if (!System.Text.RegularExpressions.Regex.IsMatch(txt_contact.Text.Trim(), @"^09\d{9}$"))
+            {
+                errorProvider1.SetError(txt_contact, "Contact number must start with '09' and be exactly 11 digits long with no spaces or symbols.");
+                validated = false;
+            }
+            else
+            {
+                errorProvider1.SetError(txt_contact, string.Empty);
+            }
+
+            // Age check
+            if (birthDate > DateTime.Now.AddYears(-age)) age--;
+            if (age < 18)
+            {
+                errorProvider1.SetError(dtp_day_of_birth, "Must be 18+ years old.");
+                validated = false;
+            }
+            else
+            {
+                errorProvider1.SetError(dtp_day_of_birth, string.Empty);
+            }
+
+            // Address
+            if (string.IsNullOrWhiteSpace(txt_address.Text))
+            {
+                errorProvider1.SetError(txt_address, "Address is required.");
+                validated = false;
+            }
+            else
+            {
+                errorProvider1.SetError(txt_address, string.Empty);
+            }
+
+           
+
+            return validated;
+        }
+
+        private bool AccountValid() 
+        {
+            bool validated = true;
+            // Username
+            if (string.IsNullOrWhiteSpace(txt_username.Text))
+            {
+                errorProvider1.SetError(txt_username, "Username is required.");
+                validated = false;
+            }
+            else if (txt_username.Text.Trim().Length < 4)
+            {
+                errorProvider1.SetError(txt_username, "Username must be at least 4 characters.");
+                validated = false;
+            }
+            else
+            {
+                errorProvider1.SetError(txt_username, string.Empty);
+            }
+
+            // Password
+            if (string.IsNullOrWhiteSpace(txt_HashPassword.Text))
+            {
+                errorProvider1.SetError(txt_HashPassword, "Password is required.");
+                validated = false;
+            }
+            else if (txt_HashPassword.Text.Trim().Length < 8)
+            {
+                errorProvider1.SetError(txt_HashPassword, "Password must be at least 8 characters.");
+                validated = false;
+            }
+            else
+            {
+                errorProvider1.SetError(txt_HashPassword, string.Empty);
+            }
+
+            // Confirm Password
+            if (txt_confirm_password.Text != txt_HashPassword.Text)
+            {
+                errorProvider1.SetError(txt_confirm_password, "Passwords do not match.");
+                validated = false;
+            }
+            else
+            {
+                errorProvider1.SetError(txt_confirm_password, string.Empty);
+            }
+
+            return validated;
+        }
+        private bool SMPTPVALID() 
+        {
+            bool validated = true;
+            // Business Name
+            if (string.IsNullOrWhiteSpace(txt_business_name.Text))
+            {
+                errorProvider1.SetError(txt_business_name, "Business name is required.");
+                validated = false;
+            }
+            else
+            {
+                errorProvider1.SetError(txt_business_name, string.Empty);
+            }
+            // SMTP Email
+            if (string.IsNullOrWhiteSpace(txt_email.Text))
+            {
+                errorProvider1.SetError(txt_email, "Email is required.");
+                validated = false;
+            }
+            else if (!System.Text.RegularExpressions.Regex.IsMatch(txt_email.Text.Trim(), @"^[^@\s]+@[^@\s]+\.[^@\s]+$"))
+            {
+                errorProvider1.SetError(txt_email, "Please enter a valid email address.");
+                validated = false;
+            }
+            else
+            {
+                errorProvider1.SetError(txt_email, string.Empty);
+            }
+            // SMTP Password
+            if (string.IsNullOrWhiteSpace(txt_password.Text))
+            {
+                errorProvider1.SetError(txt_password, "SMTP password is required.");
+                validated = false;
+            }
+            else
+            {
+                errorProvider1.SetError(txt_password, string.Empty);
+            }
+            return validated;
         }
         private int user_id;
         private int SaveUser()
@@ -113,43 +380,31 @@ namespace Salon.View
         {
             return BCrypt.Net.BCrypt.HashPassword(password);
         }
-        private VatModel vatModel;
+      
         private void AddVat()
         {
             var _repo = new VatRepository();
             var tax_controller = new VatController(_repo);
-            var tax_exists = tax_controller.checkTax();
 
-            int tax_rate = Convert.ToInt32(txt_vat.Text.Trim());
-        
+            // Safely parse VAT value (NumericUpDown.Value is already decimal)
+            int tax_rate = Convert.ToInt32(txt_vat.Value);
 
-                int tax_id = vatModel.tax_id;
+            // Build a new model for creation
+            var tax_model = new VatModel
+            {
+                tax = tax_rate
+            };
 
-                vatModel.tax_id = tax_id;
-                vatModel.tax = tax_rate;
-      
+            // Save to database
+            tax_controller.CreateTax(tax_model);
+
           
-                var tax_model = new VatModel
-                {
-                    tax = tax_rate
-                };
-               
-                tax_controller.CreateTax(tax_model);
-                Audit.AuditLog(
-                   DateTime.Now,
-                   "Create",
-                   UserSession.CurrentUser.first_Name,
-                   "Vat/Discount",
-                   $"Created Vat with rate '{tax_rate}' on {DateTime.Now:yyyy-MM-dd} at {DateTime.Now:HH:mm:ss}"
-               );
-
-
-
-            
         }
 
         private void btn_smtp_next_Click(object sender, EventArgs e)
         {
+            if (!SMPTPVALID()) return;
+
             var _repo = new UserRepository();
             var userController = new UserController(_repo);
             user_id = SaveUser();
@@ -196,32 +451,7 @@ namespace Salon.View
             var saved = owner_controller.Create(model);
          
         }
-        public void LoadPaymentMethod()
-        {
-            var repo = new PaymentMethodRepository();
-            var controller = new PaymentMethodController(repo);
-            var paymentMethod = controller.GetAllPaymentMethod();
-
-
-            var filteredSorted = paymentMethod.Where(pm => pm.is_active).OrderBy(pm => pm.name).ToList();
-
-
-            dgv_payment_method.AutoGenerateColumns = false;
-
-
-            col_payment_method_id.DataPropertyName = "id";
-            col_payment_method_name.DataPropertyName = "name";
-            col_payment_method_required_display_text.DataPropertyName = "required_text";
-            col_payment_method_required.DataPropertyName = "required_reference";
-            col_payment_method_status.DataPropertyName = "is_active";
-            col_payment_method_status_display_text.DataPropertyName = "status_text";
-
-
-            dgv_payment_method.DataSource = filteredSorted;
-
-
-
-        }
+       
         private void CreateBusinessHour() 
         {
             var repo = new BusinessHourRepository();
@@ -229,6 +459,7 @@ namespace Salon.View
 
                 var businessHour = new BusinessHour
                 {
+                    business_hours_id = 0, // Assuming 0 or null for new record, adjust as needed
                     open_time = dtp_opening.Value.TimeOfDay,
                     close_time = dtp_closing.Value.TimeOfDay,
                 };
@@ -240,6 +471,12 @@ namespace Salon.View
             {
                 form.ShowDialog();
             }
+        }
+
+        private void chk_show_password_CheckedChanged(object sender, EventArgs e)
+        {
+            txt_HashPassword.UseSystemPasswordChar = !chk_show_password.Checked;
+            txt_confirm_password.UseSystemPasswordChar = !chk_show_password.Checked;
         }
     }
 }

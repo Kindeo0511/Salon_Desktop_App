@@ -24,6 +24,15 @@ namespace Salon.Controller
         {
             return inventoryRepository.GetAllInventory(page_size, off_set);
         }
+        public double GetStockByProductSize(int productId, int productSizeId)
+        {
+            return inventoryRepository.GetStockByProductSize(productId, productSizeId);
+        }
+        public double GetProductQtyStck(int productId, int productSizeId)
+        {
+            return inventoryRepository.GetProductQtyStockkByProductSize(productId, productSizeId);
+        }
+
         public int GetTotalInventory() 
         {
             return inventoryRepository.TotalInventory();

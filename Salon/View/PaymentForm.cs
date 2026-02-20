@@ -749,7 +749,7 @@ namespace Salon.View
 
             await mainForm.RefreshInventoryAsync();
             //await mainForm.RefreshAppointmentAsync();
-            //await mainForm.RefreshTotalSales();
+            await mainForm.RefreshTotalSales();
             mainForm.FilterTransactionReport(1,25);
             mainForm.LoadWalkIn();
             this.Close();
@@ -1232,6 +1232,12 @@ namespace Salon.View
                 txt_discount_amount.ReadOnly = true;
                 return;
             }
+            if (lbl_customer_type.Text != "Member") 
+            {
+                txt_discount_amount.ReadOnly = true;
+                return;
+            }
+            ;
             if (!string.IsNullOrWhiteSpace(txt_discount_amount.Text)) 
             {
                 if (decimal.TryParse(txt_discount_amount.Text, out decimal discount))
@@ -1323,21 +1329,41 @@ namespace Salon.View
 
         private void btn_disc_5_Click(object sender, EventArgs e)
         {
+            if (lbl_customer_type.Text != "Member")
+            {
+                MessageBox.Show("Promotions are only available for members.", "Not Eligible", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                return;
+            }
             PremadeDiscountButtons("5");
         }
 
         private void btn_disc_10_Click(object sender, EventArgs e)
         {
+            if (lbl_customer_type.Text != "Member")
+            {
+                MessageBox.Show("Promotions are only available for members.", "Not Eligible", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                return;
+            }
             PremadeDiscountButtons("10");
         }
 
         private void btn_disc_20_Click(object sender, EventArgs e)
         {
+            if (lbl_customer_type.Text != "Member")
+            {
+                MessageBox.Show("Promotions are only available for members.", "Not Eligible", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                return;
+            }
             PremadeDiscountButtons("20");
         }
 
         private void btn_disc_100_Click(object sender, EventArgs e)
         {
+            if (lbl_customer_type.Text != "Member")
+            {
+                MessageBox.Show("Promotions are only available for members.", "Not Eligible", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                return;
+            }
             PremadeDiscountButtons("100");
         }
 
@@ -1387,6 +1413,12 @@ namespace Salon.View
                 txt_discount_percent.ReadOnly = true;
                 return;
             }
+            if (lbl_customer_type.Text != "Member")
+            {
+                txt_discount_percent.ReadOnly = true;
+                return;
+            }
+
             if (!string.IsNullOrWhiteSpace(txt_discount_percent.Text))
             {
                 PremadeDiscountButtons(txt_discount_percent.Text.ToString());
@@ -1429,6 +1461,12 @@ namespace Salon.View
                 if (OverallDiscountApplied)
                 { 
                     MessageBox.Show("A discount has already been applied. Only one discount is allowed per transaction.");
+                    return;
+                }
+
+                if (lbl_customer_type.Text != "Member")
+                {
+                    MessageBox.Show("Promotions are only available for members.", "Not Eligible", MessageBoxButtons.OK, MessageBoxIcon.Information);
                     return;
                 }
 
@@ -1534,6 +1572,11 @@ namespace Salon.View
 
         private void btn_promo_Click(object sender, EventArgs e)
         {
+            if (lbl_customer_type.Text != "Member") 
+            {
+                MessageBox.Show("Promotions are only available for members.", "Not Eligible", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                return;
+            } 
             using (var form = new PromoForm()) 
             {
                 if(form.ShowDialog() == DialogResult.OK)

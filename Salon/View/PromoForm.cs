@@ -75,6 +75,11 @@ namespace Salon.View
 
         private void btn_apply_Click(object sender, EventArgs e)
         {
+            if (string.IsNullOrWhiteSpace(cmb_promo.Text)) 
+            {
+                MessageBox.Show("Please select a promo.", "Validation Error", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
             this.DialogResult = DialogResult.OK;
             this.Close();
         }

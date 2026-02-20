@@ -11,18 +11,18 @@ namespace Salon.Controller
     public class SpecialistController
     {
         private readonly SpecialistRepository repo;
-        public SpecialistController(SpecialistRepository repo) 
+        public SpecialistController(SpecialistRepository repo)
         {
             this.repo = repo;
         }
 
 
-        public IEnumerable<SpecialistModel> GetAllSpecialists() 
+        public IEnumerable<SpecialistModel> GetAllSpecialists()
         {
             return repo.DisplayList();
         }
 
-        public bool CreateSpecialist(SpecialistModel model) 
+        public bool CreateSpecialist(SpecialistModel model)
         {
             return repo.Create(model) > 0;
         }
@@ -30,6 +30,28 @@ namespace Salon.Controller
         public bool UpdateSpecialist(SpecialistModel model)
         {
             return repo.Update(model) > 0;
+        }
+
+        public bool DeleteSpecialist(int specialist_id)
+        {
+            return repo.Delete(specialist_id);
+        }
+        public bool RestoreSpecilist(int specialist_id)
+        {
+            return repo.Restore(specialist_id);
+        }
+        public bool PermanentDeleteSpecialist(int specialist_id)
+        {
+            return repo.PermanentDelete(specialist_id);
+        }
+
+        public bool IsSpecialistUsed(int specialist_id)
+        {
+            return repo.IsSpecialistIsUsed(specialist_id);
+        }
+        public bool SpecialistExists(string name, int specialist_id)
+        {
+            return repo.SpecialistExists(name, specialist_id);
         }
     }
 }

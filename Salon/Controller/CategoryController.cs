@@ -64,9 +64,9 @@ namespace Salon.Controller
            return repo.CategoriesExist(category,type, id);
         }
 
-        public async Task<CategoryModel> CheckCategoryExistsAsync(string category, string type, int excludeId = 0)
+        public async Task<CategoryModel> CheckCategoryExistsAsync(string category, int excludeId = 0)
         {
-            return await repo.GetExistingCategoryAsync(category, type, excludeId);
+            return await repo.GetExistingCategoryAsync(category, excludeId);
         }
 
         public CategoryModel GetCategoryAndType(string category)

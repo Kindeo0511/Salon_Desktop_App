@@ -32,6 +32,7 @@
             this.materialButton2 = new MaterialSkin.Controls.MaterialButton();
             this.lbl_item_name = new MaterialSkin.Controls.MaterialLabel();
             this.materialCard1 = new MaterialSkin.Controls.MaterialCard();
+            this.panel1 = new System.Windows.Forms.Panel();
             this.materialLabel2 = new MaterialSkin.Controls.MaterialLabel();
             this.txt_qty = new System.Windows.Forms.NumericUpDown();
             this.txt_fixed_amount = new System.Windows.Forms.TextBox();
@@ -42,10 +43,10 @@
             this.btn_discount_pwd = new MaterialSkin.Controls.MaterialButton();
             this.btn_free = new MaterialSkin.Controls.MaterialButton();
             this.btn_promo = new MaterialSkin.Controls.MaterialButton();
-            this.panel1 = new System.Windows.Forms.Panel();
+            this.lbl_purchase_qty = new MaterialSkin.Controls.MaterialLabel();
             this.materialCard1.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.txt_qty)).BeginInit();
             this.panel1.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.txt_qty)).BeginInit();
             this.SuspendLayout();
             // 
             // btn_apply_discount
@@ -118,6 +119,15 @@
             this.materialCard1.Padding = new System.Windows.Forms.Padding(25);
             this.materialCard1.Size = new System.Drawing.Size(800, 100);
             this.materialCard1.TabIndex = 4;
+            // 
+            // panel1
+            // 
+            this.panel1.Controls.Add(this.lbl_item_name);
+            this.panel1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.panel1.Location = new System.Drawing.Point(25, 25);
+            this.panel1.Name = "panel1";
+            this.panel1.Size = new System.Drawing.Size(750, 50);
+            this.panel1.TabIndex = 4;
             // 
             // materialLabel2
             // 
@@ -264,14 +274,17 @@
             this.btn_promo.UseVisualStyleBackColor = true;
             this.btn_promo.Click += new System.EventHandler(this.btn_promo_Click);
             // 
-            // panel1
+            // lbl_purchase_qty
             // 
-            this.panel1.Controls.Add(this.lbl_item_name);
-            this.panel1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.panel1.Location = new System.Drawing.Point(25, 25);
-            this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(750, 50);
-            this.panel1.TabIndex = 4;
+            this.lbl_purchase_qty.AutoSize = true;
+            this.lbl_purchase_qty.Depth = 0;
+            this.lbl_purchase_qty.Font = new System.Drawing.Font("Roboto", 14F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
+            this.lbl_purchase_qty.Location = new System.Drawing.Point(414, 127);
+            this.lbl_purchase_qty.MouseState = MaterialSkin.MouseState.HOVER;
+            this.lbl_purchase_qty.Name = "lbl_purchase_qty";
+            this.lbl_purchase_qty.Size = new System.Drawing.Size(1, 0);
+            this.lbl_purchase_qty.TabIndex = 15;
+            this.lbl_purchase_qty.Visible = false;
             // 
             // DiscountModelForm
             // 
@@ -280,6 +293,7 @@
             this.AutoSize = true;
             this.ClientSize = new System.Drawing.Size(800, 600);
             this.ControlBox = false;
+            this.Controls.Add(this.lbl_purchase_qty);
             this.Controls.Add(this.btn_promo);
             this.Controls.Add(this.btn_free);
             this.Controls.Add(this.btn_discount_pwd);
@@ -301,10 +315,11 @@
             this.Sizable = false;
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "DiscountModelForm";
+            this.Load += new System.EventHandler(this.DiscountModelForm_Load);
             this.materialCard1.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.txt_qty)).EndInit();
             this.panel1.ResumeLayout(false);
             this.panel1.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.txt_qty)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -326,5 +341,6 @@
         private MaterialSkin.Controls.MaterialButton btn_free;
         private MaterialSkin.Controls.MaterialButton btn_promo;
         private System.Windows.Forms.Panel panel1;
+        private MaterialSkin.Controls.MaterialLabel lbl_purchase_qty;
     }
 }

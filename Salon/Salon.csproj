@@ -728,6 +728,12 @@
     <Compile Include="View\ServicesCard.Designer.cs">
       <DependentUpon>ServicesCard.cs</DependentUpon>
     </Compile>
+    <Compile Include="View\SpecialistForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="View\SpecialistForm.Designer.cs">
+      <DependentUpon>SpecialistForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="View\StockInTransactionForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -974,6 +980,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="View\ServicesCard.resx">
       <DependentUpon>ServicesCard.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="View\SpecialistForm.resx">
+      <DependentUpon>SpecialistForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="View\StockInTransactionForm.resx">
       <DependentUpon>StockInTransactionForm.cs</DependentUpon>

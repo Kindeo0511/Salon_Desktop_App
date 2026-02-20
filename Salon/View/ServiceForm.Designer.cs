@@ -42,13 +42,24 @@
             this.txt_price = new MaterialSkin.Controls.MaterialTextBox();
             this.materialTabControl1 = new MaterialSkin.Controls.MaterialTabControl();
             this.tabPage1 = new System.Windows.Forms.TabPage();
-            this.btn_next = new MaterialSkin.Controls.MaterialButton();
             this.stylist_list_box = new System.Windows.Forms.CheckedListBox();
             this.label1 = new System.Windows.Forms.Label();
             this.tabPage2 = new System.Windows.Forms.TabPage();
             this.dgv_Service_Product = new System.Windows.Forms.DataGridView();
+            this.col_service_id = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.col_product_id = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.col_product__size_id = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.col_product_name = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.col_product_size_label = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.col_brand = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.col_total_usage = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.col_usage_btn_update = new System.Windows.Forms.DataGridViewImageColumn();
+            this.btn_delete = new System.Windows.Forms.DataGridViewImageColumn();
             this.materialCard1 = new MaterialSkin.Controls.MaterialCard();
-            this.btn_back = new MaterialSkin.Controls.MaterialButton();
+            this.lbl_service_product_id = new MaterialSkin.Controls.MaterialLabel();
+            this.lbl_size_id = new MaterialSkin.Controls.MaterialLabel();
+            this.txt_size = new MaterialSkin.Controls.MaterialTextBox();
+            this.materialLabel5 = new MaterialSkin.Controls.MaterialLabel();
             this.materialLabel4 = new MaterialSkin.Controls.MaterialLabel();
             this.materialLabel3 = new MaterialSkin.Controls.MaterialLabel();
             this.materialLabel2 = new MaterialSkin.Controls.MaterialLabel();
@@ -60,19 +71,6 @@
             this.cmb_product = new MaterialSkin.Controls.MaterialComboBox();
             this.materialTabSelector1 = new MaterialSkin.Controls.MaterialTabSelector();
             this.errorProvider2 = new System.Windows.Forms.ErrorProvider(this.components);
-            this.materialLabel5 = new MaterialSkin.Controls.MaterialLabel();
-            this.txt_size = new MaterialSkin.Controls.MaterialTextBox();
-            this.lbl_size_id = new MaterialSkin.Controls.MaterialLabel();
-            this.col_service_id = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.col_product_id = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.col_product__size_id = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.col_product_name = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.col_product_size_label = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.col_brand = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.col_total_usage = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.col_usage_btn_update = new System.Windows.Forms.DataGridViewImageColumn();
-            this.btn_delete = new System.Windows.Forms.DataGridViewImageColumn();
-            this.lbl_service_product_id = new MaterialSkin.Controls.MaterialLabel();
             ((System.ComponentModel.ISupportInitialize)(this.txt_duration)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.errorProvider1)).BeginInit();
             this.materialTabControl1.SuspendLayout();
@@ -280,7 +278,6 @@
             // tabPage1
             // 
             this.tabPage1.BackColor = System.Drawing.SystemColors.Control;
-            this.tabPage1.Controls.Add(this.btn_next);
             this.tabPage1.Controls.Add(this.stylist_list_box);
             this.tabPage1.Controls.Add(this.label1);
             this.tabPage1.Controls.Add(this.txt_service_name);
@@ -298,27 +295,6 @@
             this.tabPage1.Size = new System.Drawing.Size(1277, 496);
             this.tabPage1.TabIndex = 0;
             this.tabPage1.Text = "Service Details";
-            // 
-            // btn_next
-            // 
-            this.btn_next.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
-            this.btn_next.Density = MaterialSkin.Controls.MaterialButton.MaterialButtonDensity.Default;
-            this.btn_next.Depth = 0;
-            this.btn_next.DrawShadows = false;
-            this.btn_next.HighEmphasis = true;
-            this.btn_next.Icon = null;
-            this.btn_next.Location = new System.Drawing.Point(1167, 27);
-            this.btn_next.Margin = new System.Windows.Forms.Padding(4, 6, 4, 6);
-            this.btn_next.MouseState = MaterialSkin.MouseState.HOVER;
-            this.btn_next.Name = "btn_next";
-            this.btn_next.NoAccentTextColor = System.Drawing.Color.Empty;
-            this.btn_next.Size = new System.Drawing.Size(64, 36);
-            this.btn_next.TabIndex = 39;
-            this.btn_next.Text = "next";
-            this.btn_next.Type = MaterialSkin.Controls.MaterialButton.MaterialButtonType.Contained;
-            this.btn_next.UseAccentColor = false;
-            this.btn_next.UseVisualStyleBackColor = true;
-            this.btn_next.Click += new System.EventHandler(this.btn_next_Click);
             // 
             // stylist_list_box
             // 
@@ -381,6 +357,90 @@
             this.dgv_Service_Product.TabIndex = 9;
             this.dgv_Service_Product.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgv_Service_Product_CellClick);
             // 
+            // col_service_id
+            // 
+            this.col_service_id.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
+            this.col_service_id.HeaderText = "Service ID";
+            this.col_service_id.MinimumWidth = 6;
+            this.col_service_id.Name = "col_service_id";
+            this.col_service_id.ReadOnly = true;
+            this.col_service_id.Visible = false;
+            // 
+            // col_product_id
+            // 
+            this.col_product_id.HeaderText = "product_id";
+            this.col_product_id.MinimumWidth = 6;
+            this.col_product_id.Name = "col_product_id";
+            this.col_product_id.ReadOnly = true;
+            this.col_product_id.Visible = false;
+            this.col_product_id.Width = 125;
+            // 
+            // col_product__size_id
+            // 
+            this.col_product__size_id.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
+            this.col_product__size_id.HeaderText = "product_size_id";
+            this.col_product__size_id.MinimumWidth = 6;
+            this.col_product__size_id.Name = "col_product__size_id";
+            this.col_product__size_id.ReadOnly = true;
+            this.col_product__size_id.Visible = false;
+            this.col_product__size_id.Width = 125;
+            // 
+            // col_product_name
+            // 
+            this.col_product_name.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
+            this.col_product_name.HeaderText = "Product";
+            this.col_product_name.MinimumWidth = 6;
+            this.col_product_name.Name = "col_product_name";
+            this.col_product_name.ReadOnly = true;
+            // 
+            // col_product_size_label
+            // 
+            this.col_product_size_label.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
+            this.col_product_size_label.HeaderText = "Size";
+            this.col_product_size_label.MinimumWidth = 6;
+            this.col_product_size_label.Name = "col_product_size_label";
+            this.col_product_size_label.ReadOnly = true;
+            this.col_product_size_label.Width = 62;
+            // 
+            // col_brand
+            // 
+            this.col_brand.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
+            this.col_brand.HeaderText = "Brand";
+            this.col_brand.MinimumWidth = 6;
+            this.col_brand.Name = "col_brand";
+            this.col_brand.ReadOnly = true;
+            // 
+            // col_total_usage
+            // 
+            this.col_total_usage.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
+            this.col_total_usage.HeaderText = "Quantity";
+            this.col_total_usage.MinimumWidth = 6;
+            this.col_total_usage.Name = "col_total_usage";
+            this.col_total_usage.ReadOnly = true;
+            this.col_total_usage.Width = 84;
+            // 
+            // col_usage_btn_update
+            // 
+            this.col_usage_btn_update.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
+            this.col_usage_btn_update.HeaderText = "";
+            this.col_usage_btn_update.Image = ((System.Drawing.Image)(resources.GetObject("col_usage_btn_update.Image")));
+            this.col_usage_btn_update.ImageLayout = System.Windows.Forms.DataGridViewImageCellLayout.Zoom;
+            this.col_usage_btn_update.MinimumWidth = 6;
+            this.col_usage_btn_update.Name = "col_usage_btn_update";
+            this.col_usage_btn_update.ReadOnly = true;
+            this.col_usage_btn_update.Width = 6;
+            // 
+            // btn_delete
+            // 
+            this.btn_delete.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
+            this.btn_delete.HeaderText = "";
+            this.btn_delete.Image = ((System.Drawing.Image)(resources.GetObject("btn_delete.Image")));
+            this.btn_delete.ImageLayout = System.Windows.Forms.DataGridViewImageCellLayout.Zoom;
+            this.btn_delete.MinimumWidth = 6;
+            this.btn_delete.Name = "btn_delete";
+            this.btn_delete.ReadOnly = true;
+            this.btn_delete.Width = 6;
+            // 
             // materialCard1
             // 
             this.materialCard1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
@@ -388,7 +448,6 @@
             this.materialCard1.Controls.Add(this.lbl_size_id);
             this.materialCard1.Controls.Add(this.txt_size);
             this.materialCard1.Controls.Add(this.materialLabel5);
-            this.materialCard1.Controls.Add(this.btn_back);
             this.materialCard1.Controls.Add(this.materialLabel4);
             this.materialCard1.Controls.Add(this.materialLabel3);
             this.materialCard1.Controls.Add(this.materialLabel2);
@@ -409,34 +468,67 @@
             this.materialCard1.Size = new System.Drawing.Size(1271, 353);
             this.materialCard1.TabIndex = 8;
             // 
-            // btn_back
+            // lbl_service_product_id
             // 
-            this.btn_back.AutoSize = false;
-            this.btn_back.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
-            this.btn_back.Density = MaterialSkin.Controls.MaterialButton.MaterialButtonDensity.Default;
-            this.btn_back.Depth = 0;
-            this.btn_back.DrawShadows = false;
-            this.btn_back.HighEmphasis = true;
-            this.btn_back.Icon = null;
-            this.btn_back.Location = new System.Drawing.Point(18, 20);
-            this.btn_back.Margin = new System.Windows.Forms.Padding(4, 6, 4, 6);
-            this.btn_back.MouseState = MaterialSkin.MouseState.HOVER;
-            this.btn_back.Name = "btn_back";
-            this.btn_back.NoAccentTextColor = System.Drawing.Color.Empty;
-            this.btn_back.Size = new System.Drawing.Size(129, 36);
-            this.btn_back.TabIndex = 54;
-            this.btn_back.Text = "back";
-            this.btn_back.Type = MaterialSkin.Controls.MaterialButton.MaterialButtonType.Contained;
-            this.btn_back.UseAccentColor = false;
-            this.btn_back.UseVisualStyleBackColor = true;
-            this.btn_back.Click += new System.EventHandler(this.btn_back_Click);
+            this.lbl_service_product_id.AutoSize = true;
+            this.lbl_service_product_id.Depth = 0;
+            this.lbl_service_product_id.Font = new System.Drawing.Font("Roboto", 14F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
+            this.lbl_service_product_id.Location = new System.Drawing.Point(1205, 20);
+            this.lbl_service_product_id.MouseState = MaterialSkin.MouseState.HOVER;
+            this.lbl_service_product_id.Name = "lbl_service_product_id";
+            this.lbl_service_product_id.Size = new System.Drawing.Size(49, 19);
+            this.lbl_service_product_id.TabIndex = 58;
+            this.lbl_service_product_id.Text = "size_id";
+            // 
+            // lbl_size_id
+            // 
+            this.lbl_size_id.AutoSize = true;
+            this.lbl_size_id.Depth = 0;
+            this.lbl_size_id.Font = new System.Drawing.Font("Roboto", 14F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
+            this.lbl_size_id.Location = new System.Drawing.Point(1076, 20);
+            this.lbl_size_id.MouseState = MaterialSkin.MouseState.HOVER;
+            this.lbl_size_id.Name = "lbl_size_id";
+            this.lbl_size_id.Size = new System.Drawing.Size(49, 19);
+            this.lbl_size_id.TabIndex = 57;
+            this.lbl_size_id.Text = "size_id";
+            // 
+            // txt_size
+            // 
+            this.txt_size.AnimateReadOnly = true;
+            this.txt_size.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            this.txt_size.Depth = 0;
+            this.txt_size.Font = new System.Drawing.Font("Roboto", 16F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
+            this.txt_size.Hint = "Size";
+            this.txt_size.LeadingIcon = null;
+            this.txt_size.Location = new System.Drawing.Point(666, 49);
+            this.txt_size.MaxLength = 50;
+            this.txt_size.MouseState = MaterialSkin.MouseState.OUT;
+            this.txt_size.Multiline = false;
+            this.txt_size.Name = "txt_size";
+            this.txt_size.ReadOnly = true;
+            this.txt_size.Size = new System.Drawing.Size(450, 50);
+            this.txt_size.TabIndex = 56;
+            this.txt_size.Text = "";
+            this.txt_size.TrailingIcon = null;
+            // 
+            // materialLabel5
+            // 
+            this.materialLabel5.AutoSize = true;
+            this.materialLabel5.Depth = 0;
+            this.materialLabel5.Font = new System.Drawing.Font("Roboto", 14F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
+            this.materialLabel5.Location = new System.Drawing.Point(674, 20);
+            this.materialLabel5.MouseState = MaterialSkin.MouseState.HOVER;
+            this.materialLabel5.Name = "materialLabel5";
+            this.materialLabel5.Size = new System.Drawing.Size(31, 19);
+            this.materialLabel5.TabIndex = 55;
+            this.materialLabel5.Text = "Size";
             // 
             // materialLabel4
             // 
             this.materialLabel4.AutoSize = true;
             this.materialLabel4.Depth = 0;
             this.materialLabel4.Font = new System.Drawing.Font("Roboto", 14F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
-            this.materialLabel4.Location = new System.Drawing.Point(190, 237);
+            this.materialLabel4.Location = new System.Drawing.Point(83, 234);
             this.materialLabel4.MouseState = MaterialSkin.MouseState.HOVER;
             this.materialLabel4.Name = "materialLabel4";
             this.materialLabel4.Size = new System.Drawing.Size(65, 19);
@@ -448,7 +540,7 @@
             this.materialLabel3.AutoSize = true;
             this.materialLabel3.Depth = 0;
             this.materialLabel3.Font = new System.Drawing.Font("Roboto", 14F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
-            this.materialLabel3.Location = new System.Drawing.Point(190, 134);
+            this.materialLabel3.Location = new System.Drawing.Point(83, 131);
             this.materialLabel3.MouseState = MaterialSkin.MouseState.HOVER;
             this.materialLabel3.Name = "materialLabel3";
             this.materialLabel3.Size = new System.Drawing.Size(47, 19);
@@ -460,7 +552,7 @@
             this.materialLabel2.AutoSize = true;
             this.materialLabel2.Depth = 0;
             this.materialLabel2.Font = new System.Drawing.Font("Roboto", 14F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
-            this.materialLabel2.Location = new System.Drawing.Point(177, 28);
+            this.materialLabel2.Location = new System.Drawing.Point(70, 25);
             this.materialLabel2.MouseState = MaterialSkin.MouseState.HOVER;
             this.materialLabel2.Name = "materialLabel2";
             this.materialLabel2.Size = new System.Drawing.Size(60, 19);
@@ -542,7 +634,7 @@
             this.txt_total_usage.Font = new System.Drawing.Font("Roboto", 16F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
             this.txt_total_usage.Hint = "Enter quantity";
             this.txt_total_usage.LeadingIcon = null;
-            this.txt_total_usage.Location = new System.Drawing.Point(180, 259);
+            this.txt_total_usage.Location = new System.Drawing.Point(73, 256);
             this.txt_total_usage.MaxLength = 50;
             this.txt_total_usage.MouseState = MaterialSkin.MouseState.OUT;
             this.txt_total_usage.Multiline = false;
@@ -560,7 +652,7 @@
             this.txt_brand.Font = new System.Drawing.Font("Roboto", 16F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
             this.txt_brand.Hint = "Brand";
             this.txt_brand.LeadingIcon = null;
-            this.txt_brand.Location = new System.Drawing.Point(180, 156);
+            this.txt_brand.Location = new System.Drawing.Point(73, 153);
             this.txt_brand.MaxLength = 50;
             this.txt_brand.MouseState = MaterialSkin.MouseState.OUT;
             this.txt_brand.Multiline = false;
@@ -586,7 +678,7 @@
             this.cmb_product.Hint = "Select product";
             this.cmb_product.IntegralHeight = false;
             this.cmb_product.ItemHeight = 43;
-            this.cmb_product.Location = new System.Drawing.Point(180, 53);
+            this.cmb_product.Location = new System.Drawing.Point(73, 50);
             this.cmb_product.MaxDropDownItems = 4;
             this.cmb_product.MouseState = MaterialSkin.MouseState.OUT;
             this.cmb_product.Name = "cmb_product";
@@ -614,144 +706,6 @@
             // 
             this.errorProvider2.BlinkStyle = System.Windows.Forms.ErrorBlinkStyle.NeverBlink;
             this.errorProvider2.ContainerControl = this;
-            // 
-            // materialLabel5
-            // 
-            this.materialLabel5.AutoSize = true;
-            this.materialLabel5.Depth = 0;
-            this.materialLabel5.Font = new System.Drawing.Font("Roboto", 14F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
-            this.materialLabel5.Location = new System.Drawing.Point(751, 28);
-            this.materialLabel5.MouseState = MaterialSkin.MouseState.HOVER;
-            this.materialLabel5.Name = "materialLabel5";
-            this.materialLabel5.Size = new System.Drawing.Size(31, 19);
-            this.materialLabel5.TabIndex = 55;
-            this.materialLabel5.Text = "Size";
-            // 
-            // txt_size
-            // 
-            this.txt_size.AnimateReadOnly = true;
-            this.txt_size.BorderStyle = System.Windows.Forms.BorderStyle.None;
-            this.txt_size.Depth = 0;
-            this.txt_size.Font = new System.Drawing.Font("Roboto", 16F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
-            this.txt_size.Hint = "Size";
-            this.txt_size.LeadingIcon = null;
-            this.txt_size.Location = new System.Drawing.Point(754, 52);
-            this.txt_size.MaxLength = 50;
-            this.txt_size.MouseState = MaterialSkin.MouseState.OUT;
-            this.txt_size.Multiline = false;
-            this.txt_size.Name = "txt_size";
-            this.txt_size.ReadOnly = true;
-            this.txt_size.Size = new System.Drawing.Size(450, 50);
-            this.txt_size.TabIndex = 56;
-            this.txt_size.Text = "";
-            this.txt_size.TrailingIcon = null;
-            // 
-            // lbl_size_id
-            // 
-            this.lbl_size_id.AutoSize = true;
-            this.lbl_size_id.Depth = 0;
-            this.lbl_size_id.Font = new System.Drawing.Font("Roboto", 14F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
-            this.lbl_size_id.Location = new System.Drawing.Point(817, 30);
-            this.lbl_size_id.MouseState = MaterialSkin.MouseState.HOVER;
-            this.lbl_size_id.Name = "lbl_size_id";
-            this.lbl_size_id.Size = new System.Drawing.Size(49, 19);
-            this.lbl_size_id.TabIndex = 57;
-            this.lbl_size_id.Text = "size_id";
-            // 
-            // col_service_id
-            // 
-            this.col_service_id.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
-            this.col_service_id.HeaderText = "Service ID";
-            this.col_service_id.MinimumWidth = 6;
-            this.col_service_id.Name = "col_service_id";
-            this.col_service_id.ReadOnly = true;
-            this.col_service_id.Visible = false;
-            // 
-            // col_product_id
-            // 
-            this.col_product_id.HeaderText = "product_id";
-            this.col_product_id.MinimumWidth = 6;
-            this.col_product_id.Name = "col_product_id";
-            this.col_product_id.ReadOnly = true;
-            this.col_product_id.Width = 125;
-            // 
-            // col_product__size_id
-            // 
-            this.col_product__size_id.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
-            this.col_product__size_id.HeaderText = "product_size_id";
-            this.col_product__size_id.MinimumWidth = 6;
-            this.col_product__size_id.Name = "col_product__size_id";
-            this.col_product__size_id.ReadOnly = true;
-            this.col_product__size_id.Visible = false;
-            this.col_product__size_id.Width = 130;
-            // 
-            // col_product_name
-            // 
-            this.col_product_name.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
-            this.col_product_name.HeaderText = "Product";
-            this.col_product_name.MinimumWidth = 6;
-            this.col_product_name.Name = "col_product_name";
-            this.col_product_name.ReadOnly = true;
-            // 
-            // col_product_size_label
-            // 
-            this.col_product_size_label.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
-            this.col_product_size_label.HeaderText = "Size";
-            this.col_product_size_label.MinimumWidth = 6;
-            this.col_product_size_label.Name = "col_product_size_label";
-            this.col_product_size_label.ReadOnly = true;
-            this.col_product_size_label.Width = 62;
-            // 
-            // col_brand
-            // 
-            this.col_brand.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
-            this.col_brand.HeaderText = "Brand";
-            this.col_brand.MinimumWidth = 6;
-            this.col_brand.Name = "col_brand";
-            this.col_brand.ReadOnly = true;
-            // 
-            // col_total_usage
-            // 
-            this.col_total_usage.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
-            this.col_total_usage.HeaderText = "Quantity";
-            this.col_total_usage.MinimumWidth = 6;
-            this.col_total_usage.Name = "col_total_usage";
-            this.col_total_usage.ReadOnly = true;
-            this.col_total_usage.Width = 84;
-            // 
-            // col_usage_btn_update
-            // 
-            this.col_usage_btn_update.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.DisplayedCells;
-            this.col_usage_btn_update.HeaderText = "";
-            this.col_usage_btn_update.Image = ((System.Drawing.Image)(resources.GetObject("col_usage_btn_update.Image")));
-            this.col_usage_btn_update.ImageLayout = System.Windows.Forms.DataGridViewImageCellLayout.Zoom;
-            this.col_usage_btn_update.MinimumWidth = 6;
-            this.col_usage_btn_update.Name = "col_usage_btn_update";
-            this.col_usage_btn_update.ReadOnly = true;
-            this.col_usage_btn_update.Width = 6;
-            // 
-            // btn_delete
-            // 
-            this.btn_delete.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.DisplayedCells;
-            this.btn_delete.HeaderText = "";
-            this.btn_delete.Image = ((System.Drawing.Image)(resources.GetObject("btn_delete.Image")));
-            this.btn_delete.ImageLayout = System.Windows.Forms.DataGridViewImageCellLayout.Zoom;
-            this.btn_delete.MinimumWidth = 6;
-            this.btn_delete.Name = "btn_delete";
-            this.btn_delete.ReadOnly = true;
-            this.btn_delete.Width = 6;
-            // 
-            // lbl_service_product_id
-            // 
-            this.lbl_service_product_id.AutoSize = true;
-            this.lbl_service_product_id.Depth = 0;
-            this.lbl_service_product_id.Font = new System.Drawing.Font("Roboto", 14F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
-            this.lbl_service_product_id.Location = new System.Drawing.Point(628, 20);
-            this.lbl_service_product_id.MouseState = MaterialSkin.MouseState.HOVER;
-            this.lbl_service_product_id.Name = "lbl_service_product_id";
-            this.lbl_service_product_id.Size = new System.Drawing.Size(49, 19);
-            this.lbl_service_product_id.TabIndex = 58;
-            this.lbl_service_product_id.Text = "size_id";
             // 
             // ServiceForm
             // 
@@ -815,11 +769,10 @@
         private MaterialSkin.Controls.MaterialLabel materialLabel2;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.CheckedListBox stylist_list_box;
-        private MaterialSkin.Controls.MaterialButton btn_next;
-        private MaterialSkin.Controls.MaterialButton btn_back;
         private MaterialSkin.Controls.MaterialTextBox txt_size;
         private MaterialSkin.Controls.MaterialLabel materialLabel5;
         private MaterialSkin.Controls.MaterialLabel lbl_size_id;
+        private MaterialSkin.Controls.MaterialLabel lbl_service_product_id;
         private System.Windows.Forms.DataGridViewTextBoxColumn col_service_id;
         private System.Windows.Forms.DataGridViewTextBoxColumn col_product_id;
         private System.Windows.Forms.DataGridViewTextBoxColumn col_product__size_id;
@@ -829,6 +782,5 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn col_total_usage;
         private System.Windows.Forms.DataGridViewImageColumn col_usage_btn_update;
         private System.Windows.Forms.DataGridViewImageColumn btn_delete;
-        private MaterialSkin.Controls.MaterialLabel lbl_service_product_id;
     }
 }

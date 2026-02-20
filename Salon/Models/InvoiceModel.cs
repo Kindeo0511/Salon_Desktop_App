@@ -14,7 +14,7 @@ namespace Salon.Models
         public string ServiceName { get; set; }
         public string ItemName { get; set; }
         public int Quantity { get; set; }
-
+        public string payment_type { get; set; }
         public int AppointmentID { get; set; }
         public int? CustomerID { get; set; }
         public decimal Total_Price { get; set; }

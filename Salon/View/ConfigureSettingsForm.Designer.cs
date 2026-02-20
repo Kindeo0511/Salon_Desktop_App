@@ -29,19 +29,18 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(ConfigureSettingsForm));
             this.errorProvider1 = new System.Windows.Forms.ErrorProvider(this.components);
             this.materialTabControl1 = new MaterialSkin.Controls.MaterialTabControl();
             this.personalTabPage = new System.Windows.Forms.TabPage();
             this.panel1 = new System.Windows.Forms.Panel();
             this.btn_personal_tab_next = new MaterialSkin.Controls.MaterialButton();
             this.materialCard1 = new MaterialSkin.Controls.MaterialCard();
+            this.dtp_day_of_birth = new System.Windows.Forms.DateTimePicker();
             this.materialLabel7 = new MaterialSkin.Controls.MaterialLabel();
             this.txt_address = new System.Windows.Forms.TextBox();
             this.materialLabel6 = new MaterialSkin.Controls.MaterialLabel();
-            this.txt_contact = new System.Windows.Forms.MaskedTextBox();
             this.materialLabel5 = new MaterialSkin.Controls.MaterialLabel();
-            this.textBox4 = new System.Windows.Forms.TextBox();
+            this.txt_user_email = new System.Windows.Forms.TextBox();
             this.materialLabel4 = new MaterialSkin.Controls.MaterialLabel();
             this.txt_last_name = new System.Windows.Forms.TextBox();
             this.materialLabel3 = new MaterialSkin.Controls.MaterialLabel();
@@ -104,18 +103,7 @@
             this.materialLabel24 = new MaterialSkin.Controls.MaterialLabel();
             this.txt_business_name = new System.Windows.Forms.TextBox();
             this.materialLabel25 = new MaterialSkin.Controls.MaterialLabel();
-            this.groupBox3 = new System.Windows.Forms.GroupBox();
-            this.btn_add_payment_method = new MaterialSkin.Controls.MaterialButton();
-            this.dgv_payment_method = new System.Windows.Forms.DataGridView();
-            this.col_payment_method_id = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.col_payment_method_name = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.col_payment_method_required_display_text = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.col_payment_method_required = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.col_payment_method_status_display_text = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.col_payment_method_status = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.col_payment_method_update = new System.Windows.Forms.DataGridViewImageColumn();
-            this.col_payment_method_delete = new System.Windows.Forms.DataGridViewImageColumn();
-            this.dtp_day_of_birth = new System.Windows.Forms.DateTimePicker();
+            this.txt_contact = new System.Windows.Forms.TextBox();
             ((System.ComponentModel.ISupportInitialize)(this.errorProvider1)).BeginInit();
             this.materialTabControl1.SuspendLayout();
             this.personalTabPage.SuspendLayout();
@@ -137,12 +125,11 @@
             this.materialCard30.SuspendLayout();
             this.panel7.SuspendLayout();
             this.groupBox7.SuspendLayout();
-            this.groupBox3.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.dgv_payment_method)).BeginInit();
             this.SuspendLayout();
             // 
             // errorProvider1
             // 
+            this.errorProvider1.BlinkStyle = System.Windows.Forms.ErrorBlinkStyle.NeverBlink;
             this.errorProvider1.ContainerControl = this;
             // 
             // materialTabControl1
@@ -210,13 +197,13 @@
             // materialCard1
             // 
             this.materialCard1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
+            this.materialCard1.Controls.Add(this.txt_contact);
             this.materialCard1.Controls.Add(this.dtp_day_of_birth);
             this.materialCard1.Controls.Add(this.materialLabel7);
             this.materialCard1.Controls.Add(this.txt_address);
             this.materialCard1.Controls.Add(this.materialLabel6);
-            this.materialCard1.Controls.Add(this.txt_contact);
             this.materialCard1.Controls.Add(this.materialLabel5);
-            this.materialCard1.Controls.Add(this.textBox4);
+            this.materialCard1.Controls.Add(this.txt_user_email);
             this.materialCard1.Controls.Add(this.materialLabel4);
             this.materialCard1.Controls.Add(this.txt_last_name);
             this.materialCard1.Controls.Add(this.materialLabel3);
@@ -235,6 +222,15 @@
             this.materialCard1.Padding = new System.Windows.Forms.Padding(14);
             this.materialCard1.Size = new System.Drawing.Size(992, 949);
             this.materialCard1.TabIndex = 0;
+            // 
+            // dtp_day_of_birth
+            // 
+            this.dtp_day_of_birth.Format = System.Windows.Forms.DateTimePickerFormat.Custom;
+            this.dtp_day_of_birth.Location = new System.Drawing.Point(442, 521);
+            this.dtp_day_of_birth.Margin = new System.Windows.Forms.Padding(3, 3, 3, 100);
+            this.dtp_day_of_birth.Name = "dtp_day_of_birth";
+            this.dtp_day_of_birth.Size = new System.Drawing.Size(450, 22);
+            this.dtp_day_of_birth.TabIndex = 17;
             // 
             // materialLabel7
             // 
@@ -274,17 +270,6 @@
             this.materialLabel6.TabIndex = 11;
             this.materialLabel6.Text = "Date of Birth:";
             // 
-            // txt_contact
-            // 
-            this.txt_contact.BackColor = System.Drawing.SystemColors.Menu;
-            this.txt_contact.Location = new System.Drawing.Point(442, 446);
-            this.txt_contact.Margin = new System.Windows.Forms.Padding(3, 3, 100, 50);
-            this.txt_contact.Mask = "0000-000-0000";
-            this.txt_contact.Name = "txt_contact";
-            this.txt_contact.PromptChar = '0';
-            this.txt_contact.Size = new System.Drawing.Size(450, 22);
-            this.txt_contact.TabIndex = 10;
-            // 
             // materialLabel5
             // 
             this.materialLabel5.AutoSize = true;
@@ -299,14 +284,14 @@
             this.materialLabel5.TabIndex = 8;
             this.materialLabel5.Text = "Contact #";
             // 
-            // textBox4
+            // txt_user_email
             // 
-            this.textBox4.BackColor = System.Drawing.SystemColors.Menu;
-            this.textBox4.Location = new System.Drawing.Point(442, 371);
-            this.textBox4.Margin = new System.Windows.Forms.Padding(3, 3, 100, 50);
-            this.textBox4.Name = "textBox4";
-            this.textBox4.Size = new System.Drawing.Size(450, 22);
-            this.textBox4.TabIndex = 7;
+            this.txt_user_email.BackColor = System.Drawing.SystemColors.Menu;
+            this.txt_user_email.Location = new System.Drawing.Point(442, 371);
+            this.txt_user_email.Margin = new System.Windows.Forms.Padding(3, 3, 100, 50);
+            this.txt_user_email.Name = "txt_user_email";
+            this.txt_user_email.Size = new System.Drawing.Size(450, 22);
+            this.txt_user_email.TabIndex = 7;
             // 
             // materialLabel4
             // 
@@ -565,6 +550,7 @@
             this.chk_show_password.TabIndex = 11;
             this.chk_show_password.Text = "Show Password";
             this.chk_show_password.UseVisualStyleBackColor = false;
+            this.chk_show_password.CheckedChanged += new System.EventHandler(this.chk_show_password_CheckedChanged);
             // 
             // txt_confirm_password
             // 
@@ -707,7 +693,6 @@
             // materialCard3
             // 
             this.materialCard3.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
-            this.materialCard3.Controls.Add(this.groupBox3);
             this.materialCard3.Controls.Add(this.groupBox2);
             this.materialCard3.Controls.Add(this.panel5);
             this.materialCard3.Controls.Add(this.groupBox1);
@@ -728,7 +713,7 @@
             this.groupBox2.Controls.Add(this.dtp_opening);
             this.groupBox2.Controls.Add(this.materialLabel16);
             this.groupBox2.Controls.Add(this.materialLabel15);
-            this.groupBox2.Location = new System.Drawing.Point(20, 318);
+            this.groupBox2.Location = new System.Drawing.Point(20, 417);
             this.groupBox2.Name = "groupBox2";
             this.groupBox2.Padding = new System.Windows.Forms.Padding(5);
             this.groupBox2.Size = new System.Drawing.Size(948, 200);
@@ -820,10 +805,10 @@
             // 
             this.groupBox1.Controls.Add(this.materialLabel11);
             this.groupBox1.Controls.Add(this.txt_vat);
-            this.groupBox1.Location = new System.Drawing.Point(20, 129);
+            this.groupBox1.Location = new System.Drawing.Point(17, 172);
             this.groupBox1.Name = "groupBox1";
             this.groupBox1.Padding = new System.Windows.Forms.Padding(5);
-            this.groupBox1.Size = new System.Drawing.Size(948, 100);
+            this.groupBox1.Size = new System.Drawing.Size(948, 115);
             this.groupBox1.TabIndex = 20;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "VAT";
@@ -834,7 +819,7 @@
             this.materialLabel11.Depth = 0;
             this.materialLabel11.Font = new System.Drawing.Font("Roboto", 16F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
             this.materialLabel11.FontType = MaterialSkin.MaterialSkinManager.fontType.Subtitle1;
-            this.materialLabel11.Location = new System.Drawing.Point(63, 37);
+            this.materialLabel11.Location = new System.Drawing.Point(61, 52);
             this.materialLabel11.MouseState = MaterialSkin.MouseState.HOVER;
             this.materialLabel11.Name = "materialLabel11";
             this.materialLabel11.Size = new System.Drawing.Size(35, 19);
@@ -845,7 +830,7 @@
             // 
             this.txt_vat.BackColor = System.Drawing.SystemColors.Menu;
             this.txt_vat.DecimalPlaces = 2;
-            this.txt_vat.Location = new System.Drawing.Point(466, 34);
+            this.txt_vat.Location = new System.Drawing.Point(469, 49);
             this.txt_vat.Name = "txt_vat";
             this.txt_vat.Size = new System.Drawing.Size(457, 22);
             this.txt_vat.TabIndex = 19;
@@ -1091,7 +1076,6 @@
             this.txt_password.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.txt_password.Location = new System.Drawing.Point(478, 260);
             this.txt_password.Name = "txt_password";
-            this.txt_password.ReadOnly = true;
             this.txt_password.Size = new System.Drawing.Size(500, 22);
             this.txt_password.TabIndex = 29;
             this.txt_password.UseSystemPasswordChar = true;
@@ -1101,7 +1085,6 @@
             this.txt_email.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.txt_email.Location = new System.Drawing.Point(478, 146);
             this.txt_email.Name = "txt_email";
-            this.txt_email.ReadOnly = true;
             this.txt_email.Size = new System.Drawing.Size(500, 22);
             this.txt_email.TabIndex = 27;
             // 
@@ -1136,7 +1119,6 @@
             this.txt_business_name.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.txt_business_name.Location = new System.Drawing.Point(475, 44);
             this.txt_business_name.Name = "txt_business_name";
-            this.txt_business_name.ReadOnly = true;
             this.txt_business_name.Size = new System.Drawing.Size(500, 22);
             this.txt_business_name.TabIndex = 25;
             // 
@@ -1153,149 +1135,15 @@
             this.materialLabel25.TabIndex = 26;
             this.materialLabel25.Text = "Sender Gmail Address:";
             // 
-            // groupBox3
+            // txt_contact
             // 
-            this.groupBox3.Controls.Add(this.btn_add_payment_method);
-            this.groupBox3.Controls.Add(this.dgv_payment_method);
-            this.groupBox3.Location = new System.Drawing.Point(20, 538);
-            this.groupBox3.Name = "groupBox3";
-            this.groupBox3.Size = new System.Drawing.Size(948, 257);
-            this.groupBox3.TabIndex = 26;
-            this.groupBox3.TabStop = false;
-            this.groupBox3.Text = "Payment Method";
-            // 
-            // btn_add_payment_method
-            // 
-            this.btn_add_payment_method.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
-            this.btn_add_payment_method.Density = MaterialSkin.Controls.MaterialButton.MaterialButtonDensity.Default;
-            this.btn_add_payment_method.Depth = 0;
-            this.btn_add_payment_method.HighEmphasis = true;
-            this.btn_add_payment_method.Icon = null;
-            this.btn_add_payment_method.Location = new System.Drawing.Point(7, 56);
-            this.btn_add_payment_method.Margin = new System.Windows.Forms.Padding(4, 6, 4, 6);
-            this.btn_add_payment_method.MouseState = MaterialSkin.MouseState.HOVER;
-            this.btn_add_payment_method.Name = "btn_add_payment_method";
-            this.btn_add_payment_method.NoAccentTextColor = System.Drawing.Color.Empty;
-            this.btn_add_payment_method.Size = new System.Drawing.Size(86, 36);
-            this.btn_add_payment_method.TabIndex = 1;
-            this.btn_add_payment_method.Text = "add new";
-            this.btn_add_payment_method.Type = MaterialSkin.Controls.MaterialButton.MaterialButtonType.Contained;
-            this.btn_add_payment_method.UseAccentColor = false;
-            this.btn_add_payment_method.UseVisualStyleBackColor = true;
-            this.btn_add_payment_method.Click += new System.EventHandler(this.btn_add_payment_method_Click);
-            // 
-            // dgv_payment_method
-            // 
-            this.dgv_payment_method.AllowUserToAddRows = false;
-            this.dgv_payment_method.AllowUserToDeleteRows = false;
-            this.dgv_payment_method.AllowUserToResizeColumns = false;
-            this.dgv_payment_method.AllowUserToResizeRows = false;
-            this.dgv_payment_method.BorderStyle = System.Windows.Forms.BorderStyle.None;
-            this.dgv_payment_method.CellBorderStyle = System.Windows.Forms.DataGridViewCellBorderStyle.None;
-            this.dgv_payment_method.ColumnHeadersBorderStyle = System.Windows.Forms.DataGridViewHeaderBorderStyle.None;
-            this.dgv_payment_method.ColumnHeadersHeight = 29;
-            this.dgv_payment_method.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.DisableResizing;
-            this.dgv_payment_method.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
-            this.col_payment_method_id,
-            this.col_payment_method_name,
-            this.col_payment_method_required_display_text,
-            this.col_payment_method_required,
-            this.col_payment_method_status_display_text,
-            this.col_payment_method_status,
-            this.col_payment_method_update,
-            this.col_payment_method_delete});
-            this.dgv_payment_method.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.dgv_payment_method.EnableHeadersVisualStyles = false;
-            this.dgv_payment_method.Location = new System.Drawing.Point(3, 101);
-            this.dgv_payment_method.Name = "dgv_payment_method";
-            this.dgv_payment_method.RowHeadersBorderStyle = System.Windows.Forms.DataGridViewHeaderBorderStyle.None;
-            this.dgv_payment_method.RowHeadersVisible = false;
-            this.dgv_payment_method.RowHeadersWidth = 51;
-            this.dgv_payment_method.RowTemplate.Height = 24;
-            this.dgv_payment_method.Size = new System.Drawing.Size(942, 153);
-            this.dgv_payment_method.TabIndex = 0;
-            // 
-            // col_payment_method_id
-            // 
-            this.col_payment_method_id.HeaderText = "id";
-            this.col_payment_method_id.MinimumWidth = 6;
-            this.col_payment_method_id.Name = "col_payment_method_id";
-            this.col_payment_method_id.Visible = false;
-            this.col_payment_method_id.Width = 125;
-            // 
-            // col_payment_method_name
-            // 
-            this.col_payment_method_name.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
-            this.col_payment_method_name.HeaderText = "Name";
-            this.col_payment_method_name.MinimumWidth = 6;
-            this.col_payment_method_name.Name = "col_payment_method_name";
-            // 
-            // col_payment_method_required_display_text
-            // 
-            this.col_payment_method_required_display_text.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
-            this.col_payment_method_required_display_text.HeaderText = "Required";
-            this.col_payment_method_required_display_text.MinimumWidth = 6;
-            this.col_payment_method_required_display_text.Name = "col_payment_method_required_display_text";
-            this.col_payment_method_required_display_text.Width = 90;
-            // 
-            // col_payment_method_required
-            // 
-            this.col_payment_method_required.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
-            this.col_payment_method_required.HeaderText = "required_bool";
-            this.col_payment_method_required.MinimumWidth = 6;
-            this.col_payment_method_required.Name = "col_payment_method_required";
-            this.col_payment_method_required.Visible = false;
-            this.col_payment_method_required.Width = 125;
-            // 
-            // col_payment_method_status_display_text
-            // 
-            this.col_payment_method_status_display_text.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
-            this.col_payment_method_status_display_text.HeaderText = "Status";
-            this.col_payment_method_status_display_text.MinimumWidth = 6;
-            this.col_payment_method_status_display_text.Name = "col_payment_method_status_display_text";
-            this.col_payment_method_status_display_text.Width = 71;
-            // 
-            // col_payment_method_status
-            // 
-            this.col_payment_method_status.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
-            this.col_payment_method_status.HeaderText = "status_bool";
-            this.col_payment_method_status.MinimumWidth = 6;
-            this.col_payment_method_status.Name = "col_payment_method_status";
-            this.col_payment_method_status.Visible = false;
-            this.col_payment_method_status.Width = 125;
-            // 
-            // col_payment_method_update
-            // 
-            this.col_payment_method_update.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
-            this.col_payment_method_update.HeaderText = "Update";
-            this.col_payment_method_update.Image = ((System.Drawing.Image)(resources.GetObject("col_payment_method_update.Image")));
-            this.col_payment_method_update.ImageLayout = System.Windows.Forms.DataGridViewImageCellLayout.Zoom;
-            this.col_payment_method_update.MinimumWidth = 6;
-            this.col_payment_method_update.Name = "col_payment_method_update";
-            this.col_payment_method_update.Resizable = System.Windows.Forms.DataGridViewTriState.True;
-            this.col_payment_method_update.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Automatic;
-            this.col_payment_method_update.Width = 79;
-            // 
-            // col_payment_method_delete
-            // 
-            this.col_payment_method_delete.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
-            this.col_payment_method_delete.HeaderText = "Delete";
-            this.col_payment_method_delete.Image = ((System.Drawing.Image)(resources.GetObject("col_payment_method_delete.Image")));
-            this.col_payment_method_delete.ImageLayout = System.Windows.Forms.DataGridViewImageCellLayout.Zoom;
-            this.col_payment_method_delete.MinimumWidth = 6;
-            this.col_payment_method_delete.Name = "col_payment_method_delete";
-            this.col_payment_method_delete.Resizable = System.Windows.Forms.DataGridViewTriState.True;
-            this.col_payment_method_delete.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Automatic;
-            this.col_payment_method_delete.Width = 74;
-            // 
-            // dtp_day_of_birth
-            // 
-            this.dtp_day_of_birth.Format = System.Windows.Forms.DateTimePickerFormat.Custom;
-            this.dtp_day_of_birth.Location = new System.Drawing.Point(442, 521);
-            this.dtp_day_of_birth.Margin = new System.Windows.Forms.Padding(3, 3, 3, 100);
-            this.dtp_day_of_birth.Name = "dtp_day_of_birth";
-            this.dtp_day_of_birth.Size = new System.Drawing.Size(450, 22);
-            this.dtp_day_of_birth.TabIndex = 17;
+            this.txt_contact.BackColor = System.Drawing.SystemColors.Menu;
+            this.txt_contact.Location = new System.Drawing.Point(442, 446);
+            this.txt_contact.Margin = new System.Windows.Forms.Padding(3, 3, 100, 50);
+            this.txt_contact.MaxLength = 11;
+            this.txt_contact.Name = "txt_contact";
+            this.txt_contact.Size = new System.Drawing.Size(450, 22);
+            this.txt_contact.TabIndex = 18;
             // 
             // ConfigureSettingsForm
             // 
@@ -1343,9 +1191,6 @@
             this.panel7.PerformLayout();
             this.groupBox7.ResumeLayout(false);
             this.groupBox7.PerformLayout();
-            this.groupBox3.ResumeLayout(false);
-            this.groupBox3.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.dgv_payment_method)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -1363,9 +1208,8 @@
         private System.Windows.Forms.TextBox txt_last_name;
         private MaterialSkin.Controls.MaterialLabel materialLabel3;
         private MaterialSkin.Controls.MaterialLabel materialLabel5;
-        private System.Windows.Forms.TextBox textBox4;
+        private System.Windows.Forms.TextBox txt_user_email;
         private MaterialSkin.Controls.MaterialLabel materialLabel4;
-        private System.Windows.Forms.MaskedTextBox txt_contact;
         private MaterialSkin.Controls.MaterialLabel materialLabel6;
         private MaterialSkin.Controls.MaterialLabel materialLabel7;
         private System.Windows.Forms.TextBox txt_address;
@@ -1425,17 +1269,7 @@
         private System.Windows.Forms.Panel panel7;
         private MaterialSkin.Controls.MaterialButton btn_smtp_back;
         private MaterialSkin.Controls.MaterialButton btn_smtp_next;
-        private System.Windows.Forms.GroupBox groupBox3;
-        private MaterialSkin.Controls.MaterialButton btn_add_payment_method;
-        private System.Windows.Forms.DataGridView dgv_payment_method;
-        private System.Windows.Forms.DataGridViewTextBoxColumn col_payment_method_id;
-        private System.Windows.Forms.DataGridViewTextBoxColumn col_payment_method_name;
-        private System.Windows.Forms.DataGridViewTextBoxColumn col_payment_method_required_display_text;
-        private System.Windows.Forms.DataGridViewTextBoxColumn col_payment_method_required;
-        private System.Windows.Forms.DataGridViewTextBoxColumn col_payment_method_status_display_text;
-        private System.Windows.Forms.DataGridViewTextBoxColumn col_payment_method_status;
-        private System.Windows.Forms.DataGridViewImageColumn col_payment_method_update;
-        private System.Windows.Forms.DataGridViewImageColumn col_payment_method_delete;
         private System.Windows.Forms.DateTimePicker dtp_day_of_birth;
+        private System.Windows.Forms.TextBox txt_contact;
     }
 }

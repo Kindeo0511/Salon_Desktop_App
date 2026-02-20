@@ -26,6 +26,7 @@ namespace Salon.View
         public bool isVatExempt { get; set; } = false;
         public bool IsFreeReward { get; set; } = false;
         public string pos { get; set; }
+        public int purchasedQty;
         public DiscountModelForm(string name, int qty ,decimal price)
         {
             InitializeComponent();
@@ -37,6 +38,8 @@ namespace Salon.View
 
             lbl_item_name.Text = name;
             txt_qty.Value = qty;
+   
+            
 
         }
         public DiscountModelForm(string name, int qty, decimal price, string pos)
@@ -47,10 +50,10 @@ namespace Salon.View
             this.name = name;
             this.quantity = qty;
             this.originalPrice = price;
-
+            purchasedQty = qty;
             lbl_item_name.Text = name;
             txt_qty.Value = qty;
-
+            lbl_purchase_qty.Text = qty.ToString();
             btn_free.Visible = false;
         }
 
@@ -77,11 +80,29 @@ namespace Salon.View
         private void btn_apply_discount_Click(object sender, EventArgs e)
         {
 
+            // Correct condition: discount cannot exceed purchased
+            if (discountedQty > purchasedQty)
+            {
+                MessageBox.Show("Discount quantity cannot exceed the purchased quantity.",
+                                "Validation",
+                                MessageBoxButtons.OK,
+                                MessageBoxIcon.Warning);
+
+                // Reset to max allowed
+                txt_qty.Value = purchasedQty;
+                discountedQty = purchasedQty;
+                return;
+
+            }
+
+                this.DialogResult = DialogResult.OK;
+                this.Close();
+
+            
+
 
             //discountRate = Convert.ToInt32(cmb_discount.SelectedValue);
             //discountName = discountRate.ToString();
-            this.DialogResult = DialogResult.OK;
-            this.Close();
 
         }
        
@@ -110,6 +131,9 @@ namespace Salon.View
         private void txt_qty_ValueChanged(object sender, EventArgs e)
         {
             discountedQty = (int)txt_qty.Value;
+
+     
+            
         }
 
         private void btn_discount_senior_Click(object sender, EventArgs e)
@@ -180,6 +204,11 @@ namespace Salon.View
                 }
 
             }
+        }
+
+        private void DiscountModelForm_Load(object sender, EventArgs e)
+        {
+
         }
     }
 }

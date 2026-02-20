@@ -19,7 +19,7 @@ namespace Salon.Repository
         int restoreDeleted(int id);
         int PermanentDelete(int id);
         bool CategoriesExist(string category, string type ,int id);
-        Task<CategoryModel> GetExistingCategoryAsync(string category, string type, int id);
+        Task<CategoryModel> GetExistingCategoryAsync(string category, int id);
 
     }
 }

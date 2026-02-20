@@ -32,14 +32,14 @@ namespace Salon.Repository
                 // First check if the record exists by primary key
                 var existing = con.QuerySingleOrDefault<BusinessHour>(
                     "SELECT * FROM tbl_business_hours WHERE business_hours_id = @business_hours_id",
-                    new { model.business_hour_id });
+                    new { model.business_hours_id });
 
                 if (existing == null)
                 {
                     // Create (INSERT)
                     var insertSql = @"INSERT INTO tbl_business_hours 
-                              (open_time, close_time, is_open) 
-                              VALUES (@open_time, @close_time, @is_open);";
+                              (open_time, close_time) 
+                              VALUES (@open_time, @close_time);";
                     con.Execute(insertSql, model);
                     return "Business hours record created successfully.";
                 }
@@ -48,8 +48,7 @@ namespace Salon.Repository
                     // Update
                     var updateSql = @"UPDATE tbl_business_hours 
                               SET open_time = @open_time, 
-                                  close_time = @close_time, 
-                                  is_open = @is_open
+                                  close_time = @close_time      
                               WHERE business_hours_id = @business_hours_id;";
                     con.Execute(updateSql, model);
                     return "Business hours record updated successfully.";

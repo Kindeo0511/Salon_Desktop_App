@@ -1,4 +1,9 @@
-﻿using System;
+﻿using MaterialSkin.Controls;
+using Salon.Controller;
+using Salon.Models;
+using Salon.Repository;
+using Salon.Util;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -7,9 +12,6 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-using MaterialSkin.Controls;
-using Salon.Models;
-using Salon.Util;
 namespace Salon.View
 {
     public partial class ProductModalForm : MaterialForm
@@ -31,7 +33,23 @@ namespace Salon.View
             lbl_size.Text = productModel.size_label;
             lbl_price.Text = productModel.selling_price.ToString();
         }
+        public bool CheckInventoryProducttStock(int product_id, int product_size_id, int qty_required)
+        {
+            var inventoryRepo = new InventoryRepository();
+            var inventoryController = new InventoryController(inventoryRepo);
 
+
+
+
+            var stock = inventoryController.GetStockByProductSize(product_id, product_size_id);
+            if (stock < qty_required)
+            {
+                return false; // insufficient
+            }
+
+
+            return true; // all sufficient
+        }
         private void ProductModalForm_Load(object sender, EventArgs e)
         {
             LoadSelectedProdct(this.productModel);
@@ -40,6 +58,22 @@ namespace Salon.View
         private void btn_confirm_Click(object sender, EventArgs e)
         {
             int qty = Convert.ToInt32(txt_qty.Value);
+
+            // Validate stock first
+            if (!CheckInventoryProducttStock(productModel.product_id,productModel.product_size_id, qty))
+            {
+                // Show detailed shortages
+                MessageBox.Show("Cannot sell product. Insufficient stock.",
+                         "Stock Check",
+                         MessageBoxButtons.OK,
+                         MessageBoxIcon.Error);
+                return; // block adding
+
+
+            }
+
+
+     
             addProductForm.SaveProduct(productModel.product_id, productModel.product_size_id, qty, productModel.selling_price);
             MessageBox.Show("Success");
             this.Close();

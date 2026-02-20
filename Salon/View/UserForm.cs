@@ -224,13 +224,27 @@ namespace Salon.View
                 return false;
             }
         }
-       
+        private bool HasChanges()
+        {
+            return txt_first_name.Text != _user.first_Name
+                || txt_middle_name.Text != _user.middle_Name
+                || txt_last_name.Text != _user.last_Name
+                || dtp_day_of_birth.Value != _user.birth_date
+                || txt_contact.Text != _user.phone_Number
+                || txt_email.Text != _user.email
+                || txt_address.Text != _user.address
+                || txt_username.Text != _user.userName
+                || txt_password.Text != _user.userPassword
+                || txt_confirm_password.Text != _user.userPassword
+                || cmb_role.Text != _user.Position;
+        }
+
         private bool IsValid()
         {
             DateTime birthDate = dtp_day_of_birth.Value;
             int age = DateTime.Now.Year - birthDate.Year;
             int excludeId = _user?.user_id ?? 0;
-
+       
             bool validated = true;
 
             // REQUIRED AND MIN LENGTH FIELD
@@ -326,13 +340,13 @@ namespace Salon.View
             //else if (!Validator.IsMinimumLength(txt_address, errorProvider1, "Address must be at least 10 characters.", 10))
             //{
             //    validated = false;
-            //}
+                        //}
             //else if (!Validator.MultiLinePattern(
             //    txt_address,
             //    errorProvider1,
             //    @"^[A-Za-z0-9\s.,\-#]+$",
             //    "Address may only contain letters, numbers, commas, periods, dashes, and #. Avoid special characters."))
-            //{
+//{
             //    validated = false;
             //}
 
@@ -353,6 +367,70 @@ namespace Salon.View
                 errorProvider1.SetError(dtp_day_of_birth, "");
             }
 
+            // Address
+            if (string.IsNullOrWhiteSpace(txt_address.Text))
+            {
+                errorProvider1.SetError(txt_address, "Address is required.");
+                validated = false;
+            }
+            else 
+            {
+                errorProvider1.SetError(txt_address, "");
+            }
+            // Username
+            if (string.IsNullOrWhiteSpace(txt_username.Text))
+            {
+                errorProvider1.SetError(txt_username, "Username is required.");
+                validated = false;
+            }
+            else if (!Validator.IsMinimumLength(txt_username, errorProvider1, "Username must be at least 4 characters.", 4))
+            {
+                validated = false;
+            }
+            else if (!Validator.IsUserExists(txt_username, errorProvider1, "Username already exists.", excludeId))
+            {
+                validated = false;
+            }
+            else
+            {
+                errorProvider1.SetError(txt_username, "");
+            }
+
+            // Password & Confirm Password
+            if (string.IsNullOrWhiteSpace(txt_password.Text))
+            {
+                errorProvider1.SetError(txt_password, "Password is required.");
+                validated = false;
+            }
+            else if (!Validator.IsMinimumLength(txt_password, errorProvider1, "Password must be at least 8 characters.", 8))
+            {
+                validated = false;
+            }
+            else
+            {
+                errorProvider1.SetError(txt_password, "");
+            }
+
+            if (txt_confirm_password.Text != txt_password.Text)
+            {
+                errorProvider1.SetError(txt_confirm_password, "Passwords do not match.");
+                validated = false;
+            }
+            else
+            {
+                errorProvider1.SetError(txt_confirm_password, "");
+            }
+
+            // Role
+            if (string.IsNullOrWhiteSpace(cmb_role.Text))
+            {
+                errorProvider1.SetError(cmb_role, "Role is required.");
+                validated = false;
+            }
+            else
+            {
+                errorProvider1.SetError(cmb_role, "");
+            }
 
 
 
@@ -883,6 +961,15 @@ namespace Salon.View
             {
 
                 btn_update.Enabled = true;
+                return;
+            }
+            if (!HasChanges())
+            {
+                MessageBox.Show("No changes detected.",
+                                "Information",
+                                MessageBoxButtons.OK,
+                                MessageBoxIcon.Information);
+                this.Close();
                 return;
             }
 

@@ -29,16 +29,16 @@
         private void InitializeComponent()
         {
             this.dgv_items = new System.Windows.Forms.DataGridView();
-            this.col_DeliveryItemId = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.col_DeliveryId = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.col_ProductId = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.col_Quantity = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.col_UnitPrice = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.col_TotalPrice = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.col_ExpiryDate = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.col_notes = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.materialCard1 = new MaterialSkin.Controls.MaterialCard();
             this.delivery_items_pagination = new Salon.Util.PaginationControl();
+            this.col_notes = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.col_ExpiryDate = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.col_TotalPrice = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.col_UnitPrice = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.col_Quantity = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.col_ProductId = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.col_DeliveryId = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.col_DeliveryItemId = new System.Windows.Forms.DataGridViewTextBoxColumn();
             ((System.ComponentModel.ISupportInitialize)(this.dgv_items)).BeginInit();
             this.materialCard1.SuspendLayout();
             this.SuspendLayout();
@@ -74,72 +74,6 @@
             this.dgv_items.Size = new System.Drawing.Size(944, 415);
             this.dgv_items.TabIndex = 0;
             // 
-            // col_DeliveryItemId
-            // 
-            this.col_DeliveryItemId.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
-            this.col_DeliveryItemId.HeaderText = "id";
-            this.col_DeliveryItemId.MinimumWidth = 6;
-            this.col_DeliveryItemId.Name = "col_DeliveryItemId";
-            this.col_DeliveryItemId.ReadOnly = true;
-            this.col_DeliveryItemId.Visible = false;
-            // 
-            // col_DeliveryId
-            // 
-            this.col_DeliveryId.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
-            this.col_DeliveryId.HeaderText = "Delivery No.";
-            this.col_DeliveryId.MinimumWidth = 6;
-            this.col_DeliveryId.Name = "col_DeliveryId";
-            this.col_DeliveryId.ReadOnly = true;
-            this.col_DeliveryId.Visible = false;
-            // 
-            // col_ProductId
-            // 
-            this.col_ProductId.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
-            this.col_ProductId.HeaderText = "Product";
-            this.col_ProductId.MinimumWidth = 6;
-            this.col_ProductId.Name = "col_ProductId";
-            this.col_ProductId.ReadOnly = true;
-            // 
-            // col_Quantity
-            // 
-            this.col_Quantity.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
-            this.col_Quantity.HeaderText = "Quantity";
-            this.col_Quantity.MinimumWidth = 6;
-            this.col_Quantity.Name = "col_Quantity";
-            this.col_Quantity.ReadOnly = true;
-            // 
-            // col_UnitPrice
-            // 
-            this.col_UnitPrice.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
-            this.col_UnitPrice.HeaderText = "Unit Price";
-            this.col_UnitPrice.MinimumWidth = 6;
-            this.col_UnitPrice.Name = "col_UnitPrice";
-            this.col_UnitPrice.ReadOnly = true;
-            // 
-            // col_TotalPrice
-            // 
-            this.col_TotalPrice.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
-            this.col_TotalPrice.HeaderText = "Total Price";
-            this.col_TotalPrice.MinimumWidth = 6;
-            this.col_TotalPrice.Name = "col_TotalPrice";
-            this.col_TotalPrice.ReadOnly = true;
-            // 
-            // col_ExpiryDate
-            // 
-            this.col_ExpiryDate.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
-            this.col_ExpiryDate.HeaderText = "Expiration Date";
-            this.col_ExpiryDate.MinimumWidth = 6;
-            this.col_ExpiryDate.Name = "col_ExpiryDate";
-            this.col_ExpiryDate.ReadOnly = true;
-            // 
-            // col_notes
-            // 
-            this.col_notes.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
-            this.col_notes.HeaderText = "Notes";
-            this.col_notes.MinimumWidth = 6;
-            this.col_notes.Name = "col_notes";
-            this.col_notes.ReadOnly = true;
-            // 
             // materialCard1
             // 
             this.materialCard1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
@@ -165,10 +99,76 @@
             this.delivery_items_pagination.Size = new System.Drawing.Size(388, 50);
             this.delivery_items_pagination.TabIndex = 1;
             // 
+            // col_notes
+            // 
+            this.col_notes.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
+            this.col_notes.HeaderText = "Notes";
+            this.col_notes.MinimumWidth = 6;
+            this.col_notes.Name = "col_notes";
+            this.col_notes.ReadOnly = true;
+            // 
+            // col_ExpiryDate
+            // 
+            this.col_ExpiryDate.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
+            this.col_ExpiryDate.HeaderText = "Expiration Date";
+            this.col_ExpiryDate.MinimumWidth = 6;
+            this.col_ExpiryDate.Name = "col_ExpiryDate";
+            this.col_ExpiryDate.ReadOnly = true;
+            // 
+            // col_TotalPrice
+            // 
+            this.col_TotalPrice.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
+            this.col_TotalPrice.HeaderText = "Total Price";
+            this.col_TotalPrice.MinimumWidth = 6;
+            this.col_TotalPrice.Name = "col_TotalPrice";
+            this.col_TotalPrice.ReadOnly = true;
+            // 
+            // col_UnitPrice
+            // 
+            this.col_UnitPrice.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
+            this.col_UnitPrice.HeaderText = "Unit Price";
+            this.col_UnitPrice.MinimumWidth = 6;
+            this.col_UnitPrice.Name = "col_UnitPrice";
+            this.col_UnitPrice.ReadOnly = true;
+            // 
+            // col_Quantity
+            // 
+            this.col_Quantity.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
+            this.col_Quantity.HeaderText = "Quantity";
+            this.col_Quantity.MinimumWidth = 6;
+            this.col_Quantity.Name = "col_Quantity";
+            this.col_Quantity.ReadOnly = true;
+            // 
+            // col_ProductId
+            // 
+            this.col_ProductId.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
+            this.col_ProductId.HeaderText = "Product";
+            this.col_ProductId.MinimumWidth = 6;
+            this.col_ProductId.Name = "col_ProductId";
+            this.col_ProductId.ReadOnly = true;
+            // 
+            // col_DeliveryId
+            // 
+            this.col_DeliveryId.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
+            this.col_DeliveryId.HeaderText = "Delivery No.";
+            this.col_DeliveryId.MinimumWidth = 6;
+            this.col_DeliveryId.Name = "col_DeliveryId";
+            this.col_DeliveryId.ReadOnly = true;
+            this.col_DeliveryId.Visible = false;
+            // 
+            // col_DeliveryItemId
+            // 
+            this.col_DeliveryItemId.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
+            this.col_DeliveryItemId.HeaderText = "id";
+            this.col_DeliveryItemId.MinimumWidth = 6;
+            this.col_DeliveryItemId.Name = "col_DeliveryItemId";
+            this.col_DeliveryItemId.ReadOnly = true;
+            this.col_DeliveryItemId.Visible = false;
+            // 
             // DeliveryAddStockForm
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
-            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.AutoScaleDimensions = new System.Drawing.SizeF(120F, 120F);
+            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Dpi;
             this.ClientSize = new System.Drawing.Size(1000, 600);
             this.Controls.Add(this.materialCard1);
             this.MaximizeBox = false;
@@ -186,6 +186,7 @@
 
         private System.Windows.Forms.DataGridView dgv_items;
         private MaterialSkin.Controls.MaterialCard materialCard1;
+        private Util.PaginationControl delivery_items_pagination;
         private System.Windows.Forms.DataGridViewTextBoxColumn col_DeliveryItemId;
         private System.Windows.Forms.DataGridViewTextBoxColumn col_DeliveryId;
         private System.Windows.Forms.DataGridViewTextBoxColumn col_ProductId;
@@ -194,6 +195,5 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn col_TotalPrice;
         private System.Windows.Forms.DataGridViewTextBoxColumn col_ExpiryDate;
         private System.Windows.Forms.DataGridViewTextBoxColumn col_notes;
-        private Util.PaginationControl delivery_items_pagination;
     }
 }

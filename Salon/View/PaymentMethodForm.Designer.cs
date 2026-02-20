@@ -57,9 +57,10 @@
             // 
             // txt_name
             // 
+            this.txt_name.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.txt_name.Location = new System.Drawing.Point(349, 94);
             this.txt_name.Name = "txt_name";
-            this.txt_name.Size = new System.Drawing.Size(450, 22);
+            this.txt_name.Size = new System.Drawing.Size(450, 30);
             this.txt_name.TabIndex = 1;
             // 
             // materialLabel2
@@ -141,7 +142,7 @@
             this.panel1.Controls.Add(this.btn_cancel);
             this.panel1.Controls.Add(this.btn_save);
             this.panel1.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.panel1.Location = new System.Drawing.Point(3, 497);
+            this.panel1.Location = new System.Drawing.Point(3, 397);
             this.panel1.Name = "panel1";
             this.panel1.Size = new System.Drawing.Size(894, 100);
             this.panel1.TabIndex = 7;
@@ -155,7 +156,7 @@
             this.btn_update.Depth = 0;
             this.btn_update.HighEmphasis = true;
             this.btn_update.Icon = null;
-            this.btn_update.Location = new System.Drawing.Point(43, 0);
+            this.btn_update.Location = new System.Drawing.Point(553, 27);
             this.btn_update.Margin = new System.Windows.Forms.Padding(4, 6, 4, 6);
             this.btn_update.MouseState = MaterialSkin.MouseState.HOVER;
             this.btn_update.Name = "btn_update";
@@ -178,7 +179,7 @@
             this.btn_cancel.Depth = 0;
             this.btn_cancel.HighEmphasis = true;
             this.btn_cancel.Icon = null;
-            this.btn_cancel.Location = new System.Drawing.Point(253, 27);
+            this.btn_cancel.Location = new System.Drawing.Point(789, 27);
             this.btn_cancel.Margin = new System.Windows.Forms.Padding(4, 6, 4, 6);
             this.btn_cancel.MouseState = MaterialSkin.MouseState.HOVER;
             this.btn_cancel.Name = "btn_cancel";
@@ -189,6 +190,7 @@
             this.btn_cancel.Type = MaterialSkin.Controls.MaterialButton.MaterialButtonType.Contained;
             this.btn_cancel.UseAccentColor = false;
             this.btn_cancel.UseVisualStyleBackColor = true;
+            this.btn_cancel.Click += new System.EventHandler(this.btn_cancel_Click);
             // 
             // btn_save
             // 
@@ -199,7 +201,7 @@
             this.btn_save.Depth = 0;
             this.btn_save.HighEmphasis = true;
             this.btn_save.Icon = null;
-            this.btn_save.Location = new System.Drawing.Point(43, 27);
+            this.btn_save.Location = new System.Drawing.Point(553, 27);
             this.btn_save.Margin = new System.Windows.Forms.Padding(4, 6, 4, 6);
             this.btn_save.MouseState = MaterialSkin.MouseState.HOVER;
             this.btn_save.Name = "btn_save";
@@ -216,7 +218,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(900, 600);
+            this.ClientSize = new System.Drawing.Size(900, 500);
             this.Controls.Add(this.panel1);
             this.Controls.Add(this.chk_yes);
             this.Controls.Add(this.materialLabel3);
