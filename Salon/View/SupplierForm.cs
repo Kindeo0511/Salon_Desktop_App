@@ -1,4 +1,9 @@
-﻿using Salon.Util;
+﻿using MaterialSkin.Controls;
+using Microsoft.Reporting.Map.WebForms.BingMaps;
+using Salon.Controller;
+using Salon.Models;
+using Salon.Repository;
+using Salon.Util;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -8,10 +13,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-using MaterialSkin.Controls;
-using Salon.Repository;
-using Salon.Controller;
-using Salon.Models;
+using static iText.StyledXmlParser.Jsoup.Select.Evaluator;
 namespace Salon.View
 {
     public partial class SupplierForm : MaterialForm
@@ -77,10 +79,22 @@ namespace Salon.View
             validated &= Validator.ValidateEmail(email, txt_email, errorProvider1);
             validated &= Validator.ValidateAddress(address, txt_address, errorProvider1);
 
-            if (!Validator.IsSupplierEExists(txt_supplier_name, errorProvider1, "Supplier name already exists.", excludeId))
+            if (SupplierExists(supplierName, address, excludeId))
             {
+                // Show error only on the supplier name field
+                errorProvider1.SetError(txt_supplier_name,
+                    "A supplier with this name and address already exists.");
+
                 validated = false;
             }
+            else
+            {
+                // Clear the error when validation passes
+                errorProvider1.SetError(txt_supplier_name, string.Empty);
+            }
+
+
+
 
 
 
@@ -91,6 +105,15 @@ namespace Salon.View
 
         }
 
+        private bool SupplierExists(string name, string address ,int id) 
+        {
+            var repo = new SupplierRepository();
+            var controller = new SupplierController(repo);
+            bool SupplierExists = controller.CheckSupplierExists(name, address , id);
+
+            return SupplierExists;
+            
+        }
         private bool AddSupplier() 
         {
             var repo = new SupplierRepository();

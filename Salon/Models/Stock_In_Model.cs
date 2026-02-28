@@ -23,6 +23,32 @@ namespace Salon.Models
         public int total_remaining  => total;
         public DateTime created_at { get; set; }
 
+        public int is_retail { get; set; }
+        public int is_ingredient { get; set; }
+        public string DisplayProductType
+        {
+            get
+            {
+                if (is_ingredient == 1 && is_retail == 1)
+                {
+                    return "Ingredient/Retail";
+                }
+                else if (is_ingredient == 1)
+                {
+                    return "Ingredient";
+                }
+                else if (is_retail == 1)
+                {
+                    return "Retail";
+                }
+                else
+                {
+                    return "None"; // or whatever default makes sense
+                }
+            }
+        }
+
+
 
     }
 }

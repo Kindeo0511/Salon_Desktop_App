@@ -12,6 +12,46 @@ namespace Salon.Models
         public int product_size_id { get; set; }
         public string product_name { get; set; }
         public string product_type { get; set; }
+        public int is_retail { get; set; }
+        public int is_ingredient { get; set; }
+
+        public string DisplayProductType
+        {
+            get
+            {
+                if (is_ingredient == 1 && is_retail == 1)
+                {
+                    return "Ingredient/Retail";
+                }
+                else if (is_ingredient == 1)
+                {
+                    return "Ingredient";
+                }
+                else if (is_retail == 1)
+                {
+                    return "Retail";
+                }
+                else
+                {
+                    return "None"; // or whatever default makes sense
+                }
+            }
+        }
+
+        public string Ingredient
+        {
+            get
+            {
+                return is_ingredient == 1 ? "Ingredient" : string.Empty;
+            }
+        }
+        public string retail 
+        {
+            get 
+            {
+                return is_retail == 1 ? "Retail" : string.Empty ;
+            }
+        }
         public string brand { get; set; }
         public int category_id { get; set; }
         public string categoryName { get; set; }

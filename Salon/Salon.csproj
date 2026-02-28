@@ -468,6 +468,7 @@
     <Compile Include="Repository\Stock_In_Repository.cs" />
     <Compile Include="Repository\Stock_Out_Repository.cs" />
     <Compile Include="Repository\StylistRepository.cs" />
+    <Compile Include="Repository\StylistScheduleRepository.cs" />
     <Compile Include="Repository\Stylist_Specialist_Repository.cs" />
     <Compile Include="Repository\SubCategoryRepository.cs" />
     <Compile Include="Repository\SupplierRepository.cs" />
@@ -644,6 +645,12 @@
     <Compile Include="View\Process_Walk_In_Payment_Form.Designer.cs">
       <DependentUpon>Process_Walk_In_Payment_Form.cs</DependentUpon>
     </Compile>
+    <Compile Include="View\ProductConsumptionForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="View\ProductConsumptionForm.Designer.cs">
+      <DependentUpon>ProductConsumptionForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="View\ProductForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -655,6 +662,12 @@
     </Compile>
     <Compile Include="View\ProductModalForm.Designer.cs">
       <DependentUpon>ProductModalForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="View\ProductSizeForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="View\ProductSizeForm.Designer.cs">
+      <DependentUpon>ProductSizeForm.cs</DependentUpon>
     </Compile>
     <Compile Include="View\ProductUsageForm.cs">
       <SubType>Form</SubType>
@@ -703,6 +716,12 @@
     </Compile>
     <Compile Include="View\RetailProductForm.Designer.cs">
       <DependentUpon>RetailProductForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="View\ScheduleForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="View\ScheduleForm.Designer.cs">
+      <DependentUpon>ScheduleForm.cs</DependentUpon>
     </Compile>
     <Compile Include="View\SearchCustomerForm.cs">
       <SubType>Form</SubType>
@@ -939,11 +958,17 @@
     <EmbeddedResource Include="View\Process_Walk_In_Payment_Form.resx">
       <DependentUpon>Process_Walk_In_Payment_Form.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="View\ProductConsumptionForm.resx">
+      <DependentUpon>ProductConsumptionForm.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="View\ProductForm.resx">
       <DependentUpon>ProductForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="View\ProductModalForm.resx">
       <DependentUpon>ProductModalForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="View\ProductSizeForm.resx">
+      <DependentUpon>ProductSizeForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="View\ProductUsageForm.resx">
       <DependentUpon>ProductUsageForm.cs</DependentUpon>
@@ -968,6 +993,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="View\RetailProductForm.resx">
       <DependentUpon>RetailProductForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="View\ScheduleForm.resx">
+      <DependentUpon>ScheduleForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="View\SearchCustomerForm.resx">
       <DependentUpon>SearchCustomerForm.cs</DependentUpon>

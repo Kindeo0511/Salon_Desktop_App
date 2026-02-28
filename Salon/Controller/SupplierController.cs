@@ -51,9 +51,9 @@ namespace Salon.Controller
         {
             return repo.PermanentDelete(id) > 0;
         }
-        public bool CheckSupplierExists(string name , int id = 0) 
+        public bool CheckSupplierExists(string name, string address , int id = 0) 
         {
-            return repo.SupplierExists(name, id);
+            return repo.SupplierExists(name, address, id);
         }
 
         public SupplierModel GetEmail(string email)

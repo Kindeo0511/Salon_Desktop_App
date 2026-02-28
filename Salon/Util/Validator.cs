@@ -445,14 +445,14 @@ namespace Salon.Util
         // END CUSTOMER VALIDATION
 
         // SUPPLIER VALIDATION
-        public static bool IsSupplierEExists(Control control, ErrorProvider ep, string message, int id)
+        public static bool IsSupplierEExists(Control control, Control address, ErrorProvider ep, string message, int id)
         {
             if (string.IsNullOrWhiteSpace(control.Text))
                 return false;
 
             var repo = new SupplierRepository();
             var controller = new SupplierController(repo);
-            if (controller.CheckSupplierExists(control.Text, id))
+            if (controller.CheckSupplierExists(control.Text, address.Text, id))
             {
                 ep.SetError(control, message);
                 return false;

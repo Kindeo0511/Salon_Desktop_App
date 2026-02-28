@@ -175,6 +175,7 @@
             this.cmb_time_slot.Size = new System.Drawing.Size(809, 49);
             this.cmb_time_slot.StartIndex = 0;
             this.cmb_time_slot.TabIndex = 65;
+            this.cmb_time_slot.SelectedIndexChanged += new System.EventHandler(this.cmb_time_slot_SelectedIndexChanged);
             // 
             // btn_cancel
             // 

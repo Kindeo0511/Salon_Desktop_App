@@ -16,7 +16,8 @@ namespace Salon.View
 {
     public partial class ProductForm : MaterialForm
     {
-        private int _product_id;
+        private int _product_id = 0;
+        private string ProductName;
         private MainForm mainForm;
         private ProductModel productModel;
         private bool _isSaving = false;
@@ -26,7 +27,7 @@ namespace Salon.View
         private bool _isProductSizeUpdating = false;
         public event EventHandler RefreshData;
 
-        private bool productInfoCreated = false; 
+        private bool productInfoCreated = false;
         private bool allowTabChange = false;
 
         public ProductForm(MainForm mainform)
@@ -37,7 +38,7 @@ namespace Salon.View
             _isSaving = true;
             this.mainForm = mainform;
 
-  
+
         }
         public ProductForm(MainForm mainform, ProductModel productModel)
         {
@@ -47,30 +48,34 @@ namespace Salon.View
             _isUpdating = true;
             this.mainForm = mainform;
             this.productModel = productModel;
-       
 
-            if (productModel != null) 
+
+            if (productModel != null)
             {
                 txt_product_name.Text = productModel.product_name;
                 _product_id = productModel.product_id;
                 txt_brand.Text = productModel.brand;
                 cmb_unit_type.Text = productModel.unit_type;
+                ProductName = productModel.product_name;
+
+                chk_ingredient.Checked = (productModel.is_ingredient == 1);
+                chk_retail.Checked = (productModel.is_retail == 1);
 
                 btn_save.Visible = false;
                 btn_update.Visible = true;
 
-        
+
                 allowTabChange = true;
 
 
                 // PRODUCT SIZE
                 LoadProductSizeById(_product_id);
 
-    
+
 
             }
         }
-        private void LoadProductSizeById(int product_id) 
+        public void LoadProductSizeById(int product_id)
         {
             var repo = new ProductSizeRepository();
             var controller = new ProductSizeController(repo);
@@ -78,7 +83,7 @@ namespace Salon.View
 
             if (product_sizes != null)
             {
-                
+
                 dgv_product_size.AutoGenerateColumns = false;
 
                 col_product_size_id.DataPropertyName = "product_size_id";
@@ -89,17 +94,20 @@ namespace Salon.View
                 col_product_cost_price.DataPropertyName = "cost_price";
                 dgv_product_size.DataSource = product_sizes;
 
-           
-        
+
+
             }
-           
-               
+
+
         }
-        private bool HasProductChanges() 
+        private bool HasProductChanges()
         {
             return txt_product_name.Text != productModel.product_name
                || txt_brand.Text != productModel.brand
-               || cmb_unit_type.Text != productModel.unit_type;
+               || cmb_unit_type.Text != productModel.unit_type
+               || chk_ingredient.Checked
+               || chk_retail.Checked
+               ;
      
         }
         private bool IsValid()
@@ -147,13 +155,15 @@ namespace Salon.View
             var product = new ProductModel
             {
                 product_name = txt_product_name.Text,
-                product_type = "Ingredient",
+                is_ingredient = chk_ingredient.Checked ? 1 : 0,
+                is_retail = chk_retail.Checked ? 1 : 0,
                 brand = txt_brand.Text,
                 unit_type = cmb_unit_type.Text
               
             };
             int product_id = controller.addProduct(product);
             _product_id = product_id;
+            ProductName = txt_product_name.Text;
 
             return product_id;
         }
@@ -164,6 +174,8 @@ namespace Salon.View
             productModel.product_name = txt_product_name.Text;
             productModel.brand = txt_brand.Text;
             productModel.unit_type = cmb_unit_type.Text;
+            productModel.is_ingredient = chk_ingredient.Checked ? 1 : 0;
+            productModel.is_retail = chk_retail.Checked ? 1 : 0;
   
            return controller.updateProduct(productModel);
 
@@ -600,16 +612,21 @@ namespace Salon.View
             {
                 var product_size_model = dgv_product_size.Rows[e.RowIndex].DataBoundItem as ProductSizeModel;
 
-                if (product_size_model != null) 
-                {
-                    txt_size_label.Tag = product_size_model.product_size_id;
-                    txt_size_label.Text = product_size_model.size_label;
-                    txt_content.Text = product_size_model.content.ToString();
-                    txt_cost_price.Text = product_size_model.cost_price.ToString();
-                    btn_product_size_update.Enabled = true;
-                    btn_product_size_save.Enabled = false;
 
+                using (var form = new ProductSizeForm(mainForm, this, product_size_model, _product_id, ProductName))
+                {
+                    form.ShowDialog();
                 }
+                //if (product_size_model != null) 
+                //{
+                //    txt_size_label.Tag = product_size_model.product_size_id;
+                //    txt_size_label.Text = product_size_model.size_label;
+                //    txt_content.Text = product_size_model.content.ToString();
+                //    txt_cost_price.Text = product_size_model.cost_price.ToString();
+                //    btn_product_size_update.Enabled = true;
+                //    btn_product_size_save.Enabled = false;
+
+                //}
                 
 
             }
@@ -681,11 +698,7 @@ namespace Salon.View
 
         private void productTabControl_Selecting(object sender, TabControlCancelEventArgs e)
         {
-            // Cancel only if the user clicked the tab header
-            if (!allowTabChange)
-            {
-                e.Cancel = true;
-            }
+           
 
 
 
@@ -699,6 +712,35 @@ namespace Salon.View
         private void ProductForm_Load(object sender, EventArgs e)
         {
             ThemeManager.StyleDataGridView(dgv_product_size);
+        }
+
+        private void btn_add_size_Click(object sender, EventArgs e)
+        {
+            if (_product_id == 0)
+            {
+                MessageBox.Show(
+                    "Please create a product first before adding a product size.",
+                    "Action Required",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Warning
+                );
+                return; 
+            }
+
+            using (var form = new ProductSizeForm(mainForm,this, _product_id, ProductName)) 
+            {
+                form.ShowDialog();
+            }
+        }
+
+        private void materialCard2_Paint(object sender, PaintEventArgs e)
+        {
+
+        }
+
+        private void productTabSelector_Click(object sender, EventArgs e)
+        {
+
         }
         // END OF PRODUCTS
 

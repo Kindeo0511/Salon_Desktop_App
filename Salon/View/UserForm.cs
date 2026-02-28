@@ -88,6 +88,14 @@ namespace Salon.View
                 txt_confirm_password.Text = _user.userPassword;
                 cmb_role.Text = _user.Position;
 
+                if (_user.Position == "Admin") 
+                {
+                    cmb_role.Enabled = false;
+                }
+                else 
+                {
+                    cmb_role.Enabled = true;
+                }
                 btn_save.Visible = false;
                 btn_update.Visible = true;
 

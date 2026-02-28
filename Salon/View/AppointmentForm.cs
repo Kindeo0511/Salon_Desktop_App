@@ -1597,6 +1597,11 @@ namespace Salon.View
             }
         }
 
+        private void cmb_time_slot_SelectedIndexChanged(object sender, EventArgs e)
+        {
+
+        }
+
 
 
 

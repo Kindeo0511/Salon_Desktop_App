@@ -105,7 +105,6 @@ namespace Salon.View
             ThemeManager.StyleDataGridView(dgv_category);
             ThemeManager.StyleDataGridView(dgv_sub_category);
             ThemeManager.StyleDataGridView(dgv_product);
-            ThemeManager.StyleDataGridView(dgv_retail_product);
             ThemeManager.StyleDataGridView(dgv_service);
             ThemeManager.StyleDataGridView(dgv_discount);
             ThemeManager.StyleDataGridView(dgv_payment_method);
@@ -255,11 +254,7 @@ namespace Salon.View
             };
             await RefreshProductAsync(currentPage, pageSize);
 
-            retailPagination.PageChanged += async (s, page) =>
-            {
-                LoadRetailProducts(page, pageSize);
-            };
-            LoadRetailProducts(currentPage, pageSize);
+        
 
             delivery_pagination.PageChanged += async (s, page) =>
             {
@@ -692,11 +687,18 @@ namespace Salon.View
         {
 
             if (e.RowIndex < 0) return;
+            var user = dgv_user.Rows[e.RowIndex].DataBoundItem as UsersModel;
+
+        
 
             if (e.RowIndex >= 0 && dgv_user.Columns[e.ColumnIndex].Name == "btn_update")
             {
 
-                var user = dgv_user.Rows[e.RowIndex].DataBoundItem as UsersModel;
+                if (UserSession.CurrentUser.Position == "Admin" && user.Position == "Admin")
+                {
+                    MessageBox.Show("You are not allowed to update another Admin.");
+                    return;
+                }
 
                 using (var userForm = new UserForm(this, user))
                 {
@@ -727,11 +729,20 @@ namespace Salon.View
 
             else if (dgv_user.Columns[e.ColumnIndex].Name == "btn_delete")
             {
-                var user = dgv_user.Rows[e.RowIndex].DataBoundItem as UsersModel;
+
+                if (UserSession.CurrentUser.user_id != user.user_id && user.Position == "Admin")
+                {
+                    MessageBox.Show("You are not allowed to delete another Admin.");
+                    return;
+                }
 
 
-
-                if (!string.IsNullOrEmpty(user.Position) && user.Position.Equals("admin", StringComparison.OrdinalIgnoreCase)) { return; }
+                if (!string.IsNullOrEmpty(user.Position) && user.Position.Equals("admin", StringComparison.OrdinalIgnoreCase))
+                {
+                    MessageBox.Show("Deleting your own account is not allowed.");
+                    return;
+                
+                }
 
                 // Ask for confirmation before delete 
                 if (MessageBox.Show($"Deactivate user {user.userName}?", "Confirm Deactivation", MessageBoxButtons.YesNo) == DialogResult.Yes)
@@ -758,7 +769,7 @@ namespace Salon.View
             else if (e.RowIndex >= 0 && dgv_user.Columns[e.ColumnIndex].Name == "col_view")
             {
                 // Get the user object bound to this row
-                var user = dgv_user.Rows[e.RowIndex].DataBoundItem as UsersModel;
+           
 
                 bool isViewed = true;
                 using (var userForm = new UserForm(this, user, isViewed))
@@ -878,6 +889,16 @@ namespace Salon.View
                 }
 
 
+            }
+            else if (e.RowIndex >= 0 && dgv_stylist.Columns[e.ColumnIndex].Name == "col_btn_schedule") 
+            {
+                var stylist = dgv_stylist.Rows[e.RowIndex].DataBoundItem as StylistModel;
+
+                using (var stylistForm = new ScheduleForm(this, stylist))
+                {
+                   
+                    stylistForm.ShowDialog();
+                }
             }
             else if (e.RowIndex >= 0 && dgv_stylist.Columns[e.ColumnIndex].Name == "col_stylist_duty")
             {
@@ -1356,7 +1377,11 @@ namespace Salon.View
             dgv_product.AutoGenerateColumns = false;
             col_product_id.DataPropertyName = "product_id";
             col_product_name.DataPropertyName = "product_name";
-            col_product_type.DataPropertyName = "product_type";
+            col_product_type.DataPropertyName = "DisplayProductType";
+            col_display_ingredient.DataPropertyName = "Ingredient";
+            col_display_retail.DataPropertyName = "Retail";
+            col_is_ingredient.DataPropertyName = "is_ingredient";
+            col_is_retail.DataPropertyName = "is_retail";
             col_product_brand.DataPropertyName = "brand";
             col_product_unit_type.DataPropertyName = "unit_type";
             col_product_created_at.DataPropertyName = "created_at";
@@ -1381,6 +1406,10 @@ namespace Salon.View
         }
         private void dgv_product_CellFormatting(object sender, DataGridViewCellFormattingEventArgs e)
         {
+
+
+         
+
             // Check if we're formatting the Price column
             if (dgv_product.Columns[e.ColumnIndex].Name == "col_product_cost_price" && e.Value != null)
             {
@@ -1465,101 +1494,7 @@ namespace Salon.View
         // END OF PRODUCTS
 
 
-        // RETAIL PRODUCTS
-
-
-
-        public void LoadRetailProducts(int PageNumber, int PageSize)
-        {
-            var repo = new ProductRepository();
-            var productController = new ProductController(repo);
-            int offset = (PageNumber - 1) * pageSize;
-            var products = productController.GetRetailProduct(PageSize, offset);
-
-            dgv_retail_product.DataSource = null;
-            dgv_retail_product.AutoGenerateColumns = false;
-
-            int totalRecords = productController.GetTotalRetailProduct();
-            int totalPages = (int)Math.Ceiling((double)totalRecords / pageSize);
-            retailPagination.SetTotalPages(totalPages);
-
-
-            col_retail_product_id.DataPropertyName = "product_id";
-            col_retail_product_name.DataPropertyName = "product_name";
-            col_retail_product_type.DataPropertyName = "product_type";
-            col_retail_product_brand.DataPropertyName = "brand";
-            col_retail_product_category_id.DataPropertyName = "category_id";
-            col_retail_product_unit_type.DataPropertyName = "unit_type";
-            col_retail_product_created_at.DataPropertyName = "created_at";
-            col_retail_product_updated_at.DataPropertyName = "updated_at";
-
-            dgv_retail_product.DataSource = products;
-
-
-        }
-        private void btn_add_retail_product_Click(object sender, EventArgs e)
-        {
-            using (var retailForm = new RetailProductForm(this))
-            {
-                retailForm.RefreshData += async (s, args) => { LoadRetailProducts(retailPagination.CurrentPage, pageSize); };
-                retailForm.ShowDialog();
-            }
-        }
-        private async void dgv_retail_product_CellClick_1(object sender, DataGridViewCellEventArgs e)
-        {
-            if (e.RowIndex < 0) return;
-
-            if (e.RowIndex >= 0 && dgv_retail_product.Columns[e.ColumnIndex].Name == "col_retail_product_update")
-            {
-
-                var product_retail = dgv_retail_product.Rows[e.RowIndex].DataBoundItem as ProductModel;
-
-                using (var form = new RetailProductForm(this, product_retail))
-                {
-                    form.RefreshData += async (s, args) => { LoadRetailProducts(retailPagination.CurrentPage, pageSize); };
-                    form.ShowDialog();
-                }
-            }
-            else if (e.RowIndex >= 0 && dgv_retail_product.Columns[e.ColumnIndex].Name == "col_retail_product_delete")
-            {
-
-                var product_retail = dgv_retail_product.Rows[e.RowIndex].DataBoundItem as ProductModel;
-
-                if (MessageBox.Show($"Delete Product {product_retail.product_name}?", "Confirm Delete", MessageBoxButtons.YesNo) == DialogResult.Yes)
-                {
-                    var repo = new ProductRepository();
-                    var controller = new ProductController(repo);
-
-
-                    if (controller.deleteProduct(product_retail.product_id))
-                    {
-                        MessageBox.Show("Product Deleted Successfully.", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
-
-                        Audit.AuditLog(DateTime.Now, "Delete", UserSession.CurrentUser.first_Name, "Manage Product Retail", $"Deleted product '{product_retail.product_name}' on {DateTime.Now:yyyy-MM-dd} at {DateTime.Now:HH:mm:ss}");
-
-                        InsertDeletedRecord(product_retail.product_id, null, "Manage Products Retail", product_retail.product_name, UserSession.CurrentUser.first_Name, DateTime.Today);
-
-                    }
-                    else
-                    {
-                        MessageBox.Show("Failed to Delete Product.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                    }
-
-
-
-                    LoadRetailProducts(retailPagination.CurrentPage, pageSize);
-                    await FilterdDeletedRecords(currentPage, pageSize);
-
-
-
-
-                }
-            }
-        }
-
-
-
-        // END OF RETAIL PRODUCTS
+  
 
         // SERVICES
         public async Task RefreshServicesAsync(int PageNumber, int PageSize)
@@ -4210,14 +4145,7 @@ namespace Salon.View
                                     break;
                                 case "Manage Product Size":
                                     RestoreProductSizeRecord(record.record_id);
-                                    break;
-                                case "Manage Products Retail":
-                                    RestoreDeletedProductRetailRecord(record.record_id);
-                                    LoadRetailProducts(currentPage, pageSize);
-                                    break;
-                                case "Manage Product Retail Size":
-                                    RestoreProductSizeRecord(record.record_id);
-                                    break;
+                                    break;          
                                 case "Manage Services":
                                     RestoreDeletedServiceRecord(record.record_id);
                                     await RefreshServicesAsync(currentPage, pageSize);
@@ -4296,17 +4224,9 @@ namespace Salon.View
                             case "Manage Products":
                                 DeleteProductRecord(record.record_id, record.name);
                                 await RefreshProductAsync(currentPage, pageSize);
-                                break;
-                            case "Manage Products Retail":
-                                DeleteProductRetailRecord(record.record_id, record.name);
-                                LoadRetailProducts(currentPage, pageSize);
-                                break;
+                                break;              
                             case "Manage Product Size":
                                 DeleteProductSizeRecord(record.record_id, record.name);
-                                break;
-                            case "Manage Product Retail Size":
-                                DeleteProductRetailSizeRecord(record.record_id, record.name);
-                                await RefreshProductAsync(currentPage, pageSize);
                                 break;
                             case "Manage Services":
                                 DeleteServiceRecord(record.record_id, record.name);
@@ -6952,7 +6872,99 @@ namespace Salon.View
                 }
             }
         }
+        public void NavigateToRecoveryTab()
+        {
+            materialTabControl1.SelectedTab = materialTabControl1.TabPages["dataRecoveryTab"];
+        }
+        private void dgv_stylist_CellBorderStyleChanged(object sender, EventArgs e)
+        {
 
+        }
+
+        private void btn_add_product_Click_1(object sender, EventArgs e)
+        {
+            using (var productForm = new ProductForm(this))
+            {
+                productForm.RefreshData += async (s, args) => { await RefreshProductAsync(product_pagination.CurrentPage, pageSize); };
+                productForm.ShowDialog();
+            }
+        }
+
+        private async void dgv_product_CellClick_1(object sender, DataGridViewCellEventArgs e)
+        {
+            if (e.RowIndex < 0) return;
+            if (e.RowIndex >= 0 && dgv_product.Columns[e.ColumnIndex].Name == "col_btn_product_update")
+            {
+                var product = dgv_product.Rows[e.RowIndex].DataBoundItem as ProductModel;
+                using (var productForm = new ProductForm(this, product))
+                {
+
+                    productForm.RefreshData += async (s, args) => { await RefreshCategoryAsync(product_pagination.CurrentPage, pageSize); };
+                    productForm.ShowDialog();
+                }
+            }
+            else if (e.RowIndex >= 0 && dgv_product.Columns[e.ColumnIndex].Name == "col_btn_product_delete")
+            {
+                var product = dgv_product.Rows[e.RowIndex].DataBoundItem as ProductModel;
+                if (MessageBox.Show($"Delete Product {product.product_name}?", "Confirm Delete", MessageBoxButtons.YesNo) == DialogResult.Yes)
+                {
+                    var repo = new ProductRepository();
+                    var controller = new ProductController(repo);
+
+
+                    if (controller.deleteProduct(product.product_id))
+                    {
+                        MessageBox.Show("Product Deleted Successfully.", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
+
+                        Audit.AuditLog(DateTime.Now, "Delete", UserSession.CurrentUser.first_Name, "Manage Products", $"Deleted product '{product.product_name}' on {DateTime.Now:yyyy-MM-dd} at {DateTime.Now:HH:mm:ss}");
+
+                        InsertDeletedRecord(product.product_id, null, "Manage Products", product.product_name, UserSession.CurrentUser.first_Name, DateTime.Today);
+
+                    }
+                    else
+                    {
+                        MessageBox.Show("Failed to Delete Product.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    }
+
+
+
+
+                    await FilterdDeletedRecords(currentPage, pageSize);
+                    await RefreshProductAsync(currentPage, pageSize);
+                    await RefreshTotalProduct();
+
+
+                }
+
+            }
+        }
+
+        private void dgv_product_CellFormatting_1(object sender, DataGridViewCellFormattingEventArgs e)
+        {
+
+            // Check if we're formatting the Price column
+            if (dgv_product.Columns[e.ColumnIndex].Name == "col_product_cost_price" && e.Value != null)
+            {
+                // Get the product type from another column in the same row
+                var productType = dgv_product.Rows[e.RowIndex].Cells["col_product_type"].Value?.ToString();
+
+                if (productType == "Retail")
+                {
+                    // Format as currency
+                    if (decimal.TryParse(e.Value.ToString(), out var price))
+                    {
+                        e.Value = price.ToString("C2");
+                        e.FormattingApplied = true;
+                    }
+                }
+                else if (productType == "Ingredient")
+                {
+                    // Blank out the price for consumables
+                    e.Value = string.Empty;
+                    e.FormattingApplied = true;
+                }
+            }
+        }
     }
 }
 

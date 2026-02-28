@@ -53,6 +53,20 @@ namespace Salon.Repository
                 return con.Query<ProductSizeModel>(sql, new { product_id = product_id });
             }
         }
+        public bool Exists(int product_size_id, int product_id, int content)
+        {
+            using (var con = Database.GetConnection())
+            {
+                var sql = @"SELECT COUNT(1) 
+                    FROM tbl_product_size 
+                    WHERE product_id = @product_id 
+                      AND content = @content 
+                      AND product_size_id <> @product_size_id
+                      AND is_deleted = 0"; // exclude self on update
+                return con.ExecuteScalar<int>(sql, new { product_size_id = product_size_id, product_id = product_id, content = content }) > 0;
+            }
+        }
+
         public int Add(ProductSizeModel model) 
         {
             using (var con = Database.GetConnection()) 

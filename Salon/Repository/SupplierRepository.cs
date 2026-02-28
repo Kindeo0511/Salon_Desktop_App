@@ -78,12 +78,12 @@ namespace Salon.Repository
             }
         }
 
-        public bool SupplierExists(string name, int id = 0) 
+        public bool SupplierExists(string name, string address, int id = 0) 
         {
             using (var con = Database.GetConnection()) 
             {
-                var sql = "SELECT COUNT(*) FROM tbl_supplier WHERE supplier_name = @name AND supplier_id != @id";
-                return con.ExecuteScalar<int>(sql, new { name, id }) > 0;
+                var sql = "SELECT COUNT(*) FROM tbl_supplier WHERE supplier_name = @name AND address= @address AND supplier_id != @id";
+                return con.ExecuteScalar<int>(sql, new { name, address, id }) > 0;
             }
         }
         public SupplierModel GetSupplierEmail(string email)

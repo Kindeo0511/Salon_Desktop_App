@@ -43,7 +43,7 @@ namespace Salon.View
             dgv_products.AutoGenerateColumns = false;
             col_product_supplier_name.DataPropertyName = "supplier_name";
             col_product_name.DataPropertyName = "product_name";
-            col_product_type.DataPropertyName = "product_type";
+            col_product_type.DataPropertyName = "DisplayProductType";
             col_product_size.DataPropertyName = "size_label";
             col_product_qty.DataPropertyName = "qty";
   

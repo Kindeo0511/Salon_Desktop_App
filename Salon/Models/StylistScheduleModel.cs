@@ -8,13 +8,11 @@ namespace Salon.Models
 {
     public class StylistScheduleModel
     {
-        public int ScheduleId { get; set; }
-        public int StylistId { get; set; }
-        public string DayOfWeek { get; set; }
-        public TimeSpan StartTime { get; set; }
-        public TimeSpan EndTime { get; set; }
-        public string Status { get; set; }
-        public string Notes { get; set; }
+        public int weekly_id { get; set; }
+        public string day_of_week { get; set; }
+        public int stylist_id { get; set; }
+        public int is_duty { get; set; }
+
 
     }
 }
