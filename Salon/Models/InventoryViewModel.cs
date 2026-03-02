@@ -16,7 +16,7 @@ namespace Salon.Models
         public string product_type { get; set; }
         public string brand { get; set; }
         public string category { get; set; }
-        public decimal qty { get; set; }
+        public double qty { get; set; }
         public int total_remaining { get; set; }
         public int volume { get; set; }
         public int critical_level { get; set; }

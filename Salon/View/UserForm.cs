@@ -55,24 +55,10 @@ namespace Salon.View
             this.AcceptButton = btn_save;
             btn_cancel.DialogResult = DialogResult.Cancel;
 
-
-            LoadRole();
-
+            PopulateRoleComboBox(_user, cmb_role);
 
 
-        }
-        public void LoadRole() 
-        {
-            if (UserSession.CurrentUser.Position == "SuperAdmin")
-            {
-                cmb_role.Items.Add("Admin");
-                cmb_role.Items.Add("Staff");
-            } 
-            else if (UserSession.CurrentUser.Position == "Admin")
-                
-            {
-                cmb_role.Items.Add("Staff");
-            }
+
         }
         public UserForm(MainForm mainForm, UsersModel user)
         {

@@ -108,6 +108,19 @@
             this.materialCard13 = new MaterialSkin.Controls.MaterialCard();
             this.paginationControl3 = new Salon.Util.PaginationControl();
             this.dgv_stylist = new System.Windows.Forms.DataGridView();
+            this.col_stylist_id = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.stylist_first_name = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.stylist_middle_name = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.stylist_last_name = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.stylist_day_of_birth = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.stylist_contact = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.stylist_email = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.stylist_address = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.col_stylist_status = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.col_stylist_duty = new System.Windows.Forms.DataGridViewButtonColumn();
+            this.col_btn_schedule = new System.Windows.Forms.DataGridViewButtonColumn();
+            this.stylist_btn_update = new System.Windows.Forms.DataGridViewImageColumn();
+            this.stylist_btn_delete = new System.Windows.Forms.DataGridViewImageColumn();
             this.panel4 = new System.Windows.Forms.Panel();
             this.btn_refresh_stylist = new MaterialSkin.Controls.MaterialButton();
             this.btn_add_stylist = new MaterialSkin.Controls.MaterialButton();
@@ -658,18 +671,6 @@
             this.col_cart_vat_exempt = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.col_cart_status = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.col_btn_cart_apply_discount = new System.Windows.Forms.DataGridViewImageColumn();
-            this.col_stylist_id = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.stylist_first_name = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.stylist_middle_name = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.stylist_last_name = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.stylist_day_of_birth = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.stylist_contact = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.stylist_email = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.stylist_address = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.col_stylist_status = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.col_btn_schedule = new System.Windows.Forms.DataGridViewButtonColumn();
-            this.stylist_btn_update = new System.Windows.Forms.DataGridViewImageColumn();
-            this.stylist_btn_delete = new System.Windows.Forms.DataGridViewImageColumn();
             this.paginationControl1 = new Salon.Util.PaginationControl();
             this.paginationControl3 = new Salon.Util.PaginationControl();
             this.customerPagination = new Salon.Util.PaginationControl();
@@ -1785,6 +1786,7 @@
             this.stylist_email,
             this.stylist_address,
             this.col_stylist_status,
+            this.col_stylist_duty,
             this.col_btn_schedule,
             this.stylist_btn_update,
             this.stylist_btn_delete});
@@ -1805,7 +1807,10 @@
             this.dgv_stylist.CellFormatting += new System.Windows.Forms.DataGridViewCellFormattingEventHandler(this.dgv_stylist_CellFormatting);
             // 
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
+=======
+>>>>>>> parent of 588245d (updated: inventory, stock in stock out)
             // col_stylist_id
             // 
             this.col_stylist_id.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
@@ -1879,7 +1884,11 @@
             this.col_stylist_status.MinimumWidth = 6;
             this.col_stylist_status.Name = "col_stylist_status";
             this.col_stylist_status.ReadOnly = true;
+<<<<<<< HEAD
             this.col_stylist_status.Width = 129;
+=======
+            this.col_stylist_status.Width = 106;
+>>>>>>> parent of 588245d (updated: inventory, stock in stock out)
             // 
             // col_stylist_duty
             // 
@@ -1891,7 +1900,11 @@
             this.col_stylist_duty.ReadOnly = true;
             this.col_stylist_duty.Resizable = System.Windows.Forms.DataGridViewTriState.True;
             this.col_stylist_duty.Text = "";
+<<<<<<< HEAD
             this.col_stylist_duty.Width = 76;
+=======
+            this.col_stylist_duty.Width = 64;
+>>>>>>> parent of 588245d (updated: inventory, stock in stock out)
             // 
             // col_btn_schedule
             // 
@@ -1916,7 +1929,11 @@
             this.stylist_btn_update.ReadOnly = true;
             this.stylist_btn_update.Resizable = System.Windows.Forms.DataGridViewTriState.True;
             this.stylist_btn_update.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Automatic;
+<<<<<<< HEAD
             this.stylist_btn_update.Width = 140;
+=======
+            this.stylist_btn_update.Width = 118;
+>>>>>>> parent of 588245d (updated: inventory, stock in stock out)
             // 
             // stylist_btn_delete
             // 
@@ -1929,9 +1946,14 @@
             this.stylist_btn_delete.ReadOnly = true;
             this.stylist_btn_delete.Resizable = System.Windows.Forms.DataGridViewTriState.True;
             this.stylist_btn_delete.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Automatic;
+<<<<<<< HEAD
             this.stylist_btn_delete.Width = 131;
             // 
 >>>>>>> 5343a4b2e5102c89da1d76f2586ad8618514edcf
+=======
+            this.stylist_btn_delete.Width = 111;
+            // 
+>>>>>>> parent of 588245d (updated: inventory, stock in stock out)
             // panel4
             // 
             this.panel4.Controls.Add(this.btn_refresh_stylist);
@@ -2780,11 +2802,15 @@
             this.materialCard19.Name = "materialCard19";
 <<<<<<< HEAD
             this.materialCard19.Padding = new System.Windows.Forms.Padding(14);
+<<<<<<< HEAD
             this.materialCard19.Size = new System.Drawing.Size(1828, 788);
 =======
             this.materialCard19.Padding = new System.Windows.Forms.Padding(17, 17, 17, 17);
             this.materialCard19.Size = new System.Drawing.Size(1810, 743);
 >>>>>>> 5343a4b2e5102c89da1d76f2586ad8618514edcf
+=======
+            this.materialCard19.Size = new System.Drawing.Size(1828, 820);
+>>>>>>> parent of 588245d (updated: inventory, stock in stock out)
             this.materialCard19.TabIndex = 17;
             // 
             // product_pagination
@@ -3108,11 +3134,15 @@
             this.materialCard29.Name = "materialCard29";
 <<<<<<< HEAD
             this.materialCard29.Padding = new System.Windows.Forms.Padding(14);
+<<<<<<< HEAD
             this.materialCard29.Size = new System.Drawing.Size(1828, 895);
 =======
             this.materialCard29.Padding = new System.Windows.Forms.Padding(17, 17, 17, 17);
             this.materialCard29.Size = new System.Drawing.Size(2195, 1050);
 >>>>>>> 5343a4b2e5102c89da1d76f2586ad8618514edcf
+=======
+            this.materialCard29.Size = new System.Drawing.Size(1828, 863);
+>>>>>>> parent of 588245d (updated: inventory, stock in stock out)
             this.materialCard29.TabIndex = 2;
             // 
             // inventoryTabControl
@@ -3128,10 +3158,14 @@
             this.inventoryTabControl.Name = "inventoryTabControl";
             this.inventoryTabControl.SelectedIndex = 0;
 <<<<<<< HEAD
+<<<<<<< HEAD
             this.inventoryTabControl.Size = new System.Drawing.Size(1800, 765);
 =======
             this.inventoryTabControl.Size = new System.Drawing.Size(2161, 894);
 >>>>>>> 5343a4b2e5102c89da1d76f2586ad8618514edcf
+=======
+            this.inventoryTabControl.Size = new System.Drawing.Size(1800, 733);
+>>>>>>> parent of 588245d (updated: inventory, stock in stock out)
             this.inventoryTabControl.TabIndex = 1;
             this.inventoryTabControl.SelectedIndexChanged += new System.EventHandler(this.inventoryTabControl_SelectedIndexChanged);
             // 
@@ -3144,11 +3178,15 @@
             this.inventory.Name = "inventory";
 <<<<<<< HEAD
             this.inventory.Padding = new System.Windows.Forms.Padding(3);
+<<<<<<< HEAD
             this.inventory.Size = new System.Drawing.Size(1792, 723);
 =======
             this.inventory.Padding = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.inventory.Size = new System.Drawing.Size(2153, 849);
 >>>>>>> 5343a4b2e5102c89da1d76f2586ad8618514edcf
+=======
+            this.inventory.Size = new System.Drawing.Size(1792, 691);
+>>>>>>> parent of 588245d (updated: inventory, stock in stock out)
             this.inventory.TabIndex = 0;
             this.inventory.Text = "Inventory";
             this.inventory.UseVisualStyleBackColor = true;
@@ -9638,119 +9676,6 @@
             this.col_btn_cart_apply_discount.Resizable = System.Windows.Forms.DataGridViewTriState.True;
             this.col_btn_cart_apply_discount.Width = 176;
             // 
-            // col_stylist_id
-            // 
-            this.col_stylist_id.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
-            this.col_stylist_id.HeaderText = "ID";
-            this.col_stylist_id.MinimumWidth = 6;
-            this.col_stylist_id.Name = "col_stylist_id";
-            this.col_stylist_id.ReadOnly = true;
-            this.col_stylist_id.Visible = false;
-            // 
-            // stylist_first_name
-            // 
-            this.stylist_first_name.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
-            this.stylist_first_name.HeaderText = "First Name";
-            this.stylist_first_name.MinimumWidth = 6;
-            this.stylist_first_name.Name = "stylist_first_name";
-            this.stylist_first_name.ReadOnly = true;
-            // 
-            // stylist_middle_name
-            // 
-            this.stylist_middle_name.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
-            this.stylist_middle_name.HeaderText = "Middle Name";
-            this.stylist_middle_name.MinimumWidth = 6;
-            this.stylist_middle_name.Name = "stylist_middle_name";
-            this.stylist_middle_name.ReadOnly = true;
-            // 
-            // stylist_last_name
-            // 
-            this.stylist_last_name.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
-            this.stylist_last_name.HeaderText = "Last Name";
-            this.stylist_last_name.MinimumWidth = 6;
-            this.stylist_last_name.Name = "stylist_last_name";
-            this.stylist_last_name.ReadOnly = true;
-            // 
-            // stylist_day_of_birth
-            // 
-            this.stylist_day_of_birth.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
-            this.stylist_day_of_birth.HeaderText = "Date of Birth";
-            this.stylist_day_of_birth.MinimumWidth = 6;
-            this.stylist_day_of_birth.Name = "stylist_day_of_birth";
-            this.stylist_day_of_birth.ReadOnly = true;
-            // 
-            // stylist_contact
-            // 
-            this.stylist_contact.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
-            this.stylist_contact.HeaderText = "Contact";
-            this.stylist_contact.MinimumWidth = 6;
-            this.stylist_contact.Name = "stylist_contact";
-            this.stylist_contact.ReadOnly = true;
-            // 
-            // stylist_email
-            // 
-            this.stylist_email.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
-            this.stylist_email.HeaderText = "Email";
-            this.stylist_email.MinimumWidth = 6;
-            this.stylist_email.Name = "stylist_email";
-            this.stylist_email.ReadOnly = true;
-            // 
-            // stylist_address
-            // 
-            this.stylist_address.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
-            this.stylist_address.HeaderText = "Address";
-            this.stylist_address.MinimumWidth = 6;
-            this.stylist_address.Name = "stylist_address";
-            this.stylist_address.ReadOnly = true;
-            this.stylist_address.Visible = false;
-            // 
-            // col_stylist_status
-            // 
-            this.col_stylist_status.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
-            this.col_stylist_status.HeaderText = "Status";
-            this.col_stylist_status.MinimumWidth = 6;
-            this.col_stylist_status.Name = "col_stylist_status";
-            this.col_stylist_status.ReadOnly = true;
-            this.col_stylist_status.Width = 106;
-            // 
-            // col_btn_schedule
-            // 
-            this.col_btn_schedule.HeaderText = "Schedule";
-            this.col_btn_schedule.MinimumWidth = 6;
-            this.col_btn_schedule.Name = "col_btn_schedule";
-            this.col_btn_schedule.ReadOnly = true;
-            this.col_btn_schedule.Resizable = System.Windows.Forms.DataGridViewTriState.True;
-            this.col_btn_schedule.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Automatic;
-            this.col_btn_schedule.Text = "VIew Schedule";
-            this.col_btn_schedule.UseColumnTextForButtonValue = true;
-            this.col_btn_schedule.Width = 125;
-            // 
-            // stylist_btn_update
-            // 
-            this.stylist_btn_update.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
-            this.stylist_btn_update.HeaderText = "Update";
-            this.stylist_btn_update.Image = ((System.Drawing.Image)(resources.GetObject("stylist_btn_update.Image")));
-            this.stylist_btn_update.ImageLayout = System.Windows.Forms.DataGridViewImageCellLayout.Zoom;
-            this.stylist_btn_update.MinimumWidth = 6;
-            this.stylist_btn_update.Name = "stylist_btn_update";
-            this.stylist_btn_update.ReadOnly = true;
-            this.stylist_btn_update.Resizable = System.Windows.Forms.DataGridViewTriState.True;
-            this.stylist_btn_update.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Automatic;
-            this.stylist_btn_update.Width = 118;
-            // 
-            // stylist_btn_delete
-            // 
-            this.stylist_btn_delete.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
-            this.stylist_btn_delete.HeaderText = "Delete";
-            this.stylist_btn_delete.Image = ((System.Drawing.Image)(resources.GetObject("stylist_btn_delete.Image")));
-            this.stylist_btn_delete.ImageLayout = System.Windows.Forms.DataGridViewImageCellLayout.Zoom;
-            this.stylist_btn_delete.MinimumWidth = 6;
-            this.stylist_btn_delete.Name = "stylist_btn_delete";
-            this.stylist_btn_delete.ReadOnly = true;
-            this.stylist_btn_delete.Resizable = System.Windows.Forms.DataGridViewTriState.True;
-            this.stylist_btn_delete.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Automatic;
-            this.stylist_btn_delete.Width = 111;
-            // 
             // paginationControl1
             // 
             this.paginationControl1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
@@ -10757,6 +10682,19 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn col_db_payment_status;
         private System.Windows.Forms.DataGridViewTextBoxColumn col_db_booking_type;
         private System.Windows.Forms.DataGridViewImageColumn col_db_assign_staff;
+        private System.Windows.Forms.DataGridViewTextBoxColumn col_stylist_id;
+        private System.Windows.Forms.DataGridViewTextBoxColumn stylist_first_name;
+        private System.Windows.Forms.DataGridViewTextBoxColumn stylist_middle_name;
+        private System.Windows.Forms.DataGridViewTextBoxColumn stylist_last_name;
+        private System.Windows.Forms.DataGridViewTextBoxColumn stylist_day_of_birth;
+        private System.Windows.Forms.DataGridViewTextBoxColumn stylist_contact;
+        private System.Windows.Forms.DataGridViewTextBoxColumn stylist_email;
+        private System.Windows.Forms.DataGridViewTextBoxColumn stylist_address;
+        private System.Windows.Forms.DataGridViewTextBoxColumn col_stylist_status;
+        private System.Windows.Forms.DataGridViewButtonColumn col_stylist_duty;
+        private System.Windows.Forms.DataGridViewButtonColumn col_btn_schedule;
+        private System.Windows.Forms.DataGridViewImageColumn stylist_btn_update;
+        private System.Windows.Forms.DataGridViewImageColumn stylist_btn_delete;
         private System.Windows.Forms.TabPage user_permission_tab;
         private MaterialSkin.Controls.MaterialCard materialCard31;
         private Util.PaginationControl paginationControl2;
@@ -10812,6 +10750,7 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn col_cart_status;
         private System.Windows.Forms.DataGridViewImageColumn col_btn_cart_apply_discount;
 <<<<<<< HEAD
+<<<<<<< HEAD
         private System.Windows.Forms.DataGridViewTextBoxColumn col_stylist_id;
         private System.Windows.Forms.DataGridViewTextBoxColumn stylist_first_name;
         private System.Windows.Forms.DataGridViewTextBoxColumn stylist_middle_name;
@@ -10837,5 +10776,7 @@
         private System.Windows.Forms.DataGridViewImageColumn col_btn_product_update;
         private System.Windows.Forms.DataGridViewImageColumn col_btn_product_delete;
 >>>>>>> 5343a4b2e5102c89da1d76f2586ad8618514edcf
+=======
+>>>>>>> parent of 588245d (updated: inventory, stock in stock out)
     }
 }

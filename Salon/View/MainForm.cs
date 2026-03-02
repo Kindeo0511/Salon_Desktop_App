@@ -906,6 +906,7 @@ namespace Salon.View
             stylist_email.DataPropertyName = "email";
             stylist_address.DataPropertyName = "address";
             col_stylist_status.DataPropertyName = "status";
+            col_stylist_duty.DataPropertyName = "DutyDisplay";
             dgv_stylist.DataSource = stylists;
 
 

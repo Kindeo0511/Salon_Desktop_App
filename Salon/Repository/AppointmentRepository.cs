@@ -490,7 +490,7 @@ GROUP BY a.appointment_id;";
                        WHERE stylist_id = s.stylist_id
                          AND DATE(start_time) = CURRENT_DATE()
                    )
-            WHERE s.stylist_id = @stylistId;
+            WHERE s.is_duty = 1 AND s.stylist_id = @stylistId;
         ";
 
                 int dutyFlag = con.ExecuteScalar<int>(sql, new { stylistId });
@@ -568,9 +568,8 @@ LEFT JOIN tbl_customer_account ca
        ON ca.customer_id = a.customer_id
 LEFT JOIN tbl_servicesname sn   
        ON sn.serviceName_id = a_s.serviceName_id
-";
-//WHERE s.is_duty = 1
-                          
+WHERE s.is_duty = 1;
+                            ";
                 return con.Query<AppointmentModel>(sql).ToList();
             }
 
