@@ -1737,7 +1737,10 @@
             // 
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
+=======
+>>>>>>> parent of 588245d (updated: inventory, stock in stock out)
 =======
 >>>>>>> parent of 588245d (updated: inventory, stock in stock out)
             // col_stylist_id
@@ -1815,6 +1818,7 @@
             this.col_stylist_status.ReadOnly = true;
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
             this.col_stylist_status.Width = 129;
 =======
             this.col_stylist_status.Width = 106;
@@ -1822,6 +1826,9 @@
 =======
             this.col_stylist_status.Width = 106;
 >>>>>>> parent of 5343a4b (Merge pull request #1 from Kindeo0511/POS-product-inventory-stocks)
+=======
+            this.col_stylist_status.Width = 106;
+>>>>>>> parent of 588245d (updated: inventory, stock in stock out)
             // 
             // col_stylist_duty
             // 
@@ -1835,6 +1842,7 @@
             this.col_stylist_duty.Text = "";
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
             this.col_stylist_duty.Width = 76;
 =======
             this.col_stylist_duty.Width = 64;
@@ -1842,6 +1850,9 @@
 =======
             this.col_stylist_duty.Width = 64;
 >>>>>>> parent of 5343a4b (Merge pull request #1 from Kindeo0511/POS-product-inventory-stocks)
+=======
+            this.col_stylist_duty.Width = 64;
+>>>>>>> parent of 588245d (updated: inventory, stock in stock out)
             // 
             // col_btn_schedule
             // 
@@ -1868,6 +1879,7 @@
             this.stylist_btn_update.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Automatic;
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
             this.stylist_btn_update.Width = 140;
 =======
             this.stylist_btn_update.Width = 118;
@@ -1875,6 +1887,9 @@
 =======
             this.stylist_btn_update.Width = 118;
 >>>>>>> parent of 5343a4b (Merge pull request #1 from Kindeo0511/POS-product-inventory-stocks)
+=======
+            this.stylist_btn_update.Width = 118;
+>>>>>>> parent of 588245d (updated: inventory, stock in stock out)
             // 
             // stylist_btn_delete
             // 
@@ -1889,12 +1904,17 @@
             this.stylist_btn_delete.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Automatic;
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
             this.stylist_btn_delete.Width = 131;
 =======
             this.stylist_btn_delete.Width = 111;
 >>>>>>> parent of 5343a4b (Merge pull request #1 from Kindeo0511/POS-product-inventory-stocks)
             // 
 >>>>>>> 5343a4b2e5102c89da1d76f2586ad8618514edcf
+=======
+            this.stylist_btn_delete.Width = 111;
+            // 
+>>>>>>> parent of 588245d (updated: inventory, stock in stock out)
 =======
             this.stylist_btn_delete.Width = 111;
             // 
@@ -2700,6 +2720,7 @@
 <<<<<<< HEAD
             this.materialCard19.Padding = new System.Windows.Forms.Padding(14);
 <<<<<<< HEAD
+<<<<<<< HEAD
             this.materialCard19.Size = new System.Drawing.Size(1828, 788);
 =======
             this.materialCard19.Padding = new System.Windows.Forms.Padding(17, 17, 17, 17);
@@ -2712,6 +2733,9 @@
             this.materialCard19.Padding = new System.Windows.Forms.Padding(14);
             this.materialCard19.Size = new System.Drawing.Size(1828, 820);
 >>>>>>> parent of 5343a4b (Merge pull request #1 from Kindeo0511/POS-product-inventory-stocks)
+=======
+            this.materialCard19.Size = new System.Drawing.Size(1828, 820);
+>>>>>>> parent of 588245d (updated: inventory, stock in stock out)
             this.materialCard19.TabIndex = 17;
             // 
             // dgv_product
@@ -3140,6 +3164,7 @@
 <<<<<<< HEAD
             this.materialCard29.Padding = new System.Windows.Forms.Padding(14);
 <<<<<<< HEAD
+<<<<<<< HEAD
             this.materialCard29.Size = new System.Drawing.Size(1828, 895);
 =======
             this.materialCard29.Padding = new System.Windows.Forms.Padding(17, 17, 17, 17);
@@ -3152,6 +3177,9 @@
             this.materialCard29.Padding = new System.Windows.Forms.Padding(14);
             this.materialCard29.Size = new System.Drawing.Size(1828, 863);
 >>>>>>> parent of 5343a4b (Merge pull request #1 from Kindeo0511/POS-product-inventory-stocks)
+=======
+            this.materialCard29.Size = new System.Drawing.Size(1828, 863);
+>>>>>>> parent of 588245d (updated: inventory, stock in stock out)
             this.materialCard29.TabIndex = 2;
             // 
             // inventoryTabControl
@@ -3168,6 +3196,7 @@
 <<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
             this.inventoryTabControl.Size = new System.Drawing.Size(1800, 765);
 =======
             this.inventoryTabControl.Size = new System.Drawing.Size(2161, 894);
@@ -3178,6 +3207,9 @@
 =======
             this.inventoryTabControl.Size = new System.Drawing.Size(1800, 733);
 >>>>>>> parent of 5343a4b (Merge pull request #1 from Kindeo0511/POS-product-inventory-stocks)
+=======
+            this.inventoryTabControl.Size = new System.Drawing.Size(1800, 733);
+>>>>>>> parent of 588245d (updated: inventory, stock in stock out)
             this.inventoryTabControl.TabIndex = 1;
             this.inventoryTabControl.SelectedIndexChanged += new System.EventHandler(this.inventoryTabControl_SelectedIndexChanged);
             // 
@@ -3191,6 +3223,7 @@
 <<<<<<< HEAD
             this.inventory.Padding = new System.Windows.Forms.Padding(3);
 <<<<<<< HEAD
+<<<<<<< HEAD
             this.inventory.Size = new System.Drawing.Size(1792, 723);
 =======
             this.inventory.Padding = new System.Windows.Forms.Padding(4, 4, 4, 4);
@@ -3203,6 +3236,9 @@
             this.inventory.Padding = new System.Windows.Forms.Padding(3);
             this.inventory.Size = new System.Drawing.Size(1792, 691);
 >>>>>>> parent of 5343a4b (Merge pull request #1 from Kindeo0511/POS-product-inventory-stocks)
+=======
+            this.inventory.Size = new System.Drawing.Size(1792, 691);
+>>>>>>> parent of 588245d (updated: inventory, stock in stock out)
             this.inventory.TabIndex = 0;
             this.inventory.Text = "Inventory";
             this.inventory.UseVisualStyleBackColor = true;
@@ -9218,6 +9254,7 @@
             this.col_btn_cart_apply_discount.Resizable = System.Windows.Forms.DataGridViewTriState.True;
             this.col_btn_cart_apply_discount.Width = 176;
             // 
+<<<<<<< HEAD
             // paginationControl1
             // 
             this.paginationControl1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
@@ -9606,6 +9643,8 @@
             this.col_btn_cart_apply_discount.Resizable = System.Windows.Forms.DataGridViewTriState.True;
             this.col_btn_cart_apply_discount.Width = 176;
             // 
+=======
+>>>>>>> parent of 588245d (updated: inventory, stock in stock out)
             // paginationControl1
             // 
             this.paginationControl1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
@@ -10587,6 +10626,7 @@
 <<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
         private System.Windows.Forms.DataGridViewTextBoxColumn col_stylist_id;
         private System.Windows.Forms.DataGridViewTextBoxColumn stylist_first_name;
         private System.Windows.Forms.DataGridViewTextBoxColumn stylist_middle_name;
@@ -10616,5 +10656,7 @@
 >>>>>>> parent of 588245d (updated: inventory, stock in stock out)
 =======
 >>>>>>> parent of 5343a4b (Merge pull request #1 from Kindeo0511/POS-product-inventory-stocks)
+=======
+>>>>>>> parent of 588245d (updated: inventory, stock in stock out)
     }
 }
