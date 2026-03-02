@@ -101,6 +101,17 @@ namespace Salon.Repository
             }
 
         }
+        public InventoryViewModel GetInventory(int inventory_id)
+        {
+            using (var con = Database.GetConnection())
+            {
+                var sql = @"SELECT inventory_id, product_size_id, qty, total_remaining
+                    FROM tbl_inventory
+                    WHERE inventory_id = @inventory_id";
+
+                return con.QueryFirstOrDefault<InventoryViewModel>(sql, new { inventory_id });
+            }
+        }
         public IEnumerable<InventoryViewModel> GetAllInventory(string status)
         {
             using (var con = Database.GetConnection())
@@ -159,6 +170,7 @@ namespace Salon.Repository
             }
            
         }
+
         public int GetInventoryId(int size_id)
         {
             using (var con = Database.GetConnection())

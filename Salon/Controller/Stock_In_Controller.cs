@@ -29,9 +29,10 @@ namespace Salon.Controller
         {
             return _repo.GetTotalRemaining(inventory_id);
         }
-        public void AddStockIn(Stock_In_Model model, decimal total_remaining, bool is_update) 
+    
+        public void AddStockIn(Stock_In_Model model, decimal prev_total_remaining, decimal new_total_remaining, decimal prev_qty, decimal new_qty, bool is_update) 
         {
-            _repo.AddStockIn(model, total_remaining, is_update);
+            _repo.AddStockIn(model,prev_total_remaining, new_total_remaining,prev_qty,new_qty, is_update);
         }
     }
 }

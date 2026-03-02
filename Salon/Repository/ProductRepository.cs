@@ -159,7 +159,7 @@ namespace Salon.Repository
             using (var con = Database.GetConnection()) 
             {
                 var sql = @"SELECT * FROM tbl_products 
-                            WHERE product_type = 'Ingredient' AND product_name = @name AND brand = @brand AND unit_type = @unit_type AND is_deleted = 1";
+                            WHERE  product_name = @name AND brand = @brand AND unit_type = @unit_type AND is_deleted = 1";
                 return con.Query<ProductModel>(sql, new { name, brand, unit_type }).FirstOrDefault();
             }
         }

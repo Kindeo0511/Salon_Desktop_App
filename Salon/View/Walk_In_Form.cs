@@ -788,5 +788,10 @@ namespace Salon.View
         {
             ThemeManager.StyleDataGridView(dgv_service_selected);
         }
+
+        private void btn_cancel_Click(object sender, EventArgs e)
+        {
+            this.Close();
+        }
     }
 }

@@ -41,7 +41,11 @@ namespace Salon.Controller
         {
             return await inventoryRepository.GetAllInventoryAsync();
         }
-   
+
+        public InventoryViewModel GetInventory(int inventory_id)
+        {
+            return inventoryRepository.GetInventory(inventory_id);
+        }
         public IEnumerable<InventoryViewModel> GetAllInventory(string status)
         {
             return inventoryRepository.GetAllInventory(status);
@@ -68,6 +72,7 @@ namespace Salon.Controller
         {
             return inventoryRepository.AddInventory(inventory);
         }
+
 
         public void UpdateInventory(int product_size_id, int unit, int volume)
         {
