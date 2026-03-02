@@ -1437,6 +1437,8 @@ namespace Salon.View
             col_is_retail.DataPropertyName = "is_retail";
             col_product_brand.DataPropertyName = "brand";
             col_product_unit_type.DataPropertyName = "unit_type";
+            col_product_created_at.DataPropertyName = "created_at";
+            col_product_updated_at.DataPropertyName = "updated_at";
             dgv_product.DataSource = products;
         }
 
