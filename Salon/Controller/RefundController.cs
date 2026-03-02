@@ -17,9 +17,9 @@ namespace Salon.Controller
             this.repo = repo;
         }
 
-        public void AddRefund(InvoiceRefundModel model) 
+        public int AddRefund(InvoiceRefundModel model) 
         {
-            repo.AddRefund(model);
+            return repo.AddRefund(model);
         }
         public void UpdateRefundStatus() 
         {

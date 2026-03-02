@@ -30,16 +30,16 @@
         {
             this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainForm));
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle13 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle11 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle12 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle14 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle15 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle16 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle17 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle18 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle19 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle20 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle4 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle5 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle6 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle10 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle7 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle8 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle9 = new System.Windows.Forms.DataGridViewCellStyle();
             this.materialTabControl1 = new MaterialSkin.Controls.MaterialTabControl();
             this.dashboardTab = new System.Windows.Forms.TabPage();
             this.tableLayoutPanel2 = new System.Windows.Forms.TableLayoutPanel();
@@ -173,6 +173,24 @@
             this.btn_refresh_subcategory = new MaterialSkin.Controls.MaterialButton();
             this.btn_add_subcategory = new MaterialSkin.Controls.MaterialButton();
             this.productsTab = new System.Windows.Forms.TabPage();
+            this.materialCard19 = new MaterialSkin.Controls.MaterialCard();
+            this.dgv_product = new System.Windows.Forms.DataGridView();
+            this.col_product_id = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.col_product_name = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.col_product_type = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.col_display_ingredient = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.col_display_retail = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.col_is_ingredient = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.col_is_retail = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.col_product_brand = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.col_product_unit_type = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.col_product_created_at = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.col_product_updated_at = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.col_btn_product_update = new System.Windows.Forms.DataGridViewImageColumn();
+            this.col_btn_product_delete = new System.Windows.Forms.DataGridViewImageColumn();
+            this.materialCard18 = new MaterialSkin.Controls.MaterialCard();
+            this.btn_refresh_product = new MaterialSkin.Controls.MaterialButton();
+            this.btn_add_product = new MaterialSkin.Controls.MaterialButton();
             this.deliveryTab = new System.Windows.Forms.TabPage();
             this.materialCard27 = new MaterialSkin.Controls.MaterialCard();
             this.dgv_delivery = new System.Windows.Forms.DataGridView();
@@ -191,17 +209,6 @@
             this.inventoryTabControl = new MaterialSkin.Controls.MaterialTabControl();
             this.inventory = new System.Windows.Forms.TabPage();
             this.dgv_inventory = new System.Windows.Forms.DataGridView();
-            this.col_InventoryID = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.col_ProductID = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.col_ProductName = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.col_ProductType = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.col_size_label = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.col_Brand = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.col_Category = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.col_Unit = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.col_Volume = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.col_Critical_Level = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.col_Status = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.imageList1 = new System.Windows.Forms.ImageList(this.components);
             this.materialTabSelector2 = new MaterialSkin.Controls.MaterialTabSelector();
             this.panel16 = new System.Windows.Forms.Panel();
@@ -312,18 +319,6 @@
             this.posTab = new System.Windows.Forms.TabPage();
             this.materialCard46 = new MaterialSkin.Controls.MaterialCard();
             this.dgv_cart_product = new System.Windows.Forms.DataGridView();
-            this.col_cart_product_id = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.col_cart_product_name = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.col_cart_product_size_id = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.col_cart_product_category = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.col_cart_product_brand = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.col_cart_product_qty = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.col_cart_product_price = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.col_cart_final_price = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.col_cart_discounted = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.col_cart_vat_exempt = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.col_cart_status = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.col_btn_cart_apply_discount = new System.Windows.Forms.DataGridViewImageColumn();
             this.panel19 = new System.Windows.Forms.Panel();
             this.btn_void = new MaterialSkin.Controls.MaterialButton();
             this.materialLabel68 = new MaterialSkin.Controls.MaterialLabel();
@@ -489,6 +484,29 @@
             this.btn_audit_clear = new MaterialSkin.Controls.MaterialButton();
             this.btn_audit_filter = new MaterialSkin.Controls.MaterialButton();
             this.materialTabSelector3 = new MaterialSkin.Controls.MaterialTabSelector();
+            this.user_permission_tab = new System.Windows.Forms.TabPage();
+            this.materialCard31 = new MaterialSkin.Controls.MaterialCard();
+            this.dgv_permission = new System.Windows.Forms.DataGridView();
+            this.col_permission_id = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.col_user_id = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.col_manage_user = new System.Windows.Forms.DataGridViewCheckBoxColumn();
+            this.col_manage_stylist = new System.Windows.Forms.DataGridViewCheckBoxColumn();
+            this.col_manage_customer = new System.Windows.Forms.DataGridViewCheckBoxColumn();
+            this.col_manage_supplier = new System.Windows.Forms.DataGridViewCheckBoxColumn();
+            this.col_manage_category = new System.Windows.Forms.DataGridViewCheckBoxColumn();
+            this.col_manage_sub_category = new System.Windows.Forms.DataGridViewCheckBoxColumn();
+            this.col_manage_product = new System.Windows.Forms.DataGridViewCheckBoxColumn();
+            this.col_manage_delivery = new System.Windows.Forms.DataGridViewCheckBoxColumn();
+            this.col_manage_inventory = new System.Windows.Forms.DataGridViewCheckBoxColumn();
+            this.col_manage_services = new System.Windows.Forms.DataGridViewCheckBoxColumn();
+            this.col_manage_appointment = new System.Windows.Forms.DataGridViewCheckBoxColumn();
+            this.col_manage_queue = new System.Windows.Forms.DataGridViewCheckBoxColumn();
+            this.col_manage_pos = new System.Windows.Forms.DataGridViewCheckBoxColumn();
+            this.col_manage_transaction = new System.Windows.Forms.DataGridViewCheckBoxColumn();
+            this.col_manage_reports = new System.Windows.Forms.DataGridViewCheckBoxColumn();
+            this.col_manage_data_recovery = new System.Windows.Forms.DataGridViewCheckBoxColumn();
+            this.col_manage_settings = new System.Windows.Forms.DataGridViewCheckBoxColumn();
+            this.col_manage_permission = new System.Windows.Forms.DataGridViewCheckBoxColumn();
             this.dataRecoveryTab = new System.Windows.Forms.TabPage();
             this.materialCard39 = new MaterialSkin.Controls.MaterialCard();
             this.dgv_deleted_record = new System.Windows.Forms.DataGridView();
@@ -600,47 +618,30 @@
             this.printDocument1 = new System.Drawing.Printing.PrintDocument();
             this.printPreviewDialog1 = new System.Windows.Forms.PrintPreviewDialog();
             this.folderBrowserDialog1 = new System.Windows.Forms.FolderBrowserDialog();
-            this.user_permission_tab = new System.Windows.Forms.TabPage();
-            this.materialCard31 = new MaterialSkin.Controls.MaterialCard();
-            this.dgv_permission = new System.Windows.Forms.DataGridView();
-            this.col_permission_id = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.col_user_id = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.col_manage_user = new System.Windows.Forms.DataGridViewCheckBoxColumn();
-            this.col_manage_stylist = new System.Windows.Forms.DataGridViewCheckBoxColumn();
-            this.col_manage_customer = new System.Windows.Forms.DataGridViewCheckBoxColumn();
-            this.col_manage_supplier = new System.Windows.Forms.DataGridViewCheckBoxColumn();
-            this.col_manage_category = new System.Windows.Forms.DataGridViewCheckBoxColumn();
-            this.col_manage_sub_category = new System.Windows.Forms.DataGridViewCheckBoxColumn();
-            this.col_manage_product = new System.Windows.Forms.DataGridViewCheckBoxColumn();
-            this.col_manage_delivery = new System.Windows.Forms.DataGridViewCheckBoxColumn();
-            this.col_manage_inventory = new System.Windows.Forms.DataGridViewCheckBoxColumn();
-            this.col_manage_services = new System.Windows.Forms.DataGridViewCheckBoxColumn();
-            this.col_manage_appointment = new System.Windows.Forms.DataGridViewCheckBoxColumn();
-            this.col_manage_queue = new System.Windows.Forms.DataGridViewCheckBoxColumn();
-            this.col_manage_pos = new System.Windows.Forms.DataGridViewCheckBoxColumn();
-            this.col_manage_transaction = new System.Windows.Forms.DataGridViewCheckBoxColumn();
-            this.col_manage_reports = new System.Windows.Forms.DataGridViewCheckBoxColumn();
-            this.col_manage_data_recovery = new System.Windows.Forms.DataGridViewCheckBoxColumn();
-            this.col_manage_settings = new System.Windows.Forms.DataGridViewCheckBoxColumn();
-            this.col_manage_permission = new System.Windows.Forms.DataGridViewCheckBoxColumn();
-            this.materialCard19 = new MaterialSkin.Controls.MaterialCard();
-            this.dgv_product = new System.Windows.Forms.DataGridView();
-            this.col_product_id = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.col_product_name = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.col_product_type = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.col_display_ingredient = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.col_display_retail = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.col_is_ingredient = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.col_is_retail = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.col_product_brand = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.col_product_unit_type = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.col_product_created_at = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.col_product_updated_at = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.col_btn_product_update = new System.Windows.Forms.DataGridViewImageColumn();
-            this.col_btn_product_delete = new System.Windows.Forms.DataGridViewImageColumn();
-            this.materialCard18 = new MaterialSkin.Controls.MaterialCard();
-            this.btn_refresh_product = new MaterialSkin.Controls.MaterialButton();
-            this.btn_add_product = new MaterialSkin.Controls.MaterialButton();
+            this.col_InventoryID = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.col_ProductID = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.col_ProductName = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.col_ProductType = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.col_size_label = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.col_Brand = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.col_Category = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.col_Unit = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.col_Volume = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.col_Critical_Level = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.col_Status = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.btn_search_product = new MaterialSkin.Controls.MaterialButton();
+            this.col_cart_product_id = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.col_cart_product_name = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.col_cart_product_size_id = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.col_cart_product_category = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.col_cart_product_brand = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.col_cart_product_qty = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.col_cart_product_price = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.col_cart_final_price = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.col_cart_discounted = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.col_cart_vat_exempt = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.col_cart_status = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.col_btn_cart_apply_discount = new System.Windows.Forms.DataGridViewImageColumn();
             this.paginationControl1 = new Salon.Util.PaginationControl();
             this.paginationControl3 = new Salon.Util.PaginationControl();
             this.customerPagination = new Salon.Util.PaginationControl();
@@ -701,6 +702,9 @@
             ((System.ComponentModel.ISupportInitialize)(this.dgv_sub_category)).BeginInit();
             this.materialCard16.SuspendLayout();
             this.productsTab.SuspendLayout();
+            this.materialCard19.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.dgv_product)).BeginInit();
+            this.materialCard18.SuspendLayout();
             this.deliveryTab.SuspendLayout();
             this.materialCard27.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgv_delivery)).BeginInit();
@@ -768,6 +772,9 @@
             this.panel15.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgv_audit_report)).BeginInit();
             this.materialCard37.SuspendLayout();
+            this.user_permission_tab.SuspendLayout();
+            this.materialCard31.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.dgv_permission)).BeginInit();
             this.dataRecoveryTab.SuspendLayout();
             this.materialCard39.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgv_deleted_record)).BeginInit();
@@ -791,12 +798,6 @@
             this.materialCard30.SuspendLayout();
             this.groupBox7.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.errorProvider1)).BeginInit();
-            this.user_permission_tab.SuspendLayout();
-            this.materialCard31.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.dgv_permission)).BeginInit();
-            this.materialCard19.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.dgv_product)).BeginInit();
-            this.materialCard18.SuspendLayout();
             this.SuspendLayout();
             // 
             // materialTabControl1
@@ -1412,7 +1413,7 @@
             this.materialCard11.MouseState = MaterialSkin.MouseState.HOVER;
             this.materialCard11.Name = "materialCard11";
             this.materialCard11.Padding = new System.Windows.Forms.Padding(14);
-            this.materialCard11.Size = new System.Drawing.Size(1828, 863);
+            this.materialCard11.Size = new System.Drawing.Size(1828, 895);
             this.materialCard11.TabIndex = 5;
             // 
             // dgv_user
@@ -2624,6 +2625,240 @@
             this.productsTab.Text = " Product";
             this.productsTab.UseVisualStyleBackColor = true;
             // 
+            // materialCard19
+            // 
+            this.materialCard19.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
+            this.materialCard19.Controls.Add(this.product_pagination);
+            this.materialCard19.Controls.Add(this.dgv_product);
+            this.materialCard19.Depth = 0;
+            this.materialCard19.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.materialCard19.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(222)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
+            this.materialCard19.Location = new System.Drawing.Point(50, 125);
+            this.materialCard19.Margin = new System.Windows.Forms.Padding(14);
+            this.materialCard19.MouseState = MaterialSkin.MouseState.HOVER;
+            this.materialCard19.Name = "materialCard19";
+            this.materialCard19.Padding = new System.Windows.Forms.Padding(14);
+            this.materialCard19.Size = new System.Drawing.Size(1828, 820);
+            this.materialCard19.TabIndex = 17;
+            // 
+            // dgv_product
+            // 
+            this.dgv_product.AllowUserToAddRows = false;
+            this.dgv_product.AllowUserToDeleteRows = false;
+            this.dgv_product.AllowUserToResizeColumns = false;
+            this.dgv_product.AllowUserToResizeRows = false;
+            this.dgv_product.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            this.dgv_product.CellBorderStyle = System.Windows.Forms.DataGridViewCellBorderStyle.None;
+            this.dgv_product.ColumnHeadersBorderStyle = System.Windows.Forms.DataGridViewHeaderBorderStyle.None;
+            this.dgv_product.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dgv_product.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
+            this.col_product_id,
+            this.col_product_name,
+            this.col_product_type,
+            this.col_display_ingredient,
+            this.col_display_retail,
+            this.col_is_ingredient,
+            this.col_is_retail,
+            this.col_product_brand,
+            this.col_product_unit_type,
+            this.col_product_created_at,
+            this.col_product_updated_at,
+            this.col_btn_product_update,
+            this.col_btn_product_delete});
+            this.dgv_product.Dock = System.Windows.Forms.DockStyle.Top;
+            this.dgv_product.EnableHeadersVisualStyles = false;
+            this.dgv_product.Location = new System.Drawing.Point(14, 14);
+            this.dgv_product.Name = "dgv_product";
+            this.dgv_product.ReadOnly = true;
+            this.dgv_product.RowHeadersBorderStyle = System.Windows.Forms.DataGridViewHeaderBorderStyle.None;
+            this.dgv_product.RowHeadersVisible = false;
+            this.dgv_product.RowHeadersWidth = 51;
+            this.dgv_product.RowTemplate.Height = 24;
+            this.dgv_product.Size = new System.Drawing.Size(1800, 517);
+            this.dgv_product.TabIndex = 12;
+            this.dgv_product.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgv_product_CellClick_1);
+            this.dgv_product.CellFormatting += new System.Windows.Forms.DataGridViewCellFormattingEventHandler(this.dgv_product_CellFormatting_1);
+            // 
+            // col_product_id
+            // 
+            this.col_product_id.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
+            this.col_product_id.HeaderText = "product_id";
+            this.col_product_id.MinimumWidth = 6;
+            this.col_product_id.Name = "col_product_id";
+            this.col_product_id.ReadOnly = true;
+            this.col_product_id.Visible = false;
+            // 
+            // col_product_name
+            // 
+            this.col_product_name.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
+            this.col_product_name.HeaderText = "Product";
+            this.col_product_name.MinimumWidth = 6;
+            this.col_product_name.Name = "col_product_name";
+            this.col_product_name.ReadOnly = true;
+            // 
+            // col_product_type
+            // 
+            this.col_product_type.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
+            this.col_product_type.HeaderText = "Product Type";
+            this.col_product_type.MinimumWidth = 6;
+            this.col_product_type.Name = "col_product_type";
+            this.col_product_type.ReadOnly = true;
+            this.col_product_type.Width = 184;
+            // 
+            // col_display_ingredient
+            // 
+            this.col_display_ingredient.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
+            this.col_display_ingredient.HeaderText = "Ingredient";
+            this.col_display_ingredient.MinimumWidth = 6;
+            this.col_display_ingredient.Name = "col_display_ingredient";
+            this.col_display_ingredient.ReadOnly = true;
+            this.col_display_ingredient.Visible = false;
+            this.col_display_ingredient.Width = 93;
+            // 
+            // col_display_retail
+            // 
+            this.col_display_retail.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
+            this.col_display_retail.HeaderText = "Retail";
+            this.col_display_retail.MinimumWidth = 6;
+            this.col_display_retail.Name = "col_display_retail";
+            this.col_display_retail.ReadOnly = true;
+            this.col_display_retail.Visible = false;
+            this.col_display_retail.Width = 69;
+            // 
+            // col_is_ingredient
+            // 
+            this.col_is_ingredient.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
+            this.col_is_ingredient.HeaderText = "is_ingredient";
+            this.col_is_ingredient.MinimumWidth = 6;
+            this.col_is_ingredient.Name = "col_is_ingredient";
+            this.col_is_ingredient.ReadOnly = true;
+            this.col_is_ingredient.Visible = false;
+            this.col_is_ingredient.Width = 110;
+            // 
+            // col_is_retail
+            // 
+            this.col_is_retail.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
+            this.col_is_retail.HeaderText = "is_retail";
+            this.col_is_retail.MinimumWidth = 6;
+            this.col_is_retail.Name = "col_is_retail";
+            this.col_is_retail.ReadOnly = true;
+            this.col_is_retail.Visible = false;
+            this.col_is_retail.Width = 80;
+            // 
+            // col_product_brand
+            // 
+            this.col_product_brand.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
+            this.col_product_brand.HeaderText = "Brand";
+            this.col_product_brand.MinimumWidth = 6;
+            this.col_product_brand.Name = "col_product_brand";
+            this.col_product_brand.ReadOnly = true;
+            // 
+            // col_product_unit_type
+            // 
+            this.col_product_unit_type.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
+            this.col_product_unit_type.HeaderText = "Unit Type";
+            this.col_product_unit_type.MinimumWidth = 6;
+            this.col_product_unit_type.Name = "col_product_unit_type";
+            this.col_product_unit_type.ReadOnly = true;
+            // 
+            // col_product_created_at
+            // 
+            this.col_product_created_at.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
+            this.col_product_created_at.HeaderText = "Created At";
+            this.col_product_created_at.MinimumWidth = 6;
+            this.col_product_created_at.Name = "col_product_created_at";
+            this.col_product_created_at.ReadOnly = true;
+            this.col_product_created_at.Width = 153;
+            // 
+            // col_product_updated_at
+            // 
+            this.col_product_updated_at.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
+            this.col_product_updated_at.HeaderText = "Updated At";
+            this.col_product_updated_at.MinimumWidth = 6;
+            this.col_product_updated_at.Name = "col_product_updated_at";
+            this.col_product_updated_at.ReadOnly = true;
+            this.col_product_updated_at.Width = 159;
+            // 
+            // col_btn_product_update
+            // 
+            this.col_btn_product_update.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
+            this.col_btn_product_update.HeaderText = "Update";
+            this.col_btn_product_update.Image = ((System.Drawing.Image)(resources.GetObject("col_btn_product_update.Image")));
+            this.col_btn_product_update.ImageLayout = System.Windows.Forms.DataGridViewImageCellLayout.Zoom;
+            this.col_btn_product_update.MinimumWidth = 6;
+            this.col_btn_product_update.Name = "col_btn_product_update";
+            this.col_btn_product_update.ReadOnly = true;
+            this.col_btn_product_update.Resizable = System.Windows.Forms.DataGridViewTriState.True;
+            this.col_btn_product_update.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Automatic;
+            // 
+            // col_btn_product_delete
+            // 
+            this.col_btn_product_delete.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
+            this.col_btn_product_delete.HeaderText = "Delete";
+            this.col_btn_product_delete.Image = ((System.Drawing.Image)(resources.GetObject("col_btn_product_delete.Image")));
+            this.col_btn_product_delete.ImageLayout = System.Windows.Forms.DataGridViewImageCellLayout.Zoom;
+            this.col_btn_product_delete.MinimumWidth = 6;
+            this.col_btn_product_delete.Name = "col_btn_product_delete";
+            this.col_btn_product_delete.ReadOnly = true;
+            this.col_btn_product_delete.Resizable = System.Windows.Forms.DataGridViewTriState.True;
+            this.col_btn_product_delete.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Automatic;
+            // 
+            // materialCard18
+            // 
+            this.materialCard18.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
+            this.materialCard18.Controls.Add(this.btn_refresh_product);
+            this.materialCard18.Controls.Add(this.btn_add_product);
+            this.materialCard18.Depth = 0;
+            this.materialCard18.Dock = System.Windows.Forms.DockStyle.Top;
+            this.materialCard18.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(222)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
+            this.materialCard18.Location = new System.Drawing.Point(50, 50);
+            this.materialCard18.Margin = new System.Windows.Forms.Padding(14);
+            this.materialCard18.MouseState = MaterialSkin.MouseState.HOVER;
+            this.materialCard18.Name = "materialCard18";
+            this.materialCard18.Padding = new System.Windows.Forms.Padding(14);
+            this.materialCard18.Size = new System.Drawing.Size(1828, 75);
+            this.materialCard18.TabIndex = 16;
+            // 
+            // btn_refresh_product
+            // 
+            this.btn_refresh_product.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.btn_refresh_product.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
+            this.btn_refresh_product.Density = MaterialSkin.Controls.MaterialButton.MaterialButtonDensity.Default;
+            this.btn_refresh_product.Depth = 0;
+            this.btn_refresh_product.HighEmphasis = true;
+            this.btn_refresh_product.Icon = null;
+            this.btn_refresh_product.Location = new System.Drawing.Point(1696, 20);
+            this.btn_refresh_product.Margin = new System.Windows.Forms.Padding(4, 6, 4, 6);
+            this.btn_refresh_product.MouseState = MaterialSkin.MouseState.HOVER;
+            this.btn_refresh_product.Name = "btn_refresh_product";
+            this.btn_refresh_product.NoAccentTextColor = System.Drawing.Color.Empty;
+            this.btn_refresh_product.Size = new System.Drawing.Size(84, 36);
+            this.btn_refresh_product.TabIndex = 14;
+            this.btn_refresh_product.Text = "Refresh";
+            this.btn_refresh_product.Type = MaterialSkin.Controls.MaterialButton.MaterialButtonType.Contained;
+            this.btn_refresh_product.UseAccentColor = false;
+            this.btn_refresh_product.UseVisualStyleBackColor = true;
+            // 
+            // btn_add_product
+            // 
+            this.btn_add_product.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
+            this.btn_add_product.Density = MaterialSkin.Controls.MaterialButton.MaterialButtonDensity.Default;
+            this.btn_add_product.Depth = 0;
+            this.btn_add_product.HighEmphasis = true;
+            this.btn_add_product.Icon = null;
+            this.btn_add_product.Location = new System.Drawing.Point(18, 6);
+            this.btn_add_product.Margin = new System.Windows.Forms.Padding(4, 6, 4, 6);
+            this.btn_add_product.MouseState = MaterialSkin.MouseState.HOVER;
+            this.btn_add_product.Name = "btn_add_product";
+            this.btn_add_product.NoAccentTextColor = System.Drawing.Color.Empty;
+            this.btn_add_product.Size = new System.Drawing.Size(146, 36);
+            this.btn_add_product.TabIndex = 13;
+            this.btn_add_product.Text = "Create Product";
+            this.btn_add_product.Type = MaterialSkin.Controls.MaterialButton.MaterialButtonType.Contained;
+            this.btn_add_product.UseAccentColor = false;
+            this.btn_add_product.UseVisualStyleBackColor = true;
+            this.btn_add_product.Click += new System.EventHandler(this.btn_add_product_Click_1);
+            // 
             // deliveryTab
             // 
             this.deliveryTab.Controls.Add(this.materialCard27);
@@ -2829,7 +3064,7 @@
             this.materialCard29.MouseState = MaterialSkin.MouseState.HOVER;
             this.materialCard29.Name = "materialCard29";
             this.materialCard29.Padding = new System.Windows.Forms.Padding(14);
-            this.materialCard29.Size = new System.Drawing.Size(1828, 895);
+            this.materialCard29.Size = new System.Drawing.Size(1828, 863);
             this.materialCard29.TabIndex = 2;
             // 
             // inventoryTabControl
@@ -2843,7 +3078,7 @@
             this.inventoryTabControl.Multiline = true;
             this.inventoryTabControl.Name = "inventoryTabControl";
             this.inventoryTabControl.SelectedIndex = 0;
-            this.inventoryTabControl.Size = new System.Drawing.Size(1800, 765);
+            this.inventoryTabControl.Size = new System.Drawing.Size(1800, 733);
             this.inventoryTabControl.TabIndex = 1;
             this.inventoryTabControl.SelectedIndexChanged += new System.EventHandler(this.inventoryTabControl_SelectedIndexChanged);
             // 
@@ -2854,7 +3089,7 @@
             this.inventory.Location = new System.Drawing.Point(4, 38);
             this.inventory.Name = "inventory";
             this.inventory.Padding = new System.Windows.Forms.Padding(3);
-            this.inventory.Size = new System.Drawing.Size(1792, 723);
+            this.inventory.Size = new System.Drawing.Size(1792, 691);
             this.inventory.TabIndex = 0;
             this.inventory.Text = "Inventory";
             this.inventory.UseVisualStyleBackColor = true;
@@ -2892,103 +3127,6 @@
             this.dgv_inventory.RowTemplate.Height = 24;
             this.dgv_inventory.Size = new System.Drawing.Size(1786, 577);
             this.dgv_inventory.TabIndex = 16;
-            // 
-            // col_InventoryID
-            // 
-            this.col_InventoryID.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
-            this.col_InventoryID.HeaderText = "#";
-            this.col_InventoryID.MinimumWidth = 6;
-            this.col_InventoryID.Name = "col_InventoryID";
-            this.col_InventoryID.ReadOnly = true;
-            // 
-            // col_ProductID
-            // 
-            this.col_ProductID.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
-            this.col_ProductID.HeaderText = "product_id";
-            this.col_ProductID.MinimumWidth = 6;
-            this.col_ProductID.Name = "col_ProductID";
-            this.col_ProductID.ReadOnly = true;
-            this.col_ProductID.Visible = false;
-            // 
-            // col_ProductName
-            // 
-            this.col_ProductName.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
-            this.col_ProductName.HeaderText = "Product Name";
-            this.col_ProductName.MinimumWidth = 6;
-            this.col_ProductName.Name = "col_ProductName";
-            this.col_ProductName.ReadOnly = true;
-            // 
-            // col_ProductType
-            // 
-            this.col_ProductType.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.DisplayedCells;
-            this.col_ProductType.HeaderText = "Product Type";
-            this.col_ProductType.MinimumWidth = 6;
-            this.col_ProductType.Name = "col_ProductType";
-            this.col_ProductType.ReadOnly = true;
-            this.col_ProductType.Width = 168;
-            // 
-            // col_size_label
-            // 
-            this.col_size_label.HeaderText = "Size Label";
-            this.col_size_label.MinimumWidth = 6;
-            this.col_size_label.Name = "col_size_label";
-            this.col_size_label.ReadOnly = true;
-            this.col_size_label.Width = 125;
-            // 
-            // col_Brand
-            // 
-            this.col_Brand.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
-            this.col_Brand.HeaderText = "Brand";
-            this.col_Brand.MinimumWidth = 6;
-            this.col_Brand.Name = "col_Brand";
-            this.col_Brand.ReadOnly = true;
-            this.col_Brand.Visible = false;
-            // 
-            // col_Category
-            // 
-            this.col_Category.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
-            this.col_Category.HeaderText = "Category";
-            this.col_Category.MinimumWidth = 6;
-            this.col_Category.Name = "col_Category";
-            this.col_Category.ReadOnly = true;
-            this.col_Category.Visible = false;
-            // 
-            // col_Unit
-            // 
-            this.col_Unit.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
-            dataGridViewCellStyle13.Format = "N1";
-            dataGridViewCellStyle13.NullValue = null;
-            this.col_Unit.DefaultCellStyle = dataGridViewCellStyle13;
-            this.col_Unit.HeaderText = "Qty";
-            this.col_Unit.MinimumWidth = 6;
-            this.col_Unit.Name = "col_Unit";
-            this.col_Unit.ReadOnly = true;
-            // 
-            // col_Volume
-            // 
-            this.col_Volume.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
-            this.col_Volume.HeaderText = "Total Remaining";
-            this.col_Volume.MinimumWidth = 6;
-            this.col_Volume.Name = "col_Volume";
-            this.col_Volume.ReadOnly = true;
-            // 
-            // col_Critical_Level
-            // 
-            this.col_Critical_Level.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
-            this.col_Critical_Level.HeaderText = "Critical Level";
-            this.col_Critical_Level.MinimumWidth = 6;
-            this.col_Critical_Level.Name = "col_Critical_Level";
-            this.col_Critical_Level.ReadOnly = true;
-            this.col_Critical_Level.Resizable = System.Windows.Forms.DataGridViewTriState.True;
-            // 
-            // col_Status
-            // 
-            this.col_Status.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
-            this.col_Status.HeaderText = "Status";
-            this.col_Status.MinimumWidth = 6;
-            this.col_Status.Name = "col_Status";
-            this.col_Status.ReadOnly = true;
-            this.col_Status.Resizable = System.Windows.Forms.DataGridViewTriState.True;
             // 
             // imageList1
             // 
@@ -3405,7 +3543,7 @@
             this.materialCard23.MouseState = MaterialSkin.MouseState.HOVER;
             this.materialCard23.Name = "materialCard23";
             this.materialCard23.Padding = new System.Windows.Forms.Padding(14);
-            this.materialCard23.Size = new System.Drawing.Size(1828, 788);
+            this.materialCard23.Size = new System.Drawing.Size(1828, 820);
             this.materialCard23.TabIndex = 17;
             // 
             // dgv_appointment
@@ -3553,9 +3691,9 @@
             // startTime
             // 
             this.startTime.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
-            dataGridViewCellStyle11.Format = "t";
-            dataGridViewCellStyle11.NullValue = null;
-            this.startTime.DefaultCellStyle = dataGridViewCellStyle11;
+            dataGridViewCellStyle2.Format = "t";
+            dataGridViewCellStyle2.NullValue = null;
+            this.startTime.DefaultCellStyle = dataGridViewCellStyle2;
             this.startTime.HeaderText = "Start Time";
             this.startTime.MinimumWidth = 6;
             this.startTime.Name = "startTime";
@@ -3564,9 +3702,9 @@
             // endTime
             // 
             this.endTime.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
-            dataGridViewCellStyle12.Format = "t";
-            dataGridViewCellStyle12.NullValue = null;
-            this.endTime.DefaultCellStyle = dataGridViewCellStyle12;
+            dataGridViewCellStyle3.Format = "t";
+            dataGridViewCellStyle3.NullValue = null;
+            this.endTime.DefaultCellStyle = dataGridViewCellStyle3;
             this.endTime.HeaderText = "End TIme";
             this.endTime.MinimumWidth = 6;
             this.endTime.Name = "endTime";
@@ -4011,9 +4149,9 @@
             // col_walk_in_start_time
             // 
             this.col_walk_in_start_time.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
-            dataGridViewCellStyle14.Format = "t";
-            dataGridViewCellStyle14.NullValue = null;
-            this.col_walk_in_start_time.DefaultCellStyle = dataGridViewCellStyle14;
+            dataGridViewCellStyle4.Format = "t";
+            dataGridViewCellStyle4.NullValue = null;
+            this.col_walk_in_start_time.DefaultCellStyle = dataGridViewCellStyle4;
             this.col_walk_in_start_time.HeaderText = "Start Time";
             this.col_walk_in_start_time.MinimumWidth = 6;
             this.col_walk_in_start_time.Name = "col_walk_in_start_time";
@@ -4024,9 +4162,9 @@
             // col_walk_in_end_time
             // 
             this.col_walk_in_end_time.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
-            dataGridViewCellStyle15.Format = "t";
-            dataGridViewCellStyle15.NullValue = null;
-            this.col_walk_in_end_time.DefaultCellStyle = dataGridViewCellStyle15;
+            dataGridViewCellStyle5.Format = "t";
+            dataGridViewCellStyle5.NullValue = null;
+            this.col_walk_in_end_time.DefaultCellStyle = dataGridViewCellStyle5;
             this.col_walk_in_end_time.HeaderText = "End TIme";
             this.col_walk_in_end_time.MinimumWidth = 6;
             this.col_walk_in_end_time.Name = "col_walk_in_end_time";
@@ -4097,9 +4235,9 @@
             // btn_walk_in_view_details
             // 
             this.btn_walk_in_view_details.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
-            dataGridViewCellStyle16.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            dataGridViewCellStyle16.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btn_walk_in_view_details.DefaultCellStyle = dataGridViewCellStyle16;
+            dataGridViewCellStyle6.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            dataGridViewCellStyle6.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btn_walk_in_view_details.DefaultCellStyle = dataGridViewCellStyle6;
             this.btn_walk_in_view_details.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btn_walk_in_view_details.HeaderText = "Details";
             this.btn_walk_in_view_details.MinimumWidth = 6;
@@ -4443,113 +4581,9 @@
             this.dgv_cart_product.CurrentCellDirtyStateChanged += new System.EventHandler(this.dgv_cart_product_CurrentCellDirtyStateChanged);
             this.dgv_cart_product.EditingControlShowing += new System.Windows.Forms.DataGridViewEditingControlShowingEventHandler(this.dgv_cart_product_EditingControlShowing);
             // 
-            // col_cart_product_id
-            // 
-            this.col_cart_product_id.HeaderText = "product_id";
-            this.col_cart_product_id.MinimumWidth = 6;
-            this.col_cart_product_id.Name = "col_cart_product_id";
-            this.col_cart_product_id.Visible = false;
-            this.col_cart_product_id.Width = 125;
-            // 
-            // col_cart_product_name
-            // 
-            this.col_cart_product_name.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
-            this.col_cart_product_name.HeaderText = "Product";
-            this.col_cart_product_name.MinimumWidth = 6;
-            this.col_cart_product_name.Name = "col_cart_product_name";
-            // 
-            // col_cart_product_size_id
-            // 
-            this.col_cart_product_size_id.HeaderText = "product_size_id";
-            this.col_cart_product_size_id.MinimumWidth = 6;
-            this.col_cart_product_size_id.Name = "col_cart_product_size_id";
-            this.col_cart_product_size_id.Visible = false;
-            this.col_cart_product_size_id.Width = 125;
-            // 
-            // col_cart_product_category
-            // 
-            this.col_cart_product_category.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
-            this.col_cart_product_category.HeaderText = "Size Label";
-            this.col_cart_product_category.MinimumWidth = 6;
-            this.col_cart_product_category.Name = "col_cart_product_category";
-            // 
-            // col_cart_product_brand
-            // 
-            this.col_cart_product_brand.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
-            this.col_cart_product_brand.HeaderText = "Brand";
-            this.col_cart_product_brand.MinimumWidth = 6;
-            this.col_cart_product_brand.Name = "col_cart_product_brand";
-            // 
-            // col_cart_product_qty
-            // 
-            this.col_cart_product_qty.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
-            dataGridViewCellStyle17.Format = "N0";
-            dataGridViewCellStyle17.NullValue = "1";
-            this.col_cart_product_qty.DefaultCellStyle = dataGridViewCellStyle17;
-            this.col_cart_product_qty.HeaderText = "Quantity";
-            this.col_cart_product_qty.MinimumWidth = 6;
-            this.col_cart_product_qty.Name = "col_cart_product_qty";
-            this.col_cart_product_qty.Width = 127;
-            // 
-            // col_cart_product_price
-            // 
-            this.col_cart_product_price.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.DisplayedCells;
-            this.col_cart_product_price.HeaderText = "Price";
-            this.col_cart_product_price.MinimumWidth = 6;
-            this.col_cart_product_price.Name = "col_cart_product_price";
-            this.col_cart_product_price.Width = 96;
-            // 
-            // col_cart_final_price
-            // 
-            this.col_cart_final_price.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
-            dataGridViewCellStyle18.Format = "C2";
-            dataGridViewCellStyle18.NullValue = null;
-            this.col_cart_final_price.DefaultCellStyle = dataGridViewCellStyle18;
-            this.col_cart_final_price.HeaderText = "Total";
-            this.col_cart_final_price.MinimumWidth = 6;
-            this.col_cart_final_price.Name = "col_cart_final_price";
-            this.col_cart_final_price.Width = 95;
-            // 
-            // col_cart_discounted
-            // 
-            this.col_cart_discounted.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
-            dataGridViewCellStyle19.Format = "C2";
-            dataGridViewCellStyle19.NullValue = null;
-            this.col_cart_discounted.DefaultCellStyle = dataGridViewCellStyle19;
-            this.col_cart_discounted.HeaderText = "Discount";
-            this.col_cart_discounted.MinimumWidth = 6;
-            this.col_cart_discounted.Name = "col_cart_discounted";
-            this.col_cart_discounted.Width = 133;
-            // 
-            // col_cart_vat_exempt
-            // 
-            this.col_cart_vat_exempt.HeaderText = "Vat Exempt";
-            this.col_cart_vat_exempt.MinimumWidth = 6;
-            this.col_cart_vat_exempt.Name = "col_cart_vat_exempt";
-            this.col_cart_vat_exempt.Visible = false;
-            this.col_cart_vat_exempt.Width = 125;
-            // 
-            // col_cart_status
-            // 
-            this.col_cart_status.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
-            this.col_cart_status.HeaderText = "Status";
-            this.col_cart_status.MinimumWidth = 6;
-            this.col_cart_status.Name = "col_cart_status";
-            this.col_cart_status.Width = 106;
-            // 
-            // col_btn_cart_apply_discount
-            // 
-            this.col_btn_cart_apply_discount.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
-            this.col_btn_cart_apply_discount.HeaderText = "Apply Discount";
-            this.col_btn_cart_apply_discount.Image = ((System.Drawing.Image)(resources.GetObject("col_btn_cart_apply_discount.Image")));
-            this.col_btn_cart_apply_discount.ImageLayout = System.Windows.Forms.DataGridViewImageCellLayout.Zoom;
-            this.col_btn_cart_apply_discount.MinimumWidth = 6;
-            this.col_btn_cart_apply_discount.Name = "col_btn_cart_apply_discount";
-            this.col_btn_cart_apply_discount.Resizable = System.Windows.Forms.DataGridViewTriState.True;
-            this.col_btn_cart_apply_discount.Width = 176;
-            // 
             // panel19
             // 
+            this.panel19.Controls.Add(this.btn_search_product);
             this.panel19.Controls.Add(this.btn_void);
             this.panel19.Controls.Add(this.materialLabel68);
             this.panel19.Controls.Add(this.txt_search_product);
@@ -4599,9 +4633,9 @@
             // 
             this.txt_search_product.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.SuggestAppend;
             this.txt_search_product.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.CustomSource;
-            this.txt_search_product.Location = new System.Drawing.Point(10, 51);
+            this.txt_search_product.Location = new System.Drawing.Point(624, 41);
             this.txt_search_product.Name = "txt_search_product";
-            this.txt_search_product.Size = new System.Drawing.Size(935, 34);
+            this.txt_search_product.Size = new System.Drawing.Size(194, 34);
             this.txt_search_product.TabIndex = 1;
             this.txt_search_product.TextChanged += new System.EventHandler(this.txt_search_product_TextChanged);
             this.txt_search_product.KeyDown += new System.Windows.Forms.KeyEventHandler(this.txt_search_product_KeyDown);
@@ -6844,9 +6878,9 @@
             // col_audit_action
             // 
             this.col_audit_action.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
-            dataGridViewCellStyle20.Format = "C2";
-            dataGridViewCellStyle20.NullValue = null;
-            this.col_audit_action.DefaultCellStyle = dataGridViewCellStyle20;
+            dataGridViewCellStyle10.Format = "C2";
+            dataGridViewCellStyle10.NullValue = null;
+            this.col_audit_action.DefaultCellStyle = dataGridViewCellStyle10;
             this.col_audit_action.HeaderText = "Action";
             this.col_audit_action.MinimumWidth = 6;
             this.col_audit_action.Name = "col_audit_action";
@@ -7057,6 +7091,297 @@
             this.materialTabSelector3.Size = new System.Drawing.Size(1828, 50);
             this.materialTabSelector3.TabIndex = 0;
             this.materialTabSelector3.Text = "materialTabSelector3";
+            // 
+            // user_permission_tab
+            // 
+            this.user_permission_tab.Controls.Add(this.materialCard31);
+            this.user_permission_tab.Location = new System.Drawing.Point(4, 68);
+            this.user_permission_tab.Name = "user_permission_tab";
+            this.user_permission_tab.Padding = new System.Windows.Forms.Padding(50);
+            this.user_permission_tab.Size = new System.Drawing.Size(1928, 963);
+            this.user_permission_tab.TabIndex = 21;
+            this.user_permission_tab.Text = "User Permission";
+            this.user_permission_tab.UseVisualStyleBackColor = true;
+            // 
+            // materialCard31
+            // 
+            this.materialCard31.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
+            this.materialCard31.Controls.Add(this.paginationControl2);
+            this.materialCard31.Controls.Add(this.dgv_permission);
+            this.materialCard31.Depth = 0;
+            this.materialCard31.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.materialCard31.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(222)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
+            this.materialCard31.Location = new System.Drawing.Point(50, 50);
+            this.materialCard31.Margin = new System.Windows.Forms.Padding(14);
+            this.materialCard31.MouseState = MaterialSkin.MouseState.HOVER;
+            this.materialCard31.Name = "materialCard31";
+            this.materialCard31.Padding = new System.Windows.Forms.Padding(14);
+            this.materialCard31.Size = new System.Drawing.Size(1828, 863);
+            this.materialCard31.TabIndex = 6;
+            // 
+            // dgv_permission
+            // 
+            this.dgv_permission.AllowUserToAddRows = false;
+            this.dgv_permission.AllowUserToDeleteRows = false;
+            this.dgv_permission.AllowUserToResizeColumns = false;
+            this.dgv_permission.AllowUserToResizeRows = false;
+            this.dgv_permission.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            this.dgv_permission.CellBorderStyle = System.Windows.Forms.DataGridViewCellBorderStyle.None;
+            this.dgv_permission.ColumnHeadersBorderStyle = System.Windows.Forms.DataGridViewHeaderBorderStyle.None;
+            this.dgv_permission.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dgv_permission.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
+            this.col_permission_id,
+            this.col_user_id,
+            this.col_manage_user,
+            this.col_manage_stylist,
+            this.col_manage_customer,
+            this.col_manage_supplier,
+            this.col_manage_category,
+            this.col_manage_sub_category,
+            this.col_manage_product,
+            this.col_manage_delivery,
+            this.col_manage_inventory,
+            this.col_manage_services,
+            this.col_manage_appointment,
+            this.col_manage_queue,
+            this.col_manage_pos,
+            this.col_manage_transaction,
+            this.col_manage_reports,
+            this.col_manage_data_recovery,
+            this.col_manage_settings,
+            this.col_manage_permission});
+            this.dgv_permission.Dock = System.Windows.Forms.DockStyle.Top;
+            this.dgv_permission.EnableHeadersVisualStyles = false;
+            this.dgv_permission.Location = new System.Drawing.Point(14, 14);
+            this.dgv_permission.Name = "dgv_permission";
+            this.dgv_permission.ReadOnly = true;
+            this.dgv_permission.RowHeadersBorderStyle = System.Windows.Forms.DataGridViewHeaderBorderStyle.None;
+            this.dgv_permission.RowHeadersVisible = false;
+            this.dgv_permission.RowHeadersWidth = 51;
+            this.dgv_permission.RowTemplate.Height = 24;
+            this.dgv_permission.Size = new System.Drawing.Size(1800, 661);
+            this.dgv_permission.TabIndex = 2;
+            // 
+            // col_permission_id
+            // 
+            this.col_permission_id.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
+            this.col_permission_id.HeaderText = "ID";
+            this.col_permission_id.MinimumWidth = 6;
+            this.col_permission_id.Name = "col_permission_id";
+            this.col_permission_id.ReadOnly = true;
+            this.col_permission_id.Visible = false;
+            this.col_permission_id.Width = 24;
+            // 
+            // col_user_id
+            // 
+            this.col_user_id.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
+            this.col_user_id.HeaderText = "user_id";
+            this.col_user_id.MinimumWidth = 6;
+            this.col_user_id.Name = "col_user_id";
+            this.col_user_id.ReadOnly = true;
+            this.col_user_id.Width = 120;
+            // 
+            // col_manage_user
+            // 
+            this.col_manage_user.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
+            this.col_manage_user.HeaderText = "Can Manage User";
+            this.col_manage_user.MinimumWidth = 6;
+            this.col_manage_user.Name = "col_manage_user";
+            this.col_manage_user.ReadOnly = true;
+            this.col_manage_user.Resizable = System.Windows.Forms.DataGridViewTriState.True;
+            this.col_manage_user.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Automatic;
+            this.col_manage_user.Width = 212;
+            // 
+            // col_manage_stylist
+            // 
+            this.col_manage_stylist.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
+            this.col_manage_stylist.HeaderText = "Can Manage Stylist";
+            this.col_manage_stylist.MinimumWidth = 6;
+            this.col_manage_stylist.Name = "col_manage_stylist";
+            this.col_manage_stylist.ReadOnly = true;
+            this.col_manage_stylist.Resizable = System.Windows.Forms.DataGridViewTriState.True;
+            this.col_manage_stylist.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Automatic;
+            this.col_manage_stylist.Width = 223;
+            // 
+            // col_manage_customer
+            // 
+            this.col_manage_customer.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
+            this.col_manage_customer.HeaderText = "Can Manage Customer";
+            this.col_manage_customer.MinimumWidth = 6;
+            this.col_manage_customer.Name = "col_manage_customer";
+            this.col_manage_customer.ReadOnly = true;
+            this.col_manage_customer.Resizable = System.Windows.Forms.DataGridViewTriState.True;
+            this.col_manage_customer.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Automatic;
+            this.col_manage_customer.Width = 260;
+            // 
+            // col_manage_supplier
+            // 
+            this.col_manage_supplier.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
+            this.col_manage_supplier.HeaderText = "Can Manage Supplier";
+            this.col_manage_supplier.MinimumWidth = 6;
+            this.col_manage_supplier.Name = "col_manage_supplier";
+            this.col_manage_supplier.ReadOnly = true;
+            this.col_manage_supplier.Resizable = System.Windows.Forms.DataGridViewTriState.True;
+            this.col_manage_supplier.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Automatic;
+            this.col_manage_supplier.Width = 248;
+            // 
+            // col_manage_category
+            // 
+            this.col_manage_category.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
+            this.col_manage_category.HeaderText = "Can Manage Category";
+            this.col_manage_category.MinimumWidth = 6;
+            this.col_manage_category.Name = "col_manage_category";
+            this.col_manage_category.ReadOnly = true;
+            this.col_manage_category.Resizable = System.Windows.Forms.DataGridViewTriState.True;
+            this.col_manage_category.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Automatic;
+            this.col_manage_category.Width = 253;
+            // 
+            // col_manage_sub_category
+            // 
+            this.col_manage_sub_category.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
+            this.col_manage_sub_category.HeaderText = "Can Manage Sub-Category";
+            this.col_manage_sub_category.MinimumWidth = 6;
+            this.col_manage_sub_category.Name = "col_manage_sub_category";
+            this.col_manage_sub_category.ReadOnly = true;
+            this.col_manage_sub_category.Resizable = System.Windows.Forms.DataGridViewTriState.True;
+            this.col_manage_sub_category.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Automatic;
+            this.col_manage_sub_category.Visible = false;
+            this.col_manage_sub_category.Width = 180;
+            // 
+            // col_manage_product
+            // 
+            this.col_manage_product.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
+            this.col_manage_product.HeaderText = "Can Manage Product";
+            this.col_manage_product.MinimumWidth = 6;
+            this.col_manage_product.Name = "col_manage_product";
+            this.col_manage_product.ReadOnly = true;
+            this.col_manage_product.Resizable = System.Windows.Forms.DataGridViewTriState.True;
+            this.col_manage_product.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Automatic;
+            this.col_manage_product.Visible = false;
+            this.col_manage_product.Width = 146;
+            // 
+            // col_manage_delivery
+            // 
+            this.col_manage_delivery.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
+            this.col_manage_delivery.HeaderText = "Can Manage Delivery";
+            this.col_manage_delivery.MinimumWidth = 6;
+            this.col_manage_delivery.Name = "col_manage_delivery";
+            this.col_manage_delivery.ReadOnly = true;
+            this.col_manage_delivery.Resizable = System.Windows.Forms.DataGridViewTriState.True;
+            this.col_manage_delivery.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Automatic;
+            this.col_manage_delivery.Visible = false;
+            this.col_manage_delivery.Width = 150;
+            // 
+            // col_manage_inventory
+            // 
+            this.col_manage_inventory.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
+            this.col_manage_inventory.HeaderText = "Can Manage Inventory";
+            this.col_manage_inventory.MinimumWidth = 6;
+            this.col_manage_inventory.Name = "col_manage_inventory";
+            this.col_manage_inventory.ReadOnly = true;
+            this.col_manage_inventory.Resizable = System.Windows.Forms.DataGridViewTriState.True;
+            this.col_manage_inventory.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Automatic;
+            this.col_manage_inventory.Width = 252;
+            // 
+            // col_manage_services
+            // 
+            this.col_manage_services.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
+            this.col_manage_services.HeaderText = "Can Manage Services";
+            this.col_manage_services.MinimumWidth = 6;
+            this.col_manage_services.Name = "col_manage_services";
+            this.col_manage_services.ReadOnly = true;
+            this.col_manage_services.Resizable = System.Windows.Forms.DataGridViewTriState.True;
+            this.col_manage_services.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Automatic;
+            this.col_manage_services.Visible = false;
+            this.col_manage_services.Width = 153;
+            // 
+            // col_manage_appointment
+            // 
+            this.col_manage_appointment.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
+            this.col_manage_appointment.HeaderText = "Can Manage Appointment";
+            this.col_manage_appointment.MinimumWidth = 6;
+            this.col_manage_appointment.Name = "col_manage_appointment";
+            this.col_manage_appointment.ReadOnly = true;
+            this.col_manage_appointment.Resizable = System.Windows.Forms.DataGridViewTriState.True;
+            this.col_manage_appointment.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Automatic;
+            this.col_manage_appointment.Width = 288;
+            // 
+            // col_manage_queue
+            // 
+            this.col_manage_queue.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
+            this.col_manage_queue.HeaderText = "Can Manage Queue";
+            this.col_manage_queue.MinimumWidth = 6;
+            this.col_manage_queue.Name = "col_manage_queue";
+            this.col_manage_queue.ReadOnly = true;
+            this.col_manage_queue.Resizable = System.Windows.Forms.DataGridViewTriState.True;
+            this.col_manage_queue.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Automatic;
+            this.col_manage_queue.Width = 232;
+            // 
+            // col_manage_pos
+            // 
+            this.col_manage_pos.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
+            this.col_manage_pos.HeaderText = "Can Manage POS";
+            this.col_manage_pos.MinimumWidth = 6;
+            this.col_manage_pos.Name = "col_manage_pos";
+            this.col_manage_pos.ReadOnly = true;
+            this.col_manage_pos.Resizable = System.Windows.Forms.DataGridViewTriState.True;
+            this.col_manage_pos.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Automatic;
+            this.col_manage_pos.Width = 212;
+            // 
+            // col_manage_transaction
+            // 
+            this.col_manage_transaction.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
+            this.col_manage_transaction.HeaderText = "Can Manage Transaction";
+            this.col_manage_transaction.MinimumWidth = 6;
+            this.col_manage_transaction.Name = "col_manage_transaction";
+            this.col_manage_transaction.ReadOnly = true;
+            this.col_manage_transaction.Resizable = System.Windows.Forms.DataGridViewTriState.True;
+            this.col_manage_transaction.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Automatic;
+            this.col_manage_transaction.Width = 279;
+            // 
+            // col_manage_reports
+            // 
+            this.col_manage_reports.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
+            this.col_manage_reports.HeaderText = "Can Manage Reports";
+            this.col_manage_reports.MinimumWidth = 6;
+            this.col_manage_reports.Name = "col_manage_reports";
+            this.col_manage_reports.ReadOnly = true;
+            this.col_manage_reports.Resizable = System.Windows.Forms.DataGridViewTriState.True;
+            this.col_manage_reports.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Automatic;
+            this.col_manage_reports.Width = 243;
+            // 
+            // col_manage_data_recovery
+            // 
+            this.col_manage_data_recovery.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
+            this.col_manage_data_recovery.HeaderText = "Can Manage Data Recovery";
+            this.col_manage_data_recovery.MinimumWidth = 6;
+            this.col_manage_data_recovery.Name = "col_manage_data_recovery";
+            this.col_manage_data_recovery.ReadOnly = true;
+            this.col_manage_data_recovery.Resizable = System.Windows.Forms.DataGridViewTriState.True;
+            this.col_manage_data_recovery.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Automatic;
+            this.col_manage_data_recovery.Width = 216;
+            // 
+            // col_manage_settings
+            // 
+            this.col_manage_settings.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
+            this.col_manage_settings.HeaderText = "Can Manage Settings";
+            this.col_manage_settings.MinimumWidth = 6;
+            this.col_manage_settings.Name = "col_manage_settings";
+            this.col_manage_settings.ReadOnly = true;
+            this.col_manage_settings.Resizable = System.Windows.Forms.DataGridViewTriState.True;
+            this.col_manage_settings.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Automatic;
+            this.col_manage_settings.Width = 244;
+            // 
+            // col_manage_permission
+            // 
+            this.col_manage_permission.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
+            this.col_manage_permission.HeaderText = "Can Manage Permission";
+            this.col_manage_permission.MinimumWidth = 6;
+            this.col_manage_permission.Name = "col_manage_permission";
+            this.col_manage_permission.ReadOnly = true;
+            this.col_manage_permission.Resizable = System.Windows.Forms.DataGridViewTriState.True;
+            this.col_manage_permission.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Automatic;
+            this.col_manage_permission.Width = 275;
             // 
             // dataRecoveryTab
             // 
@@ -8556,530 +8881,227 @@
             this.printPreviewDialog1.Name = "printPreviewDialog1";
             this.printPreviewDialog1.Visible = false;
             // 
-            // user_permission_tab
-            // 
-            this.user_permission_tab.Controls.Add(this.materialCard31);
-            this.user_permission_tab.Location = new System.Drawing.Point(4, 68);
-            this.user_permission_tab.Name = "user_permission_tab";
-            this.user_permission_tab.Padding = new System.Windows.Forms.Padding(50);
-            this.user_permission_tab.Size = new System.Drawing.Size(1928, 963);
-            this.user_permission_tab.TabIndex = 21;
-            this.user_permission_tab.Text = "User Permission";
-            this.user_permission_tab.UseVisualStyleBackColor = true;
-            // 
-            // materialCard31
-            // 
-            this.materialCard31.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
-            this.materialCard31.Controls.Add(this.paginationControl2);
-            this.materialCard31.Controls.Add(this.dgv_permission);
-            this.materialCard31.Depth = 0;
-            this.materialCard31.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.materialCard31.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(222)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
-            this.materialCard31.Location = new System.Drawing.Point(50, 50);
-            this.materialCard31.Margin = new System.Windows.Forms.Padding(14);
-            this.materialCard31.MouseState = MaterialSkin.MouseState.HOVER;
-            this.materialCard31.Name = "materialCard31";
-            this.materialCard31.Padding = new System.Windows.Forms.Padding(14);
-            this.materialCard31.Size = new System.Drawing.Size(1828, 863);
-            this.materialCard31.TabIndex = 6;
-            // 
-            // dgv_permission
-            // 
-            this.dgv_permission.AllowUserToAddRows = false;
-            this.dgv_permission.AllowUserToDeleteRows = false;
-            this.dgv_permission.AllowUserToResizeColumns = false;
-            this.dgv_permission.AllowUserToResizeRows = false;
-            this.dgv_permission.BorderStyle = System.Windows.Forms.BorderStyle.None;
-            this.dgv_permission.CellBorderStyle = System.Windows.Forms.DataGridViewCellBorderStyle.None;
-            this.dgv_permission.ColumnHeadersBorderStyle = System.Windows.Forms.DataGridViewHeaderBorderStyle.None;
-            this.dgv_permission.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dgv_permission.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
-            this.col_permission_id,
-            this.col_user_id,
-            this.col_manage_user,
-            this.col_manage_stylist,
-            this.col_manage_customer,
-            this.col_manage_supplier,
-            this.col_manage_category,
-            this.col_manage_sub_category,
-            this.col_manage_product,
-            this.col_manage_delivery,
-            this.col_manage_inventory,
-            this.col_manage_services,
-            this.col_manage_appointment,
-            this.col_manage_queue,
-            this.col_manage_pos,
-            this.col_manage_transaction,
-            this.col_manage_reports,
-            this.col_manage_data_recovery,
-            this.col_manage_settings,
-            this.col_manage_permission});
-            this.dgv_permission.Dock = System.Windows.Forms.DockStyle.Top;
-            this.dgv_permission.EnableHeadersVisualStyles = false;
-            this.dgv_permission.Location = new System.Drawing.Point(14, 14);
-            this.dgv_permission.Name = "dgv_permission";
-            this.dgv_permission.ReadOnly = true;
-            this.dgv_permission.RowHeadersBorderStyle = System.Windows.Forms.DataGridViewHeaderBorderStyle.None;
-            this.dgv_permission.RowHeadersVisible = false;
-            this.dgv_permission.RowHeadersWidth = 51;
-            this.dgv_permission.RowTemplate.Height = 24;
-            this.dgv_permission.Size = new System.Drawing.Size(1800, 661);
-            this.dgv_permission.TabIndex = 2;
-            // 
-            // col_permission_id
-            // 
-            this.col_permission_id.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
-            this.col_permission_id.HeaderText = "ID";
-            this.col_permission_id.MinimumWidth = 6;
-            this.col_permission_id.Name = "col_permission_id";
-            this.col_permission_id.ReadOnly = true;
-            this.col_permission_id.Visible = false;
-            this.col_permission_id.Width = 24;
-            // 
-            // col_user_id
-            // 
-            this.col_user_id.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
-            this.col_user_id.HeaderText = "user_id";
-            this.col_user_id.MinimumWidth = 6;
-            this.col_user_id.Name = "col_user_id";
-            this.col_user_id.ReadOnly = true;
-            this.col_user_id.Width = 120;
-            // 
-            // col_manage_user
-            // 
-            this.col_manage_user.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
-            this.col_manage_user.HeaderText = "Can Manage User";
-            this.col_manage_user.MinimumWidth = 6;
-            this.col_manage_user.Name = "col_manage_user";
-            this.col_manage_user.ReadOnly = true;
-            this.col_manage_user.Resizable = System.Windows.Forms.DataGridViewTriState.True;
-            this.col_manage_user.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Automatic;
-            this.col_manage_user.Width = 212;
-            // 
-            // col_manage_stylist
-            // 
-            this.col_manage_stylist.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
-            this.col_manage_stylist.HeaderText = "Can Manage Stylist";
-            this.col_manage_stylist.MinimumWidth = 6;
-            this.col_manage_stylist.Name = "col_manage_stylist";
-            this.col_manage_stylist.ReadOnly = true;
-            this.col_manage_stylist.Resizable = System.Windows.Forms.DataGridViewTriState.True;
-            this.col_manage_stylist.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Automatic;
-            this.col_manage_stylist.Width = 223;
-            // 
-            // col_manage_customer
-            // 
-            this.col_manage_customer.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
-            this.col_manage_customer.HeaderText = "Can Manage Customer";
-            this.col_manage_customer.MinimumWidth = 6;
-            this.col_manage_customer.Name = "col_manage_customer";
-            this.col_manage_customer.ReadOnly = true;
-            this.col_manage_customer.Resizable = System.Windows.Forms.DataGridViewTriState.True;
-            this.col_manage_customer.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Automatic;
-            this.col_manage_customer.Width = 260;
-            // 
-            // col_manage_supplier
-            // 
-            this.col_manage_supplier.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
-            this.col_manage_supplier.HeaderText = "Can Manage Supplier";
-            this.col_manage_supplier.MinimumWidth = 6;
-            this.col_manage_supplier.Name = "col_manage_supplier";
-            this.col_manage_supplier.ReadOnly = true;
-            this.col_manage_supplier.Resizable = System.Windows.Forms.DataGridViewTriState.True;
-            this.col_manage_supplier.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Automatic;
-            this.col_manage_supplier.Width = 248;
-            // 
-            // col_manage_category
-            // 
-            this.col_manage_category.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
-            this.col_manage_category.HeaderText = "Can Manage Category";
-            this.col_manage_category.MinimumWidth = 6;
-            this.col_manage_category.Name = "col_manage_category";
-            this.col_manage_category.ReadOnly = true;
-            this.col_manage_category.Resizable = System.Windows.Forms.DataGridViewTriState.True;
-            this.col_manage_category.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Automatic;
-            this.col_manage_category.Width = 253;
-            // 
-            // col_manage_sub_category
-            // 
-            this.col_manage_sub_category.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
-            this.col_manage_sub_category.HeaderText = "Can Manage Sub-Category";
-            this.col_manage_sub_category.MinimumWidth = 6;
-            this.col_manage_sub_category.Name = "col_manage_sub_category";
-            this.col_manage_sub_category.ReadOnly = true;
-            this.col_manage_sub_category.Resizable = System.Windows.Forms.DataGridViewTriState.True;
-            this.col_manage_sub_category.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Automatic;
-            this.col_manage_sub_category.Visible = false;
-            this.col_manage_sub_category.Width = 180;
-            // 
-            // col_manage_product
-            // 
-            this.col_manage_product.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
-            this.col_manage_product.HeaderText = "Can Manage Product";
-            this.col_manage_product.MinimumWidth = 6;
-            this.col_manage_product.Name = "col_manage_product";
-            this.col_manage_product.ReadOnly = true;
-            this.col_manage_product.Resizable = System.Windows.Forms.DataGridViewTriState.True;
-            this.col_manage_product.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Automatic;
-            this.col_manage_product.Visible = false;
-            this.col_manage_product.Width = 146;
-            // 
-            // col_manage_delivery
-            // 
-            this.col_manage_delivery.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
-            this.col_manage_delivery.HeaderText = "Can Manage Delivery";
-            this.col_manage_delivery.MinimumWidth = 6;
-            this.col_manage_delivery.Name = "col_manage_delivery";
-            this.col_manage_delivery.ReadOnly = true;
-            this.col_manage_delivery.Resizable = System.Windows.Forms.DataGridViewTriState.True;
-            this.col_manage_delivery.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Automatic;
-            this.col_manage_delivery.Visible = false;
-            this.col_manage_delivery.Width = 150;
-            // 
-            // col_manage_inventory
-            // 
-            this.col_manage_inventory.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
-            this.col_manage_inventory.HeaderText = "Can Manage Inventory";
-            this.col_manage_inventory.MinimumWidth = 6;
-            this.col_manage_inventory.Name = "col_manage_inventory";
-            this.col_manage_inventory.ReadOnly = true;
-            this.col_manage_inventory.Resizable = System.Windows.Forms.DataGridViewTriState.True;
-            this.col_manage_inventory.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Automatic;
-            this.col_manage_inventory.Width = 252;
-            // 
-            // col_manage_services
-            // 
-            this.col_manage_services.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
-            this.col_manage_services.HeaderText = "Can Manage Services";
-            this.col_manage_services.MinimumWidth = 6;
-            this.col_manage_services.Name = "col_manage_services";
-            this.col_manage_services.ReadOnly = true;
-            this.col_manage_services.Resizable = System.Windows.Forms.DataGridViewTriState.True;
-            this.col_manage_services.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Automatic;
-            this.col_manage_services.Visible = false;
-            this.col_manage_services.Width = 153;
-            // 
-            // col_manage_appointment
-            // 
-            this.col_manage_appointment.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
-            this.col_manage_appointment.HeaderText = "Can Manage Appointment";
-            this.col_manage_appointment.MinimumWidth = 6;
-            this.col_manage_appointment.Name = "col_manage_appointment";
-            this.col_manage_appointment.ReadOnly = true;
-            this.col_manage_appointment.Resizable = System.Windows.Forms.DataGridViewTriState.True;
-            this.col_manage_appointment.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Automatic;
-            this.col_manage_appointment.Width = 288;
-            // 
-            // col_manage_queue
-            // 
-            this.col_manage_queue.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
-            this.col_manage_queue.HeaderText = "Can Manage Queue";
-            this.col_manage_queue.MinimumWidth = 6;
-            this.col_manage_queue.Name = "col_manage_queue";
-            this.col_manage_queue.ReadOnly = true;
-            this.col_manage_queue.Resizable = System.Windows.Forms.DataGridViewTriState.True;
-            this.col_manage_queue.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Automatic;
-            this.col_manage_queue.Width = 232;
-            // 
-            // col_manage_pos
-            // 
-            this.col_manage_pos.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
-            this.col_manage_pos.HeaderText = "Can Manage POS";
-            this.col_manage_pos.MinimumWidth = 6;
-            this.col_manage_pos.Name = "col_manage_pos";
-            this.col_manage_pos.ReadOnly = true;
-            this.col_manage_pos.Resizable = System.Windows.Forms.DataGridViewTriState.True;
-            this.col_manage_pos.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Automatic;
-            this.col_manage_pos.Width = 212;
-            // 
-            // col_manage_transaction
-            // 
-            this.col_manage_transaction.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
-            this.col_manage_transaction.HeaderText = "Can Manage Transaction";
-            this.col_manage_transaction.MinimumWidth = 6;
-            this.col_manage_transaction.Name = "col_manage_transaction";
-            this.col_manage_transaction.ReadOnly = true;
-            this.col_manage_transaction.Resizable = System.Windows.Forms.DataGridViewTriState.True;
-            this.col_manage_transaction.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Automatic;
-            this.col_manage_transaction.Width = 279;
-            // 
-            // col_manage_reports
-            // 
-            this.col_manage_reports.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
-            this.col_manage_reports.HeaderText = "Can Manage Reports";
-            this.col_manage_reports.MinimumWidth = 6;
-            this.col_manage_reports.Name = "col_manage_reports";
-            this.col_manage_reports.ReadOnly = true;
-            this.col_manage_reports.Resizable = System.Windows.Forms.DataGridViewTriState.True;
-            this.col_manage_reports.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Automatic;
-            this.col_manage_reports.Width = 243;
-            // 
-            // col_manage_data_recovery
-            // 
-            this.col_manage_data_recovery.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
-            this.col_manage_data_recovery.HeaderText = "Can Manage Data Recovery";
-            this.col_manage_data_recovery.MinimumWidth = 6;
-            this.col_manage_data_recovery.Name = "col_manage_data_recovery";
-            this.col_manage_data_recovery.ReadOnly = true;
-            this.col_manage_data_recovery.Resizable = System.Windows.Forms.DataGridViewTriState.True;
-            this.col_manage_data_recovery.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Automatic;
-            this.col_manage_data_recovery.Width = 216;
-            // 
-            // col_manage_settings
-            // 
-            this.col_manage_settings.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
-            this.col_manage_settings.HeaderText = "Can Manage Settings";
-            this.col_manage_settings.MinimumWidth = 6;
-            this.col_manage_settings.Name = "col_manage_settings";
-            this.col_manage_settings.ReadOnly = true;
-            this.col_manage_settings.Resizable = System.Windows.Forms.DataGridViewTriState.True;
-            this.col_manage_settings.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Automatic;
-            this.col_manage_settings.Width = 244;
-            // 
-            // col_manage_permission
-            // 
-            this.col_manage_permission.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
-            this.col_manage_permission.HeaderText = "Can Manage Permission";
-            this.col_manage_permission.MinimumWidth = 6;
-            this.col_manage_permission.Name = "col_manage_permission";
-            this.col_manage_permission.ReadOnly = true;
-            this.col_manage_permission.Resizable = System.Windows.Forms.DataGridViewTriState.True;
-            this.col_manage_permission.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Automatic;
-            this.col_manage_permission.Width = 275;
-            // 
-            // materialCard19
-            // 
-            this.materialCard19.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
-            this.materialCard19.Controls.Add(this.product_pagination);
-            this.materialCard19.Controls.Add(this.dgv_product);
-            this.materialCard19.Depth = 0;
-            this.materialCard19.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.materialCard19.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(222)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
-            this.materialCard19.Location = new System.Drawing.Point(50, 125);
-            this.materialCard19.Margin = new System.Windows.Forms.Padding(14);
-            this.materialCard19.MouseState = MaterialSkin.MouseState.HOVER;
-            this.materialCard19.Name = "materialCard19";
-            this.materialCard19.Padding = new System.Windows.Forms.Padding(14);
-            this.materialCard19.Size = new System.Drawing.Size(1828, 820);
-            this.materialCard19.TabIndex = 17;
-            // 
-            // dgv_product
-            // 
-            this.dgv_product.AllowUserToAddRows = false;
-            this.dgv_product.AllowUserToDeleteRows = false;
-            this.dgv_product.AllowUserToResizeColumns = false;
-            this.dgv_product.AllowUserToResizeRows = false;
-            this.dgv_product.BorderStyle = System.Windows.Forms.BorderStyle.None;
-            this.dgv_product.CellBorderStyle = System.Windows.Forms.DataGridViewCellBorderStyle.None;
-            this.dgv_product.ColumnHeadersBorderStyle = System.Windows.Forms.DataGridViewHeaderBorderStyle.None;
-            this.dgv_product.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dgv_product.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
-            this.col_product_id,
-            this.col_product_name,
-            this.col_product_type,
-            this.col_display_ingredient,
-            this.col_display_retail,
-            this.col_is_ingredient,
-            this.col_is_retail,
-            this.col_product_brand,
-            this.col_product_unit_type,
-            this.col_product_created_at,
-            this.col_product_updated_at,
-            this.col_btn_product_update,
-            this.col_btn_product_delete});
-            this.dgv_product.Dock = System.Windows.Forms.DockStyle.Top;
-            this.dgv_product.EnableHeadersVisualStyles = false;
-            this.dgv_product.Location = new System.Drawing.Point(14, 14);
-            this.dgv_product.Name = "dgv_product";
-            this.dgv_product.ReadOnly = true;
-            this.dgv_product.RowHeadersBorderStyle = System.Windows.Forms.DataGridViewHeaderBorderStyle.None;
-            this.dgv_product.RowHeadersVisible = false;
-            this.dgv_product.RowHeadersWidth = 51;
-            this.dgv_product.RowTemplate.Height = 24;
-            this.dgv_product.Size = new System.Drawing.Size(1800, 517);
-            this.dgv_product.TabIndex = 12;
-            this.dgv_product.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgv_product_CellClick_1);
-            this.dgv_product.CellFormatting += new System.Windows.Forms.DataGridViewCellFormattingEventHandler(this.dgv_product_CellFormatting_1);
-            // 
-            // col_product_id
-            // 
-            this.col_product_id.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
-            this.col_product_id.HeaderText = "product_id";
-            this.col_product_id.MinimumWidth = 6;
-            this.col_product_id.Name = "col_product_id";
-            this.col_product_id.ReadOnly = true;
-            this.col_product_id.Visible = false;
-            // 
-            // col_product_name
-            // 
-            this.col_product_name.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
-            this.col_product_name.HeaderText = "Product";
-            this.col_product_name.MinimumWidth = 6;
-            this.col_product_name.Name = "col_product_name";
-            this.col_product_name.ReadOnly = true;
-            // 
-            // col_product_type
-            // 
-            this.col_product_type.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
-            this.col_product_type.HeaderText = "Product Type";
-            this.col_product_type.MinimumWidth = 6;
-            this.col_product_type.Name = "col_product_type";
-            this.col_product_type.ReadOnly = true;
-            this.col_product_type.Width = 184;
-            // 
-            // col_display_ingredient
-            // 
-            this.col_display_ingredient.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
-            this.col_display_ingredient.HeaderText = "Ingredient";
-            this.col_display_ingredient.MinimumWidth = 6;
-            this.col_display_ingredient.Name = "col_display_ingredient";
-            this.col_display_ingredient.ReadOnly = true;
-            this.col_display_ingredient.Visible = false;
-            this.col_display_ingredient.Width = 93;
-            // 
-            // col_display_retail
-            // 
-            this.col_display_retail.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
-            this.col_display_retail.HeaderText = "Retail";
-            this.col_display_retail.MinimumWidth = 6;
-            this.col_display_retail.Name = "col_display_retail";
-            this.col_display_retail.ReadOnly = true;
-            this.col_display_retail.Visible = false;
-            this.col_display_retail.Width = 69;
-            // 
-            // col_is_ingredient
-            // 
-            this.col_is_ingredient.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
-            this.col_is_ingredient.HeaderText = "is_ingredient";
-            this.col_is_ingredient.MinimumWidth = 6;
-            this.col_is_ingredient.Name = "col_is_ingredient";
-            this.col_is_ingredient.ReadOnly = true;
-            this.col_is_ingredient.Visible = false;
-            this.col_is_ingredient.Width = 110;
-            // 
-            // col_is_retail
-            // 
-            this.col_is_retail.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
-            this.col_is_retail.HeaderText = "is_retail";
-            this.col_is_retail.MinimumWidth = 6;
-            this.col_is_retail.Name = "col_is_retail";
-            this.col_is_retail.ReadOnly = true;
-            this.col_is_retail.Visible = false;
-            this.col_is_retail.Width = 80;
-            // 
-            // col_product_brand
-            // 
-            this.col_product_brand.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
-            this.col_product_brand.HeaderText = "Brand";
-            this.col_product_brand.MinimumWidth = 6;
-            this.col_product_brand.Name = "col_product_brand";
-            this.col_product_brand.ReadOnly = true;
-            // 
-            // col_product_unit_type
-            // 
-            this.col_product_unit_type.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
-            this.col_product_unit_type.HeaderText = "Unit Type";
-            this.col_product_unit_type.MinimumWidth = 6;
-            this.col_product_unit_type.Name = "col_product_unit_type";
-            this.col_product_unit_type.ReadOnly = true;
-            // 
-            // col_product_created_at
-            // 
-            this.col_product_created_at.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
-            this.col_product_created_at.HeaderText = "Created At";
-            this.col_product_created_at.MinimumWidth = 6;
-            this.col_product_created_at.Name = "col_product_created_at";
-            this.col_product_created_at.ReadOnly = true;
-            this.col_product_created_at.Width = 153;
-            // 
-            // col_product_updated_at
-            // 
-            this.col_product_updated_at.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
-            this.col_product_updated_at.HeaderText = "Updated At";
-            this.col_product_updated_at.MinimumWidth = 6;
-            this.col_product_updated_at.Name = "col_product_updated_at";
-            this.col_product_updated_at.ReadOnly = true;
-            this.col_product_updated_at.Width = 145;
-            // 
-            // col_btn_product_update
-            // 
-            this.col_btn_product_update.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
-            this.col_btn_product_update.HeaderText = "Update";
-            this.col_btn_product_update.Image = ((System.Drawing.Image)(resources.GetObject("col_btn_product_update.Image")));
-            this.col_btn_product_update.ImageLayout = System.Windows.Forms.DataGridViewImageCellLayout.Zoom;
-            this.col_btn_product_update.MinimumWidth = 6;
-            this.col_btn_product_update.Name = "col_btn_product_update";
-            this.col_btn_product_update.ReadOnly = true;
-            this.col_btn_product_update.Resizable = System.Windows.Forms.DataGridViewTriState.True;
-            this.col_btn_product_update.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Automatic;
-            // 
-            // col_btn_product_delete
-            // 
-            this.col_btn_product_delete.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
-            this.col_btn_product_delete.HeaderText = "Delete";
-            this.col_btn_product_delete.Image = ((System.Drawing.Image)(resources.GetObject("col_btn_product_delete.Image")));
-            this.col_btn_product_delete.ImageLayout = System.Windows.Forms.DataGridViewImageCellLayout.Zoom;
-            this.col_btn_product_delete.MinimumWidth = 6;
-            this.col_btn_product_delete.Name = "col_btn_product_delete";
-            this.col_btn_product_delete.ReadOnly = true;
-            this.col_btn_product_delete.Resizable = System.Windows.Forms.DataGridViewTriState.True;
-            this.col_btn_product_delete.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Automatic;
-            // 
-            // materialCard18
-            // 
-            this.materialCard18.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
-            this.materialCard18.Controls.Add(this.btn_refresh_product);
-            this.materialCard18.Controls.Add(this.btn_add_product);
-            this.materialCard18.Depth = 0;
-            this.materialCard18.Dock = System.Windows.Forms.DockStyle.Top;
-            this.materialCard18.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(222)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
-            this.materialCard18.Location = new System.Drawing.Point(50, 50);
-            this.materialCard18.Margin = new System.Windows.Forms.Padding(14);
-            this.materialCard18.MouseState = MaterialSkin.MouseState.HOVER;
-            this.materialCard18.Name = "materialCard18";
-            this.materialCard18.Padding = new System.Windows.Forms.Padding(14);
-            this.materialCard18.Size = new System.Drawing.Size(1828, 75);
-            this.materialCard18.TabIndex = 16;
-            // 
-            // btn_refresh_product
-            // 
-            this.btn_refresh_product.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.btn_refresh_product.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
-            this.btn_refresh_product.Density = MaterialSkin.Controls.MaterialButton.MaterialButtonDensity.Default;
-            this.btn_refresh_product.Depth = 0;
-            this.btn_refresh_product.HighEmphasis = true;
-            this.btn_refresh_product.Icon = null;
-            this.btn_refresh_product.Location = new System.Drawing.Point(1696, 20);
-            this.btn_refresh_product.Margin = new System.Windows.Forms.Padding(4, 6, 4, 6);
-            this.btn_refresh_product.MouseState = MaterialSkin.MouseState.HOVER;
-            this.btn_refresh_product.Name = "btn_refresh_product";
-            this.btn_refresh_product.NoAccentTextColor = System.Drawing.Color.Empty;
-            this.btn_refresh_product.Size = new System.Drawing.Size(84, 36);
-            this.btn_refresh_product.TabIndex = 14;
-            this.btn_refresh_product.Text = "Refresh";
-            this.btn_refresh_product.Type = MaterialSkin.Controls.MaterialButton.MaterialButtonType.Contained;
-            this.btn_refresh_product.UseAccentColor = false;
-            this.btn_refresh_product.UseVisualStyleBackColor = true;
-            // 
-            // btn_add_product
-            // 
-            this.btn_add_product.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
-            this.btn_add_product.Density = MaterialSkin.Controls.MaterialButton.MaterialButtonDensity.Default;
-            this.btn_add_product.Depth = 0;
-            this.btn_add_product.HighEmphasis = true;
-            this.btn_add_product.Icon = null;
-            this.btn_add_product.Location = new System.Drawing.Point(18, 6);
-            this.btn_add_product.Margin = new System.Windows.Forms.Padding(4, 6, 4, 6);
-            this.btn_add_product.MouseState = MaterialSkin.MouseState.HOVER;
-            this.btn_add_product.Name = "btn_add_product";
-            this.btn_add_product.NoAccentTextColor = System.Drawing.Color.Empty;
-            this.btn_add_product.Size = new System.Drawing.Size(146, 36);
-            this.btn_add_product.TabIndex = 13;
-            this.btn_add_product.Text = "Create Product";
-            this.btn_add_product.Type = MaterialSkin.Controls.MaterialButton.MaterialButtonType.Contained;
-            this.btn_add_product.UseAccentColor = false;
-            this.btn_add_product.UseVisualStyleBackColor = true;
-            this.btn_add_product.Click += new System.EventHandler(this.btn_add_product_Click_1);
+            // col_InventoryID
+            // 
+            this.col_InventoryID.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
+            this.col_InventoryID.HeaderText = "#";
+            this.col_InventoryID.MinimumWidth = 6;
+            this.col_InventoryID.Name = "col_InventoryID";
+            this.col_InventoryID.ReadOnly = true;
+            this.col_InventoryID.Visible = false;
+            // 
+            // col_ProductID
+            // 
+            this.col_ProductID.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
+            this.col_ProductID.HeaderText = "product_id";
+            this.col_ProductID.MinimumWidth = 6;
+            this.col_ProductID.Name = "col_ProductID";
+            this.col_ProductID.ReadOnly = true;
+            this.col_ProductID.Visible = false;
+            // 
+            // col_ProductName
+            // 
+            this.col_ProductName.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
+            this.col_ProductName.HeaderText = "Product Name";
+            this.col_ProductName.MinimumWidth = 6;
+            this.col_ProductName.Name = "col_ProductName";
+            this.col_ProductName.ReadOnly = true;
+            // 
+            // col_ProductType
+            // 
+            this.col_ProductType.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.DisplayedCells;
+            this.col_ProductType.HeaderText = "Product Type";
+            this.col_ProductType.MinimumWidth = 6;
+            this.col_ProductType.Name = "col_ProductType";
+            this.col_ProductType.ReadOnly = true;
+            this.col_ProductType.Width = 168;
+            // 
+            // col_size_label
+            // 
+            this.col_size_label.HeaderText = "Size Label";
+            this.col_size_label.MinimumWidth = 6;
+            this.col_size_label.Name = "col_size_label";
+            this.col_size_label.ReadOnly = true;
+            this.col_size_label.Width = 125;
+            // 
+            // col_Brand
+            // 
+            this.col_Brand.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
+            this.col_Brand.HeaderText = "Brand";
+            this.col_Brand.MinimumWidth = 6;
+            this.col_Brand.Name = "col_Brand";
+            this.col_Brand.ReadOnly = true;
+            this.col_Brand.Visible = false;
+            // 
+            // col_Category
+            // 
+            this.col_Category.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
+            this.col_Category.HeaderText = "Category";
+            this.col_Category.MinimumWidth = 6;
+            this.col_Category.Name = "col_Category";
+            this.col_Category.ReadOnly = true;
+            this.col_Category.Visible = false;
+            // 
+            // col_Unit
+            // 
+            this.col_Unit.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
+            dataGridViewCellStyle1.Format = "N1";
+            dataGridViewCellStyle1.NullValue = null;
+            this.col_Unit.DefaultCellStyle = dataGridViewCellStyle1;
+            this.col_Unit.HeaderText = "Qty";
+            this.col_Unit.MinimumWidth = 6;
+            this.col_Unit.Name = "col_Unit";
+            this.col_Unit.ReadOnly = true;
+            // 
+            // col_Volume
+            // 
+            this.col_Volume.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
+            this.col_Volume.HeaderText = "Total Remaining";
+            this.col_Volume.MinimumWidth = 6;
+            this.col_Volume.Name = "col_Volume";
+            this.col_Volume.ReadOnly = true;
+            // 
+            // col_Critical_Level
+            // 
+            this.col_Critical_Level.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
+            this.col_Critical_Level.HeaderText = "Critical Level";
+            this.col_Critical_Level.MinimumWidth = 6;
+            this.col_Critical_Level.Name = "col_Critical_Level";
+            this.col_Critical_Level.ReadOnly = true;
+            this.col_Critical_Level.Resizable = System.Windows.Forms.DataGridViewTriState.True;
+            // 
+            // col_Status
+            // 
+            this.col_Status.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
+            this.col_Status.HeaderText = "Status";
+            this.col_Status.MinimumWidth = 6;
+            this.col_Status.Name = "col_Status";
+            this.col_Status.ReadOnly = true;
+            this.col_Status.Resizable = System.Windows.Forms.DataGridViewTriState.True;
+            // 
+            // btn_search_product
+            // 
+            this.btn_search_product.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
+            this.btn_search_product.Density = MaterialSkin.Controls.MaterialButton.MaterialButtonDensity.Default;
+            this.btn_search_product.Depth = 0;
+            this.btn_search_product.HighEmphasis = true;
+            this.btn_search_product.Icon = null;
+            this.btn_search_product.Location = new System.Drawing.Point(20, 52);
+            this.btn_search_product.Margin = new System.Windows.Forms.Padding(4, 6, 4, 6);
+            this.btn_search_product.MouseState = MaterialSkin.MouseState.HOVER;
+            this.btn_search_product.Name = "btn_search_product";
+            this.btn_search_product.NoAccentTextColor = System.Drawing.Color.Empty;
+            this.btn_search_product.Size = new System.Drawing.Size(148, 36);
+            this.btn_search_product.TabIndex = 6;
+            this.btn_search_product.Text = "search product";
+            this.btn_search_product.Type = MaterialSkin.Controls.MaterialButton.MaterialButtonType.Contained;
+            this.btn_search_product.UseAccentColor = false;
+            this.btn_search_product.UseVisualStyleBackColor = true;
+            this.btn_search_product.Click += new System.EventHandler(this.btn_search_product_Click);
+            // 
+            // col_cart_product_id
+            // 
+            this.col_cart_product_id.HeaderText = "product_id";
+            this.col_cart_product_id.MinimumWidth = 6;
+            this.col_cart_product_id.Name = "col_cart_product_id";
+            this.col_cart_product_id.Visible = false;
+            this.col_cart_product_id.Width = 125;
+            // 
+            // col_cart_product_name
+            // 
+            this.col_cart_product_name.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
+            this.col_cart_product_name.HeaderText = "Product";
+            this.col_cart_product_name.MinimumWidth = 6;
+            this.col_cart_product_name.Name = "col_cart_product_name";
+            // 
+            // col_cart_product_size_id
+            // 
+            this.col_cart_product_size_id.HeaderText = "product_size_id";
+            this.col_cart_product_size_id.MinimumWidth = 6;
+            this.col_cart_product_size_id.Name = "col_cart_product_size_id";
+            this.col_cart_product_size_id.Visible = false;
+            this.col_cart_product_size_id.Width = 125;
+            // 
+            // col_cart_product_category
+            // 
+            this.col_cart_product_category.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
+            this.col_cart_product_category.HeaderText = "Size Label";
+            this.col_cart_product_category.MinimumWidth = 6;
+            this.col_cart_product_category.Name = "col_cart_product_category";
+            // 
+            // col_cart_product_brand
+            // 
+            this.col_cart_product_brand.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
+            this.col_cart_product_brand.HeaderText = "Brand";
+            this.col_cart_product_brand.MinimumWidth = 6;
+            this.col_cart_product_brand.Name = "col_cart_product_brand";
+            // 
+            // col_cart_product_qty
+            // 
+            this.col_cart_product_qty.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
+            dataGridViewCellStyle7.NullValue = null;
+            this.col_cart_product_qty.DefaultCellStyle = dataGridViewCellStyle7;
+            this.col_cart_product_qty.HeaderText = "Quantity";
+            this.col_cart_product_qty.MinimumWidth = 6;
+            this.col_cart_product_qty.Name = "col_cart_product_qty";
+            this.col_cart_product_qty.Width = 127;
+            // 
+            // col_cart_product_price
+            // 
+            this.col_cart_product_price.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.DisplayedCells;
+            this.col_cart_product_price.HeaderText = "Price";
+            this.col_cart_product_price.MinimumWidth = 6;
+            this.col_cart_product_price.Name = "col_cart_product_price";
+            this.col_cart_product_price.Width = 96;
+            // 
+            // col_cart_final_price
+            // 
+            this.col_cart_final_price.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
+            dataGridViewCellStyle8.Format = "C2";
+            dataGridViewCellStyle8.NullValue = null;
+            this.col_cart_final_price.DefaultCellStyle = dataGridViewCellStyle8;
+            this.col_cart_final_price.HeaderText = "Total";
+            this.col_cart_final_price.MinimumWidth = 6;
+            this.col_cart_final_price.Name = "col_cart_final_price";
+            this.col_cart_final_price.Width = 95;
+            // 
+            // col_cart_discounted
+            // 
+            this.col_cart_discounted.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
+            dataGridViewCellStyle9.Format = "C2";
+            dataGridViewCellStyle9.NullValue = null;
+            this.col_cart_discounted.DefaultCellStyle = dataGridViewCellStyle9;
+            this.col_cart_discounted.HeaderText = "Discount";
+            this.col_cart_discounted.MinimumWidth = 6;
+            this.col_cart_discounted.Name = "col_cart_discounted";
+            this.col_cart_discounted.Width = 133;
+            // 
+            // col_cart_vat_exempt
+            // 
+            this.col_cart_vat_exempt.HeaderText = "Vat Exempt";
+            this.col_cart_vat_exempt.MinimumWidth = 6;
+            this.col_cart_vat_exempt.Name = "col_cart_vat_exempt";
+            this.col_cart_vat_exempt.Visible = false;
+            this.col_cart_vat_exempt.Width = 125;
+            // 
+            // col_cart_status
+            // 
+            this.col_cart_status.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
+            this.col_cart_status.HeaderText = "Status";
+            this.col_cart_status.MinimumWidth = 6;
+            this.col_cart_status.Name = "col_cart_status";
+            this.col_cart_status.Width = 106;
+            // 
+            // col_btn_cart_apply_discount
+            // 
+            this.col_btn_cart_apply_discount.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
+            this.col_btn_cart_apply_discount.HeaderText = "Apply Discount";
+            this.col_btn_cart_apply_discount.Image = ((System.Drawing.Image)(resources.GetObject("col_btn_cart_apply_discount.Image")));
+            this.col_btn_cart_apply_discount.ImageLayout = System.Windows.Forms.DataGridViewImageCellLayout.Zoom;
+            this.col_btn_cart_apply_discount.MinimumWidth = 6;
+            this.col_btn_cart_apply_discount.Name = "col_btn_cart_apply_discount";
+            this.col_btn_cart_apply_discount.Resizable = System.Windows.Forms.DataGridViewTriState.True;
+            this.col_btn_cart_apply_discount.Width = 176;
             // 
             // paginationControl1
             // 
@@ -9308,6 +9330,10 @@
             this.materialCard16.ResumeLayout(false);
             this.materialCard16.PerformLayout();
             this.productsTab.ResumeLayout(false);
+            this.materialCard19.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.dgv_product)).EndInit();
+            this.materialCard18.ResumeLayout(false);
+            this.materialCard18.PerformLayout();
             this.deliveryTab.ResumeLayout(false);
             this.materialCard27.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.dgv_delivery)).EndInit();
@@ -9393,6 +9419,9 @@
             ((System.ComponentModel.ISupportInitialize)(this.dgv_audit_report)).EndInit();
             this.materialCard37.ResumeLayout(false);
             this.materialCard37.PerformLayout();
+            this.user_permission_tab.ResumeLayout(false);
+            this.materialCard31.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.dgv_permission)).EndInit();
             this.dataRecoveryTab.ResumeLayout(false);
             this.materialCard39.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.dgv_deleted_record)).EndInit();
@@ -9426,13 +9455,6 @@
             this.groupBox7.ResumeLayout(false);
             this.groupBox7.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.errorProvider1)).EndInit();
-            this.user_permission_tab.ResumeLayout(false);
-            this.materialCard31.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.dgv_permission)).EndInit();
-            this.materialCard19.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.dgv_product)).EndInit();
-            this.materialCard18.ResumeLayout(false);
-            this.materialCard18.PerformLayout();
             this.ResumeLayout(false);
 
         }
@@ -9710,17 +9732,6 @@
         private System.Windows.Forms.Panel panel16;
         private MaterialSkin.Controls.MaterialButton btn_stock_in;
         private MaterialSkin.Controls.MaterialButton btn_stock_out;
-        private System.Windows.Forms.DataGridViewTextBoxColumn col_InventoryID;
-        private System.Windows.Forms.DataGridViewTextBoxColumn col_ProductID;
-        private System.Windows.Forms.DataGridViewTextBoxColumn col_ProductName;
-        private System.Windows.Forms.DataGridViewTextBoxColumn col_ProductType;
-        private System.Windows.Forms.DataGridViewTextBoxColumn col_size_label;
-        private System.Windows.Forms.DataGridViewTextBoxColumn col_Brand;
-        private System.Windows.Forms.DataGridViewTextBoxColumn col_Category;
-        private System.Windows.Forms.DataGridViewTextBoxColumn col_Unit;
-        private System.Windows.Forms.DataGridViewTextBoxColumn col_Volume;
-        private System.Windows.Forms.DataGridViewTextBoxColumn col_Critical_Level;
-        private System.Windows.Forms.DataGridViewTextBoxColumn col_Status;
         private MaterialSkin.Controls.MaterialButton btn_void;
         private MaterialSkin.Controls.MaterialButton btn_refund;
         private System.Windows.Forms.DataGridView dgv_transaction_list;
@@ -9966,18 +9977,6 @@
         private System.Windows.Forms.DataGridViewButtonColumn col_service_product_usage;
         private System.Windows.Forms.DataGridViewImageColumn col_service_btn_update;
         private System.Windows.Forms.DataGridViewImageColumn col_service_btn_delete;
-        private System.Windows.Forms.DataGridViewTextBoxColumn col_cart_product_id;
-        private System.Windows.Forms.DataGridViewTextBoxColumn col_cart_product_name;
-        private System.Windows.Forms.DataGridViewTextBoxColumn col_cart_product_size_id;
-        private System.Windows.Forms.DataGridViewTextBoxColumn col_cart_product_category;
-        private System.Windows.Forms.DataGridViewTextBoxColumn col_cart_product_brand;
-        private System.Windows.Forms.DataGridViewTextBoxColumn col_cart_product_qty;
-        private System.Windows.Forms.DataGridViewTextBoxColumn col_cart_product_price;
-        private System.Windows.Forms.DataGridViewTextBoxColumn col_cart_final_price;
-        private System.Windows.Forms.DataGridViewTextBoxColumn col_cart_discounted;
-        private System.Windows.Forms.DataGridViewTextBoxColumn col_cart_vat_exempt;
-        private System.Windows.Forms.DataGridViewTextBoxColumn col_cart_status;
-        private System.Windows.Forms.DataGridViewImageColumn col_btn_cart_apply_discount;
         private MaterialSkin.Controls.MaterialLabel lbl_invoice_number;
         private MaterialSkin.Controls.MaterialLabel materialLabel35;
         private MaterialSkin.Controls.MaterialLabel lbl_business_hour_id;
@@ -10057,5 +10056,29 @@
         private MaterialSkin.Controls.MaterialCard materialCard18;
         private MaterialSkin.Controls.MaterialButton btn_refresh_product;
         private MaterialSkin.Controls.MaterialButton btn_add_product;
+        private System.Windows.Forms.DataGridViewTextBoxColumn col_InventoryID;
+        private System.Windows.Forms.DataGridViewTextBoxColumn col_ProductID;
+        private System.Windows.Forms.DataGridViewTextBoxColumn col_ProductName;
+        private System.Windows.Forms.DataGridViewTextBoxColumn col_ProductType;
+        private System.Windows.Forms.DataGridViewTextBoxColumn col_size_label;
+        private System.Windows.Forms.DataGridViewTextBoxColumn col_Brand;
+        private System.Windows.Forms.DataGridViewTextBoxColumn col_Category;
+        private System.Windows.Forms.DataGridViewTextBoxColumn col_Unit;
+        private System.Windows.Forms.DataGridViewTextBoxColumn col_Volume;
+        private System.Windows.Forms.DataGridViewTextBoxColumn col_Critical_Level;
+        private System.Windows.Forms.DataGridViewTextBoxColumn col_Status;
+        private MaterialSkin.Controls.MaterialButton btn_search_product;
+        private System.Windows.Forms.DataGridViewTextBoxColumn col_cart_product_id;
+        private System.Windows.Forms.DataGridViewTextBoxColumn col_cart_product_name;
+        private System.Windows.Forms.DataGridViewTextBoxColumn col_cart_product_size_id;
+        private System.Windows.Forms.DataGridViewTextBoxColumn col_cart_product_category;
+        private System.Windows.Forms.DataGridViewTextBoxColumn col_cart_product_brand;
+        private System.Windows.Forms.DataGridViewTextBoxColumn col_cart_product_qty;
+        private System.Windows.Forms.DataGridViewTextBoxColumn col_cart_product_price;
+        private System.Windows.Forms.DataGridViewTextBoxColumn col_cart_final_price;
+        private System.Windows.Forms.DataGridViewTextBoxColumn col_cart_discounted;
+        private System.Windows.Forms.DataGridViewTextBoxColumn col_cart_vat_exempt;
+        private System.Windows.Forms.DataGridViewTextBoxColumn col_cart_status;
+        private System.Windows.Forms.DataGridViewImageColumn col_btn_cart_apply_discount;
     }
 }

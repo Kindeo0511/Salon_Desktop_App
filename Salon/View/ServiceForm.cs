@@ -508,5 +508,82 @@ namespace Salon.View
                 form.ShowDialog();
             }
         }
+
+        private async void btn_save_Click_1(object sender, EventArgs e)
+        {
+            if (!IsValid()) return;
+            IsServiceExists();
+
+
+            await mainform.RefreshServicesAsync(1, 25);
+            await mainform.RefreshTotalServices();
+        }
+
+        private async void btn_update_Click_1(object sender, EventArgs e)
+        {
+            if (!IsValid()) return;
+
+            //if (!HasServiceChange()) 
+            //{
+            //    MessageBox.Show("No changes detected.", "Information", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            //    return;
+            //}
+            IsServiceExists();
+
+            await mainform.RefreshServicesAsync(1, 25);
+        }
+
+        private void btn_add_consumption_Click_1(object sender, EventArgs e)
+        {
+            using (var form = new ProductConsumptionForm(mainform, this, serviceName, service_id))
+            {
+                form.ShowDialog();
+            }
+        }
+
+        private async void dgv_Service_Product_CellClick(object sender, DataGridViewCellEventArgs e)
+        {
+            if (e.RowIndex < 0) return;
+
+            if (e.RowIndex >= 0 && dgv_Service_Product.Columns[e.ColumnIndex].Name == "col_usage_btn_update")
+            {
+                var productUsage = dgv_Service_Product.Rows[e.RowIndex].DataBoundItem as ServiceProductUsageModel;
+
+                if (productUsage != null)
+                {
+
+
+                    using (var form = new ProductConsumptionForm(mainform, this, productUsage, serviceName, service_id)) 
+                    {
+                        form.ShowDialog();
+                    }
+                      
+
+                }
+            }
+            else if (e.RowIndex >= 0 && dgv_Service_Product.Columns[e.ColumnIndex].Name == "btn_delete")
+            {
+                var productUsage = dgv_Service_Product.Rows[e.RowIndex].DataBoundItem as ServiceProductUsageModel;
+
+                if (MessageBox.Show($"Delete product {productUsage.product_name}?", "Confirm Delete", MessageBoxButtons.YesNo) == DialogResult.Yes)
+                {
+                    var repo = new ServiceProductUsageRepository();
+                    var controller = new ServiceProductUsageController(repo);
+                    var product = productUsage.product_name;
+
+                    if (controller.DeleteServiceProduct(productUsage.service_product_id))
+                    {
+
+                        Audit.AuditLog(DateTime.Now, "Delete", UserSession.CurrentUser.first_Name, "Manage Services Product Usage", $"Deleted product usage '{product}' for ({serviceModel.serviceName}) on {DateTime.Now:yyyy-MM-dd} at {DateTime.Now:HH:mm:ss}");
+
+                        mainform.InsertDeletedRecord(productUsage.service_product_id, productUsage.product_id, "Manage Services Product Usage", productUsage.serviceName, UserSession.CurrentUser.first_Name, DateTime.Today);
+
+                        await mainform.FilterdDeletedRecords(1, 25);
+                        RefreshServiceProductUsage(service_id);
+                     
+                    }
+                }
+            }
+        }
     }
 }

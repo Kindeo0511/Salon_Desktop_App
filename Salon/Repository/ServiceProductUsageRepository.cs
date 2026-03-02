@@ -95,8 +95,6 @@ namespace Salon.Repository
                         s.serviceName,
                         p.product_id,
                         p.product_name,
-                        sp.product_size_id,
-                        ps.size_label,
                         p.brand,
                         p.unit_type,
                         sp.qty_required
@@ -105,8 +103,6 @@ namespace Salon.Repository
                         ON s.serviceName_id = sp.service_id
                     LEFT JOIN tbl_products AS p 
                         ON p.product_id = sp.product_id
-                    LEFT JOIN tbl_product_size AS ps 
-                        ON ps.product_size_id = sp.product_size_id
                     WHERE sp.service_id = @serviceId
                       AND sp.is_deleted = 0;";
 

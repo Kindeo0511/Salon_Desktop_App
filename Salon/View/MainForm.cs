@@ -40,6 +40,7 @@ using System.Windows.Forms;
 using System.Xml.Linq;
 using ZstdSharp.Unsafe;
 using static iText.StyledXmlParser.Jsoup.Select.Evaluator;
+using static System.Windows.Forms.VisualStyles.VisualStyleElement.Menu;
 using static System.Windows.Forms.VisualStyles.VisualStyleElement.Tab;
 
 
@@ -254,7 +255,7 @@ namespace Salon.View
             };
             await RefreshProductAsync(currentPage, pageSize);
 
-        
+
 
             delivery_pagination.PageChanged += async (s, page) =>
             {
@@ -302,23 +303,10 @@ namespace Salon.View
 
             FilterTransactionReport(currentPage, pageSize);
 
-            dgv_cart_product.AutoGenerateColumns = false;
-            dgv_cart_product.DataSource = null;
-            col_cart_product_id.DataPropertyName = "product_id";
-            col_cart_product_size_id.DataPropertyName = "product_size_id";
-            col_cart_product_name.DataPropertyName = "product_name";
-            col_cart_product_category.DataPropertyName = "size_label";
-            col_cart_product_brand.DataPropertyName = "brand";
-            col_cart_product_price.DataPropertyName = "selling_price";
-            col_cart_product_qty.DataPropertyName = "quantity";
-            col_cart_discounted.DataPropertyName = "DiscountAmount";
-            col_cart_final_price.DataPropertyName = "FinalPrice";
-            col_cart_vat_exempt.DataPropertyName = "IsVatExempt";
-            col_cart_status.DataPropertyName = "DisplayFinalPrice";
-            dgv_cart_product.DataSource = cart;
+
 
             LoadDiscount();
-            LoadPaymentMethodCombobox();
+
             MinAndMaxDate();
             expiry_timer.Start();
             LoadBusinessHours();
@@ -329,6 +317,7 @@ namespace Salon.View
 
 
             LoadPaymentMethod();
+            LoadPaymentMethodCombobox();
             ExpiredPromo();
             await RefreshUsersAsync(1, 20);
 
@@ -361,7 +350,7 @@ namespace Salon.View
             await RefreshPopularServices();
 
             // POS
-            SearchProduct();
+            //SearchProduct();
 
             //// REPORTS
             sales_report_pagination.PageChanged += (s, page) =>
@@ -398,6 +387,28 @@ namespace Salon.View
             // SETTINGS
             LoadOwnerEmailAndBusinessName();
 
+            dgv_cart_product.AutoGenerateColumns = false;
+            dgv_cart_product.DataSource = cartItems;
+
+
+            col_cart_product_id.DataPropertyName = "ProductId";
+            col_cart_product_size_id.DataPropertyName = "ProductSizeId";
+            col_cart_product_name.DataPropertyName = "Name";
+            col_cart_product_category.DataPropertyName = "Size";
+            col_cart_product_brand.DataPropertyName = "Brand";
+            col_cart_product_price.DataPropertyName = "UnitPrice";
+            col_cart_product_qty.DataPropertyName = "Quantity";
+            col_cart_discounted.DataPropertyName = "DiscountAmount";
+            col_cart_final_price.DataPropertyName = "FinalPrice";
+            col_cart_vat_exempt.DataPropertyName = "IsVatExempt";
+            col_cart_status.DataPropertyName = "DisplayFinalPrice";
+            dgv_cart_product.DataSource = cartItems;
+
+            // configure columns once, e.g.:
+            // colName.DataPropertyName = "Name";
+            // colQty.DataPropertyName = "Quantity";
+            // colUnitPrice.DataPropertyName = "UnitPrice";
+            // colLineTotal.DataPropertyName = "LineTotal";
 
         }
 
@@ -687,16 +698,28 @@ namespace Salon.View
         {
 
             if (e.RowIndex < 0) return;
-            var user = dgv_user.Rows[e.RowIndex].DataBoundItem as UsersModel;
 
-        
+            UsersModel user;
+
+
 
             if (e.RowIndex >= 0 && dgv_user.Columns[e.ColumnIndex].Name == "btn_update")
             {
-
-                if (UserSession.CurrentUser.Position == "Admin" && user.Position == "Admin")
+                user = dgv_user.Rows[e.RowIndex].DataBoundItem as UsersModel;
+                if (UserSession.CurrentUser.user_id != user.user_id && user.Position == "Admin" && UserSession.CurrentUser.Position != "Super Admin")
                 {
-                    MessageBox.Show("You are not allowed to update another Admin.");
+                    MessageBox.Show("You are not allowed to update another Admin.",
+                                    "Access Denied",
+                                    MessageBoxButtons.OK,
+                                    MessageBoxIcon.Warning);
+                    return;
+                }
+                else if (UserSession.CurrentUser.Position == "Admin" && user.Position == "Super Admin")
+                {
+                    MessageBox.Show("You are not allowed to update a Super Admin.",
+                                    "Access Denied",
+                                    MessageBoxButtons.OK,
+                                    MessageBoxIcon.Warning);
                     return;
                 }
 
@@ -729,38 +752,68 @@ namespace Salon.View
 
             else if (dgv_user.Columns[e.ColumnIndex].Name == "btn_delete")
             {
+                user = dgv_user.Rows[e.RowIndex].DataBoundItem as UsersModel;
 
                 if (UserSession.CurrentUser.user_id != user.user_id && user.Position == "Admin")
                 {
-                    MessageBox.Show("You are not allowed to delete another Admin.");
+                    MessageBox.Show("You are not allowed to delete another Admin.",
+                                    "Access Denied",
+                                    MessageBoxButtons.OK,
+                                    MessageBoxIcon.Warning);
                     return;
+
                 }
-
-
-                if (!string.IsNullOrEmpty(user.Position) && user.Position.Equals("admin", StringComparison.OrdinalIgnoreCase))
+                else if (UserSession.CurrentUser.Position == "Admin" && user.Position == "Super Admin")
                 {
-                    MessageBox.Show("Deleting your own account is not allowed.");
+                    MessageBox.Show("You are not allowed to delete a Super Admin.",
+                                    "Access Denied",
+                                    MessageBoxButtons.OK,
+                                    MessageBoxIcon.Warning);
                     return;
-                
                 }
+                // Prevent Admin from deleting their own account
+                else if (!string.IsNullOrEmpty(user.Position) &&
+                         user.Position.Equals("Admin", StringComparison.OrdinalIgnoreCase) &&
+                         UserSession.CurrentUser.user_id == user.user_id)
+                {
+                    MessageBox.Show("Deleting your own account is not allowed.",
+                                    "Access Denied",
+                                    MessageBoxButtons.OK,
+                                    MessageBoxIcon.Warning);
+                    return;
+                }
+                // Prevent Admin from deleting their own account
+                else if (!string.IsNullOrEmpty(user.Position) &&
+                         user.Position.Equals("Super Admin", StringComparison.OrdinalIgnoreCase) &&
+                         UserSession.CurrentUser.user_id == user.user_id)
+                {
+                    MessageBox.Show("Deleting your own account is not allowed.",
+                                    "Access Denied",
+                                    MessageBoxButtons.OK,
+                                    MessageBoxIcon.Warning);
+                    return;
+                }
+
+
+
 
                 // Ask for confirmation before delete 
-                if (MessageBox.Show($"Deactivate user {user.userName}?", "Confirm Deactivation", MessageBoxButtons.YesNo) == DialogResult.Yes)
+                if (MessageBox.Show($"Delete user {user.userName}?", "Confirm Deletion", MessageBoxButtons.YesNo) == DialogResult.Yes)
                 {
                     var _repo = new UserRepository();
                     var userController = new UserController(_repo);
                     if (userController.DeleteUser(user.user_id))
                     {
-                        MessageBox.Show("User Deactivated Successfully.", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                        MessageBox.Show("User Deleted Successfully.", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
                         InsertDeletedRecord(user.user_id, null, "Manage User", user.first_Name, UserSession.CurrentUser.first_Name, DateTime.Today);
                         await FilterdDeletedRecords(currentPage, pageSize);
                         await RefreshUsersAsync(paginationControl1.CurrentPage, 20);
                         var fullName = user.first_Name + " " + user.last_Name;
-                        Audit.AuditLog(DateTime.Now, "Deactivate", UserSession.CurrentUser.first_Name, "Manage User", $"Deactivated user {fullName} on {DateTime.Now:yyyy-MM-dd} at {DateTime.Now:HH:mm:ss}");
+                        Audit.AuditLog(DateTime.Now, "Delete", UserSession.CurrentUser.first_Name, "Manage User", $"Deleted user {fullName} on {DateTime.Now:yyyy-MM-dd} at {DateTime.Now:HH:mm:ss}");
                     }
                     else
                     {
-                        MessageBox.Show("Failed to Deactivate User.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        MessageBox.Show("Failed to Delete User.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                     }
 
 
@@ -769,7 +822,7 @@ namespace Salon.View
             else if (e.RowIndex >= 0 && dgv_user.Columns[e.ColumnIndex].Name == "col_view")
             {
                 // Get the user object bound to this row
-           
+                user = dgv_user.Rows[e.RowIndex].DataBoundItem as UsersModel;
 
                 bool isViewed = true;
                 using (var userForm = new UserForm(this, user, isViewed))
@@ -890,13 +943,13 @@ namespace Salon.View
 
 
             }
-            else if (e.RowIndex >= 0 && dgv_stylist.Columns[e.ColumnIndex].Name == "col_btn_schedule") 
+            else if (e.RowIndex >= 0 && dgv_stylist.Columns[e.ColumnIndex].Name == "col_btn_schedule")
             {
                 var stylist = dgv_stylist.Rows[e.RowIndex].DataBoundItem as StylistModel;
 
                 using (var stylistForm = new ScheduleForm(this, stylist))
                 {
-                   
+
                     stylistForm.ShowDialog();
                 }
             }
@@ -1408,7 +1461,7 @@ namespace Salon.View
         {
 
 
-         
+
 
             // Check if we're formatting the Price column
             if (dgv_product.Columns[e.ColumnIndex].Name == "col_product_cost_price" && e.Value != null)
@@ -1494,7 +1547,7 @@ namespace Salon.View
         // END OF PRODUCTS
 
 
-  
+
 
         // SERVICES
         public async Task RefreshServicesAsync(int PageNumber, int PageSize)
@@ -1921,7 +1974,6 @@ namespace Salon.View
             var inventory = await inventoryController.GetAllInventoryAsync();
 
             dgv_inventory.AutoGenerateColumns = false;
-            col_ProductID.DataPropertyName = "product_id";
             col_ProductName.DataPropertyName = "product_name";
             col_size_label.DataPropertyName = "size_label";
             col_ProductType.DataPropertyName = "product_type";
@@ -2033,7 +2085,7 @@ namespace Salon.View
             var Queue = controller.ShowQueue();
             var OnGoing = controller.ShowOnGoingQueue();
 
-            var Waiting = Queue.Where(a => a.Status == "Waiting").ToList();
+            var Waiting = Queue.Where(a => a.Status == "Waiting" || a.Status == "Scheduled").ToList();
 
             dgv_walk_in.AutoGenerateColumns = false;
             col_walk_in_id.DataPropertyName = "AppointmentId";
@@ -4863,13 +4915,13 @@ namespace Salon.View
         // POS SYSTEM
 
 
-        private void LoadPaymentMethodCombobox()
+        public void LoadPaymentMethodCombobox()
         {
             var repo = new PaymentMethodRepository();
             var controller = new PaymentMethodController(repo);
             var paymentMethod = controller.GetAllPaymentMethod();
 
-
+            cmb_payment_method.DataSource = null; // clear old binding
             cmb_payment_method.DisplayMember = "name";
             cmb_payment_method.ValueMember = "id";
             cmb_payment_method.DataSource = paymentMethod;
@@ -5105,7 +5157,7 @@ namespace Salon.View
             lbl_total.Text = "0.00";
             lbl_change.Text = "0.00";
             cmb_payment_method.SelectedIndex = -1;
-            cart.Clear();
+            cartItems.Clear();
 
 
         }
@@ -5212,7 +5264,7 @@ namespace Salon.View
 
 
 
-            var stock = inventoryController.GetStockByProductSize(product_id, product_size_id);
+            var stock = inventoryController.GetStockByProductSize(product_id);
             if (stock < qty_required)
             {
                 return false; // insufficient
@@ -5286,6 +5338,7 @@ namespace Salon.View
 
         private void dgv_cart_product_CellValueChanged(object sender, DataGridViewCellEventArgs e)
         {
+
             var qtyCol = dgv_cart_product.Columns["col_cart_product_qty"];
 
             if (qtyCol != null && e.ColumnIndex == qtyCol.Index && e.RowIndex >= 0)
@@ -5324,10 +5377,12 @@ namespace Salon.View
                 }
 
                 // Validate stock
+           
                 var inventoryRepo = new InventoryRepository();
                 var inventoryController = new InventoryController(inventoryRepo);
+     
 
-                double stock = inventoryController.GetProductQtyStck(productId, productSizeId);
+                int stock = inventoryController.GetProductQtyStck(productId, productSizeId);
 
                 if (stock < newQty)
                 {
@@ -5456,7 +5511,7 @@ namespace Salon.View
             var inventory_repo = new InventoryRepository();
             var inventory_controller = new InventoryController(inventory_repo);
 
-            foreach (var product in cart)
+            foreach (var product in cartItems)
             {
 
 
@@ -5464,10 +5519,11 @@ namespace Salon.View
                 var invoiceServiceCart = new ServiceCart
                 {
                     InvoiceId = invoice_id,
-                    ProductId = product.product_id,
+                    ProductId = product.ProductId,
+                    ProductSizeId = product.ProductSizeId,
                     ItemType = "Product",
-                    Quantity = product.quantity,
-                    Price = product.selling_price,
+                    Quantity = product.Quantity,
+                    Price = product.UnitPrice,
                     Duration = 0
                 };
                 SaveInvoiceServices(invoiceServiceCart);
@@ -5475,8 +5531,9 @@ namespace Salon.View
                 var repo = new StockOutRepository();
                 var controller = new StockOutController(repo);
 
+                controller.DeductProductRetailStocks(product.ProductId, product.ProductSizeId, product.Quantity, invoice_id, product.UnitPrice);
 
-                controller.DeductProductStockOut(product.product_id, product.product_size_id, product.quantity, "Sale", "used " + product.quantity + "x " + product.size_label + " of " + product.product_name);
+                //controller.DeductProductStockOut(product.product_id, product.product_size_id, product.quantity, "Sale", "used " + product.quantity + "x " + product.size_label + " of " + product.product_name);
 
 
 
@@ -5922,7 +5979,7 @@ namespace Salon.View
 
             if (e.RowIndex >= 0 && dgv_cart_product.Columns[e.ColumnIndex].Name == "col_btn_cart_apply_discount")
             {
-                var service = dgv_cart_product.Rows[e.RowIndex].DataBoundItem as RetailProduct;
+                var service = dgv_cart_product.Rows[e.RowIndex].DataBoundItem as CartItem;
 
                 if (service.HasDiscountApplied)
                 {
@@ -5935,13 +5992,13 @@ namespace Salon.View
                     return;
                 }
 
-                using (var discountForm = new DiscountModelForm(service.product_name, service.quantity, service.selling_price, "POS"))
+                using (var discountForm = new DiscountModelForm(service.Name, service.Quantity, service.UnitPrice, "POS"))
                 {
                     if (discountForm.ShowDialog() == DialogResult.OK)
                     {
                         // Get the selected discount rate from the discount form
                         decimal discountAmount = 0m;
-                        decimal finalPrice = service.selling_price;
+                        decimal finalPrice = service.UnitPrice;
 
                         if (discountForm.isVatExempt)
                         {
@@ -5951,7 +6008,7 @@ namespace Salon.View
                             service.DiscountPercent = discountForm.discountRate;
                             service.QtyVatExempt = discountForm.discountedQty;
 
-                            var basePrice = service.selling_price / 1.12m;
+                            var basePrice = service.UnitPrice / 1.12m;
                             service.DiscountAmount = basePrice * (discountForm.discountRate / 100m) * service.DiscountedQty;
 
 
@@ -5976,7 +6033,7 @@ namespace Salon.View
                             service.IsFreeReward = discountForm.IsFreeReward;
                             service.DiscountedQty = discountForm.discountedQty;
                             service.DiscountPercent = discountForm.discountRate;
-                            service.DiscountAmount = service.selling_price * (discountForm.discountRate / 100m) * service.DiscountedQty;
+                            service.DiscountAmount = service.UnitPrice * (discountForm.discountRate / 100m) * service.DiscountedQty;
                             //finalPrice = service.Price - discountAmount;
 
                             //service.DiscountPercent = discountForm.discountRate;
@@ -6005,17 +6062,17 @@ namespace Salon.View
             decimal discountTotal = 0m;
             decimal vatRate = 0.12m;
 
-            foreach (var item in cart)
+            foreach (var item in cartItems)
             {
                 subtotal += item.FinalPrice;
                 discountTotal += item.DiscountAmount;
 
-                int taxableQty = item.quantity - item.QtyVatExempt;
+                int taxableQty = item.Quantity - item.QtyVatExempt;
                 int exemptQty = item.QtyVatExempt;
 
                 if (taxableQty > 0)
                 {
-                    decimal grossTaxable = item.selling_price * taxableQty;
+                    decimal grossTaxable = item.UnitPrice * taxableQty;
                     decimal baseTaxable = grossTaxable / (1 + vatRate);
                     vatAmount += grossTaxable - baseTaxable;
                 }
@@ -6826,7 +6883,7 @@ namespace Salon.View
         private void materialTabControl1_Enter(object sender, EventArgs e)
         {
             lbl_invoice_number.Text = GenerateInvoiceNumber();
-            LoadPaymentMethodCombobox();
+          
 
         }
 
@@ -6965,6 +7022,44 @@ namespace Salon.View
                 }
             }
         }
+        private BindingList<CartItem> cartItems = new BindingList<CartItem>();
+
+        private void btn_search_product_Click(object sender, EventArgs e)
+        {
+            using (var form = new SearchRetailProductForm(this)) 
+            {
+                form.ShowDialog();
+            }
+        }
+
+        public void AddToCart(RetailProduct product, int qty)
+        {
+            var existing = cartItems.FirstOrDefault(x => x.ProductId == product.product_id && x.ProductSizeId == product.product_size_id);
+            if (existing != null)
+            {
+                existing.Quantity += qty;
+                // If using BindingList, raise ListChanged or implement INotifyPropertyChanged on CartItem
+            }
+            else
+            {
+                cartItems.Add(new CartItem
+                {
+                    ProductId = product.product_id,
+                    ProductSizeId = product.product_size_id,
+                    Name = product.product_name,
+                    Size = product.size_label,
+                    Brand = product.brand,
+                    UnitPrice = product.selling_price,
+                    Quantity = qty
+                });
+                btn_confirm_payment.Enabled = true; 
+            }
+
+            txt_search_product.Clear(); // reset for next search
+            lbl_sub_total.Text = SubTotal().ToString("N2");
+            calculate();
+        }
+
     }
 }
 

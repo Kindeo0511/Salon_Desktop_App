@@ -31,17 +31,18 @@
             this.btn_void = new MaterialSkin.Controls.MaterialButton();
             this.btn_cancel = new MaterialSkin.Controls.MaterialButton();
             this.panel1 = new System.Windows.Forms.Panel();
+            this.materialLabel5 = new MaterialSkin.Controls.MaterialLabel();
             this.lbl_date = new MaterialSkin.Controls.MaterialLabel();
+            this.dgv_products = new System.Windows.Forms.DataGridView();
             this.materialLabel4 = new MaterialSkin.Controls.MaterialLabel();
             this.materialLabel2 = new MaterialSkin.Controls.MaterialLabel();
             this.lbl_staff = new MaterialSkin.Controls.MaterialLabel();
             this.lbl_invoice_number = new MaterialSkin.Controls.MaterialLabel();
             this.materialLabel3 = new MaterialSkin.Controls.MaterialLabel();
-            this.materialLabel5 = new MaterialSkin.Controls.MaterialLabel();
-            this.dgv_products = new System.Windows.Forms.DataGridView();
             this.col_item_id = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.col_invoice_id = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.col_product_id = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.col_product__size_id = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.col_item_name = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.col_price = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.col_qty = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -119,6 +120,20 @@
             this.panel1.Size = new System.Drawing.Size(994, 833);
             this.panel1.TabIndex = 0;
             // 
+            // materialLabel5
+            // 
+            this.materialLabel5.AutoSize = true;
+            this.materialLabel5.Depth = 0;
+            this.materialLabel5.Font = new System.Drawing.Font("Roboto Medium", 20F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Pixel);
+            this.materialLabel5.FontType = MaterialSkin.MaterialSkinManager.fontType.H6;
+            this.materialLabel5.Location = new System.Drawing.Point(30, 224);
+            this.materialLabel5.Margin = new System.Windows.Forms.Padding(3, 0, 50, 0);
+            this.materialLabel5.MouseState = MaterialSkin.MouseState.HOVER;
+            this.materialLabel5.Name = "materialLabel5";
+            this.materialLabel5.Size = new System.Drawing.Size(118, 24);
+            this.materialLabel5.TabIndex = 5;
+            this.materialLabel5.Text = "List of Items:";
+            // 
             // lbl_date
             // 
             this.lbl_date.AutoSize = true;
@@ -131,6 +146,39 @@
             this.lbl_date.Size = new System.Drawing.Size(41, 24);
             this.lbl_date.TabIndex = 3;
             this.lbl_date.Text = "date";
+            // 
+            // dgv_products
+            // 
+            this.dgv_products.AllowUserToAddRows = false;
+            this.dgv_products.AllowUserToDeleteRows = false;
+            this.dgv_products.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dgv_products.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
+            this.col_item_id,
+            this.col_invoice_id,
+            this.col_product_id,
+            this.col_product__size_id,
+            this.col_item_name,
+            this.col_price,
+            this.col_qty,
+            this.col_refund_qty,
+            this.col_over_all_discount,
+            this.col_item_discount,
+            this.col_vat_amount,
+            this.col_total_amount,
+            this.col_payment_method,
+            this.col_ref_number,
+            this.col_refund_amount,
+            this.col_total,
+            this.col_status,
+            this.col_btn_refund});
+            this.dgv_products.Location = new System.Drawing.Point(28, 251);
+            this.dgv_products.Name = "dgv_products";
+            this.dgv_products.ReadOnly = true;
+            this.dgv_products.RowHeadersWidth = 51;
+            this.dgv_products.RowTemplate.Height = 24;
+            this.dgv_products.Size = new System.Drawing.Size(925, 139);
+            this.dgv_products.TabIndex = 6;
+            this.dgv_products.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgv_products_CellClick);
             // 
             // materialLabel4
             // 
@@ -199,52 +247,6 @@
             this.materialLabel3.TabIndex = 4;
             this.materialLabel3.Text = "Invoice Number:";
             // 
-            // materialLabel5
-            // 
-            this.materialLabel5.AutoSize = true;
-            this.materialLabel5.Depth = 0;
-            this.materialLabel5.Font = new System.Drawing.Font("Roboto Medium", 20F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Pixel);
-            this.materialLabel5.FontType = MaterialSkin.MaterialSkinManager.fontType.H6;
-            this.materialLabel5.Location = new System.Drawing.Point(30, 224);
-            this.materialLabel5.Margin = new System.Windows.Forms.Padding(3, 0, 50, 0);
-            this.materialLabel5.MouseState = MaterialSkin.MouseState.HOVER;
-            this.materialLabel5.Name = "materialLabel5";
-            this.materialLabel5.Size = new System.Drawing.Size(118, 24);
-            this.materialLabel5.TabIndex = 5;
-            this.materialLabel5.Text = "List of Items:";
-            // 
-            // dgv_products
-            // 
-            this.dgv_products.AllowUserToAddRows = false;
-            this.dgv_products.AllowUserToDeleteRows = false;
-            this.dgv_products.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dgv_products.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
-            this.col_item_id,
-            this.col_invoice_id,
-            this.col_product_id,
-            this.col_item_name,
-            this.col_price,
-            this.col_qty,
-            this.col_refund_qty,
-            this.col_over_all_discount,
-            this.col_item_discount,
-            this.col_vat_amount,
-            this.col_total_amount,
-            this.col_payment_method,
-            this.col_ref_number,
-            this.col_refund_amount,
-            this.col_total,
-            this.col_status,
-            this.col_btn_refund});
-            this.dgv_products.Location = new System.Drawing.Point(28, 251);
-            this.dgv_products.Name = "dgv_products";
-            this.dgv_products.ReadOnly = true;
-            this.dgv_products.RowHeadersWidth = 51;
-            this.dgv_products.RowTemplate.Height = 24;
-            this.dgv_products.Size = new System.Drawing.Size(925, 139);
-            this.dgv_products.TabIndex = 6;
-            this.dgv_products.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgv_products_CellClick);
-            // 
             // col_item_id
             // 
             this.col_item_id.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
@@ -274,6 +276,15 @@
             this.col_product_id.ReadOnly = true;
             this.col_product_id.Visible = false;
             this.col_product_id.Width = 98;
+            // 
+            // col_product__size_id
+            // 
+            this.col_product__size_id.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
+            this.col_product__size_id.HeaderText = "size_id";
+            this.col_product__size_id.MinimumWidth = 6;
+            this.col_product__size_id.Name = "col_product__size_id";
+            this.col_product__size_id.ReadOnly = true;
+            this.col_product__size_id.Width = 78;
             // 
             // col_item_name
             // 
@@ -425,6 +436,7 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn col_item_id;
         private System.Windows.Forms.DataGridViewTextBoxColumn col_invoice_id;
         private System.Windows.Forms.DataGridViewTextBoxColumn col_product_id;
+        private System.Windows.Forms.DataGridViewTextBoxColumn col_product__size_id;
         private System.Windows.Forms.DataGridViewTextBoxColumn col_item_name;
         private System.Windows.Forms.DataGridViewTextBoxColumn col_price;
         private System.Windows.Forms.DataGridViewTextBoxColumn col_qty;

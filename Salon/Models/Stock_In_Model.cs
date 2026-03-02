@@ -11,17 +11,13 @@ namespace Salon.Models
         public int stock_in_id { get; set; }
         public int delivery_id { get; set; }
         public int product_id { get; set; }
-        public string product_type { get; set; }
+        
         public string supplier_name { get; set; }
-        public string product_name { get; set; }
         public int product_size_id { get; set; }
-        public string size_label { get; set; }
       
-        public int qty { get; set; }
-        public int qty_remaining  => qty;
+
         public int total { get; set; }
         public int total_remaining  => total;
-        public DateTime created_at { get; set; }
 
         public int is_retail { get; set; }
         public int is_ingredient { get; set; }
@@ -48,6 +44,29 @@ namespace Salon.Models
             }
         }
 
+        // STOCK IN DETAILS
+
+        public int refund_id { get; set; }
+        public int stock_out_id { get; set; }
+        public int inventory_id { get; set; }
+        public string product_name { get; set; }
+        public string brand { get; set; }
+        public string size_label { get; set; }
+        public decimal qty { get; set; }
+        public decimal qty_volume { get; set; }
+        public decimal unit_price { get; set; }
+        public decimal line_total { get; set; }
+        public decimal previous_total_remaining { get; set; }
+        public decimal new_total_remaining { get; set; }
+        public decimal previous_qty { get; set; }
+        public decimal new_qty { get; set; }
+        public string movement_type { get; set; }
+        public string reason { get; set; }
+        public string first_name { get; set; }
+        public string last_name { get; set; }
+        public string fullName => $"{first_name}, {last_name}";
+        public int created_by { get; set; }
+        public DateTime created_at { get; set; }
 
 
     }

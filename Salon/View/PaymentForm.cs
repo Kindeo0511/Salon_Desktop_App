@@ -140,7 +140,8 @@ namespace Salon.View
                         foreach (var product in serviceProducts)
                         {
                             var qtyDeduction = product.qty_required * item.Quantity;
-                            controller.DeductStockOut(product.product_id, qtyDeduction,"Service", "used "+ qtyDeduction + product.unit_type +" of "+ product.product_name);
+                            controller.DeductProductConsumables(product.product_id,qtyDeduction, invoice_id);
+                            //controller.DeductStockOut(product.product_id, qtyDeduction,"Service", "used "+ qtyDeduction + product.unit_type +" of "+ product.product_name);
                         }
                     }
 
@@ -151,11 +152,11 @@ namespace Salon.View
                 else if (item.ProductId.HasValue && item.ProductId.Value != 0)
                 {
                     int qty = item.Quantity;
-                
-                    controller.DeductProductStockOut(item.ProductId.Value, item.ProductSizeId ?? 0, qty, "Sale", " used " + qty+"x " + item.Size + " of " + item.ItemName);
-                      
 
-                    
+                    //controller.DeductProductStockOut(item.ProductId.Value, item.ProductSizeId ?? 0, qty, "Sale", " used " + qty+"x " + item.Size + " of " + item.ItemName);
+                    controller.DeductProductRetailStocks(item.ProductId.Value, item.ProductSizeId ?? 0, qty, invoice_id, item.Price);
+
+
                 }
             }
             MessageBox.Show("Payment has been recorded successfully!",

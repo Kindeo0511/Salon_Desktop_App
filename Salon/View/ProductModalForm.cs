@@ -41,7 +41,7 @@ namespace Salon.View
 
 
 
-            var stock = inventoryController.GetStockByProductSize(product_id, product_size_id);
+            var stock = inventoryController.GetStockByProductSize(product_id);
             if (stock < qty_required)
             {
                 return false; // insufficient

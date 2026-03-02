@@ -343,6 +343,7 @@
     <Compile Include="Models\BookingSlotStatus.cs" />
     <Compile Include="Models\BookingSummary.cs" />
     <Compile Include="Models\BusinessHour.cs" />
+    <Compile Include="Models\CartItem.cs" />
     <Compile Include="Models\CategoryModel.cs" />
     <Compile Include="Models\CustomerModel.cs" />
     <Compile Include="Models\DeletedRecord.cs" />
@@ -663,6 +664,12 @@
     <Compile Include="View\ProductModalForm.Designer.cs">
       <DependentUpon>ProductModalForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="View\ProductQuantityForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="View\ProductQuantityForm.Designer.cs">
+      <DependentUpon>ProductQuantityForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="View\ProductSizeForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -734,6 +741,12 @@
     </Compile>
     <Compile Include="View\SearchResultControl.Designer.cs">
       <DependentUpon>SearchResultControl.cs</DependentUpon>
+    </Compile>
+    <Compile Include="View\SearchRetailProductForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="View\SearchRetailProductForm.Designer.cs">
+      <DependentUpon>SearchRetailProductForm.cs</DependentUpon>
     </Compile>
     <Compile Include="View\ServiceForm.cs">
       <SubType>Form</SubType>
@@ -967,6 +980,9 @@
     <EmbeddedResource Include="View\ProductModalForm.resx">
       <DependentUpon>ProductModalForm.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="View\ProductQuantityForm.resx">
+      <DependentUpon>ProductQuantityForm.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="View\ProductSizeForm.resx">
       <DependentUpon>ProductSizeForm.cs</DependentUpon>
     </EmbeddedResource>
@@ -1002,6 +1018,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="View\SearchResultControl.resx">
       <DependentUpon>SearchResultControl.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="View\SearchRetailProductForm.resx">
+      <DependentUpon>SearchRetailProductForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="View\ServiceForm.resx">
       <DependentUpon>ServiceForm.cs</DependentUpon>

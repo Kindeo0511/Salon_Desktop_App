@@ -33,8 +33,6 @@
             this.materialLabel2 = new MaterialSkin.Controls.MaterialLabel();
             this.rad_yes = new MaterialSkin.Controls.MaterialRadioButton();
             this.rad_no = new MaterialSkin.Controls.MaterialRadioButton();
-            this.materialLabel3 = new MaterialSkin.Controls.MaterialLabel();
-            this.chk_yes = new MaterialSkin.Controls.MaterialCheckbox();
             this.panel1 = new System.Windows.Forms.Panel();
             this.btn_update = new MaterialSkin.Controls.MaterialButton();
             this.btn_cancel = new MaterialSkin.Controls.MaterialButton();
@@ -72,15 +70,15 @@
             this.materialLabel2.Location = new System.Drawing.Point(97, 204);
             this.materialLabel2.MouseState = MaterialSkin.MouseState.HOVER;
             this.materialLabel2.Name = "materialLabel2";
-            this.materialLabel2.Size = new System.Drawing.Size(85, 24);
+            this.materialLabel2.Size = new System.Drawing.Size(257, 24);
             this.materialLabel2.TabIndex = 2;
-            this.materialLabel2.Text = "Required:";
+            this.materialLabel2.Text = "Required Reference Number:";
             // 
             // rad_yes
             // 
             this.rad_yes.AutoSize = true;
             this.rad_yes.Depth = 0;
-            this.rad_yes.Location = new System.Drawing.Point(349, 186);
+            this.rad_yes.Location = new System.Drawing.Point(436, 200);
             this.rad_yes.Margin = new System.Windows.Forms.Padding(0);
             this.rad_yes.MouseLocation = new System.Drawing.Point(-1, -1);
             this.rad_yes.MouseState = MaterialSkin.MouseState.HOVER;
@@ -96,7 +94,7 @@
             // 
             this.rad_no.AutoSize = true;
             this.rad_no.Depth = 0;
-            this.rad_no.Location = new System.Drawing.Point(609, 186);
+            this.rad_no.Location = new System.Drawing.Point(630, 200);
             this.rad_no.Margin = new System.Windows.Forms.Padding(0);
             this.rad_no.MouseLocation = new System.Drawing.Point(-1, -1);
             this.rad_no.MouseState = MaterialSkin.MouseState.HOVER;
@@ -107,34 +105,6 @@
             this.rad_no.TabStop = true;
             this.rad_no.Text = "No";
             this.rad_no.UseVisualStyleBackColor = true;
-            // 
-            // materialLabel3
-            // 
-            this.materialLabel3.AutoSize = true;
-            this.materialLabel3.Depth = 0;
-            this.materialLabel3.Font = new System.Drawing.Font("Roboto Medium", 20F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Pixel);
-            this.materialLabel3.FontType = MaterialSkin.MaterialSkinManager.fontType.H6;
-            this.materialLabel3.Location = new System.Drawing.Point(97, 315);
-            this.materialLabel3.MouseState = MaterialSkin.MouseState.HOVER;
-            this.materialLabel3.Name = "materialLabel3";
-            this.materialLabel3.Size = new System.Drawing.Size(62, 24);
-            this.materialLabel3.TabIndex = 5;
-            this.materialLabel3.Text = "Active:";
-            // 
-            // chk_yes
-            // 
-            this.chk_yes.AutoSize = true;
-            this.chk_yes.Depth = 0;
-            this.chk_yes.Location = new System.Drawing.Point(349, 297);
-            this.chk_yes.Margin = new System.Windows.Forms.Padding(0);
-            this.chk_yes.MouseLocation = new System.Drawing.Point(-1, -1);
-            this.chk_yes.MouseState = MaterialSkin.MouseState.HOVER;
-            this.chk_yes.Name = "chk_yes";
-            this.chk_yes.ReadOnly = false;
-            this.chk_yes.Ripple = true;
-            this.chk_yes.Size = new System.Drawing.Size(35, 37);
-            this.chk_yes.TabIndex = 6;
-            this.chk_yes.UseVisualStyleBackColor = true;
             // 
             // panel1
             // 
@@ -156,7 +126,7 @@
             this.btn_update.Depth = 0;
             this.btn_update.HighEmphasis = true;
             this.btn_update.Icon = null;
-            this.btn_update.Location = new System.Drawing.Point(553, 27);
+            this.btn_update.Location = new System.Drawing.Point(553, 0);
             this.btn_update.Margin = new System.Windows.Forms.Padding(4, 6, 4, 6);
             this.btn_update.MouseState = MaterialSkin.MouseState.HOVER;
             this.btn_update.Name = "btn_update";
@@ -220,8 +190,6 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(900, 500);
             this.Controls.Add(this.panel1);
-            this.Controls.Add(this.chk_yes);
-            this.Controls.Add(this.materialLabel3);
             this.Controls.Add(this.rad_no);
             this.Controls.Add(this.rad_yes);
             this.Controls.Add(this.materialLabel2);
@@ -249,8 +217,6 @@
         private MaterialSkin.Controls.MaterialLabel materialLabel2;
         private MaterialSkin.Controls.MaterialRadioButton rad_yes;
         private MaterialSkin.Controls.MaterialRadioButton rad_no;
-        private MaterialSkin.Controls.MaterialLabel materialLabel3;
-        private MaterialSkin.Controls.MaterialCheckbox chk_yes;
         private System.Windows.Forms.Panel panel1;
         private MaterialSkin.Controls.MaterialButton btn_cancel;
         private MaterialSkin.Controls.MaterialButton btn_save;

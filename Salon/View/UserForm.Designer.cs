@@ -219,9 +219,6 @@
             this.cmb_role.Hint = "Selecct a role";
             this.cmb_role.IntegralHeight = false;
             this.cmb_role.ItemHeight = 43;
-            this.cmb_role.Items.AddRange(new object[] {
-            "Admin",
-            "Staff"});
             this.cmb_role.Location = new System.Drawing.Point(54, 753);
             this.cmb_role.Margin = new System.Windows.Forms.Padding(3, 3, 3, 100);
             this.cmb_role.MaxDropDownItems = 4;
@@ -286,7 +283,7 @@
             this.btn_update.Depth = 0;
             this.btn_update.HighEmphasis = true;
             this.btn_update.Icon = null;
-            this.btn_update.Location = new System.Drawing.Point(902, 1055);
+            this.btn_update.Location = new System.Drawing.Point(902, 1089);
             this.btn_update.Margin = new System.Windows.Forms.Padding(4, 6, 4, 6);
             this.btn_update.MouseState = MaterialSkin.MouseState.HOVER;
             this.btn_update.Name = "btn_update";

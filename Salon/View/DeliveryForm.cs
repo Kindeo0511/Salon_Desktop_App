@@ -434,12 +434,25 @@ namespace Salon.View
                 DateTime expiryDate = Convert.ToDateTime(row.Cells["col_expiry_date"].Value);
                 string notes = row.Cells["col_note"].Value.ToString();
 
-
-                var deliveryItemModel = new DeliveryItemModel
+                var Stock_In = new Stock_In_Model
                 {
                     delivery_id = id,
                     product_id = product_id,
                     product_size_id = product_size_id,
+                    qty = quantity,
+                    unit_price = unitPrice,
+                    total = total_qty,
+                    created_by = UserSession.CurrentUser.user_id,
+                };
+
+
+                int inventory_id = 0;
+
+                var deliveryItemModel = new DeliveryItemModel
+                {
+                    delivery_id = id,
+                    product_size_id = product_size_id,
+                    inventory_id = inventory_id,
                     qty_delivered = quantity,
                     content = content,
                     total_qty = total_qty,
@@ -448,39 +461,43 @@ namespace Salon.View
                     expiry_date = expiryDate,
                     notes = notes,
                 };
-                deliveryItemController.AddDeliveryItem(deliveryItemModel);
 
-                var Stock_In = new Stock_In_Model
-                {
-                    delivery_id = id,
-                    product_id = product_id,
-                    product_size_id = product_size_id,
-                    qty = quantity,
-                    total = total_qty
-                };
+                bool is_update = false;
 
-                if (stock_in_controller.AddStock(Stock_In)) 
-                {
-
-                    bool exists = inventoryController.ProductExists(product_id, product_size_id);
-
+                bool exists = inventoryController.ProductExists(product_size_id);
+                
                     if (exists)
                     {
-                        inventoryController.UpdateInventory(product_id, product_size_id, quantity, total_qty);
+                        inventory_id = inventoryController.GetInventoryId(product_size_id);
+                        inventoryController.UpdateInventory(product_size_id, quantity, total_qty);
+
+                     is_update = true;
+                  
                     }
-                    else 
+                    else
                     {
                         var inventoryModel = new InventoryViewModel
                         {
-                            product_id = product_id,
                             product_size_id = product_size_id,
                             qty = quantity,
                             total_remaining = total_qty
                         };
-                        inventoryController.AddInventory(inventoryModel);
+                        inventory_id = inventoryController.AddInventory(inventoryModel);
+                     is_update = false;
+                   
                     }
-                  
-                }
+
+                
+
+                deliveryItemModel.inventory_id = inventory_id;
+                Stock_In.inventory_id = inventory_id;
+                var total_remaining = GetTotalRemaining(inventory_id);
+                stock_in_controller.AddStockIn(Stock_In, total_remaining,is_update);
+                deliveryItemController.AddDeliveryItem(deliveryItemModel);
+
+
+
+
                 //bool exists = inventoryController.ProductExists(product_id);
 
                 //if (exists)
@@ -552,6 +569,14 @@ namespace Salon.View
             mainform.LoadInventory(1, 25);
             this.Close(); 
 
+        }
+        public decimal GetTotalRemaining(int inventory_id) 
+        {
+            var repo = new Stock_In_Repository();
+            var controller = new Stock_In_Controller(repo);
+
+            return controller.GetTotalRemaining(inventory_id);
+            
         }
 
         private void AddAndLoadExpenses(string category, string description, decimal amount, string paid_by, string notes, DateTime timestamp)

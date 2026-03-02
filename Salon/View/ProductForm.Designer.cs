@@ -375,6 +375,7 @@
             this.btn_add_size.Type = MaterialSkin.Controls.MaterialButton.MaterialButtonType.Contained;
             this.btn_add_size.UseAccentColor = false;
             this.btn_add_size.UseVisualStyleBackColor = true;
+            this.btn_add_size.Click += new System.EventHandler(this.btn_add_size_Click_1);
             // 
             // groupBox1
             // 
@@ -465,6 +466,7 @@
             this.btn_save.Type = MaterialSkin.Controls.MaterialButton.MaterialButtonType.Contained;
             this.btn_save.UseAccentColor = false;
             this.btn_save.UseVisualStyleBackColor = true;
+            this.btn_save.Click += new System.EventHandler(this.btn_save_Click_1);
             // 
             // btn_update
             // 

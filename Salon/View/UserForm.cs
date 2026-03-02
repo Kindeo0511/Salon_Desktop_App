@@ -1,5 +1,6 @@
 ﻿using MaterialSkin.Controls;
 using Microsoft.Reporting.Map.WebForms.BingMaps;
+using Microsoft.ReportingServices.ReportProcessing.ReportObjectModel;
 using Salon.Controller;
 using Salon.Models;
 using Salon.Repository;
@@ -54,6 +55,10 @@ namespace Salon.View
             this.AcceptButton = btn_save;
             btn_cancel.DialogResult = DialogResult.Cancel;
 
+            PopulateRoleComboBox(_user, cmb_role);
+
+
+
         }
         public UserForm(MainForm mainForm, UsersModel user)
         {
@@ -70,11 +75,13 @@ namespace Salon.View
             dtp_day_of_birth.MinDate = new DateTime(minYear, 1, 1);      // e.g., Jan 1, 1960 if it's 2025
             dtp_day_of_birth.MaxDate = new DateTime(maxYear, 12, 31);    // e.g., Dec 31, 2007 if it's 2025
 
+
             _isUpdating = true;
 
             if (_user != null)
             {
-         
+
+                PopulateRoleComboBox(_user, cmb_role);
                 user_id = _user.user_id;
                 txt_first_name.Text = _user.first_Name;
                 txt_middle_name.Text = _user.middle_Name;
@@ -88,7 +95,15 @@ namespace Salon.View
                 txt_confirm_password.Text = _user.userPassword;
                 cmb_role.Text = _user.Position;
 
-                if (_user.Position == "Admin") 
+                if (_user.Position == "Admin" && UserSession.CurrentUser.Position == "Super Admin")
+                {
+                    cmb_role.Enabled = true;
+                }
+                else if (_user.Position == "Super Admin" && UserSession.CurrentUser.Position == "Super Admin")
+                {
+                    cmb_role.Enabled = false;
+                }
+                else if (_user.Position == "Admin" && UserSession.CurrentUser.Position == "Admin")
                 {
                     cmb_role.Enabled = false;
                 }
@@ -96,6 +111,7 @@ namespace Salon.View
                 {
                     cmb_role.Enabled = true;
                 }
+
                 btn_save.Visible = false;
                 btn_update.Visible = true;
 
@@ -641,6 +657,38 @@ namespace Salon.View
         {
           
 
+        }
+        private void PopulateRoleComboBox(UsersModel targetUser, MaterialComboBox comboBoxRoles)
+        {
+            comboBoxRoles.Items.Clear();
+
+            var currentUser = UserSession.CurrentUser; // static reference
+
+            if (currentUser.Position == "Super Admin")
+            {
+                // If Super Admin is updating their own account, include Super Admin
+                if (currentUser.user_id == targetUser.user_id)
+                {
+                    comboBoxRoles.Items.Add("Super Admin");
+                }
+
+                // Super Admin can always assign Admin and Staff
+                comboBoxRoles.Items.Add("Admin");
+                comboBoxRoles.Items.Add("Staff");
+            }
+            else if (currentUser.Position == "Admin")
+            {
+                if (currentUser.user_id == targetUser.user_id)
+                {
+                    comboBoxRoles.Items.Add("Admin");
+                }
+                comboBoxRoles.Items.Add("Staff");
+            }
+            else if (currentUser.Position == "Admin") 
+            {
+                comboBoxRoles.Items.Add("Staff");
+            }
+          
         }
 
         private void chk_show_password_CheckedChanged(object sender, EventArgs e)

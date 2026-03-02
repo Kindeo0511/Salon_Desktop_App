@@ -10,6 +10,7 @@ namespace Salon.Models
     {
         public int InvoiceId { get; set; }
         public int ProductId { get; set; }
+        public int ProductSizeId { get; set; }
         public string ItemName { get; set; }
         public int ServiceID { get; set; }
         public string ServiceName { get; set; }

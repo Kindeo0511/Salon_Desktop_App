@@ -13,6 +13,7 @@ namespace Salon.Models
         public int delivery_id { get; set; }
         public string invoice { get; set; }
         public int product_id { get; set; }
+        public int inventory_id { get; set; }
         public int product_size_id { get; set; }
         public int supplier_id { get; set; }
         public string supplier_name { get; set; }

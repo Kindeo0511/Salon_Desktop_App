@@ -41,12 +41,26 @@ namespace Salon.View
             controller = new Stock_In_Controller(repo);
 
             dgv_products.AutoGenerateColumns = false;
-            col_product_supplier_name.DataPropertyName = "supplier_name";
-            col_product_name.DataPropertyName = "product_name";
-            col_product_type.DataPropertyName = "DisplayProductType";
-            col_product_size.DataPropertyName = "size_label";
-            col_product_qty.DataPropertyName = "qty";
-  
+            col_stk_in_refund_id.DataPropertyName = "refund_id";
+            col_stk_in_stock_out_id.DataPropertyName = "stock_out_id";
+            col_stk_in_inventory_id.DataPropertyName = "inventory_id";
+            col_stk_in_product_name.DataPropertyName = "product_name";
+            col_stk_in_brand.DataPropertyName = "brand";
+            col_stk_in_size_label.DataPropertyName = "size_label";
+            col_stk_in_qty.DataPropertyName = "qty";
+            col_stk_in_qty_volume.DataPropertyName = "qty_volume";
+            col_stk_in_unit_price.DataPropertyName = "unit_price";
+            col_stk_in_line_total.DataPropertyName = "line_total";
+            col_stk_in_prev_remaining.DataPropertyName = "previous_total_remaining";
+            col_stk_in_new_remaining.DataPropertyName = "new_total_remaining";
+            col_stk_in_prev_qty.DataPropertyName = "previous_qty";
+            col_stk_in_new_qty.DataPropertyName = "new_qty";
+            col_stk_in_movement_type.DataPropertyName = "movement_type";
+            col_stk_in_reason.DataPropertyName = "reason";
+            col_stk_in_fullName.DataPropertyName = "fullName";
+            col_stk_in_created_at.DataPropertyName = "created_at";
+
+        
 
             dgv_products.DataSource = controller.GetAll();
         }
@@ -54,19 +68,23 @@ namespace Salon.View
         {
             out_controller = new Stock_Out_Controller(out_repo);
 
-            dgv_stock_out.AutoGenerateColumns = false;
+   
+
+             dgv_stock_out.AutoGenerateColumns = false;
+            col_stk_out_invoice_number.DataPropertyName = "invoice_number";
             col_stk_out_name.DataPropertyName = "product_name";
-            col_stk_out_product_type.DataPropertyName = "product_type";
-            col_stk_out_product_brand.DataPropertyName = "brand";
-            col_stk_out_product_unit_type.DataPropertyName = "product_unit_type";
-            col_stk_out_qty_delivered.DataPropertyName = "qty_delivered";
-            col_stk_out_total_qty_delivered.DataPropertyName = "total_qty_delivered";
-            col_stk_out_qty_remaining.DataPropertyName = "qty_remaining";
-            col_stk_out_total_remaining.DataPropertyName = "total_qty_remaining";
-            col_stk_out_qty.DataPropertyName = "quantity";
-            col_stk_out_total.DataPropertyName = "total";
-            col_stk_out_unit_type.DataPropertyName = "unit_type";
-            col_stk_out_out_type.DataPropertyName = "out_type";
+            col_stk_out_size.DataPropertyName = "size_label";
+            col_stk_out_qty.DataPropertyName = "qty";
+            col_stk_out_qty_volume.DataPropertyName = "qty_volume";
+            col_stk_out_unit_price.DataPropertyName = "unit_price";
+            col_stk_out_line_total.DataPropertyName = "line_total";
+            col_stk_out_prev_total_remaining.DataPropertyName = "previous_total_remaining";
+            col_stk_out_new_total_remaining.DataPropertyName = "new_total_remaining";
+            col_stk_out_prev_qty.DataPropertyName = "previous_qty";
+            col_stk_out_new_qty.DataPropertyName = "new_qty";
+            col_stk_out_movement_type.DataPropertyName = "movement_type";
+            col_stk_out_reason.DataPropertyName = "reason";
+            col_stk_out_user_name.DataPropertyName = "fullName";
             col_stk_out_created_at.DataPropertyName = "created_at";
 
             dgv_stock_out.DataSource = out_controller.GetAllStockOutLists();

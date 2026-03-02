@@ -54,7 +54,7 @@ namespace Salon.View
             txt_name.Text = model.name;
             rad_yes.Checked = model.required_reference;
             rad_no.Checked = !model.required_reference;
-            chk_yes.Checked = model.is_active;
+
             
         }
        
@@ -65,14 +65,13 @@ namespace Salon.View
 
             string name = txt_name.Text.Trim();
             bool is_required = rad_yes.Checked;
-            bool is_checked = chk_yes.Checked;
 
             var SaveModel = new PaymentMethodModel
             {
    
                 name = name,
                 required_reference = is_required,
-                is_active = is_checked,
+ 
             };
 
             return controller.AddPaymentMethod(SaveModel);
@@ -84,14 +83,14 @@ namespace Salon.View
 
             string name = txt_name.Text.Trim();
             bool is_required = rad_yes.Checked;
-            bool is_checked = chk_yes.Checked;
+  
 
             var UpdateModel = new PaymentMethodModel
             {
                 id = this.paymentMethod.id,
                 name = name,
                 required_reference = is_required,
-                is_active = is_checked,
+        
             };
             return controller.UpdatePaymentMethod(UpdateModel);
         }
@@ -110,8 +109,10 @@ namespace Salon.View
 
                
                     main.LoadPaymentMethod();
-                
-            
+                main.LoadPaymentMethodCombobox();
+                    this.Close();
+
+
             }
         }
 
@@ -122,6 +123,8 @@ namespace Salon.View
             {
                 MessageBox.Show("Payment Method updated successfully!", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 main.LoadPaymentMethod();
+                main.LoadPaymentMethodCombobox();
+                this.Close();
             }
         }
 

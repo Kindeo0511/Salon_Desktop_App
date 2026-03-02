@@ -106,7 +106,7 @@ namespace Salon.View
 
 
             int requested_qty = Convert.ToInt32(txt_qty.Text);
-            var stock_in_id = stock_controller.GetTransactionId(cart.ProductId);
+            //var stock_in_id = stock_controller.GetTransactionId(cart.ProductId);
             var invoice_service_cart = controller.GetServiceFromInvoiceCart(cart.InvoiceId, cart.ProductId);
             int already_refunded = refund_controller.CheckRefundQty(invoice_service_cart.service_cart_id);
 
@@ -139,14 +139,16 @@ namespace Salon.View
                     refunded_by = $"{UserSession.CurrentUser.first_Name}, {UserSession.CurrentUser.last_Name}",
                     refunded_at = DateTime.Now
                 };
-                refund_controller.AddRefund(model);
+               int refund_id =  refund_controller.AddRefund(model);
 
                 if (cmb_reason.Text != "Damaged"
                     && cmb_reason.Text != "Expired"
                     && cmb_reason.Text != "Opened")
                 {
-                    stock_controller.RefundProduct(stock_in_id.stock_in_id, stock_in_id.product_size_id, requested_qty);
-                    inventory_controller.VoidProductInventory(cart.ProductId, stock_in_id.product_size_id, requested_qty);
+                //stock_controller.RefundProduct(stock_in_id.stock_in_id, stock_in_id.product_size_id, requested_qty);
+                //inventory_controller.VoidProductInventory(cart.ProductId, stock_in_id.product_size_id, requested_qty);
+
+                stock_controller.RefundProductRetailStock(cart.ProductId, cart.ProductSizeId, requested_qty, cart.InvoiceId,refund_id,cart.Price, cmb_reason.Text);
                 }
 
                 refund_controller.UpdateRefundStatus();

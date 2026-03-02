@@ -205,7 +205,7 @@
             this.btn_confirm.DrawShadows = false;
             this.btn_confirm.HighEmphasis = true;
             this.btn_confirm.Icon = null;
-            this.btn_confirm.Location = new System.Drawing.Point(699, 1341);
+            this.btn_confirm.Location = new System.Drawing.Point(678, 1341);
             this.btn_confirm.Margin = new System.Windows.Forms.Padding(4, 6, 4, 6);
             this.btn_confirm.MouseState = MaterialSkin.MouseState.HOVER;
             this.btn_confirm.Name = "btn_confirm";
@@ -673,6 +673,7 @@
             this.cmb_Date.Name = "cmb_Date";
             this.cmb_Date.Size = new System.Drawing.Size(500, 22);
             this.cmb_Date.TabIndex = 5;
+            this.cmb_Date.ValueChanged += new System.EventHandler(this.cmb_Date_ValueChanged);
             // 
             // txt_FullName
             // 

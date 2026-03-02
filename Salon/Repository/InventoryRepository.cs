@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Media.Media3D;
 using static iText.StyledXmlParser.Jsoup.Select.Evaluator;
 
 namespace Salon.Repository
@@ -16,25 +17,11 @@ namespace Salon.Repository
         {
             using (var con = Database.GetConnection()) 
             {
-                var sql = @"SELECT 
-            i.inventory_id,
-            p.product_id,
-            p.product_name,
-            p.product_type,
-            ps.size_label,
-            p.brand,
-            i.qty,
-            i.total_remaining,
-            i.critical_level,
-            i.status,
-            i.expiry_date
-        FROM tbl_inventory AS i
-        LEFT JOIN tbl_products AS p 
-               ON p.product_id = i.product_id
-        LEFT JOIN tbl_product_size AS ps 
-               ON ps.product_size_id = i.product_size_id
-        LEFT JOIN tbl_category AS c 
-               ON c.category_id = p.category_id;
+                var sql = @"SELECT  p.product_id, p.product_name,p.product_type, ps.size_label, p.brand,i.qty, i.total_remaining, i.critical_level, i.status, i.expiry_date 
+                        FROM tbl_inventory as i
+                        LEFT JOIN tbl_product_size ps ON ps.product_size_id = i.product_size_id
+                        LEFT JOIN tbl_products p ON p.product_id = ps.product_id
+  
 
                          
                         
@@ -47,54 +34,46 @@ namespace Salon.Repository
         {
             using (var con = Database.GetConnection())
             {
-                var sql = @"SELECT 
-            i.inventory_id,
-            p.product_id,
-            p.product_name,
-            p.product_type,
-            ps.size_label,
-            p.brand,
-            i.qty,
-            i.total_remaining,
-            i.critical_level,
-            i.status,
-            i.expiry_date
-        FROM tbl_inventory AS i
-        LEFT JOIN tbl_products AS p 
-               ON p.product_id = i.product_id
-        LEFT JOIN tbl_product_size AS ps 
-               ON ps.product_size_id = i.product_size_id
-        LEFT JOIN tbl_category AS c 
-               ON c.category_id = p.category_id
+                var sql = @"SELECT  p.product_id, p.product_name,p.product_type, ps.size_label, p.brand,i.qty, i.total_remaining, i.critical_level, i.status, i.expiry_date 
+                        FROM tbl_inventory as i
+                        LEFT JOIN tbl_product_size ps ON ps.product_size_id = i.product_size_id
+                        LEFT JOIN tbl_products p ON p.product_id = ps.product_id
+  
                 LIMIT @page_size OFFSET @off_set;";
                 return con.Query<InventoryViewModel>(sql , new { page_size, off_set}).ToList();
             }
 
         }
-        public double GetStockByProductSize(int productId, int productSizeId)
+        public double GetStockByProductSize(int productId)
         {
             using (var con = Database.GetConnection())
             {
-                var sql = @"SELECT total_remaining 
-                    FROM tbl_inventory 
-                    WHERE product_id = @productId 
-                      AND product_size_id = @productSizeId;
+                var sql = @"SELECT SUM(i.total_remaining) 
+                    FROM tbl_inventory i
+                    JOIN tbl_product_size ps ON ps.product_size_id = i.product_size_id
+                    JOIN tbl_products p ON p.product_id = ps.product_id
+                    WHERE p.product_id = @productId
+
 ";
 
-                return con.QueryFirstOrDefault<double>(sql, new { productId, productSizeId });
+              var result = con.QueryFirstOrDefault<double?>(sql, new { productId });
+
+                return result ?? 0;
             }
         }
-        public double GetProductQtyStockkByProductSize(int productId, int productSizeId)
+        public int GetProductQtyStockkByProductSize(int productId, int productSizeId)
         {
             using (var con = Database.GetConnection())
             {
-                var sql = @"SELECT qty 
-                    FROM tbl_inventory 
-                    WHERE product_id = @productId 
-                      AND product_size_id = @productSizeId;
+                var sql = @"SELECT i.qty 
+                    FROM tbl_inventory i
+                    JOIN tbl_product_size ps ON ps.product_size_id = i.product_size_id
+                    JOIN tbl_products p ON p.product_id = ps.product_id
+                    WHERE ps.product_id = @productId 
+                      AND i.product_size_id = @productSizeId;
 ";
 
-                return con.QueryFirstOrDefault<double>(sql, new { productId, productSizeId });
+                return con.QueryFirstOrDefault<int>(sql, new { productId = productId, productSizeId = productSizeId });
             }
         }
         public int TotalInventory() 
@@ -109,11 +88,11 @@ namespace Salon.Repository
         {
             using (var con = Database.GetConnection())
             {
-                var sql = @"SELECT p.product_id, p.product_name,p.product_type, ps.size_label, p.brand,i.qty, i.total_remaining, i.critical_level, i.status, i.expiry_date 
+                var sql = @"SELECT  p.product_id, p.product_name,p.product_type, ps.size_label, p.brand,i.qty, i.total_remaining, i.critical_level, i.status, i.expiry_date 
                         FROM tbl_inventory as i
-                        LEFT JOIN tbl_products as p ON p.product_id = i.product_id
-                        LEFT JOIN tbl_product_size ps ON ps.product_id = p.product_id
-                        LEFT JOIN tbl_category as c ON c.category_id = p.category_id
+                        LEFT JOIN tbl_product_size ps ON ps.product_size_id = i.product_size_id
+                        LEFT JOIN tbl_products p ON p.product_id = ps.product_id
+  
                        
                         ;";
                 var result = await  con.QueryAsync<InventoryViewModel>(sql);
@@ -126,24 +105,11 @@ namespace Salon.Repository
         {
             using (var con = Database.GetConnection())
             {
-                var sql = @"SELECT 
-    p.product_id,
-    p.product_name,
-    p.product_type,
-    ps.size_label,
-    p.brand,
-    i.qty,
-    i.total_remaining,
-    i.critical_level,
-    i.status,
-    i.expiry_date
-FROM tbl_inventory AS i
-LEFT JOIN tbl_products AS p 
-       ON p.product_id = i.product_id
-LEFT JOIN tbl_product_size AS ps 
-       ON ps.product_size_id = i.product_size_id
-LEFT JOIN tbl_category AS c 
-       ON c.category_id = p.category_id;
+                var sql = @"SELECT  p.product_id, p.product_name,p.product_type, ps.size_label, p.brand,i.qty, i.total_remaining, i.critical_level, i.status, i.expiry_date 
+                        FROM tbl_inventory as i
+                        LEFT JOIN tbl_product_size ps ON ps.product_size_id = i.product_size_id
+                        LEFT JOIN tbl_products p ON p.product_id = ps.product_id
+  ;
 
                         WHERE i.status = @status
                         ;";
@@ -183,31 +149,41 @@ LEFT JOIN tbl_category AS c
         }
 
 
-        public bool ProductExists(int id, int size_id)
+        public bool ProductExists(int size_id)
         {
             using (var con = Database.GetConnection()) 
             {
-                var sql = "SELECT COUNT(1) FROM tbl_inventory WHERE product_id = @product_id AND product_size_id = @product_size_id";
+                var sql = "SELECT COUNT(1) FROM tbl_inventory WHERE product_size_id = @product_size_id";
 
-                return con.ExecuteScalar<int>(sql, new { product_id = id, product_size_id = size_id }) > 0;
+                return con.ExecuteScalar<int>(sql, new {product_size_id = size_id }) > 0;
             }
            
         }
-        public void AddInventory(InventoryViewModel inventory)
+        public int GetInventoryId(int size_id)
+        {
+            using (var con = Database.GetConnection())
+            {
+                const string sql = "SELECT inventory_id FROM tbl_inventory WHERE product_size_id = @product_size_id";
+   
+                return con.QueryFirstOrDefault<int>(sql, new { product_size_id = size_id });
+            }
+        }
+        public int AddInventory(InventoryViewModel inventory)
         {
             using (var con = Database.GetConnection()) 
             {
-                var sql = "INSERT INTO tbl_inventory (product_id,product_size_id, qty, total_remaining) VALUES (@product_id,@product_size_id,@qty, @total_remaining)";
-                con.Execute(sql, inventory);
+                var sql = @"INSERT INTO tbl_inventory (product_size_id, qty, total_remaining) VALUES (@product_size_id,@qty, @total_remaining);
+                           SELECT LAST_INSERT_ID();";
+                return con.QuerySingle<int>(sql, inventory);
             }
       
         }
-        public void UpdateInventory(int id, int product_size_id, int qty, int total_remaining)
+        public void UpdateInventory(int product_size_id, int qty, int total_remaining)
         {
             using (var con = Database.GetConnection()) 
             {
-                var sql = "UPDATE tbl_inventory SET qty  = qty + @qty, total_remaining = total_remaining + @total_remaining WHERE product_id = @id AND product_size_id = @product_size_id";
-                con.Execute(sql, new { id,product_size_id, qty, total_remaining });
+                var sql = "UPDATE tbl_inventory SET qty  = qty + @qty, total_remaining = total_remaining + @total_remaining WHERE product_size_id = @product_size_id";
+                con.Execute(sql, new {product_size_id, qty, total_remaining });
             }
                
         }

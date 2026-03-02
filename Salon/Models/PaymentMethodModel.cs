@@ -16,6 +16,7 @@ namespace Salon.Models
         public string status_text => is_active ? "Active" : "Inactive";
         public DateTime created_at { get; set; }
         public DateTime updated_at { get; set; }
+        public override string ToString() { return name; }
 
 
     }

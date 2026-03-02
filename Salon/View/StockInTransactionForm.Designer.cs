@@ -32,28 +32,43 @@
             this.materialTabControl1 = new MaterialSkin.Controls.MaterialTabControl();
             this.tabPage1 = new System.Windows.Forms.TabPage();
             this.dgv_products = new System.Windows.Forms.DataGridView();
-            this.col_product_supplier_name = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.col_product_name = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.col_product_type = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.col_product_size = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.col_product_qty = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.materialCard1 = new MaterialSkin.Controls.MaterialCard();
             this.tabPage2 = new System.Windows.Forms.TabPage();
             this.dgv_stock_out = new System.Windows.Forms.DataGridView();
-            this.col_stk_out_name = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.col_stk_out_product_type = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.col_stk_out_product_brand = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.col_stk_out_product_unit_type = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.col_stk_out_qty_delivered = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.col_stk_out_total_qty_delivered = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.col_stk_out_qty_remaining = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.col_stk_out_total_remaining = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.col_stk_out_qty = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.col_stk_out_total = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.col_stk_out_unit_type = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.col_stk_out_out_type = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.col_stk_out_created_at = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.materialCard2 = new MaterialSkin.Controls.MaterialCard();
+            this.col_stk_out_invoice_number = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.col_stk_out_name = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.col_stk_out_size = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.col_stk_out_qty = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.col_stk_out_qty_volume = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.col_stk_out_unit_price = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.col_stk_out_line_total = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.col_stk_out_prev_total_remaining = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.col_stk_out_new_total_remaining = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.col_stk_out_prev_qty = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.col_stk_out_new_qty = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.col_stk_out_movement_type = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.col_stk_out_reason = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.col_stk_out_user_name = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.col_stk_out_created_at = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.col_stk_in_refund_id = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.col_stk_in_stock_out_id = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.col_stk_in_inventory_id = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.col_stk_in_product_name = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.col_stk_in_brand = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.col_stk_in_size_label = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.col_stk_in_qty = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.col_stk_in_qty_volume = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.col_stk_in_unit_price = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.col_stk_in_line_total = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.col_stk_in_prev_remaining = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.col_stk_in_new_remaining = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.col_stk_in_prev_qty = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.col_stk_in_new_qty = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.col_stk_in_movement_type = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.col_stk_in_reason = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.col_stk_in_fullName = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.col_stk_in_created_at = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.materialTabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgv_products)).BeginInit();
@@ -95,7 +110,7 @@
             this.tabPage1.Controls.Add(this.materialCard1);
             this.tabPage1.Location = new System.Drawing.Point(4, 25);
             this.tabPage1.Name = "tabPage1";
-            this.tabPage1.Padding = new System.Windows.Forms.Padding(50, 0, 50, 50);
+            this.tabPage1.Padding = new System.Windows.Forms.Padding(0, 0, 0, 50);
             this.tabPage1.Size = new System.Drawing.Size(1592, 644);
             this.tabPage1.TabIndex = 0;
             this.tabPage1.Text = "STOCK IN";
@@ -112,14 +127,27 @@
             this.dgv_products.ColumnHeadersBorderStyle = System.Windows.Forms.DataGridViewHeaderBorderStyle.None;
             this.dgv_products.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dgv_products.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
-            this.col_product_supplier_name,
-            this.col_product_name,
-            this.col_product_type,
-            this.col_product_size,
-            this.col_product_qty});
+            this.col_stk_in_refund_id,
+            this.col_stk_in_stock_out_id,
+            this.col_stk_in_inventory_id,
+            this.col_stk_in_product_name,
+            this.col_stk_in_brand,
+            this.col_stk_in_size_label,
+            this.col_stk_in_qty,
+            this.col_stk_in_qty_volume,
+            this.col_stk_in_unit_price,
+            this.col_stk_in_line_total,
+            this.col_stk_in_prev_remaining,
+            this.col_stk_in_new_remaining,
+            this.col_stk_in_prev_qty,
+            this.col_stk_in_new_qty,
+            this.col_stk_in_movement_type,
+            this.col_stk_in_reason,
+            this.col_stk_in_fullName,
+            this.col_stk_in_created_at});
             this.dgv_products.Dock = System.Windows.Forms.DockStyle.Fill;
             this.dgv_products.EnableHeadersVisualStyles = false;
-            this.dgv_products.Location = new System.Drawing.Point(50, 69);
+            this.dgv_products.Location = new System.Drawing.Point(0, 69);
             this.dgv_products.Name = "dgv_products";
             this.dgv_products.RowHeadersBorderStyle = System.Windows.Forms.DataGridViewHeaderBorderStyle.None;
             this.dgv_products.RowHeadersVisible = false;
@@ -127,44 +155,8 @@
             this.dgv_products.RowHeadersWidthSizeMode = System.Windows.Forms.DataGridViewRowHeadersWidthSizeMode.DisableResizing;
             this.dgv_products.RowTemplate.Height = 24;
             this.dgv_products.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.dgv_products.Size = new System.Drawing.Size(1492, 525);
+            this.dgv_products.Size = new System.Drawing.Size(1592, 525);
             this.dgv_products.TabIndex = 0;
-            // 
-            // col_product_supplier_name
-            // 
-            this.col_product_supplier_name.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
-            this.col_product_supplier_name.HeaderText = "Supplier";
-            this.col_product_supplier_name.MinimumWidth = 6;
-            this.col_product_supplier_name.Name = "col_product_supplier_name";
-            // 
-            // col_product_name
-            // 
-            this.col_product_name.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
-            this.col_product_name.HeaderText = "Product Name";
-            this.col_product_name.MinimumWidth = 6;
-            this.col_product_name.Name = "col_product_name";
-            // 
-            // col_product_type
-            // 
-            this.col_product_type.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
-            this.col_product_type.HeaderText = "Product Type";
-            this.col_product_type.MinimumWidth = 6;
-            this.col_product_type.Name = "col_product_type";
-            // 
-            // col_product_size
-            // 
-            this.col_product_size.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
-            this.col_product_size.HeaderText = "Size";
-            this.col_product_size.MinimumWidth = 6;
-            this.col_product_size.Name = "col_product_size";
-            // 
-            // col_product_qty
-            // 
-            this.col_product_qty.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
-            this.col_product_qty.HeaderText = "Quantity";
-            this.col_product_qty.MinimumWidth = 6;
-            this.col_product_qty.Name = "col_product_qty";
-            this.col_product_qty.Width = 82;
             // 
             // materialCard1
             // 
@@ -172,12 +164,12 @@
             this.materialCard1.Depth = 0;
             this.materialCard1.Dock = System.Windows.Forms.DockStyle.Top;
             this.materialCard1.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(222)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
-            this.materialCard1.Location = new System.Drawing.Point(50, 0);
+            this.materialCard1.Location = new System.Drawing.Point(0, 0);
             this.materialCard1.Margin = new System.Windows.Forms.Padding(14);
             this.materialCard1.MouseState = MaterialSkin.MouseState.HOVER;
             this.materialCard1.Name = "materialCard1";
             this.materialCard1.Padding = new System.Windows.Forms.Padding(14);
-            this.materialCard1.Size = new System.Drawing.Size(1492, 69);
+            this.materialCard1.Size = new System.Drawing.Size(1592, 69);
             this.materialCard1.TabIndex = 1;
             // 
             // tabPage2
@@ -186,7 +178,7 @@
             this.tabPage2.Controls.Add(this.materialCard2);
             this.tabPage2.Location = new System.Drawing.Point(4, 25);
             this.tabPage2.Name = "tabPage2";
-            this.tabPage2.Padding = new System.Windows.Forms.Padding(50, 0, 50, 50);
+            this.tabPage2.Padding = new System.Windows.Forms.Padding(0, 0, 0, 50);
             this.tabPage2.Size = new System.Drawing.Size(1592, 644);
             this.tabPage2.TabIndex = 1;
             this.tabPage2.Text = "STOCK OUT";
@@ -203,22 +195,24 @@
             this.dgv_stock_out.ColumnHeadersBorderStyle = System.Windows.Forms.DataGridViewHeaderBorderStyle.None;
             this.dgv_stock_out.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dgv_stock_out.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
+            this.col_stk_out_invoice_number,
             this.col_stk_out_name,
-            this.col_stk_out_product_type,
-            this.col_stk_out_product_brand,
-            this.col_stk_out_product_unit_type,
-            this.col_stk_out_qty_delivered,
-            this.col_stk_out_total_qty_delivered,
-            this.col_stk_out_qty_remaining,
-            this.col_stk_out_total_remaining,
+            this.col_stk_out_size,
             this.col_stk_out_qty,
-            this.col_stk_out_total,
-            this.col_stk_out_unit_type,
-            this.col_stk_out_out_type,
+            this.col_stk_out_qty_volume,
+            this.col_stk_out_unit_price,
+            this.col_stk_out_line_total,
+            this.col_stk_out_prev_total_remaining,
+            this.col_stk_out_new_total_remaining,
+            this.col_stk_out_prev_qty,
+            this.col_stk_out_new_qty,
+            this.col_stk_out_movement_type,
+            this.col_stk_out_reason,
+            this.col_stk_out_user_name,
             this.col_stk_out_created_at});
             this.dgv_stock_out.Dock = System.Windows.Forms.DockStyle.Fill;
             this.dgv_stock_out.EnableHeadersVisualStyles = false;
-            this.dgv_stock_out.Location = new System.Drawing.Point(50, 69);
+            this.dgv_stock_out.Location = new System.Drawing.Point(0, 69);
             this.dgv_stock_out.Name = "dgv_stock_out";
             this.dgv_stock_out.RowHeadersBorderStyle = System.Windows.Forms.DataGridViewHeaderBorderStyle.None;
             this.dgv_stock_out.RowHeadersVisible = false;
@@ -226,104 +220,134 @@
             this.dgv_stock_out.RowHeadersWidthSizeMode = System.Windows.Forms.DataGridViewRowHeadersWidthSizeMode.DisableResizing;
             this.dgv_stock_out.RowTemplate.Height = 24;
             this.dgv_stock_out.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.dgv_stock_out.Size = new System.Drawing.Size(1492, 525);
+            this.dgv_stock_out.Size = new System.Drawing.Size(1592, 525);
             this.dgv_stock_out.TabIndex = 2;
+            // 
+            // materialCard2
+            // 
+            this.materialCard2.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
+            this.materialCard2.Depth = 0;
+            this.materialCard2.Dock = System.Windows.Forms.DockStyle.Top;
+            this.materialCard2.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(222)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
+            this.materialCard2.Location = new System.Drawing.Point(0, 0);
+            this.materialCard2.Margin = new System.Windows.Forms.Padding(14);
+            this.materialCard2.MouseState = MaterialSkin.MouseState.HOVER;
+            this.materialCard2.Name = "materialCard2";
+            this.materialCard2.Padding = new System.Windows.Forms.Padding(14);
+            this.materialCard2.Size = new System.Drawing.Size(1592, 69);
+            this.materialCard2.TabIndex = 3;
+            // 
+            // col_stk_out_invoice_number
+            // 
+            this.col_stk_out_invoice_number.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
+            this.col_stk_out_invoice_number.HeaderText = "Invoice Number";
+            this.col_stk_out_invoice_number.MinimumWidth = 6;
+            this.col_stk_out_invoice_number.Name = "col_stk_out_invoice_number";
+            this.col_stk_out_invoice_number.Width = 117;
             // 
             // col_stk_out_name
             // 
-            this.col_stk_out_name.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
+            this.col_stk_out_name.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
             this.col_stk_out_name.HeaderText = "Product Name";
             this.col_stk_out_name.MinimumWidth = 6;
             this.col_stk_out_name.Name = "col_stk_out_name";
+            this.col_stk_out_name.Width = 110;
             // 
-            // col_stk_out_product_type
+            // col_stk_out_size
             // 
-            this.col_stk_out_product_type.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
-            this.col_stk_out_product_type.HeaderText = "Product Type";
-            this.col_stk_out_product_type.MinimumWidth = 6;
-            this.col_stk_out_product_type.Name = "col_stk_out_product_type";
-            this.col_stk_out_product_type.Width = 106;
-            // 
-            // col_stk_out_product_brand
-            // 
-            this.col_stk_out_product_brand.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
-            this.col_stk_out_product_brand.HeaderText = "Brand";
-            this.col_stk_out_product_brand.MinimumWidth = 6;
-            this.col_stk_out_product_brand.Name = "col_stk_out_product_brand";
-            this.col_stk_out_product_brand.Visible = false;
-            this.col_stk_out_product_brand.Width = 125;
-            // 
-            // col_stk_out_product_unit_type
-            // 
-            this.col_stk_out_product_unit_type.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
-            this.col_stk_out_product_unit_type.HeaderText = "Unit Type";
-            this.col_stk_out_product_unit_type.MinimumWidth = 6;
-            this.col_stk_out_product_unit_type.Name = "col_stk_out_product_unit_type";
-            this.col_stk_out_product_unit_type.Width = 85;
-            // 
-            // col_stk_out_qty_delivered
-            // 
-            this.col_stk_out_qty_delivered.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
-            this.col_stk_out_qty_delivered.HeaderText = "Qty Delivered";
-            this.col_stk_out_qty_delivered.MinimumWidth = 6;
-            this.col_stk_out_qty_delivered.Name = "col_stk_out_qty_delivered";
-            this.col_stk_out_qty_delivered.Width = 107;
-            // 
-            // col_stk_out_total_qty_delivered
-            // 
-            this.col_stk_out_total_qty_delivered.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
-            this.col_stk_out_total_qty_delivered.HeaderText = "Total Qty Delivered";
-            this.col_stk_out_total_qty_delivered.MinimumWidth = 6;
-            this.col_stk_out_total_qty_delivered.Name = "col_stk_out_total_qty_delivered";
-            this.col_stk_out_total_qty_delivered.Visible = false;
-            this.col_stk_out_total_qty_delivered.Width = 125;
-            // 
-            // col_stk_out_qty_remaining
-            // 
-            this.col_stk_out_qty_remaining.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
-            this.col_stk_out_qty_remaining.HeaderText = "Qty Remaining";
-            this.col_stk_out_qty_remaining.MinimumWidth = 6;
-            this.col_stk_out_qty_remaining.Name = "col_stk_out_qty_remaining";
-            this.col_stk_out_qty_remaining.Width = 112;
-            // 
-            // col_stk_out_total_remaining
-            // 
-            this.col_stk_out_total_remaining.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
-            this.col_stk_out_total_remaining.HeaderText = "Total Remaining";
-            this.col_stk_out_total_remaining.MinimumWidth = 6;
-            this.col_stk_out_total_remaining.Name = "col_stk_out_total_remaining";
-            this.col_stk_out_total_remaining.Width = 122;
+            this.col_stk_out_size.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
+            this.col_stk_out_size.HeaderText = "Size";
+            this.col_stk_out_size.MinimumWidth = 6;
+            this.col_stk_out_size.Name = "col_stk_out_size";
+            this.col_stk_out_size.Width = 60;
             // 
             // col_stk_out_qty
             // 
             this.col_stk_out_qty.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
-            this.col_stk_out_qty.HeaderText = "Qty Used";
+            this.col_stk_out_qty.HeaderText = "Qty";
             this.col_stk_out_qty.MinimumWidth = 6;
             this.col_stk_out_qty.Name = "col_stk_out_qty";
-            this.col_stk_out_qty.Width = 83;
+            this.col_stk_out_qty.Width = 54;
             // 
-            // col_stk_out_total
+            // col_stk_out_qty_volume
             // 
-            this.col_stk_out_total.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
-            this.col_stk_out_total.HeaderText = "Total Used";
-            this.col_stk_out_total.MinimumWidth = 6;
-            this.col_stk_out_total.Name = "col_stk_out_total";
-            this.col_stk_out_total.Width = 93;
+            this.col_stk_out_qty_volume.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
+            this.col_stk_out_qty_volume.HeaderText = "Qty Volume";
+            this.col_stk_out_qty_volume.MinimumWidth = 6;
+            this.col_stk_out_qty_volume.Name = "col_stk_out_qty_volume";
+            this.col_stk_out_qty_volume.Width = 95;
             // 
-            // col_stk_out_unit_type
+            // col_stk_out_unit_price
             // 
-            this.col_stk_out_unit_type.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
-            this.col_stk_out_unit_type.HeaderText = "Unit Type";
-            this.col_stk_out_unit_type.MinimumWidth = 6;
-            this.col_stk_out_unit_type.Name = "col_stk_out_unit_type";
+            this.col_stk_out_unit_price.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
+            this.col_stk_out_unit_price.HeaderText = "Unit Price";
+            this.col_stk_out_unit_price.MinimumWidth = 6;
+            this.col_stk_out_unit_price.Name = "col_stk_out_unit_price";
+            this.col_stk_out_unit_price.Width = 84;
             // 
-            // col_stk_out_out_type
+            // col_stk_out_line_total
             // 
-            this.col_stk_out_out_type.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
-            this.col_stk_out_out_type.HeaderText = "Out Type";
-            this.col_stk_out_out_type.MinimumWidth = 6;
-            this.col_stk_out_out_type.Name = "col_stk_out_out_type";
-            this.col_stk_out_out_type.Width = 82;
+            this.col_stk_out_line_total.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
+            this.col_stk_out_line_total.HeaderText = "Total";
+            this.col_stk_out_line_total.MinimumWidth = 6;
+            this.col_stk_out_line_total.Name = "col_stk_out_line_total";
+            this.col_stk_out_line_total.Width = 65;
+            // 
+            // col_stk_out_prev_total_remaining
+            // 
+            this.col_stk_out_prev_total_remaining.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
+            this.col_stk_out_prev_total_remaining.HeaderText = "Previous Total Remaining";
+            this.col_stk_out_prev_total_remaining.MinimumWidth = 6;
+            this.col_stk_out_prev_total_remaining.Name = "col_stk_out_prev_total_remaining";
+            this.col_stk_out_prev_total_remaining.Width = 172;
+            // 
+            // col_stk_out_new_total_remaining
+            // 
+            this.col_stk_out_new_total_remaining.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
+            this.col_stk_out_new_total_remaining.HeaderText = "New Total Remaining";
+            this.col_stk_out_new_total_remaining.MinimumWidth = 6;
+            this.col_stk_out_new_total_remaining.Name = "col_stk_out_new_total_remaining";
+            this.col_stk_out_new_total_remaining.Width = 149;
+            // 
+            // col_stk_out_prev_qty
+            // 
+            this.col_stk_out_prev_qty.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
+            this.col_stk_out_prev_qty.HeaderText = "Previous Qty";
+            this.col_stk_out_prev_qty.MinimumWidth = 6;
+            this.col_stk_out_prev_qty.Name = "col_stk_out_prev_qty";
+            this.col_stk_out_prev_qty.Width = 101;
+            // 
+            // col_stk_out_new_qty
+            // 
+            this.col_stk_out_new_qty.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
+            this.col_stk_out_new_qty.HeaderText = "New Qty";
+            this.col_stk_out_new_qty.MinimumWidth = 6;
+            this.col_stk_out_new_qty.Name = "col_stk_out_new_qty";
+            this.col_stk_out_new_qty.Width = 78;
+            // 
+            // col_stk_out_movement_type
+            // 
+            this.col_stk_out_movement_type.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
+            this.col_stk_out_movement_type.HeaderText = "Movement Type";
+            this.col_stk_out_movement_type.MinimumWidth = 6;
+            this.col_stk_out_movement_type.Name = "col_stk_out_movement_type";
+            this.col_stk_out_movement_type.Width = 121;
+            // 
+            // col_stk_out_reason
+            // 
+            this.col_stk_out_reason.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
+            this.col_stk_out_reason.HeaderText = "Reason";
+            this.col_stk_out_reason.MinimumWidth = 6;
+            this.col_stk_out_reason.Name = "col_stk_out_reason";
+            this.col_stk_out_reason.Width = 82;
+            // 
+            // col_stk_out_user_name
+            // 
+            this.col_stk_out_user_name.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
+            this.col_stk_out_user_name.HeaderText = "Name";
+            this.col_stk_out_user_name.MinimumWidth = 6;
+            this.col_stk_out_user_name.Name = "col_stk_out_user_name";
+            this.col_stk_out_user_name.Width = 71;
             // 
             // col_stk_out_created_at
             // 
@@ -333,19 +357,151 @@
             this.col_stk_out_created_at.Name = "col_stk_out_created_at";
             this.col_stk_out_created_at.Width = 90;
             // 
-            // materialCard2
+            // col_stk_in_refund_id
             // 
-            this.materialCard2.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
-            this.materialCard2.Depth = 0;
-            this.materialCard2.Dock = System.Windows.Forms.DockStyle.Top;
-            this.materialCard2.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(222)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
-            this.materialCard2.Location = new System.Drawing.Point(50, 0);
-            this.materialCard2.Margin = new System.Windows.Forms.Padding(14);
-            this.materialCard2.MouseState = MaterialSkin.MouseState.HOVER;
-            this.materialCard2.Name = "materialCard2";
-            this.materialCard2.Padding = new System.Windows.Forms.Padding(14);
-            this.materialCard2.Size = new System.Drawing.Size(1492, 69);
-            this.materialCard2.TabIndex = 3;
+            this.col_stk_in_refund_id.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
+            this.col_stk_in_refund_id.HeaderText = "refund_id";
+            this.col_stk_in_refund_id.MinimumWidth = 6;
+            this.col_stk_in_refund_id.Name = "col_stk_in_refund_id";
+            this.col_stk_in_refund_id.Visible = false;
+            this.col_stk_in_refund_id.Width = 66;
+            // 
+            // col_stk_in_stock_out_id
+            // 
+            this.col_stk_in_stock_out_id.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
+            this.col_stk_in_stock_out_id.HeaderText = "stock_out_id";
+            this.col_stk_in_stock_out_id.MinimumWidth = 6;
+            this.col_stk_in_stock_out_id.Name = "col_stk_in_stock_out_id";
+            this.col_stk_in_stock_out_id.Visible = false;
+            this.col_stk_in_stock_out_id.Width = 86;
+            // 
+            // col_stk_in_inventory_id
+            // 
+            this.col_stk_in_inventory_id.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
+            this.col_stk_in_inventory_id.HeaderText = "inventory_id";
+            this.col_stk_in_inventory_id.MinimumWidth = 6;
+            this.col_stk_in_inventory_id.Name = "col_stk_in_inventory_id";
+            this.col_stk_in_inventory_id.Visible = false;
+            this.col_stk_in_inventory_id.Width = 83;
+            // 
+            // col_stk_in_product_name
+            // 
+            this.col_stk_in_product_name.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
+            this.col_stk_in_product_name.HeaderText = "Product Name";
+            this.col_stk_in_product_name.MinimumWidth = 6;
+            this.col_stk_in_product_name.Name = "col_stk_in_product_name";
+            // 
+            // col_stk_in_brand
+            // 
+            this.col_stk_in_brand.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
+            this.col_stk_in_brand.HeaderText = "Brand";
+            this.col_stk_in_brand.MinimumWidth = 6;
+            this.col_stk_in_brand.Name = "col_stk_in_brand";
+            this.col_stk_in_brand.Width = 70;
+            // 
+            // col_stk_in_size_label
+            // 
+            this.col_stk_in_size_label.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
+            this.col_stk_in_size_label.HeaderText = "Size";
+            this.col_stk_in_size_label.MinimumWidth = 6;
+            this.col_stk_in_size_label.Name = "col_stk_in_size_label";
+            this.col_stk_in_size_label.Width = 60;
+            // 
+            // col_stk_in_qty
+            // 
+            this.col_stk_in_qty.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
+            this.col_stk_in_qty.HeaderText = "Qty";
+            this.col_stk_in_qty.MinimumWidth = 6;
+            this.col_stk_in_qty.Name = "col_stk_in_qty";
+            this.col_stk_in_qty.Width = 54;
+            // 
+            // col_stk_in_qty_volume
+            // 
+            this.col_stk_in_qty_volume.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
+            this.col_stk_in_qty_volume.HeaderText = "Qty Volume";
+            this.col_stk_in_qty_volume.MinimumWidth = 6;
+            this.col_stk_in_qty_volume.Name = "col_stk_in_qty_volume";
+            this.col_stk_in_qty_volume.Width = 103;
+            // 
+            // col_stk_in_unit_price
+            // 
+            this.col_stk_in_unit_price.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
+            this.col_stk_in_unit_price.HeaderText = "Unit Price";
+            this.col_stk_in_unit_price.MinimumWidth = 6;
+            this.col_stk_in_unit_price.Name = "col_stk_in_unit_price";
+            this.col_stk_in_unit_price.Width = 91;
+            // 
+            // col_stk_in_line_total
+            // 
+            this.col_stk_in_line_total.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
+            this.col_stk_in_line_total.HeaderText = "Total";
+            this.col_stk_in_line_total.MinimumWidth = 6;
+            this.col_stk_in_line_total.Name = "col_stk_in_line_total";
+            this.col_stk_in_line_total.Width = 65;
+            // 
+            // col_stk_in_prev_remaining
+            // 
+            this.col_stk_in_prev_remaining.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
+            this.col_stk_in_prev_remaining.HeaderText = "Previous Remaining";
+            this.col_stk_in_prev_remaining.MinimumWidth = 6;
+            this.col_stk_in_prev_remaining.Name = "col_stk_in_prev_remaining";
+            this.col_stk_in_prev_remaining.Width = 142;
+            // 
+            // col_stk_in_new_remaining
+            // 
+            this.col_stk_in_new_remaining.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
+            this.col_stk_in_new_remaining.HeaderText = "New Total Remaining";
+            this.col_stk_in_new_remaining.MinimumWidth = 6;
+            this.col_stk_in_new_remaining.Name = "col_stk_in_new_remaining";
+            this.col_stk_in_new_remaining.Width = 149;
+            // 
+            // col_stk_in_prev_qty
+            // 
+            this.col_stk_in_prev_qty.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
+            this.col_stk_in_prev_qty.HeaderText = "Previous Qty";
+            this.col_stk_in_prev_qty.MinimumWidth = 6;
+            this.col_stk_in_prev_qty.Name = "col_stk_in_prev_qty";
+            this.col_stk_in_prev_qty.Width = 101;
+            // 
+            // col_stk_in_new_qty
+            // 
+            this.col_stk_in_new_qty.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
+            this.col_stk_in_new_qty.HeaderText = "New Qty";
+            this.col_stk_in_new_qty.MinimumWidth = 6;
+            this.col_stk_in_new_qty.Name = "col_stk_in_new_qty";
+            this.col_stk_in_new_qty.Width = 78;
+            // 
+            // col_stk_in_movement_type
+            // 
+            this.col_stk_in_movement_type.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
+            this.col_stk_in_movement_type.HeaderText = "Movement Type";
+            this.col_stk_in_movement_type.MinimumWidth = 6;
+            this.col_stk_in_movement_type.Name = "col_stk_in_movement_type";
+            this.col_stk_in_movement_type.Width = 121;
+            // 
+            // col_stk_in_reason
+            // 
+            this.col_stk_in_reason.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
+            this.col_stk_in_reason.HeaderText = "Reason";
+            this.col_stk_in_reason.MinimumWidth = 6;
+            this.col_stk_in_reason.Name = "col_stk_in_reason";
+            this.col_stk_in_reason.Width = 82;
+            // 
+            // col_stk_in_fullName
+            // 
+            this.col_stk_in_fullName.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
+            this.col_stk_in_fullName.HeaderText = "Created by";
+            this.col_stk_in_fullName.MinimumWidth = 6;
+            this.col_stk_in_fullName.Name = "col_stk_in_fullName";
+            this.col_stk_in_fullName.Width = 92;
+            // 
+            // col_stk_in_created_at
+            // 
+            this.col_stk_in_created_at.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
+            this.col_stk_in_created_at.HeaderText = "Created At";
+            this.col_stk_in_created_at.MinimumWidth = 6;
+            this.col_stk_in_created_at.Name = "col_stk_in_created_at";
+            this.col_stk_in_created_at.Width = 90;
             // 
             // StockInTransactionForm
             // 
@@ -383,23 +539,38 @@
         private MaterialSkin.Controls.MaterialCard materialCard1;
         private System.Windows.Forms.DataGridView dgv_stock_out;
         private MaterialSkin.Controls.MaterialCard materialCard2;
+        private System.Windows.Forms.DataGridViewTextBoxColumn col_stk_out_invoice_number;
         private System.Windows.Forms.DataGridViewTextBoxColumn col_stk_out_name;
-        private System.Windows.Forms.DataGridViewTextBoxColumn col_stk_out_product_type;
-        private System.Windows.Forms.DataGridViewTextBoxColumn col_stk_out_product_brand;
-        private System.Windows.Forms.DataGridViewTextBoxColumn col_stk_out_product_unit_type;
-        private System.Windows.Forms.DataGridViewTextBoxColumn col_stk_out_qty_delivered;
-        private System.Windows.Forms.DataGridViewTextBoxColumn col_stk_out_total_qty_delivered;
-        private System.Windows.Forms.DataGridViewTextBoxColumn col_stk_out_qty_remaining;
-        private System.Windows.Forms.DataGridViewTextBoxColumn col_stk_out_total_remaining;
+        private System.Windows.Forms.DataGridViewTextBoxColumn col_stk_out_size;
         private System.Windows.Forms.DataGridViewTextBoxColumn col_stk_out_qty;
-        private System.Windows.Forms.DataGridViewTextBoxColumn col_stk_out_total;
-        private System.Windows.Forms.DataGridViewTextBoxColumn col_stk_out_unit_type;
-        private System.Windows.Forms.DataGridViewTextBoxColumn col_stk_out_out_type;
+        private System.Windows.Forms.DataGridViewTextBoxColumn col_stk_out_qty_volume;
+        private System.Windows.Forms.DataGridViewTextBoxColumn col_stk_out_unit_price;
+        private System.Windows.Forms.DataGridViewTextBoxColumn col_stk_out_line_total;
+        private System.Windows.Forms.DataGridViewTextBoxColumn col_stk_out_prev_total_remaining;
+        private System.Windows.Forms.DataGridViewTextBoxColumn col_stk_out_new_total_remaining;
+        private System.Windows.Forms.DataGridViewTextBoxColumn col_stk_out_prev_qty;
+        private System.Windows.Forms.DataGridViewTextBoxColumn col_stk_out_new_qty;
+        private System.Windows.Forms.DataGridViewTextBoxColumn col_stk_out_movement_type;
+        private System.Windows.Forms.DataGridViewTextBoxColumn col_stk_out_reason;
+        private System.Windows.Forms.DataGridViewTextBoxColumn col_stk_out_user_name;
         private System.Windows.Forms.DataGridViewTextBoxColumn col_stk_out_created_at;
-        private System.Windows.Forms.DataGridViewTextBoxColumn col_product_supplier_name;
-        private System.Windows.Forms.DataGridViewTextBoxColumn col_product_name;
-        private System.Windows.Forms.DataGridViewTextBoxColumn col_product_type;
-        private System.Windows.Forms.DataGridViewTextBoxColumn col_product_size;
-        private System.Windows.Forms.DataGridViewTextBoxColumn col_product_qty;
+        private System.Windows.Forms.DataGridViewTextBoxColumn col_stk_in_refund_id;
+        private System.Windows.Forms.DataGridViewTextBoxColumn col_stk_in_stock_out_id;
+        private System.Windows.Forms.DataGridViewTextBoxColumn col_stk_in_inventory_id;
+        private System.Windows.Forms.DataGridViewTextBoxColumn col_stk_in_product_name;
+        private System.Windows.Forms.DataGridViewTextBoxColumn col_stk_in_brand;
+        private System.Windows.Forms.DataGridViewTextBoxColumn col_stk_in_size_label;
+        private System.Windows.Forms.DataGridViewTextBoxColumn col_stk_in_qty;
+        private System.Windows.Forms.DataGridViewTextBoxColumn col_stk_in_qty_volume;
+        private System.Windows.Forms.DataGridViewTextBoxColumn col_stk_in_unit_price;
+        private System.Windows.Forms.DataGridViewTextBoxColumn col_stk_in_line_total;
+        private System.Windows.Forms.DataGridViewTextBoxColumn col_stk_in_prev_remaining;
+        private System.Windows.Forms.DataGridViewTextBoxColumn col_stk_in_new_remaining;
+        private System.Windows.Forms.DataGridViewTextBoxColumn col_stk_in_prev_qty;
+        private System.Windows.Forms.DataGridViewTextBoxColumn col_stk_in_new_qty;
+        private System.Windows.Forms.DataGridViewTextBoxColumn col_stk_in_movement_type;
+        private System.Windows.Forms.DataGridViewTextBoxColumn col_stk_in_reason;
+        private System.Windows.Forms.DataGridViewTextBoxColumn col_stk_in_fullName;
+        private System.Windows.Forms.DataGridViewTextBoxColumn col_stk_in_created_at;
     }
 }

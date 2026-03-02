@@ -35,7 +35,8 @@ namespace Salon.Repository
                 FROM tbl_delivery_items as d_i 
                 LEFT JOIN tbl_delivery AS d ON d.delivery_id = d_i.delivery_id
                 LEFT JOIN tbl_supplier AS s ON s.supplier_id = d.supplier_id
-                LEFT JOIN tbl_products as p ON p.product_id = d_i.product_id
+                LEFT JOIN tbl_product_size ps ON ps.product_size_id = d_i.product_size_id
+                LEFT JOIN tbl_products p ON p.product_id = ps.product_id
                 WHERE d.delivery_id = @delivery_id
                 LIMIT @page_size OFFSET @off_set";
 
@@ -116,7 +117,7 @@ GROUP BY
         {
             using (var con = Database.GetConnection()) 
             {
-                var sql = "INSERT INTO tbl_delivery_items (delivery_id, product_id,product_size_id, qty_delivered, content, total_qty, unit_price, total_price, expiry_date, notes) VALUES (@delivery_id, @product_id,@product_size_id, @qty_delivered, @content, @total_qty, @unit_price, @total_price, @expiry_date, @notes);";
+                var sql = "INSERT INTO tbl_delivery_items (delivery_id,product_size_id, inventory_id, qty_delivered, content, total_qty, unit_price, total_price, expiry_date, notes) VALUES (@delivery_id,@product_size_id, @inventory_id, @qty_delivered, @content, @total_qty, @unit_price, @total_price, @expiry_date, @notes);";
                  con.Execute(sql, item);
             }
                

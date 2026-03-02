@@ -16,7 +16,7 @@ namespace Salon.Repository
         {
             using (var con = Database.GetConnection())
             {
-                var sql = @"SELECT * FROM tbl_payment_method;";
+                var sql = @"SELECT * FROM tbl_payment_method WHERE is_deleted = 0;";
                 var result =  con.Query<PaymentMethodModel>(sql);
                 return result.ToList();
             }
@@ -25,8 +25,8 @@ namespace Salon.Repository
         {
             using (var con = Database.GetConnection()) 
             {
-                var sql = @"INSERT INTO tbl_payment_method (name, required_reference, is_active, created_at)
-                            VALUES (@name, @required_reference, @is_active, CURRENT_TIMESTAMP())";
+                var sql = @"INSERT INTO tbl_payment_method (name, required_reference, created_at)
+                            VALUES (@name, @required_reference, CURRENT_TIMESTAMP())";
                 return con.Execute(sql,  model);
             }
         }
@@ -37,7 +37,6 @@ namespace Salon.Repository
                 var sql = @"UPDATE tbl_payment_method
                     SET name = @name,
                         required_reference = @required_reference,
-                        is_active = @is_active,
                         updated_at = CURRENT_TIMESTAMP()
                         WHERE id = @id";
                 return con.Execute(sql, model);

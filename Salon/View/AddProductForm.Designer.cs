@@ -31,8 +31,6 @@
             this.materialLabel1 = new MaterialSkin.Controls.MaterialLabel();
             this.materialTextBox1 = new MaterialSkin.Controls.MaterialTextBox();
             this.dgv_product_list = new System.Windows.Forms.DataGridView();
-            this.btn_confirm = new MaterialSkin.Controls.MaterialButton();
-            this.materialButton2 = new MaterialSkin.Controls.MaterialButton();
             this.col_product_id = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.col_product_name = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.col_brand = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -40,6 +38,8 @@
             this.col_size = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.col_price = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.btn_add = new System.Windows.Forms.DataGridViewButtonColumn();
+            this.btn_confirm = new MaterialSkin.Controls.MaterialButton();
+            this.materialButton2 = new MaterialSkin.Controls.MaterialButton();
             ((System.ComponentModel.ISupportInitialize)(this.dgv_product_list)).BeginInit();
             this.SuspendLayout();
             // 
@@ -48,7 +48,7 @@
             this.materialLabel1.AutoSize = true;
             this.materialLabel1.Depth = 0;
             this.materialLabel1.Font = new System.Drawing.Font("Roboto", 14F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
-            this.materialLabel1.Location = new System.Drawing.Point(45, 99);
+            this.materialLabel1.Location = new System.Drawing.Point(45, 59);
             this.materialLabel1.MouseState = MaterialSkin.MouseState.HOVER;
             this.materialLabel1.Name = "materialLabel1";
             this.materialLabel1.Size = new System.Drawing.Size(113, 19);
@@ -62,7 +62,7 @@
             this.materialTextBox1.Depth = 0;
             this.materialTextBox1.Font = new System.Drawing.Font("Roboto", 16F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
             this.materialTextBox1.LeadingIcon = null;
-            this.materialTextBox1.Location = new System.Drawing.Point(48, 121);
+            this.materialTextBox1.Location = new System.Drawing.Point(48, 81);
             this.materialTextBox1.MaxLength = 50;
             this.materialTextBox1.MouseState = MaterialSkin.MouseState.OUT;
             this.materialTextBox1.Multiline = false;
@@ -85,7 +85,7 @@
             this.col_size,
             this.col_price,
             this.btn_add});
-            this.dgv_product_list.Location = new System.Drawing.Point(48, 275);
+            this.dgv_product_list.Location = new System.Drawing.Point(48, 170);
             this.dgv_product_list.Name = "dgv_product_list";
             this.dgv_product_list.ReadOnly = true;
             this.dgv_product_list.RowHeadersWidth = 51;
@@ -93,45 +93,6 @@
             this.dgv_product_list.Size = new System.Drawing.Size(1100, 400);
             this.dgv_product_list.TabIndex = 2;
             this.dgv_product_list.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgv_product_list_CellClick);
-            // 
-            // btn_confirm
-            // 
-            this.btn_confirm.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
-            this.btn_confirm.Density = MaterialSkin.Controls.MaterialButton.MaterialButtonDensity.Default;
-            this.btn_confirm.Depth = 0;
-            this.btn_confirm.HighEmphasis = true;
-            this.btn_confirm.Icon = null;
-            this.btn_confirm.Location = new System.Drawing.Point(76, 838);
-            this.btn_confirm.Margin = new System.Windows.Forms.Padding(4, 6, 4, 6);
-            this.btn_confirm.MouseState = MaterialSkin.MouseState.HOVER;
-            this.btn_confirm.Name = "btn_confirm";
-            this.btn_confirm.NoAccentTextColor = System.Drawing.Color.Empty;
-            this.btn_confirm.Size = new System.Drawing.Size(167, 36);
-            this.btn_confirm.TabIndex = 3;
-            this.btn_confirm.Text = "confirm selection";
-            this.btn_confirm.Type = MaterialSkin.Controls.MaterialButton.MaterialButtonType.Contained;
-            this.btn_confirm.UseAccentColor = false;
-            this.btn_confirm.UseVisualStyleBackColor = true;
-            this.btn_confirm.Click += new System.EventHandler(this.btn_confirm_Click);
-            // 
-            // materialButton2
-            // 
-            this.materialButton2.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
-            this.materialButton2.Density = MaterialSkin.Controls.MaterialButton.MaterialButtonDensity.Default;
-            this.materialButton2.Depth = 0;
-            this.materialButton2.HighEmphasis = true;
-            this.materialButton2.Icon = null;
-            this.materialButton2.Location = new System.Drawing.Point(327, 838);
-            this.materialButton2.Margin = new System.Windows.Forms.Padding(4, 6, 4, 6);
-            this.materialButton2.MouseState = MaterialSkin.MouseState.HOVER;
-            this.materialButton2.Name = "materialButton2";
-            this.materialButton2.NoAccentTextColor = System.Drawing.Color.Empty;
-            this.materialButton2.Size = new System.Drawing.Size(77, 36);
-            this.materialButton2.TabIndex = 4;
-            this.materialButton2.Text = "cancel";
-            this.materialButton2.Type = MaterialSkin.Controls.MaterialButton.MaterialButtonType.Contained;
-            this.materialButton2.UseAccentColor = false;
-            this.materialButton2.UseVisualStyleBackColor = true;
             // 
             // col_product_id
             // 
@@ -167,7 +128,7 @@
             this.col_product_size.Name = "col_product_size";
             this.col_product_size.ReadOnly = true;
             this.col_product_size.Visible = false;
-            this.col_product_size.Width = 130;
+            this.col_product_size.Width = 125;
             // 
             // col_size
             // 
@@ -198,6 +159,45 @@
             this.btn_add.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Automatic;
             this.btn_add.Width = 61;
             // 
+            // btn_confirm
+            // 
+            this.btn_confirm.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
+            this.btn_confirm.Density = MaterialSkin.Controls.MaterialButton.MaterialButtonDensity.Default;
+            this.btn_confirm.Depth = 0;
+            this.btn_confirm.HighEmphasis = true;
+            this.btn_confirm.Icon = null;
+            this.btn_confirm.Location = new System.Drawing.Point(76, 798);
+            this.btn_confirm.Margin = new System.Windows.Forms.Padding(4, 6, 4, 6);
+            this.btn_confirm.MouseState = MaterialSkin.MouseState.HOVER;
+            this.btn_confirm.Name = "btn_confirm";
+            this.btn_confirm.NoAccentTextColor = System.Drawing.Color.Empty;
+            this.btn_confirm.Size = new System.Drawing.Size(167, 36);
+            this.btn_confirm.TabIndex = 3;
+            this.btn_confirm.Text = "confirm selection";
+            this.btn_confirm.Type = MaterialSkin.Controls.MaterialButton.MaterialButtonType.Contained;
+            this.btn_confirm.UseAccentColor = false;
+            this.btn_confirm.UseVisualStyleBackColor = true;
+            this.btn_confirm.Click += new System.EventHandler(this.btn_confirm_Click);
+            // 
+            // materialButton2
+            // 
+            this.materialButton2.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
+            this.materialButton2.Density = MaterialSkin.Controls.MaterialButton.MaterialButtonDensity.Default;
+            this.materialButton2.Depth = 0;
+            this.materialButton2.HighEmphasis = true;
+            this.materialButton2.Icon = null;
+            this.materialButton2.Location = new System.Drawing.Point(327, 798);
+            this.materialButton2.Margin = new System.Windows.Forms.Padding(4, 6, 4, 6);
+            this.materialButton2.MouseState = MaterialSkin.MouseState.HOVER;
+            this.materialButton2.Name = "materialButton2";
+            this.materialButton2.NoAccentTextColor = System.Drawing.Color.Empty;
+            this.materialButton2.Size = new System.Drawing.Size(77, 36);
+            this.materialButton2.TabIndex = 4;
+            this.materialButton2.Text = "cancel";
+            this.materialButton2.Type = MaterialSkin.Controls.MaterialButton.MaterialButtonType.Contained;
+            this.materialButton2.UseAccentColor = false;
+            this.materialButton2.UseVisualStyleBackColor = true;
+            // 
             // AddProductForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
@@ -208,9 +208,10 @@
             this.Controls.Add(this.dgv_product_list);
             this.Controls.Add(this.materialTextBox1);
             this.Controls.Add(this.materialLabel1);
+            this.FormStyle = MaterialSkin.Controls.MaterialForm.FormStyles.ActionBar_None;
             this.Name = "AddProductForm";
+            this.Padding = new System.Windows.Forms.Padding(3, 24, 3, 3);
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
-            this.Text = "AddProductForm";
             this.Load += new System.EventHandler(this.AddProductForm_Load);
             ((System.ComponentModel.ISupportInitialize)(this.dgv_product_list)).EndInit();
             this.ResumeLayout(false);

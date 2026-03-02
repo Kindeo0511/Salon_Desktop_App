@@ -54,6 +54,7 @@ namespace Salon.Repository
                         SELECT 
     isc.invoice_id AS InvoiceId,
     isc.product_id AS ProductId,
+    isc.product_size_id AS ProductSizeId,
     p.product_name AS ItemName,
     isc.unit_price AS Price,
     isc.qty AS Quantity,

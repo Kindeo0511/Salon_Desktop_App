@@ -52,6 +52,7 @@ namespace Salon.View
 
             col_invoice_id.DataPropertyName = "InvoiceId";
             col_product_id.DataPropertyName = "ProductId";
+            col_product__size_id.DataPropertyName = "ProductSizeId";
             col_item_name.DataPropertyName = "ItemName";
             col_price.DataPropertyName = "Price";
             col_qty.DataPropertyName = "Quantity";

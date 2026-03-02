@@ -47,10 +47,22 @@ namespace Salon.Controller
         {
             repo.DeductStock(product_id, deduction, out_type, unit_type);
         }
-
+        public void DeductProductConsumables(int product_id, int request_ml, int invoice_id) 
+        {
+            repo.DeductProductStockConsumables(product_id, request_ml, invoice_id);
+        }
         public void DeductProductStockOut(int product_id, int product_size_id, int deduction, string out_type, string unit_type) 
         {
             repo.DeductProductStock(product_id, product_size_id, deduction, out_type, unit_type);
+        }
+
+        public void DeductProductRetailStocks(int product_id, int product_size_id, int qty, int invoice_id, decimal price)
+        {
+            repo.DeductProductRetailStock(product_id, product_size_id, qty, invoice_id, price);
+        }
+        public void RefundProductRetailStock(int product_id, int product_size_id, decimal qtyBottlesToRefund, int invoice_id, int refund_id, decimal unit_price, string reason) 
+        {
+            repo.RefundProductRetailStock(product_id, product_size_id, qtyBottlesToRefund, invoice_id, refund_id, unit_price, reason);
         }
     }
 }

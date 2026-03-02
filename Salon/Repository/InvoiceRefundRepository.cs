@@ -12,15 +12,16 @@ namespace Salon.Repository
     public class InvoiceRefundRepository
     {
 
-        public void AddRefund(InvoiceRefundModel model) 
+        public int AddRefund(InvoiceRefundModel model) 
         {
             using (var con = Database.GetConnection()) 
             {
                 var sql = @"INSERT INTO tbl_invoice_refund
                             (service_cart_id, refund_qty,refund_amount, refund_vat, status, reason, refunded_by, refunded_at)
-                            VALUES (@service_cart_id, @refund_qty, @refund_amount, @refund_vat, @status, @reason, @refunded_by, @refunded_at)";
+                            VALUES (@service_cart_id, @refund_qty, @refund_amount, @refund_vat, @status, @reason, @refunded_by, @refunded_at);
+                            SELECT LAST_INSERT_ID();";
 
-                con.Execute(sql, model);
+                return con.QuerySingle<int>(sql, model);
             }
         }
         public int CheckRefundQty(int id)

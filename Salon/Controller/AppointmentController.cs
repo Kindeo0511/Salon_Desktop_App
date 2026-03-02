@@ -25,11 +25,17 @@ namespace Salon.Controller
         {
             return repo.ShowAllAppointmnets(filter);
         }
+        public List<AppointmentModel> GetAppointmentsByDate(DateTime date)
+        {
+            return repo.GetAppointmentsByDate(date);
+        }
+
 
         public async Task<IEnumerable<AppointmentModel>> GetAllAppointmentAsync(string status, int page_size, int off_set) 
         {
             return await repo.ShowAllAppointmentAsync(status, page_size, off_set);
         }
+
         public IEnumerable<AppointmentModel> ShowQueue()
         {
             return  repo.ShowQueue();

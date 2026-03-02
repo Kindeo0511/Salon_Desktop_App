@@ -742,6 +742,35 @@ namespace Salon.View
         {
 
         }
+
+        private void btn_save_Click_1(object sender, EventArgs e)
+        {
+            if (!IsValid()) return;
+
+            IsAccountExists();
+
+            //await mainForm.RefreshProductAsync(1,25);
+            //await mainForm.RefreshTotalProduct();
+        }
+
+        private void btn_add_size_Click_1(object sender, EventArgs e)
+        {
+            if (_product_id == 0)
+            {
+                MessageBox.Show(
+                    "Please create a product first before adding a product size.",
+                    "Action Required",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Warning
+                );
+                return;
+            }
+
+            using (var form = new ProductSizeForm(mainForm, this, _product_id, ProductName))
+            {
+                form.ShowDialog();
+            }
+        }
         // END OF PRODUCTS
 
 

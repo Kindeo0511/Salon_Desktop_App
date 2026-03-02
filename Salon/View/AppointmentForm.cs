@@ -64,7 +64,7 @@ namespace Salon.View
             LoadSubcategory();
             LoadServices();
 
-            LoadTimeSlots();
+            LoadTimeSlots(cmb_Date.Value);
         }
         private void LoadSubcategory()
         {
@@ -146,7 +146,7 @@ namespace Salon.View
             ThemeManager.ApplyTheme(this);
             LoadSubcategory();
             LoadServices();
-            LoadTimeSlots();
+
             //LoadProduct();
             this.mainForm = mainForm;
             this.model = model;
@@ -154,8 +154,16 @@ namespace Salon.View
             cmb_Date.MinDate = model.AppointmentDate.Date;
             cmb_Date.MaxDate = DateTime.Today.AddMonths(3);
 
-           
+            LoadTimeSlots(model.AppointmentDate);
+            if (model.Status == "On Going") 
+            {
+                cmb_Date.Enabled = false;
+                rad_guest.Enabled = false;
+                rad_exists.Enabled = false;
+                btn_search.Enabled = false;
+                btn_register_customer.Enabled = false;
 
+            }
 
             //this.isUpdate = isUpdate;
             if (model.CustomerId == null)
@@ -178,7 +186,7 @@ namespace Salon.View
             cmb_Date.Value = model.AppointmentDate;
 
             btn_confirm.Visible = false;
-
+            txt_FullName.ReadOnly = true;
 
 
 
@@ -209,7 +217,7 @@ namespace Salon.View
             ThemeManager.ApplyTheme(this);
             LoadSubcategory();
             LoadServices();
-            LoadTimeSlots();
+
             //LoadProduct();
             this.mainForm = mainForm;
             this.model = model;
@@ -222,6 +230,7 @@ namespace Salon.View
             rad_guest.Enabled = false;
             btn_search.Enabled = false;
             btn_register_customer.Enabled = false;
+            LoadTimeSlots(model.AppointmentDate);
             //this.isUpdate = isUpdate;
             if (model.CustomerId == null)
             {
@@ -382,41 +391,73 @@ namespace Salon.View
             cmb_stylist.Hint = "Select Stylist";
              
         }
-        private void LoadTimeSlots()
+        private void LoadTimeSlots(DateTime selectedDate)
         {
-            var repo = new BusinessHourRepository();
-            var controller = new TimeSlotController(repo);
-            var businessHours = controller.GetBusinessHours();
-
-            var openTime = businessHours.open_time;   // TimeSpan
-            var closeTime = businessHours.close_time; // TimeSpan
-
-
             var appointmentRepo = new AppointmentRepository();
             var appointmentController = new AppointmentController(appointmentRepo);
-            var todaysAppointments = appointmentController.GetTodayAppointment();
+
+            // Get appointments for the selected date
+            var appointments = appointmentController.GetAppointmentsByDate(selectedDate);
 
             cmb_time_slot.Items.Clear();
 
-            for (DateTime time = DateTime.Today.Add(openTime);
-                 time < DateTime.Today.Add(closeTime);
-                 time = time.AddMinutes(30))
+            // Generate slots for the whole day (00:00 → 23:30)
+            DateTime startTime = selectedDate.Date;
+            DateTime endTime = selectedDate.Date.AddDays(1).AddMinutes(-30);
+
+            for (DateTime time = startTime; time <= endTime; time = time.AddMinutes(30))
             {
-                if (time < DateTime.Now)
+                // Only skip past times if selectedDate is today
+                if (selectedDate.Date == DateTime.Today && time < DateTime.Now)
                     continue;
 
-                bool taken = todaysAppointments.Any(appt =>
-                    (time < appt.EndTime && time.AddMinutes(30) > appt.StartTime));
+                // Check if slot overlaps with existing appointments
+                bool taken = appointments.Any(appt =>
+                    time < appt.EndTime && time.AddMinutes(30) > appt.StartTime);
 
                 if (taken)
                     continue;
 
-                // Show only the start time in 12-hour format
                 cmb_time_slot.Items.Add($"{time:hh:mm tt}");
             }
 
             cmb_time_slot.SelectedIndex = -1;
         }
+        //private void LoadTimeSlots()
+        //{
+        //    var repo = new BusinessHourRepository();
+        //    var controller = new TimeSlotController(repo);
+        //    var businessHours = controller.GetBusinessHours();
+
+        //    var openTime = businessHours.open_time;   // TimeSpan
+        //    var closeTime = businessHours.close_time; // TimeSpan
+
+
+        //    var appointmentRepo = new AppointmentRepository();
+        //    var appointmentController = new AppointmentController(appointmentRepo);
+        //    var todaysAppointments = appointmentController.GetTodayAppointment();
+
+        //    cmb_time_slot.Items.Clear();
+
+        //    for (DateTime time = DateTime.Today.Add(openTime);
+        //         time < DateTime.Today.Add(closeTime);
+        //         time = time.AddMinutes(30))
+        //    {
+        //        if (time < DateTime.Now)
+        //            continue;
+
+        //        bool taken = todaysAppointments.Any(appt =>
+        //            (time < appt.EndTime && time.AddMinutes(30) > appt.StartTime));
+
+        //        if (taken)
+        //            continue;
+
+        //        // Show only the start time in 12-hour format
+        //        cmb_time_slot.Items.Add($"{time:hh:mm tt}");
+        //    }
+
+        //    cmb_time_slot.SelectedIndex = -1;
+        //}
 
 
         //private void LoadTimeSlots(int slotSizeMinutes = 30) // 1 minute increments
@@ -665,7 +706,7 @@ namespace Salon.View
 
                 var service_invoice_repo = new InvoiceServiceRepository();
                 var service_invoice_controller = new InvoiceServiceCartController(service_invoice_repo);
-                int invoice_id = GetInvoiceId(appointmentModel.AppointmentId);
+                int invoice_id = GetInvoiceId(model.AppointmentId);
 
                 // Call the right update method based on booking type
                 if (model.CustomerType == "Member")
@@ -747,7 +788,7 @@ namespace Salon.View
                         SaveInvoiceServices(invoiceServiceCart);
 
                     }
-                    bool serviceExistInAppointment = service_controller.CheckIfServiceExists(appointmentModel.AppointmentId, service_id);
+                    bool serviceExistInAppointment = service_controller.CheckIfServiceExists(model.AppointmentId, service_id);
                     if (!serviceExistInAppointment)
                     {
                         service_controller.AddServicesToAppointment(
@@ -1459,7 +1500,7 @@ namespace Salon.View
 
             foreach (var ing in ingredients)
             {
-                var stock = inventoryController.GetStockByProductSize(ing.product_id, ing.product_size_id);
+                var stock = inventoryController.GetStockByProductSize(ing.product_id);
                 if (stock < ing.qty_required)
                 {
                     return false; // insufficient
@@ -1483,7 +1524,7 @@ namespace Salon.View
 
             foreach (var ing in ingredients)
             {
-                var stock = inventoryController.GetStockByProductSize(ing.product_id, ing.product_size_id);
+                var stock = inventoryController.GetStockByProductSize(ing.product_id);
                 if (stock < ing.qty_required)
                 {
                     shortages.Add($"{ing.product_name} ({ing.size_label}) - Required: {ing.qty_required}, Available: {stock}");
@@ -1569,23 +1610,27 @@ namespace Salon.View
                 var confirmResult = MessageBox.Show($"Are you sure to remove {serviceName}?", "Confirm Remove", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
 
 
-                if (appointmentServiceId == 0)
+                if (confirmResult == DialogResult.Yes) 
                 {
-                    // Not saved yet, just remove from the grid
-                    dgv_service_selected.Rows.RemoveAt(e.RowIndex);
+                    if (appointmentServiceId == 0)
+                    {
+                        // Not saved yet, just remove from the grid
+                        dgv_service_selected.Rows.RemoveAt(e.RowIndex);
 
-                    MessageBox.Show($"{serviceName} removed successfully!",
-                                    "Removed", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                }
-                else 
-                {
+                        MessageBox.Show($"{serviceName} removed successfully!",
+                                        "Removed", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    }
+                    else
+                    {
 
-                    int invoice_id = GetInvoiceId(model.AppointmentId);
-                    int invoice_service_id = inv_service_controller.GetInvoiceServiceById(invoice_id, serviceId);
-                    controller.DeleteAppointmentServiceById(appointmentServiceId);
-                    inv_service_controller.DeleteServiceFromInvoiceCart(invoice_service_id);
-                    LoadSelectedServices(model.AppointmentId);
+                        int invoice_id = GetInvoiceId(model.AppointmentId);
+                        int invoice_service_id = inv_service_controller.GetInvoiceServiceById(invoice_id, serviceId);
+                        controller.DeleteAppointmentServiceById(appointmentServiceId);
+                        inv_service_controller.DeleteServiceFromInvoiceCart(invoice_service_id);
+                        LoadSelectedServices(model.AppointmentId);
+                    }
                 }
+                
 
 
                     
@@ -1600,6 +1645,11 @@ namespace Salon.View
         private void cmb_time_slot_SelectedIndexChanged(object sender, EventArgs e)
         {
 
+        }
+
+        private void cmb_Date_ValueChanged(object sender, EventArgs e)
+        {
+            LoadTimeSlots(cmb_Date.Value);
         }
 
 

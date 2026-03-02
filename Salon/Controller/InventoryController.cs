@@ -24,11 +24,11 @@ namespace Salon.Controller
         {
             return inventoryRepository.GetAllInventory(page_size, off_set);
         }
-        public double GetStockByProductSize(int productId, int productSizeId)
+        public double GetStockByProductSize(int productId)
         {
-            return inventoryRepository.GetStockByProductSize(productId, productSizeId);
+            return inventoryRepository.GetStockByProductSize(productId);
         }
-        public double GetProductQtyStck(int productId, int productSizeId)
+        public int GetProductQtyStck(int productId, int productSizeId)
         {
             return inventoryRepository.GetProductQtyStockkByProductSize(productId, productSizeId);
         }
@@ -56,19 +56,22 @@ namespace Salon.Controller
             return inventoryRepository.InventoryReportSummary(status);
         }
 
-        public bool ProductExists(int id, int product_size_id)
+        public bool ProductExists(int product_size_id)
         {
-            return inventoryRepository.ProductExists(id, product_size_id);
+            return inventoryRepository.ProductExists(product_size_id);
+        }
+        public int GetInventoryId(int product_size_id) 
+        {
+            return inventoryRepository.GetInventoryId(product_size_id);
+        }
+        public int AddInventory(InventoryViewModel inventory)
+        {
+            return inventoryRepository.AddInventory(inventory);
         }
 
-        public void AddInventory(InventoryViewModel inventory)
+        public void UpdateInventory(int product_size_id, int unit, int volume)
         {
-            inventoryRepository.AddInventory(inventory);
-        }
-
-        public void UpdateInventory(int id, int product_size_id, int unit, int volume)
-        {
-            inventoryRepository.UpdateInventory(id, product_size_id, unit, volume);
+            inventoryRepository.UpdateInventory(product_size_id, unit, volume);
         }
         public bool UpdateInventoryCriticalLevel(int qty) 
         {

@@ -44,7 +44,7 @@ namespace Salon.Repository
             {
                 var sql = @"SELECT *
                         FROM tbl_users
-                        WHERE is_deactivate = 0 AND Position != 'SuperAdmin'
+                        WHERE is_deactivate = 0
                         ORDER BY user_id
                         LIMIT @PageSize OFFSET @Offset;";
                 var result =  await con.QueryAsync<UsersModel>(sql, new { PageSize, Offset});

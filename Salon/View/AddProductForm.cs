@@ -17,11 +17,20 @@ namespace Salon.View
     public partial class AddProductForm : MaterialForm
     {
         private PaymentForm paymentForm;
+        private readonly MainForm mainForm;
+        private bool Is_POS = false;
         public AddProductForm(PaymentForm paymentForm)
         {
             InitializeComponent();
             ThemeManager.ApplyTheme(this);
             this.paymentForm = paymentForm;
+        }
+        public AddProductForm(MainForm main, bool Is_POS)
+        {
+            InitializeComponent();
+            ThemeManager.ApplyTheme(this);
+            mainForm = main;
+            this.Is_POS = Is_POS;
         }
 
         private void LoadProducts() 

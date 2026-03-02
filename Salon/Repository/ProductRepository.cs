@@ -24,7 +24,7 @@ namespace Salon.Repository
         {
             using (var con = Database.GetConnection())
             {
-                var sql = @"SELECT * FROM tbl_products WHERE is_retail = 1 AND is_deleted = 0";
+                var sql = @"SELECT * FROM tbl_products WHERE is_ingredient = 1 AND is_deleted = 0";
                 return con.Query<ProductModel>(sql).ToList();
             }
         }
@@ -61,7 +61,7 @@ namespace Salon.Repository
                     FROM tbl_products p
                     JOIN tbl_product_size ps ON ps.product_id = p.product_id
                     WHERE p.is_deleted = 0  
-                      AND p.product_type = 'Retail'
+                      AND p.is_retail = 1
                       AND ps.is_deleted = 0;";
                 return con.Query<RetailProduct>(sql).ToList();
             }
