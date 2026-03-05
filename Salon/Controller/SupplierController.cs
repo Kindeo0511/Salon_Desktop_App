@@ -56,7 +56,7 @@ namespace Salon.Controller
             return repo.SupplierExists(name, address, id);
         }
 
-        public SupplierModel GetEmail(string email)
+        public int GetEmail(string email)
         {
             return repo.GetSupplierEmail(email);
         }

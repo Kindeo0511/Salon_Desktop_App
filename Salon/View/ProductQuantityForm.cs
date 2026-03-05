@@ -1,5 +1,7 @@
 ﻿using MaterialSkin.Controls;
+using Salon.Controller;
 using Salon.Models;
+using Salon.Repository;
 using Salon.Util;
 using System;
 using System.Collections.Generic;
@@ -33,6 +35,23 @@ namespace Salon.View
             e.Handled = true;
             e.SuppressKeyPress = true;
 
+
+            var inventoryRepo = new InventoryRepository();
+            var inventoryController = new InventoryController(inventoryRepo);
+
+
+            int stock = inventoryController.GetProductQtyStck(Product.product_id, Product.product_size_id);
+            int qty_requested = Convert.ToInt32(txt_qtn.Text);
+            if (stock < qty_requested)
+            {
+                MessageBox.Show($"Insufficient stock. Available: {stock}, Requested: {qty_requested}",
+                                "Stock Check",
+                                MessageBoxButtons.OK,
+                                MessageBoxIcon.Error);
+
+                return;
+            }
+
             if (!int.TryParse(txt_qtn.Text.Trim(), out var q) || q <= 0)
             {
                 MessageBox.Show("Enter a valid positive quantity.", "Invalid quantity", MessageBoxButtons.OK, MessageBoxIcon.Warning);
@@ -43,6 +62,11 @@ namespace Salon.View
             DialogResult = DialogResult.OK;
             Close();
 
+        }
+
+        private void ProductQuantityForm_FormClosed(object sender, FormClosedEventArgs e)
+        {
+            this.Close();
         }
     }
 }

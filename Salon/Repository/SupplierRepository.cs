@@ -82,16 +82,16 @@ namespace Salon.Repository
         {
             using (var con = Database.GetConnection()) 
             {
-                var sql = "SELECT COUNT(*) FROM tbl_supplier WHERE supplier_name = @name AND address= @address AND supplier_id != @id";
+                var sql = "SELECT COUNT(*) FROM tbl_supplier WHERE supplier_name = @name AND address= @address AND is_deleted = 0 AND supplier_id != @id";
                 return con.ExecuteScalar<int>(sql, new { name, address, id }) > 0;
             }
         }
-        public SupplierModel GetSupplierEmail(string email)
+        public int GetSupplierEmail(string email)
         {
             using (var con = Database.GetConnection())
             {
-                var sql = "SELECT * FROM tbl_supplier WHERE email = @email AND is_deleted = 1 LIMIT 1";
-                return con.Query<SupplierModel>(sql, new { email }).FirstOrDefault();
+                var sql = "SELECT supplier_id FROM tbl_supplier WHERE email = @email AND is_deleted = 1 LIMIT 1";
+                return con.Query<int>(sql, new { email }).FirstOrDefault();
             }
         }
         public bool IsSupplierUsed(int id) 
@@ -106,7 +106,7 @@ namespace Salon.Repository
         {
             using (var con = Database.GetConnection())
             {
-                var sql = "SELECT COUNT(*) FROM tbl_supplier WHERE email = @email AND supplier_id != @id";
+                var sql = "SELECT COUNT(*) FROM tbl_supplier WHERE email = @email AND supplier_id != @id AND is_deleted = 0";
                 return con.ExecuteScalar<int>(sql, new { email, id }) > 0;
             }
         }

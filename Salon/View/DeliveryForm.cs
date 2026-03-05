@@ -447,7 +447,7 @@ namespace Salon.View
 
 
                 int inventory_id = 0;
-
+       
                 var deliveryItemModel = new DeliveryItemModel
                 {
                     delivery_id = id,
@@ -463,13 +463,18 @@ namespace Salon.View
                 };
 
                 bool is_update = false;
-
+                decimal prevTotalRemaining = 0;
+                decimal prevQty = 0;
                 bool exists = inventoryController.ProductExists(product_size_id);
                 
                     if (exists)
                     {
                         inventory_id = inventoryController.GetInventoryId(product_size_id);
                         inventoryController.UpdateInventory(product_size_id, quantity, total_qty);
+                        var inv = inventoryController.GetInventory(inventory_id);
+                        prevTotalRemaining = inv.total_remaining;
+                        prevQty = inv.qty;
+                    inventoryController.UpdateInventory(product_size_id, quantity, total_qty);
 
                      is_update = true;
                   
@@ -486,13 +491,14 @@ namespace Salon.View
                      is_update = false;
                    
                     }
+                var newTotalRemaining = prevTotalRemaining + total_qty;
+                var newQty = prevQty + quantity;
 
-                
 
                 deliveryItemModel.inventory_id = inventory_id;
                 Stock_In.inventory_id = inventory_id;
                 var total_remaining = GetTotalRemaining(inventory_id);
-                stock_in_controller.AddStockIn(Stock_In, total_remaining,is_update);
+                stock_in_controller.AddStockIn(Stock_In, prevTotalRemaining, newTotalRemaining, prevQty, newQty, is_update);
                 deliveryItemController.AddDeliveryItem(deliveryItemModel);
 
 

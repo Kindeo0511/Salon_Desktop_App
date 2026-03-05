@@ -57,13 +57,33 @@ namespace Salon.Repository
             using (var con = Database.GetConnection())
             {
                 var sql = @"SELECT p.product_id, ps.product_size_id, p.product_name, ps.size_label, 
-                           ps.content, p.brand, ps.selling_price
-                    FROM tbl_products p
-                    JOIN tbl_product_size ps ON ps.product_id = p.product_id
+                    ps.content, p.brand, ps.selling_price
+                    FROM tbl_inventory i
+                    JOIN tbl_product_size ps ON ps.product_size_id = i.product_size_id
+                    JOIN  tbl_products p ON p.product_id = ps.product_id
                     WHERE p.is_deleted = 0  
                       AND p.is_retail = 1
-                      AND ps.is_deleted = 0;";
+                      AND ps.is_deleted = 0";
                 return con.Query<RetailProduct>(sql).ToList();
+            }
+        }
+        public IEnumerable<RetailProduct> GetAllRetailProducts(string key = "")
+        {
+            using (var con = Database.GetConnection())
+            {
+                var sql = @"SELECT
+
+                    p.product_id, ps.product_size_id, p.product_name, ps.size_label, 
+                    ps.content, p.brand, ps.selling_price
+                    FROM tbl_inventory i
+                    JOIN tbl_product_size ps ON ps.product_size_id = i.product_size_id
+                    JOIN  tbl_products p ON p.product_id = ps.product_id
+                    WHERE p.is_deleted = 0  
+                      AND p.is_retail = 1
+                      AND ps.is_deleted = 0
+                      AND p.product_name LIKE @Key
+                    ;";
+                return con.Query<RetailProduct>(sql, new { Key =  $"%{key}%" }).ToList();
             }
         }
         public RetailProduct GetRetailProductByIdAndSize(int productId, int productSizeId)
@@ -154,13 +174,13 @@ namespace Salon.Repository
 
             }
         }
-        public ProductModel GetProductIngredient(string name, string brand, string unit_type) 
+        public int GetProductIngredient(string name, string brand, string unit_type) 
         {
             using (var con = Database.GetConnection()) 
             {
-                var sql = @"SELECT * FROM tbl_products 
-                            WHERE product_type = 'Ingredient' AND product_name = @name AND brand = @brand AND unit_type = @unit_type AND is_deleted = 1";
-                return con.Query<ProductModel>(sql, new { name, brand, unit_type }).FirstOrDefault();
+                var sql = @"SELECT product_id FROM tbl_products 
+                            WHERE product_name = @name AND brand = @brand AND unit_type = @unit_type AND is_deleted = 1";
+                return con.Query<int>(sql, new { name, brand, unit_type }).FirstOrDefault();
             }
         }
         public ProductModel GetProductRetail(string name, string brand, string unit_type)

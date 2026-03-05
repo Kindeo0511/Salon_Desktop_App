@@ -73,9 +73,6 @@ namespace Salon.View
             var controller = new SpecialistController(repo);
             var specialists = controller.GetAllSpecialists();
 
-            var filter_special = specialists.Where(s => s.status == "Active" && s.is_deleted != 1);
-
-
             var stylistSpecialistRepo = new Stylist_Specialist_Repository();
             var stylistSpecialistController = new Stylist_specialist_Controller(stylistSpecialistRepo);
 
@@ -90,7 +87,7 @@ namespace Salon.View
             chk_services.Items.Clear();
 
             
-            foreach (var specialist in filter_special) 
+            foreach (var specialist in specialists) 
             {
                 bool isChecked = assignedSpecialists.Contains(specialist.specialist_id);
                 chk_services.Items.Add(specialist, isChecked);
@@ -211,46 +208,40 @@ namespace Salon.View
             
             
         }
-        private void IsAccountExists()
+        private async void RestoreStylist(int stylist_id) 
+        {
+            var _repo = new StylistRepository();
+            var controller = new StylistController(_repo);
+            bool is_restored = controller.restoreStylist(stylist_id);
+            if (is_restored)
+            {
+                Added?.Invoke(this, EventArgs.Empty);
+                _mainForm.DeleteDeletedRecord(stylist_id);
+                MessageBox.Show("Stylist restored successfully!", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
+
+                await  _mainForm.RefreshStylistAsync(1,25);
+                this.Close();
+            }
+
+
+
+          
+            }
+        private int StylistIsDeactivated(string email) 
         {
             var _repo = new StylistRepository();
             var userController = new StylistController(_repo);
-            var existingUser = userController.GetEmail(txt_email.Text.Trim());
+            int stylist_id = userController.GetEmail(txt_email.Text.Trim());
 
+            return stylist_id;
+            
+            
+
+        }
+        private void IsAccountExists()
+        {
        
-
-            if (existingUser != null)
-            {
-                MessageBox.Show("if existinguser != null statement.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-
-                if (existingUser.is_deleted == 1)
-                {
-                    var result = MessageBox.Show("This Stylist exists but is deleted. Do you want to restore it?",
-                                   "Restore Account",
-                                MessageBoxButtons.YesNo,
-                                MessageBoxIcon.Question);
-                    if (result == DialogResult.Yes)
-                    {
-
-                      
-
-                        if (userController.restoreStylist(existingUser.stylist_id))
-                        {
-                            Added?.Invoke(this, EventArgs.Empty);
-                            _mainForm.DeleteDeletedRecord(existingUser.stylist_id);
-                            MessageBox.Show("Stylist restored successfully!", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                            this.Close();
-                        }
-
-
-
-                    }
-                }
-            }
-
-            else
-            {
-      
+     
                 if (_isSaving)
                 {
                  
@@ -260,6 +251,7 @@ namespace Salon.View
                                             
                         Added?.Invoke(this, EventArgs.Empty);
                         MessageBox.Show("Stylist added successfully!", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                        _mainForm.LoadStylistTrackPanel();
                         this.Close();
 
                     }
@@ -276,7 +268,7 @@ namespace Salon.View
                         MessageBox.Show("Stylist updated successfully!", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
                         var fullName = txt_first_name.Text + " " + txt_last_name.Text;
                         Audit.AuditLog(DateTime.Now, "Create", UserSession.CurrentUser.first_Name, "Manage Stylist", $"Created stylist {fullName} on {DateTime.Now:yyyy-MM-dd} at {DateTime.Now:HH:mm:ss}");
-                   
+                        _mainForm.LoadStylistTrackPanel();
                         this.Close();
                     }
                     else
@@ -288,7 +280,7 @@ namespace Salon.View
 
                 }
 
-            }
+            
 
         }
         private async  void btn_save_Click(object sender, EventArgs e)
@@ -331,11 +323,15 @@ namespace Salon.View
 
         private bool IsValid()
         {
+            var _repo = new StylistRepository();
+            var userController = new StylistController(_repo);
+
             DateTime birthDate = dtp_day_of_birth.Value;
             int age = DateTime.Now.Year - birthDate.Year;
             int excludeId = _stylist?.stylist_id ?? 0;
 
             bool validated = true;
+            int deactivated_stylist_id = StylistIsDeactivated(txt_email.Text);
             // First Name
             if (string.IsNullOrWhiteSpace(txt_first_name.Text))
             {
@@ -404,6 +400,20 @@ namespace Salon.View
             if (string.IsNullOrWhiteSpace(txt_email.Text) || !txt_email.Text.Contains("@"))
             {
                 errorProvider1.SetError(txt_email, "Valid email is required.");
+                validated = false;
+            }
+            else if (deactivated_stylist_id > 0) 
+            {
+                // check deactivated FIRST before checking if username exists
+                var result = MessageBox.Show("This stylist exists but is deleted. Do you want to restore it?",
+                                "Restore Account",
+                                MessageBoxButtons.YesNo,
+                                MessageBoxIcon.Question);
+                if (result == DialogResult.Yes)
+                {
+
+                    RestoreStylist(deactivated_stylist_id);
+                }
                 validated = false;
             }
             else if (!Validator.IsStylistEmailExists(txt_email, errorProvider1, "Email already exists.", excludeId))

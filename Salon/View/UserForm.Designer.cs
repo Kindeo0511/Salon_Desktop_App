@@ -74,12 +74,12 @@
             this.userTabControl.Controls.Add(this.tabPage1);
             this.userTabControl.Depth = 0;
             this.userTabControl.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.userTabControl.Location = new System.Drawing.Point(0, 72);
+            this.userTabControl.Location = new System.Drawing.Point(0, 48);
             this.userTabControl.MouseState = MaterialSkin.MouseState.HOVER;
             this.userTabControl.Multiline = true;
             this.userTabControl.Name = "userTabControl";
             this.userTabControl.SelectedIndex = 0;
-            this.userTabControl.Size = new System.Drawing.Size(1400, 728);
+            this.userTabControl.Size = new System.Drawing.Size(1400, 752);
             this.userTabControl.TabIndex = 17;
             // 
             // tabPage1
@@ -116,7 +116,7 @@
             this.tabPage1.Location = new System.Drawing.Point(4, 25);
             this.tabPage1.Name = "tabPage1";
             this.tabPage1.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage1.Size = new System.Drawing.Size(1392, 699);
+            this.tabPage1.Size = new System.Drawing.Size(1392, 723);
             this.tabPage1.TabIndex = 0;
             this.tabPage1.Text = "Personal Information";
             // 
@@ -140,7 +140,7 @@
             // 
             // txt_username
             // 
-            this.txt_username.AnimateReadOnly = false;
+            this.txt_username.AnimateReadOnly = true;
             this.txt_username.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.txt_username.Depth = 0;
             this.txt_username.Font = new System.Drawing.Font("Roboto", 16F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
@@ -281,6 +281,7 @@
             this.btn_update.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
             this.btn_update.Density = MaterialSkin.Controls.MaterialButton.MaterialButtonDensity.Default;
             this.btn_update.Depth = 0;
+            this.btn_update.DrawShadows = false;
             this.btn_update.HighEmphasis = true;
             this.btn_update.Icon = null;
             this.btn_update.Location = new System.Drawing.Point(902, 1089);
@@ -303,6 +304,7 @@
             this.btn_save.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
             this.btn_save.Density = MaterialSkin.Controls.MaterialButton.MaterialButtonDensity.Default;
             this.btn_save.Depth = 0;
+            this.btn_save.DrawShadows = false;
             this.btn_save.HighEmphasis = true;
             this.btn_save.Icon = null;
             this.btn_save.Location = new System.Drawing.Point(902, 1089);
@@ -455,7 +457,7 @@
             // 
             // txt_last_name
             // 
-            this.txt_last_name.AnimateReadOnly = false;
+            this.txt_last_name.AnimateReadOnly = true;
             this.txt_last_name.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.txt_last_name.Depth = 0;
             this.txt_last_name.Font = new System.Drawing.Font("Roboto", 16F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
@@ -475,7 +477,7 @@
             // 
             // txt_middle_name
             // 
-            this.txt_middle_name.AnimateReadOnly = false;
+            this.txt_middle_name.AnimateReadOnly = true;
             this.txt_middle_name.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.txt_middle_name.Depth = 0;
             this.txt_middle_name.Font = new System.Drawing.Font("Roboto", 16F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
@@ -495,7 +497,7 @@
             // 
             // txt_first_name
             // 
-            this.txt_first_name.AnimateReadOnly = false;
+            this.txt_first_name.AnimateReadOnly = true;
             this.txt_first_name.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.txt_first_name.Depth = 0;
             this.txt_first_name.Font = new System.Drawing.Font("Roboto", 16F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
@@ -515,7 +517,7 @@
             // 
             // txt_email
             // 
-            this.txt_email.AnimateReadOnly = false;
+            this.txt_email.AnimateReadOnly = true;
             this.txt_email.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.txt_email.Depth = 0;
             this.txt_email.Font = new System.Drawing.Font("Roboto", 16F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
@@ -536,7 +538,7 @@
             // 
             // txt_contact
             // 
-            this.txt_contact.AnimateReadOnly = false;
+            this.txt_contact.AnimateReadOnly = true;
             this.txt_contact.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.txt_contact.Depth = 0;
             this.txt_contact.Font = new System.Drawing.Font("Roboto", 16F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
@@ -561,7 +563,7 @@
             this.userTabSelector.Depth = 0;
             this.userTabSelector.Dock = System.Windows.Forms.DockStyle.Top;
             this.userTabSelector.Font = new System.Drawing.Font("Roboto", 14F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
-            this.userTabSelector.Location = new System.Drawing.Point(0, 24);
+            this.userTabSelector.Location = new System.Drawing.Point(0, 0);
             this.userTabSelector.MouseState = MaterialSkin.MouseState.HOVER;
             this.userTabSelector.Name = "userTabSelector";
             this.userTabSelector.Size = new System.Drawing.Size(1400, 48);
@@ -577,11 +579,11 @@
             this.ClientSize = new System.Drawing.Size(1400, 800);
             this.Controls.Add(this.userTabControl);
             this.Controls.Add(this.userTabSelector);
-            this.FormStyle = MaterialSkin.Controls.MaterialForm.FormStyles.ActionBar_None;
+            this.FormStyle = MaterialSkin.Controls.MaterialForm.FormStyles.StatusAndActionBar_None;
             this.MaximizeBox = false;
             this.MinimizeBox = false;
             this.Name = "UserForm";
-            this.Padding = new System.Windows.Forms.Padding(0, 24, 0, 0);
+            this.Padding = new System.Windows.Forms.Padding(0);
             this.Sizable = false;
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.UserForm_FormClosing);

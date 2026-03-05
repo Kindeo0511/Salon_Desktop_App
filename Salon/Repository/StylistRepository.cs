@@ -94,10 +94,12 @@ WHERE s.is_deleted = 0;  ";
             {
                 var sql = @"
                         SELECT ss_id, ss.stylist_id, s.firstName, s.middleName, s.lastName
-                        FROM tbl_stylist_services ss
-                        LEFT JOIN tbl_stylists s ON s.stylist_id = ss.stylist_id
-                        LEFT JOIN tbl_servicesname sn ON sn.serviceName_id = ss.service_id
-                        WHERE  s.is_deleted = 0 AND ss.service_id = @id And s.is_duty = 1;";
+FROM tbl_stylist_services ss
+LEFT JOIN tbl_stylists s ON s.stylist_id = ss.stylist_id
+LEFT JOIN tbl_servicesname sn ON sn.serviceName_id = ss.service_id
+LEFT JOIN tbl_stylist_schedules sc ON sc.stylist_id = s.stylist_id
+LEFT JOIN tbl_weekly_schedule ws ON ws.weekly_id = sc.weekly_id
+WHERE  s.is_deleted = 0 AND ss.service_id = @id AND sc.is_duty = 1 AND LOWER(ws.day_of_week) = LOWER(DAYNAME(CURDATE()));";
                 return con.Query<StylistModel>(sql, new { id }).ToList();
             }
         }
@@ -219,16 +221,16 @@ WHERE s.is_deleted = 0;  ";
         {
             using (var con = Database.GetConnection())
             {
-                var sql = "SELECT COUNT(*) FROM tbl_appointment WHERE stylist_id = @stylist_id AND Status = 'Scheduled'";
+                var sql = "SELECT COUNT(*) FROM tbl_appointment_services WHERE stylist_id = @stylist_id ";
                 return con.ExecuteScalar<int>(sql, new { stylist_id }) > 0;
             }
         }
-        public StylistModel GetEmail(string email)
+        public int GetEmail(string email)
         {
             using (var con = Database.GetConnection())
             {
-                var sql = "SELECT * FROM tbl_stylists WHERE email = @email AND is_deleted = 1 LIMIT 1";
-                return con.QueryFirstOrDefault<StylistModel>(sql, new { email });
+                var sql = "SELECT stylist_id FROM tbl_stylists WHERE email = @email AND is_deleted = 1 LIMIT 1";
+                return con.QueryFirstOrDefault<int>(sql, new { email });
             }
         }
 

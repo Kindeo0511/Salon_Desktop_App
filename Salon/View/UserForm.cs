@@ -55,7 +55,7 @@ namespace Salon.View
             this.AcceptButton = btn_save;
             btn_cancel.DialogResult = DialogResult.Cancel;
 
-            PopulateRoleComboBox(_user, cmb_role);
+            LoadRole();
 
 
 
@@ -91,8 +91,6 @@ namespace Salon.View
                 txt_email.Text = _user.email;
                 txt_address.Text = _user.address;
                 txt_username.Text = _user.userName;
-                txt_password.Text = _user.userPassword;
-                txt_confirm_password.Text = _user.userPassword;
                 cmb_role.Text = _user.Position;
 
                 if (_user.Position == "Admin" && UserSession.CurrentUser.Position == "Super Admin")
@@ -139,7 +137,8 @@ namespace Salon.View
             this._mainForm = mainForm;
             this._user = user;
             this._isViewed = isViewed;
-   
+
+            PopulateRoleComboBox(_user,cmb_role);
 
             if (_isViewed)
             {
@@ -171,13 +170,11 @@ namespace Salon.View
                 txt_confirm_password.Text = _user.userPassword;
                 cmb_role.Text = _user.Position;
 
-                btn_save.Visible = true;
-                btn_update.Visible = true;
+                btn_save.Visible = false;
+                btn_update.Visible = false;
                 btn_cancel.Visible = true;
 
 
-                btn_save.Enabled = false;
-                btn_update.Enabled = false;
 
 
 
@@ -273,6 +270,8 @@ namespace Salon.View
 
             // REQUIRED AND MIN LENGTH FIELD
             string firstName = txt_first_name.Text.Trim();
+
+            int deactivated_user_id = UserAccountExistsDeactivated(txt_username.Text, excludeId);
 
             // First Name
             if (!Validator.IsRequiredTextField(txt_first_name, errorProvider1, "First name is required."))
@@ -411,8 +410,23 @@ namespace Salon.View
             {
                 validated = false;
             }
+            else if (deactivated_user_id > 0)
+            {
+                // check deactivated FIRST before checking if username exists
+                var result = MessageBox.Show("This account exists but is deactivated. Do you want to restore it?",
+                                "Restore Account",
+                                MessageBoxButtons.YesNo,
+                                MessageBoxIcon.Question);
+                if (result == DialogResult.Yes)
+                {
+           
+                    RestorDeactivatedAccount(deactivated_user_id);
+                }
+                validated = false;
+            }
             else if (!Validator.IsUserExists(txt_username, errorProvider1, "Username already exists.", excludeId))
             {
+                // then check if active username exists
                 validated = false;
             }
             else
@@ -421,30 +435,39 @@ namespace Salon.View
             }
 
             // Password & Confirm Password
-            if (string.IsNullOrWhiteSpace(txt_password.Text))
-            {
-                errorProvider1.SetError(txt_password, "Password is required.");
-                validated = false;
-            }
-            else if (!Validator.IsMinimumLength(txt_password, errorProvider1, "Password must be at least 8 characters.", 8))
-            {
-                validated = false;
-            }
-            else
-            {
-                errorProvider1.SetError(txt_password, "");
-            }
 
-            if (txt_confirm_password.Text != txt_password.Text)
+            if (_isUpdating)
             {
-                errorProvider1.SetError(txt_confirm_password, "Passwords do not match.");
-                validated = false;
-            }
-            else
-            {
-                errorProvider1.SetError(txt_confirm_password, "");
-            }
+                if (!Validator.IsMinimumLength(txt_password, errorProvider1, "Password must be at least 8 characters.", 8))
+                {
+                    validated = false;
+                }
+                else
+                {
+                    errorProvider1.SetError(txt_password, "");
+                }
 
+                if (txt_confirm_password.Text != txt_password.Text)
+                {
+                    errorProvider1.SetError(txt_confirm_password, "Passwords do not match.");
+                    validated = false;
+                }
+                else
+                {
+                    errorProvider1.SetError(txt_confirm_password, "");
+                }
+
+            }
+            else 
+            {
+                if (string.IsNullOrWhiteSpace(txt_password.Text))
+                {
+                    errorProvider1.SetError(txt_password, "Password is required.");
+                    validated = false;
+                }
+            }
+           
+          
             // Role
             if (string.IsNullOrWhiteSpace(cmb_role.Text))
             {
@@ -656,6 +679,27 @@ namespace Salon.View
         private void UserForm_Load(object sender, EventArgs e)
         {
           
+
+        }
+        private void LoadRole() 
+        {
+            cmb_role.Items.Clear();
+
+            var currentUser = UserSession.CurrentUser; // static reference
+
+            if (currentUser.Position == "Super Admin")
+            {
+               
+                cmb_role.Items.Add("Admin");
+                cmb_role.Items.Add("Staff");
+            }
+            else if (currentUser.Position == "Admin")
+            {
+
+                cmb_role.Items.Add("Staff");
+            }
+           
+
 
         }
         private void PopulateRoleComboBox(UsersModel targetUser, MaterialComboBox comboBoxRoles)
@@ -918,39 +962,40 @@ namespace Salon.View
                 errorProvider1.SetError(txt, ""); // Clear error
             }
         }
-        private void IsAccountExists()
+
+        
+        public int UserAccountExistsDeactivated(string user_name, int id)
         {
             var _repo = new UserRepository();
             var userController = new UserController(_repo);
-            var existingUser = userController.UserAccountExistsByEmail(txt_email.Text.Trim());
+            int user_id = userController.IsUserAccountExistsButDeactivated(user_name, id);
 
-           
-                if (existingUser != null && existingUser.is_deactivate == 1)
-                {
-                    var result = MessageBox.Show("This account exists but is deactivated. Do you want to restore it?",
-                                   "Restore Account",
-                                MessageBoxButtons.YesNo,
-                                MessageBoxIcon.Question);
-                    if (result == DialogResult.Yes)
-                    {
+      
+            return user_id;
 
-                        int rowAffected = userController.RestoreUserAccount(existingUser.user_id);
+        }
 
-                        if (rowAffected > 0)
-                        {
-                            _mainForm.DeleteDeletedRecord(existingUser.user_id);
-                            MessageBox.Show("Account restored successfully!", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                            this.Close();
-                        }
+        public async void RestorDeactivatedAccount(int user_id) 
+        {
+            var _repo = new UserRepository();
+            var userController = new UserController(_repo);
 
+            int rowAffected = userController.RestoreUserAccount(user_id);
 
-
-                    }
-                }
-            
-
-            else
+            if (rowAffected > 0)
             {
+                _mainForm.DeleteDeletedRecord(user_id);
+                MessageBox.Show("Account restored successfully!", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                 await _mainForm.RefreshUsersAsync(1, 25);
+                this.Close();
+
+            }
+
+
+            
+        }
+        private void IsAccountExists()
+        {
 
                 if (_isSaving)
                 {
@@ -984,7 +1029,7 @@ namespace Salon.View
 
             }
 
-            }
+            
 
         }
         private async void btn_save_Click(object sender, EventArgs e)
@@ -1004,7 +1049,7 @@ namespace Salon.View
       
             btn_save.Enabled = true;
             _isSaving = false;
-
+            this.Close();
            
         }
 

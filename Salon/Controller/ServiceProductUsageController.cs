@@ -65,7 +65,7 @@ namespace Salon.Controller
         {
             return _repository.ProductUsageExists(product_id, service_id, excludeId);
         }
-        public ServiceProductUsageModel GetServiceProductUsage(int product_id, int service_id, string brand, int qty) 
+        public int GetServiceProductUsage(int product_id, int service_id, string brand, int qty) 
         {
             return _repository.GetServiceUsage(product_id, service_id, brand, qty);
         }

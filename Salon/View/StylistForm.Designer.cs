@@ -45,11 +45,11 @@
             this.materialLabel6 = new MaterialSkin.Controls.MaterialLabel();
             this.txt_email = new System.Windows.Forms.TextBox();
             this.materialCard1 = new MaterialSkin.Controls.MaterialCard();
+            this.txt_contact = new System.Windows.Forms.TextBox();
             this.chk_services = new System.Windows.Forms.CheckedListBox();
             this.materialLabel8 = new MaterialSkin.Controls.MaterialLabel();
             this.txt_address = new System.Windows.Forms.TextBox();
             this.materialLabel7 = new MaterialSkin.Controls.MaterialLabel();
-            this.txt_contact = new System.Windows.Forms.TextBox();
             ((System.ComponentModel.ISupportInitialize)(this.errorProvider1)).BeginInit();
             this.materialCard1.SuspendLayout();
             this.SuspendLayout();
@@ -286,6 +286,17 @@
             this.materialCard1.Size = new System.Drawing.Size(994, 733);
             this.materialCard1.TabIndex = 43;
             // 
+            // txt_contact
+            // 
+            this.txt_contact.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.txt_contact.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.txt_contact.Location = new System.Drawing.Point(474, 330);
+            this.txt_contact.Margin = new System.Windows.Forms.Padding(3, 3, 3, 50);
+            this.txt_contact.MaxLength = 11;
+            this.txt_contact.Name = "txt_contact";
+            this.txt_contact.Size = new System.Drawing.Size(450, 30);
+            this.txt_contact.TabIndex = 48;
+            // 
             // chk_services
             // 
             this.chk_services.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
@@ -332,17 +343,6 @@
             this.materialLabel7.Size = new System.Drawing.Size(79, 24);
             this.materialLabel7.TabIndex = 43;
             this.materialLabel7.Text = "Address:";
-            // 
-            // txt_contact
-            // 
-            this.txt_contact.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.txt_contact.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.txt_contact.Location = new System.Drawing.Point(474, 330);
-            this.txt_contact.Margin = new System.Windows.Forms.Padding(3, 3, 3, 50);
-            this.txt_contact.MaxLength = 11;
-            this.txt_contact.Name = "txt_contact";
-            this.txt_contact.Size = new System.Drawing.Size(450, 30);
-            this.txt_contact.TabIndex = 48;
             // 
             // StylistForm
             // 

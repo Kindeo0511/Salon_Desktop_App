@@ -255,7 +255,6 @@
             this.col_aps_id.HeaderText = "aps_id";
             this.col_aps_id.MinimumWidth = 6;
             this.col_aps_id.Name = "col_aps_id";
-            this.col_aps_id.Visible = false;
             this.col_aps_id.Width = 125;
             // 
             // col_service_id
@@ -265,7 +264,7 @@
             this.col_service_id.MinimumWidth = 6;
             this.col_service_id.Name = "col_service_id";
             this.col_service_id.Visible = false;
-            this.col_service_id.Width = 75;
+            this.col_service_id.Width = 98;
             // 
             // col_service_name
             // 
@@ -279,7 +278,6 @@
             this.col_stylist_id.HeaderText = "stylist_id";
             this.col_stylist_id.MinimumWidth = 6;
             this.col_stylist_id.Name = "col_stylist_id";
-            this.col_stylist_id.Visible = false;
             this.col_stylist_id.Width = 125;
             // 
             // col_stylist

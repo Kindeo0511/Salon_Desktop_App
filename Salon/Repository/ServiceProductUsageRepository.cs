@@ -153,13 +153,13 @@ namespace Salon.Repository
             }
         }
 
-        public ServiceProductUsageModel GetServiceUsage(int service_id, int product_id, string brand, int qty)
+        public int GetServiceUsage(int service_id, int product_id, string brand, int qty)
         {
             using (var con = Database.GetConnection())
             {
-                var sql = @"SELECT * FROM tbl_service_product 
-                            WHERE service_id = @service_id AND product_id = @product_id AND qty_required = @qty AND is_deleted = 0";
-                return con.QueryFirstOrDefault<ServiceProductUsageModel>(sql, new { service_id, product_id, brand, qty });
+                var sql = @"SELECT service_product_id FROM tbl_service_product 
+                            WHERE service_id = @service_id AND product_id = @product_id AND qty_required = @qty AND is_deleted = 1";
+                return con.QueryFirstOrDefault<int>(sql, new { service_id, product_id, brand, qty });
             }
         }
 

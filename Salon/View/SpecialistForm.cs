@@ -19,36 +19,39 @@ namespace Salon.View
         private int specialistId = 0; // 0 indicates new specialist, >0 for editing existing
         private readonly MainForm main;
         private readonly SpecialistModel model;
+        private bool IsSaving = false;
+        private bool IsUpdating = false;
         public SpecialistForm(MainForm mainForm)
         {
             InitializeComponent();
             ThemeManager.ApplyTheme(this);
             main = mainForm;
+            IsSaving = true;
 
         }
         public SpecialistForm(MainForm mainForm, SpecialistModel specialistModel)
         {
             InitializeComponent();
             ThemeManager.ApplyTheme(this);
+            IsUpdating = true;
             main = mainForm;
             model = specialistModel;
 
             txt_name.Text = model.name;
-            if (model.status == "Active")
-            {
-                rad_active.Checked = true;
-            }
-            else
-            {
-                rad_inactive.Checked = true;
-            }
+           
         }
 
         private bool IsValid()
         {
             int excludeId = model?.specialist_id ?? 0;
             bool validated = true;
+            int deleted_specialist_id = 0;
 
+            if (IsSaving) 
+            {
+                deleted_specialist_id = ExistingSpecialistButDeleted(txt_name.Text.Trim());
+            }
+     
             if (string.IsNullOrWhiteSpace(txt_name.Text))
             {
                 errorProvider1.SetError(txt_name, "Specialist name is required.");
@@ -59,7 +62,23 @@ namespace Salon.View
                 errorProvider1.SetError(txt_name, "Specialist name must be at least 3 characters.");
                 validated = false;
             }
-            else if (IsDuplicate(txt_name.Text, excludeId)) 
+            else if (deleted_specialist_id > 0) 
+            {
+                var result = MessageBox.Show("This specialist  exists but is deleted. Do you want to restore it?",
+                                     "Restore Specialist",
+                                  MessageBoxButtons.YesNo,
+                                  MessageBoxIcon.Question);
+                if (result == DialogResult.Yes)
+                {
+
+
+
+                    RestoreSpecialist(deleted_specialist_id);
+
+                }
+                validated = false;
+            }
+            else if (IsDuplicate(txt_name.Text, excludeId))
             {
                 errorProvider1.SetError(txt_name, "A specialist with this name already exists.");
                 validated = false;
@@ -69,20 +88,7 @@ namespace Salon.View
                 errorProvider1.SetError(txt_name, string.Empty);
             }
 
-            // Status check
-            if (!rad_active.Checked && !rad_inactive.Checked)
-            {
-                // Attach error to one of them (or both)
-                errorProvider1.SetError(rad_active, "Please select a status.");
-                errorProvider1.SetError(rad_inactive, "Please select a status.");
-                validated = false;
-            }
-            else
-            {
-                // Clear errors on both
-                errorProvider1.SetError(rad_active, string.Empty);
-                errorProvider1.SetError(rad_inactive, string.Empty);
-            }
+           
 
 
             return validated;
@@ -94,6 +100,29 @@ namespace Salon.View
             return controller.SpecialistExists(name, id);
            
         }
+        private int ExistingSpecialistButDeleted(string name)
+        {
+            var repo = new SpecialistRepository();
+            var controller = new SpecialistController(repo);
+
+            return controller.SpecialistExistsButDeleted(name);
+        }
+        public void RestoreSpecialist(int id)
+        {
+            var repo = new SpecialistRepository();
+            var controller = new SpecialistController(repo);
+
+
+            if (controller.RestoreSpecilist(id))
+            {
+                main.DeleteDeletedRecord(id);
+                MessageBox.Show("Specialist restored successfully!", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                main.LoadSpecialist();
+                this.Close();
+            }
+
+
+        }
         private bool SaveSpecialist()
         {
             var repo = new SpecialistRepository();
@@ -101,8 +130,7 @@ namespace Salon.View
 
             var model = new SpecialistModel()
             {
-                name = txt_name.Text.Trim(),
-                status = rad_active.Checked ? "Active" : "Inactive"
+                name = txt_name.Text.Trim()
             };
 
             return controller.CreateSpecialist(model);
@@ -113,7 +141,6 @@ namespace Salon.View
             var controller = new SpecialistController(repo);
 
             model.name = txt_name.Text.Trim();
-            model.status = rad_active.Checked ? "Active" : "Inactive";
 
             return controller.CreateSpecialist(model);
         }

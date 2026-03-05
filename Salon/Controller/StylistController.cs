@@ -101,7 +101,7 @@ namespace Salon.Controller
         {
             return _repo.IsStylistUsed(stylist_id);
         }
-        public StylistModel GetEmail(string email) 
+        public int GetEmail(string email) 
         {
             return _repo.GetEmail(email);
         }

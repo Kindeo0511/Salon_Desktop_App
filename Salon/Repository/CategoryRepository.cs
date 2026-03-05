@@ -96,30 +96,30 @@ namespace Salon.Repository
                 return con.ExecuteScalar<int>(sql, new { category_id }) > 0;
             }
         }
-        public bool CategoriesExist(string category, string type, int id = 0) 
+        public bool CategoriesExist(string category, int id = 0) 
         {
             using (var con = Database.GetConnection()) 
             {
-                var sql = "SELECT  COUNT(*) FROM tbl_category WHERE categoryName = @category AND type = @type AND category_id != @id AND is_deleted = 0";
-               return  con.ExecuteScalar<int>(sql, new {category, type, id }) > 0;
+                var sql = "SELECT  COUNT(*) FROM tbl_category WHERE categoryName = @category AND category_id != @id AND is_deleted = 0";
+               return  con.ExecuteScalar<int>(sql, new {category, id }) > 0;
             }
         }
         public async Task<CategoryModel> GetExistingCategoryAsync(string category, int excludeId = 0)
         {
             using (var con = Database.GetConnection())
             {
-                var sql = @"SELECT * FROM tbl_category WHERE categoryName = @category AND category_id != @excludeId";
+                var sql = @"SELECT * FROM tbl_category WHERE categoryName = @category AND category_id != @excludeId AND is_deleted = 0";
 
                 return await con.QueryFirstOrDefaultAsync<CategoryModel>(sql, new { category, excludeId });
             }
         }
 
-        public CategoryModel GetCategoryNameAndType(string categoryName)
+        public int GetCategoryNameAndType(string categoryName)
         {
             using (var con = Database.GetConnection())
             {
-                var sql = @"SELECT * FROM tbl_category WHERE categoryName = @categoryName";
-                return con.QueryFirstOrDefault<CategoryModel>(sql, new { categoryName });
+                var sql = @"SELECT category_id FROM tbl_category WHERE categoryName = @categoryName AND is_deleted = 1";
+                return con.QueryFirstOrDefault<int>(sql, new { categoryName });
             }
         }
 

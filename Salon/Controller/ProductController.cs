@@ -37,6 +37,10 @@ namespace Salon.Controller
         {
             return repo.GetAllRetailProducts();
         }
+        public IEnumerable<RetailProduct> GetAllRetailProducts(string key)
+        {
+            return repo.GetAllRetailProducts(key);
+        }
         public RetailProduct GetRetailProductByName(string name) 
         {
             return repo.GetRetailProductByName(name);
@@ -67,7 +71,7 @@ namespace Salon.Controller
             return await repo.GetTotalProductAsync();
         }
 
-        public ProductModel GetProductIngredient(string name, string brand, string unit_type) 
+        public int GetProductIngredient(string name, string brand, string unit_type) 
         {
             return repo.GetProductIngredient(name, brand, unit_type);
         }

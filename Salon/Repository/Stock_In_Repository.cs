@@ -44,7 +44,7 @@ namespace Salon.Repository
             }
         }
 
-        public void AddStockIn(Stock_In_Model model, decimal total_remaining, bool is_update)
+        public void AddStockIn(Stock_In_Model model, decimal prevTotalRemaining, decimal newTotalRemaining, decimal prevQty, decimal newQty, bool is_update)
         {
             if (model == null) throw new ArgumentNullException(nameof(model));
             if (model.product_id <= 0 || model.product_size_id <= 0 || model.qty <= 0)
@@ -74,10 +74,10 @@ namespace Salon.Repository
                         var bottlesForRow = Math.Round(qtyVolumeDecimal / ps.content, 4); // normalized bottles (decimal)
 
                         // 3) Compute previous and new totals for audit
-                        decimal prevTotalRemaining = 0;
-                        decimal prevQty = 0;
-                        decimal newTotalRemaining = 0;
-                        decimal newQty = 0;         // bottles (decimal)
+                        //decimal prevTotalRemaining = 0;
+                        //decimal prevQty = 0;
+                        //decimal newTotalRemaining = 0;
+                        //decimal newQty = 0;         // bottles (decimal)
 
                         if (model.inventory_id > 0)
                         {
@@ -93,8 +93,8 @@ namespace Salon.Repository
                                 throw new InvalidOperationException($"Inventory row {model.inventory_id} not found.");
 
 
-                            prevTotalRemaining = total_remaining;
-                            prevQty = inv.qty;
+                            //prevTotalRemaining = total_remaining;
+                            //prevQty = inv.qty;
 
                             if (is_update)
                             {

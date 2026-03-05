@@ -182,10 +182,10 @@ namespace Salon.View
 
         private void materialButton1_Click(object sender, EventArgs e)
         {
-            var discount = LoadDiscountType("Free");
+            //var discount = LoadDiscountType("100");
             IsFreeReward = true;
-            PremadeDiscountButtons(discount.discount_rate.ToString());
-            txt_discount_percent.Text = discount.discount_rate.ToString();
+            PremadeDiscountButtons("100");
+            txt_discount_percent.Text = "100";
         }
 
         private void btn_promo_Click(object sender, EventArgs e)

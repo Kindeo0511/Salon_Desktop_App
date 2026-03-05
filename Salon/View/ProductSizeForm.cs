@@ -156,8 +156,27 @@ namespace Salon.View
             int product_size_id = excludeId;
             int product_id = ProductId;
 
+            int deleted_product_size_id = 0;
 
-            if (ProductSizeExists(product_size_id, product_id, contentValue))
+            if (_isProductSizeSaving) 
+            {
+                deleted_product_size_id = ExistingProductSizeButDeleted();
+            }
+            if (deleted_product_size_id > 0)
+            {
+                var result = MessageBox.Show("This Product Size exists but is deleted. Do you want to go to the Recovery module to restore it?",
+                                  "Deleted Product Size",
+                                  MessageBoxButtons.YesNo,
+                                  MessageBoxIcon.Question);
+
+                if (result == DialogResult.Yes)
+                {
+                    RestoreProductSize(deleted_product_size_id);
+                }
+
+                validated = false;
+            }
+            else if (ProductSizeExists(product_size_id, product_id, contentValue))
             {
                 errorProvider1.SetError(txt_size_label, "Product size already exists.");
                 validated = false;
@@ -183,60 +202,40 @@ namespace Salon.View
 
             return exists;
         }
+        
         private void btn_product_size_save_Click(object sender, EventArgs e)
         {
-            if (!IsProductSizeValid()) return;
             _isProductSizeSaving = true;
+            if (!IsProductSizeValid()) return;
+         
             ProductSize();
             _productForm.LoadProductSizeById(ProductId);
             this.Close();
        
 
         }
-        private void ProductSize()
+        private int ExistingProductSizeButDeleted() 
         {
             var repo = new ProductSizeRepository();
             var controller = new ProductSizeController(repo);
-            var existingSize = controller.GetProductSize(ProductId, Convert.ToInt32(txt_content.Text));
+            return controller.GetProductSize(ProductId, Convert.ToInt32(txt_content.Text));
+        }
+        private void RestoreProductSize(int product_size_id) 
+        {
+            var repo = new ProductSizeRepository();
+            var controller = new ProductSizeController(repo);
 
-            if (existingSize != null)
+            if (controller.RestoreProductSize(product_size_id)) 
             {
-
-                if (existingSize.is_deleted == 1)
-                {
-                    var result = MessageBox.Show("This Product Size exists but is deleted. Do you want to go to the Recovery module to restore it?",
-                                "Deleted Product Size",
-                                MessageBoxButtons.YesNo,
-                                MessageBoxIcon.Question);
-
-                    if (result == DialogResult.Yes)
-                    {
-
-                        if (result == DialogResult.Yes)
-                        {
-                            mainForm.NavigateToRecoveryTab();
-                            this.Close();
-                            return;
-                        }
-
-
-
-
-                        //if (controller.RestoreProductSize(existingSize.product_size_id))
-                        //{
-                        //    mainForm.DeleteDeletedRecord(existingSize.product_size_id);
-                        //    MessageBox.Show("Product restored successfully!", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                        //    LoadProductSizeById(_product_id);
-                        //}
-
-
-
-                    }
-                }
+                mainForm.DeleteDeletedRecord(product_size_id);
+                MessageBox.Show("Product size restored successfully!", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                _productForm.LoadProductSizeById(ProductId);
+                this.Close();
             }
-
-            else
-            {
+        }
+        private void ProductSize()
+        {
+          
                 if (_isProductSizeSaving)
                 {
 
@@ -273,7 +272,7 @@ namespace Salon.View
 
                 }
 
-            }
+            
 
         }
         private ProductSizeModel ProductSizeModel(int product_id)

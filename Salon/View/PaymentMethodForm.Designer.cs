@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
             this.materialLabel1 = new MaterialSkin.Controls.MaterialLabel();
             this.txt_name = new System.Windows.Forms.TextBox();
             this.materialLabel2 = new MaterialSkin.Controls.MaterialLabel();
@@ -37,7 +38,9 @@
             this.btn_update = new MaterialSkin.Controls.MaterialButton();
             this.btn_cancel = new MaterialSkin.Controls.MaterialButton();
             this.btn_save = new MaterialSkin.Controls.MaterialButton();
+            this.errorProvider1 = new System.Windows.Forms.ErrorProvider(this.components);
             this.panel1.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.errorProvider1)).BeginInit();
             this.SuspendLayout();
             // 
             // materialLabel1
@@ -126,7 +129,7 @@
             this.btn_update.Depth = 0;
             this.btn_update.HighEmphasis = true;
             this.btn_update.Icon = null;
-            this.btn_update.Location = new System.Drawing.Point(553, 0);
+            this.btn_update.Location = new System.Drawing.Point(553, 27);
             this.btn_update.Margin = new System.Windows.Forms.Padding(4, 6, 4, 6);
             this.btn_update.MouseState = MaterialSkin.MouseState.HOVER;
             this.btn_update.Name = "btn_update";
@@ -184,6 +187,11 @@
             this.btn_save.UseVisualStyleBackColor = true;
             this.btn_save.Click += new System.EventHandler(this.btn_save_Click);
             // 
+            // errorProvider1
+            // 
+            this.errorProvider1.BlinkStyle = System.Windows.Forms.ErrorBlinkStyle.NeverBlink;
+            this.errorProvider1.ContainerControl = this;
+            // 
             // PaymentMethodForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
@@ -205,6 +213,7 @@
             this.Load += new System.EventHandler(this.PaymentMethodForm_Load);
             this.panel1.ResumeLayout(false);
             this.panel1.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.errorProvider1)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -221,5 +230,6 @@
         private MaterialSkin.Controls.MaterialButton btn_cancel;
         private MaterialSkin.Controls.MaterialButton btn_save;
         private MaterialSkin.Controls.MaterialButton btn_update;
+        private System.Windows.Forms.ErrorProvider errorProvider1;
     }
 }

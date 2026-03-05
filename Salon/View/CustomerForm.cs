@@ -87,6 +87,10 @@ namespace Salon.View
             int excludeId = customer?.customer_id ?? 0;
             bool validated = true;
 
+            var repo = new CustomerRepository();
+            var controller = new CustomerController(repo);
+            var deleted_customer_id = controller.GetEmail(txt_email.Text.Trim());
+
             // First name
             if (!Validator.IsRequiredTextField(txt_first_name, errorProvider1, "First name is required."))
             {
@@ -169,6 +173,29 @@ namespace Salon.View
                 errorProvider1.SetError(txt_email, "Valid email is required.");
                 validated = false;
             }
+            else if (deleted_customer_id > 0) 
+            {
+                var result = MessageBox.Show("This Customer exists but is deleted. Do you want to restore it?",
+                              "Restore Account",
+                           MessageBoxButtons.YesNo,
+                           MessageBoxIcon.Question);
+                if (result == DialogResult.Yes)
+                {
+
+
+
+                    if (controller.RestoreCustomer(deleted_customer_id))
+                    {
+                        mainform.DeleteDeletedRecord(deleted_customer_id);
+                        MessageBox.Show("Customer restored successfully!", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                        CustomerAdded?.Invoke(this, EventArgs.Empty);
+                        this.Close();
+                    }
+
+                    validated = false;
+
+                }
+            }
             else if (!Validator.IsCustomerEmailExists(txt_email, errorProvider1, "Email already exists.", excludeId))
             {
                 validated = false;
@@ -183,39 +210,7 @@ namespace Salon.View
         }
         private void IsAccountExists()
         {
-            var repo = new CustomerRepository();
-            var controller = new CustomerController(repo);
-            var existingUser = controller.GetEmail(txt_email.Text.Trim());
-
-            if (existingUser != null)
-            {
-
-                if (existingUser.is_deleted == 1)
-                {
-                    var result = MessageBox.Show("This Customer exists but is deleted. Do you want to restore it?",
-                                   "Restore Account",
-                                MessageBoxButtons.YesNo,
-                                MessageBoxIcon.Question);
-                    if (result == DialogResult.Yes)
-                    {
-
-
-
-                        if (controller.RestoreCustomer(existingUser.customer_id))
-                        {
-                            mainform.DeleteDeletedRecord(existingUser.customer_id);
-                            MessageBox.Show("Customer restored successfully!", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                            this.Close();
-                        }
-
-
-
-                    }
-                }
-            }
-
-            else
-            {
+             
                 if (_isSaving)
                 {
                    
@@ -254,10 +249,10 @@ namespace Salon.View
 
                 }
 
-            }
+            
 
         }
-        private async void btn_save_Click(object sender, EventArgs e)
+        private void btn_save_Click(object sender, EventArgs e)
         {
             if (!IsValid()) return;
             IsAccountExists();

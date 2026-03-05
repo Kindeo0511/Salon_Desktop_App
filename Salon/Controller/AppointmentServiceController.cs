@@ -93,5 +93,17 @@ namespace Salon.Controller
         {
             return repo.StartWalkInService(id, start_time, end_time);
         }
+
+        public void UpdateStylistStatusOnDuty
+        (string customer_name,
+            string service,
+            DateTime? start_time,
+            DateTime? end_time,
+            string status,
+            int? stylist_id
+        ) 
+        {
+            repo.UpdateStylistStatusOnDuty(customer_name,service,start_time,end_time,status,stylist_id);
+        }
     }
 }

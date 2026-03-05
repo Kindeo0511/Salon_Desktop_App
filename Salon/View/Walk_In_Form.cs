@@ -292,6 +292,7 @@ namespace Salon.View
                 if (row.IsNewRow) continue;
                 int? stylist_id = null;
                 int service_id = Convert.ToInt32(row.Cells["col_service_id"].Value);
+                string service_name = row.Cells["col_service_name"].Value.ToString();
                 if (row.Cells["col_stylist_id"].Value != null && int.TryParse(row.Cells["col_stylist_id"].Value.ToString(), out int parsed)) { stylist_id = parsed; }
                 int duration = 0;
                 var rawValue = row.Cells["col_duration"].Value?.ToString();
@@ -331,6 +332,7 @@ namespace Salon.View
                     var endTimeDuration = DateTime.Now.AddMinutes(duration);
                     service_controller.AddServicesToAppointment(appointment_id, service_id, stylist_id, start_time, endTimeDuration, rowStatus);
                     SaveInvoiceServices(invoiceServiceCart);
+                    UpdateStylistStatusOnDuty(lbl_prefix.Text,service_name, start_time, endTimeDuration, stylist_id);
                 }
                 else if (statusValue == "Busy" || statusValue == "Waiting")
                 {
@@ -348,6 +350,19 @@ namespace Salon.View
 
             }
 
+        }
+        public void UpdateStylistStatusOnDuty
+            (
+            string customer_name,
+            string service,
+            DateTime start_time,
+            DateTime end_time,
+            int? stylist_id
+            ) 
+        {
+            var repo = new AppointmentServiceRepository();
+            var controller = new AppointmentServiceController(repo);
+            controller.UpdateStylistStatusOnDuty(lbl_prefix.Text, service, start_time, end_time, "Busy", stylist_id);
         }
         public void MarkOverallAppointmentStatus(int appointment_id)
         {

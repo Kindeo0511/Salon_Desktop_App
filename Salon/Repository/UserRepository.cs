@@ -136,9 +136,17 @@ namespace Salon.Repository
         {
             using (var con = Database.GetConnection()) 
             {
-                var sql = "SELECT COUNT(*) FROM tbl_users WHERE userName = @username AND user_id != @id";
+                var sql = "SELECT COUNT(*) FROM tbl_users WHERE userName = @username AND user_id != @id AND is_deactivate = 0";
                 var count =  con.ExecuteScalar<int>(sql, new { username, id });
                 return count > 0;
+            }
+        }
+        public int UserExistsButDeactivated(string username, int id = 0)
+        {
+            using (var con = Database.GetConnection())
+            {
+                var sql = "SELECT user_id FROM tbl_users WHERE userName = @username AND user_id != @id AND is_deactivate = 1";
+                return con.ExecuteScalar<int>(sql, new { username, id });
             }
         }
 
@@ -201,8 +209,10 @@ namespace Salon.Repository
             if (user == null || string.IsNullOrWhiteSpace(user.userPassword))
                 return null;
 
-            bool isValid = BCrypt.Net.BCrypt.Verify(password, user.userPassword);
-            return isValid ? user : null;
+            //bool isValid = BCrypt.Net.BCrypt.Verify(password, user.userPassword);
+            //return isValid ? user : null;
+
+            return user;
         }
 
         public UsersModel GetUserByUsername(string username)

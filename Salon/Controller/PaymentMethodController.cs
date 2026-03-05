@@ -38,5 +38,17 @@ namespace Salon.Controller
         {
             return repo.HardDelete(id) > 0;
         }
+        public int GetDeletedPaymentMethodId(string name) 
+        {
+            return repo.GetDeletedPaymentMethodId(name);
+        }
+        public bool IsPaymentMethodExists(string name, int id) 
+        {
+            return repo.IsPaymentMethodAlreadyExists(name, id);
+        }
+        public bool RestorePaymentMethod(int id) 
+        {
+            return repo.RestorePaymentMethood(id);
+        }
     }
 }

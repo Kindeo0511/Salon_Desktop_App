@@ -67,7 +67,7 @@ namespace Salon.View
             dtp_end.Value = discountModel.end_date ?? DateTime.Now;
 
 
-            chk_is_active.Checked = discountModel.status == "Active";
+
                 chk_vat_exempt.Checked = (discountModel.vat_exempt == 1);
 
 
@@ -94,7 +94,6 @@ namespace Salon.View
             rad_fixed.Enabled = false;
             dtp_start.Enabled = false; 
             dtp_end.Enabled = false;
-            chk_is_active.Enabled = false;
             chk_vat_exempt.Enabled = false;
             btn_update_draft.Enabled = false;
             btn_save_draft.Enabled = false;
@@ -118,7 +117,7 @@ namespace Salon.View
             int discount_value = Convert.ToInt32(txt_discount.Value);
             string mode = rad_percent.Checked ? rad_percent.Text : rad_fixed.Text;
             int vat_exempt = chk_vat_exempt.Checked ? 1 : 0;
-            string is_active = chk_is_active.Checked ? "Active" : "";
+
 
             DateTime start_date = dtp_start.Value;
             DateTime end_date = dtp_end.Value;
@@ -134,7 +133,6 @@ namespace Salon.View
                 is_defined = isSystemDefined,
                 start_date = start_date,
                 end_date = end_date,
-                status = is_active
 
             };
             var update_repo = new DiscountRepository();
@@ -157,6 +155,199 @@ namespace Salon.View
                 main.LoadDiscount();
             }
         }
+        private bool IsDiscountValid() 
+        {
+            int excludeId = discountModel?.discount_id ?? 0;
+            bool validated = true;
+            int deleted_discount_id = 0;
+
+            string promoName = txt_promo_name.Text.Trim();
+            string mode = "";
+            decimal rate = Convert.ToDecimal(txt_discount.Value);
+
+            if (rad_fixed.Checked)
+            {
+                mode = rad_fixed.Text;
+            }
+            else 
+            {
+                mode = rad_percent.Text;
+            }
+
+            if (is_saving)
+            {
+                deleted_discount_id = ExistingDeletedPromo
+                    (cmb_discount_type.Text,
+                    txt_promo_name.Text.Trim(),
+                    mode,
+                    rate);
+            }
+            // PWD and Senior can only be Percent
+            if (string.IsNullOrEmpty(cmb_discount_type.Text))
+            {
+                errorProvider1.SetError(cmb_discount_type, "Please select a discount type.");
+                validated = false;
+            }
+            else if (cmb_discount_type.Text == "PWD" || cmb_discount_type.Text == "Senior" || cmb_discount_type.Text == "Free")
+            {
+                if (IsDiscountExistsFor_PWD_SENIOR_FREE(cmb_discount_type.Text))
+                {
+                    errorProvider1.SetError(cmb_discount_type, $"{cmb_discount_type.Text} discount already exists.");
+                    validated = false;
+                }
+                else
+                {
+                    errorProvider1.SetError(cmb_discount_type, "");
+                }
+            }
+           
+            else
+            {
+                errorProvider1.SetError(cmb_discount_type, "");
+            }
+
+            if (cmb_discount_type.Text == "Promo") 
+            {
+                if (string.IsNullOrEmpty(promoName))
+                {
+                    errorProvider1.SetError(txt_promo_name, "Please enter a promo name.");
+                    validated = false;
+                }
+                else if (promoName.Length < 2)
+                {
+                    errorProvider1.SetError(txt_promo_name, "Promo name must be at least 2 characters.");
+                    validated = false;
+                }
+                else if (promoName.Length > 50)
+                {
+                    errorProvider1.SetError(txt_promo_name, "Promo name cannot exceed 50 characters.");
+                    validated = false;
+                }
+                else if (deleted_discount_id > 0) 
+                {
+                    var result = MessageBox.Show("This promo exists but is deleted. Do you want to restore it?",
+                               "Restore Discount",
+                               MessageBoxButtons.YesNo,
+                               MessageBoxIcon.Question);
+                    if (result == DialogResult.Yes)
+                    {
+
+                        RestorePromo(deleted_discount_id);
+                    }
+                    validated = false;
+                }
+                else if (IsPromoExists(cmb_discount_type.Text, promoName, mode, rate))
+                {
+                    errorProvider1.SetError(txt_promo_name, $"{txt_promo_name.Text} discount promo already exists.");
+                    validated = false;
+                }
+                else
+                {
+                    errorProvider1.SetError(txt_promo_name, "");
+                }
+
+            }
+          
+
+            // Discount Value
+            if (txt_discount.Value == 0)
+            {
+                errorProvider1.SetError(txt_discount, "Please enter a discount value.");
+                validated = false;
+            }
+            else if (rad_percent.Checked && txt_discount.Value > 100)
+            {
+                errorProvider1.SetError(txt_discount, "Percentage discount cannot exceed 100%.");
+                validated = false;
+            }
+            else
+            {
+                errorProvider1.SetError(txt_discount, "");
+            }
+
+            if (!rad_fixed.Checked && !rad_percent.Checked)
+            {
+                errorProvider1.SetError(rad_fixed, "Please select a discount type.");
+                errorProvider1.SetError(rad_percent, "Please select a discount type.");
+                validated = false;
+            }
+            else if ((cmb_discount_type.Text == "PWD" || cmb_discount_type.Text == "Senior") && rad_fixed.Checked)
+            {
+                errorProvider1.SetError(rad_fixed, $"{cmb_discount_type.Text} discount can only be Percent type.");
+                errorProvider1.SetError(rad_percent, "");
+                validated = false;
+            }
+            else
+            {
+                errorProvider1.SetError(rad_fixed, "");
+                errorProvider1.SetError(rad_percent, "");
+            }
+            // Date validation (only if Promo is selected)
+            if (cmb_discount_type.Text == "Promo")
+            {
+                if (dtp_start.Value.Date < DateTime.Today)
+                {
+                    errorProvider1.SetError(dtp_start, "Start date cannot be in the past.");
+                    validated = false;
+                }
+                else
+                {
+                    errorProvider1.SetError(dtp_start, "");
+                }
+
+                if (dtp_end.Value.Date <= dtp_start.Value.Date)
+                {
+                    errorProvider1.SetError(dtp_end, "End date must be after the start date.");
+                    validated = false;
+                }
+                else
+                {
+                    errorProvider1.SetError(dtp_end, "");
+                }
+            }
+
+            return validated;
+        }
+        private bool IsDiscountExistsFor_PWD_SENIOR_FREE(string type) 
+        {
+
+            var repo = new DiscountRepository();
+            var discount_controller = new DiscountController(repo);
+
+            return discount_controller.IsDiscountExistsFOR_PWD_SENIOR_FREE(type);
+        }
+        private bool IsPromoExists(string type, string promo, string mode, decimal rate)
+        {
+
+            var repo = new DiscountRepository();
+            var discount_controller = new DiscountController(repo);
+
+            return discount_controller.IsDiscountExists(type, promo, mode, rate);
+        }
+        private int ExistingDeletedPromo(string type, string promo, string mode, decimal rate)
+        {
+
+            var repo = new DiscountRepository();
+            var discount_controller = new DiscountController(repo);
+
+            return discount_controller.IsDiscountExistsForDeleted(type, promo, mode, rate);
+        }
+        private void RestorePromo(int id) 
+        {
+            var repo = new DiscountRepository();
+            var discount_controller = new DiscountController(repo);
+
+            bool is_restored = discount_controller.RestoreDiscount(id);
+
+            if (is_restored)
+            {
+       
+                main.DeleteDeletedRecord(id);
+                MessageBox.Show("Discount promo restored successfully!", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                main.LoadDiscount();
+                this.Close();
+            }
+        }
         private void AddDiscount()
         {
             string discount_type = cmb_discount_type.Text;
@@ -164,7 +355,6 @@ namespace Salon.View
             int discount_value = Convert.ToInt32(txt_discount.Value);
             string mode = rad_percent.Checked ? rad_percent.Text : rad_fixed.Text;
             int vat_exempt = chk_vat_exempt.Checked ? 1 : 0;
-            string is_active = chk_is_active.Checked ? "Active" : "";
 
             DateTime? start_date = (dtp_start.Visible && dtp_start.Checked) ? dtp_start.Value : (DateTime?)null;
             DateTime? end_date = (dtp_end.Visible && dtp_end.Checked) ? dtp_end.Value : (DateTime?)null;
@@ -181,8 +371,7 @@ namespace Salon.View
                 vat_exempt = vat_exempt,
                 is_defined = isSystemDefined,
                 start_date = start_date,
-                end_date = end_date,
-                status = is_active
+                end_date = end_date
                
             };
             int id = discount_controller.AddDiscount(discount);
@@ -220,7 +409,6 @@ namespace Salon.View
             cmb_discount_type.SelectedIndex = -1;
             rad_fixed.Checked = false;
             rad_percent.Checked = false;
-            chk_is_active.Checked = false;
 
             txt_promo_name.Text = "";
     
@@ -294,12 +482,14 @@ namespace Salon.View
                         txt_promo_name.Enabled = false;
                         rad_percent.Checked = true;
                         chk_vat_exempt.Checked = (selected == "PWD" || selected == "Senior");
-                        chk_is_active.Checked = true;
-                       txt_promo_name.Text = string.Empty;
+                        txt_promo_name.Text = string.Empty;
                         isSystemDefined = 1;
                         email_flow_panel.Height = 0;
                         dtp_start.Enabled = false;
                         dtp_end.Enabled = false;
+                        chk_send_email.Enabled = false;
+
+                       chk_vat_exempt.Enabled = true;
                 }
                     else 
                     {
@@ -307,11 +497,12 @@ namespace Salon.View
                         txt_promo_name.Enabled = true;
                         rad_percent.Checked = false;
                         chk_vat_exempt.Checked = false;
-                        chk_is_active.Checked = false;
                         email_flow_panel.Height = 600;
                         dtp_start.Enabled = true;
                         dtp_end.Enabled = true;
 
+
+                    chk_vat_exempt.Enabled = false;
                 }
                 }
                 else if (is_updating) 
@@ -324,6 +515,8 @@ namespace Salon.View
                     email_flow_panel.Height = 0;
                     dtp_start.Enabled = false;
                     dtp_end.Enabled = false;
+
+                    chk_vat_exempt.Enabled = true;
                 }
                 else
                 {
@@ -332,6 +525,8 @@ namespace Salon.View
                     email_flow_panel.Height = 600;
                     dtp_start.Enabled = true;
                     dtp_end.Enabled = true;
+
+                    chk_vat_exempt.Enabled = false;
                 }
             }
 
@@ -512,6 +707,7 @@ namespace Salon.View
 
         private async void btn_save_draft_Click(object sender, EventArgs e)
         {
+            if (!IsDiscountValid()) return;
             AddDiscount();
 
             if (chk_send_email.Checked) 
@@ -583,7 +779,11 @@ namespace Salon.View
 
         private async void btn_update_draft_Click(object sender, EventArgs e)
         {
-            UpdateDiscount();
+            
+            if (!IsDiscountValid()) return;
+
+             UpdateDiscount();
+
             if (chk_send_email.Checked) 
             {
                 using (var form = new LoadingScreenEmail())
@@ -791,6 +991,11 @@ namespace Salon.View
             timer.Interval = 60000;
             timer.Tick += (s, e) => Task.Run(() => ProcessEmailQueue());
             timer.Start();
+        }
+
+        private void cmb_discount_type_SelectedValueChanged(object sender, EventArgs e)
+        {
+           
         }
     }
 }

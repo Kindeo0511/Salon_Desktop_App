@@ -1,12 +1,15 @@
 ﻿using Dapper;
 using Laundry.Data;
+using MySql.Data.MySqlClient;
 using Salon.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Forms;
 using System.Windows.Markup;
+using static iText.StyledXmlParser.Jsoup.Select.Evaluator;
 
 namespace Salon.Repository
 {
@@ -107,6 +110,60 @@ namespace Salon.Repository
                     WHERE appointment_service_id = @id";
 
                 return con.Execute(sql, new { id, start_time, end_time }) > 0;
+            }
+        }
+        public void UpdateStylistStatusOnDuty(
+            string current_customer,
+            string current_service,
+            DateTime? start_time,
+            DateTime? end_time,
+            string status,
+            int? stylist_id)
+        {
+            try
+            {
+                using (var con = Database.GetConnection())
+                {
+                    var sql = @"
+                UPDATE tbl_stylist_schedules
+                SET 
+                    current_customer = @current_customer,
+                    current_service  = @current_service,
+                    start_time       = @start_time,
+                    end_time         = @end_time,
+                    status           = @status
+                WHERE id = (
+                    SELECT ss_id FROM (
+                        SELECT ss.id AS ss_id
+                        FROM tbl_stylist_schedules ss
+                        INNER JOIN tbl_weekly_schedule ws ON ws.weekly_id = ss.weekly_id
+                        WHERE ss.stylist_id = @stylist_id
+                          AND ss.is_duty = 1
+                          AND LOWER(ws.day_of_week) = LOWER(DAYNAME(CURDATE()))
+                        LIMIT 1
+                    ) AS sub
+                )";
+
+                    con.Execute(sql, new
+                    {
+                        current_customer,
+                        current_service,
+                        start_time,
+                        end_time,
+                        status,
+                        stylist_id
+                    });
+                }
+            }
+            catch (MySqlException ex)
+            {
+                MessageBox.Show($"Database error: {ex.Message}", "DB Error",
+                    MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Unexpected error: {ex.Message}", "Error",
+                    MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
         public void ClearDeleteAllServicesForAppointment(int id) 
@@ -217,6 +274,7 @@ namespace Salon.Repository
                 var sql = @"SELECT DISTINCT
                         aps.appointment_service_id AS AppointmentServiceId,
                         aps.appointment_id AS AppointmentId,
+                        aps.stylist_id AS StylistId,
                         aps.serviceName_id AS ServiceId,
                         s.firstName,
                         s.lastName,

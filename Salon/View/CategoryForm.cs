@@ -13,6 +13,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Windows.Input;
+using static iText.StyledXmlParser.Jsoup.Select.Evaluator;
 namespace Salon.View
 {
     public partial class CategoryForm : MaterialForm
@@ -72,14 +73,40 @@ namespace Salon.View
 
             validated &= Validator.ValidateCategoryName(categoryName, txt_category_name, errorProvider1);
 
+            int deleted_category_id = 0;
+            if (_isSaving) 
+            {
+            deleted_category_id = ExistingCategoryButDeleted(categoryName);
+            }
             var existing = await GetExistingCategory(categoryName, excludeId);
 
-            if (existing != null) 
+
+            if (deleted_category_id > 0)
+            {
+                var result = MessageBox.Show("This Category exists but is deleted. Do you want to restore it?",
+                               "Restore Account",
+                            MessageBoxButtons.YesNo,
+                            MessageBoxIcon.Question);
+                if (result == DialogResult.Yes)
+                {
+
+
+
+                    RestoreCategory(deleted_category_id);
+             
+                }
+                validated = false;
+
+            }
+            else if (existing != null)
             {
                 errorProvider1.SetError(txt_category_name, $"Category already exists.");
-                validated = true;
+                validated = false;
             }
-            else 
+      
+       
+            else
+
             {
                 errorProvider1.SetError(txt_category_name, string.Empty);
             }
@@ -136,41 +163,39 @@ namespace Salon.View
            return controller.updateCategory(category);
 
         }
-        private void IsAccountExists()
+        public void RestoreCategory(int category_id) 
         {
             var repo = new CategoryRepository();
             var controller = new CategoryController(repo);
-            var existingCategory = controller.GetCategoryAndType(txt_category_name.Text.Trim());
 
-            if (existingCategory != null)
+            if (controller.restoreCategory(category_id))
             {
-
-                if (existingCategory.is_deleted == 1)
-                {
-                    var result = MessageBox.Show("This Category exists but is deleted. Do you want to restore it?",
-                                   "Restore Account",
-                                MessageBoxButtons.YesNo,
-                                MessageBoxIcon.Question);
-                    if (result == DialogResult.Yes)
-                    {
-
-
-
-                        if (controller.restoreCategory(existingCategory.category_id))
-                        {
-                            mainForm.DeleteDeletedRecord(existingCategory.category_id);
-                            MessageBox.Show("Category restored successfully!", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                            this.Close();
-                        }
-
-
-
-                    }
-                }
+                mainForm.DeleteDeletedRecord(category_id);
+                MessageBox.Show("Category restored successfully!", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                CategoryAdded?.Invoke(this, EventArgs.Empty);
+                this.Close();
             }
 
-            else
-            {
+        }
+        private bool CheckCategoryExists(string name, int id) 
+        {
+            var repo = new CategoryRepository();
+            var controller = new CategoryController(repo);
+            return controller.CheckCategoryExists(name, id);
+        }
+        private int ExistingCategoryButDeleted(string category) 
+        {
+            var repo = new CategoryRepository();
+            var controller = new CategoryController(repo);
+            int category_id = controller.GetCategoryDeleted(category);
+
+            return category_id;
+          
+        }
+        private void IsAccountExists()
+        {
+        
+          
                 if (_isSaving)
                 {
 
@@ -208,14 +233,14 @@ namespace Salon.View
 
                 }
 
-            }
+            
 
         }
         private async void btn_save_Click(object sender, EventArgs e)
         {
             if (!await IsValid()) return;
 
-
+       
             IsAccountExists();
 
 

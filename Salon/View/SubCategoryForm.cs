@@ -68,10 +68,33 @@ namespace Salon.View
 
 
             string subCategoryName = txt_subcategory_name.Text.Trim();
+            int deleted_subcategory_id = 0;
+            if (_isSaving) 
+            {
+                deleted_subcategory_id = DeletedSubCategoryExists();
+            }
             validated &= Validator.ValidateSubCategoryName(subCategoryName, txt_subcategory_name, errorProvider1);
             validated &= Validator.ValidateSubCategoryType(cmb_category, errorProvider1);
 
-            if (!Validator.IsSubCategoryExists(txt_subcategory_name, errorProvider1, "Sub-Category already exists.",cat_id, excludeId))
+ 
+
+            if (deleted_subcategory_id > 0)
+            {
+                var result = MessageBox.Show("This Sub-Category exists but is deleted. Do you want to restore it?",
+                               "Restore Account",
+                            MessageBoxButtons.YesNo,
+                            MessageBoxIcon.Question);
+                if (result == DialogResult.Yes)
+                {
+
+
+                    RestoreSubCategory(deleted_subcategory_id);
+
+
+                }
+                validated = false;
+            }
+            else if (!Validator.IsSubCategoryExists(txt_subcategory_name, errorProvider1, "Sub-Category already exists.",cat_id, excludeId))
             {
                 validated = false;
             }
@@ -125,41 +148,39 @@ namespace Salon.View
 
             
         }
-        private void IsAccountExists()
+
+        public int DeletedSubCategoryExists() 
         {
             var repo = new SubCategoryRepository();
             var controller = new SubCategoryController(repo);
-            var existingSubCategory = controller.GetSubCategory(txt_subcategory_name.Text.Trim(),Convert.ToInt32(cmb_category.SelectedValue));
+            int id = controller.GetSubCategory(txt_subcategory_name.Text.Trim(), Convert.ToInt32(cmb_category.SelectedValue));
 
-            if (existingSubCategory != null)
+            return id;
+        }
+        private void RestoreSubCategory(int subCategory_id) 
+        {
+            var repo = new SubCategoryRepository();
+            var controller = new SubCategoryController(repo);
+
+
+            if (controller.RestoreSubCategory(subCategory_id))
             {
-
-                if (existingSubCategory.is_deleted == 1)
-                {
-                    var result = MessageBox.Show("This Sub-Category exists but is deleted. Do you want to restore it?",
-                                   "Restore Account",
-                                MessageBoxButtons.YesNo,
-                                MessageBoxIcon.Question);
-                    if (result == DialogResult.Yes)
-                    {
-
-
-
-                        if (controller.RestoreSubCategory(existingSubCategory.subCategory_id))
-                        {
-                            mainform.DeleteDeletedRecord(existingSubCategory.subCategory_id);
-                            MessageBox.Show("Sub-Category restored successfully!", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                            this.Close();
-                        }
-
-
-
-                    }
-                }
+                mainform.DeleteDeletedRecord(subCategory_id);
+                MessageBox.Show("Sub-Category restored successfully!", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                RefreshData?.Invoke(this, EventArgs.Empty);
+                this.Close();
             }
 
-            else
-            {
+
+        }
+        private void IsAccountExists()
+        {
+           
+
+               
+            
+
+           
                 if (_isSaving)
                 {
 
@@ -199,7 +220,7 @@ namespace Salon.View
 
                 }
 
-            }
+            
 
         }
 

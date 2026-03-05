@@ -41,7 +41,8 @@ namespace Salon.Models
 
             }
         }
-        
+        public string current_customer { get; set; }
+        public string current_service { get; set; }
         public string Email { get; set; }
         public string PhoneNumber { get; set; }
         public string CustomerType { get; set; }
@@ -70,6 +71,18 @@ namespace Salon.Models
 
         public DateTime EndDuration { get; set; }
         public string Status { get; set; } // e.g., Scheduled, Completed, Canceled
+
+        public string DisplayStatus 
+        {
+            get 
+            {
+                if (Status is null) 
+                {
+                    Status = "Available";
+                }
+                return Status;
+            }
+        }
         public string DutyStatus { get; set; } // e.g., On Duty, Off Duty
         public string PaymentStatus { get; set; } // e.g., Paid, Unpaid
         public int Duration { get; set; }

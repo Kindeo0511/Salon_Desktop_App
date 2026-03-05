@@ -57,7 +57,7 @@
             this.materialLabel1.Depth = 0;
             this.materialLabel1.Font = new System.Drawing.Font("Roboto Medium", 20F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Pixel);
             this.materialLabel1.FontType = MaterialSkin.MaterialSkinManager.fontType.H6;
-            this.materialLabel1.Location = new System.Drawing.Point(56, 51);
+            this.materialLabel1.Location = new System.Drawing.Point(56, 62);
             this.materialLabel1.MouseState = MaterialSkin.MouseState.HOVER;
             this.materialLabel1.Name = "materialLabel1";
             this.materialLabel1.Size = new System.Drawing.Size(82, 24);
@@ -66,16 +66,20 @@
             // 
             // ProductQuantityForm
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
-            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.AutoScaleDimensions = new System.Drawing.SizeF(120F, 120F);
+            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Dpi;
             this.ClientSize = new System.Drawing.Size(500, 200);
             this.Controls.Add(this.materialLabel1);
             this.Controls.Add(this.txt_qtn);
-            this.FormStyle = MaterialSkin.Controls.MaterialForm.FormStyles.StatusAndActionBar_None;
+            this.FormStyle = MaterialSkin.Controls.MaterialForm.FormStyles.ActionBar_None;
+            this.MaximizeBox = false;
+            this.MinimizeBox = false;
             this.Name = "ProductQuantityForm";
-            this.Padding = new System.Windows.Forms.Padding(3, 0, 3, 3);
+            this.Padding = new System.Windows.Forms.Padding(3, 24, 3, 3);
+            this.Sizable = false;
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "ProductQuantityForm";
+            this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.ProductQuantityForm_FormClosed);
             this.ResumeLayout(false);
             this.PerformLayout();
 

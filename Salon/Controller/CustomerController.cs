@@ -45,7 +45,7 @@ namespace Salon.Controller
         {
            return repo.AddCustomer(customer) > 0;
         }
-        public CustomerModel GetEmail(string email)
+        public int GetEmail(string email)
         {
             return repo.GetCustomerEmail(email);
         }

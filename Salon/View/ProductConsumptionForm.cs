@@ -130,7 +130,9 @@ namespace Salon.View
         {
 
             bool validated = true;
-
+            int excludeId = serviceUsageModel?.service_product_id ?? 0;
+            int product_id = Convert.ToInt32(cmb_product.SelectedValue);
+            int sid = service_id;
             // REQUIRED FIELD
 
 
@@ -148,49 +150,54 @@ namespace Salon.View
 
 
 
-            ////EXISTS VALIDATION
-            //int excludeId = ServiceProductUsageModel?.service_product_id ?? 0;
-            //int product_id = Convert.ToInt32(cmb_product.SelectedValue);
-            //int sid = serviceModel?.serviceName_id ?? 0;
-            //validated &= Validator.IsProductUsageExists(cmb_product, errorProvider1, "Product already exists.", product_id, sid, excludeId);
+            //EXISTS VALIDATION
+            int deleted_product_id = 0;
+            if (_isAddingProductUsage) deleted_product_id = ExistingProductConsumptionButDeleted();
+
+            if (deleted_product_id > 0) 
+            {
+                var result = MessageBox.Show("This Product Consumption exists but is deleted. Do you want to restore it?",
+                              "Restore Account",
+                           MessageBoxButtons.YesNo,
+                           MessageBoxIcon.Question);
+                if (result == DialogResult.Yes)
+                {
+
+                    RestoreProductConsumption(deleted_product_id);
+
+                }
+            }
+    
+            validated &= Validator.IsProductUsageExists(cmb_product, errorProvider1, "Product already exists.", product_id, sid, excludeId);
 
 
             return validated;
 
 
         }
-        private void IsProductUsageExists()
+        private int ExistingProductConsumptionButDeleted() 
         {
             var repo = new ServiceProductUsageRepository();
             var controller = new ServiceProductUsageController(repo);
-            var existingServiceUsage = controller.GetServiceProductUsage(service_id, Convert.ToInt32(cmb_product.SelectedValue), txt_brand.Text, Convert.ToInt32(txt_total_usage.Text));
+            return  controller.GetServiceProductUsage(service_id, Convert.ToInt32(cmb_product.SelectedValue), txt_brand.Text, Convert.ToInt32(txt_total_usage.Text));
 
+        }
+        private void RestoreProductConsumption(int id) 
+        {
+            var repo = new ServiceProductUsageRepository();
+            var controller = new ServiceProductUsageController(repo);
 
-            if (existingServiceUsage != null && existingServiceUsage.is_deleted == 1)
+            if (controller.RestoreServiceProduct(id))
             {
-                var result = MessageBox.Show("This Product Consumption exists but is deleted. Do you want to restore it?",
-                               "Restore Account",
-                            MessageBoxButtons.YesNo,
-                            MessageBoxIcon.Question);
-                if (result == DialogResult.Yes)
-                {
-
-
-
-                    if (controller.RestoreServiceProduct(existingServiceUsage.service_product_id))
-                    {
-                        MessageBox.Show("Service restored successfully!", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                        this.Close();
-                    }
-
-
-
-                }
+                MessageBox.Show("Service restored successfully!", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                serviceForm.RefreshServiceProductUsage(service_id);
+                this.Close();
             }
 
-
-            else
-            {
+        }
+        private void IsProductUsageExists()
+        {
+           
                 if (_isAddingProductUsage)
                 {
 
@@ -231,7 +238,7 @@ namespace Salon.View
 
                 }
 
-            }
+            
 
         }
         private void Clear()
@@ -280,6 +287,11 @@ namespace Salon.View
 
             serviceForm.RefreshServiceProductUsage(service_id);
             this.Close();
+        }
+
+        private void ProductConsumptionForm_Load(object sender, EventArgs e)
+        {
+
         }
     }
 }

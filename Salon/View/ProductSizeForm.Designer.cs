@@ -111,7 +111,7 @@
             this.btn_product_size_update.DrawShadows = false;
             this.btn_product_size_update.HighEmphasis = true;
             this.btn_product_size_update.Icon = null;
-            this.btn_product_size_update.Location = new System.Drawing.Point(283, 501);
+            this.btn_product_size_update.Location = new System.Drawing.Point(283, 477);
             this.btn_product_size_update.Margin = new System.Windows.Forms.Padding(4, 6, 4, 6);
             this.btn_product_size_update.MouseState = MaterialSkin.MouseState.HOVER;
             this.btn_product_size_update.Name = "btn_product_size_update";

@@ -43,7 +43,7 @@ namespace Salon.Controller
         {
             return repo.Update(model) > 0;
         }
-        public ProductSizeModel GetProductSize(int product_id, int content) 
+        public int GetProductSize(int product_id, int content) 
         {
             return repo.GetProductSize(product_id, content);
         }

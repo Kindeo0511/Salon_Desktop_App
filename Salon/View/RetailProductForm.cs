@@ -340,39 +340,8 @@ namespace Salon.View
         }
         private void ProductSize()
         {
-            var repo = new ProductSizeRepository();
-            var controller = new ProductSizeController(repo);
-            var existingSize = controller.GetProductSize(_product_id, Convert.ToInt32(txt_content.Text));
-
-            if (existingSize != null)
-            {
-
-                if (existingSize.is_deleted == 1)
-                {
-                    var result = MessageBox.Show("This Product Size exists but is deleted. Do you want to restore it?",
-                                   "Restore Account",
-                                MessageBoxButtons.YesNo,
-                                MessageBoxIcon.Question);
-                    if (result == DialogResult.Yes)
-                    {
-
-
-
-                        if (controller.RestoreProductSize(existingSize.product_size_id))
-                        {
-                            mainForm.DeleteDeletedRecord(existingSize.product_size_id);
-                            MessageBox.Show("Product restored successfully!", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                            LoadProductSizeById(_product_id);
-                        }
-
-
-
-                    }
-                }
-            }
-
-            else
-            {
+          
+        
                 if (_isProductSizeSaving)
                 {
 
@@ -409,7 +378,7 @@ namespace Salon.View
 
                 }
 
-            }
+            
 
         }
         private bool IsProductSizeValid()

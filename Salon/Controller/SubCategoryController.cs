@@ -61,7 +61,7 @@ namespace Salon.Controller
             return repo.SubCategoriesExist(name, category_id, id);
         }
 
-        public SubCategoryModel GetSubCategory(string name, int category_id) 
+        public int GetSubCategory(string name, int category_id) 
         {
             
             return repo.GetSubCategoryName(name, category_id);

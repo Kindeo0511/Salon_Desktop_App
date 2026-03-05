@@ -53,5 +53,9 @@ namespace Salon.Controller
         {
             return repo.SpecialistExists(name, specialist_id);
         }
+        public int SpecialistExistsButDeleted(string name)
+        {
+            return repo.SpecialistExistsButDeleted(name);
+        }
     }
 }

@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using static iText.StyledXmlParser.Jsoup.Select.Evaluator;
 
 namespace Salon.Repository
 {
@@ -57,6 +58,33 @@ namespace Salon.Repository
             {
                 var sql = @"DELETE tbl_payment_method WHERE id = @id";
                 return con.Execute(sql, new { id });
+            }
+        }
+        public bool RestorePaymentMethood(int id) 
+        {
+            using (var con = Database.GetConnection())
+            {
+                var sql = @"UPDATE tbl_payment_method SET is_deleted = 0 WHERE id = @id";
+                return con.Execute(sql, new { id }) > 0;
+            }
+        }
+        public int GetDeletedPaymentMethodId(string name) 
+        {
+            using (var con = Database.GetConnection())
+            {
+                var sql = @"SELECT id FROM tbl_payment_method WHERE is_deleted = 1 AND name = @name;";
+                int result = con.QueryFirstOrDefault<int>(sql, new { name });
+                return result;
+            }
+        }
+
+        public bool IsPaymentMethodAlreadyExists(string name, int id) 
+        {
+            using (var con = Database.GetConnection())
+            {
+                var sql = @"SELECT COUNT(*) FROM tbl_payment_method WHERE is_deleted = 0 AND name = @name AND id != @id;";
+                var result = con.ExecuteScalar<int>(sql, new { name , id});
+                return result > 0;
             }
         }
     }

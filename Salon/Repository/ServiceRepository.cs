@@ -139,7 +139,7 @@ tbl_subcategory.subCategoryName,tbl_servicesname.duration, tbl_servicesname.stat
         {
             using (var con = Database.GetConnection()) 
             {
-                var sql = "SELECT COUNT(*) FROM tbl_invoice_service_cart WHERE service_id = @id";
+                var sql = "SELECT COUNT(*) FROM tbl_appointment_services WHERE serviceName_id = @id";
                 return con.ExecuteScalar<int>(sql, new { id }) > 0;
             }
         }
@@ -170,12 +170,12 @@ tbl_subcategory.subCategoryName,tbl_servicesname.duration, tbl_servicesname.stat
                 return con.ExecuteScalar<int>(sql, new { name, s_cat_id, id }) > 0;
             }
         }
-        public ServiceModel GetServiceAndCategory(string name, int subcat_id) 
+        public int GetServiceAndCategory(string name, int subcat_id) 
         {
             using (var con = Database.GetConnection()) 
             {
-                var sql = @"SELECT * FROM tbL_servicesname WHERE serviceName = @name AND subCategory_id = @subcat_id AND is_deleted = 1 LIMIT 1";
-                return con.QueryFirstOrDefault<ServiceModel>(sql, new { name, subcat_id });
+                var sql = @"SELECT serviceName_id FROM tbL_servicesname WHERE serviceName = @name AND subCategory_id = @subcat_id AND is_deleted = 1 LIMIT 1";
+                return con.QueryFirstOrDefault<int>(sql, new { name, subcat_id });
             }
         }
     }

@@ -103,15 +103,14 @@ namespace Salon.Repository
         }
 
 
-        public SubCategoryModel GetSubCategoryName(string sub_name, int cat_id)
+        public int GetSubCategoryName(string sub_name, int cat_id)
         {
             using (var con = Database.GetConnection())
             {
-                var sql = @"SELECT sc.subCategory_id, sc.category_id, sc.subCategoryName, c.categoryName, sc.is_deleted
-                            FROM tbl_subcategory sc
-                            JOIN tbl_category c ON sc.category_id = c.category_id
-                            WHERE sc.subCategoryName = @sub_name AND c.category_id = @cat_id;";
-                return con.QueryFirstOrDefault<SubCategoryModel>(sql, new { sub_name, cat_id });
+                var sql = @"SELECT subCategory_id
+                            FROM tbl_subcategory 
+                            WHERE subCategoryName = @sub_name AND category_id = @cat_id AND is_deleted = 1;";
+                return con.QueryFirstOrDefault<int>(sql, new { sub_name, cat_id });
             }
         }
         }

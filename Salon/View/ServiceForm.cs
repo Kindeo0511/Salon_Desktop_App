@@ -228,41 +228,32 @@ namespace Salon.View
           
      
         }
-        private void IsServiceExists()
+        private int ExistingServiceButDeleted() 
+        {
+
+            var repo = new ServiceRepository();
+            var controller = new ServiceController(repo);
+            return controller.GetServiceAndCategory(txt_service_name.Text.Trim(), Convert.ToInt32(cmb_sub_category.SelectedValue));
+
+
+
+        }
+        private async void RestoreService(int service_id) 
         {
             var repo = new ServiceRepository();
             var controller = new ServiceController(repo);
-            var existingService = controller.GetServiceAndCategory(txt_service_name.Text.Trim(), Convert.ToInt32(cmb_sub_category.SelectedValue));
 
-            if (existingService != null)
+            if (controller.RestoreServices(service_id))
             {
-
-                if (existingService.is_deleted == 1)
-                {
-                    var result = MessageBox.Show("This Service exists but is deleted. Do you want to restore it?",
-                                   "Restore Account",
-                                MessageBoxButtons.YesNo,
-                                MessageBoxIcon.Question);
-                    if (result == DialogResult.Yes)
-                    {
-
-
-
-                        if (controller.RestoreServices(existingService.serviceName_id))
-                        {
-                            mainform.DeleteDeletedRecord(existingService.serviceName_id);
-                            MessageBox.Show("Service restored successfully!", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                            this.Close();
-                        }
-
-
-
-                    }
-                }
+                mainform.DeleteDeletedRecord(service_id);
+                MessageBox.Show("Service restored successfully!", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                await mainform.RefreshServicesAsync(1, 25);
+                this.Close();
             }
-
-            else
-            {
+        }
+        private void IsServiceExists()
+        {
+           
                 if (_isSaving)
                 {
 
@@ -299,7 +290,7 @@ namespace Salon.View
 
                 }
 
-            }
+            
 
         }
         private async void btn_save_Click(object sender, EventArgs e)
@@ -395,15 +386,31 @@ namespace Salon.View
             validated &= Validator.ValidateServiceCategory(cmb_sub_category, errorProvider1);
             validated &= Validator.ValidateDuration(txt_duration, errorProvider1);
 
+            int deleted_service_id = 0;
+            if (_isSaving) 
+            {
+                deleted_service_id = ExistingServiceButDeleted();
+            }
+            if (deleted_service_id > 0)
+            {
+                var result = MessageBox.Show("This Service exists but is deleted. Do you want to restore it?",
+                                     "Restore Account",
+                                  MessageBoxButtons.YesNo,
+                                  MessageBoxIcon.Question);
+                if (result == DialogResult.Yes)
+                {
+                    RestoreService(deleted_service_id);
+                }
+                validated = false;
+            }
+                //if (!Validator.IsServicesExists(txt_service_name, errorProvider1, "Service already exits.", scid, excludeId))
+                //{
+                //    validated = false;
+                //}
 
-            //if (!Validator.IsServicesExists(txt_service_name, errorProvider1, "Service already exits.", scid, excludeId))
-            //{
-            //    validated = false;
-            //}
 
 
-
-            if (string.IsNullOrWhiteSpace(txt_price.Text))
+                if (string.IsNullOrWhiteSpace(txt_price.Text))
             {
                 errorProvider1.SetError(txt_price, "Price is required.");
                 validated = false;
@@ -565,10 +572,18 @@ namespace Salon.View
             {
                 var productUsage = dgv_Service_Product.Rows[e.RowIndex].DataBoundItem as ServiceProductUsageModel;
 
+                var repo = new ServiceProductUsageRepository();
+                var controller = new ServiceProductUsageController(repo);
+
+                //if (controller.IsProductUsedInServices(productUsage.product_id))
+                //{
+                //    MessageBox.Show("This product cannot be deleted because it is still being used to inventory or delivery.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                //    return;
+                //}
+
                 if (MessageBox.Show($"Delete product {productUsage.product_name}?", "Confirm Delete", MessageBoxButtons.YesNo) == DialogResult.Yes)
                 {
-                    var repo = new ServiceProductUsageRepository();
-                    var controller = new ServiceProductUsageController(repo);
+    
                     var product = productUsage.product_name;
 
                     if (controller.DeleteServiceProduct(productUsage.service_product_id))
@@ -584,6 +599,11 @@ namespace Salon.View
                     }
                 }
             }
+        }
+
+        private void btn_cancel_Click_1(object sender, EventArgs e)
+        {
+            this.Close();
         }
     }
 }

@@ -266,6 +266,7 @@
             this.btn_cancel.Type = MaterialSkin.Controls.MaterialButton.MaterialButtonType.Contained;
             this.btn_cancel.UseAccentColor = false;
             this.btn_cancel.UseVisualStyleBackColor = true;
+            this.btn_cancel.Click += new System.EventHandler(this.btn_cancel_Click_1);
             // 
             // stylist_list_box
             // 

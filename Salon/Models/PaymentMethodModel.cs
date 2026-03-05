@@ -12,8 +12,6 @@ namespace Salon.Models
         public string name { get; set; }
         public  bool required_reference { get; set; }
         public string required_text => required_reference ? "Yes" : "No";
-        public bool is_active { get; set; }
-        public string status_text => is_active ? "Active" : "Inactive";
         public DateTime created_at { get; set; }
         public DateTime updated_at { get; set; }
         public override string ToString() { return name; }

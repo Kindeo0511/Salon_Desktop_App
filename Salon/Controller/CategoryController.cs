@@ -59,9 +59,9 @@ namespace Salon.Controller
         {
             return repo.CategoryIsUsed(id);
         }
-        public bool CheckCategoryExists(string category, string type, int id = 0) 
+        public bool CheckCategoryExists(string category, int id = 0) 
         {
-           return repo.CategoriesExist(category,type, id);
+           return repo.CategoriesExist(category, id);
         }
 
         public async Task<CategoryModel> CheckCategoryExistsAsync(string category, int excludeId = 0)
@@ -69,7 +69,7 @@ namespace Salon.Controller
             return await repo.GetExistingCategoryAsync(category, excludeId);
         }
 
-        public CategoryModel GetCategoryAndType(string category)
+        public int GetCategoryDeleted(string category)
         {
             return repo.GetCategoryNameAndType(category);
         }

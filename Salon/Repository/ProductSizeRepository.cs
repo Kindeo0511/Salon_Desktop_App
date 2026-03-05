@@ -93,13 +93,13 @@ namespace Salon.Repository
             }
             
         }
-        public ProductSizeModel GetProductSize(int product_id, int content) 
+        public int GetProductSize(int product_id, int content) 
         {
             using (var con = Database.GetConnection()) 
             {
-                var sql = @"SELECT * FROM tbl_product_size 
+                var sql = @"SELECT product_size_id FROM tbl_product_size 
                             WHERE product_id = @product_id AND content = @content AND is_deleted = 1 LIMIT 1";
-                return con.QueryFirstOrDefault<ProductSizeModel>(sql, new { product_id, content });
+                return con.QueryFirstOrDefault<int>(sql, new { product_id, content });
             }
         }
 

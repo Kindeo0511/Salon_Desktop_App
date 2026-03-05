@@ -121,7 +121,7 @@
             this.txt_search.Font = new System.Drawing.Font("Roboto", 16F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
             this.txt_search.Hint = "Search Customer";
             this.txt_search.LeadingIcon = ((System.Drawing.Image)(resources.GetObject("txt_search.LeadingIcon")));
-            this.txt_search.Location = new System.Drawing.Point(102, 55);
+            this.txt_search.Location = new System.Drawing.Point(6, 56);
             this.txt_search.MaxLength = 50;
             this.txt_search.MouseState = MaterialSkin.MouseState.OUT;
             this.txt_search.Multiline = false;

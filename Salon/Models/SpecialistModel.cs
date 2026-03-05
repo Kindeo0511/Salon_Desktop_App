@@ -10,7 +10,6 @@ namespace Salon.Models
     {
         public int specialist_id { get; set; }
         public string name { get; set; }
-        public string status { get; set; }
         public int is_deleted { get; set; }
 
         public override string ToString() => name;

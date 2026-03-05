@@ -57,14 +57,26 @@ namespace Salon.Controller
         {
            return discountRepository.PermanentDelete(id) > 0;
         }
-        public void RestoreDiscount(int id) 
+        public bool RestoreDiscount(int id) 
         {
-            discountRepository.RestoreDiscount(id);
+            return discountRepository.RestoreDiscount(id);
         }
 
         public void MarkExpiredPromo() 
         {
             discountRepository.MarkExpiredPromo();
+        }
+        public bool IsDiscountExists(string type, string name, string mode, decimal rate) 
+        {
+            return discountRepository.IsDiscountExistsForActive(type, name, mode, rate);
+        }
+        public int IsDiscountExistsForDeleted(string type, string name, string mode, decimal rate)
+        {
+            return discountRepository.IsDiscountExistsForDeleted(type, name, mode, rate);
+        }
+        public bool IsDiscountExistsFOR_PWD_SENIOR_FREE(string type)
+        {
+            return discountRepository.IsDiscountExistsFor_PWD_Senior_Free(type);
         }
         // DISCOUNT REPORT
 

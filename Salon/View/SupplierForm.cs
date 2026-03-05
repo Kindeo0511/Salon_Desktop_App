@@ -67,6 +67,7 @@ namespace Salon.View
             int excludeId = supplierModel?.supplier_id ?? 0;
 
             bool validated = true;
+        
 
             // REQUIRED AND MIN LENGTH FIELD
             string supplierName = txt_supplier_name.Text.Trim();
@@ -76,8 +77,37 @@ namespace Salon.View
 
             validated &= Validator.ValidateSupplierName(supplierName, txt_supplier_name, errorProvider1);
             validated &= Validator.ValidateContactNumber(contact, txt_contact, errorProvider1);
-            validated &= Validator.ValidateEmail(email, txt_email, errorProvider1);
             validated &= Validator.ValidateAddress(address, txt_address, errorProvider1);
+            // validate email format first, then check if exists
+            if (Validator.ValidateEmail(email, txt_email, errorProvider1))
+            {
+                int deleted_supplier_id = IsSupplierExistsButDeleted(email);
+
+                if (deleted_supplier_id > 0)
+                {
+                    var result = MessageBox.Show("This Supplier exists but is deleted. Do you want to restore it?",
+                                    "Restore Supplier",
+                                    MessageBoxButtons.YesNo,
+                                    MessageBoxIcon.Question);
+                    if (result == DialogResult.Yes)
+                        RestoreSupplier(deleted_supplier_id);
+
+                    validated = false;
+                }
+                else if (IsEmailExists(email, excludeId))
+                {
+                    errorProvider1.SetError(txt_email, "A supplier with this email already exists.");
+                    validated = false;
+                }
+                else
+                {
+                    errorProvider1.SetError(txt_email, "");
+                }
+            }
+            else
+            {
+                validated = false;
+            }
 
             if (SupplierExists(supplierName, address, excludeId))
             {
@@ -105,6 +135,13 @@ namespace Salon.View
 
         }
 
+        private bool IsEmailExists(string email, int id) 
+        {
+
+            var repo = new SupplierRepository();
+            var controller = new SupplierController(repo);
+            return controller.CheckEmailExists(email, id);
+        }
         private bool SupplierExists(string name, string address ,int id) 
         {
             var repo = new SupplierRepository();
@@ -141,42 +178,32 @@ namespace Salon.View
             return controller.UpdateSupplier(supplierModel);
          
         }
-
-        private void IsAccountExists()
+        public int IsSupplierExistsButDeleted(string email) 
         {
             var repo = new SupplierRepository();
             var controller = new SupplierController(repo);
-            var existingUser = controller.GetEmail(txt_email.Text.Trim());
+            int supplier_id = controller.GetEmail(email);
 
-            if (existingUser != null)
-            {
+            return supplier_id;
+           
+        }
 
-                if (existingUser.is_deleted == 1)
-                {
-                    var result = MessageBox.Show("This Supplier exists but is deleted. Do you want to restore it?",
-                                   "Restore Account",
-                                MessageBoxButtons.YesNo,
-                                MessageBoxIcon.Question);
-                    if (result == DialogResult.Yes)
-                    {
+        public void RestoreSupplier(int supplier_id) 
+        {
+            var repo = new SupplierRepository();
+            var controller = new SupplierController(repo);
 
+            controller.RestoreSupplier(supplier_id);
+            mainform.DeleteDeletedRecord(supplier_id);
+            MessageBox.Show("Supplier restored successfully!", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            SupplierAdded?.Invoke(this, EventArgs.Empty);
+            this.Close();
+        }
+        private void IsAccountExists()
+        {
+            
 
-
-                        if (controller.RestoreSupplier(existingUser.supplier_id))
-                        {
-                            mainform.DeleteDeletedRecord(existingUser.supplier_id);
-                            MessageBox.Show("Supplier restored successfully!", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                            this.Close();
-                        }
-
-
-
-                    }
-                }
-            }
-
-            else
-            {
+        
                 if (_isSaving)
                 {
 
@@ -214,17 +241,17 @@ namespace Salon.View
 
                 }
 
-            }
+            
 
         }
-        private async  void btn_save_Click(object sender, EventArgs e)
+        private void btn_save_Click(object sender, EventArgs e)
         {
             if (!IsValid()) return;
             IsAccountExists();
-            //await mainform.RefreshSupplierAsync();
+
         }
 
-        private async void btn_update_Click(object sender, EventArgs e)
+        private void btn_update_Click(object sender, EventArgs e)
         {
             if (!IsValid()) return;
 

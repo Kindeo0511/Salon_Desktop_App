@@ -8,6 +8,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Forms;
 using static System.Windows.Forms.VisualStyles.VisualStyleElement;
 
 namespace Salon.Repository
@@ -470,32 +471,43 @@ GROUP BY a.appointment_id;";
                 return con.Query<AppointmentModel>(sql).ToList();
             }
         }
-        public bool GetStylistStatus(int stylistId) 
+        public bool GetStylistStatus(int stylistId)
         {
-            using (var con = Database.GetConnection())
+            try
             {
-                var sql = @"
-            SELECT 
-                CASE 
-                    WHEN a_s.status = 'On Going' THEN 1
-                    ELSE 0
-                END AS IsAvailable
-            FROM tbl_stylists s
-            LEFT JOIN tbl_appointment_services a_s  
-                   ON a_s.stylist_id = s.stylist_id
-                   AND DATE(a_s.start_time) = CURRENT_DATE()
-                   AND a_s.start_time = (
-                       SELECT MAX(start_time)
-                       FROM tbl_appointment_services
-                       WHERE stylist_id = s.stylist_id
-                         AND DATE(start_time) = CURRENT_DATE()
-                   )
-            WHERE s.is_duty = 1 AND s.stylist_id = @stylistId;
-        ";
+                using (var con = Database.GetConnection())
+                {
+                    var sql = @"
+                SELECT 
+                    CASE 
+                        WHEN a_s.status = 'On Going' THEN 1
+                        ELSE 0
+                    END AS IsBusy
+                FROM tbl_appointment_services a_s  
+                WHERE a_s.stylist_id = @stylistId
+                  AND DATE(a_s.start_time) = CURRENT_DATE()
+                  AND a_s.start_time = (
+                      SELECT MAX(inner_as.start_time)
+                      FROM (SELECT * FROM tbl_appointment_services) AS inner_as
+                      WHERE inner_as.stylist_id = @stylistId
+                        AND DATE(inner_as.start_time) = CURRENT_DATE()
+                  )";
 
-                int dutyFlag = con.ExecuteScalar<int>(sql, new { stylistId });
-                return dutyFlag == 1; // true if off duty
-     
+                    int result = con.ExecuteScalar<int>(sql, new { stylistId });
+                    return result == 1; // true = Busy, false = Available
+                }
+            }
+            catch (MySqlException ex)
+            {
+                MessageBox.Show($"Database error: {ex.Message}", "DB Error",
+                    MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return false;
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Unexpected error: {ex.Message}", "Error",
+                    MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return false;
             }
         }
         public bool IsStylistOffDuty(int stylistId)
@@ -517,59 +529,24 @@ WHERE ss.stylist_id = @stylistId
         {
             using (var con = Database.GetConnection()) 
             {
-                var sql = @"SELECT 
-    s.stylist_id,
-    CASE 
-        WHEN a_s.status = 'On Going' THEN a.appointment_id
-        ELSE NULL
-    END AS AppointmentId,
-    CONCAT(s.firstName, ' ', s.lastName) AS StylistName,
-    CASE 
-        WHEN a_s.status = 'On Going' THEN COALESCE(CONCAT(ca.firstName, ' ', ca.lastName), '')
-        ELSE ''
-    END AS CustomerName,
-    CASE 
-        WHEN a_s.status = 'On Going' THEN COALESCE(sn.serviceName, '')
-        ELSE ''
-    END AS Services,
-    CASE 
-        WHEN a_s.status = 'On Going' THEN a_s.start_time
-        ELSE NULL
-    END AS StartTime,
-    CASE 
-        WHEN a_s.status = 'On Going' THEN a_s.end_time
-        ELSE NULL
-    END AS EndTime,
-    CASE 
-        WHEN a_s.status = 'On Going' THEN a.appointment_type
-        ELSE NULL
-    END AS AppointmentType,
-    CASE 
-        WHEN a_s.status = 'On Going' THEN a_s.status
-        ELSE NULL
-    END AS Status,
-    CASE 
-        WHEN a_s.status = 'On Going' THEN 'Busy'
-        ELSE 'Available'
-    END AS DutyStatus
-FROM tbl_stylists s
-LEFT JOIN tbl_appointment_services a_s 
-       ON a_s.stylist_id = s.stylist_id
-       AND DATE(a_s.start_time) = CURRENT_DATE()
-       AND a_s.start_time = (
-           SELECT MAX(start_time)
-           FROM tbl_appointment_services
-           WHERE stylist_id = s.stylist_id
-             AND DATE(start_time) = CURRENT_DATE()
-       )
-LEFT JOIN tbl_appointment a   
-       ON a.appointment_id = a_s.appointment_id
-LEFT JOIN tbl_customer_account ca   
-       ON ca.customer_id = a.customer_id
-LEFT JOIN tbl_servicesname sn   
-       ON sn.serviceName_id = a_s.serviceName_id
-WHERE s.is_duty = 1;
+                var sql = @"SELECT
+                CONCAT(s.firstName, ' ', IFNULL(s.middleName, ''), ' ', s.lastName) AS StylistName,
+                ss.current_customer,
+                ss.current_service,
+                ss.start_time AS StartTime,
+                ss.end_time AS EndTime,
+                ss.status AS Status
+            FROM tbl_stylist_schedules ss
+
+            INNER JOIN tbl_stylists s ON s.stylist_id = ss.stylist_id
+            INNER JOIN tbl_weekly_schedule ws ON ws.weekly_id = ss.weekly_id
+            WHERE LOWER(ws.day_of_week) = LOWER(DAYNAME(CURDATE()))
+              AND ss.is_duty = 1
+              AND s.is_deleted = 0
+            ORDER BY s.firstName;
+
                             ";
+                //WHERE s.is_duty = 1;
                 return con.Query<AppointmentModel>(sql).ToList();
             }
 

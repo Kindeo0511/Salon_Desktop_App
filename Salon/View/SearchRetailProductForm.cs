@@ -11,6 +11,7 @@ using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Controls;
 using System.Windows.Forms;
 namespace Salon.View
 {
@@ -22,6 +23,7 @@ namespace Salon.View
             InitializeComponent();
             ThemeManager.ApplyTheme(this);
             this.mainForm = mainForm;
+            LoadProducts();
         }
         private void LoadProducts()
         {
@@ -41,10 +43,29 @@ namespace Salon.View
             col_price.DataPropertyName = "selling_price";
             dgv_retails.DataSource = products;
         }
+        private void LoadProducts(string key ="")
+        {
+            var repo = new ProductRepository();
+            var productController = new ProductController(repo);
+            var products = productController.GetAllRetailProducts(key);
+
+            dgv_retails.DataSource = null;
+            dgv_retails.AutoGenerateColumns = false;
+
+
+            col_product_id.DataPropertyName = "product_id";
+            col_product_name.DataPropertyName = "product_name";
+            col_brand.DataPropertyName = "brand";
+            col_product_size_id.DataPropertyName = "product_size_id";
+            col_size.DataPropertyName = "size_label";
+            col_price.DataPropertyName = "selling_price";
+            dgv_retails.DataSource = products;
+        }
+
 
         private void SearchRetailProductForm_Load(object sender, EventArgs e)
         {
-            LoadProducts();
+            
         }
 
         private void dgv_retails_CellClick(object sender, DataGridViewCellEventArgs e)
@@ -59,13 +80,28 @@ namespace Salon.View
                 {
                     using (var form = new ProductQuantityForm(mainForm, product)) 
                     {
-                        form.ShowDialog();
-
-                        int qty = form.SelectedQuantity;
-                        mainForm.AddToCart(product, qty); // implement on main form
+                      
+                      
+                        if (form.ShowDialog() == DialogResult.OK)
+                        {
+                            int qty = form.SelectedQuantity;
+                            mainForm.AddToCart(product, qty); // implement on main form
+                        }
 
                     }
                 }
+            }
+        }
+
+        private void txt_search_box_TextChanged(object sender, EventArgs e)
+        {
+            if (txt_search_box.Text.Length > 0)
+            {
+                LoadProducts(txt_search_box.Text.Trim());
+            }
+            else
+            {
+                LoadProducts();
             }
         }
     }

@@ -84,12 +84,12 @@ namespace Salon.Repository
                 return con.Execute(sql, customer);
             }
         }
-        public CustomerModel GetCustomerEmail(string email)
+        public int GetCustomerEmail(string email)
         {
             using (var con = Database.GetConnection())
             {
-                var sql = "SELECT * FROM tbl_customer_account WHERE email = @email AND is_deleted = 1 LIMIT 1";
-                return con.Query<CustomerModel>(sql, new { email }).FirstOrDefault();
+                var sql = "SELECT customer_id FROM tbl_customer_account WHERE email = @email AND is_deleted = 1 LIMIT 1";
+                return con.Query<int>(sql, new { email }).FirstOrDefault();
             }
         }
         public int DeleteCustomer(int customerId)

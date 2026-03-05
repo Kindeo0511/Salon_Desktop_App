@@ -504,7 +504,7 @@ namespace Salon.Util
 
             var repo = new CategoryRepository();
             var controller = new CategoryController(repo);
-            if (controller.CheckCategoryExists(control.Text, type, id))
+            if (controller.CheckCategoryExists(control.Text, id))
             {
                 ep.SetError(control, message);
                 return false;

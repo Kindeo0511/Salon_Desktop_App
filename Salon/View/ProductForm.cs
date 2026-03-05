@@ -12,6 +12,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using static iText.StyledXmlParser.Jsoup.Select.Evaluator;
 namespace Salon.View
 {
     public partial class ProductForm : MaterialForm
@@ -129,21 +130,36 @@ namespace Salon.View
             validated &= Validator.ValidateBrandName(brandName, txt_brand, errorProvider1);
       
             validated &= Validator.ValidateUnitType(cmb_unit_type, errorProvider1);
+            int deleted_product_id = ExistingProductButDeleted();
 
-
-            
-            if (!Validator.IsProductExists(txt_product_name, errorProvider1, "Product already exits.", excludeId))
+            if (deleted_product_id > 0)
+            {
+                var result = MessageBox.Show("This Product exists but is deleted. Do you want to restore it?",
+                                  "Restore Account",
+                               MessageBoxButtons.YesNo,
+                               MessageBoxIcon.Question);
+                if (result == DialogResult.Yes)
+                {
+                    RestoreProduct(deleted_product_id);
+                }
+                validated = false;
+            }
+            else if (!Validator.IsProductExists(txt_product_name, errorProvider1, "Product already exits.", excludeId))
             {
                 validated = false;
             }
+            else 
+            {
+                errorProvider1.SetError(txt_product_name,"");
+            }
 
-           
-        
 
 
 
 
-            return validated;
+
+
+                return validated;
 
 
         }
@@ -182,41 +198,29 @@ namespace Salon.View
             
         }
 
-        private void IsAccountExists()
+        private int ExistingProductButDeleted() 
         {
             var repo = new ProductRepository();
             var controller = new ProductController(repo);
-            var existingProduct = controller.GetProductIngredient(txt_product_name.Text.Trim(), txt_brand.Text.Trim(), cmb_unit_type.Text.Trim());
+            return controller.GetProductIngredient(txt_product_name.Text.Trim(), txt_brand.Text.Trim(), cmb_unit_type.Text.Trim());
 
-            if (existingProduct != null)
+
+        }
+        private void RestoreProduct(int product_id)
+        {
+            var repo = new ProductRepository();
+            var controller = new ProductController(repo);
+            if (controller.RestoreProduct(product_id))
             {
-
-                if (existingProduct.is_deleted == 1)
-                {
-                    var result = MessageBox.Show("This Product exists but is deleted. Do you want to restore it?",
-                                   "Restore Account",
-                                MessageBoxButtons.YesNo,
-                                MessageBoxIcon.Question);
-                    if (result == DialogResult.Yes)
-                    {
-
-
-
-                        if (controller.RestoreProduct(existingProduct.product_id))
-                        {
-                            mainForm.DeleteDeletedRecord(existingProduct.product_id);
-                            MessageBox.Show("Product restored successfully!", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                            this.Close();
-                        }
-
-
-
-                    }
-                }
+                mainForm.DeleteDeletedRecord(product_id);
+                MessageBox.Show("Product restored successfully!", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                RefreshData?.Invoke(this, EventArgs.Empty);
+                this.Close();
             }
-
-            else
-            {
+        }
+        private void IsAccountExists()
+        {
+           
                 if (_isSaving)
                 {
 
@@ -255,7 +259,7 @@ namespace Salon.View
 
                 }
 
-            }
+            
 
         }
         private async void btn_save_Click(object sender, EventArgs e)
@@ -423,39 +427,7 @@ namespace Salon.View
         }
         private void ProductSize()
         {
-            var repo = new ProductSizeRepository();
-            var controller = new ProductSizeController(repo);
-            var existingSize = controller.GetProductSize(_product_id, Convert.ToInt32(txt_content.Text));
-
-            if (existingSize != null)
-            {
-
-                if (existingSize.is_deleted == 1)
-                {
-                    var result = MessageBox.Show("This Product Size exists but is deleted. Do you want to restore it?",
-                                   "Restore Account",
-                                MessageBoxButtons.YesNo,
-                                MessageBoxIcon.Question);
-                    if (result == DialogResult.Yes)
-                    {
-
-
-
-                        if (controller.RestoreProductSize(existingSize.product_size_id))
-                        {
-                            mainForm.DeleteDeletedRecord(existingSize.product_size_id);
-                            MessageBox.Show("Product restored successfully!", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                            LoadProductSizeById(_product_id);
-                        }
-
-
-
-                    }
-                }
-            }
-
-            else
-            {
+         
                 if (_isProductSizeSaving)
                 {
 
@@ -492,7 +464,7 @@ namespace Salon.View
 
                 }
 
-            }
+            
 
         }
         private ProductSizeModel ProductSizeModel(int product_id) 
@@ -823,13 +795,23 @@ namespace Salon.View
             else if (e.RowIndex >= 0 && dgv_product_size.Columns[e.ColumnIndex].Name == "col_product_size_delete")
             {
                 var product_size_model = dgv_product_size.Rows[e.RowIndex].DataBoundItem as ProductSizeModel;
+
+                var repo = new ProductSizeRepository();
+                var controller = new ProductSizeController(repo);
+
+                if (controller.IsProductSizeIsUsed(product_size_model.product_size_id))
+                {
+                    MessageBox.Show("This product size cannot be deleted because it is still being used to inventory.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    return;
+                }
+
+
                 if (product_size_model != null)
                 {
                     var result = MessageBox.Show("Are you sure you want to delete this product size?", "Delete Confirmation", MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
                     if (result == DialogResult.Yes)
                     {
-                        var repo = new ProductSizeRepository();
-                        var controller = new ProductSizeController(repo);
+            
 
 
                         Audit.AuditLog(DateTime.Now, "Delete", UserSession.CurrentUser.first_Name, "Manage Products Size", $"Deleted product size '{product_size_model.size_label}' on {DateTime.Now:yyyy-MM-dd} at {DateTime.Now:HH:mm:ss}");

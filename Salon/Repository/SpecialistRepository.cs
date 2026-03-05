@@ -88,5 +88,14 @@ namespace Salon.Repository
                 return count > 0;
             }
         }
+        public int SpecialistExistsButDeleted(string name) 
+        {
+            using (var con = Database.GetConnection())
+            {
+                var sql = "SELECT specialist_id FROM tbl_specialist WHERE name = @name AND is_deleted = 1";
+                int count = con.ExecuteScalar<int>(sql, new { name });
+                return count;
+            }
+        }
     }
 }

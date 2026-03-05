@@ -21,6 +21,7 @@ using Salon.ReportForm;
 using Salon.Repository;
 using Salon.Util;
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -641,6 +642,13 @@ namespace Salon.View
             int total_pages = (int)Math.Ceiling((double)total / pageSize);
             paginationControl1.SetTotalPages(total_pages);
 
+            var current_user_position = UserSession.CurrentUser.Position;
+
+           
+            var show_staff_and_admin_if_admin = users.Where(u =>u.Position != "Super Admin");
+
+         
+
             dgv_user.AutoGenerateColumns = false;
             col_id.DataPropertyName = "user_id";
             col_first_name.DataPropertyName = "first_Name";
@@ -655,8 +663,9 @@ namespace Salon.View
             col_role.DataPropertyName = "Position";
             col_user_status.DataPropertyName = "status";
 
-
-            dgv_user.DataSource = users;
+            dgv_user.DataSource = current_user_position == "Super Admin" ? users
+                                : current_user_position == "Admin" ? show_staff_and_admin_if_admin.ToList()
+                                : dgv_user.DataSource;
         }
         // USERS
         public void LoadUser()
@@ -714,14 +723,15 @@ namespace Salon.View
                                     MessageBoxIcon.Warning);
                     return;
                 }
-                else if (UserSession.CurrentUser.Position == "Admin" && user.Position == "Super Admin")
-                {
-                    MessageBox.Show("You are not allowed to update a Super Admin.",
-                                    "Access Denied",
-                                    MessageBoxButtons.OK,
-                                    MessageBoxIcon.Warning);
-                    return;
-                }
+                //else if (UserSession.CurrentUser.Position == "Admin" && user.Position == "Super Admin")
+                //{
+                //    MessageBox.Show("You are not allowed to update a Super Admin.",
+                //                    "Access Denied",
+                //                    MessageBoxButtons.OK,
+                //                    MessageBoxIcon.Warning);
+                //    return;
+                //}
+
 
                 using (var userForm = new UserForm(this, user))
                 {
@@ -754,7 +764,7 @@ namespace Salon.View
             {
                 user = dgv_user.Rows[e.RowIndex].DataBoundItem as UsersModel;
 
-                if (UserSession.CurrentUser.user_id != user.user_id && user.Position == "Admin")
+                if (UserSession.CurrentUser.user_id != user.user_id && UserSession.CurrentUser.Position == user.Position)
                 {
                     MessageBox.Show("You are not allowed to delete another Admin.",
                                     "Access Denied",
@@ -763,29 +773,17 @@ namespace Salon.View
                     return;
 
                 }
-                else if (UserSession.CurrentUser.Position == "Admin" && user.Position == "Super Admin")
-                {
-                    MessageBox.Show("You are not allowed to delete a Super Admin.",
-                                    "Access Denied",
-                                    MessageBoxButtons.OK,
-                                    MessageBoxIcon.Warning);
-                    return;
-                }
-                // Prevent Admin from deleting their own account
-                else if (!string.IsNullOrEmpty(user.Position) &&
-                         user.Position.Equals("Admin", StringComparison.OrdinalIgnoreCase) &&
-                         UserSession.CurrentUser.user_id == user.user_id)
-                {
-                    MessageBox.Show("Deleting your own account is not allowed.",
-                                    "Access Denied",
-                                    MessageBoxButtons.OK,
-                                    MessageBoxIcon.Warning);
-                    return;
-                }
-                // Prevent Admin from deleting their own account
-                else if (!string.IsNullOrEmpty(user.Position) &&
-                         user.Position.Equals("Super Admin", StringComparison.OrdinalIgnoreCase) &&
-                         UserSession.CurrentUser.user_id == user.user_id)
+                //else if (UserSession.CurrentUser.Position == "Admin" && user.Position == "Super Admin")
+                //{
+                //    MessageBox.Show("You are not allowed to delete a Super Admin.",
+                //                    "Access Denied",
+                //                    MessageBoxButtons.OK,
+                //                    MessageBoxIcon.Warning);
+                //    return;
+                //}
+         
+            
+                else if (UserSession.CurrentUser.user_id == user.user_id)
                 {
                     MessageBox.Show("Deleting your own account is not allowed.",
                                     "Access Denied",
@@ -821,8 +819,20 @@ namespace Salon.View
             }
             else if (e.RowIndex >= 0 && dgv_user.Columns[e.ColumnIndex].Name == "col_view")
             {
+
+
                 // Get the user object bound to this row
                 user = dgv_user.Rows[e.RowIndex].DataBoundItem as UsersModel;
+
+                if (UserSession.CurrentUser.user_id != user.user_id && UserSession.CurrentUser.Position == user.Position)
+                {
+                    MessageBox.Show("You are not allowed to view another Admin.",
+                                    "Access Denied",
+                                    MessageBoxButtons.OK,
+                                    MessageBoxIcon.Warning);
+                    return;
+
+                }
 
                 bool isViewed = true;
                 using (var userForm = new UserForm(this, user, isViewed))
@@ -883,7 +893,7 @@ namespace Salon.View
             stylist_contact.DataPropertyName = "contactNumber";
             stylist_email.DataPropertyName = "email";
             stylist_address.DataPropertyName = "address";
-            col_stylist_status.DataPropertyName = "status";
+ 
 
             dgv_stylist.DataSource = stylists;
 
@@ -896,6 +906,7 @@ namespace Salon.View
             var stylistController = new StylistController(_repo);
             var stylists = stylistController.GetAll();
 
+
             dgv_stylist.AutoGenerateColumns = false;
             col_stylist_id.DataPropertyName = "stylist_id";
             stylist_first_name.DataPropertyName = "firstName";
@@ -905,8 +916,6 @@ namespace Salon.View
             stylist_contact.DataPropertyName = "contactNumber";
             stylist_email.DataPropertyName = "email";
             stylist_address.DataPropertyName = "address";
-            col_stylist_status.DataPropertyName = "status";
-            col_stylist_duty.DataPropertyName = "DutyDisplay";
             dgv_stylist.DataSource = stylists;
 
 
@@ -1014,7 +1023,11 @@ namespace Salon.View
 
                 var stylist = dgv_stylist.Rows[e.RowIndex].DataBoundItem as StylistModel;
 
-
+                if (stylistController.CheckIsStylistIsUsed(stylist.stylist_id))
+                {
+                    MessageBox.Show("Cannot delete stylist because they are associated with existing appointments.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    return;
+                }
 
                 if (MessageBox.Show($"Delete user {stylist.firstName}?", "Confirm Delete", MessageBoxButtons.YesNo) == DialogResult.Yes)
                 {
@@ -1179,11 +1192,18 @@ namespace Salon.View
             else if (e.RowIndex >= 0 && dgv_customer.Columns[e.ColumnIndex].Name == "col_customer_btn_delete")
             {
                 var customer = dgv_customer.Rows[e.RowIndex].DataBoundItem as CustomerModel;
+                var repo = new CustomerRepository();
+                var customerController = new CustomerController(repo);
+
+                if (customerController.CheckIsCustomerUsed(customer.customer_id))
+                {
+                    MessageBox.Show("Cannot delete customer because they are associated with existing appointments.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    return;
+                }
 
                 if (MessageBox.Show($"Delete customer {customer.firstName}?", "Confirm Delete", MessageBoxButtons.YesNo) == DialogResult.Yes)
                 {
-                    var repo = new CustomerRepository();
-                    var customerController = new CustomerController(repo);
+                    
 
 
                     if (customerController.DeleteCustomer(customer.customer_id))
@@ -1262,10 +1282,18 @@ namespace Salon.View
             else if (e.RowIndex >= 0 && dgv_category.Columns[e.ColumnIndex].Name == "col_category_btn_delete")
             {
                 var category = dgv_category.Rows[e.RowIndex].DataBoundItem as CategoryModel;
+
+                var repo = new CategoryRepository();
+                var categoryController = new CategoryController(repo);
+
+                if (categoryController.IsCategoryBeingUsed(category.category_id))
+                {
+                    MessageBox.Show("Cannot delete category because they are associated with existing sub-categories.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    return;
+                }
                 if (MessageBox.Show($"Delete category {category.categoryName}?", "Confirm Delete", MessageBoxButtons.YesNo) == DialogResult.Yes)
                 {
-                    var repo = new CategoryRepository();
-                    var categoryController = new CategoryController(repo);
+            
 
                     if (categoryController.IsCategoryBeingUsed(category.category_id))
                     {
@@ -1366,10 +1394,20 @@ namespace Salon.View
             else if (e.RowIndex >= 0 && dgv_sub_category.Columns[e.ColumnIndex].Name == "coL_sub_btn_delete")
             {
                 var subCategory = dgv_sub_category.Rows[e.RowIndex].DataBoundItem as SubCategoryModel;
+
+                var repo = new SubCategoryRepository();
+                var subCategoryController = new SubCategoryController(repo);
+
+                if (subCategoryController.IsSubCategoryUsed(subCategory.subCategory_id))
+                {
+                    MessageBox.Show("Cannot delete sub-category because they are associated with existing delivery.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    return;
+                }
+
+
                 if (MessageBox.Show($"Delete sub-category {subCategory.subCategoryName}?", "Confirm Delete", MessageBoxButtons.YesNo) == DialogResult.Yes)
                 {
-                    var repo = new SubCategoryRepository();
-                    var subCategoryController = new SubCategoryController(repo);
+             
 
                     if (subCategoryController.IsSubCategoryUsed(subCategory.subCategory_id))
                     {
@@ -1648,10 +1686,18 @@ namespace Salon.View
             else if (e.RowIndex >= 0 && dgv_service.Columns[e.ColumnIndex].Name == "col_service_btn_delete")
             {
                 var service = dgv_service.Rows[e.RowIndex].DataBoundItem as ServiceModel;
+
+                var repo = new ServiceRepository();
+                var controller = new ServiceController(repo);
+
+                if (controller.IsServiceUsed(service.serviceName_id))
+                {
+                    MessageBox.Show("This service cannot be deleted because it is still being used to appointment.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    return;
+                }
                 if (MessageBox.Show($"Delete product {service.serviceName}?", "Confirm Delete", MessageBoxButtons.YesNo) == DialogResult.Yes)
                 {
-                    var repo = new ServiceRepository();
-                    var controller = new ServiceController(repo);
+          
                     if (controller.deleteService(service.serviceName_id))
                     {
                         MessageBox.Show("Service Deleted Successfully.", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
@@ -1859,11 +1905,21 @@ namespace Salon.View
             else if (e.RowIndex >= 0 && dgv_supplier.Columns[e.ColumnIndex].Name == "col_supplier_delete")
             {
                 var supplier = dgv_supplier.Rows[e.RowIndex].DataBoundItem as SupplierModel;
+
+                var repo = new SupplierRepository();
+                var controller = new SupplierController(repo);
+
+                if (controller.CheckIsSupplierIsUsed(supplier.supplier_id))
+                {
+                    MessageBox.Show("Cannot delete supplier because they are associated with existing delivery.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    return;
+                }
+
                 if (MessageBox.Show($"Delete Supplier {supplier.supplier_name}?", "Confirm Delete", MessageBoxButtons.YesNo) == DialogResult.Yes)
                 {
-                    var repo = new SupplierRepository();
-                    var controller = new SupplierController(repo);
+                   
 
+                
                     if (controller.DeleteSupplier(supplier.supplier_id))
                     {
                         MessageBox.Show("Supplier Deleted Successfully.", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
@@ -2188,12 +2244,10 @@ namespace Salon.View
 
             dgv_stylist_track.AutoGenerateColumns = false;
             col_duty_stylist_name.DataPropertyName = "StylistName";
-            col_duty_stylist_client.DataPropertyName = "DisplayCustomerName";
-            col_duty_stylist_service.DataPropertyName = "Services";
+            col_duty_stylist_client.DataPropertyName = "current_customer";
+            col_duty_stylist_service.DataPropertyName = "current_service";
             col_duty_stylist_start_end_time.DataPropertyName = "DisplayTime";
-            col_duty_stylist_available.DataPropertyName = "AvailabilityNext";
-            col_duty_stylist_status.DataPropertyName = "Status";
-            col_duty_stylist_duty_status.DataPropertyName = "DutyStatus";
+            col_duty_stylist_status.DataPropertyName = "DisplayStatus";
 
             dgv_stylist_track.DataSource = stylistTrack;
 
@@ -4076,11 +4130,11 @@ namespace Salon.View
             var controller = new ServiceProductUsageController(repo);
 
 
-            if (controller.IsProductUsedInServices(sub_id))
-            {
-                MessageBox.Show("This product cannot be deleted because it is still being used to inventory or delivery.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                return;
-            }
+            //if (controller.IsProductUsedInServices(sub_id))
+            //{
+            //    MessageBox.Show("This product cannot be deleted because it is still being used to inventory or delivery.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            //    return;
+            //}
 
             if (MessageBox.Show($"Delete Product {name}?", "Confirm Delete", MessageBoxButtons.YesNo) == DialogResult.Yes)
             {
@@ -4138,6 +4192,44 @@ namespace Salon.View
             }
 
 
+
+        }
+
+        public void RestoreDeletedPaymentMethod(int id) 
+        {
+            var repo = new PaymentMethodRepository();
+            var controller = new PaymentMethodController(repo);
+            controller.RestorePaymentMethod(id);
+        }
+        public void DeletePaymentRecord(int id, string name) 
+        {
+            var repo = new PaymentMethodRepository();
+            var controller = new PaymentMethodController(repo);
+
+
+            //if (controller.(id))
+            //{
+            //    MessageBox.Show("This specialist cannot be deleted because it is still being used to stylist.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            //    return;
+
+
+            //}
+            if (MessageBox.Show($"Delete Payment method {name}?", "Confirm Delete", MessageBoxButtons.YesNo) == DialogResult.Yes)
+            {
+
+
+                if (controller.HardDeletePaymentMethod(id))
+                {
+                    DeleteDeletedRecord(id);
+                    MessageBox.Show("Payment method Deleted Successfully.", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
+
+                }
+                else
+                {
+                    MessageBox.Show("Failed to Delete payment method.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+
+                }
+            }
 
         }
 
@@ -6203,7 +6295,6 @@ namespace Salon.View
 
             col_specialist_id.DataPropertyName = "specialist_id";
             col_specialist_name.DataPropertyName = "name";
-            col_specialist_status.DataPropertyName = "status";
             col_specialist_is_deleted.DataPropertyName = "is_deleted";
 
             dgv_specialist.DataSource = specialists;
@@ -6234,8 +6325,6 @@ namespace Salon.View
             var paymentMethod = controller.GetAllPaymentMethod();
 
 
-            var filteredSorted = paymentMethod.Where(pm => pm.is_active).OrderBy(pm => pm.name).ToList();
-
 
             dgv_payment_method.AutoGenerateColumns = false;
 
@@ -6244,11 +6333,10 @@ namespace Salon.View
             col_payment_method_name.DataPropertyName = "name";
             col_payment_method_required_display_text.DataPropertyName = "required_text";
             col_payment_method_required.DataPropertyName = "required_reference";
-            col_payment_method_status.DataPropertyName = "is_active";
-            col_payment_method_status_display_text.DataPropertyName = "status_text";
 
 
-            dgv_payment_method.DataSource = filteredSorted;
+
+            dgv_payment_method.DataSource = paymentMethod;
 
 
 
@@ -6340,6 +6428,17 @@ namespace Salon.View
             else if (e.RowIndex >= 0 && dgv_discount.Columns[e.ColumnIndex].Name == "col_btn_discount_delete")
             {
                 var discount_model = dgv_discount.Rows[e.RowIndex].DataBoundItem as DiscountModel;
+
+                if (discount_model.discount_type == "PWD" || discount_model.discount_type == "Senior") 
+                {
+                    MessageBox.Show(
+                    "PWD and Senior discounts are required by Philippine law (RA 9442 & RA 9994) and cannot be deleted.",
+                    "Action Not Allowed",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Warning);
+
+                    return;
+                }
 
                 var result = MessageBox.Show($"Are you sure you want to delete this {discount_model.discount_type} ?", "Warning", MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
 
@@ -6679,7 +6778,7 @@ namespace Salon.View
             if (e.RowIndex < 0 || e.RowIndex >= dgv_stylist_track.Rows.Count) return;
 
 
-            var status = dgv_stylist_track.Rows[e.RowIndex].Cells["col_duty_stylist_duty_status"].Value?.ToString();
+            var status = dgv_stylist_track.Rows[e.RowIndex].Cells["col_duty_stylist_status"].Value?.ToString();
 
             var row = dgv_stylist_track.Rows[e.RowIndex];
 
@@ -6909,12 +7008,22 @@ namespace Salon.View
             {
                 var model = dgv_specialist.Rows[e.RowIndex].DataBoundItem as SpecialistModel;
 
+                var repo = new SpecialistRepository();
+                var controller = new SpecialistController(repo);
+
+                if (controller.IsSpecialistUsed(model.specialist_id))
+                {
+                    MessageBox.Show("This specialist cannot be deleted because it is still being used to stylist.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    return;
+
+
+                }
+
                 var result = MessageBox.Show($"Are you sure you want to delete this {model.name} ?", "Warning", MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
 
                 if (result == DialogResult.Yes)
                 {
-                    var repo = new SpecialistRepository();
-                    var controller = new SpecialistController(repo);
+               
 
                     controller.DeleteSpecialist(model.specialist_id);
 
@@ -6961,10 +7070,20 @@ namespace Salon.View
             else if (e.RowIndex >= 0 && dgv_product.Columns[e.ColumnIndex].Name == "col_btn_product_delete")
             {
                 var product = dgv_product.Rows[e.RowIndex].DataBoundItem as ProductModel;
+
+                var repo = new ProductRepository();
+                var controller = new ProductController(repo);
+
+                if (controller.IsProductBeingUsed(product.product_id))
+                {
+                    MessageBox.Show("This product cannot be deleted because it is still being used to product size or services.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    return;
+                }
+
+
                 if (MessageBox.Show($"Delete Product {product.product_name}?", "Confirm Delete", MessageBoxButtons.YesNo) == DialogResult.Yes)
                 {
-                    var repo = new ProductRepository();
-                    var controller = new ProductController(repo);
+           
 
 
                     if (controller.deleteProduct(product.product_id))
@@ -7058,6 +7177,15 @@ namespace Salon.View
             calculate();
         }
 
+        private void dgv_walk_in_CellContentDoubleClick(object sender, DataGridViewCellEventArgs e)
+        {
+
+        }
+
+        private void panel3_Paint(object sender, PaintEventArgs e)
+        {
+
+        }
     }
 }
 

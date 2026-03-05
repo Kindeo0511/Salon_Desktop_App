@@ -55,7 +55,7 @@
             this.txt_email.Multiline = false;
             this.txt_email.Name = "txt_email";
             this.txt_email.Size = new System.Drawing.Size(400, 50);
-            this.txt_email.TabIndex = 14;
+            this.txt_email.TabIndex = 5;
             this.txt_email.Text = "";
             this.txt_email.TrailingIcon = null;
             this.txt_email.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txt_email_KeyPress);
@@ -69,12 +69,12 @@
             this.txt_contact.Hint = "Contact #";
             this.txt_contact.LeadingIcon = null;
             this.txt_contact.Location = new System.Drawing.Point(23, 325);
-            this.txt_contact.MaxLength = 50;
+            this.txt_contact.MaxLength = 11;
             this.txt_contact.MouseState = MaterialSkin.MouseState.OUT;
             this.txt_contact.Multiline = false;
             this.txt_contact.Name = "txt_contact";
             this.txt_contact.Size = new System.Drawing.Size(400, 50);
-            this.txt_contact.TabIndex = 13;
+            this.txt_contact.TabIndex = 3;
             this.txt_contact.Text = "";
             this.txt_contact.TrailingIcon = null;
             this.txt_contact.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txt_contact_KeyPress);
@@ -93,7 +93,7 @@
             this.txt_last_name.Multiline = false;
             this.txt_last_name.Name = "txt_last_name";
             this.txt_last_name.Size = new System.Drawing.Size(400, 50);
-            this.txt_last_name.TabIndex = 12;
+            this.txt_last_name.TabIndex = 2;
             this.txt_last_name.Text = "";
             this.txt_last_name.TrailingIcon = null;
             this.txt_last_name.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txt_last_name_KeyPress);
@@ -113,7 +113,7 @@
             this.txt_middle_name.Multiline = false;
             this.txt_middle_name.Name = "txt_middle_name";
             this.txt_middle_name.Size = new System.Drawing.Size(400, 50);
-            this.txt_middle_name.TabIndex = 11;
+            this.txt_middle_name.TabIndex = 4;
             this.txt_middle_name.Text = "";
             this.txt_middle_name.TrailingIcon = null;
             this.txt_middle_name.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txt_middle_name_KeyPress);
@@ -132,7 +132,7 @@
             this.txt_first_name.Multiline = false;
             this.txt_first_name.Name = "txt_first_name";
             this.txt_first_name.Size = new System.Drawing.Size(400, 50);
-            this.txt_first_name.TabIndex = 10;
+            this.txt_first_name.TabIndex = 1;
             this.txt_first_name.Text = "";
             this.txt_first_name.TrailingIcon = null;
             this.txt_first_name.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txt_first_name_KeyPress);
@@ -171,7 +171,7 @@
             this.btn_cancel.Name = "btn_cancel";
             this.btn_cancel.NoAccentTextColor = System.Drawing.Color.Empty;
             this.btn_cancel.Size = new System.Drawing.Size(84, 36);
-            this.btn_cancel.TabIndex = 16;
+            this.btn_cancel.TabIndex = 7;
             this.btn_cancel.Text = "  cancel";
             this.btn_cancel.Type = MaterialSkin.Controls.MaterialButton.MaterialButtonType.Contained;
             this.btn_cancel.UseAccentColor = false;
@@ -191,7 +191,7 @@
             this.btn_save.Name = "btn_save";
             this.btn_save.NoAccentTextColor = System.Drawing.Color.Empty;
             this.btn_save.Size = new System.Drawing.Size(64, 36);
-            this.btn_save.TabIndex = 15;
+            this.btn_save.TabIndex = 6;
             this.btn_save.Text = "save";
             this.btn_save.Type = MaterialSkin.Controls.MaterialButton.MaterialButtonType.Contained;
             this.btn_save.UseAccentColor = false;

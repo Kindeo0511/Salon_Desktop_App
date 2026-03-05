@@ -57,6 +57,7 @@
             this.txt_search_box.TabIndex = 0;
             this.txt_search_box.Text = "";
             this.txt_search_box.TrailingIcon = null;
+            this.txt_search_box.TextChanged += new System.EventHandler(this.txt_search_box_TextChanged);
             // 
             // materialLabel1
             // 
@@ -107,7 +108,7 @@
             this.col_product_id.MinimumWidth = 6;
             this.col_product_id.Name = "col_product_id";
             this.col_product_id.Visible = false;
-            this.col_product_id.Width = 76;
+            this.col_product_id.Width = 125;
             // 
             // col_product_name
             // 
@@ -123,7 +124,7 @@
             this.col_product_size_id.MinimumWidth = 6;
             this.col_product_size_id.Name = "col_product_size_id";
             this.col_product_size_id.Visible = false;
-            this.col_product_size_id.Width = 130;
+            this.col_product_size_id.Width = 125;
             // 
             // col_brand
             // 

@@ -74,7 +74,7 @@ namespace Salon.Controller
         {
            return repo.ServiceExists(name, scid, id);
         }
-        public ServiceModel GetServiceAndCategory(string name, int id) 
+        public int GetServiceAndCategory(string name, int id) 
         {
             return repo.GetServiceAndCategory(name, id);
         }

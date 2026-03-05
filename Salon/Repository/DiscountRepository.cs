@@ -7,6 +7,7 @@ using System.Linq;
 using System.Runtime.InteropServices.ComTypes;
 using System.Text;
 using System.Threading.Tasks;
+using static iText.StyledXmlParser.Jsoup.Select.Evaluator;
 
 namespace Salon.Repository
 {
@@ -84,9 +85,9 @@ namespace Salon.Repository
             using (var con = Database.GetConnection())
             {
                 var sql = @"INSERT INTO tbl_discount 
-                    (discount_type, promo_code, discount_rate, mode, status, vat_exempt, is_defined,start_date, end_date)
+                    (discount_type, promo_code, discount_rate, mode, vat_exempt, is_defined,start_date, end_date)
                     VALUES 
-                    (@discount_type, @promo_code, @discount_rate, @mode, @status, @vat_exempt, @is_defined,@start_date, @end_date);
+                    (@discount_type, @promo_code, @discount_rate, @mode, @vat_exempt, @is_defined,@start_date, @end_date);
                     SELECT LAST_INSERT_ID();";
 
                 return con.ExecuteScalar<int>(sql, model);
@@ -100,8 +101,9 @@ namespace Salon.Repository
                     SET 
                     discount_type =@discount_type, 
                     promo_code =@promo_code,
-                    discount_rate=@discount_rate, mode = @mode,
-                    status = @status, vat_exempt = @vat_exempt,
+                    discount_rate=@discount_rate,
+                    mode = @mode,
+                    vat_exempt = @vat_exempt,
                     is_defined = @is_defined,
                     start_date = @start_date,
                     end_date = @end_date
@@ -128,16 +130,39 @@ namespace Salon.Repository
                 return con.Execute(sql, new { discount_id = id });
             }
         }
-        public void RestoreDiscount(int id)
+        public bool RestoreDiscount(int id)
         {
             using (var con = Database.GetConnection())
             {
                 var sql = @"UPDATE tbl_discount SET is_deleted = 0 WHERE discount_id = @discount_id";
-                con.Execute(sql, new { discount_id = id });
+                return con.Execute(sql, new { discount_id = id }) > 0;
             }
 
         }
-
+        public bool IsDiscountExistsForActive(string type, string promo_name, string mode, decimal rate) 
+        {
+            using (var con = Database.GetConnection())
+            {
+                var sql = @"SELECT COUNT(*) FROM tbl_discount WHERE discount_type = @type AND promo_code = @promo_name AND mode = @mode AND discount_rate = @rate AND is_deleted = 0";
+                return  con.ExecuteScalar<int>(sql, new { type, promo_name, mode, rate}) > 0;
+            }
+        }
+        public int IsDiscountExistsForDeleted(string type, string promo_name, string mode, decimal rate)
+        {
+            using (var con = Database.GetConnection())
+            {
+                var sql = @"SELECT discount_id FROM tbl_discount WHERE discount_type = @type AND promo_code = @promo_name AND mode = @mode AND discount_rate = @rate AND is_deleted = 1";
+                return con.QueryFirstOrDefault<int>(sql, new { type, promo_name, mode, rate });
+            }
+        }
+        public bool IsDiscountExistsFor_PWD_Senior_Free(string type)
+        {
+            using (var con = Database.GetConnection())
+            {
+                var sql = @"SELECT COUNT(*) FROM tbl_discount WHERE discount_type = @type";
+                return con.ExecuteScalar<int>(sql, new { type}) > 0;
+            }
+        }
         public void MarkExpiredPromo()
         {
             using (var con = Database.GetConnection())
