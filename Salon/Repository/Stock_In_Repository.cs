@@ -57,31 +57,28 @@ namespace Salon.Repository
                 {
                     try
                     {
-                        // 1) Get bottle volume (ml per bottle)
-                        var ps = con.QueryFirstOrDefault<(int product_size_id, decimal content)>(
-                            @"SELECT product_size_id, content
-                      FROM tbl_product_size
-                      WHERE product_size_id = @psi AND product_id = @pid",
+                        // 1) Get product size and unit type
+                        var ps = con.QueryFirstOrDefault<(int product_size_id, decimal content, string unit_type)>(
+                            @"SELECT ps.product_size_id, ps.content, p.unit_type
+                      FROM tbl_product_size ps
+                      JOIN tbl_products p ON p.product_id = ps.product_id
+                      WHERE ps.product_size_id = @psi AND ps.product_id = @pid",
                             new { psi = model.product_size_id, pid = model.product_id }, tx);
 
                         if (ps.product_size_id == 0)
                             throw new InvalidOperationException("Product size not found.");
 
-                        // 2) Convert bottles to ml
-                        var qtyBottles = model.qty; // decimal bottles
-                        var qtyVolumeDecimal = qtyBottles * ps.content;
-                        var qtyVolume = (int)Math.Ceiling(qtyVolumeDecimal); // ml as integer
-                        var bottlesForRow = Math.Round(qtyVolumeDecimal / ps.content, 4); // normalized bottles (decimal)
+                        // 2) Convert qty to total units — same logic for ml, g, and pcs
+                        decimal qtyVolumeDecimal = model.qty * ps.content;
+                        decimal qtyVolume = Math.Ceiling(qtyVolumeDecimal);
+                        decimal bottlesForRow = Math.Round(qtyVolumeDecimal / ps.content, 4);
 
-                        // 3) Compute previous and new totals for audit
-                        //decimal prevTotalRemaining = 0;
-                        //decimal prevQty = 0;
-                        //decimal newTotalRemaining = 0;
-                        //decimal newQty = 0;         // bottles (decimal)
+                        if (!new[] { "ml", "g", "pcs" }.Contains(ps.unit_type.ToLower()))
+                            throw new InvalidOperationException($"Unknown unit type: {ps.unit_type}");
 
+                        // 3) Compute new totals
                         if (model.inventory_id > 0)
                         {
-                            // Read the specific inventory row and lock it for consistency
                             var inv = con.QueryFirstOrDefault<(int inventory_id, decimal qty, decimal total_remaining)>(
                                 @"SELECT i.inventory_id, i.qty, i.total_remaining
                           FROM tbl_inventory i
@@ -92,65 +89,37 @@ namespace Salon.Repository
                             if (inv.inventory_id == 0)
                                 throw new InvalidOperationException($"Inventory row {model.inventory_id} not found.");
 
-
-                            //prevTotalRemaining = total_remaining;
-                            //prevQty = inv.qty;
-
-                            if (is_update)
-                            {
-
-                                newTotalRemaining = prevTotalRemaining + qtyVolume;
-                                newQty = newTotalRemaining / ps.content;
-                            }
-                            else 
-                            {
-                                newTotalRemaining = prevTotalRemaining;
-                                newQty = prevQty;
-                              
-                            }
-                      
-
-                            
-                        }
-                        else
-                        {
-                          //  // Aggregate totals for the product_size (optional: include batch/location filters)
-                          //  var agg = con.QueryFirstOrDefault<(decimal total_remaining_sum, decimal qty_sum)>(
-                          //      @"SELECT COALESCE(SUM(i.total_remaining),0) AS total_remaining_sum,
-                          //       COALESCE(SUM(i.qty),0) AS qty_sum
-                          //FROM tbl_inventory i
-                          //  JOIN tbl_product_size ps ON ps.product_size_id = i.product_size_id
-                          //JOIN tbl_products p ON p.product_id = ps.product_id
-                          //WHERE p.product_id = @pid AND i.product_size_id = @psi",
-                          //      new { pid = model.product_id, psi = model.product_size_id }, tx);
-
-                          //  prevTotalRemaining = agg.total_remaining_sum;
-                          //  prevQty = agg.qty_sum;
-
-                          //  newTotalRemaining = prevTotalRemaining + qtyVolume;
-                          //  newQty = newTotalRemaining / ps.content;
+                            //if (is_update)
+                            //{
+                            //    newTotalRemaining = prevTotalRemaining + qtyVolume;
+                            //    newQty = newTotalRemaining / ps.content; // same for all units
+                            //}
+                            //else
+                            //{
+                            //    newTotalRemaining = prevTotalRemaining;
+                            //    newQty = prevQty;
+                            //}
                         }
 
-                        // 4) Insert audit row into tbl_stock_in with computed prev/new values
-                        con.Execute(
-                            @"
+                        // 4) Insert audit row
+                        con.Execute(@"
                     INSERT INTO tbl_stock_in
-                      (refund_id, stock_out_id, inventory_id, product_id, product_size_id,
-                       qty, qty_volume, unit_price, line_total,
-                       previous_total_remaining, new_total_remaining, previous_qty, new_qty,
-                       movement_type, reason, created_by, created_at)
+                        (refund_id, stock_out_id, inventory_id, product_id, product_size_id,
+                         qty, qty_volume, unit_price, line_total,
+                         previous_total_remaining, new_total_remaining, previous_qty, new_qty,
+                         movement_type, reason, created_by, created_at)
                     VALUES
-                      (NULL, NULL, @inventoryId, @productId, @productSizeId,
-                       @qty, @qtyVolume, @unitPrice, @lineTotal,
-                       @prevTotal, @newTotal, @prevQty, @newQty,
-                       'Delivery', @reason, @userId, NOW());",
+                        (NULL, NULL, @inventoryId, @productId, @productSizeId,
+                         @qty, @qtyVolume, @unitPrice, @lineTotal,
+                         @prevTotal, @newTotal, @prevQty, @newQty,
+                         'Delivery', @reason, @userId, NOW());",
                             new
                             {
                                 inventoryId = model.inventory_id > 0 ? (int?)model.inventory_id : null,
                                 productId = model.product_id,
                                 productSizeId = model.product_size_id,
                                 qty = bottlesForRow,
-                                qtyVolume = ps.content,
+                                qtyVolume = qtyVolume,      // fixed — was ps.content before
                                 unitPrice = model.unit_price,
                                 lineTotal = model.unit_price * bottlesForRow,
                                 prevTotal = prevTotalRemaining,
@@ -165,7 +134,7 @@ namespace Salon.Repository
                     }
                     catch
                     {
-                        try { tx.Rollback(); } catch { /* log rollback failure if needed */ }
+                        try { tx.Rollback(); } catch { }
                         throw;
                     }
                 }

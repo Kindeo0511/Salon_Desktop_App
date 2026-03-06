@@ -9,20 +9,14 @@ namespace Salon.Models
     public class RefundModel
     {
         public int refund_id { get; set; }
-        public int transaction_id { get; set; }
-        public int appointment_id { get; set; }
-        public string Service_Name { get; set; }
-        public decimal Original_Price { get; set; }
+        public string product_name { get; set; }
+        public string brand { get; set; }
+        public string size_label { get; set; }
+        public int refund_qty { get; set; }
         public decimal refund_amount { get; set; }
-        public string refund_method { get; set; }
-        public string refund_reason { get; set; }
+        public string reason { get; set; }
         public string refunded_by { get; set; }
-        public DateTime refund_timestamp { get; set; }
-        public string status { get; set; }
-
-
-        public string Services { get; set; }
-        public decimal selling_price { get; set; }
+        public DateTime refunded_at { get; set; }
 
 
       

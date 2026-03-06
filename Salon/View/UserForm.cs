@@ -217,6 +217,11 @@ namespace Salon.View
 
             if(_user == null) return false;
 
+            string password = string.IsNullOrWhiteSpace(txt_password.Text)
+                               ? _user.userPassword                       
+                               : HashPassword(txt_password.Text.Trim());       
+
+
             var user = new UsersModel
             {
                 user_id = user_id,
@@ -228,7 +233,7 @@ namespace Salon.View
                 email = txt_email.Text.Trim(),
                 address = txt_address.Text.Trim(),
                 userName = txt_username.Text.Trim(),
-                userPassword = HashPassword(txt_password.Text.Trim()),
+                userPassword = password,
                 Position = cmb_role.Text.Trim()
 
 
@@ -255,8 +260,7 @@ namespace Salon.View
                 || txt_email.Text != _user.email
                 || txt_address.Text != _user.address
                 || txt_username.Text != _user.userName
-                || txt_password.Text != _user.userPassword
-                || txt_confirm_password.Text != _user.userPassword
+                || !string.IsNullOrWhiteSpace(txt_password.Text)
                 || cmb_role.Text != _user.Position;
         }
 

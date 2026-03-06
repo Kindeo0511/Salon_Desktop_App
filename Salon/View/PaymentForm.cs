@@ -748,7 +748,7 @@ namespace Salon.View
             );
             PrintInvoice();
 
-            await mainForm.RefreshInventoryAsync();
+             mainForm.LoadInventory(1,25);
             //await mainForm.RefreshAppointmentAsync();
             await mainForm.RefreshTotalSales();
             mainForm.FilterTransactionReport(1,25);

@@ -34,7 +34,7 @@ namespace Salon.Repository
         {
             using (var con = Database.GetConnection())
             {
-                var sql = @"SELECT  p.product_id, p.product_name,p.product_type, ps.size_label, p.brand,i.qty, i.total_remaining, i.critical_level, i.status, i.expiry_date 
+                var sql = @"SELECT  p.product_id, p.product_name,p.is_ingredient, p.is_retail, ps.size_label, p.brand,i.qty, i.total_remaining, i.critical_level, i.status, i.expiry_date 
                         FROM tbl_inventory as i
                         LEFT JOIN tbl_product_size ps ON ps.product_size_id = i.product_size_id
                         LEFT JOIN tbl_products p ON p.product_id = ps.product_id
@@ -88,7 +88,7 @@ namespace Salon.Repository
         {
             using (var con = Database.GetConnection())
             {
-                var sql = @"SELECT  p.product_id, p.product_name,p.product_type, ps.size_label, p.brand,i.qty, i.total_remaining, i.critical_level, i.status, i.expiry_date 
+                var sql = @"SELECT  p.product_id, p.product_name,p.is_ingredient, p.is_retail, ps.size_label, p.brand,i.qty, i.total_remaining, i.critical_level, i.status, i.expiry_date 
                         FROM tbl_inventory as i
                         LEFT JOIN tbl_product_size ps ON ps.product_size_id = i.product_size_id
                         LEFT JOIN tbl_products p ON p.product_id = ps.product_id

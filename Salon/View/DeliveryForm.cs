@@ -498,6 +498,7 @@ namespace Salon.View
                 deliveryItemModel.inventory_id = inventory_id;
                 Stock_In.inventory_id = inventory_id;
                 var total_remaining = GetTotalRemaining(inventory_id);
+
                 stock_in_controller.AddStockIn(Stock_In, prevTotalRemaining, newTotalRemaining, prevQty, newQty, is_update);
                 deliveryItemController.AddDeliveryItem(deliveryItemModel);
 

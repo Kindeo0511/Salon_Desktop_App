@@ -209,10 +209,11 @@ namespace Salon.Repository
             if (user == null || string.IsNullOrWhiteSpace(user.userPassword))
                 return null;
 
-            //bool isValid = BCrypt.Net.BCrypt.Verify(password, user.userPassword);
-            //return isValid ? user : null;
+            bool isValid = BCrypt.Net.BCrypt.Verify(password, user.userPassword);
+            return isValid ? user : null;
 
-            return user;
+            //return user;
+
         }
 
         public UsersModel GetUserByUsername(string username)

@@ -120,7 +120,7 @@ namespace Salon.View
             ThemeManager.StyleDataGridView(dgv_table_summary);
             ThemeManager.StyleDataGridView(dgv_report_table);
             ThemeManager.StyleDataGridView(dgv_inventory_report);
-
+            ThemeManager.StyleDataGridView(dgv_refund);
 
             ThemeManager.StyleDataGridView(dgv_specialist);
             ThemeManager.StyleDataGridView(dgv_transaction_list);
@@ -303,6 +303,13 @@ namespace Salon.View
             };
 
             FilterTransactionReport(currentPage, pageSize);
+
+            refund_pagination.PageChanged += async (s, page) =>
+            {
+                FilterRefund(page, pageSize);
+            };
+
+            FilterRefund(currentPage, pageSize);
 
 
 
@@ -2030,7 +2037,7 @@ namespace Salon.View
             dgv_inventory.AutoGenerateColumns = false;
             col_ProductName.DataPropertyName = "product_name";
             col_size_label.DataPropertyName = "size_label";
-            col_ProductType.DataPropertyName = "product_type";
+            col_ProductType.DataPropertyName = "DisplayProductType";
             col_Brand.DataPropertyName = "brand";
             col_Category.DataPropertyName = "category";
             col_Unit.DataPropertyName = "qty";
@@ -2062,7 +2069,7 @@ namespace Salon.View
             col_InventoryID.DataPropertyName = "inventory_id";
             col_ProductID.DataPropertyName = "product_id";
             col_ProductName.DataPropertyName = "product_name";
-            col_ProductType.DataPropertyName = "product_type";
+            col_ProductType.DataPropertyName = "DisplayProductType";
             col_size_label.DataPropertyName = "size_label";
             col_Brand.DataPropertyName = "brand";
             col_Category.DataPropertyName = "category";
@@ -6735,7 +6742,7 @@ namespace Salon.View
 
         private async void btn_test_smtp_connection_Click(object sender, EventArgs e)
         {
-            btn_test_email_connection.Enabled = false;
+            btn_test_smtp_connection.Enabled = false;
 
             using (var loading = new LoadingScreenEmail())
             {
@@ -6762,7 +6769,7 @@ namespace Salon.View
                 finally
                 {
                     loading.Close(); // close the loading screen
-                    btn_test_email_connection.Enabled = true;
+                    btn_test_smtp_connection.Enabled = true;
                 }
             }
         }
@@ -7185,6 +7192,137 @@ namespace Salon.View
         private void panel3_Paint(object sender, PaintEventArgs e)
         {
 
+        }
+
+        private void btn_refund_filter_Click(object sender, EventArgs e)
+        {
+            cmb_refund_range.Hint = string.Empty;
+            cmb_refund_range.SelectedIndex = -1;
+            DateTime start = dtp_refund_start_time.Value;
+            DateTime end = dtp_refund_end_time.Value;
+            cmb_refund_range.Hint = "Select Range";
+            FilterRefund(currentPage, pageSize);
+        }
+        private void FilterRefund(int pageNumber, int pageSize)
+        {
+            DateTime startDate;
+            DateTime endDate;
+
+            string selectedRange = cmb_refund_range.Text.Trim().ToLower();
+
+            if (string.IsNullOrWhiteSpace(selectedRange))
+            {
+                // No preset selected — use DateTimePicker values
+                if (dtp_refund_start_time.Checked && dtp_refund_end_time.Checked)
+                {
+                    startDate = dtp_refund_start_time.Value.Date;
+                    endDate = dtp_refund_end_time.Value.Date.AddDays(1).AddTicks(-1); // Include full day
+
+                     LoadAllRefund(startDate, endDate, pageNumber, pageSize);
+                }
+                else
+                {
+                    // No filter — show all records
+                     LoadAllRefund(null, null, pageNumber, pageSize);
+                }
+            }
+            else
+            {
+                switch (selectedRange)
+                {
+                    case "today":
+                        startDate = DateTime.Today;
+                        endDate = DateTime.Today.AddDays(1).AddTicks(-1);
+                        break;
+
+                    case "weekly":
+                        startDate = DateTime.Today.AddDays(-(int)DateTime.Today.DayOfWeek);
+                        endDate = startDate.AddDays(7).AddTicks(-1);
+                        break;
+
+                    case "monthly":
+                        startDate = new DateTime(DateTime.Today.Year, DateTime.Today.Month, 1);
+                        endDate = startDate.AddMonths(1).AddTicks(-1);
+                        break;
+
+                    default:
+                        MessageBox.Show("Invalid range selected.");
+                        return;
+                }
+
+                // Optional: update DateTimePickers to reflect the selected range
+                dtp_refund_start_time.Value = startDate;
+                dtp_refund_end_time.Value = endDate;
+
+                LoadAllRefund(startDate, endDate, pageNumber, pageSize);
+            }
+        }
+        public void LoadAllRefund(DateTime? start = null, DateTime? end = null, int pageNumber = 0, int pageSize = 0) 
+        {
+
+            var repo = new Refund_Repository();
+            var controller = new RefundHistoryController(repo);
+            int offset = (pageNumber - 1) * pageSize;
+            var logs = (start.HasValue && end.HasValue)
+                ?  controller.RefundView(start.Value, end.Value, pageSize, offset)
+                :  controller.RefundView(pageSize, offset);
+
+            int totalRecords = controller.TotalRefunds();
+            int totalPages = (int)Math.Ceiling((double)totalRecords / pageSize);
+            refund_pagination.SetTotalPages(totalPages);
+            var result = logs.Count();
+
+            dgv_refund.AutoGenerateColumns = false;
+
+         
+            col_refund_id.DataPropertyName = "refund_id";
+            col_refund_name.DataPropertyName = "product_name";
+            col_refund_brand.DataPropertyName = "brand";
+            col_refund_size_label.DataPropertyName = "size_label";
+            col_refund_qty.DataPropertyName = "refund_qty";
+            col_refund_amount.DataPropertyName = "refund_amount";
+            col_refund_reason.DataPropertyName = "reason";
+            col_refund_refunded_by.DataPropertyName = "refunded_by";
+            col_refund_at.DataPropertyName = "refunded_at";
+
+            dgv_refund.DataSource = logs;
+        }
+        
+        private void btn_refund_print_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void cmb_refund_range_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if (cmb_refund_range != null)
+            {
+                FilterRefund(refund_pagination.CurrentPage, 25);
+            }
+        }
+
+        private void btn_refund_clear_Click(object sender, EventArgs e)
+        {
+            dtp_refund_start_time.Value = DateTime.Today;
+            dtp_refund_end_time.Value = DateTime.Today;
+
+            cmb_refund_range.Hint = string.Empty;
+            dtp_refund_start_time.Value = DateTime.Today;
+            dtp_refund_end_time.Value = DateTime.Today;
+            cmb_refund_range.SelectedIndex = -1;
+            FilterRefund(currentPage, pageSize);
+
+            cmb_refund_range.Hint = "Select Range";
+        }
+
+        private void materialButton4_Click(object sender, EventArgs e)
+        {
+            FilterRefund(currentPage, pageSize);
+        }
+
+        private void btn_refresh_inventory_Click(object sender, EventArgs e)
+        {
+            LoadInventory(currentPage, pageSize);
         }
     }
 }

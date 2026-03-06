@@ -23,6 +23,33 @@ namespace Salon.Models
         public string status { get; set; }
         public DateTime expiry_date { get; set; }
 
+        public int is_retail { get; set; }
+        public int is_ingredient { get; set; }
+
+        public string DisplayProductType
+        {
+            get
+            {
+                if (is_ingredient == 1 && is_retail == 1)
+                {
+                    return "Ingredient/Retail";
+                }
+                else if (is_ingredient == 1)
+                {
+                    return "Ingredient";
+                }
+                else if (is_retail == 1)
+                {
+                    return "Retail";
+                }
+                else
+                {
+                    return "None"; // or whatever default makes sense
+                }
+            }
+        }
+
+
         // INVENTORY REPORTS
         public int total_products { get; set; }
         public int total_volume { get; set; }

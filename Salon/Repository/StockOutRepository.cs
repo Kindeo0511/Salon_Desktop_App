@@ -128,7 +128,7 @@ namespace Salon.Repository
                       new { in_product_id = product_id, in_deduction_ml = qty_deduction, in_out_type = out_type, in_unit_type = unit_type });
             }   
         }
-        public void DeductProductStockConsumables(int productId, int requestedMl, int invoice_id)
+        public void DeductProductStockConsumables(int productId, int requestedQty, int invoice_id)
         {
             using (var con = Database.GetConnection())
             {
@@ -137,75 +137,81 @@ namespace Salon.Repository
                 {
                     try
                     {
-                        var remainingMl = requestedMl;
+                        decimal remainingQty = Convert.ToDecimal(requestedQty);
 
-                        // Helper to consume from a set of inventory rows
-                        void ConsumeRows(IEnumerable<(int inventory_id, decimal qty,int product_id, int product_size_id, int content, decimal selling_price, int total_remaining)> candidateRows)
+                        void ConsumeRows(IEnumerable<(int inventory_id, decimal qty, int product_id, int product_size_id, decimal content, decimal selling_price, decimal total_remaining, string unit_type)> candidateRows)
                         {
                             foreach (var row in candidateRows)
                             {
-                                if (remainingMl <= 0) break;
+                                if (remainingQty <= 0) break;
 
-                                var availableMl = row.total_remaining;
-                                if (availableMl <= 0) continue;
+                                var availableQty = row.total_remaining;
+                                if (availableQty <= 0) continue;
 
-                                var takeMl = Math.Min(availableMl, remainingMl);
-
-                                // compute bottles taken (whole bottles)
-                                var takeBottles = takeMl / row.content;
-                                var leftoverMlInBottle = takeMl % row.content;
+                                var takeQty = Math.Min(availableQty, remainingQty);
                                 var bottle_volume = row.content;
-                                // Update inventory safely and atomically
-                                con.Execute(
-                                    @"UPDATE tbl_inventory
-                              SET qty = GREATEST(total_remaining - @takeMl, 0)/ @bottle_volume,
-                                  total_remaining = GREATEST(total_remaining - @takeMl, 0),
-                                  status = CASE
-                                      WHEN GREATEST(qty - @takeBottles, 0) = 0 THEN 'Out of Stock'
-                                      WHEN GREATEST(qty - @takeBottles, 0) <= critical_level THEN 'Low Stock'
-                                      ELSE 'In Stock'
-                                  END
-                              WHERE inventory_id = @id",
-                                    new { takeBottles, takeMl, id = row.inventory_id, bottle_volume }, tx);
 
-                                // Optionally record movement by inserting into tbl_delivery_items here
-                                var insertSql = @"
-                            INSERT INTO tbl_stock_out
-                              (invoice_id, inventory_id, product_id, product_size_id, qty, qty_volume,
-                               unit_price, line_total, previous_total_remaining, new_total_remaining,
-                               previous_qty, new_qty, movement_type, reason, created_by, created_at)
-                            VALUES
-                              (@invoice_id, @inventoryId, @productId, @productSizeId, @qtyBottles, @volumeMl,
-                               @unitPrice, @lineTotal, @prevTotalRemaining, @newTotalRemaining,
-                               @prevQty, @newQty, 'Service', @reason, @userId, NOW());";
-
-                                con.Execute(insertSql, new
+                                switch (row.unit_type.ToLower())
                                 {
-                                    invoice_id = invoice_id,
-                                    inventoryId = row.inventory_id,
-                                    productId = row.product_id,
-                                    productSizeId = row.product_size_id,
-                                    qtyBottles = (decimal)takeMl / row.content,
-                                    volumeMl = takeMl,
-                                    unitPrice = row.selling_price,
-                                    lineTotal = row.selling_price * takeBottles,
-                                    prevTotalRemaining = row.total_remaining,
-                                    newTotalRemaining = row.total_remaining - takeMl,
-                                    prevQty = row.qty,
-                                    newQty = (double)Math.Max(row.total_remaining - takeMl, 0) / bottle_volume,
-                                    reason = "Service Ingredient",
-                                    userId = UserSession.CurrentUser.user_id,
-                                }, tx);
+                                    case "ml":
+                                    case "g":
+                                    case "pcs":
 
-                                remainingMl -= takeMl;
+                                        con.Execute(
+                                        @"UPDATE tbl_inventory
+                                          SET qty = GREATEST(total_remaining - @takeQty, 0) / @bottle_volume,
+                                              total_remaining = GREATEST(total_remaining - @takeQty, 0),
+                                              status = CASE
+                                                  WHEN GREATEST(total_remaining - @takeQty, 0) = 0 THEN 'Out of Stock'
+                                                  WHEN GREATEST(total_remaining - @takeQty, 0) / @bottle_volume <= critical_level THEN 'Low Stock'
+                                                  ELSE 'In Stock'
+                                              END
+                                          WHERE inventory_id = @id",
+                                        new { takeQty, id = row.inventory_id, bottle_volume }, tx);
+
+                                                                        con.Execute(@"
+                                        INSERT INTO tbl_stock_out
+                                            (invoice_id, inventory_id, product_id, product_size_id, qty, qty_volume,
+                                             unit_price, line_total, previous_total_remaining, new_total_remaining,
+                                             previous_qty, new_qty, movement_type, reason, created_by, created_at)
+                                        VALUES
+                                            (@invoice_id, @inventoryId, @productId, @productSizeId, @qtyUnits, @volumeQty,
+                                             @unitPrice, @lineTotal, @prevTotalRemaining, @newTotalRemaining,
+                                             @prevQty, @newQty, 'Service', @reason, @userId, NOW());",
+                                            new
+                                            {
+                                                invoice_id,
+                                                inventoryId = row.inventory_id,
+                                                productId = row.product_id,
+                                                productSizeId = row.product_size_id,
+                                                qtyUnits = takeQty / row.content,       // how many packs consumed
+                                                volumeQty = takeQty,                     // actual pieces consumed
+                                                unitPrice = row.selling_price,
+                                                lineTotal = row.selling_price * (takeQty / row.content),
+                                                prevTotalRemaining = row.total_remaining,
+                                                newTotalRemaining = row.total_remaining - takeQty,
+                                                prevQty = row.qty,
+                                                newQty = (row.total_remaining - takeQty) / row.content,
+                                                reason = "Service Ingredient",
+                                                userId = UserSession.CurrentUser.user_id,
+                                            }, tx);
+                                        break;
+
+                                    default:
+                                        throw new InvalidOperationException($"Unknown unit type: {row.unit_type}");
+                                }
+
+                                remainingQty -= takeQty;
                             }
                         }
 
-                        // 1) Consume from preferred product size first
-                        var preferredRows = con.Query<(int inventory_id, decimal qty,int product_id, int product_size_id, int content, decimal selling_price, int total_remaining)>(
-                            @"SELECT i.inventory_id, i.qty,ps.product_id,ps.product_size_id, ps.content,ps.selling_price, i.total_remaining
+                        // Fetch inventory rows with unit_type
+                        var preferredRows = con.Query<(int inventory_id, decimal qty, int product_id, int product_size_id, decimal content, decimal selling_price, decimal total_remaining, string unit_type)>(
+                            @"SELECT i.inventory_id, i.qty, ps.product_id, ps.product_size_id, 
+                             ps.content, ps.selling_price, i.total_remaining, p.unit_type
                       FROM tbl_inventory i
                       JOIN tbl_product_size ps ON ps.product_size_id = i.product_size_id
+                      JOIN tbl_products p ON p.product_id = ps.product_id
                       WHERE ps.product_id = @pid
                         AND i.total_remaining > 0
                       ORDER BY i.expiry_date ASC
@@ -214,37 +220,17 @@ namespace Salon.Repository
 
                         ConsumeRows(preferredRows);
 
-                        //  // 2) If still remaining, continue with other sizes of the same product
-                        //  if (remainingMl > 0)
-                        //  {
-                        //      var otherRows = con.Query<(int inventory_id, int qty, int content, int total_remaining)>(
-                        //          @"SELECT i.inventory_id, i.qty, ps.content, i.total_remaining
-                        //    FROM tbl_inventory i
-                        //    JOIN tbl_product_size ps ON ps.product_size_id = i.product_size_id
-                        //    WHERE ps.product_id = @pid
-                        //      AND i.total_remaining > 0
-                        //    ORDER BY i.expiry_date ASC
-                        //    FOR UPDATE",
-                        //          new { pid = productId }, tx).ToList();
-
-                        //      ConsumeRows(otherRows);
-                        //  }
-                        // 3) Insert movement / sale item for audit (adjust columns to your schema)
-                        // after updating tbl_inventory for this inventory row
-
-
-                        // 3) After exhausting all eligible inventory, fail only if still short
-                        if (remainingMl > 0)
+                        if (remainingQty > 0)
                         {
                             tx.Rollback();
-                            throw new InvalidOperationException($"Not enough stock across all sizes. Remaining ml: {remainingMl}");
+                            throw new InvalidOperationException($"Not enough stock. Remaining: {remainingQty}");
                         }
 
                         tx.Commit();
                     }
                     catch
                     {
-                        try { tx.Rollback(); } catch { /* log rollback failure if needed */ }
+                        try { tx.Rollback(); } catch { }
                         throw;
                     }
                 }
