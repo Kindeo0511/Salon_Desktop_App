@@ -1,5 +1,6 @@
 ﻿using Dapper;
 using Laundry.Data;
+using Mysqlx.Crud;
 using Salon.Models;
 using Salon.Util;
 using System;
@@ -509,6 +510,106 @@ namespace Salon.Repository
             {
                 con.Execute("CALL deduct_stock(@in_product_id, @in_product_size_id, @in_qty, @in_out_type, @in_unit_type)",
                       new { in_product_id = product_id, in_product_size_id = product_size_id, in_qty = qty_deduction, in_out_type = out_type, in_unit_type = unit_type });
+            }
+        }
+
+        public void DeductExpiredStock()
+        {
+            using (var con = Database.GetConnection())
+            {
+                con.Open();
+                using (var tx = con.BeginTransaction())
+                {
+                    try
+                    {
+                        // 1) Get expired batches directly from tbl_delivery_items
+                        var expiredRows = con.Query<(int inventory_id, int product_size_id, decimal qty_delivered, decimal total_qty)>(
+                            @"SELECT 
+                        inventory_id, 
+                        product_size_id, 
+                        qty_delivered,
+                        total_qty
+                      FROM tbl_delivery_items 
+                      WHERE expiry_date < CURDATE()",
+                            transaction: tx).ToList();
+
+                        if (!expiredRows.Any()) return;
+
+                        foreach (var row in expiredRows)
+                        {
+                            // 2) Get current inventory state
+                            var inventory = con.QueryFirstOrDefault<(int inventory_id, decimal qty, decimal total_remaining, decimal content, decimal critical_level)>(
+                                @"SELECT i.inventory_id, i.qty, i.total_remaining, 
+                                 ps.content, i.critical_level  
+                          FROM tbl_inventory i
+                          JOIN tbl_product_size ps ON ps.product_size_id = i.product_size_id
+                          WHERE i.inventory_id = @id 
+                          AND i.total_remaining > 0
+                          FOR UPDATE",
+                                new { id = row.inventory_id }, tx);
+
+                            if (inventory.inventory_id == 0) continue; // already zero, skip
+
+                            // 3) Calculate deduction using expired batch qty
+                            var mlToDeduct = Math.Min((int)(row.qty_delivered * inventory.content), (int)inventory.total_remaining);
+                            var newRemaining = Math.Max(inventory.total_remaining - mlToDeduct, 0);
+                            var newQty = newRemaining / inventory.content;
+
+                            // 4) Update inventory
+                            con.Execute(
+                                @"UPDATE tbl_inventory
+                          SET total_remaining = @newRemaining,
+                              qty             = @newQty,
+                              status          = CASE
+                                                    WHEN @newRemaining = 0 THEN 'Out of Stock'
+                                                    WHEN @newQty <= critical_level THEN 'Low Stock'
+                                                    ELSE 'In Stock'
+                                                END
+                          WHERE inventory_id = @id",
+                                new { newRemaining, newQty, id = row.inventory_id }, tx);
+
+                            // 5) Get product_id
+                            var productId = con.ExecuteScalar<int>(
+                                @"SELECT product_id 
+                          FROM tbl_product_size 
+                          WHERE product_size_id = @psi",
+                                new { psi = row.product_size_id }, tx);
+
+                            // 6) Insert audit record
+                            con.Execute(
+                                @"INSERT INTO tbl_stock_out
+                            (inventory_id, product_id, product_size_id, qty, qty_volume,
+                             unit_price, line_total, previous_total_remaining, new_total_remaining,
+                             previous_qty, new_qty, movement_type, reason,
+                             created_by, out_type, created_at)
+                          VALUES
+                            (@inventoryId, @productId, @productSizeId, @qty, @qtyVolume,
+                             0, 0, @prevTotalRemaining, @newTotalRemaining,
+                             @prevQty, @newQty, 'Expired', 'Auto-deducted Expired Product',
+                             @userId, 'Expired', NOW())",
+                                new
+                                {
+                                    inventoryId = row.inventory_id,
+                                    productId = productId,
+                                    productSizeId = row.product_size_id,
+                                    qty = inventory.qty - newQty,
+                                    qtyVolume = mlToDeduct,
+                                    prevTotalRemaining = inventory.total_remaining,
+                                    newTotalRemaining = newRemaining,
+                                    prevQty = inventory.qty,
+                                    newQty = newQty,
+                                    userId = UserSession.CurrentUser.user_id,
+                                }, tx);
+                        }
+
+                        tx.Commit();
+                    }
+                    catch
+                    {
+                        try { tx.Rollback(); } catch { }
+                        throw;
+                    }
+                }
             }
         }
     }

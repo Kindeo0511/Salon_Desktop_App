@@ -56,9 +56,9 @@ namespace Salon.Controller
             return repo.SupplierExists(name, address, id);
         }
 
-        public int GetEmail(string email)
+        public int ExistingDeletedSupplier(string name, string address, string email, string contact)
         {
-            return repo.GetSupplierEmail(email);
+            return repo.ExistingDeletedSupplier(name, address, email, contact);
         }
         public bool CheckIsSupplierIsUsed(int id) 
         {

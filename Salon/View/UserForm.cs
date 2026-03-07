@@ -264,6 +264,45 @@ namespace Salon.View
                 || cmb_role.Text != _user.Position;
         }
 
+        public UsersModel UserModel() 
+        {
+
+
+            var userModel = new UsersModel
+            {
+
+                email = InputSanitizer.Email(txt_email.Text),
+                birth_date = dtp_day_of_birth.Value,
+                phone_Number = InputSanitizer.Phone(txt_contact.Text),
+                userName = InputSanitizer.Username(txt_username.Text),
+
+            };
+
+
+            return userModel;
+        }
+
+        private async Task<bool> IsAccountAlreadyExistsButDeleted() 
+        {
+            int deactivated_user_id = UserAccountExistsDeactivated(UserModel());
+
+            if (deactivated_user_id > 0)
+            {
+                // check deactivated FIRST before checking if username exists
+                var result = MessageBox.Show("This account exists but is deactivated. Do you want to restore it?",
+                                "Restore Account",
+                                MessageBoxButtons.YesNo,
+                                MessageBoxIcon.Question);
+                if (result == DialogResult.Yes)
+                {
+
+                   await RestorDeactivatedAccount(deactivated_user_id);
+
+                }
+             
+            }
+            return deactivated_user_id > 0;
+        }
         private bool IsValid()
         {
             DateTime birthDate = dtp_day_of_birth.Value;
@@ -275,7 +314,8 @@ namespace Salon.View
             // REQUIRED AND MIN LENGTH FIELD
             string firstName = txt_first_name.Text.Trim();
 
-            int deactivated_user_id = UserAccountExistsDeactivated(txt_username.Text, excludeId);
+
+           
 
             // First Name
             if (!Validator.IsRequiredTextField(txt_first_name, errorProvider1, "First name is required."))
@@ -414,20 +454,7 @@ namespace Salon.View
             {
                 validated = false;
             }
-            else if (deactivated_user_id > 0)
-            {
-                // check deactivated FIRST before checking if username exists
-                var result = MessageBox.Show("This account exists but is deactivated. Do you want to restore it?",
-                                "Restore Account",
-                                MessageBoxButtons.YesNo,
-                                MessageBoxIcon.Question);
-                if (result == DialogResult.Yes)
-                {
            
-                    RestorDeactivatedAccount(deactivated_user_id);
-                }
-                validated = false;
-            }
             else if (!Validator.IsUserExists(txt_username, errorProvider1, "Username already exists.", excludeId))
             {
                 // then check if active username exists
@@ -968,18 +995,18 @@ namespace Salon.View
         }
 
         
-        public int UserAccountExistsDeactivated(string user_name, int id)
+        public int UserAccountExistsDeactivated(UsersModel model)
         {
             var _repo = new UserRepository();
             var userController = new UserController(_repo);
-            int user_id = userController.IsUserAccountExistsButDeactivated(user_name, id);
+            int user_id = userController.IsUserAccountExistsButDeactivated(model);
 
       
             return user_id;
 
         }
 
-        public async void RestorDeactivatedAccount(int user_id) 
+        public async Task RestorDeactivatedAccount(int user_id) 
         {
             var _repo = new UserRepository();
             var userController = new UserController(_repo);
@@ -1038,6 +1065,8 @@ namespace Salon.View
         }
         private async void btn_save_Click(object sender, EventArgs e)
         {
+            if (await IsAccountAlreadyExistsButDeleted()) return;
+
             if (!IsValid()) return;
 
             IsAccountExists();

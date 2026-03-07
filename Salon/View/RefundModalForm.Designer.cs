@@ -410,6 +410,8 @@
             this.AutoScrollMargin = new System.Drawing.Size(0, 100);
             this.ClientSize = new System.Drawing.Size(800, 600);
             this.Controls.Add(this.materialCard1);
+            this.MaximizeBox = false;
+            this.MinimizeBox = false;
             this.Name = "RefundModalForm";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Refund Product";

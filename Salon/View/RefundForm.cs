@@ -24,6 +24,7 @@ namespace Salon.View
         {
             InitializeComponent();
             ThemeManager.ApplyTheme(this);
+            ThemeManager.StyleDataGridView(dgv_products);
         }
         public RefundForm(MainForm mainForm, InvoiceModel invoiceModel)
         {
@@ -106,6 +107,11 @@ namespace Salon.View
         private void btn_cancel_Click(object sender, EventArgs e)
         {
             this.Close();
+        }
+
+        private void dgv_products_CellContentClick(object sender, DataGridViewCellEventArgs e)
+        {
+
         }
     }
 }

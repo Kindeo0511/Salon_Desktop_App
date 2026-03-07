@@ -64,5 +64,10 @@ namespace Salon.Controller
         {
             repo.RefundProductRetailStock(product_id, product_size_id, qtyBottlesToRefund, invoice_id, refund_id, unit_price, reason);
         }
+
+        public void DeductExpiredStock() 
+        {
+            repo.DeductExpiredStock();
+        }
     }
 }

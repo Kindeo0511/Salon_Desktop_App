@@ -19,6 +19,7 @@ namespace Salon.Models
        public int loyalty_points { get; set; }
         public int is_deleted { get; set; }
         public string status { get; set; }
+        public string card_number { get; set; }
         public string fullName
         {
         

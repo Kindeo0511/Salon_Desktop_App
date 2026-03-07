@@ -167,6 +167,8 @@ namespace Salon.View
             refund_form.LoadCart(cart.InvoiceId);
             main.FilterTransactionReport(1, 25);
             main.LoadInventory(1,25);
+            main.FilterRefund(1, 25);
+            this.Close();
         }
 
         private void btn_cancel_Click(object sender, EventArgs e)

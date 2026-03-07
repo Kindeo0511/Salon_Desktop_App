@@ -21,12 +21,29 @@ namespace Salon.Repository
                 return con.Query<CustomerModel>(sql).ToList();
             }
         }
+        public IEnumerable<CustomerModel> DisplayCustomer()
+        {
+            using (var con = Database.GetConnection())
+            {
+
+                var sql = @"SELECT 
+                            ca.*,
+                            lc.card_number 
+                        FROM tbl_customer_account ca
+                        LEFT JOIN tbl_loyal_card lc ON lc.customer_id = ca.customer_id
+                        WHERE ca.is_deleted = 0";
+                return con.Query<CustomerModel>(sql).ToList();
+            }
+        }
         public async Task<IEnumerable<CustomerModel>> GetAllCustomersAsync(int PageSize, int OffSet) 
         {
             using (var con = Database.GetConnection())
             {
 
-                var sql = "SELECT * FROM tbl_customer_account WHERE is_deleted = 0 LIMIT @PageSize OFFSET @OffSet";
+                var sql = @"SELECT  ca.*,  lc.card_number
+                    FROM tbl_customer_account ca
+                    LEFT JOIN tbl_loyal_card lc ON lc.customer_id = ca.customer_id
+                    WHERE ca.is_deleted = 0 LIMIT @PageSize OFFSET @OffSet";
                 var result = await con.QueryAsync<CustomerModel>(sql,new { PageSize, OffSet });
 
                 return result.ToList();

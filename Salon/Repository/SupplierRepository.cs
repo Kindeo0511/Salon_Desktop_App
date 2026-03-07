@@ -86,12 +86,18 @@ namespace Salon.Repository
                 return con.ExecuteScalar<int>(sql, new { name, address, id }) > 0;
             }
         }
-        public int GetSupplierEmail(string email)
+        public int ExistingDeletedSupplier(string name, string address, string email, string contact)
         {
             using (var con = Database.GetConnection())
             {
-                var sql = "SELECT supplier_id FROM tbl_supplier WHERE email = @email AND is_deleted = 1 LIMIT 1";
-                return con.Query<int>(sql, new { email }).FirstOrDefault();
+                var sql = @"SELECT supplier_id FROM tbl_supplier
+                            WHERE
+                            supplier_name = @name AND
+                            address = @address AND
+                            email = @email AND
+                            contact = @contact AND
+                            is_deleted = 1 LIMIT 1";
+                return con.Query<int>(sql, new { name, address, email, contact }).FirstOrDefault();
             }
         }
         public bool IsSupplierUsed(int id) 

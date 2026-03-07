@@ -114,10 +114,10 @@
             this.panel1.Controls.Add(this.lbl_invoice_number);
             this.panel1.Controls.Add(this.materialLabel3);
             this.panel1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.panel1.Location = new System.Drawing.Point(3, 64);
+            this.panel1.Location = new System.Drawing.Point(3, 24);
             this.panel1.Name = "panel1";
             this.panel1.Padding = new System.Windows.Forms.Padding(25);
-            this.panel1.Size = new System.Drawing.Size(994, 833);
+            this.panel1.Size = new System.Drawing.Size(994, 673);
             this.panel1.TabIndex = 0;
             // 
             // materialLabel5
@@ -151,6 +151,9 @@
             // 
             this.dgv_products.AllowUserToAddRows = false;
             this.dgv_products.AllowUserToDeleteRows = false;
+            this.dgv_products.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            this.dgv_products.CellBorderStyle = System.Windows.Forms.DataGridViewCellBorderStyle.None;
+            this.dgv_products.ColumnHeadersBorderStyle = System.Windows.Forms.DataGridViewHeaderBorderStyle.None;
             this.dgv_products.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dgv_products.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.col_item_id,
@@ -174,11 +177,15 @@
             this.dgv_products.Location = new System.Drawing.Point(28, 251);
             this.dgv_products.Name = "dgv_products";
             this.dgv_products.ReadOnly = true;
+            this.dgv_products.RowHeadersBorderStyle = System.Windows.Forms.DataGridViewHeaderBorderStyle.None;
+            this.dgv_products.RowHeadersVisible = false;
             this.dgv_products.RowHeadersWidth = 51;
             this.dgv_products.RowTemplate.Height = 24;
-            this.dgv_products.Size = new System.Drawing.Size(925, 139);
+            this.dgv_products.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
+            this.dgv_products.Size = new System.Drawing.Size(925, 295);
             this.dgv_products.TabIndex = 6;
             this.dgv_products.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgv_products_CellClick);
+            this.dgv_products.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgv_products_CellContentClick);
             // 
             // materialLabel4
             // 
@@ -284,6 +291,7 @@
             this.col_product__size_id.MinimumWidth = 6;
             this.col_product__size_id.Name = "col_product__size_id";
             this.col_product__size_id.ReadOnly = true;
+            this.col_product__size_id.Visible = false;
             this.col_product__size_id.Width = 78;
             // 
             // col_item_name
@@ -408,11 +416,15 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1000, 900);
+            this.ClientSize = new System.Drawing.Size(1000, 700);
             this.Controls.Add(this.panel1);
+            this.FormStyle = MaterialSkin.Controls.MaterialForm.FormStyles.ActionBar_None;
+            this.MaximizeBox = false;
+            this.MinimizeBox = false;
             this.Name = "RefundForm";
+            this.Padding = new System.Windows.Forms.Padding(3, 24, 3, 3);
+            this.Sizable = false;
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
-            this.Text = "RefundForm";
             this.panel1.ResumeLayout(false);
             this.panel1.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgv_products)).EndInit();

@@ -13,7 +13,7 @@ namespace Salon.Repository
     {
         public IEnumerable<ServiceModel> getAllServices()
         {
-            using (var con = Database.GetConnection()) 
+            using (var con = Database.GetConnection())
             {
                 var sql = @"SELECT tbl_servicesname.serviceName_id,tbl_servicesname.serviceName, tbl_servicesname.servicePrice, tbl_subcategory.category_id, tbl_servicesname.subcategory_id, tbl_category.categoryName,
 tbl_subcategory.subCategoryName,tbl_servicesname.duration, tbl_servicesname.status
@@ -24,7 +24,7 @@ tbl_subcategory.subCategoryName,tbl_servicesname.duration, tbl_servicesname.stat
                 return con.Query<ServiceModel>(sql).ToList();
             }
         }
-        public async Task<IEnumerable<ServiceModel>> GetAllServicesAsync(int page_size, int off_set) 
+        public async Task<IEnumerable<ServiceModel>> GetAllServicesAsync(int page_size, int off_set)
         {
             using (var con = Database.GetConnection())
             {
@@ -35,14 +35,14 @@ tbl_subcategory.subCategoryName,tbl_servicesname.duration, tbl_servicesname.stat
                                         LEFT JOIN tbl_category ON tbl_category.category_id = tbl_subcategory.category_id
                                         WHERE tbl_servicesname.is_deleted = 0 AND tbl_category.is_deleted = 0 AND tbl_subcategory.is_deleted = 0
                                         LIMIT @page_size OFFSET @off_set";
-                var result = await con.QueryAsync<ServiceModel>(sql, new { page_size, off_set});
+                var result = await con.QueryAsync<ServiceModel>(sql, new { page_size, off_set });
 
                 return result.ToList();
             }
         }
         public List<ServiceModel> GetAllServicesByName(string key = "")
         {
-            using (var con = Database.GetConnection()) 
+            using (var con = Database.GetConnection())
             {
                 var sql = @"SELECT tbl_servicesname.serviceName_id,
 	                        tbl_subcategory.subCategoryName,
@@ -54,7 +54,7 @@ tbl_subcategory.subCategoryName,tbl_servicesname.duration, tbl_servicesname.stat
                             LEFT JOIN tbl_subcategory
                             ON tbl_servicesname.subCategory_id = tbl_subcategory.subCategory_id
                             WHERE tbl_servicesname.serviceName LIKE @key AND tbl_subcategory.is_deleted = 0 AND tbl_servicesname.is_deleted = 0 ";
-                return con.Query<ServiceModel>(sql, new {key =$"%{key}%" }).ToList();
+                return con.Query<ServiceModel>(sql, new { key = $"%{key}%" }).ToList();
             }
         }
         public List<ServiceModel> GetAllServicesbySubcategoryId(int id)
@@ -74,15 +74,15 @@ tbl_subcategory.subCategoryName,tbl_servicesname.duration, tbl_servicesname.stat
                 return con.Query<ServiceModel>(sql, new { id = id }).ToList();
             }
         }
-        public ServiceModel GetTotalServices() 
+        public ServiceModel GetTotalServices()
         {
-            using (var con = Database.GetConnection()) 
+            using (var con = Database.GetConnection())
             {
                 var sql = "SELECT COUNT(*) AS TotalService FROM tbl_servicesname";
                 return con.Query<ServiceModel>(sql).FirstOrDefault();
             }
         }
-      
+
         public ServiceModel GetServiceByName(string name)
         {
             using (var con = Database.GetConnection())
@@ -99,7 +99,7 @@ tbl_subcategory.subCategoryName,tbl_servicesname.duration, tbl_servicesname.stat
                 return con.QueryFirstOrDefault<ServiceModel>(sql, new { name });
             }
         }
-        public async Task<ServiceModel> GetTotalServicesAsync() 
+        public async Task<ServiceModel> GetTotalServicesAsync()
         {
             using (var con = Database.GetConnection())
             {
@@ -111,7 +111,7 @@ tbl_subcategory.subCategoryName,tbl_servicesname.duration, tbl_servicesname.stat
         }
         public int addService(ServiceModel service)
         {
-           using (var con = Database.GetConnection())
+            using (var con = Database.GetConnection())
             {
                 var sql = @"INSERT INTO tbl_servicesname (subCategory_id, serviceName, servicePrice, duration, status) VALUES (@subCategory_id, @serviceName, @servicePrice, @duration, @status);
                             SELECT LAST_INSERT_ID();";
@@ -128,16 +128,16 @@ tbl_subcategory.subCategoryName,tbl_servicesname.duration, tbl_servicesname.stat
         }
         public int deleteService(int id)
         {
-           using (var con = Database.GetConnection())
+            using (var con = Database.GetConnection())
             {
                 var sql = "UPDATE tbl_servicesname SET is_deleted = 1 WHERE serviceName_id = @id";
                 return con.Execute(sql, new { id });
-            
+
             }
         }
-        public bool ServiceIsUsed(int id) 
+        public bool ServiceIsUsed(int id)
         {
-            using (var con = Database.GetConnection()) 
+            using (var con = Database.GetConnection())
             {
                 var sql = "SELECT COUNT(*) FROM tbl_appointment_services WHERE serviceName_id = @id";
                 return con.ExecuteScalar<int>(sql, new { id }) > 0;
@@ -153,30 +153,54 @@ tbl_subcategory.subCategoryName,tbl_servicesname.duration, tbl_servicesname.stat
             }
         }
 
-        public int PermanentDelete(int id) 
+        public int PermanentDelete(int id)
         {
             using (var con = Database.GetConnection())
             {
                 var sql = "DELETE FROM tbl_servicesname WHERE serviceName_id = @id";
-               return con.Execute(sql, new { id });
+                return con.Execute(sql, new { id });
             }
         }
-        public bool ServiceExists(string name, int s_cat_id, int id = 0) 
+        public bool ServiceExists(string name, int s_cat_id, int id = 0)
         {
-            using (var con = Database.GetConnection()) 
+            using (var con = Database.GetConnection())
             {
                 var sql = "SELECT COUNT(*) FROM tbl_servicesname WHERE serviceName = @name AND subCategory_id = @s_cat_id AND serviceName_id != @id AND is_deleted = 0";
 
                 return con.ExecuteScalar<int>(sql, new { name, s_cat_id, id }) > 0;
             }
         }
-        public int GetServiceAndCategory(string name, int subcat_id) 
+        public int GetServiceAndCategory(string name, int subcat_id)
         {
-            using (var con = Database.GetConnection()) 
+            using (var con = Database.GetConnection())
             {
                 var sql = @"SELECT serviceName_id FROM tbL_servicesname WHERE serviceName = @name AND subCategory_id = @subcat_id AND is_deleted = 1 LIMIT 1";
                 return con.QueryFirstOrDefault<int>(sql, new { name, subcat_id });
             }
         }
+
+        // LOYALTY CARD SETTINGS
+
+        public IEnumerable<ServiceModel> LoadServicesByServiceAndId()
+        {
+            using (var con = Database.GetConnection())
+            {
+                var sql = @"SELECT serviceName_id, serviceName FROM tbL_servicesname WHERE is_deleted = 0";
+                return con.Query<ServiceModel>(sql);
+            }
+        }
+
+
+
+
+
+
+
     }
+
+    
+
 }
+
+
+

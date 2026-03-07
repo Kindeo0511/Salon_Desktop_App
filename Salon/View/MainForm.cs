@@ -127,6 +127,10 @@ namespace Salon.View
             ThemeManager.StyleDataGridView(dgv_audit_report);
             ThemeManager.StyleDataGridView(dgv_deleted_record);
             ThemeManager.StyleDataGridView(dgv_cart_product);
+
+            ThemeManager.StyleDataGridView(dgv_reward_services);
+
+
         }
 
         public void LowOrOutOfStock()
@@ -328,7 +332,7 @@ namespace Salon.View
             LoadPaymentMethodCombobox();
             ExpiredPromo();
             await RefreshUsersAsync(1, 20);
-
+            UpdateExpireProducts();
 
             //await RefreshCategoryAsync();
 
@@ -394,6 +398,9 @@ namespace Salon.View
 
             // SETTINGS
             LoadOwnerEmailAndBusinessName();
+
+            // LOYALTY CARD
+            LoyaltyCardSettings();
 
             dgv_cart_product.AutoGenerateColumns = false;
             dgv_cart_product.DataSource = cartItems;
@@ -1134,6 +1141,7 @@ namespace Salon.View
             col_customer_contact.DataPropertyName = "phoneNumber";
             col_customer_email.DataPropertyName = "email";
             col_customer_status.DataPropertyName = "customer_type";
+            col_customer_card_number.DataPropertyName = "card_number";
 
             dgv_customer.DataSource = customers;
         }
@@ -1141,7 +1149,7 @@ namespace Salon.View
         {
             var repo = new CustomerRepository();
             var customerController = new CustomerController(repo);
-            var customers = customerController.GetAllCustomer();
+            var customers = customerController.DisplayCustomer();
 
             dgv_customer.AutoGenerateColumns = false;
 
@@ -1152,6 +1160,7 @@ namespace Salon.View
             col_customer_contact.DataPropertyName = "phoneNumber";
             col_customer_email.DataPropertyName = "email";
             col_customer_status.DataPropertyName = "customer_type";
+            col_customer_card_number.DataPropertyName = "card_number";
 
             dgv_customer.DataSource = customers;
 
@@ -1196,6 +1205,29 @@ namespace Salon.View
             //        LoadCustomers();
             //    }
             //}
+            else if (dgv_customer.Columns[e.ColumnIndex].Name == "col_customer_card") 
+            {
+                var customer = dgv_customer.Rows[e.RowIndex].DataBoundItem as CustomerModel;
+
+                if (string.IsNullOrEmpty(customer.card_number))
+                {
+                    using (var form = new CreateCustomerCard(this, customer))
+                    {
+                        //form.CustomerUpdated += async (s, args) => { await RefreshCustomers(customerPagination.CurrentPage, 25); };
+                        form.ShowDialog();
+                        await RefreshCustomers(customerPagination.CurrentPage, pageSize);
+                    }
+                }
+                else 
+                {
+                    using (var form = new ViewCustomerCard(customer.customer_id)) 
+                    {
+                        form.ShowDialog();
+                        await RefreshCustomers(customerPagination.CurrentPage, pageSize);
+                    }
+                }
+                
+            }
             else if (e.RowIndex >= 0 && dgv_customer.Columns[e.ColumnIndex].Name == "col_customer_btn_delete")
             {
                 var customer = dgv_customer.Rows[e.RowIndex].DataBoundItem as CustomerModel;
@@ -1210,7 +1242,7 @@ namespace Salon.View
 
                 if (MessageBox.Show($"Delete customer {customer.firstName}?", "Confirm Delete", MessageBoxButtons.YesNo) == DialogResult.Yes)
                 {
-                    
+
 
 
                     if (customerController.DeleteCustomer(customer.customer_id))
@@ -4474,13 +4506,17 @@ namespace Salon.View
 
         private void backgroundWorker1_DoWork(object sender, DoWorkEventArgs e)
         {
-            var repo = new InventoryRepository();
-            var controller = new InventoryController(repo);
+          
+            
+        }
+        private void UpdateExpireProducts() 
+        {
+            var repo = new StockOutRepository();
+            var controller = new StockOutController(repo);
 
-            controller.UpdateExpiredProducts();
-            InventoryBatchProcessed();
+            controller.DeductExpiredStock();
+            LoadInventory(currentPage, pageSize);
 
-            ;
         }
 
 
@@ -5254,6 +5290,9 @@ namespace Salon.View
             lbl_total.Text = "0.00";
             lbl_change.Text = "0.00";
             cmb_payment_method.SelectedIndex = -1;
+            currentAmount = 0m;
+            currentPercentDiscount = 0m;
+            currentFixedDiscount = 0m;
             cartItems.Clear();
 
 
@@ -7079,11 +7118,11 @@ namespace Salon.View
                 var product = dgv_product.Rows[e.RowIndex].DataBoundItem as ProductModel;
 
                 var repo = new ProductRepository();
-                var controller = new ProductController(repo);
+                var controller = new ProductController(repo); 
 
                 if (controller.IsProductBeingUsed(product.product_id))
                 {
-                    MessageBox.Show("This product cannot be deleted because it is still being used to product size or services.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    MessageBox.Show("This product cannot be deleted because it is still being used to services.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                     return;
                 }
 
@@ -7203,7 +7242,7 @@ namespace Salon.View
             cmb_refund_range.Hint = "Select Range";
             FilterRefund(currentPage, pageSize);
         }
-        private void FilterRefund(int pageNumber, int pageSize)
+        public void FilterRefund(int pageNumber, int pageSize)
         {
             DateTime startDate;
             DateTime endDate;
@@ -7323,6 +7362,301 @@ namespace Salon.View
         private void btn_refresh_inventory_Click(object sender, EventArgs e)
         {
             LoadInventory(currentPage, pageSize);
+        }
+
+        private void btn_add_service_reward_Click(object sender, EventArgs e)
+        {
+            if (!IsLoyaltyValid()) return;
+
+            SaveLoyaltyService();
+
+
+            clear_reward_fields();
+
+
+        }
+        public void SaveLoyaltyService() 
+        {
+            var repo = new LoyaltyCardRepository();
+            var controller = new LoyaltyCardController(repo);
+
+            int service_id = Convert.ToInt32(cmb_services.SelectedValue);
+            int visit_req = Convert.ToInt32(txt_visit_req.Text.Trim());
+            string description = txt_reward_description.Text.Trim();
+
+          
+
+            var model = new LoyaltyCardModel
+            {
+                service_id = service_id,
+                visit_required = visit_req,
+                description = description,
+            };
+     
+            if (controller.AddService(model))
+            {
+                MessageBox.Show("Service reward added successfully.", "Success",
+                    MessageBoxButtons.OK, MessageBoxIcon.Information);
+            }
+            else
+            {
+                MessageBox.Show("Failed to add service reward. Please try again.", "Error",
+                    MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+            LoadServiceRewards();
+
+        }
+
+        public void UpdateLoyaltyService() 
+        {
+            var repo = new LoyaltyCardRepository();
+            var controller = new LoyaltyCardController(repo);
+            int reward_id = Convert.ToInt32(lbl_reward_id.Text);
+            int service_id = Convert.ToInt32(cmb_services.SelectedValue);
+            int visit_req = Convert.ToInt32(txt_visit_req.Text.Trim());
+            string description = txt_reward_description.Text.Trim();
+
+
+
+            var model = new LoyaltyCardModel
+            {
+                reward_id = reward_id,
+                service_id = service_id,
+                visit_required = visit_req,
+                description = description,
+            };
+
+            if (controller.UpdateSerivce(model))
+            {
+                MessageBox.Show("Service reward updated successfully.", "Success",
+                    MessageBoxButtons.OK, MessageBoxIcon.Information);
+            }
+            else
+            {
+                MessageBox.Show("Failed to update service reward. Please try again.", "Error",
+                    MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+            LoadServiceRewards();
+        }
+        public void DeleteLoyaltyService(int id, string name)
+        {
+            var repo = new LoyaltyCardRepository();
+            var controller = new LoyaltyCardController(repo);
+
+
+            if (controller.DeleteService(id))
+            {
+                MessageBox.Show($"{name} deleted successfully.", "Success",
+                    MessageBoxButtons.OK, MessageBoxIcon.Information);
+            }
+            else
+            {
+                MessageBox.Show($"Failed to delete {name} reward. Please try again.", "Error",
+                    MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+
+        }
+        private bool IsLoyaltyValid() 
+        {
+            bool validated = true;
+            int exclude_id = string.IsNullOrEmpty(lbl_reward_id.Text) ? 0 : Convert.ToInt32(lbl_reward_id.Text);
+            int service_id = cmb_services.SelectedValue != null ? Convert.ToInt32(cmb_services.SelectedValue) : 0;
+
+            if (string.IsNullOrEmpty(cmb_services.Text))
+            {
+                errorProvider1.SetError(cmb_services, "Please select a service.");
+                validated = false;
+            }
+            else if (IsServiceRewardExists(service_id, exclude_id))
+            {
+                errorProvider1.SetError(cmb_services, "Service already exists.");
+                validated = false;
+            }
+            else 
+            {
+                errorProvider1.SetError(cmb_services, "");
+            }
+
+            if (string.IsNullOrEmpty(txt_reward_description.Text))
+            {
+                errorProvider1.SetError(txt_reward_description, "Please enter a description.");
+                validated = false;
+            }
+            else 
+            {
+                errorProvider1.SetError(txt_reward_description, "");
+            }
+
+            if (string.IsNullOrEmpty(txt_visit_req.Text))
+            {
+                errorProvider1.SetError(txt_visit_req, "Please enter the number of visits required.");
+                validated = false;
+            }
+            else
+            {
+                errorProvider1.SetError(txt_visit_req, "");
+            }
+           return validated;
+        }
+        public bool IsServiceRewardExists(int id, int exlude_id) 
+        {
+            var repo = new LoyaltyCardRepository();
+            var controller = new LoyaltyCardController(repo);
+
+
+            return controller.IsServiceExists(id, exlude_id);
+        }
+        public void LoyaltyCardSettings() 
+        {
+            var repo = new ServiceRepository();
+            var controller = new ServiceController(repo);
+
+
+            cmb_services.DisplayMember = "serviceName";
+            cmb_services.ValueMember = "serviceName_id";
+
+            cmb_services.DataSource = controller.LoadServicesByServiceAndId();
+            cmb_services.SelectedIndex = -1;
+            LoadServiceRewards();
+
+
+
+
+
+        }
+
+        public void LoadServiceRewards() 
+        {
+            var repo = new LoyaltyCardRepository();
+            var controller = new LoyaltyCardController(repo);
+
+
+            dgv_reward_services.AutoGenerateColumns = false;
+
+            col_reward_id.DataPropertyName = "reward_id";
+            col_reward_service_id.DataPropertyName = "service_id";
+            col_reward_service_name.DataPropertyName = "serviceName";
+            col_reward_visit_req.DataPropertyName = "visit_required";
+            col_reward_description.DataPropertyName = "description";
+
+            dgv_reward_services.DataSource = controller.GetLoyaltyCardModels();
+
+        }
+
+        private void txt_visit_req_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void txt_visit_req_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            // Allow only whole numbers and backspace
+            if (!char.IsDigit(e.KeyChar) && e.KeyChar != (char)Keys.Back)
+                e.Handled = true;  // blocks decimals, letters, symbols
+        }
+
+        private void dgv_reward_services_CellClick(object sender, DataGridViewCellEventArgs e)
+        {
+            if (e.RowIndex < 0) return;
+
+
+            if (dgv_reward_services.Columns[e.ColumnIndex].Name == "col_reward_btn_remove") 
+            {
+                var model = dgv_reward_services.Rows[e.RowIndex].DataBoundItem as LoyaltyCardModel;
+                DeleteLoyaltyService(model.reward_id, model.serviceName);
+                LoadServiceRewards();
+            }
+            else if (dgv_reward_services.Columns[e.ColumnIndex].Name == "col_reward_update")
+            {
+                var model = dgv_reward_services.Rows[e.RowIndex].DataBoundItem as LoyaltyCardModel;
+
+                cmb_services.Hint = "";
+                lbl_reward_id.Text = model.reward_id.ToString();
+                cmb_services.SelectedValue = model.service_id;
+                txt_reward_description.Text = model.description;
+                txt_visit_req.Text = model.visit_required.ToString();
+
+                cmb_services.Hint = "Select Services";
+                btn_update_service_reward.Visible = true;
+                btn_add_service_reward.Visible = false;
+
+            }
+        }
+
+        private void materialTextBox1_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            // Allow only whole numbers and backspace
+            if (!char.IsDigit(e.KeyChar) && e.KeyChar != (char)Keys.Back)
+                e.Handled = true;  // blocks decimals, letters, symbols
+        }
+
+        private void btn_update_service_reward_Click(object sender, EventArgs e)
+        {
+            if (!IsLoyaltyValid()) return;
+
+            UpdateLoyaltyService();
+            reset();
+
+
+
+
+
+        }
+
+        private void reset() 
+        {
+
+            btn_add_service_reward.Visible = true;
+            btn_update_service_reward.Visible = false;
+            cmb_services.Hint = "";
+            cmb_services.SelectedIndex = -1;
+            cmb_services.Hint = "Select Services";
+            txt_visit_req.Text = string.Empty;
+            txt_reward_description.Text = string.Empty;
+
+        }
+        private void clear_reward_fields() 
+        {
+            cmb_services.Hint = "";
+            cmb_services.SelectedIndex = -1;
+            cmb_services.Hint = "Select Services";
+            txt_visit_req.Text = string.Empty;
+            txt_reward_description.Text = string.Empty;
+        }
+
+        private void dgv_reward_services_CellBorderStyleChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void btn_clear_reward_Click(object sender, EventArgs e)
+        {
+            int reward_id = Convert.ToInt32(lbl_reward_id.Text);
+            if (reward_id > 0)
+            {
+                reset();
+            }
+            else 
+            {
+                clear_reward_fields();
+            }
+        }
+
+        private void dgv_customer_CellFormatting(object sender, DataGridViewCellFormattingEventArgs e)
+        {
+            if (e.RowIndex < 0 || e.ColumnIndex < 0) return;
+            if (dgv_customer.Rows[e.RowIndex].IsNewRow) return;
+
+            if (dgv_customer.Columns[e.ColumnIndex].Name == "col_customer_card")
+            {
+                var cell = dgv_customer.Rows[e.RowIndex].Cells["col_customer_card_number"];
+                if (cell == null) return;  // ✔ only check if column exists, not value
+
+                bool hasCard = cell.Value != null &&
+                               !string.IsNullOrEmpty(cell.Value.ToString());
+
+                e.Value = hasCard ? "🎴 View" : "+ Create";
+            }
         }
     }
 }

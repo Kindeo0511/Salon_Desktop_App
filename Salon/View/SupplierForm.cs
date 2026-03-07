@@ -81,7 +81,7 @@ namespace Salon.View
             // validate email format first, then check if exists
             if (Validator.ValidateEmail(email, txt_email, errorProvider1))
             {
-                int deleted_supplier_id = IsSupplierExistsButDeleted(email);
+                int deleted_supplier_id = IsSupplierExistsButDeleted(supplierName, address, email, contact);
 
                 if (deleted_supplier_id > 0)
                 {
@@ -178,11 +178,11 @@ namespace Salon.View
             return controller.UpdateSupplier(supplierModel);
          
         }
-        public int IsSupplierExistsButDeleted(string email) 
+        public int IsSupplierExistsButDeleted(string name, string address, string email, string contact) 
         {
             var repo = new SupplierRepository();
             var controller = new SupplierController(repo);
-            int supplier_id = controller.GetEmail(email);
+            int supplier_id = controller.ExistingDeletedSupplier(name, address, email, contact);
 
             return supplier_id;
            

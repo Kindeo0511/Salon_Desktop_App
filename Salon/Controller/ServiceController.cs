@@ -78,5 +78,11 @@ namespace Salon.Controller
         {
             return repo.GetServiceAndCategory(name, id);
         }
+
+        // LOYALTYCARD
+        public IEnumerable<ServiceModel> LoadServicesByServiceAndId()
+        {
+            return repo.LoadServicesByServiceAndId();
+        }
     }
 }

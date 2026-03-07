@@ -20,6 +20,11 @@ namespace Salon.Controller
         {
             return repo.GetAllCustomers();
         }
+        public IEnumerable<CustomerModel> DisplayCustomer()
+        {
+            return repo.DisplayCustomer();
+        }
+
 
         public async Task<IEnumerable<CustomerModel>> RefreshCustomerAsync(int PageSize, int OffSet) 
         {

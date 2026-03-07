@@ -79,9 +79,9 @@ namespace Salon.Controller
         {
             return  _repo.UserExistsAsync(username, id);
         }
-        public int IsUserAccountExistsButDeactivated(string username, int id = 0)
+        public int IsUserAccountExistsButDeactivated(UsersModel model)
         {
-            return _repo.UserExistsButDeactivated(username, id);
+            return _repo.UserExistsButDeactivated(model);
         }
 
         public  bool GetUserEmailExistsAsync(string email, int id = 0)

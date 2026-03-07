@@ -18,8 +18,10 @@ namespace Salon.View
     public partial class SearchCustomerForm : MaterialForm
     {
         private AppointmentForm appointmentForm;
+        private CreateCustomerCard CustomerCard;
         private Walk_In_Form walk_in_form;
         private bool isWalkin;
+        private bool IsCustomerCard = false;
 
         public SearchCustomerForm(AppointmentForm appointmentForm)
         {
@@ -29,6 +31,7 @@ namespace Salon.View
             this.appointmentForm = appointmentForm;
             this.isWalkin = false;
         }
+      
         public SearchCustomerForm(Walk_In_Form walk_in_form, bool Is_Walkin)
         {
             InitializeComponent();
@@ -98,7 +101,7 @@ namespace Salon.View
                     {
                         walk_in_form.CustomerId = customer.customer_id.ToString();
                         walk_in_form.FullName = customer.fullName;
-                    }
+                    }                   
                     else
                     {
                         appointmentForm.CustomerId = customer.customer_id.ToString();

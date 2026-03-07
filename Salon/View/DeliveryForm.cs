@@ -469,12 +469,11 @@ namespace Salon.View
                 
                     if (exists)
                     {
-                        inventory_id = inventoryController.GetInventoryId(product_size_id);
-                        inventoryController.UpdateInventory(product_size_id, quantity, total_qty);
+                        inventory_id = inventoryController.GetInventoryId(product_size_id);     
                         var inv = inventoryController.GetInventory(inventory_id);
                         prevTotalRemaining = inv.total_remaining;
                         prevQty = inv.qty;
-                    inventoryController.UpdateInventory(product_size_id, quantity, total_qty);
+                        inventoryController.UpdateInventory(product_size_id, quantity, total_qty);
 
                      is_update = true;
                   
@@ -649,7 +648,7 @@ namespace Salon.View
                 row.Cells["product_id"].Value = cb_product_names.SelectedValue;
                 row.Cells["col_product_name"].Value = cb_product_names.Text;
                 row.Cells["col_qty"].Value = txt_qty.Text;
-                row.Cells["col_volume"].Value = cmb_product_size.Text;
+                row.Cells["col_product_size_id"].Value = cmb_product_size.SelectedValue;
                 row.Cells["col_price"].Value = txt_price.Text;
                 row.Cells["col_total"].Value = txt_price.Text;
                 row.Cells["col_delivered_date"].Value = dtp_delivery_date.Value.ToShortDateString();

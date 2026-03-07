@@ -294,6 +294,7 @@
     <Compile Include="Controller\InvoiceController.cs" />
     <Compile Include="Controller\InvoiceServiceCartController.cs" />
     <Compile Include="Controller\ItemController.cs" />
+    <Compile Include="Controller\LoyaltyCardController.cs" />
     <Compile Include="Controller\OverHeadController.cs" />
     <Compile Include="Controller\OwnerEmailController.cs" />
     <Compile Include="Controller\PaymentController.cs" />
@@ -361,6 +362,7 @@
     <Compile Include="Models\InvoiceRefundModel.cs" />
     <Compile Include="Models\InvoiceServicesCart.cs" />
     <Compile Include="Models\ItemModel.cs" />
+    <Compile Include="Models\LoyaltyCardModel.cs" />
     <Compile Include="Models\OtpEntryModel.cs" />
     <Compile Include="Models\OverHeadModel.cs" />
     <Compile Include="Models\OwnerEmaillModel.cs" />
@@ -455,6 +457,7 @@
     <Compile Include="Repository\I_InvoiceServiceCart.cs" />
     <Compile Include="Repository\I_Item.cs" />
     <Compile Include="Repository\I_PaymentMethod.cs" />
+    <Compile Include="Repository\LoyaltyCardRepository.cs" />
     <Compile Include="Repository\OverHeadRepository.cs" />
     <Compile Include="Repository\OwnderEmailRepository.cs" />
     <Compile Include="Repository\PaymentMethodRepository.cs" />
@@ -486,6 +489,7 @@
     <Compile Include="Util\Audit.cs" />
     <Compile Include="Util\DatabaseHelper.cs" />
     <Compile Include="Util\EmailMessage.cs" />
+    <Compile Include="Util\InputSanitizer.cs" />
     <Compile Include="Util\InventoryReportPdf.cs" />
     <Compile Include="Util\LoadingEmailScreen.cs" />
     <Compile Include="Util\NotificationService.cs" />
@@ -545,6 +549,12 @@
     </Compile>
     <Compile Include="View\ConfirmationBooking.Designer.cs">
       <DependentUpon>ConfirmationBooking.cs</DependentUpon>
+    </Compile>
+    <Compile Include="View\CreateCustomerCard.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="View\CreateCustomerCard.Designer.cs">
+      <DependentUpon>CreateCustomerCard.cs</DependentUpon>
     </Compile>
     <Compile Include="View\CustomAmountForm.cs">
       <SubType>Form</SubType>
@@ -834,6 +844,12 @@
     <Compile Include="View\UsersControl.Designer.cs">
       <DependentUpon>UsersControl.cs</DependentUpon>
     </Compile>
+    <Compile Include="View\ViewCustomerCard.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="View\ViewCustomerCard.Designer.cs">
+      <DependentUpon>ViewCustomerCard.cs</DependentUpon>
+    </Compile>
     <Compile Include="View\ViewDetailsForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -921,6 +937,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="View\ConfirmationBooking.resx">
       <DependentUpon>ConfirmationBooking.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="View\CreateCustomerCard.resx">
+      <DependentUpon>CreateCustomerCard.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="View\CustomAmountForm.resx">
       <DependentUpon>CustomAmountForm.cs</DependentUpon>
@@ -1066,6 +1085,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="View\UsersControl.resx">
       <DependentUpon>UsersControl.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="View\ViewCustomerCard.resx">
+      <DependentUpon>ViewCustomerCard.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="View\ViewDetailsForm.resx">
       <DependentUpon>ViewDetailsForm.cs</DependentUpon>

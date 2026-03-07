@@ -254,9 +254,8 @@ namespace Salon.Repository
         {
             using (var con = Database.GetConnection())
             { 
-                var sql = @" SELECT CASE WHEN EXISTS (SELECT 1 FROM tbl_inventory WHERE product_id = @productId)
-                            OR EXISTS (SELECT 1 FROM tbl_service_product WHERE product_id = @productId)
-                            THEN 1 ELSE 0 END";
+                var sql = @" SELECT CASE WHEN EXISTS (SELECT 1 FROM tbl_service_product WHERE product_id = @productId)
+            THEN 1 ELSE 0 END";
                 return con.ExecuteScalar<int>(sql, new { productId }) == 1; }
         }
         public bool ProductRetailIsUsed(int productId)

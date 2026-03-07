@@ -141,12 +141,16 @@ namespace Salon.Repository
                 return count > 0;
             }
         }
-        public int UserExistsButDeactivated(string username, int id = 0)
+        public int UserExistsButDeactivated(UsersModel model)
         {
             using (var con = Database.GetConnection())
             {
-                var sql = "SELECT user_id FROM tbl_users WHERE userName = @username AND user_id != @id AND is_deactivate = 1";
-                return con.ExecuteScalar<int>(sql, new { username, id });
+                var sql = @"
+                        SELECT user_id FROM tbl_users
+                        WHERE
+                        (phone_Number = @phone_Number OR email = @email OR userName = @userName) AND
+                        is_deactivate = 1";
+                return con.ExecuteScalar<int>(sql, model);
             }
         }
 
