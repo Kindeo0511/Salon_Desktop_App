@@ -291,7 +291,7 @@ namespace Salon.View
 
         private void ProductConsumptionForm_Load(object sender, EventArgs e)
         {
-
+            cmb_product.MouseWheel += Helper.ComboBox_MouseWheel;
         }
     }
 }

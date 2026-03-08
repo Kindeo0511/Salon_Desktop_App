@@ -709,7 +709,7 @@ namespace Salon.View
 
         private void UserForm_Load(object sender, EventArgs e)
         {
-          
+            cmb_role.MouseWheel += Helper.ComboBox_MouseWheel;
 
         }
         private void LoadRole() 

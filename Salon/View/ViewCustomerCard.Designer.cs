@@ -37,10 +37,15 @@
             this.lbl_created_at = new MaterialSkin.Controls.MaterialLabel();
             this.dgv_visit = new System.Windows.Forms.DataGridView();
             this.materialLabel5 = new MaterialSkin.Controls.MaterialLabel();
+            this.btn_stamp_card = new MaterialSkin.Controls.MaterialButton();
+            this.lbl_card_id = new MaterialSkin.Controls.MaterialLabel();
+            this.btn_new_card = new MaterialSkin.Controls.MaterialButton();
             this.col_service_name = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.col_service_id = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.col_visit_req = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.col_required = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.col_progress = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.col_action = new System.Windows.Forms.DataGridViewButtonColumn();
             ((System.ComponentModel.ISupportInitialize)(this.dgv_visit)).BeginInit();
             this.SuspendLayout();
             // 
@@ -153,9 +158,11 @@
             this.dgv_visit.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.DisableResizing;
             this.dgv_visit.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.col_service_name,
+            this.col_service_id,
             this.col_visit_req,
             this.col_required,
-            this.col_progress});
+            this.col_progress,
+            this.col_action});
             this.dgv_visit.EnableHeadersVisualStyles = false;
             this.dgv_visit.Location = new System.Drawing.Point(6, 333);
             this.dgv_visit.Name = "dgv_visit";
@@ -167,6 +174,8 @@
             this.dgv_visit.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
             this.dgv_visit.Size = new System.Drawing.Size(888, 191);
             this.dgv_visit.TabIndex = 19;
+            this.dgv_visit.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgv_visit_CellClick);
+            this.dgv_visit.CellFormatting += new System.Windows.Forms.DataGridViewCellFormattingEventHandler(this.dgv_visit_CellFormatting);
             // 
             // materialLabel5
             // 
@@ -181,6 +190,61 @@
             this.materialLabel5.TabIndex = 20;
             this.materialLabel5.Text = "VISIT PROGRESS";
             // 
+            // btn_stamp_card
+            // 
+            this.btn_stamp_card.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
+            this.btn_stamp_card.Density = MaterialSkin.Controls.MaterialButton.MaterialButtonDensity.Default;
+            this.btn_stamp_card.Depth = 0;
+            this.btn_stamp_card.HighEmphasis = true;
+            this.btn_stamp_card.Icon = null;
+            this.btn_stamp_card.Location = new System.Drawing.Point(75, 555);
+            this.btn_stamp_card.Margin = new System.Windows.Forms.Padding(4, 6, 4, 6);
+            this.btn_stamp_card.MouseState = MaterialSkin.MouseState.HOVER;
+            this.btn_stamp_card.Name = "btn_stamp_card";
+            this.btn_stamp_card.NoAccentTextColor = System.Drawing.Color.Empty;
+            this.btn_stamp_card.Size = new System.Drawing.Size(113, 36);
+            this.btn_stamp_card.TabIndex = 21;
+            this.btn_stamp_card.Text = "stamp card";
+            this.btn_stamp_card.Type = MaterialSkin.Controls.MaterialButton.MaterialButtonType.Contained;
+            this.btn_stamp_card.UseAccentColor = false;
+            this.btn_stamp_card.UseVisualStyleBackColor = true;
+            this.btn_stamp_card.Click += new System.EventHandler(this.btn_stamp_card_Click);
+            // 
+            // lbl_card_id
+            // 
+            this.lbl_card_id.AutoSize = true;
+            this.lbl_card_id.Depth = 0;
+            this.lbl_card_id.Font = new System.Drawing.Font("Roboto Medium", 20F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Pixel);
+            this.lbl_card_id.FontType = MaterialSkin.MaterialSkinManager.fontType.H6;
+            this.lbl_card_id.Location = new System.Drawing.Point(71, 78);
+            this.lbl_card_id.MouseState = MaterialSkin.MouseState.HOVER;
+            this.lbl_card_id.Name = "lbl_card_id";
+            this.lbl_card_id.Size = new System.Drawing.Size(12, 24);
+            this.lbl_card_id.TabIndex = 22;
+            this.lbl_card_id.Text = "0";
+            this.lbl_card_id.Visible = false;
+            // 
+            // btn_new_card
+            // 
+            this.btn_new_card.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
+            this.btn_new_card.Density = MaterialSkin.Controls.MaterialButton.MaterialButtonDensity.Default;
+            this.btn_new_card.Depth = 0;
+            this.btn_new_card.HighEmphasis = true;
+            this.btn_new_card.Icon = null;
+            this.btn_new_card.Location = new System.Drawing.Point(75, 555);
+            this.btn_new_card.Margin = new System.Windows.Forms.Padding(4, 6, 4, 6);
+            this.btn_new_card.MouseState = MaterialSkin.MouseState.HOVER;
+            this.btn_new_card.Name = "btn_new_card";
+            this.btn_new_card.NoAccentTextColor = System.Drawing.Color.Empty;
+            this.btn_new_card.Size = new System.Drawing.Size(95, 36);
+            this.btn_new_card.TabIndex = 23;
+            this.btn_new_card.Text = "new card";
+            this.btn_new_card.Type = MaterialSkin.Controls.MaterialButton.MaterialButtonType.Contained;
+            this.btn_new_card.UseAccentColor = false;
+            this.btn_new_card.UseVisualStyleBackColor = true;
+            this.btn_new_card.Visible = false;
+            this.btn_new_card.Click += new System.EventHandler(this.btn_new_card_Click);
+            // 
             // col_service_name
             // 
             this.col_service_name.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
@@ -188,6 +252,15 @@
             this.col_service_name.MinimumWidth = 6;
             this.col_service_name.Name = "col_service_name";
             this.col_service_name.ReadOnly = true;
+            // 
+            // col_service_id
+            // 
+            this.col_service_id.HeaderText = "service_id";
+            this.col_service_id.MinimumWidth = 6;
+            this.col_service_id.Name = "col_service_id";
+            this.col_service_id.ReadOnly = true;
+            this.col_service_id.Visible = false;
+            this.col_service_id.Width = 125;
             // 
             // col_visit_req
             // 
@@ -214,11 +287,25 @@
             this.col_progress.ReadOnly = true;
             this.col_progress.Width = 125;
             // 
+            // col_action
+            // 
+            this.col_action.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
+            this.col_action.HeaderText = "Redeem";
+            this.col_action.MinimumWidth = 6;
+            this.col_action.Name = "col_action";
+            this.col_action.ReadOnly = true;
+            this.col_action.UseColumnTextForButtonValue = true;
+            this.col_action.Visible = false;
+            this.col_action.Width = 64;
+            // 
             // ViewCustomerCard
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(120F, 120F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Dpi;
             this.ClientSize = new System.Drawing.Size(900, 600);
+            this.Controls.Add(this.btn_new_card);
+            this.Controls.Add(this.lbl_card_id);
+            this.Controls.Add(this.btn_stamp_card);
             this.Controls.Add(this.materialLabel5);
             this.Controls.Add(this.dgv_visit);
             this.Controls.Add(this.lbl_created_at);
@@ -250,9 +337,14 @@
         private MaterialSkin.Controls.MaterialLabel lbl_created_at;
         private System.Windows.Forms.DataGridView dgv_visit;
         private MaterialSkin.Controls.MaterialLabel materialLabel5;
+        private MaterialSkin.Controls.MaterialButton btn_stamp_card;
+        private MaterialSkin.Controls.MaterialLabel lbl_card_id;
+        private MaterialSkin.Controls.MaterialButton btn_new_card;
         private System.Windows.Forms.DataGridViewTextBoxColumn col_service_name;
+        private System.Windows.Forms.DataGridViewTextBoxColumn col_service_id;
         private System.Windows.Forms.DataGridViewTextBoxColumn col_visit_req;
         private System.Windows.Forms.DataGridViewTextBoxColumn col_required;
         private System.Windows.Forms.DataGridViewTextBoxColumn col_progress;
+        private System.Windows.Forms.DataGridViewButtonColumn col_action;
     }
 }

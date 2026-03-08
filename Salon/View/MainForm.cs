@@ -425,6 +425,8 @@ namespace Salon.View
             // colUnitPrice.DataPropertyName = "UnitPrice";
             // colLineTotal.DataPropertyName = "LineTotal";
 
+
+            cmb_services.MouseWheel += Helper.ComboBox_MouseWheel;
         }
 
 
@@ -2403,11 +2405,12 @@ namespace Salon.View
             //dgv_table_summary.DataSource = appointments;
         }
 
-        private void btn_add_appointment_Click(object sender, EventArgs e)
+        private async void btn_add_appointment_Click(object sender, EventArgs e)
         {
             using (var appointmentForm = new AppointmentForm(this))
             {
                 appointmentForm.ShowDialog();
+                await RefreshAppointmentAsync(currentPage, pageSize);
             }
         }
 
@@ -7438,6 +7441,12 @@ namespace Salon.View
             }
             LoadServiceRewards();
         }
+        private bool IsVisitRequiredExists(int visit_req)
+        {
+            var repo = new LoyaltyCardRepository();
+            var controller = new LoyaltyCardController(repo);
+            return controller.IsVisitIsVisitRequiredExists(visit_req);
+        }
         public void DeleteLoyaltyService(int id, string name)
         {
             var repo = new LoyaltyCardRepository();
@@ -7461,6 +7470,7 @@ namespace Salon.View
             bool validated = true;
             int exclude_id = string.IsNullOrEmpty(lbl_reward_id.Text) ? 0 : Convert.ToInt32(lbl_reward_id.Text);
             int service_id = cmb_services.SelectedValue != null ? Convert.ToInt32(cmb_services.SelectedValue) : 0;
+            int.TryParse(txt_visit_req.Text.Trim(), out int visit_req);
 
             if (string.IsNullOrEmpty(cmb_services.Text))
             {
@@ -7490,6 +7500,11 @@ namespace Salon.View
             if (string.IsNullOrEmpty(txt_visit_req.Text))
             {
                 errorProvider1.SetError(txt_visit_req, "Please enter the number of visits required.");
+                validated = false;
+            }
+            else if (IsVisitRequiredExists(visit_req))  // ✔ check duplicate visit required
+            {
+                errorProvider1.SetError(txt_visit_req, "Visit required already exists.");
                 validated = false;
             }
             else

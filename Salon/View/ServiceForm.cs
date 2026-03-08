@@ -503,7 +503,9 @@ namespace Salon.View
         private void ServiceForm_Load(object sender, EventArgs e)
         {
             //await RefreshServiceProductUsage();
-          
+            cmb_status.MouseWheel += Helper.ComboBox_MouseWheel;
+            cmb_sub_category.MouseWheel += Helper.ComboBox_MouseWheel;
+
         }
 
      

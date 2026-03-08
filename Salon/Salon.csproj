@@ -489,6 +489,7 @@
     <Compile Include="Util\Audit.cs" />
     <Compile Include="Util\DatabaseHelper.cs" />
     <Compile Include="Util\EmailMessage.cs" />
+    <Compile Include="Util\Helper.cs" />
     <Compile Include="Util\InputSanitizer.cs" />
     <Compile Include="Util\InventoryReportPdf.cs" />
     <Compile Include="Util\LoadingEmailScreen.cs" />

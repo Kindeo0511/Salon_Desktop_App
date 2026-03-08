@@ -172,7 +172,7 @@
             this.cmb_time_slot.MaxDropDownItems = 4;
             this.cmb_time_slot.MouseState = MaterialSkin.MouseState.OUT;
             this.cmb_time_slot.Name = "cmb_time_slot";
-            this.cmb_time_slot.Size = new System.Drawing.Size(809, 49);
+            this.cmb_time_slot.Size = new System.Drawing.Size(935, 49);
             this.cmb_time_slot.StartIndex = 0;
             this.cmb_time_slot.TabIndex = 65;
             this.cmb_time_slot.SelectedIndexChanged += new System.EventHandler(this.cmb_time_slot_SelectedIndexChanged);
@@ -429,7 +429,7 @@
             this.cmb_stylist.MaxDropDownItems = 4;
             this.cmb_stylist.MouseState = MaterialSkin.MouseState.OUT;
             this.cmb_stylist.Name = "cmb_stylist";
-            this.cmb_stylist.Size = new System.Drawing.Size(809, 49);
+            this.cmb_stylist.Size = new System.Drawing.Size(935, 49);
             this.cmb_stylist.StartIndex = 0;
             this.cmb_stylist.TabIndex = 59;
             // 
@@ -499,13 +499,14 @@
             this.cmb_subcategory.Hint = "Select Category";
             this.cmb_subcategory.IntegralHeight = false;
             this.cmb_subcategory.ItemHeight = 43;
-            this.cmb_subcategory.Location = new System.Drawing.Point(667, 447);
+            this.cmb_subcategory.Location = new System.Drawing.Point(569, 395);
             this.cmb_subcategory.MaxDropDownItems = 4;
             this.cmb_subcategory.MouseState = MaterialSkin.MouseState.OUT;
             this.cmb_subcategory.Name = "cmb_subcategory";
             this.cmb_subcategory.Size = new System.Drawing.Size(350, 49);
             this.cmb_subcategory.StartIndex = 0;
             this.cmb_subcategory.TabIndex = 55;
+            this.cmb_subcategory.Visible = false;
             // 
             // cmb_services
             // 
@@ -526,7 +527,7 @@
             this.cmb_services.MaxDropDownItems = 4;
             this.cmb_services.MouseState = MaterialSkin.MouseState.OUT;
             this.cmb_services.Name = "cmb_services";
-            this.cmb_services.Size = new System.Drawing.Size(350, 49);
+            this.cmb_services.Size = new System.Drawing.Size(935, 49);
             this.cmb_services.StartIndex = 0;
             this.cmb_services.TabIndex = 54;
             this.cmb_services.SelectedIndexChanged += new System.EventHandler(this.cmb_services_SelectedIndexChanged);
@@ -730,10 +731,10 @@
             this.rad_exists.MouseState = MaterialSkin.MouseState.HOVER;
             this.rad_exists.Name = "rad_exists";
             this.rad_exists.Ripple = true;
-            this.rad_exists.Size = new System.Drawing.Size(101, 37);
+            this.rad_exists.Size = new System.Drawing.Size(153, 37);
             this.rad_exists.TabIndex = 26;
             this.rad_exists.TabStop = true;
-            this.rad_exists.Text = "MEMBER";
+            this.rad_exists.Text = "Registered Client";
             this.rad_exists.UseVisualStyleBackColor = true;
             this.rad_exists.CheckedChanged += new System.EventHandler(this.rad_exists_CheckedChanged_1);
             // 
@@ -770,10 +771,10 @@
             this.rad_guest.MouseState = MaterialSkin.MouseState.HOVER;
             this.rad_guest.Name = "rad_guest";
             this.rad_guest.Ripple = true;
-            this.rad_guest.Size = new System.Drawing.Size(145, 37);
+            this.rad_guest.Size = new System.Drawing.Size(171, 37);
             this.rad_guest.TabIndex = 25;
             this.rad_guest.TabStop = true;
-            this.rad_guest.Text = "APPOINTMENT";
+            this.rad_guest.Text = "Guest Appointment";
             this.rad_guest.UseVisualStyleBackColor = true;
             this.rad_guest.CheckedChanged += new System.EventHandler(this.rad_guest_CheckedChanged_1);
             // 

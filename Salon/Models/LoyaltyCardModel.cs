@@ -27,7 +27,7 @@ namespace Salon.Models
 
         // VISIT PROGRESS MODEL
         public string service_name { get; set; }
-        public int visits { get; set; }
+        public int total_visits { get; set; }
         public int required { get; set; }
         public string progress { get; set; }
 

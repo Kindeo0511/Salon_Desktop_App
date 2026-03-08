@@ -760,5 +760,12 @@ namespace Salon.View
                 }
             }
         }
+
+        private void DeliveryForm_Load(object sender, EventArgs e)
+        {
+            cb_supplier_name.MouseWheel += Helper.ComboBox_MouseWheel;
+            cb_product_names.MouseWheel += Helper.ComboBox_MouseWheel;
+            cmb_product_size.MouseWheel += Helper.ComboBox_MouseWheel;
+        }
     }
 }

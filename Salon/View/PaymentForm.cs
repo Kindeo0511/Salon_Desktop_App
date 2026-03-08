@@ -1,4 +1,5 @@
-﻿using iText.StyledXmlParser.Jsoup.Safety;
+﻿using iText.Kernel.Geom;
+using iText.StyledXmlParser.Jsoup.Safety;
 using MaterialSkin.Controls;
 using Salon.Card;
 using Salon.Controller;
@@ -73,7 +74,7 @@ namespace Salon.View
 
                 string formattedStartTime = startTime.ToString("hh:mm tt");
                 string formattedEndTime = endTime.ToString("hh:mm tt");
-
+                lbl_customer_id.Text = model.CustomerId.ToString();
 
                 txt_name.Text = this.model.DisplayCustomerName;
                 lbl_Date.Text = model.AppointmentDate.ToString("yyyy-MM-dd");
@@ -84,9 +85,22 @@ namespace Salon.View
                 lbl_customer_type.Text = model.CustomerType.ToString();
                 lbl_book_type.Text = model.AppointmentType.ToString();
 
-                
 
-                _subtotal = Convert.ToDecimal(model.selling_price.ToString());
+                bool IsCustomerHaveCardNumber = IsCustomerHaveCustomerCard();
+
+                if (IsCustomerHaveCardNumber)
+                {
+                    btn_mark_service_as_free.Visible = true;
+                    btn_view_customer_card.Visible = true;
+                }
+                else 
+                {
+                    btn_mark_service_as_free.Visible = false;
+                    btn_view_customer_card.Visible = false;
+                }
+
+
+                    _subtotal = Convert.ToDecimal(model.selling_price.ToString());
                 
                 invoice_id = GetInvoiceId(this.model.AppointmentId);
 
@@ -208,23 +222,23 @@ namespace Salon.View
             dgv_product.DataSource = productItems;
 
 
-            if (productItems.Count == 0)
-            {
-                flowLayoutPanel1.Height = 620;
-                dgv_product.Height = 0;
+            //if (productItems.Count == 0)
+            //{
+            //    flowLayoutPanel1.Height = 620;
+            //    dgv_product.Height = 0;
                
-                product_panel.Height = 0;
-                lbl_products_label.Visible = false;
-            }
-            else
-            {
+            //    product_panel.Height = 0;
+            //    lbl_products_label.Visible = false;
+            //}
+            //else
+            //{
 
-                lbl_products_label.Visible = true;
-                dgv_product.Visible = true;
-                product_panel.Visible = true;
-                dgv_product.Height = 250;
-                product_panel.Height = 250;
-            }
+            //    lbl_products_label.Visible = true;
+            //    dgv_product.Visible = true;
+            //    product_panel.Visible = true;
+            //    dgv_product.Height = 250;
+            //    product_panel.Height = 250;
+            //}
             
             summaryItem.Clear();
             foreach (var item in services)
@@ -730,13 +744,23 @@ namespace Salon.View
             foreach (var item in summaryItem)
             {
                 invoice_service_controller.UpdateServiceInInvoiceCart(item);
+
+                if (item.IsFreeReward) 
+                {
+
+                    var card_repo = new LoyaltyCardRepository();
+                    var card_controller = new LoyaltyCardController(card_repo);
+                    var card = card_controller.GetCardByCustomerId(model.CustomerId ?? 0);
+
+                    if (card != null)
+                        card_controller.RedeemFreeService(card.card_id, item.ServiceId ?? 0);
+                }
             }
             //AddTransactions(model.AppointmentId, _vatAmount, _discountAmount, _subtotal, totalAmount, cmb_payment_method.SelectedItem.ToString(),, "Paid", DateTime.Now);
             appointment.UpdateAppointmentPayment(model.AppointmentId, "Paid", "Completed");
-            UpdateCustomerLoyaltyPoints();
-            UpdateMemberPoints();
+      
 
-
+           
 
             RefreshData?.Invoke(this, EventArgs.Empty);
             Audit.AuditLog(
@@ -1448,19 +1472,19 @@ namespace Salon.View
         {
             if (e.RowIndex < 0) return;
 
-          
 
-            if (e.RowIndex >= 0 && dgv_table.Columns[e.ColumnIndex].Name == "col_btn_apply_discount") 
+
+            if (e.RowIndex >= 0 && dgv_table.Columns[e.ColumnIndex].Name == "col_btn_apply_discount")
             {
                 var service = dgv_table.Rows[e.RowIndex].DataBoundItem as ServiceCart;
 
-                if (service.HasDiscountApplied) 
+                if (service.HasDiscountApplied)
                 {
                     MessageBox.Show("Discount already applied to this service."); return;
                 }
 
                 if (OverallDiscountApplied)
-                { 
+                {
                     MessageBox.Show("A discount has already been applied. Only one discount is allowed per transaction.");
                     return;
                 }
@@ -1479,7 +1503,7 @@ namespace Salon.View
                         decimal discountAmount = 0m;
                         decimal finalPrice = service.Price;
 
-                         if (discountForm.isVatExempt)
+                        if (discountForm.isVatExempt)
                         {
                             service.IsVatExempt = discountForm.isVatExempt;
                             service.HasDiscountApplied = true;
@@ -1494,7 +1518,7 @@ namespace Salon.View
                             discountAppliedAlready = true;
 
                         }
-                        else if(discountForm.fixedDiscount > 0)
+                        else if (discountForm.fixedDiscount > 0)
                         {
                             service.HasDiscountApplied = true;
                             service.DiscountedQty = discountForm.discountedQty;
@@ -1521,14 +1545,17 @@ namespace Salon.View
                             discountAppliedAlready = true;
 
                         }
-                        
 
-                            RecalculateSummary();
+
+                        RecalculateSummary();
                         dgv_table.Refresh();
-                       
+
                     }
                 }
             }
+           
+
+            
         }
 
         private void btn_clear_Click_1(object sender, EventArgs e)
@@ -1603,6 +1630,118 @@ namespace Salon.View
                 }
 
             }
+        }
+
+        private void dgv_table_CellContentClick_1(object sender, DataGridViewCellEventArgs e)
+        {
+
+        }
+        private bool ShowMarkAsFreeButton() 
+        {
+            var repo = new LoyaltyCardRepository();
+            var controller = new LoyaltyCardController(repo);
+            bool IsFree = controller.ShowButtonIfFree(model.CustomerId ?? 0);
+
+            return IsFree;
+
+
+        }
+        private void btn_mark_service_as_free_Click(object sender, EventArgs e)
+        {
+
+
+            // ✔ Check if a row is selected
+            if (dgv_table.SelectedRows.Count == 0)
+            {
+                MessageBox.Show("Please select a service to mark as free.",
+                    "Warning", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
+
+
+            // ✔ Get selected index
+            int selectedIndex = dgv_table.SelectedRows[0].Index;
+            var selectedItem = summaryItem[selectedIndex];
+
+            // ✔ Check if already free
+            if (selectedItem.IsFreeReward)
+            {
+                MessageBox.Show("This service is already free.",
+                    "Warning", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
+
+            // ✔ Get ALL redeemable services
+            var repo = new LoyaltyCardRepository();
+            var controller = new LoyaltyCardController(repo);
+            var redeemableList = controller.RedeemAllFreeServices(model.CustomerId ?? 0);
+
+            if (!redeemableList.Any())
+            {
+                MessageBox.Show("No redeemable milestone found for this customer.",
+                    "Warning", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
+
+            // ✔ Check if selected service is in redeemable list
+            var matched = redeemableList.FirstOrDefault(r => r.service_id == selectedItem.ServiceId);
+
+            if (matched == null)
+            {
+                // Show all redeemable services in message
+                var serviceNames = string.Join(", ", redeemableList.Select(r => r.service_name));
+                MessageBox.Show(
+                    $"You can only mark the following services as free:" +
+                    $"\n\n{serviceNames}",
+                    "Invalid Service",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Warning);
+                return;
+            }
+
+
+            var result = MessageBox.Show(
+               $"Mark {selectedItem.ItemName} as free?",
+               "Mark as Free",
+               MessageBoxButtons.YesNo,
+               MessageBoxIcon.Question);
+
+            if (result == DialogResult.Yes)
+            {
+                selectedItem.HasDiscountApplied = true;
+                selectedItem.IsFreeReward = true;
+                selectedItem.DiscountedQty = 1;
+                selectedItem.DiscountPercent = 100;
+                selectedItem.DiscountAmount = selectedItem.Price * (100 / 100m) * selectedItem.DiscountedQty;
+
+                RecalculateSummary();
+                dgv_table.Refresh();
+            }
+
+
+        }
+
+        private void btn_view_customer_card_Click(object sender, EventArgs e)
+        {
+            int customer_id = Convert.ToInt32(lbl_customer_id.Text);
+
+
+            using (var form = new ViewCustomerCard(customer_id))
+            {
+                form.ShowDialog();
+            }
+        }
+
+        public bool IsCustomerHaveCustomerCard() 
+        {
+            var repo = new LoyaltyCardRepository();
+            var controller = new LoyaltyCardController(repo);
+
+            int customer_id = Convert.ToInt32(lbl_customer_id.Text);
+
+            return controller.IsCustomerHaveCardNumber(customer_id);
+
+
         }
 
 

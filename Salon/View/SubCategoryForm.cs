@@ -278,5 +278,10 @@ namespace Salon.View
             // Block everything else
             e.Handled = true;
         }
+
+        private void SubCategoryForm_Load(object sender, EventArgs e)
+        {
+            cmb_category.MouseWheel += Helper.ComboBox_MouseWheel;
+        }
     }
 }

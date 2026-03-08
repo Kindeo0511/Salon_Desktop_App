@@ -181,7 +181,7 @@
             this.cb_supplier_name.Hint = "Select Supplier";
             this.cb_supplier_name.IntegralHeight = false;
             this.cb_supplier_name.ItemHeight = 43;
-            this.cb_supplier_name.Location = new System.Drawing.Point(48, 116);
+            this.cb_supplier_name.Location = new System.Drawing.Point(48, 119);
             this.cb_supplier_name.MaxDropDownItems = 4;
             this.cb_supplier_name.MouseState = MaterialSkin.MouseState.OUT;
             this.cb_supplier_name.Name = "cb_supplier_name";
@@ -204,7 +204,7 @@
             this.cb_product_names.Hint = "Select Product";
             this.cb_product_names.IntegralHeight = false;
             this.cb_product_names.ItemHeight = 43;
-            this.cb_product_names.Location = new System.Drawing.Point(48, 199);
+            this.cb_product_names.Location = new System.Drawing.Point(48, 202);
             this.cb_product_names.MaxDropDownItems = 4;
             this.cb_product_names.MouseState = MaterialSkin.MouseState.OUT;
             this.cb_product_names.Name = "cb_product_names";
@@ -329,7 +329,7 @@
             this.cmb_product_size.Hint = "Select Product Size";
             this.cmb_product_size.IntegralHeight = false;
             this.cmb_product_size.ItemHeight = 43;
-            this.cmb_product_size.Location = new System.Drawing.Point(48, 293);
+            this.cmb_product_size.Location = new System.Drawing.Point(48, 296);
             this.cmb_product_size.MaxDropDownItems = 4;
             this.cmb_product_size.MouseState = MaterialSkin.MouseState.OUT;
             this.cmb_product_size.Name = "cmb_product_size";
@@ -608,6 +608,7 @@
             this.Sizable = false;
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "DELIVERY INFORMATION";
+            this.Load += new System.EventHandler(this.DeliveryForm_Load);
             this.materialCard1.ResumeLayout(false);
             this.materialCard1.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgv_Items)).EndInit();

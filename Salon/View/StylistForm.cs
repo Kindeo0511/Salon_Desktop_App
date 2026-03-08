@@ -170,13 +170,13 @@ namespace Salon.View
             var stylistController = new Controller.StylistController(repo);
             var stylist = new StylistModel 
             {
-                firstName = txt_first_name.Text,
-                middleName = txt_middle_name.Text,
-                lastName = txt_last_name.Text,
+                firstName = txt_first_name.Text.Trim(),
+                middleName = txt_middle_name.Text.Trim(),
+                lastName = txt_last_name.Text.Trim(),
                 birth_date = dtp_day_of_birth.Value,
-                contactNumber = txt_contact.Text,
-                email = txt_email.Text,
-                address = txt_address.Text,
+                contactNumber = txt_contact.Text.Trim(),
+                email = txt_email.Text.Trim(),
+                address = txt_address.Text.Trim(),
      
                 
                 };
@@ -192,13 +192,13 @@ namespace Salon.View
             if (_stylist == null) return false;
 
             
-            _stylist.firstName = txt_first_name.Text;
-            _stylist.middleName = txt_middle_name.Text;
-            _stylist.lastName = txt_last_name.Text;
+            _stylist.firstName = txt_first_name.Text.Trim();
+            _stylist.middleName = txt_middle_name.Text.Trim();
+            _stylist.lastName = txt_last_name.Text.Trim();
             _stylist.birth_date = dtp_day_of_birth.Value;
-            _stylist.contactNumber = txt_contact.Text;
-            _stylist.email = txt_email.Text;
-            _stylist.address = txt_address.Text;
+            _stylist.contactNumber = txt_contact.Text.Trim();
+            _stylist.email = txt_email.Text.Trim();
+            _stylist.address = txt_address.Text.Trim();
 
 
             var repo = new StylistRepository();
@@ -718,5 +718,33 @@ namespace Salon.View
             e.Handled = true;
         }
 
+        private void txt_first_name_KeyPress_1(object sender, KeyPressEventArgs e)
+        {
+            if (!char.IsLetter(e.KeyChar) && !char.IsControl(e.KeyChar) && e.KeyChar != ' ' && e.KeyChar != '.')
+            {
+                e.Handled = true;
+            }
+        }
+
+        private void txt_middle_name_TextChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void txt_middle_name_KeyPress_1(object sender, KeyPressEventArgs e)
+        {
+            if (!char.IsLetter(e.KeyChar) && !char.IsControl(e.KeyChar) && e.KeyChar != ' ' && e.KeyChar != '.')
+            {
+                e.Handled = true;
+            }
+        }
+
+        private void txt_last_name_KeyPress_1(object sender, KeyPressEventArgs e)
+        {
+            if (!char.IsLetter(e.KeyChar) && !char.IsControl(e.KeyChar) && e.KeyChar != ' ' && e.KeyChar != '.')
+            {
+                e.Handled = true;
+            }
+        }
     }
 }

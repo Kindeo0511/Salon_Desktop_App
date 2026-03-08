@@ -940,6 +940,10 @@ namespace Salon.View
             ThemeManager.StyleDataGridView(dgv_available_services);
             ThemeManager.StyleDataGridView(dgv_service_selected);
 
+            cmb_services.MouseWheel += Helper.ComboBox_MouseWheel;
+            cmb_stylist.MouseWheel += Helper.ComboBox_MouseWheel;
+            cmb_time_slot.MouseWheel += Helper.ComboBox_MouseWheel;
+
             dgv_available_services.CellValueChanged += dgv_available_services_CellValueChanged;
             dgv_available_services.CurrentCellDirtyStateChanged += dgv_available_services_CurrentCellDirtyStateChanged;
             LoadServicesForAutocomplete();
@@ -1154,13 +1158,22 @@ namespace Salon.View
 
             mainForm.LoadWalkIn();
             mainForm.LoadAppointments();
+           
         }
 
         private void btn_confirm_Click(object sender, EventArgs e)
         {
+            if (!IsAppointmentValid())
+            {
+                MessageBox.Show("Please fill in all required fields before proceeding.",
+                                "Validation Error",
+                                MessageBoxButtons.OK,
+                                MessageBoxIcon.Warning);
+                return;
+            }
             SaveAppointment();
             MessageBox.Show("Appointment saved successfully!", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
-        
+
             this.Close();
 
        
@@ -1198,7 +1211,10 @@ namespace Salon.View
 
         private void rad_exists_CheckedChanged_1(object sender, EventArgs e)
         {
-
+            if (rad_exists.Checked) 
+            {
+                txt_FullName.Text = string.Empty;
+            }
         }
 
         private void btn_search_Click(object sender, EventArgs e)
@@ -1395,6 +1411,77 @@ namespace Salon.View
                 );
 
         }
+
+        private bool IsAppointmentValid() 
+        {
+            bool validated = true;
+
+            
+            if (string.IsNullOrEmpty(cmb_services.Text))
+            {
+                errorProvider1.SetError(cmb_services, "Please select a service");
+                validated = false;
+            }
+            else 
+            {
+                errorProvider1.SetError(cmb_services, "");
+            }
+
+            if (string.IsNullOrEmpty(cmb_stylist.Text))
+            {
+                errorProvider1.SetError(cmb_stylist, "Please select a stylist");
+                validated = false;
+            }
+            else
+            {
+                errorProvider1.SetError(cmb_stylist, "");
+            }
+
+            if (!rad_exists.Checked && !rad_guest.Checked)
+            {
+                errorProvider1.SetError(rad_exists, "Please select a client type");
+                errorProvider1.SetError(rad_guest, "Please select a client type");
+                validated = false;
+            }
+            else
+            {
+                errorProvider1.SetError(rad_exists, "");
+                errorProvider1.SetError(rad_guest, "");
+
+            }
+
+            if (rad_exists.Checked)
+            {
+                if (string.IsNullOrEmpty(txt_FullName.Text))
+                {
+                    errorProvider1.SetError(txt_FullName, "Please select a client");
+                    validated = false; 
+                }
+                else
+                {
+                    errorProvider1.SetError(txt_FullName, ""); 
+                }
+            }
+            else
+            {
+                errorProvider1.SetError(txt_FullName, ""); 
+            }
+
+
+            if (string.IsNullOrEmpty(cmb_time_slot.Text))
+            {
+                errorProvider1.SetError(cmb_time_slot, "Please select a time slot");
+                validated = false;
+            }
+            else
+            {
+                errorProvider1.SetError(cmb_time_slot, "");
+            }
+
+
+
+            return validated;
+        }
         private void btn_add_service_Click(object sender, EventArgs e)
         {
             //  string stylistAvailability = Stylist_Is_Available()
@@ -1412,25 +1499,9 @@ namespace Salon.View
                 return;
             }
 
-            if (string.IsNullOrEmpty(cmb_services.Text))
-            {
-                MessageBox.Show("Please select a service.",
-                                "Service Not Selected", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+            if (!IsAppointmentValid()) return;
 
-                return;
-            }
-            if (string.IsNullOrEmpty(cmb_stylist.Text))
-            {
-                MessageBox.Show("Please select a stylist.",
-                                "Stylist Not Selected", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                return;
-            }
-            if (string.IsNullOrEmpty(cmb_time_slot.Text))
-            {
-                MessageBox.Show("Please select a time slot.",
-                                "Timeslot Not Selected", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                return;
-            }
+
 
             // Get the selected service ID
             var selectedServiceId = cmb_services.SelectedValue;

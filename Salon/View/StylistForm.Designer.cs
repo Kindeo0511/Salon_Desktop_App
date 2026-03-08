@@ -168,6 +168,7 @@
             this.txt_first_name.Name = "txt_first_name";
             this.txt_first_name.Size = new System.Drawing.Size(450, 30);
             this.txt_first_name.TabIndex = 34;
+            this.txt_first_name.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txt_first_name_KeyPress_1);
             // 
             // materialLabel3
             // 
@@ -191,6 +192,8 @@
             this.txt_middle_name.Name = "txt_middle_name";
             this.txt_middle_name.Size = new System.Drawing.Size(450, 30);
             this.txt_middle_name.TabIndex = 36;
+            this.txt_middle_name.TextChanged += new System.EventHandler(this.txt_middle_name_TextChanged);
+            this.txt_middle_name.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txt_middle_name_KeyPress_1);
             // 
             // materialLabel4
             // 
@@ -214,6 +217,7 @@
             this.txt_last_name.Name = "txt_last_name";
             this.txt_last_name.Size = new System.Drawing.Size(450, 30);
             this.txt_last_name.TabIndex = 38;
+            this.txt_last_name.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txt_last_name_KeyPress_1);
             // 
             // materialLabel5
             // 

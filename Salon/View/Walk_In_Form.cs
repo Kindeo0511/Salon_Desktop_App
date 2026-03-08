@@ -249,6 +249,7 @@ namespace Salon.View
             {
                 appointmentModel = new AppointmentModel
                 {
+                    CustomerId = Convert.ToInt32(lbl_ID.Text),
                     CustomerName = lbl_prefix.Text,
                     StylistId = Convert.ToInt32(cmb_stylist.SelectedValue),
                     AppointmentDate = DateTime.Now,
@@ -502,6 +503,15 @@ namespace Salon.View
 
         private void btn_save_Click(object sender, EventArgs e)
         {
+            if (!IsAppointmentValid())
+            {
+                MessageBox.Show("Please fill in all required fields before proceeding.",
+                                "Validation Error",
+                                MessageBoxButtons.OK,
+                                MessageBoxIcon.Warning);
+                return;
+            }
+
             SaveWalkIn();
             MessageBox.Show("Walk-In appointment saved successfully!", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
             _mainForm.LoadWalkIn();
@@ -558,12 +568,85 @@ namespace Salon.View
         {
             
         }
+        private bool IsAppointmentValid()
+        {
+            bool validated = true;
+
+
+            if (string.IsNullOrEmpty(cmb_services.Text))
+            {
+                errorProvider1.SetError(cmb_services, "Please select a service");
+                validated = false;
+            }
+            else
+            {
+                errorProvider1.SetError(cmb_services, "");
+            }
+
+            if (string.IsNullOrEmpty(cmb_stylist.Text))
+            {
+                errorProvider1.SetError(cmb_stylist, "Please select a stylist");
+                validated = false;
+            }
+            else
+            {
+                errorProvider1.SetError(cmb_stylist, "");
+            }
+
+            if (!rad_exists.Checked && !rad_guest.Checked)
+            {
+                errorProvider1.SetError(rad_exists, "Please select a client type");
+                errorProvider1.SetError(rad_guest, "Please select a client type");
+                validated = false;
+            }
+            else
+            {
+                errorProvider1.SetError(rad_exists, "");
+                errorProvider1.SetError(rad_guest, "");
+
+            }
+
+            if (rad_exists.Checked)
+            {
+                if (string.IsNullOrEmpty(lbl_prefix.Text))
+                {
+                    errorProvider1.SetError(lbl_prefix, "Please select a client");
+                    validated = false;
+                }
+                else
+                {
+                    errorProvider1.SetError(lbl_prefix, "");
+                }
+            }
+            else
+            {
+                errorProvider1.SetError(lbl_prefix, "");
+            }
+
+
+          
+
+            return validated;
+        }
         private void btn_add_service_Click_1(object sender, EventArgs e)
         {
             string stylistAvailability = Stylist_Is_Available()
             ? "Ready to Start"
             : "Busy";
 
+            int serviceId = Convert.ToInt32(cmb_services.SelectedValue);
+
+            // Validate stock first
+            if (!CheckInventoryIngredientStock(serviceId))
+            {
+                // Show detailed shortages
+                CheckProductStockForSelectedServices(serviceId);
+
+                // Block adding the row
+                return;
+            }
+
+            if (!IsAppointmentValid()) return;
 
             if (string.IsNullOrEmpty(cmb_services.Text)) 
             {
@@ -663,6 +746,7 @@ namespace Salon.View
         {
             if (rad_exists.Checked)
             {
+                lbl_prefix.Text = "";
                 btn_search.Enabled = true;
             }
             else 
@@ -802,6 +886,78 @@ namespace Salon.View
         private void Walk_In_Form_Load(object sender, EventArgs e)
         {
             ThemeManager.StyleDataGridView(dgv_service_selected);
+
+            cmb_services.MouseWheel += ComboBox_MouseWheel;
+            cmb_stylist.MouseWheel += ComboBox_MouseWheel;
+            cmb_subcategory.MouseWheel += ComboBox_MouseWheel;
+        }
+
+        public bool CheckInventoryIngredientStock(int serviceId)
+        {
+            var inventoryRepo = new InventoryRepository();
+            var inventoryController = new InventoryController(inventoryRepo);
+
+            var usageRepo = new ServiceProductUsageRepository();
+            var usageController = new ServiceProductUsageController(usageRepo);
+
+            var ingredients = usageController.GetServiceProductUsage(serviceId);
+
+            foreach (var ing in ingredients)
+            {
+                var stock = inventoryController.GetStockByProductSize(ing.product_id);
+                if (stock < ing.qty_required)
+                {
+                    return false; // insufficient
+                }
+            }
+
+            return true; // all sufficient
+        }
+
+        private void CheckProductStockForSelectedServices(int serviceId)
+        {
+            var inventoryRepo = new InventoryRepository();
+            var inventoryController = new InventoryController(inventoryRepo);
+
+            var usageRepo = new ServiceProductUsageRepository();
+            var usageController = new ServiceProductUsageController(usageRepo);
+
+            var ingredients = usageController.GetServiceProductUsage(serviceId);
+
+            var shortages = new List<string>();
+
+            foreach (var ing in ingredients)
+            {
+                var stock = inventoryController.GetStockByProductSize(ing.product_id);
+                if (stock < ing.qty_required)
+                {
+                    shortages.Add($"{ing.product_name} ({ing.size_label}) - Required: {ing.qty_required}, Available: {stock}");
+                }
+            }
+
+            if (shortages.Any())
+            {
+                MessageBox.Show("Insufficient stock:\n" + string.Join("\n", shortages),
+                                "Stock Check",
+                                MessageBoxButtons.OK,
+                                MessageBoxIcon.Warning);
+            }
+            else
+            {
+                MessageBox.Show("All ingredients have sufficient stock.",
+                                "Stock Check",
+                                MessageBoxButtons.OK,
+                                MessageBoxIcon.Information);
+            }
+        }
+
+        private void btn_cancel_Click(object sender, EventArgs e)
+        {
+            this.Close();
+        }
+        private void ComboBox_MouseWheel(object sender, MouseEventArgs e)
+        {
+            ((HandledMouseEventArgs)e).Handled = true;
         }
     }
 }

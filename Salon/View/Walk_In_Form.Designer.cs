@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Walk_In_Form));
             this.materialCard1 = new MaterialSkin.Controls.MaterialCard();
             this.lbl_ID = new MaterialSkin.Controls.MaterialLabel();
@@ -62,9 +63,11 @@
             this.btn_save = new MaterialSkin.Controls.MaterialButton();
             this.cmb_subcategory = new MaterialSkin.Controls.MaterialComboBox();
             this.cmb_services = new MaterialSkin.Controls.MaterialComboBox();
-            this.lbl_prefix = new MaterialSkin.Controls.MaterialLabel();
+            this.errorProvider1 = new System.Windows.Forms.ErrorProvider(this.components);
+            this.lbl_prefix = new System.Windows.Forms.TextBox();
             this.materialCard1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgv_service_selected)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.errorProvider1)).BeginInit();
             this.SuspendLayout();
             // 
             // materialCard1
@@ -72,6 +75,7 @@
             this.materialCard1.AutoScroll = true;
             this.materialCard1.AutoScrollMargin = new System.Drawing.Size(0, 25);
             this.materialCard1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
+            this.materialCard1.Controls.Add(this.lbl_prefix);
             this.materialCard1.Controls.Add(this.lbl_ID);
             this.materialCard1.Controls.Add(this.btn_search);
             this.materialCard1.Controls.Add(this.btn_register_customer);
@@ -92,7 +96,6 @@
             this.materialCard1.Controls.Add(this.btn_save);
             this.materialCard1.Controls.Add(this.cmb_subcategory);
             this.materialCard1.Controls.Add(this.cmb_services);
-            this.materialCard1.Controls.Add(this.lbl_prefix);
             this.materialCard1.Depth = 0;
             this.materialCard1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.materialCard1.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(222)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
@@ -112,8 +115,9 @@
             this.lbl_ID.Location = new System.Drawing.Point(40, 30);
             this.lbl_ID.MouseState = MaterialSkin.MouseState.HOVER;
             this.lbl_ID.Name = "lbl_ID";
-            this.lbl_ID.Size = new System.Drawing.Size(1, 0);
+            this.lbl_ID.Size = new System.Drawing.Size(10, 19);
             this.lbl_ID.TabIndex = 57;
+            this.lbl_ID.Text = "0";
             this.lbl_ID.Visible = false;
             // 
             // btn_search
@@ -375,7 +379,7 @@
             this.btn_update.Depth = 0;
             this.btn_update.HighEmphasis = true;
             this.btn_update.Icon = null;
-            this.btn_update.Location = new System.Drawing.Point(17, 1158);
+            this.btn_update.Location = new System.Drawing.Point(30, 1178);
             this.btn_update.Margin = new System.Windows.Forms.Padding(4, 6, 4, 6);
             this.btn_update.MouseState = MaterialSkin.MouseState.HOVER;
             this.btn_update.Name = "btn_update";
@@ -510,6 +514,7 @@
             this.btn_cancel.Type = MaterialSkin.Controls.MaterialButton.MaterialButtonType.Contained;
             this.btn_cancel.UseAccentColor = false;
             this.btn_cancel.UseVisualStyleBackColor = true;
+            this.btn_cancel.Click += new System.EventHandler(this.btn_cancel_Click);
             // 
             // btn_save_and_add_another
             // 
@@ -540,7 +545,7 @@
             this.btn_save.Depth = 0;
             this.btn_save.HighEmphasis = true;
             this.btn_save.Icon = null;
-            this.btn_save.Location = new System.Drawing.Point(17, 1178);
+            this.btn_save.Location = new System.Drawing.Point(30, 1178);
             this.btn_save.Margin = new System.Windows.Forms.Padding(4, 6, 4, 6);
             this.btn_save.MouseState = MaterialSkin.MouseState.HOVER;
             this.btn_save.Name = "btn_save";
@@ -603,17 +608,19 @@
             this.cmb_services.SelectedIndexChanged += new System.EventHandler(this.cmb_services_SelectedIndexChanged);
             this.cmb_services.SelectedValueChanged += new System.EventHandler(this.cmb_services_SelectedValueChanged);
             // 
+            // errorProvider1
+            // 
+            this.errorProvider1.BlinkStyle = System.Windows.Forms.ErrorBlinkStyle.NeverBlink;
+            this.errorProvider1.ContainerControl = this;
+            // 
             // lbl_prefix
             // 
-            this.lbl_prefix.AutoSize = true;
-            this.lbl_prefix.Depth = 0;
-            this.lbl_prefix.Font = new System.Drawing.Font("Roboto", 24F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Pixel);
-            this.lbl_prefix.FontType = MaterialSkin.MaterialSkinManager.fontType.H5;
-            this.lbl_prefix.Location = new System.Drawing.Point(301, 49);
-            this.lbl_prefix.MouseState = MaterialSkin.MouseState.HOVER;
+            this.lbl_prefix.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.lbl_prefix.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lbl_prefix.Location = new System.Drawing.Point(282, 49);
             this.lbl_prefix.Name = "lbl_prefix";
-            this.lbl_prefix.Size = new System.Drawing.Size(1, 0);
-            this.lbl_prefix.TabIndex = 0;
+            this.lbl_prefix.Size = new System.Drawing.Size(340, 30);
+            this.lbl_prefix.TabIndex = 58;
             // 
             // Walk_In_Form
             // 
@@ -634,6 +641,7 @@
             this.materialCard1.ResumeLayout(false);
             this.materialCard1.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgv_service_selected)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.errorProvider1)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -641,7 +649,6 @@
         #endregion
 
         private MaterialSkin.Controls.MaterialCard materialCard1;
-        private MaterialSkin.Controls.MaterialLabel lbl_prefix;
         private MaterialSkin.Controls.MaterialComboBox cmb_subcategory;
         private MaterialSkin.Controls.MaterialComboBox cmb_services;
         private MaterialSkin.Controls.MaterialComboBox cmb_stylist;
@@ -674,5 +681,7 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn col_status;
         private System.Windows.Forms.DataGridViewButtonColumn btn_mark_as_waiting;
         private System.Windows.Forms.DataGridViewImageColumn btn_remove;
+        private System.Windows.Forms.ErrorProvider errorProvider1;
+        private System.Windows.Forms.TextBox lbl_prefix;
     }
 }

@@ -684,6 +684,7 @@ namespace Salon.View
         private void ProductForm_Load(object sender, EventArgs e)
         {
             ThemeManager.StyleDataGridView(dgv_product_size);
+            cmb_unit_type.MouseWheel += Helper.ComboBox_MouseWheel;
         }
 
         private void btn_add_size_Click(object sender, EventArgs e)
