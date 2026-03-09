@@ -33,13 +33,13 @@
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle4 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle5 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle6 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle7 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle8 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle9 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle10 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle4 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle5 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle6 = new System.Windows.Forms.DataGridViewCellStyle();
             this.materialTabControl1 = new MaterialSkin.Controls.MaterialTabControl();
             this.dashboardTab = new System.Windows.Forms.TabPage();
             this.tableLayoutPanel2 = new System.Windows.Forms.TableLayoutPanel();
@@ -299,10 +299,36 @@
             this.tableLayoutPanel5 = new System.Windows.Forms.TableLayoutPanel();
             this.panel8 = new System.Windows.Forms.Panel();
             this.dgv_walk_in = new System.Windows.Forms.DataGridView();
+            this.col_walk_in_id = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.col_walk_in_customer_name = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.col_walk_in_price = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.col_walk_in_stylist_id = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.col_walk_in_stylist_name = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.col_walk_in_date = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.col_walk_in_start_time = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.col_walk_in_end_time = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.col_walk_in_appointment_type = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.col_walk_in_customer_type = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.col_walk_in_status = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.col_walk_in_payment_status = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.btn_walk_in_payment = new System.Windows.Forms.DataGridViewImageColumn();
+            this.btn_walk_in_update = new System.Windows.Forms.DataGridViewImageColumn();
+            this.btn_walk_in_view_details = new System.Windows.Forms.DataGridViewButtonColumn();
             this.panel9 = new System.Windows.Forms.Panel();
             this.materialLabel28 = new MaterialSkin.Controls.MaterialLabel();
             this.panel10 = new System.Windows.Forms.Panel();
             this.dgv_waiting = new System.Windows.Forms.DataGridView();
+            this.col_waiting_walk_id = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.col_waiting_app_service_id = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.col_waiting_customer_id = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.col_waiting_customer_name = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.col_waiting_stylist_id = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.col_waiting_stylist_name = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.col_waiting_service_time = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.col_waiting_status = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.col_waiting_book_type = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.col_waiting_customer_type = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.col_waiting_view_details = new System.Windows.Forms.DataGridViewButtonColumn();
             this.panel11 = new System.Windows.Forms.Panel();
             this.materialLabel30 = new MaterialSkin.Controls.MaterialLabel();
             this.materialCard28 = new MaterialSkin.Controls.MaterialCard();
@@ -650,32 +676,6 @@
             this.printDocument1 = new System.Drawing.Printing.PrintDocument();
             this.printPreviewDialog1 = new System.Windows.Forms.PrintPreviewDialog();
             this.folderBrowserDialog1 = new System.Windows.Forms.FolderBrowserDialog();
-            this.col_waiting_walk_id = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.col_waiting_app_service_id = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.col_waiting_customer_id = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.col_waiting_customer_name = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.col_waiting_stylist_id = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.col_waiting_stylist_name = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.col_waiting_service_time = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.col_waiting_status = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.col_waiting_book_type = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.col_waiting_customer_type = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.col_waiting_view_details = new System.Windows.Forms.DataGridViewButtonColumn();
-            this.col_walk_in_id = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.col_walk_in_customer_name = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.col_walk_in_price = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.col_walk_in_stylist_id = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.col_walk_in_stylist_name = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.col_walk_in_date = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.col_walk_in_start_time = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.col_walk_in_end_time = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.col_walk_in_appointment_type = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.col_walk_in_customer_type = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.col_walk_in_status = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.col_walk_in_payment_status = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.btn_walk_in_payment = new System.Windows.Forms.DataGridViewImageColumn();
-            this.btn_walk_in_update = new System.Windows.Forms.DataGridViewImageColumn();
-            this.btn_walk_in_view_details = new System.Windows.Forms.DataGridViewButtonColumn();
             this.materialTabControl1.SuspendLayout();
             this.dashboardTab.SuspendLayout();
             this.tableLayoutPanel2.SuspendLayout();
@@ -4292,6 +4292,168 @@
             this.dgv_walk_in.CellContentDoubleClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgv_walk_in_CellContentDoubleClick);
             this.dgv_walk_in.CellFormatting += new System.Windows.Forms.DataGridViewCellFormattingEventHandler(this.dgv_walk_in_CellFormatting);
             // 
+            // col_walk_in_id
+            // 
+            this.col_walk_in_id.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
+            this.col_walk_in_id.HeaderText = "walk_in_id";
+            this.col_walk_in_id.MinimumWidth = 6;
+            this.col_walk_in_id.Name = "col_walk_in_id";
+            this.col_walk_in_id.ReadOnly = true;
+            this.col_walk_in_id.Visible = false;
+            // 
+            // col_walk_in_customer_name
+            // 
+            this.col_walk_in_customer_name.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
+            this.col_walk_in_customer_name.HeaderText = "Customer";
+            this.col_walk_in_customer_name.MinimumWidth = 6;
+            this.col_walk_in_customer_name.Name = "col_walk_in_customer_name";
+            this.col_walk_in_customer_name.ReadOnly = true;
+            this.col_walk_in_customer_name.Width = 144;
+            // 
+            // col_walk_in_price
+            // 
+            this.col_walk_in_price.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
+            this.col_walk_in_price.HeaderText = "Selling Price";
+            this.col_walk_in_price.MinimumWidth = 6;
+            this.col_walk_in_price.Name = "col_walk_in_price";
+            this.col_walk_in_price.ReadOnly = true;
+            this.col_walk_in_price.Visible = false;
+            this.col_walk_in_price.Width = 125;
+            // 
+            // col_walk_in_stylist_id
+            // 
+            this.col_walk_in_stylist_id.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
+            this.col_walk_in_stylist_id.HeaderText = "stylist_id";
+            this.col_walk_in_stylist_id.MinimumWidth = 6;
+            this.col_walk_in_stylist_id.Name = "col_walk_in_stylist_id";
+            this.col_walk_in_stylist_id.ReadOnly = true;
+            this.col_walk_in_stylist_id.Visible = false;
+            this.col_walk_in_stylist_id.Width = 125;
+            // 
+            // col_walk_in_stylist_name
+            // 
+            this.col_walk_in_stylist_name.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
+            this.col_walk_in_stylist_name.HeaderText = "Stylist Name";
+            this.col_walk_in_stylist_name.MinimumWidth = 6;
+            this.col_walk_in_stylist_name.Name = "col_walk_in_stylist_name";
+            this.col_walk_in_stylist_name.ReadOnly = true;
+            this.col_walk_in_stylist_name.Visible = false;
+            this.col_walk_in_stylist_name.Width = 125;
+            // 
+            // col_walk_in_date
+            // 
+            this.col_walk_in_date.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
+            this.col_walk_in_date.HeaderText = "Date";
+            this.col_walk_in_date.MinimumWidth = 6;
+            this.col_walk_in_date.Name = "col_walk_in_date";
+            this.col_walk_in_date.ReadOnly = true;
+            this.col_walk_in_date.Visible = false;
+            this.col_walk_in_date.Width = 125;
+            // 
+            // col_walk_in_start_time
+            // 
+            this.col_walk_in_start_time.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
+            dataGridViewCellStyle4.Format = "t";
+            dataGridViewCellStyle4.NullValue = null;
+            this.col_walk_in_start_time.DefaultCellStyle = dataGridViewCellStyle4;
+            this.col_walk_in_start_time.HeaderText = "Start Time";
+            this.col_walk_in_start_time.MinimumWidth = 6;
+            this.col_walk_in_start_time.Name = "col_walk_in_start_time";
+            this.col_walk_in_start_time.ReadOnly = true;
+            this.col_walk_in_start_time.Visible = false;
+            this.col_walk_in_start_time.Width = 125;
+            // 
+            // col_walk_in_end_time
+            // 
+            this.col_walk_in_end_time.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
+            dataGridViewCellStyle5.Format = "t";
+            dataGridViewCellStyle5.NullValue = null;
+            this.col_walk_in_end_time.DefaultCellStyle = dataGridViewCellStyle5;
+            this.col_walk_in_end_time.HeaderText = "End TIme";
+            this.col_walk_in_end_time.MinimumWidth = 6;
+            this.col_walk_in_end_time.Name = "col_walk_in_end_time";
+            this.col_walk_in_end_time.ReadOnly = true;
+            this.col_walk_in_end_time.Visible = false;
+            this.col_walk_in_end_time.Width = 125;
+            // 
+            // col_walk_in_appointment_type
+            // 
+            this.col_walk_in_appointment_type.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
+            this.col_walk_in_appointment_type.HeaderText = "Booking Type";
+            this.col_walk_in_appointment_type.MinimumWidth = 6;
+            this.col_walk_in_appointment_type.Name = "col_walk_in_appointment_type";
+            this.col_walk_in_appointment_type.ReadOnly = true;
+            this.col_walk_in_appointment_type.Width = 173;
+            // 
+            // col_walk_in_customer_type
+            // 
+            this.col_walk_in_customer_type.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
+            this.col_walk_in_customer_type.HeaderText = "Customer Type";
+            this.col_walk_in_customer_type.MinimumWidth = 6;
+            this.col_walk_in_customer_type.Name = "col_walk_in_customer_type";
+            this.col_walk_in_customer_type.ReadOnly = true;
+            this.col_walk_in_customer_type.Width = 187;
+            // 
+            // col_walk_in_status
+            // 
+            this.col_walk_in_status.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
+            this.col_walk_in_status.HeaderText = "Status";
+            this.col_walk_in_status.MinimumWidth = 6;
+            this.col_walk_in_status.Name = "col_walk_in_status";
+            this.col_walk_in_status.ReadOnly = true;
+            this.col_walk_in_status.Resizable = System.Windows.Forms.DataGridViewTriState.True;
+            this.col_walk_in_status.Width = 106;
+            // 
+            // col_walk_in_payment_status
+            // 
+            this.col_walk_in_payment_status.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
+            this.col_walk_in_payment_status.HeaderText = "Payment Status";
+            this.col_walk_in_payment_status.MinimumWidth = 6;
+            this.col_walk_in_payment_status.Name = "col_walk_in_payment_status";
+            this.col_walk_in_payment_status.ReadOnly = true;
+            this.col_walk_in_payment_status.Resizable = System.Windows.Forms.DataGridViewTriState.True;
+            this.col_walk_in_payment_status.Width = 187;
+            // 
+            // btn_walk_in_payment
+            // 
+            this.btn_walk_in_payment.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
+            this.btn_walk_in_payment.HeaderText = "Process Payment";
+            this.btn_walk_in_payment.Image = ((System.Drawing.Image)(resources.GetObject("btn_walk_in_payment.Image")));
+            this.btn_walk_in_payment.ImageLayout = System.Windows.Forms.DataGridViewImageCellLayout.Zoom;
+            this.btn_walk_in_payment.MinimumWidth = 6;
+            this.btn_walk_in_payment.Name = "btn_walk_in_payment";
+            this.btn_walk_in_payment.ReadOnly = true;
+            this.btn_walk_in_payment.Width = 184;
+            // 
+            // btn_walk_in_update
+            // 
+            this.btn_walk_in_update.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
+            this.btn_walk_in_update.HeaderText = "Update";
+            this.btn_walk_in_update.Image = ((System.Drawing.Image)(resources.GetObject("btn_walk_in_update.Image")));
+            this.btn_walk_in_update.ImageLayout = System.Windows.Forms.DataGridViewImageCellLayout.Zoom;
+            this.btn_walk_in_update.MinimumWidth = 6;
+            this.btn_walk_in_update.Name = "btn_walk_in_update";
+            this.btn_walk_in_update.ReadOnly = true;
+            this.btn_walk_in_update.Visible = false;
+            this.btn_walk_in_update.Width = 125;
+            // 
+            // btn_walk_in_view_details
+            // 
+            this.btn_walk_in_view_details.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
+            dataGridViewCellStyle6.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            dataGridViewCellStyle6.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btn_walk_in_view_details.DefaultCellStyle = dataGridViewCellStyle6;
+            this.btn_walk_in_view_details.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btn_walk_in_view_details.HeaderText = "Details";
+            this.btn_walk_in_view_details.MinimumWidth = 6;
+            this.btn_walk_in_view_details.Name = "btn_walk_in_view_details";
+            this.btn_walk_in_view_details.ReadOnly = true;
+            this.btn_walk_in_view_details.Resizable = System.Windows.Forms.DataGridViewTriState.True;
+            this.btn_walk_in_view_details.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Automatic;
+            this.btn_walk_in_view_details.Text = "View Details";
+            this.btn_walk_in_view_details.UseColumnTextForButtonValue = true;
+            this.btn_walk_in_view_details.Width = 114;
+            // 
             // panel9
             // 
             this.panel9.Controls.Add(this.materialLabel28);
@@ -4361,6 +4523,111 @@
             this.dgv_waiting.TabIndex = 15;
             this.dgv_waiting.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgv_waiting_CellClick);
             this.dgv_waiting.CellFormatting += new System.Windows.Forms.DataGridViewCellFormattingEventHandler(this.dgv_waiting_CellFormatting);
+            // 
+            // col_waiting_walk_id
+            // 
+            this.col_waiting_walk_id.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
+            this.col_waiting_walk_id.HeaderText = "walk_in_id";
+            this.col_waiting_walk_id.MinimumWidth = 6;
+            this.col_waiting_walk_id.Name = "col_waiting_walk_id";
+            this.col_waiting_walk_id.ReadOnly = true;
+            this.col_waiting_walk_id.Visible = false;
+            // 
+            // col_waiting_app_service_id
+            // 
+            this.col_waiting_app_service_id.HeaderText = "service_id";
+            this.col_waiting_app_service_id.MinimumWidth = 6;
+            this.col_waiting_app_service_id.Name = "col_waiting_app_service_id";
+            this.col_waiting_app_service_id.ReadOnly = true;
+            this.col_waiting_app_service_id.Visible = false;
+            this.col_waiting_app_service_id.Width = 125;
+            // 
+            // col_waiting_customer_id
+            // 
+            this.col_waiting_customer_id.HeaderText = "customer_id";
+            this.col_waiting_customer_id.MinimumWidth = 6;
+            this.col_waiting_customer_id.Name = "col_waiting_customer_id";
+            this.col_waiting_customer_id.ReadOnly = true;
+            this.col_waiting_customer_id.Visible = false;
+            this.col_waiting_customer_id.Width = 125;
+            // 
+            // col_waiting_customer_name
+            // 
+            this.col_waiting_customer_name.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
+            this.col_waiting_customer_name.HeaderText = "Customer";
+            this.col_waiting_customer_name.MinimumWidth = 6;
+            this.col_waiting_customer_name.Name = "col_waiting_customer_name";
+            this.col_waiting_customer_name.ReadOnly = true;
+            // 
+            // col_waiting_stylist_id
+            // 
+            this.col_waiting_stylist_id.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
+            this.col_waiting_stylist_id.HeaderText = "stylist_id";
+            this.col_waiting_stylist_id.MinimumWidth = 6;
+            this.col_waiting_stylist_id.Name = "col_waiting_stylist_id";
+            this.col_waiting_stylist_id.ReadOnly = true;
+            this.col_waiting_stylist_id.Visible = false;
+            this.col_waiting_stylist_id.Width = 125;
+            // 
+            // col_waiting_stylist_name
+            // 
+            this.col_waiting_stylist_name.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
+            this.col_waiting_stylist_name.HeaderText = "Stylist Name";
+            this.col_waiting_stylist_name.MinimumWidth = 6;
+            this.col_waiting_stylist_name.Name = "col_waiting_stylist_name";
+            this.col_waiting_stylist_name.ReadOnly = true;
+            this.col_waiting_stylist_name.Visible = false;
+            // 
+            // col_waiting_service_time
+            // 
+            this.col_waiting_service_time.HeaderText = "service time";
+            this.col_waiting_service_time.MinimumWidth = 6;
+            this.col_waiting_service_time.Name = "col_waiting_service_time";
+            this.col_waiting_service_time.ReadOnly = true;
+            this.col_waiting_service_time.Visible = false;
+            this.col_waiting_service_time.Width = 125;
+            // 
+            // col_waiting_status
+            // 
+            this.col_waiting_status.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
+            this.col_waiting_status.HeaderText = "Status";
+            this.col_waiting_status.MinimumWidth = 6;
+            this.col_waiting_status.Name = "col_waiting_status";
+            this.col_waiting_status.ReadOnly = true;
+            this.col_waiting_status.Resizable = System.Windows.Forms.DataGridViewTriState.True;
+            this.col_waiting_status.Width = 106;
+            // 
+            // col_waiting_book_type
+            // 
+            this.col_waiting_book_type.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
+            this.col_waiting_book_type.HeaderText = "Book Type";
+            this.col_waiting_book_type.MinimumWidth = 6;
+            this.col_waiting_book_type.Name = "col_waiting_book_type";
+            this.col_waiting_book_type.ReadOnly = true;
+            this.col_waiting_book_type.Width = 144;
+            // 
+            // col_waiting_customer_type
+            // 
+            this.col_waiting_customer_type.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
+            this.col_waiting_customer_type.HeaderText = "Customer Type";
+            this.col_waiting_customer_type.MinimumWidth = 6;
+            this.col_waiting_customer_type.Name = "col_waiting_customer_type";
+            this.col_waiting_customer_type.ReadOnly = true;
+            this.col_waiting_customer_type.Width = 187;
+            // 
+            // col_waiting_view_details
+            // 
+            this.col_waiting_view_details.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
+            this.col_waiting_view_details.FlatStyle = System.Windows.Forms.FlatStyle.System;
+            this.col_waiting_view_details.HeaderText = "View ";
+            this.col_waiting_view_details.MinimumWidth = 6;
+            this.col_waiting_view_details.Name = "col_waiting_view_details";
+            this.col_waiting_view_details.ReadOnly = true;
+            this.col_waiting_view_details.Resizable = System.Windows.Forms.DataGridViewTriState.True;
+            this.col_waiting_view_details.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Automatic;
+            this.col_waiting_view_details.Text = "View Details";
+            this.col_waiting_view_details.UseColumnTextForButtonValue = true;
+            this.col_waiting_view_details.Width = 99;
             // 
             // panel11
             // 
@@ -4503,6 +4770,7 @@
             this.dgv_cart_product.Size = new System.Drawing.Size(976, 525);
             this.dgv_cart_product.TabIndex = 0;
             this.dgv_cart_product.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgv_cart_product_CellClick);
+            this.dgv_cart_product.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgv_cart_product_CellContentClick);
             this.dgv_cart_product.CellValidating += new System.Windows.Forms.DataGridViewCellValidatingEventHandler(this.dgv_cart_product_CellValidating);
             this.dgv_cart_product.CellValueChanged += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgv_cart_product_CellValueChanged);
             this.dgv_cart_product.CurrentCellDirtyStateChanged += new System.EventHandler(this.dgv_cart_product_CurrentCellDirtyStateChanged);
@@ -9335,273 +9603,6 @@
             this.printPreviewDialog1.Icon = ((System.Drawing.Icon)(resources.GetObject("printPreviewDialog1.Icon")));
             this.printPreviewDialog1.Name = "printPreviewDialog1";
             this.printPreviewDialog1.Visible = false;
-            // 
-            // col_waiting_walk_id
-            // 
-            this.col_waiting_walk_id.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
-            this.col_waiting_walk_id.HeaderText = "walk_in_id";
-            this.col_waiting_walk_id.MinimumWidth = 6;
-            this.col_waiting_walk_id.Name = "col_waiting_walk_id";
-            this.col_waiting_walk_id.ReadOnly = true;
-            this.col_waiting_walk_id.Visible = false;
-            // 
-            // col_waiting_app_service_id
-            // 
-            this.col_waiting_app_service_id.HeaderText = "service_id";
-            this.col_waiting_app_service_id.MinimumWidth = 6;
-            this.col_waiting_app_service_id.Name = "col_waiting_app_service_id";
-            this.col_waiting_app_service_id.ReadOnly = true;
-            this.col_waiting_app_service_id.Visible = false;
-            this.col_waiting_app_service_id.Width = 125;
-            // 
-            // col_waiting_customer_id
-            // 
-            this.col_waiting_customer_id.HeaderText = "customer_id";
-            this.col_waiting_customer_id.MinimumWidth = 6;
-            this.col_waiting_customer_id.Name = "col_waiting_customer_id";
-            this.col_waiting_customer_id.ReadOnly = true;
-            this.col_waiting_customer_id.Visible = false;
-            this.col_waiting_customer_id.Width = 125;
-            // 
-            // col_waiting_customer_name
-            // 
-            this.col_waiting_customer_name.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
-            this.col_waiting_customer_name.HeaderText = "Customer";
-            this.col_waiting_customer_name.MinimumWidth = 6;
-            this.col_waiting_customer_name.Name = "col_waiting_customer_name";
-            this.col_waiting_customer_name.ReadOnly = true;
-            // 
-            // col_waiting_stylist_id
-            // 
-            this.col_waiting_stylist_id.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
-            this.col_waiting_stylist_id.HeaderText = "stylist_id";
-            this.col_waiting_stylist_id.MinimumWidth = 6;
-            this.col_waiting_stylist_id.Name = "col_waiting_stylist_id";
-            this.col_waiting_stylist_id.ReadOnly = true;
-            this.col_waiting_stylist_id.Visible = false;
-            this.col_waiting_stylist_id.Width = 132;
-            // 
-            // col_waiting_stylist_name
-            // 
-            this.col_waiting_stylist_name.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
-            this.col_waiting_stylist_name.HeaderText = "Stylist Name";
-            this.col_waiting_stylist_name.MinimumWidth = 6;
-            this.col_waiting_stylist_name.Name = "col_waiting_stylist_name";
-            this.col_waiting_stylist_name.ReadOnly = true;
-            this.col_waiting_stylist_name.Visible = false;
-            // 
-            // col_waiting_service_time
-            // 
-            this.col_waiting_service_time.HeaderText = "service time";
-            this.col_waiting_service_time.MinimumWidth = 6;
-            this.col_waiting_service_time.Name = "col_waiting_service_time";
-            this.col_waiting_service_time.ReadOnly = true;
-            this.col_waiting_service_time.Visible = false;
-            this.col_waiting_service_time.Width = 125;
-            // 
-            // col_waiting_status
-            // 
-            this.col_waiting_status.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
-            this.col_waiting_status.HeaderText = "Status";
-            this.col_waiting_status.MinimumWidth = 6;
-            this.col_waiting_status.Name = "col_waiting_status";
-            this.col_waiting_status.ReadOnly = true;
-            this.col_waiting_status.Resizable = System.Windows.Forms.DataGridViewTriState.True;
-            this.col_waiting_status.Width = 106;
-            // 
-            // col_waiting_book_type
-            // 
-            this.col_waiting_book_type.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
-            this.col_waiting_book_type.HeaderText = "Book Type";
-            this.col_waiting_book_type.MinimumWidth = 6;
-            this.col_waiting_book_type.Name = "col_waiting_book_type";
-            this.col_waiting_book_type.ReadOnly = true;
-            this.col_waiting_book_type.Width = 157;
-            // 
-            // col_waiting_customer_type
-            // 
-            this.col_waiting_customer_type.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
-            this.col_waiting_customer_type.HeaderText = "Customer Type";
-            this.col_waiting_customer_type.MinimumWidth = 6;
-            this.col_waiting_customer_type.Name = "col_waiting_customer_type";
-            this.col_waiting_customer_type.ReadOnly = true;
-            this.col_waiting_customer_type.Width = 187;
-            // 
-            // col_waiting_view_details
-            // 
-            this.col_waiting_view_details.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
-            this.col_waiting_view_details.FlatStyle = System.Windows.Forms.FlatStyle.System;
-            this.col_waiting_view_details.HeaderText = "View ";
-            this.col_waiting_view_details.MinimumWidth = 6;
-            this.col_waiting_view_details.Name = "col_waiting_view_details";
-            this.col_waiting_view_details.ReadOnly = true;
-            this.col_waiting_view_details.Resizable = System.Windows.Forms.DataGridViewTriState.True;
-            this.col_waiting_view_details.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Automatic;
-            this.col_waiting_view_details.Text = "View Details";
-            this.col_waiting_view_details.UseColumnTextForButtonValue = true;
-            this.col_waiting_view_details.Width = 99;
-            // 
-            // col_walk_in_id
-            // 
-            this.col_walk_in_id.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
-            this.col_walk_in_id.HeaderText = "walk_in_id";
-            this.col_walk_in_id.MinimumWidth = 6;
-            this.col_walk_in_id.Name = "col_walk_in_id";
-            this.col_walk_in_id.ReadOnly = true;
-            this.col_walk_in_id.Visible = false;
-            // 
-            // col_walk_in_customer_name
-            // 
-            this.col_walk_in_customer_name.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
-            this.col_walk_in_customer_name.HeaderText = "Customer";
-            this.col_walk_in_customer_name.MinimumWidth = 6;
-            this.col_walk_in_customer_name.Name = "col_walk_in_customer_name";
-            this.col_walk_in_customer_name.ReadOnly = true;
-            this.col_walk_in_customer_name.Width = 144;
-            // 
-            // col_walk_in_price
-            // 
-            this.col_walk_in_price.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
-            this.col_walk_in_price.HeaderText = "Selling Price";
-            this.col_walk_in_price.MinimumWidth = 6;
-            this.col_walk_in_price.Name = "col_walk_in_price";
-            this.col_walk_in_price.ReadOnly = true;
-            this.col_walk_in_price.Visible = false;
-            this.col_walk_in_price.Width = 177;
-            // 
-            // col_walk_in_stylist_id
-            // 
-            this.col_walk_in_stylist_id.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
-            this.col_walk_in_stylist_id.HeaderText = "stylist_id";
-            this.col_walk_in_stylist_id.MinimumWidth = 6;
-            this.col_walk_in_stylist_id.Name = "col_walk_in_stylist_id";
-            this.col_walk_in_stylist_id.ReadOnly = true;
-            this.col_walk_in_stylist_id.Visible = false;
-            this.col_walk_in_stylist_id.Width = 132;
-            // 
-            // col_walk_in_stylist_name
-            // 
-            this.col_walk_in_stylist_name.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
-            this.col_walk_in_stylist_name.HeaderText = "Stylist Name";
-            this.col_walk_in_stylist_name.MinimumWidth = 6;
-            this.col_walk_in_stylist_name.Name = "col_walk_in_stylist_name";
-            this.col_walk_in_stylist_name.ReadOnly = true;
-            this.col_walk_in_stylist_name.Visible = false;
-            this.col_walk_in_stylist_name.Width = 174;
-            // 
-            // col_walk_in_date
-            // 
-            this.col_walk_in_date.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
-            this.col_walk_in_date.HeaderText = "Date";
-            this.col_walk_in_date.MinimumWidth = 6;
-            this.col_walk_in_date.Name = "col_walk_in_date";
-            this.col_walk_in_date.ReadOnly = true;
-            this.col_walk_in_date.Visible = false;
-            this.col_walk_in_date.Width = 90;
-            // 
-            // col_walk_in_start_time
-            // 
-            this.col_walk_in_start_time.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
-            dataGridViewCellStyle4.Format = "t";
-            dataGridViewCellStyle4.NullValue = null;
-            this.col_walk_in_start_time.DefaultCellStyle = dataGridViewCellStyle4;
-            this.col_walk_in_start_time.HeaderText = "Start Time";
-            this.col_walk_in_start_time.MinimumWidth = 6;
-            this.col_walk_in_start_time.Name = "col_walk_in_start_time";
-            this.col_walk_in_start_time.ReadOnly = true;
-            this.col_walk_in_start_time.Visible = false;
-            this.col_walk_in_start_time.Width = 151;
-            // 
-            // col_walk_in_end_time
-            // 
-            this.col_walk_in_end_time.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
-            dataGridViewCellStyle5.Format = "t";
-            dataGridViewCellStyle5.NullValue = null;
-            this.col_walk_in_end_time.DefaultCellStyle = dataGridViewCellStyle5;
-            this.col_walk_in_end_time.HeaderText = "End TIme";
-            this.col_walk_in_end_time.MinimumWidth = 6;
-            this.col_walk_in_end_time.Name = "col_walk_in_end_time";
-            this.col_walk_in_end_time.ReadOnly = true;
-            this.col_walk_in_end_time.Visible = false;
-            this.col_walk_in_end_time.Width = 145;
-            // 
-            // col_walk_in_appointment_type
-            // 
-            this.col_walk_in_appointment_type.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
-            this.col_walk_in_appointment_type.HeaderText = "Booking Type";
-            this.col_walk_in_appointment_type.MinimumWidth = 6;
-            this.col_walk_in_appointment_type.Name = "col_walk_in_appointment_type";
-            this.col_walk_in_appointment_type.ReadOnly = true;
-            this.col_walk_in_appointment_type.Width = 190;
-            // 
-            // col_walk_in_customer_type
-            // 
-            this.col_walk_in_customer_type.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
-            this.col_walk_in_customer_type.HeaderText = "Customer Type";
-            this.col_walk_in_customer_type.MinimumWidth = 6;
-            this.col_walk_in_customer_type.Name = "col_walk_in_customer_type";
-            this.col_walk_in_customer_type.ReadOnly = true;
-            this.col_walk_in_customer_type.Width = 187;
-            // 
-            // col_walk_in_status
-            // 
-            this.col_walk_in_status.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
-            this.col_walk_in_status.HeaderText = "Status";
-            this.col_walk_in_status.MinimumWidth = 6;
-            this.col_walk_in_status.Name = "col_walk_in_status";
-            this.col_walk_in_status.ReadOnly = true;
-            this.col_walk_in_status.Resizable = System.Windows.Forms.DataGridViewTriState.True;
-            this.col_walk_in_status.Width = 106;
-            // 
-            // col_walk_in_payment_status
-            // 
-            this.col_walk_in_payment_status.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
-            this.col_walk_in_payment_status.HeaderText = "Payment Status";
-            this.col_walk_in_payment_status.MinimumWidth = 6;
-            this.col_walk_in_payment_status.Name = "col_walk_in_payment_status";
-            this.col_walk_in_payment_status.ReadOnly = true;
-            this.col_walk_in_payment_status.Resizable = System.Windows.Forms.DataGridViewTriState.True;
-            this.col_walk_in_payment_status.Width = 187;
-            // 
-            // btn_walk_in_payment
-            // 
-            this.btn_walk_in_payment.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
-            this.btn_walk_in_payment.HeaderText = "Process Payment";
-            this.btn_walk_in_payment.Image = ((System.Drawing.Image)(resources.GetObject("btn_walk_in_payment.Image")));
-            this.btn_walk_in_payment.ImageLayout = System.Windows.Forms.DataGridViewImageCellLayout.Zoom;
-            this.btn_walk_in_payment.MinimumWidth = 6;
-            this.btn_walk_in_payment.Name = "btn_walk_in_payment";
-            this.btn_walk_in_payment.ReadOnly = true;
-            this.btn_walk_in_payment.Width = 184;
-            // 
-            // btn_walk_in_update
-            // 
-            this.btn_walk_in_update.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
-            this.btn_walk_in_update.HeaderText = "Update";
-            this.btn_walk_in_update.Image = ((System.Drawing.Image)(resources.GetObject("btn_walk_in_update.Image")));
-            this.btn_walk_in_update.ImageLayout = System.Windows.Forms.DataGridViewImageCellLayout.Zoom;
-            this.btn_walk_in_update.MinimumWidth = 6;
-            this.btn_walk_in_update.Name = "btn_walk_in_update";
-            this.btn_walk_in_update.ReadOnly = true;
-            this.btn_walk_in_update.Visible = false;
-            this.btn_walk_in_update.Width = 95;
-            // 
-            // btn_walk_in_view_details
-            // 
-            this.btn_walk_in_view_details.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
-            dataGridViewCellStyle6.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            dataGridViewCellStyle6.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btn_walk_in_view_details.DefaultCellStyle = dataGridViewCellStyle6;
-            this.btn_walk_in_view_details.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btn_walk_in_view_details.HeaderText = "Details";
-            this.btn_walk_in_view_details.MinimumWidth = 6;
-            this.btn_walk_in_view_details.Name = "btn_walk_in_view_details";
-            this.btn_walk_in_view_details.ReadOnly = true;
-            this.btn_walk_in_view_details.Resizable = System.Windows.Forms.DataGridViewTriState.True;
-            this.btn_walk_in_view_details.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Automatic;
-            this.btn_walk_in_view_details.Text = "View Details";
-            this.btn_walk_in_view_details.UseColumnTextForButtonValue = true;
-            this.btn_walk_in_view_details.Width = 114;
             // 
             // MainForm
             // 

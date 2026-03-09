@@ -1632,7 +1632,15 @@ namespace Salon.View
 
         private void btn_custom_pay_Click(object sender, EventArgs e)
         {
-            using (var form = new CustomAmountForm())
+            if (string.IsNullOrWhiteSpace(lbl_Total.Text) ||
+        !decimal.TryParse(lbl_Total.Text, out decimal total) ||
+        total <= 0)
+            {
+                MessageBox.Show("Please add items before entering a cash amount.",
+                    "Validation", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
+            using (var form = new CustomAmountForm(total))
             {
                 if (form.ShowDialog() == DialogResult.OK)
                 {

@@ -5801,8 +5801,8 @@ namespace Salon.View
         {
             if (dgv_cart_product.CurrentRow != null)
             {
-                var product = (RetailProduct)dgv_cart_product.CurrentRow.DataBoundItem;
-                cart.Remove(product);   // remove whole item from cart
+                var product = (CartItem)dgv_cart_product.CurrentRow.DataBoundItem;
+                cartItems.Remove(product);   // remove whole item from cart
                 lbl_sub_total.Text = SubTotal().ToString("N2");
                 calculate();
             }
@@ -5913,7 +5913,17 @@ namespace Salon.View
 
         private void btn_custom_Click(object sender, EventArgs e)
         {
-            using (var form = new CustomAmountForm())
+            if (string.IsNullOrWhiteSpace(lbl_total.Text) ||
+            !decimal.TryParse(lbl_total.Text, out decimal total) ||
+            total <= 0)
+                {
+                    MessageBox.Show("Please add items before entering a cash amount.",
+                        "Validation", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    return;
+                }
+
+
+            using (var form = new CustomAmountForm(total))
             {
                 if (form.ShowDialog() == DialogResult.OK)
                 {
@@ -5930,7 +5940,7 @@ namespace Salon.View
 
 
 
-            foreach (var item in cart)
+            foreach (var item in cartItems)
             {
                 item.DiscountedQty = 0;
                 item.DiscountPercent = 0;
@@ -5990,6 +6000,12 @@ namespace Salon.View
                 MessageBox.Show("Senior discount type not found.");
                 return;
             }
+            if (discountAppliedAlready)
+            {
+
+                return;
+            }
+
             if (discount.mode == "Percentage")
             {
                 currentPercentDiscount = discount.discount_rate;
@@ -6007,6 +6023,17 @@ namespace Salon.View
         private void btn_pwd_Click(object sender, EventArgs e)
         {
             var discount = LoadDiscountType("PWD");
+            if (discount == null)
+            {
+                MessageBox.Show("Senior discount type not found.");
+                return;
+            }
+            if (discountAppliedAlready)
+            {
+
+                return;
+            }
+
 
             if (discount.mode == "Percentage")
             {
@@ -7666,7 +7693,10 @@ namespace Salon.View
             }
         }
 
-    
+        private void dgv_cart_product_CellContentClick(object sender, DataGridViewCellEventArgs e)
+        {
+
+        }
     }
 }
 
