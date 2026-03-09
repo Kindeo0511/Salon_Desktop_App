@@ -1687,6 +1687,12 @@ namespace Salon.View
             var controller = new LoyaltyCardController(repo);
             var redeemableList = controller.RedeemAllFreeServices(model.CustomerId ?? 0);
 
+            if (controller.IsServiceAlreadyRedeemed(model.CustomerId ?? 0, selectedItem.ServiceId ?? 0)) 
+            {
+                MessageBox.Show("This service has already been redeemed by this customer.",
+                                    "Warning", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
             if (!redeemableList.Any())
             {
                 MessageBox.Show("No redeemable milestone found for this customer.",

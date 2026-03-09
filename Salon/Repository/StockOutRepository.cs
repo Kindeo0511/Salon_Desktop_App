@@ -8,7 +8,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-
+using System.Windows.Forms;
 namespace Salon.Repository
 {
     public class StockOutRepository
@@ -523,7 +523,7 @@ namespace Salon.Repository
                     try
                     {
                         // 1) Get expired batches that have NOT been deducted yet
-                        var expiredRows = con.Query<(int inventory_id, int delivery_item_id, int product_size_id, decimal qty_delivered, decimal total_qty)>(
+                        var expiredRows = con.Query<(int delivery_item_id, int inventory_id, int product_size_id, decimal qty_delivered, decimal total_qty)>(
                             @"SELECT 
                         delivery_item_id, 
                         inventory_id, 
@@ -531,10 +531,11 @@ namespace Salon.Repository
                         qty_delivered,
                         total_qty
                       FROM tbl_delivery_items 
-                      WHERE expiry_date < CURDATE()
+                      WHERE DATE(expiry_date) < CURDATE()
                       AND is_deducted = 0", 
         
                             transaction: tx).ToList();
+               
 
                         if (!expiredRows.Any()) return;
 
@@ -623,10 +624,10 @@ namespace Salon.Repository
 
                         tx.Commit();
                     }
-                    catch
+                    catch (Exception ex)
                     {
                         try { tx.Rollback(); } catch { }
-                        throw;
+                        throw new Exception($"DeductExpiredStock failed: {ex.Message}", ex);
                     }
                 }
             }

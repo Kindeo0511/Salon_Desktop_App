@@ -31,6 +31,7 @@
             this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Walk_In_Form));
             this.materialCard1 = new MaterialSkin.Controls.MaterialCard();
+            this.lbl_prefix = new System.Windows.Forms.TextBox();
             this.lbl_ID = new MaterialSkin.Controls.MaterialLabel();
             this.btn_search = new MaterialSkin.Controls.MaterialButton();
             this.btn_register_customer = new MaterialSkin.Controls.MaterialButton();
@@ -64,7 +65,6 @@
             this.cmb_subcategory = new MaterialSkin.Controls.MaterialComboBox();
             this.cmb_services = new MaterialSkin.Controls.MaterialComboBox();
             this.errorProvider1 = new System.Windows.Forms.ErrorProvider(this.components);
-            this.lbl_prefix = new System.Windows.Forms.TextBox();
             this.materialCard1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgv_service_selected)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.errorProvider1)).BeginInit();
@@ -106,6 +106,15 @@
             this.materialCard1.Padding = new System.Windows.Forms.Padding(14);
             this.materialCard1.Size = new System.Drawing.Size(885, 720);
             this.materialCard1.TabIndex = 0;
+            // 
+            // lbl_prefix
+            // 
+            this.lbl_prefix.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.lbl_prefix.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lbl_prefix.Location = new System.Drawing.Point(282, 49);
+            this.lbl_prefix.Name = "lbl_prefix";
+            this.lbl_prefix.Size = new System.Drawing.Size(340, 30);
+            this.lbl_prefix.TabIndex = 58;
             // 
             // lbl_ID
             // 
@@ -612,15 +621,6 @@
             // 
             this.errorProvider1.BlinkStyle = System.Windows.Forms.ErrorBlinkStyle.NeverBlink;
             this.errorProvider1.ContainerControl = this;
-            // 
-            // lbl_prefix
-            // 
-            this.lbl_prefix.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.lbl_prefix.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lbl_prefix.Location = new System.Drawing.Point(282, 49);
-            this.lbl_prefix.Name = "lbl_prefix";
-            this.lbl_prefix.Size = new System.Drawing.Size(340, 30);
-            this.lbl_prefix.TabIndex = 58;
             // 
             // Walk_In_Form
             // 

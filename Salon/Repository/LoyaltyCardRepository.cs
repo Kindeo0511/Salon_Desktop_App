@@ -307,6 +307,22 @@ ORDER BY lr.visit_required ASC";
                 return con.Query<LoyaltyCardModel>(sql, new { customer_id }).ToList();
             }
         }
+        // IS SERVICE ALREADY REDEEMED
+        public bool IsServiceAlreadyRedeemed(int customer_id, int service_id)
+        {
+            using (var con = Database.GetConnection())
+            {
+                var sql = @"SELECT COUNT(*) 
+                    FROM tbl_customer_visits cv
+                    JOIN tbl_loyal_card lc ON lc.card_id = cv.card_id
+                    WHERE lc.customer_id = @customer_id
+                    AND cv.is_free = 1
+                    AND cv.service_id = @service_id";
+
+                int count = con.ExecuteScalar<int>(sql, new { customer_id, service_id });
+                return count > 0;
+            }
+        }
 
         // UNREDEEM FREE SERVICE
         public bool IsAllMilestonesRedeemed(int customer_id)

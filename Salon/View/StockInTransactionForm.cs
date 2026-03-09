@@ -71,7 +71,7 @@ namespace Salon.View
    
 
              dgv_stock_out.AutoGenerateColumns = false;
-            col_stk_out_invoice_number.DataPropertyName = "invoice_number";
+            col_stk_out_invoice_number.DataPropertyName = "display_invoice";
             col_stk_out_name.DataPropertyName = "product_name";
             col_stk_out_size.DataPropertyName = "size_label";
             col_stk_out_qty.DataPropertyName = "qty";

@@ -521,7 +521,7 @@ FROM tbl_stylist_schedules ss
 WHERE ss.stylist_id = @stylistId
   AND ss.weekly_id = (WEEKDAY(CURDATE()) + 1);";
                 int dutyFlag = con.ExecuteScalar<int>(sql, new { stylistId });
-                return dutyFlag == 1; // true if off duty
+                return dutyFlag == 0; // true if off duty
             }
         }
 

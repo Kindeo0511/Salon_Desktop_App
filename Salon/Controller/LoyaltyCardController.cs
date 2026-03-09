@@ -127,6 +127,11 @@ namespace Salon.Controller
         {
             return repo.GetRedeemableService(customer_id);
         }
+        // IS SERVICE ALREADY REDEEMED
+        public bool IsServiceAlreadyRedeemed(int customer_id ,int service_id) 
+        {
+            return repo.IsServiceAlreadyRedeemed(customer_id, service_id);
+        }
 
         // UNREDEEM FREE SERVICE
         public bool IsAllMilestonesRedeemed(int customer_id) 

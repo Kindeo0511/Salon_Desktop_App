@@ -67,7 +67,10 @@ namespace Salon.Controller
 
         public void DeductExpiredStock() 
         {
+          
             repo.DeductExpiredStock();
+            
+         
         }
     }
 }

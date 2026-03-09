@@ -9,6 +9,14 @@ namespace Salon.Models
     public class Stock_Out_Model
     {
         public string invoice_number {  get; set; }
+
+        public string display_invoice
+        {
+            get
+            {
+                return string.IsNullOrEmpty(invoice_number) ? "N/A" : invoice_number;
+            }
+        }
         public string product_name {get;set;}
         public string size_label { get; set; }
         public decimal qty { get; set; }

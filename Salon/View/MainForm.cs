@@ -4488,10 +4488,15 @@ namespace Salon.View
         }
         private void UpdateExpireProducts() 
         {
+           
             var repo = new StockOutRepository();
             var controller = new StockOutController(repo);
 
+         
             controller.DeductExpiredStock();
+            
+       
+
             LoadInventory(currentPage, pageSize);
 
         }
@@ -7661,10 +7666,7 @@ namespace Salon.View
             }
         }
 
-        private void materialButton2_Click(object sender, EventArgs e)
-        {
-            UpdateExpireProducts();
-        }
+    
     }
 }
 

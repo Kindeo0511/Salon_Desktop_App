@@ -56,7 +56,7 @@ namespace Salon.View
             else 
             {
                 dgv_service_selected.Columns["col_mark_as_completed"].Visible = true;
-                dgv_service_selected.Columns["col_start_service"].Visible = false;
+             
             }
 
         }
@@ -66,17 +66,15 @@ namespace Salon.View
             var repo = new AppointmentRepository();
             var controller = new AppointmentController(repo);
 
-            return controller.GetStylistAvailability(
-                Convert.ToInt32(stylist_id));
+            return controller.GetStylistAvailability(stylist_id);
 
         }
-        public bool Stylist_Is_Off_Duty()
+        public bool Stylist_Is_Off_Duty(int stylist_id)
         {
             var repo = new AppointmentRepository();
             var controller = new AppointmentController(repo);
 
-            return controller.IsStylistOfDuty(
-                Convert.ToInt32(appointmentModel.StylistId));
+            return controller.IsStylistOfDuty(stylist_id);
 
         }
         public void LoadSelectedAppointmentDetails(AppointmentModel model) 
@@ -234,7 +232,7 @@ namespace Salon.View
             int stylist_id = Convert.ToInt32(dgv.Rows[e.RowIndex].Cells["col_stylist_id"].Value);
             bool IsBusy = Stylist_Is_Available(stylist_id);
  
-            bool stylistOffDuty = Stylist_Is_Off_Duty();
+            bool stylistOffDuty = Stylist_Is_Off_Duty(stylist_id);
 
             if (e.RowIndex >= 0 && dgv.Columns[e.ColumnIndex].Name == "col_start_service")
             {
@@ -357,6 +355,7 @@ namespace Salon.View
                     }
                     else
                     {
+                      
 
                         int invoice_id = GetInvoiceId(appointmentModel.AppointmentId);
                         int invoice_service_id = inv_service_controller.GetInvoiceServiceById(invoice_id, serviceId);
@@ -364,6 +363,7 @@ namespace Salon.View
                         inv_service_controller.DeleteServiceFromInvoiceCart(invoice_service_id);
                        
                     }
+                    LoadServices(appointmentModel.AppointmentId);
                 }
 
             }
@@ -469,6 +469,7 @@ namespace Salon.View
             {
                 form.ShowDialog();
                 LoadServices(appointmentModel.AppointmentId);
+                MarkOverallAppointmentStatusWhenStart(appointmentModel.AppointmentId);
             }
         }
     }
