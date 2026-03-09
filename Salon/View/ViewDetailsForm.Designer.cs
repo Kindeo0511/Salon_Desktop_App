@@ -265,7 +265,7 @@
             this.btn_add.MouseState = MaterialSkin.MouseState.HOVER;
             this.btn_add.Name = "btn_add";
             this.btn_add.NoAccentTextColor = System.Drawing.Color.Empty;
-            this.btn_add.Size = new System.Drawing.Size(158, 36);
+            this.btn_add.Size = new System.Drawing.Size(148, 36);
             this.btn_add.TabIndex = 65;
             this.btn_add.Text = "add new service";
             this.btn_add.Type = MaterialSkin.Controls.MaterialButton.MaterialButtonType.Contained;
@@ -345,6 +345,7 @@
             this.col_change_stylist.Name = "col_change_stylist";
             this.col_change_stylist.Text = "Change Stylist";
             this.col_change_stylist.UseColumnTextForButtonValue = true;
+            this.col_change_stylist.Visible = false;
             this.col_change_stylist.Width = 92;
             // 
             // col_mark_as_completed

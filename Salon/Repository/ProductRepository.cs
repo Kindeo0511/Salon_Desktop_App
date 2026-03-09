@@ -12,7 +12,7 @@ namespace Salon.Repository
 {
     public class ProductRepository : IProduct
     {
-        public IEnumerable<ProductModel> GetRetailProduct() 
+        public IEnumerable<ProductModel> GetRetailProduct()
         {
             using (var con = Database.GetConnection())
             {
@@ -44,7 +44,7 @@ namespace Salon.Repository
                 return con.QuerySingleOrDefault<ProductModel>(sql, new { ProductId = product_id });
             }
         }
-        public int TotalRetailProduct() 
+        public int TotalRetailProduct()
         {
             using (var con = Database.GetConnection())
             {
@@ -83,7 +83,7 @@ namespace Salon.Repository
                       AND ps.is_deleted = 0
                       AND p.product_name LIKE @Key
                     ;";
-                return con.Query<RetailProduct>(sql, new { Key =  $"%{key}%" }).ToList();
+                return con.Query<RetailProduct>(sql, new { Key = $"%{key}%" }).ToList();
             }
         }
         public RetailProduct GetRetailProductByIdAndSize(int productId, int productSizeId)
@@ -120,7 +120,7 @@ namespace Salon.Repository
 
         public IEnumerable<ProductModel> GetAllProducts()
         {
-            using (var con = Database.GetConnection()) 
+            using (var con = Database.GetConnection())
             {
                 var sql = @"SELECT p.product_id, p.product_name,p.product_type,p.is_ingredient, p.is_retail, p.brand, p.unit_type,ps.size_label, ps.content, ps.selling_price, ps.cost_price
                             FROM tbl_products p
@@ -129,7 +129,7 @@ namespace Salon.Repository
                 return con.Query<ProductModel>(sql).ToList();
             }
         }
-        public async Task<IEnumerable<ProductModel>> GetAllProductAsync(int page_size, int off_set) 
+        public async Task<IEnumerable<ProductModel>> GetAllProductAsync(int page_size, int off_set)
         {
             using (var con = Database.GetConnection())
             {
@@ -138,12 +138,12 @@ namespace Salon.Repository
                             LEFT JOIN tbl_product_size ps ON ps.product_id = p.product_id
                             WHERE p.is_deleted = 0 
                             LIMIT @page_size OFFSET @off_set";
-                var result = await con.QueryAsync<ProductModel>(sql, new { page_size, off_set});
+                var result = await con.QueryAsync<ProductModel>(sql, new { page_size, off_set });
 
                 return result.ToList();
             }
         }
-        public IEnumerable<ProductModel> GetAllProductToOrder() 
+        public IEnumerable<ProductModel> GetAllProductToOrder()
         {
             using (var con = Database.GetConnection())
             {
@@ -151,9 +151,9 @@ namespace Salon.Repository
                 return con.Query<ProductModel>(sql).ToList();
             }
         }
-        public ProductModel GetTotalProducts() 
+        public ProductModel GetTotalProducts()
         {
-            using (var con = Database.GetConnection()) 
+            using (var con = Database.GetConnection())
             {
                 var sql = "SELECT COUNT(*) AS TotalProduct FROM tbl_products";
 
@@ -162,7 +162,7 @@ namespace Salon.Repository
             }
         }
 
-        public async Task<ProductModel> GetTotalProductAsync() 
+        public async Task<ProductModel> GetTotalProductAsync()
         {
             using (var con = Database.GetConnection())
             {
@@ -174,9 +174,9 @@ namespace Salon.Repository
 
             }
         }
-        public int GetProductIngredient(string name, string brand, string unit_type) 
+        public int GetProductIngredient(string name, string brand, string unit_type)
         {
-            using (var con = Database.GetConnection()) 
+            using (var con = Database.GetConnection())
             {
                 var sql = @"SELECT product_id FROM tbl_products 
                             WHERE product_name = @name AND brand = @brand AND unit_type = @unit_type AND is_deleted = 1";
@@ -189,7 +189,7 @@ namespace Salon.Repository
             {
                 var sql = @"SELECT * FROM tbl_products 
                             WHERE product_type = 'Retail' AND product_name = @name AND brand = @brand AND unit_type = @unit_type AND is_deleted = 1";
-                return con.Query<ProductModel>(sql, new { name, brand, unit_type}).FirstOrDefault();
+                return con.Query<ProductModel>(sql, new { name, brand, unit_type }).FirstOrDefault();
             }
         }
         public int AddProduct(ProductModel product)
@@ -213,7 +213,7 @@ namespace Salon.Repository
                                 is_retail = @is_retail,
                                 updated_at = CURRENT_TIMESTAMP
                             WHERE product_id = @product_id";
-               return con.Execute(sql, product);
+                return con.Execute(sql, product);
             }
         }
         public int DeleteProduct(int productId)
@@ -221,42 +221,43 @@ namespace Salon.Repository
             using (var con = Database.GetConnection())
             {
                 var sql = "UPDATE tbl_products SET is_deleted = 1 WHERE product_id = @productId";
-               return con.Execute(sql, new { productId });
+                return con.Execute(sql, new { productId });
             }
         }
-       public int RestoreProduct(int productId) 
+        public int RestoreProduct(int productId)
         {
             using (var con = Database.GetConnection())
             {
                 var sql = "UPDATE tbl_products SET is_deleted = 0 WHERE product_id = @productId";
-               return con.Execute(sql, new { productId });
+                return con.Execute(sql, new { productId });
             }
         }
-        public int PermanentDelete(int id) 
+        public int PermanentDelete(int id)
         {
             using (var con = Database.GetConnection())
             {
                 var sql = "DELETE FROM tbl_products WHERE product_id = @id";
-               return con.Execute(sql, new { id });
+                return con.Execute(sql, new { id });
             }
         }
-        
-        public bool ProductExists(string name, int id = 0) 
+
+        public bool ProductExists(string name, int id = 0)
         {
-            using (var con = Database.GetConnection()) 
+            using (var con = Database.GetConnection())
             {
                 var sql = "SELECT COUNT(*) FROM tbl_products WHERE product_name = @name AND product_id != @id AND is_deleted = 0";
                 return con.ExecuteScalar<int>(sql, new { name, id }) > 0;
             }
         }
 
-        public bool ProductIsUsed(int productId) 
+        public bool ProductIsUsed(int productId)
         {
             using (var con = Database.GetConnection())
-            { 
+            {
                 var sql = @" SELECT CASE WHEN EXISTS (SELECT 1 FROM tbl_service_product WHERE product_id = @productId)
             THEN 1 ELSE 0 END";
-                return con.ExecuteScalar<int>(sql, new { productId }) == 1; }
+                return con.ExecuteScalar<int>(sql, new { productId }) == 1;
+            }
         }
         public bool ProductRetailIsUsed(int productId)
         {
@@ -268,5 +269,115 @@ namespace Salon.Repository
                 return con.ExecuteScalar<int>(sql, new { productId }) == 1;
             }
         }
+
+
+        ///-----------------------------------------------///
+
+        public bool SaveProductWithSize(ProductModel product, IEnumerable<ProductSizeModel> sizes)
+        {
+            using (var con = Database.GetConnection())
+            {
+                con.Open();
+                using (var tx = con.BeginTransaction())
+                {
+                    try
+                    {
+                        int productID;
+
+                        if (product.product_id == 0)
+                        {
+                            productID = con.ExecuteScalar<int>(
+                            @"INSERT INTO tbl_products (product_name, is_ingredient, is_retail, brand, unit_type, created_at)
+                            VALUES (@product_name, @is_ingredient, @is_retail, @brand, @unit_type, CURRENT_TIMESTAMP); 
+                            SELECT LAST_INSERT_ID();", product, tx);
+
+
+
+                        }
+                        else
+                        {
+                            productID = product.product_id;
+                   
+                                con.Execute(
+                             @"UPDATE tbl_products
+                            SET product_name = @product_name,  
+                                brand = @brand,
+                                unit_type = @unit_type,
+                                is_ingredient = @is_ingredient,
+                                is_retail = @is_retail,
+                                updated_at = CURRENT_TIMESTAMP
+                            WHERE product_id = @product_id", product, tx);
+
+                        }
+
+                        // 🗑️ DELETE sizes that were removed from the DataGridView
+                        var existingIds = sizes
+                            .Where(s => s.product_size_id > 0)
+                            .Select(s => s.product_size_id)
+                            .ToList();
+
+                        if (existingIds.Any())
+                        {
+                            con.Execute(
+                                @"UPDATE tbl_product_size 
+                                SET is_deleted = 1
+                          WHERE product_id = @productId 
+                          AND product_size_id NOT IN @existingIds",
+                                new { productID, existingIds }, tx);
+                        }
+                        else
+                        {
+                            // No existing sizes kept — delete all old sizes
+                            con.Execute(
+                                @"UPDATE tbl_product_size 
+                                SET is_deleted = 1
+                          WHERE product_id = @productId",
+                                new { productID }, tx);
+                        }
+
+                        foreach (var size in sizes)
+                        {
+                            size.product_id = productID;
+
+                            if (size.product_size_id == 0)
+                            {
+
+                                con.Execute
+                                   (
+                           @"INSERT INTO tbl_product_size
+                            (product_id, size_label, content, selling_price, cost_price)
+                            VALUES (@product_id, @size_label, @content, @selling_price, @cost_price)",
+                                size, tx
+                                    );
+
+                            }
+                            else
+                            {
+                                con.Execute(@"UPDATE tbl_product_size 
+                            SET
+                            size_label = @size_label,
+                            content = @content,
+                            selling_price = @selling_price,
+                            cost_price = @cost_price
+                            WHERE product_size_id = @product_size_id", size, tx);
+
+                            }
+
+                        }
+
+                        tx.Commit();
+                        return true; // ✅ Success
+                    }
+                    catch (Exception ex)
+                    {
+                        tx.Rollback();
+                        throw new Exception($"SaveProductWithSizes failed: {ex.Message}", ex);
+                    }
+
+                } // END OF TRANSACTION
+
+            }// END OF CONNECTION
+
+        }// END OF SAVE PRODUCT WITH SIZE
     }
 }

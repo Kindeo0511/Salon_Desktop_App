@@ -33,6 +33,7 @@ namespace Salon.View
             _mainForm = mainForm;
             dtp_day_of_birth.MaxDate = DateTime.Today;
             dtp_day_of_birth.MinDate = new DateTime(1900, 1, 1);
+            LoadServices();
         }
         public StylistForm(MainForm mainForm, StylistModel stylist)
         {
@@ -55,7 +56,7 @@ namespace Salon.View
                 txt_email.Text = _stylist.email;
                 txt_address.Text = _stylist.address;
 
-                
+                LoadServices(_stylist.stylist_id);
 
                 btn_save.Visible = false;
                 btn_update.Visible = true;
@@ -67,31 +68,43 @@ namespace Salon.View
                 btn_update.Visible = false;
             }
         }
+        public void LoadServices(int stylist_id = 0) 
+        {
+            var repo = new ServiceRepository();
+            var controller = new ServiceController(repo);
+            var services = controller.Get_All_Service();
+
+            chk_services.Items.Clear();
+            var assignedIds = new List<int>();
+            if (stylist_id > 0)
+            {
+                var stylistRepo = new StylistRepository();
+                var stylistController = new StylistController(stylistRepo);
+                assignedIds = stylistController.GetAssignedServiceIds(stylist_id);
+            }
+
+            foreach (var service in services)
+            {
+                // Add service and check it if already assigned
+                bool isAssigned = assignedIds.Contains(service.serviceName_id);
+                chk_services.Items.Add(service, isAssigned); // ✅ second param = checked or not
+            }
+
+
+        }
         public void LoadSpecialists() 
         {
             var repo = new SpecialistRepository();
             var controller = new SpecialistController(repo);
             var specialists = controller.GetAllSpecialists();
 
-            var stylistSpecialistRepo = new Stylist_Specialist_Repository();
-            var stylistSpecialistController = new Stylist_specialist_Controller(stylistSpecialistRepo);
+            cmb_specialist.DisplayMember = "name";
+            cmb_specialist.ValueMember = "specialist_id";
+            cmb_specialist.SelectedIndex = -1;
 
-            HashSet<int> assignedSpecialists = new HashSet<int>();
+            cmb_specialist.DataSource = specialists; 
 
- 
-            if (_stylist != null) 
-            {
-                assignedSpecialists = stylistSpecialistController.GetStylistById(_stylist.stylist_id).Select(ss => ss.specialist_id).ToHashSet();
-            }
-            
-            chk_services.Items.Clear();
-
-            
-            foreach (var specialist in specialists) 
-            {
-                bool isChecked = assignedSpecialists.Contains(specialist.specialist_id);
-                chk_services.Items.Add(specialist, isChecked);
-            }
+           
 
 
 
@@ -101,34 +114,35 @@ namespace Salon.View
             var specialist_repo = new Stylist_Specialist_Repository();
             var specialist_controller = new Stylist_specialist_Controller(specialist_repo);
 
+            int specialist_id = Convert.ToInt32(cmb_specialist.SelectedValue);
 
             if (_isSaving)
             {
-                foreach (var item in chk_services.CheckedItems)
-                {
-                    var specialist = (SpecialistModel)item;
-                    if (specialist != null)
-                    {
-                        specialist_controller.CreateStylistSpecialist(specialist.specialist_id, stylist_id);
-                    }
+            
+                
+                 specialist_controller.CreateStylistSpecialist(specialist_id, stylist_id);
+                
 
-                }
+                //foreach (var item in chk_services.CheckedItems)
+                //{
+                //    var specialist = (SpecialistModel)item;
+                //    if (specialist != null)
+                //    {
+                //        specialist_controller.CreateStylistSpecialist(specialist.specialist_id, stylist_id);
+                //    }
+
+                //}
             }
             else if (_isUpdating) 
             {
-                foreach (var item in chk_services.CheckedItems)
-                {
-                    var specialist = (SpecialistModel)item;
-                    if (specialist != null)
-                    {
-                        specialist_controller.UpdateStylistSpecialist(specialist.specialist_id, stylist_id);
-                    }
-
-                }
+              
+             specialist_controller.UpdateStylistSpecialist(specialist_id, stylist_id);
+                 
             }
                
            
         }
+
         private bool HasStylistChanges()
         {
             bool hasChanges = txt_first_name.Text != _stylist.firstName
@@ -139,28 +153,22 @@ namespace Salon.View
                 || txt_email.Text != _stylist.email
                 || txt_address.Text != _stylist.address;
 
-            // Current checked services
+            // Current checked services from CheckedListBox
             var currentServices = chk_services.CheckedItems
-                                              .Cast<SpecialistModel>()
-                                              .Select(s => s.specialist_id)
-                                              .ToList();
+                .Cast<ServiceModel>()
+                .Select(s => s.serviceName_id)
+                .ToHashSet();
 
-            // Re-fetch original services directly from repository/controller
-            var stylistSpecialistRepo = new Stylist_Specialist_Repository();
-            var stylistSpecialistController = new Stylist_specialist_Controller(stylistSpecialistRepo);
+            // ✅ Get original assigned service IDs using the correct method
+            var stylistRepo = new StylistRepository();
+            var stylistController = new StylistController(stylistRepo);
+            var originalServices = stylistController
+                .GetAssignedServiceIds(_stylist.stylist_id)
+                .ToHashSet();
 
-            var originalServices = stylistSpecialistController
-                .GetStylistById(_stylist.stylist_id)
-                .Select(ss => ss.specialist_id)
-                .ToList();
-
-            // Compare sets
-            if (currentServices.Count != originalServices.Count ||
-                !currentServices.All(originalServices.Contains) ||
-                !originalServices.All(currentServices.Contains))
-            {
+            // ✅ Compare both sets of service IDs
+            if (!currentServices.SetEquals(originalServices))
                 hasChanges = true;
-            }
 
             return hasChanges;
         }
@@ -183,6 +191,7 @@ namespace Salon.View
             int id = stylistController.Add(stylist);
 
             SaveSpecialists(id);
+            AssignStylistToService(id);
 
            return id;
         }
@@ -204,6 +213,7 @@ namespace Salon.View
             var repo = new StylistRepository();
             var stylistController = new Controller.StylistController(repo);
             SaveSpecialists(_stylist.stylist_id);
+            AssignStylistToService(_stylist.stylist_id);
             return stylistController.Update(_stylist);
             
             
@@ -445,6 +455,15 @@ namespace Salon.View
             else errorProvider1.SetError(chk_services, "");
 
 
+
+            //Services(CheckedListBox must have at least one checked item)
+            if (chk_services.CheckedItems.Count == 0)
+            {
+                errorProvider1.SetError(chk_services, "Select at least one service.");
+                validated = false;
+            }
+            else errorProvider1.SetError(chk_services, "");
+
             //// REQUIRED AND MIN LENGTH FIELD
             //if (!Validator.IsRequiredTextField(txt_first_name, errorProvider1, "First name is required."))
             //{
@@ -465,88 +484,88 @@ namespace Salon.View
             //}
 
 
-                    //if (!string.IsNullOrWhiteSpace(txt_middle_name.Text))
-                    //{
-                    //    if (!Validator.IsMinimumLength(txt_middle_name, errorProvider1, "Middle name must be at least 3 characters.", 3))
-                    //    {
-                    //        validated = false;
-                    //    }
-                    //    else if (!Validator.Pattern(txt_middle_name, errorProvider1, @"^[A-Za-z]+$", "Middle name should only contain letters."))
-                    //    {
-                    //        validated = false;
-                    //    }
-                    //    else if (!Validator.DisallowSpaces(txt_middle_name, errorProvider1, "No space allowed in middle name."))
-                    //    {
-                    //        validated = false;
-                    //    }
-                    //}
+            //if (!string.IsNullOrWhiteSpace(txt_middle_name.Text))
+            //{
+            //    if (!Validator.IsMinimumLength(txt_middle_name, errorProvider1, "Middle name must be at least 3 characters.", 3))
+            //    {
+            //        validated = false;
+            //    }
+            //    else if (!Validator.Pattern(txt_middle_name, errorProvider1, @"^[A-Za-z]+$", "Middle name should only contain letters."))
+            //    {
+            //        validated = false;
+            //    }
+            //    else if (!Validator.DisallowSpaces(txt_middle_name, errorProvider1, "No space allowed in middle name."))
+            //    {
+            //        validated = false;
+            //    }
+            //}
 
 
-                    //if (!Validator.IsRequiredTextField(txt_last_name, errorProvider1, "Last name is required."))
-                    //{
-                    //    validated = false;
-                    //}
-                    //else if (!Validator.IsMinimumLength(txt_last_name, errorProvider1, "Last name must be at least 3 characters.", 3))
-                    //{
-                    //    validated = false;
-                    //}
-                    //else if (!Validator.Pattern(txt_last_name, errorProvider1, @"^[A-Za-z]+$", "Last name should only contain letters."))
-                    //{
-                    //    validated = false;
-                    //}
-                    //else if (!Validator.DisallowSpaces(txt_last_name, errorProvider1, "No Space Allowed"))
-                    //{
-                    //    validated = false;
-                    //}
+            //if (!Validator.IsRequiredTextField(txt_last_name, errorProvider1, "Last name is required."))
+            //{
+            //    validated = false;
+            //}
+            //else if (!Validator.IsMinimumLength(txt_last_name, errorProvider1, "Last name must be at least 3 characters.", 3))
+            //{
+            //    validated = false;
+            //}
+            //else if (!Validator.Pattern(txt_last_name, errorProvider1, @"^[A-Za-z]+$", "Last name should only contain letters."))
+            //{
+            //    validated = false;
+            //}
+            //else if (!Validator.DisallowSpaces(txt_last_name, errorProvider1, "No Space Allowed"))
+            //{
+            //    validated = false;
+            //}
 
-                    //if (!Validator.IsRequired(txt_email, errorProvider1, "Email is required."))
-                    //{
-                    //    validated = false;
-                    //}
-                    //else if (!Validator.IsValidEmail(txt_email, errorProvider1))
-                    //{
-                    //    validated = false;
-                    //}
-                    //else if (txt_email.Text.Count(c => c == '@') != 1)
-                    //{
-                    //    errorProvider1.SetError(txt_email, "Email must contain exactly one '@' symbol.");
-                    //    validated = false;
-                    //}
-                    //else if (!Validator.Pattern(
-                    //       txt_email,
-                    //       errorProvider1,
-                    //       @"^[^@\s]+@[^@\s]+\.[^@\s]+$",
-                    //       "Please enter a valid email address."))
-                    //{
-                    //    validated = false;
-                    //}
-                    //else if (!Validator.DisallowSpaces(txt_email, errorProvider1, "No Space Allowed"))
-                    //{
-                    //    validated = false;
-                    //}
-
-
+            //if (!Validator.IsRequired(txt_email, errorProvider1, "Email is required."))
+            //{
+            //    validated = false;
+            //}
+            //else if (!Validator.IsValidEmail(txt_email, errorProvider1))
+            //{
+            //    validated = false;
+            //}
+            //else if (txt_email.Text.Count(c => c == '@') != 1)
+            //{
+            //    errorProvider1.SetError(txt_email, "Email must contain exactly one '@' symbol.");
+            //    validated = false;
+            //}
+            //else if (!Validator.Pattern(
+            //       txt_email,
+            //       errorProvider1,
+            //       @"^[^@\s]+@[^@\s]+\.[^@\s]+$",
+            //       "Please enter a valid email address."))
+            //{
+            //    validated = false;
+            //}
+            //else if (!Validator.DisallowSpaces(txt_email, errorProvider1, "No Space Allowed"))
+            //{
+            //    validated = false;
+            //}
 
 
-                    //if (!Validator.IsRequiredTextField(txt_contact, errorProvider1, "Contact number is required."))
-                    //{
-                    //    validated = false;
-                    //}
-                    //else if (txt_contact.Text.Length != 11)
-                    //{
-                    //    errorProvider1.SetError(txt_contact, "Contact number must be exactly 11 digits.");
-                    //    validated = false;
-                    //}
-                    //else if (!txt_contact.Text.StartsWith("09"))
-                    //{
-                    //    errorProvider1.SetError(txt_contact, "Contact number should start with '09'.");
-                    //    validated = false;
-                    //}
 
-                    //else if (!Validator.IsValidPhone(txt_contact, errorProvider1))
-                    //{
-                    //    validated = false;
-                    //}
+
+            //if (!Validator.IsRequiredTextField(txt_contact, errorProvider1, "Contact number is required."))
+            //{
+            //    validated = false;
+            //}
+            //else if (txt_contact.Text.Length != 11)
+            //{
+            //    errorProvider1.SetError(txt_contact, "Contact number must be exactly 11 digits.");
+            //    validated = false;
+            //}
+            //else if (!txt_contact.Text.StartsWith("09"))
+            //{
+            //    errorProvider1.SetError(txt_contact, "Contact number should start with '09'.");
+            //    validated = false;
+            //}
+
+            //else if (!Validator.IsValidPhone(txt_contact, errorProvider1))
+            //{
+            //    validated = false;
+            //}
 
 
 
@@ -597,6 +616,7 @@ namespace Salon.View
         private void StylistForm_Load(object sender, EventArgs e)
         {
             LoadSpecialists();
+       
         }
 
         private void txt_first_name_KeyPress(object sender, KeyPressEventArgs e)
@@ -745,6 +765,68 @@ namespace Salon.View
             {
                 e.Handled = true;
             }
+        }
+
+
+
+        private bool AssignStylistToService(int stylist_id)
+        {
+            var repo = new StylistRepository();
+            var controller = new StylistController(repo);
+
+            bool assigned = false;
+
+            if (_isSaving)
+            {
+                foreach (var service in chk_services.CheckedItems)
+                {
+                    var model = service as ServiceModel;
+                    if (model != null)
+                    {
+
+
+                        controller.AssignService(stylist_id, model.serviceName_id);
+                        assigned = true;
+
+                    }
+                }
+
+
+            }
+            else if (_isUpdating)
+            {
+                // Get all existing assignments for this service
+                var existingAssignments = controller.GetAssignedServiceIds(stylist_id).ToHashSet();
+      
+                foreach (var service in chk_services.Items)
+                {
+                    var model = service as ServiceModel;
+                    if (model == null) continue;
+
+                    bool isChecked = chk_services.CheckedItems.Contains(service);
+
+                    if (isChecked && !existingAssignments.Contains(model.serviceName_id))
+                    {
+                        
+                       controller.AssignService(stylist_id, model.serviceName_id);
+                   
+                        assigned = true;
+
+                    }
+                    else if(!isChecked && existingAssignments.Contains(model.serviceName_id))
+                    {
+                       
+                        controller.UnassignService(stylist_id, model.serviceName_id);
+                        assigned = true;
+
+                    }
+                }
+
+             
+            }
+
+            return assigned;
+
         }
     }
 }

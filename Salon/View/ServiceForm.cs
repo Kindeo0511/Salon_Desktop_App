@@ -1,4 +1,5 @@
-﻿using MaterialSkin.Controls;
+﻿using iText.StyledXmlParser.Jsoup.Safety;
+using MaterialSkin.Controls;
 using Salon.Controller;
 using Salon.Models;
 using Salon.Repository;
@@ -37,6 +38,8 @@ namespace Salon.View
         private int service_product_id = 0;
 
         private bool allowTabChange = false;
+
+        private BindingList<ServiceProductUsageModel> product_consumption_list = new BindingList<ServiceProductUsageModel>();
         public ServiceForm(MainForm mainform)
         {
             InitializeComponent();
@@ -45,7 +48,7 @@ namespace Salon.View
             this.mainform = mainform;
             _isSaving = true;
             LoadSubCategory();
-            LoadStylist();
+   
 
 
 
@@ -60,7 +63,7 @@ namespace Salon.View
             this.mainform = mainform;
             this.serviceModel = serviceModel;
             LoadSubCategory();
-            LoadStylist();
+ 
             if (serviceModel != null) 
             {
 
@@ -68,7 +71,6 @@ namespace Salon.View
                 txt_service_name.Text = serviceModel.serviceName;
                 txt_duration.Value = serviceModel.duration;
                 cmb_sub_category.SelectedValue = serviceModel.subCategory_id;
-                cmb_status.SelectedItem = serviceModel.status == Status.Active ? "Active" : "Inactive";
                 txt_price.Text = serviceModel.servicePrice.ToString("F2");
                 btn_save.Visible= false;
                 btn_update.Visible= true;
@@ -83,34 +85,7 @@ namespace Salon.View
 
      
         }
-        private void LoadStylist() 
-        {
-            var repo = new StylistRepository();
-            var controller = new StylistController(repo);
-            var stylist = controller.GetStylistSpecialist();
-
-
-            HashSet<int> assignedSpecialists = new HashSet<int>();
-
-
-
-            if (serviceModel != null)
-            {
-                var assigned = controller.GetStylistsByServiceId(serviceModel.serviceName_id);
-                assignedSpecialists = assigned.Select(ss => ss.stylist_id).ToHashSet();
-            }
-
-            stylist_list_box.Items.Clear();
-
-            foreach (var item in stylist)
-            {
-                bool isChecked = assignedSpecialists.Contains(item.stylist_id);
-                stylist_list_box.Items.Add(item, isChecked); // add the object itself
-
-
-            }
-
-        }
+      
 
         private void LoadSubCategory() 
         {
@@ -123,68 +98,68 @@ namespace Salon.View
             cmb_sub_category.DataSource = subcategories;
             cmb_sub_category.SelectedIndex = -1;
         }
-        private bool AssignStylistToService(int serviceId)
-        {
-            var repo = new StylistRepository();
-            var controller = new StylistController(repo);
+        //private bool AssignStylistToService(int serviceId)
+        //{
+        //    var repo = new StylistRepository();
+        //    var controller = new StylistController(repo);
 
-            bool assigned = false;
+        //    bool assigned = false;
       
-            if (_isSaving)
-            {
-                foreach (var stylist in stylist_list_box.CheckedItems)
-                {
-                    var model = stylist as StylistModel;
-                    if (model != null)
-                    {
+        //    if (_isSaving)
+        //    {
+        //        foreach (var stylist in stylist_list_box.CheckedItems)
+        //        {
+        //            var model = stylist as StylistModel;
+        //            if (model != null)
+        //            {
 
 
-                        controller.AssignService(model.stylist_id, serviceId);
-                        assigned = true;
+        //                controller.AssignService(model.stylist_id, serviceId);
+        //                assigned = true;
 
-                    }
-                }
+        //            }
+        //        }
 
 
-            }
-            else if (_isUpdating)
-            {
-                // Get all existing assignments for this service
-                var existingAssignments = controller.GetStylistsByServiceId(serviceId)
-                                                    .Select(x => x.stylist_id)
-                                                    .ToHashSet();
+        //    }
+        //    else if (_isUpdating)
+        //    {
+        //        // Get all existing assignments for this service
+        //        var existingAssignments = controller.GetStylistsByServiceId(serviceId)
+        //                                            .Select(x => x.stylist_id)
+        //                                            .ToHashSet();
 
-                foreach (var stylist in stylist_list_box.Items)
-                {
-                    var model = stylist as StylistModel;
-                    if (model == null) continue;
+        //        foreach (var stylist in stylist_list_box.Items)
+        //        {
+        //            var model = stylist as StylistModel;
+        //            if (model == null) continue;
 
-                    bool isChecked = stylist_list_box.CheckedItems.Contains(stylist);
+        //            bool isChecked = stylist_list_box.CheckedItems.Contains(stylist);
 
-                    if (isChecked)
-                    {
-                        // Assign only if not already assigned
-                        if (!existingAssignments.Contains(model.stylist_id))
-                        {
-                            controller.AssignService(model.stylist_id, serviceId);
-                        }
-                    }
-                    else
-                    {
-                        // Unassign if it was previously assigned
-                        if (existingAssignments.Contains(model.stylist_id))
-                        {
-                            controller.UnassignService(model.stylist_id, serviceId);
-                        }
-                    }
-                }
+        //            if (isChecked)
+        //            {
+        //                // Assign only if not already assigned
+        //                if (!existingAssignments.Contains(model.stylist_id))
+        //                {
+        //                    controller.AssignService(model.stylist_id, serviceId);
+        //                }
+        //            }
+        //            else
+        //            {
+        //                // Unassign if it was previously assigned
+        //                if (existingAssignments.Contains(model.stylist_id))
+        //                {
+        //                    controller.UnassignService(model.stylist_id, serviceId);
+        //                }
+        //            }
+        //        }
 
-                assigned = true;
-            }
+        //        assigned = true;
+        //    }
 
-            return assigned;
+        //    return assigned;
 
-        }
+        //}
       
         
         private int AddService() 
@@ -198,10 +173,9 @@ namespace Salon.View
                 serviceName = txt_service_name.Text,
                 servicePrice = Convert.ToDecimal(txt_price.Text),
                 duration = (int)txt_duration.Value,
-                status = cmb_status.Text == "Active" ? Status.Active : Status.Inactive,
             };
             int id = controller.addService(service);
-            AssignStylistToService(id);
+            //AssignStylistToService(id);
             service_id = id;
             serviceName = txt_service_name.Text;
           
@@ -219,10 +193,9 @@ namespace Salon.View
             serviceModel.serviceName = txt_service_name.Text;
             serviceModel.servicePrice = Convert.ToDecimal(txt_price.Text);
             serviceModel.duration = (int)txt_duration.Value;
-            serviceModel.status = cmb_status.Text == "Active" ? Status.Active : Status.Inactive;
 
 
-            AssignStylistToService(serviceModel.serviceName_id);
+            //AssignStylistToService(serviceModel.serviceName_id);
 
             return controller.updateService(serviceModel);
           
@@ -312,39 +285,37 @@ namespace Salon.View
                 txt_service_name.Text.Trim() != (serviceModel?.serviceName?.Trim() ?? string.Empty)
                 || (cmb_sub_category.SelectedValue == null
                     || (int)cmb_sub_category.SelectedValue != (serviceModel?.subCategory_id ?? -1))
-                || (cmb_status.SelectedValue == null
-                    || (Status)cmb_status.SelectedValue != (serviceModel?.status ?? Status.Active))
                 || !priceParsed
                 || currentPrice != (serviceModel?.servicePrice ?? 0);
 
-            // Current checked stylists
-            var currentServices = stylist_list_box.CheckedItems
-                                                  .Cast<StylistModel>()
-                                                  .Select(s => s.stylist_id)
-                                                  .ToList();
+            //// Current checked stylists
+            //var currentServices = stylist_list_box.CheckedItems
+            //                                      .Cast<StylistModel>()
+            //                                      .Select(s => s.stylist_id)
+            //                                      .ToList();
 
-            var stylistSpecialistRepo = new Stylist_Specialist_Repository();
-            var stylistSpecialistController = new Stylist_specialist_Controller(stylistSpecialistRepo);
+            //var stylistSpecialistRepo = new Stylist_Specialist_Repository();
+            //var stylistSpecialistController = new Stylist_specialist_Controller(stylistSpecialistRepo);
 
-            var originalServices = new List<int>();
+            //var originalServices = new List<int>();
 
-            if (_stylist != null)
-            {
-                var result = stylistSpecialistController.GetStylistById(_stylist.stylist_id);
-                if (result != null)
-                {
-                    // ✅ compare stylist_id, not specialist_id
-                    originalServices = result.Select(ss => ss.stylist_id).ToList();
-                }
-            }
+            //if (_stylist != null)
+            //{
+            //    var result = stylistSpecialistController.GetStylistById(_stylist.stylist_id);
+            //    if (result != null)
+            //    {
+            //        // ✅ compare stylist_id, not specialist_id
+            //        originalServices = result.Select(ss => ss.stylist_id).ToList();
+            //    }
+            //}
 
-            // Compare sets
-            if (currentServices.Count != originalServices.Count ||
-                !currentServices.All(originalServices.Contains) ||
-                !originalServices.All(currentServices.Contains))
-            {
-                hasChanges = true;
-            }
+            //// Compare sets
+            //if (currentServices.Count != originalServices.Count ||
+            //    !currentServices.All(originalServices.Contains) ||
+            //    !originalServices.All(currentServices.Contains))
+            //{
+            //    hasChanges = true;
+            //}
 
             return hasChanges;
         }
@@ -382,7 +353,6 @@ namespace Salon.View
                 // REQUIRED FIELD
             string serviceName = txt_service_name.Text.Trim();
             validated &= Validator.ValidateServiceName(serviceName,txt_service_name,errorProvider1,name => controller.CheckServiceExists(name, scid, excludeId) );
-            validated &= Validator.ValidateServiceStatus(cmb_status, errorProvider1);
             validated &= Validator.ValidateServiceCategory(cmb_sub_category, errorProvider1);
             validated &= Validator.ValidateDuration(txt_duration, errorProvider1);
 
@@ -400,6 +370,7 @@ namespace Salon.View
                 if (result == DialogResult.Yes)
                 {
                     RestoreService(deleted_service_id);
+                    this.Close();
                 }
                 validated = false;
             }
@@ -431,19 +402,16 @@ namespace Salon.View
                 validated = false;
             }
 
-            if (!Validator.IsComboBoxSelected(cmb_status, errorProvider1, "Unit Type is Required"))
-            {
-                validated = false;
-            }
+        
 
 
             // Services (CheckedListBox must have at least one checked item)
-            if (stylist_list_box.CheckedItems.Count == 0)
-            {
-                errorProvider1.SetError(stylist_list_box, "Select at least one stylist.");
-                validated = false;
-            }
-            else errorProvider1.SetError(stylist_list_box, "");
+            //if (stylist_list_box.CheckedItems.Count == 0)
+            //{
+            //    errorProvider1.SetError(stylist_list_box, "Select at least one stylist.");
+            //    validated = false;
+            //}
+            //else errorProvider1.SetError(stylist_list_box, "");
 
 
 
@@ -497,74 +465,277 @@ namespace Salon.View
             col_product_name.DataPropertyName = "product_name";
             col_brand.DataPropertyName = "brand";
             col_total_usage.DataPropertyName = "qty_required";
-            dgv_Service_Product.DataSource = serviceProducts;
+
+            product_consumption_list = new BindingList<ServiceProductUsageModel>(serviceProducts.ToList());
+            dgv_Service_Product.DataSource = product_consumption_list;
 
         }
         private void ServiceForm_Load(object sender, EventArgs e)
         {
             //await RefreshServiceProductUsage();
-            cmb_status.MouseWheel += Helper.ComboBox_MouseWheel;
             cmb_sub_category.MouseWheel += Helper.ComboBox_MouseWheel;
+            cmb_product.MouseWheel += Helper.ComboBox_MouseWheel;
+            LoadProducts();
 
-
-            if (service_id > 0) 
-            {
-            
-            }
+            dgv_Service_Product.AutoGenerateColumns = false;
+            col_service_id.DataPropertyName = "service_id";
+            col_product_id.DataPropertyName = "product_id";
+            col_product_name.DataPropertyName = "product_name";
+            col_brand.DataPropertyName = "brand";
+            col_total_usage.DataPropertyName = "qty_required";
+            dgv_Service_Product.DataSource = product_consumption_list;
 
         }
 
-     
 
-        private void btn_add_consumption_Click(object sender, EventArgs e)
+
+
+        private bool IsServiceListConsumptionValid(string name)
         {
-            using (var form = new ProductConsumptionForm(mainform, this, serviceName, service_id)) 
+            // ✅ Check if sizeList has at least one item
+            if (product_consumption_list == null || product_consumption_list.Count == 0)
             {
-                form.ShowDialog();
+                MessageBox.Show($"Please add at least one product consumption before {name}.",
+                                "Validation Error",
+                                MessageBoxButtons.OK,
+                                MessageBoxIcon.Warning);
+                return false;
             }
-        }
 
+            return true;
+        }
         private async void btn_save_Click_1(object sender, EventArgs e)
         {
             if (!IsValid()) return;
-            IsServiceExists();
+            if (!IsServiceListConsumptionValid("saving")) return;
+            SaveServiceConsumption(Service_Model(),product_consumption_list);
+            //IsServiceExists();
 
 
             await mainform.RefreshServicesAsync(1, 25);
             await mainform.RefreshTotalServices();
+            this.Close();
         }
 
         private async void btn_update_Click_1(object sender, EventArgs e)
         {
             if (!IsValid()) return;
-
+            if (!IsServiceListConsumptionValid("updating")) return;
+            UpdateServiceConsumption(Service_Model(), product_consumption_list);
             //if (!HasServiceChange()) 
             //{
             //    MessageBox.Show("No changes detected.", "Information", MessageBoxButtons.OK, MessageBoxIcon.Information);
             //    return;
             //}
-            IsServiceExists();
+            //IsServiceExists();
 
             await mainform.RefreshServicesAsync(1, 25);
+            ClearConsumptionField();
         }
+        private ServiceModel Service_Model() 
+        {
+            int _service_id = service_id;
+            string service_name = txt_service_name.Text.Trim();
+            int category_id = Convert.ToInt32(cmb_sub_category.SelectedValue);
+            decimal price = Convert.ToDecimal(txt_price.Text);
+            int duration = Convert.ToInt32(txt_duration.Value); 
+   
+            var model = new ServiceModel
+            {
+                serviceName_id = _service_id,
+                serviceName = service_name,
+                subCategory_id = category_id,
+                servicePrice = price,
+                duration = duration
+   
+            };
 
+
+            return model;
+        }
+        private ServiceProductUsageModel ServiceConsumptionModel()
+        {
+            int _service_id = service_id;
+            int.TryParse(lbl_usage_id.Text.Trim(), out int usage_id);
+            int product_id = Convert.ToInt32(cmb_product.SelectedValue);
+            string brand = txt_brand.Text.Trim();
+            string product_name = cmb_product.Text.Trim();
+            int.TryParse(txt_total_usage.Text.Trim(), out int qty);
+
+
+            var size_model = new ServiceProductUsageModel
+            {
+                service_id = _service_id,
+                product_name = product_name,
+                brand = brand,
+                product_id = product_id,
+                service_product_id = usage_id,
+                qty_required = qty,
+          
+            };
+
+
+            return size_model;
+
+        }
+        private void SaveServiceConsumption(ServiceModel model, IEnumerable<ServiceProductUsageModel> consumption)
+        {
+            var repo = new ServiceRepository();
+            var controller = new ServiceController(repo);
+
+            bool success = controller.ServiceSaveWithConsumption(model, consumption);
+
+
+            if (success)
+            {
+                MessageBox.Show("Service added successfully!", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            }
+            else
+            {
+                MessageBox.Show("Failed to add service please check the input and try again.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+        private void UpdateServiceConsumption(ServiceModel model, IEnumerable<ServiceProductUsageModel> consumption)
+        {
+            var repo = new ServiceRepository();
+            var controller = new ServiceController(repo);
+
+            bool success = controller.ServiceSaveWithConsumption(model, consumption);
+
+
+            if (success)
+            {
+                MessageBox.Show("Service updated successfully!", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            }
+            else
+            {
+                MessageBox.Show("Failed to update service please check the input and try again.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+        private void DeleteServiceConsumption(ServiceModel model, IEnumerable<ServiceProductUsageModel> consumption)
+        {
+            var repo = new ServiceRepository();
+            var controller = new ServiceController(repo);
+
+            bool success = controller.ServiceSaveWithConsumption(model, consumption);
+
+
+            if (success)
+            {
+                MessageBox.Show("Service deleted successfully!", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            }
+            else
+            {
+                MessageBox.Show("Failed to delete service.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+        private bool IsServiceConsumptionValidated()
+        {
+
+            bool validated = true;
+            int excludeId = Convert.ToInt32(lbl_usage_id.Text);
+            int product_id = Convert.ToInt32(cmb_product.SelectedValue);
+            int sid = service_id;
+            // REQUIRED FIELD
+
+
+
+
+
+
+
+            if (!Validator.IsComboBoxSelected(cmb_product, errorProvider1, "Service is required."))
+            {
+                validated = false;
+            }
+
+
+
+
+
+            //EXISTS VALIDATION
+            int deleted_product_id = 0;
+            if (_isAddingProductUsage) deleted_product_id = ExistingProductConsumptionButDeleted();
+
+            if (deleted_product_id > 0)
+            {
+                var result = MessageBox.Show("This Product Consumption exists but is deleted. Do you want to restore it?",
+                              "Restore Account",
+                           MessageBoxButtons.YesNo,
+                           MessageBoxIcon.Question);
+                if (result == DialogResult.Yes)
+                {
+
+                    RestoreProductConsumption(deleted_product_id);
+
+                }
+            }
+
+            validated &= Validator.IsProductUsageExists(cmb_product, errorProvider1, "Product already exists.", product_id, sid, excludeId);
+
+
+            return validated;
+
+
+        }
+        private bool IsDuplicateConsumption(ServiceProductUsageModel newItem, int excludeId = 0)
+        {
+            bool isDuplicate = product_consumption_list.Any(s =>
+                s.product_id == newItem.product_id &&                    // ✅ same product
+                s.service_product_id != excludeId);                      // ✅ exclude self when updating
+
+            if (isDuplicate)
+            {
+                MessageBox.Show($"Product '{newItem.product_name}' already exists in the list.",
+                                "Duplicate Entry",
+                                MessageBoxButtons.OK,
+                                MessageBoxIcon.Warning);
+                return true;
+            }
+
+            return false;
+        }
+        private int ExistingProductConsumptionButDeleted()
+        {
+            var repo = new ServiceProductUsageRepository();
+            var controller = new ServiceProductUsageController(repo);
+            return controller.GetServiceProductUsage(service_id, Convert.ToInt32(cmb_product.SelectedValue), txt_brand.Text, Convert.ToInt32(txt_total_usage.Text));
+
+        }
+        private void RestoreProductConsumption(int id)
+        {
+            var repo = new ServiceProductUsageRepository();
+            var controller = new ServiceProductUsageController(repo);
+
+            if (controller.RestoreServiceProduct(id))
+            {
+                MessageBox.Show("Service restored successfully!", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                this.Close();
+            }
+
+        }
         private void btn_add_consumption_Click_1(object sender, EventArgs e)
         {
-            if (service_id == 0)
-            {
-                MessageBox.Show(
-                    "Please create a service first before adding a product consumption.",
-                    "Action Required",
-                    MessageBoxButtons.OK,
-                    MessageBoxIcon.Warning
-                );
-                return;
-            }
+            if(!IsServiceConsumptionValidated()) return;
+            if (!IsDuplicateConsumption(ServiceConsumptionModel())) return;
+            product_consumption_list.Add(ServiceConsumptionModel());
 
-            using (var form = new ProductConsumptionForm(mainform, this, serviceName, service_id))
-            {
-                form.ShowDialog();
-            }
+            ClearConsumptionField();
+            //if (service_id == 0)
+            //{
+            //    MessageBox.Show(
+            //        "Please create a service first before adding a product consumption.",
+            //        "Action Required",
+            //        MessageBoxButtons.OK,
+            //        MessageBoxIcon.Warning
+            //    );
+            //    return;
+            //}
+
+            //using (var form = new ProductConsumptionForm(mainform, this, serviceName, service_id))
+            //{
+            //    form.ShowDialog();
+            //}
         }
 
         private async void dgv_Service_Product_CellClick(object sender, DataGridViewCellEventArgs e)
@@ -577,13 +748,28 @@ namespace Salon.View
 
                 if (productUsage != null)
                 {
+                    lbl_usage_id.Text = productUsage.service_product_id.ToString();
+                    cmb_product.SelectedValue = productUsage.product_id;
+                    txt_brand.Text = productUsage.brand;
+                    txt_total_usage.Text = productUsage.qty_required.ToString();
 
-
-                    using (var form = new ProductConsumptionForm(mainform, this, productUsage, serviceName, service_id)) 
+                    if (productUsage.service_product_id != 0)
                     {
-                        form.ShowDialog();
+                        btn_add_consumption.Visible = false;
+                        btn_update_consumption.Visible = true;
                     }
-                      
+                    else 
+                    {
+                        btn_add_consumption.Visible = true;
+                        btn_update_consumption.Visible = false;
+                    }
+                 
+
+                    //using (var form = new ProductConsumptionForm(mainform, this, productUsage, serviceName, service_id)) 
+                    //{
+                    //    form.ShowDialog();
+                    //}
+
 
                 }
             }
@@ -593,36 +779,118 @@ namespace Salon.View
 
                 var repo = new ServiceProductUsageRepository();
                 var controller = new ServiceProductUsageController(repo);
-
+                var product = productUsage.product_name;
                 //if (controller.IsProductUsedInServices(productUsage.product_id))
                 //{
                 //    MessageBox.Show("This product cannot be deleted because it is still being used to inventory or delivery.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 //    return;
                 //}
 
-                if (MessageBox.Show($"Delete product {productUsage.product_name}?", "Confirm Delete", MessageBoxButtons.YesNo) == DialogResult.Yes)
+                var result = MessageBox.Show($"Are you sure you want to delete {productUsage.product_name}?",
+                                                 "Delete Confirmation",
+                                                 MessageBoxButtons.YesNo,
+                                                 MessageBoxIcon.Warning);
+
+                if (result == DialogResult.Yes)
                 {
-    
-                    var product = productUsage.product_name;
+                    // ✅ Remove from BindingList FIRST so it's excluded from the save
+                    product_consumption_list.Remove(productUsage);
 
-                    if (controller.DeleteServiceProduct(productUsage.service_product_id))
-                    {
+                    // ✅ Now save — missing ID will be marked is_deleted = 1 in DB
+                    DeleteServiceConsumption(Service_Model(), product_consumption_list);
 
-                        Audit.AuditLog(DateTime.Now, "Delete", UserSession.CurrentUser.first_Name, "Manage Services Product Usage", $"Deleted product usage '{product}' for ({serviceModel.serviceName}) on {DateTime.Now:yyyy-MM-dd} at {DateTime.Now:HH:mm:ss}");
 
-                        mainform.InsertDeletedRecord(productUsage.service_product_id, productUsage.product_id, "Manage Services Product Usage", productUsage.serviceName, UserSession.CurrentUser.first_Name, DateTime.Today);
+                    Audit.AuditLog(DateTime.Now, "Delete", UserSession.CurrentUser.first_Name, "Manage Services Product Usage", $"Deleted product usage '{product}' for ({serviceModel.serviceName}) on {DateTime.Now:yyyy-MM-dd} at {DateTime.Now:HH:mm:ss}");
 
-                        await mainform.FilterdDeletedRecords(1, 25);
-                        RefreshServiceProductUsage(service_id);
-                     
-                    }
+
+                    mainform.InsertDeletedRecord(productUsage.service_product_id, productUsage.product_id, "Manage Services Product Usage", productUsage.serviceName, UserSession.CurrentUser.first_Name, DateTime.Today);
+
+                    await mainform.FilterdDeletedRecords(1, 25);
+                    RefreshServiceProductUsage(service_id);
                 }
+
+               
             }
         }
 
+        private void LoadProducts()
+        {
+            var repo = new ProductRepository();
+            var controller = new ProductController(repo);
+            var products = controller.GetProductIngredients();
+            cmb_product.DisplayMember = "product_name";
+            cmb_product.ValueMember = "product_id";
+            cmb_product.DataSource = products;
+            cmb_product.SelectedIndex = -1;
+
+
+
+
+        }
         private void btn_cancel_Click_1(object sender, EventArgs e)
         {
             this.Close();
+        }
+
+        private void panel1_Paint(object sender, PaintEventArgs e)
+        {
+
+        }
+
+        private void btn_update_consumption_Click(object sender, EventArgs e)
+        {
+            if (!IsServiceConsumptionValidated()) return;
+
+            var updatedConsumption = ServiceConsumptionModel();
+            if (!IsDuplicateConsumption(updatedConsumption,updatedConsumption.service_product_id)) return;
+
+            var existing = product_consumption_list.FirstOrDefault(s => s.service_product_id == updatedConsumption.service_product_id);
+
+            if (existing != null)
+            {
+                existing.product_name = updatedConsumption.product_name;
+                existing.product_id = updatedConsumption.product_id;
+                existing.brand = updatedConsumption.brand;
+                existing.total_usage_amount = updatedConsumption.total_usage_amount;
+
+            }
+            ClearConsumptionField();
+
+        }
+
+        private void cmb_product_SelectedValueChanged(object sender, EventArgs e)
+        {
+            if (cmb_product.SelectedIndex >= 0)
+            {
+                var selectedProduct = cmb_product.SelectedItem as ProductModel;
+                if (selectedProduct != null)
+                {
+                    txt_brand.Text = selectedProduct.brand;
+
+
+
+
+                }
+            }
+            else
+            {
+                txt_brand.Clear();
+
+
+
+
+            }
+        }
+
+   
+        private void ClearConsumptionField() 
+        {
+            cmb_product.Hint = string.Empty;
+            cmb_product.SelectedIndex = -1;
+            cmb_product.Hint = "Select product";
+            txt_brand.Text = string.Empty;
+            txt_total_usage.Text = string.Empty;
+
         }
     }
 }

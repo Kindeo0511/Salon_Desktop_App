@@ -118,5 +118,12 @@ namespace Salon.Controller
         {
             return repo.ProductRetailIsUsed(id);
         }
+
+        ///------------------------------------///
+
+        public bool ProductSaveWithSize(ProductModel model, IEnumerable<ProductSizeModel> size) 
+        {
+            return repo.SaveProductWithSize(model, size);
+        }
     }
 }

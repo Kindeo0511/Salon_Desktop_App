@@ -23,7 +23,10 @@ namespace Salon.Models
         // tbl_stylist_services model
 
         public int stylist_id { get; set; }
-
+        public override string ToString()
+        {
+            return serviceName; // this is what CheckedListBox displays
+        }
     }
     public enum Status
     {

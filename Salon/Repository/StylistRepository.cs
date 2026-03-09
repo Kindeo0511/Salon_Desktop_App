@@ -398,5 +398,17 @@ WHERE  s.is_deleted = 0 AND ss.service_id = @id AND sc.is_duty = 1 AND LOWER(ws.
                 return con.Query<int>(sql, new { date, start, end }).ToList();
             }
         }
+
+        public List<int> GetAssignedServiceIds(int stylist_id)
+        {
+            using (var con = Database.GetConnection())
+            {
+                return con.Query<int>(
+                    @"SELECT service_id 
+              FROM tbl_stylist_services 
+              WHERE stylist_id = @stylist_id",
+                    new { stylist_id }).ToList();
+            }
+        }
     }
 }

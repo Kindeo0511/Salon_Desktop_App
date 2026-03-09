@@ -361,5 +361,10 @@ namespace Salon.View
         {
            
         }
+
+        private void ProductSizeForm_Load(object sender, EventArgs e)
+        {
+
+        }
     }
 }

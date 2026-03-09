@@ -111,7 +111,7 @@
             this.btn_product_size_update.DrawShadows = false;
             this.btn_product_size_update.HighEmphasis = true;
             this.btn_product_size_update.Icon = null;
-            this.btn_product_size_update.Location = new System.Drawing.Point(283, 477);
+            this.btn_product_size_update.Location = new System.Drawing.Point(432, 485);
             this.btn_product_size_update.Margin = new System.Windows.Forms.Padding(4, 6, 4, 6);
             this.btn_product_size_update.MouseState = MaterialSkin.MouseState.HOVER;
             this.btn_product_size_update.Name = "btn_product_size_update";
@@ -262,6 +262,7 @@
             this.Name = "ProductSizeForm";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.ProductSizeForm_FormClosed);
+            this.Load += new System.EventHandler(this.ProductSizeForm_Load);
             ((System.ComponentModel.ISupportInitialize)(this.errorProvider1)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();

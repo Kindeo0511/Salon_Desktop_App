@@ -45,11 +45,13 @@
             this.materialLabel6 = new MaterialSkin.Controls.MaterialLabel();
             this.txt_email = new System.Windows.Forms.TextBox();
             this.materialCard1 = new MaterialSkin.Controls.MaterialCard();
+            this.cmb_specialist = new System.Windows.Forms.ComboBox();
             this.txt_contact = new System.Windows.Forms.TextBox();
             this.chk_services = new System.Windows.Forms.CheckedListBox();
             this.materialLabel8 = new MaterialSkin.Controls.MaterialLabel();
             this.txt_address = new System.Windows.Forms.TextBox();
             this.materialLabel7 = new MaterialSkin.Controls.MaterialLabel();
+            this.materialLabel9 = new MaterialSkin.Controls.MaterialLabel();
             ((System.ComponentModel.ISupportInitialize)(this.errorProvider1)).BeginInit();
             this.materialCard1.SuspendLayout();
             this.SuspendLayout();
@@ -62,7 +64,7 @@
             this.btn_update.DrawShadows = false;
             this.btn_update.HighEmphasis = true;
             this.btn_update.Icon = null;
-            this.btn_update.Location = new System.Drawing.Point(54, 1020);
+            this.btn_update.Location = new System.Drawing.Point(57, 1173);
             this.btn_update.Margin = new System.Windows.Forms.Padding(4, 6, 4, 6);
             this.btn_update.MouseState = MaterialSkin.MouseState.HOVER;
             this.btn_update.Name = "btn_update";
@@ -83,7 +85,7 @@
             this.btn_cancel.Depth = 0;
             this.btn_cancel.HighEmphasis = true;
             this.btn_cancel.Icon = null;
-            this.btn_cancel.Location = new System.Drawing.Point(279, 1020);
+            this.btn_cancel.Location = new System.Drawing.Point(284, 1173);
             this.btn_cancel.Margin = new System.Windows.Forms.Padding(4, 6, 4, 6);
             this.btn_cancel.MouseState = MaterialSkin.MouseState.HOVER;
             this.btn_cancel.Name = "btn_cancel";
@@ -104,7 +106,7 @@
             this.btn_save.DrawShadows = false;
             this.btn_save.HighEmphasis = true;
             this.btn_save.Icon = null;
-            this.btn_save.Location = new System.Drawing.Point(54, 1020);
+            this.btn_save.Location = new System.Drawing.Point(59, 1173);
             this.btn_save.Margin = new System.Windows.Forms.Padding(4, 6, 4, 6);
             this.btn_save.MouseState = MaterialSkin.MouseState.HOVER;
             this.btn_save.Name = "btn_save";
@@ -260,6 +262,8 @@
             this.materialCard1.AutoScroll = true;
             this.materialCard1.AutoScrollMargin = new System.Drawing.Size(0, 25);
             this.materialCard1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
+            this.materialCard1.Controls.Add(this.materialLabel9);
+            this.materialCard1.Controls.Add(this.cmb_specialist);
             this.materialCard1.Controls.Add(this.txt_contact);
             this.materialCard1.Controls.Add(this.chk_services);
             this.materialCard1.Controls.Add(this.materialLabel8);
@@ -290,6 +294,17 @@
             this.materialCard1.Size = new System.Drawing.Size(994, 733);
             this.materialCard1.TabIndex = 43;
             // 
+            // cmb_specialist
+            // 
+            this.cmb_specialist.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cmb_specialist.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.cmb_specialist.FormattingEnabled = true;
+            this.cmb_specialist.Location = new System.Drawing.Point(474, 748);
+            this.cmb_specialist.Name = "cmb_specialist";
+            this.cmb_specialist.Size = new System.Drawing.Size(450, 33);
+            this.cmb_specialist.Sorted = true;
+            this.cmb_specialist.TabIndex = 49;
+            // 
             // txt_contact
             // 
             this.txt_contact.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
@@ -307,9 +322,9 @@
             this.chk_services.CheckOnClick = true;
             this.chk_services.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.chk_services.FormattingEnabled = true;
-            this.chk_services.Location = new System.Drawing.Point(38, 765);
+            this.chk_services.Location = new System.Drawing.Point(59, 863);
             this.chk_services.Name = "chk_services";
-            this.chk_services.Size = new System.Drawing.Size(900, 177);
+            this.chk_services.Size = new System.Drawing.Size(865, 227);
             this.chk_services.Sorted = true;
             this.chk_services.TabIndex = 46;
             // 
@@ -319,7 +334,7 @@
             this.materialLabel8.Depth = 0;
             this.materialLabel8.Font = new System.Drawing.Font("Roboto Medium", 20F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Pixel);
             this.materialLabel8.FontType = MaterialSkin.MaterialSkinManager.fontType.H6;
-            this.materialLabel8.Location = new System.Drawing.Point(38, 728);
+            this.materialLabel8.Location = new System.Drawing.Point(61, 752);
             this.materialLabel8.MouseState = MaterialSkin.MouseState.HOVER;
             this.materialLabel8.Name = "materialLabel8";
             this.materialLabel8.Size = new System.Drawing.Size(93, 24);
@@ -347,6 +362,19 @@
             this.materialLabel7.Size = new System.Drawing.Size(79, 24);
             this.materialLabel7.TabIndex = 43;
             this.materialLabel7.Text = "Address:";
+            // 
+            // materialLabel9
+            // 
+            this.materialLabel9.AutoSize = true;
+            this.materialLabel9.Depth = 0;
+            this.materialLabel9.Font = new System.Drawing.Font("Roboto Medium", 20F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Pixel);
+            this.materialLabel9.FontType = MaterialSkin.MaterialSkinManager.fontType.H6;
+            this.materialLabel9.Location = new System.Drawing.Point(61, 836);
+            this.materialLabel9.MouseState = MaterialSkin.MouseState.HOVER;
+            this.materialLabel9.Name = "materialLabel9";
+            this.materialLabel9.Size = new System.Drawing.Size(77, 24);
+            this.materialLabel9.TabIndex = 50;
+            this.materialLabel9.Text = "Services";
             // 
             // StylistForm
             // 
@@ -391,5 +419,7 @@
         private MaterialSkin.Controls.MaterialLabel materialLabel8;
         private System.Windows.Forms.CheckedListBox chk_services;
         private System.Windows.Forms.TextBox txt_contact;
+        private System.Windows.Forms.ComboBox cmb_specialist;
+        private MaterialSkin.Controls.MaterialLabel materialLabel9;
     }
 }

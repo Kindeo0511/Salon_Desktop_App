@@ -11,6 +11,15 @@ namespace Salon.Repository
 {
     public class ServiceRepository
     {
+
+        public IEnumerable<ServiceModel> Get_All_Service() 
+        {
+            using (var con = Database.GetConnection())
+            {
+                var sql = @"SELECT * FROM tbl_servicesname WHERE is_deleted = 0";
+                return con.Query<ServiceModel>(sql).ToList();
+            }
+        }
         public IEnumerable<ServiceModel> getAllServices()
         {
             using (var con = Database.GetConnection())
@@ -190,7 +199,101 @@ tbl_subcategory.subCategoryName,tbl_servicesname.duration, tbl_servicesname.stat
             }
         }
 
+        ///-----------------------------------///
 
+
+        public bool ServiceSaveWithConsumption(ServiceModel service, IEnumerable<ServiceProductUsageModel> consumption)
+        {
+            using (var con = Database.GetConnection())
+            {
+                con.Open();
+                using (var tx = con.BeginTransaction())
+                {
+                    try
+                    {
+                        int service_id;
+                        if (service.serviceName_id == 0)
+                        {
+                            service_id = con.ExecuteScalar<int>(
+                            @"INSERT INTO tbl_servicesname (subCategory_id, serviceName, servicePrice, duration) 
+                      VALUES (@subCategory_id, @serviceName, @servicePrice, @duration);
+                      SELECT LAST_INSERT_ID();", service, tx);
+                        }
+                        else
+                        {
+                            service_id = service.serviceName_id;
+                            con.Execute(
+                             @"UPDATE tbl_servicesname
+                       SET subCategory_id = @subCategory_id,
+                           serviceName = @serviceName,
+                           servicePrice = @servicePrice,
+                           duration = @duration,
+                           status = @status
+                       WHERE serviceName_id = @serviceName_id", service, tx);
+                        }
+
+                        var consumptionList = consumption.ToList(); // ✅ Avoid multiple enumeration
+
+                        var existingIds = consumptionList
+                            .Where(s => s.service_product_id > 0)
+                            .Select(s => s.service_product_id)
+                            .ToList();
+
+                        if (existingIds.Any())
+                        {
+                            // ✅ Fixed: column name was serviceName_id but should match service_id FK
+                            con.Execute(
+                                @"UPDATE tbl_service_product
+                          SET is_deleted = 1
+                          WHERE service_id = @service_id
+                          AND service_product_id NOT IN @existingIds",
+                                new { service_id, existingIds }, tx);
+                        }
+                        else
+                        {
+                            con.Execute(
+                                @"UPDATE tbl_service_product
+                          SET is_deleted = 1
+                          WHERE service_id = @service_id",
+                                new { service_id }, tx);
+                        }
+
+                        foreach (var service_consumption in consumptionList)
+                        {
+                            service_consumption.service_id = service_id;
+
+                            if (service_consumption.service_product_id == 0)
+                            {
+                                // ✅ Fixed: column names matched to actual DB columns
+                                con.Execute(
+                                    @"INSERT INTO tbl_service_product 
+                              (service_id, product_id, qty_required)
+                              VALUES (@service_id, @product_id, @qty_required)",
+                                    service_consumption, tx);
+                            }
+                            else
+                            {
+                                // ✅ Fixed: update all relevant fields not just product_id and qty
+                                con.Execute(
+                                    @"UPDATE tbl_service_product
+                              SET product_id = @product_id,
+                                  qty_required = @qty_required
+                              WHERE service_product_id = @service_product_id",
+                                    service_consumption, tx);
+                            }
+                        }
+
+                        tx.Commit();
+                        return true;
+                    }
+                    catch (Exception ex)
+                    {
+                        tx.Rollback();
+                        throw new Exception($"SaveServiceConsumption failed: {ex.Message}", ex);
+                    }
+                }
+            }
+        }
 
 
 

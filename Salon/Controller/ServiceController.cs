@@ -15,6 +15,11 @@ namespace Salon.Controller
         {
             this.repo = repo;
         }
+
+        public IEnumerable<ServiceModel> Get_All_Service() 
+        {
+            return repo.Get_All_Service();
+        }
         public IEnumerable<ServiceModel> getServices()
         {
             return repo.getAllServices();
@@ -84,5 +89,11 @@ namespace Salon.Controller
         {
             return repo.LoadServicesByServiceAndId();
         }
+
+        ///----------------------------///
+        public bool ServiceSaveWithConsumption(ServiceModel model, IEnumerable<ServiceProductUsageModel> consumption) 
+        {
+            return repo.ServiceSaveWithConsumption(model, consumption);
+        }  
     }
 }

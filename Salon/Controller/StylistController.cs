@@ -154,7 +154,13 @@ namespace Salon.Controller
         {
             return _repo.ContactExists(email, id);
         }
-      
+
+        public List<int> GetAssignedServiceIds(int stylist_id) 
+        {
+            return _repo.GetAssignedServiceIds(stylist_id);
+        }
+
+
 
     }
 }

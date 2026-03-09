@@ -83,6 +83,7 @@ namespace Salon.View
         {
             SaveOrUpdate();
             MessageBox.Show("Schedules saved successfully!");
+            this.Close();
 
         }
 

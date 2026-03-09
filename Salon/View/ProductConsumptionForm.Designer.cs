@@ -174,7 +174,7 @@
             this.btn_update_prodct_usage.DrawShadows = false;
             this.btn_update_prodct_usage.HighEmphasis = true;
             this.btn_update_prodct_usage.Icon = null;
-            this.btn_update_prodct_usage.Location = new System.Drawing.Point(476, 488);
+            this.btn_update_prodct_usage.Location = new System.Drawing.Point(476, 440);
             this.btn_update_prodct_usage.Margin = new System.Windows.Forms.Padding(4, 6, 4, 6);
             this.btn_update_prodct_usage.MouseState = MaterialSkin.MouseState.HOVER;
             this.btn_update_prodct_usage.Name = "btn_update_prodct_usage";
