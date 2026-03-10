@@ -1,4 +1,5 @@
-﻿using iText.StyledXmlParser.Jsoup.Safety;
+﻿using Google.Protobuf.WellKnownTypes;
+using iText.StyledXmlParser.Jsoup.Safety;
 using MaterialSkin.Controls;
 using Salon.Controller;
 using Salon.Models;
@@ -11,7 +12,9 @@ using System.Data;
 using System.Drawing;
 using System.Linq;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
+using System.Web.UI;
 using System.Windows.Controls;
 using System.Windows.Forms;
 using static iText.StyledXmlParser.Jsoup.Select.Evaluator;
@@ -658,6 +661,26 @@ namespace Salon.View
             int excludeId = Convert.ToInt32(lbl_usage_id.Text);
             int product_id = Convert.ToInt32(cmb_product.SelectedValue);
             int sid = service_id;
+            string unit = txt_unit_type.Text;
+            int max;
+
+            switch (unit)
+            {
+                case "ml":
+                    max = 500;
+                    break;
+                case "g":
+                    max = 200;
+                    break;
+                case "pcs":
+                    max = 50;
+                    break;
+                default:
+                    max = 500;
+                    break;
+            }
+
+
             // REQUIRED FIELD
 
 
@@ -669,6 +692,26 @@ namespace Salon.View
             if (!Validator.IsComboBoxSelected(cmb_product, errorProvider1, "Service is required."))
             {
                 validated = false;
+            }
+
+            if (string.IsNullOrWhiteSpace(txt_total_usage.Text))
+            {
+                errorProvider1.SetError(txt_total_usage, "Consumption should not be empty.");
+                validated = false;
+            }
+            else if (!Regex.IsMatch(txt_total_usage.Text, @"^[1-9]\d*$"))
+            {
+                errorProvider1.SetError(txt_total_usage, "Consumption must be a positive whole number.");
+                validated = false;
+            }
+            else if (int.Parse(txt_total_usage.Text) > max)
+            {
+                errorProvider1.SetError(txt_total_usage, $"Consumption cannot exceed {max} for {unit}.");
+                validated = false;
+            }
+            else
+            {
+                errorProvider1.SetError(txt_total_usage, "");
             }
 
 
@@ -879,16 +922,16 @@ namespace Salon.View
                 if (selectedProduct != null)
                 {
                     txt_brand.Text = selectedProduct.brand;
+                    txt_unit_type.Text = selectedProduct.unit_type;
 
 
-
-
+                    
                 }
             }
             else
             {
                 txt_brand.Clear();
-
+                txt_unit_type.Clear();
 
 
 
@@ -904,6 +947,12 @@ namespace Salon.View
             txt_brand.Text = string.Empty;
             txt_total_usage.Text = string.Empty;
 
+        }
+
+        private void txt_total_usage_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            if (!char.IsDigit(e.KeyChar) && e.KeyChar != (char)Keys.Back)
+                e.Handled = true;
         }
     }
 }

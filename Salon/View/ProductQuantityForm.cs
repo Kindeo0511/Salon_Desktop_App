@@ -57,6 +57,12 @@ namespace Salon.View
                 MessageBox.Show("Enter a valid positive quantity.", "Invalid quantity", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 return;
             }
+            if (int.Parse(txt_qtn.Text) > 99)
+            {
+                MessageBox.Show("Quantity cannot exceed 99.", "Invalid quantity", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+
+                return;
+            }
 
             SelectedQuantity = q;
             DialogResult = DialogResult.OK;
@@ -67,6 +73,19 @@ namespace Salon.View
         private void ProductQuantityForm_FormClosed(object sender, FormClosedEventArgs e)
         {
             this.Close();
+        }
+
+        private void txt_qtn_KeyPress(object sender, KeyPressEventArgs e)
+        {
+
+
+            if (!char.IsDigit(e.KeyChar) && e.KeyChar != (char)Keys.Back)
+                e.Handled = true;
+        }
+
+        private void txt_qtn_TextChanged(object sender, EventArgs e)
+        {
+
         }
     }
 }

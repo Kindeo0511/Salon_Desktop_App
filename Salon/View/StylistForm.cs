@@ -70,9 +70,9 @@ namespace Salon.View
         }
         public void LoadServices(int stylist_id = 0) 
         {
-            var repo = new ServiceRepository();
-            var controller = new ServiceController(repo);
-            var services = controller.Get_All_Service();
+            var repo = new CategoryRepository();
+            var controller = new CategoryController(repo);
+            var categories = controller.getAllCategory();
 
             chk_services.Items.Clear();
             var assignedIds = new List<int>();
@@ -83,11 +83,11 @@ namespace Salon.View
                 assignedIds = stylistController.GetAssignedServiceIds(stylist_id);
             }
 
-            foreach (var service in services)
+            foreach (var category in categories)
             {
                 // Add service and check it if already assigned
-                bool isAssigned = assignedIds.Contains(service.serviceName_id);
-                chk_services.Items.Add(service, isAssigned); // ✅ second param = checked or not
+                bool isAssigned = assignedIds.Contains(category.category_id);
+                chk_services.Items.Add(category, isAssigned); // ✅ second param = checked or not
             }
 
 
@@ -155,8 +155,8 @@ namespace Salon.View
 
             // Current checked services from CheckedListBox
             var currentServices = chk_services.CheckedItems
-                .Cast<ServiceModel>()
-                .Select(s => s.serviceName_id)
+                .Cast<CategoryModel>()
+                .Select(s => s.category_id)
                 .ToHashSet();
 
             // ✅ Get original assigned service IDs using the correct method
@@ -778,14 +778,14 @@ namespace Salon.View
 
             if (_isSaving)
             {
-                foreach (var service in chk_services.CheckedItems)
+                foreach (var category in chk_services.CheckedItems)
                 {
-                    var model = service as ServiceModel;
+                    var model = category as CategoryModel;
                     if (model != null)
                     {
 
 
-                        controller.AssignService(stylist_id, model.serviceName_id);
+                        controller.AssignService(stylist_id, model.category_id);
                         assigned = true;
 
                     }
@@ -798,25 +798,25 @@ namespace Salon.View
                 // Get all existing assignments for this service
                 var existingAssignments = controller.GetAssignedServiceIds(stylist_id).ToHashSet();
       
-                foreach (var service in chk_services.Items)
+                foreach (var category in chk_services.Items)
                 {
-                    var model = service as ServiceModel;
+                    var model = category as CategoryModel;
                     if (model == null) continue;
 
-                    bool isChecked = chk_services.CheckedItems.Contains(service);
+                    bool isChecked = chk_services.CheckedItems.Contains(category);
 
-                    if (isChecked && !existingAssignments.Contains(model.serviceName_id))
+                    if (isChecked && !existingAssignments.Contains(model.category_id))
                     {
                         
-                       controller.AssignService(stylist_id, model.serviceName_id);
+                       controller.AssignService(stylist_id, model.category_id);
                    
                         assigned = true;
 
                     }
-                    else if(!isChecked && existingAssignments.Contains(model.serviceName_id))
+                    else if(!isChecked && existingAssignments.Contains(model.category_id))
                     {
                        
-                        controller.UnassignService(stylist_id, model.serviceName_id);
+                        controller.UnassignService(stylist_id, model.category_id);
                         assigned = true;
 
                     }

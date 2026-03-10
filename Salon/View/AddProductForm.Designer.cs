@@ -76,6 +76,9 @@
             // 
             this.dgv_product_list.AllowUserToAddRows = false;
             this.dgv_product_list.AllowUserToDeleteRows = false;
+            this.dgv_product_list.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            this.dgv_product_list.CellBorderStyle = System.Windows.Forms.DataGridViewCellBorderStyle.None;
+            this.dgv_product_list.ColumnHeadersBorderStyle = System.Windows.Forms.DataGridViewHeaderBorderStyle.None;
             this.dgv_product_list.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dgv_product_list.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.col_product_id,
@@ -88,6 +91,8 @@
             this.dgv_product_list.Location = new System.Drawing.Point(48, 170);
             this.dgv_product_list.Name = "dgv_product_list";
             this.dgv_product_list.ReadOnly = true;
+            this.dgv_product_list.RowHeadersBorderStyle = System.Windows.Forms.DataGridViewHeaderBorderStyle.None;
+            this.dgv_product_list.RowHeadersVisible = false;
             this.dgv_product_list.RowHeadersWidth = 51;
             this.dgv_product_list.RowTemplate.Height = 24;
             this.dgv_product_list.Size = new System.Drawing.Size(1100, 400);

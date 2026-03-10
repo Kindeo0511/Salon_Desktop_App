@@ -292,15 +292,17 @@
             this.txt_selling_price.Font = new System.Drawing.Font("Roboto", 16F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
             this.txt_selling_price.Hint = "Enter selling price";
             this.txt_selling_price.LeadingIcon = null;
-            this.txt_selling_price.Location = new System.Drawing.Point(756, 154);
-            this.txt_selling_price.MaxLength = 50;
+            this.txt_selling_price.Location = new System.Drawing.Point(747, 161);
+            this.txt_selling_price.MaxLength = 7;
             this.txt_selling_price.MouseState = MaterialSkin.MouseState.OUT;
             this.txt_selling_price.Multiline = false;
             this.txt_selling_price.Name = "txt_selling_price";
-            this.txt_selling_price.Size = new System.Drawing.Size(340, 50);
+            this.txt_selling_price.Size = new System.Drawing.Size(349, 50);
             this.txt_selling_price.TabIndex = 0;
             this.txt_selling_price.Text = "";
             this.txt_selling_price.TrailingIcon = null;
+            this.txt_selling_price.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txt_selling_price_KeyPress);
+            this.txt_selling_price.Leave += new System.EventHandler(this.txt_selling_price_Leave);
             // 
             // materialLabel10
             // 
@@ -344,7 +346,7 @@
             this.txt_size_price.LeadingIcon = null;
             this.txt_size_price.Location = new System.Drawing.Point(746, 76);
             this.txt_size_price.Margin = new System.Windows.Forms.Padding(25, 10, 25, 25);
-            this.txt_size_price.MaxLength = 50;
+            this.txt_size_price.MaxLength = 7;
             this.txt_size_price.MouseState = MaterialSkin.MouseState.OUT;
             this.txt_size_price.Multiline = false;
             this.txt_size_price.Name = "txt_size_price";
@@ -352,6 +354,8 @@
             this.txt_size_price.TabIndex = 65;
             this.txt_size_price.Text = "";
             this.txt_size_price.TrailingIcon = null;
+            this.txt_size_price.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txt_size_price_KeyPress);
+            this.txt_size_price.Leave += new System.EventHandler(this.txt_size_price_Leave);
             // 
             // materialLabel11
             // 
@@ -376,7 +380,7 @@
             this.txt_size_content.LeadingIcon = null;
             this.txt_size_content.Location = new System.Drawing.Point(169, 161);
             this.txt_size_content.Margin = new System.Windows.Forms.Padding(25, 10, 25, 25);
-            this.txt_size_content.MaxLength = 50;
+            this.txt_size_content.MaxLength = 5;
             this.txt_size_content.MouseState = MaterialSkin.MouseState.OUT;
             this.txt_size_content.Multiline = false;
             this.txt_size_content.Name = "txt_size_content";
@@ -384,6 +388,7 @@
             this.txt_size_content.TabIndex = 63;
             this.txt_size_content.Text = "";
             this.txt_size_content.TrailingIcon = null;
+            this.txt_size_content.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txt_size_content_KeyPress);
             // 
             // txt_size
             // 
@@ -395,7 +400,7 @@
             this.txt_size.LeadingIcon = null;
             this.txt_size.Location = new System.Drawing.Point(169, 76);
             this.txt_size.Margin = new System.Windows.Forms.Padding(25, 10, 25, 25);
-            this.txt_size.MaxLength = 50;
+            this.txt_size.MaxLength = 45;
             this.txt_size.MouseState = MaterialSkin.MouseState.OUT;
             this.txt_size.Multiline = false;
             this.txt_size.Name = "txt_size";
@@ -804,7 +809,7 @@
             this.btn_close.NoAccentTextColor = System.Drawing.Color.Empty;
             this.btn_close.Size = new System.Drawing.Size(77, 36);
             this.btn_close.TabIndex = 26;
-            this.btn_close.Text = "cancel";
+            this.btn_close.Text = "close";
             this.btn_close.Type = MaterialSkin.Controls.MaterialButton.MaterialButtonType.Contained;
             this.btn_close.UseAccentColor = false;
             this.btn_close.UseVisualStyleBackColor = true;

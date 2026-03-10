@@ -9,6 +9,7 @@ namespace Salon.Models
     public class ServiceModel
     {
         public int serviceName_id { get; set; }
+        public int category_id { get; set; }
         public int subCategory_id { get; set; }
         public string serviceName { get; set; }
         public string subCategoryName { get; set; }

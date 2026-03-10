@@ -69,9 +69,9 @@ namespace Salon.Controller
         {
             return _repository.GetServiceUsage(product_id, service_id, brand, qty);
         }
-        public bool IsProductUsedInServices(int product_id) 
+        public bool IsProductUsedInServices(int p_size_id) 
         {
-            return _repository.IsServiceProductUsed(product_id);
+            return _repository.IsServiceProductUsed(p_size_id);
         }
     }
 }

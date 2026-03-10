@@ -137,6 +137,7 @@
             this.lbl_duration.Size = new System.Drawing.Size(10, 19);
             this.lbl_duration.TabIndex = 26;
             this.lbl_duration.Text = "0";
+            this.lbl_duration.Visible = false;
             // 
             // errorProvider1
             // 

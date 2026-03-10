@@ -23,6 +23,7 @@ namespace Salon.View
         {
             InitializeComponent();
             ThemeManager.ApplyTheme(this);
+            ThemeManager.StyleDataGridView(dgv_product_list);
             this.paymentForm = paymentForm;
         }
         public AddProductForm(MainForm main, bool Is_POS)

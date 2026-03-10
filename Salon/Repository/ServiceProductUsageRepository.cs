@@ -163,14 +163,13 @@ namespace Salon.Repository
             }
         }
 
-        public bool IsServiceProductUsed(int product_id)
+        public bool IsServiceProductUsed(int p_size_id)
         {
             using (var con = Database.GetConnection())
             {
-                var sql = @" SELECT CASE WHEN EXISTS (SELECT 1 FROM tbl_inventory WHERE product_id = @product_id)   
-                                    OR EXISTS (SELECT 1 FROM tbl_delivery_items WHERE product_id = @product_id)
+                var sql = @" SELECT CASE WHEN EXISTS (SELECT 1 FROM tbl_inventory WHERE product_size_id = @product_size_id)
                             THEN 1 ELSE 0 END";
-                return con.ExecuteScalar<int>(sql, new { product_id }) == 1;
+                return con.ExecuteScalar<int>(sql, new { p_size_id }) == 1;
             }
         }
     }

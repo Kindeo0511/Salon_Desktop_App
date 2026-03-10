@@ -85,7 +85,7 @@ namespace Salon.View
             if (cmb_services.SelectedItem is ServiceModel selectedService)
             {
 
-                LoadStylist(selectedService.serviceName_id);
+                LoadStylist(selectedService.category_id);
 
 
 

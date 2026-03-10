@@ -73,7 +73,7 @@ namespace Salon.View
         }
         private void ViewCustomerCard_Load(object sender, EventArgs e)
         {
-            MessageBox.Show(_customerId.ToString());
+
             LoadCardDetails();
             LoadVisitProgress();
 
@@ -110,15 +110,15 @@ namespace Salon.View
 
 
             //✔ Check if already stamped today
-            //if (controller.IsAlreadyStampedToday(card_id))
-            //{
-            //    MessageBox.Show(
-            //        "This card has already been stamped today.",
-            //        "Already Stamped",
-            //        MessageBoxButtons.OK,
-            //        MessageBoxIcon.Warning);
-            //    return;
-            //}
+            if (controller.IsAlreadyStampedToday(card_id))
+            {
+                MessageBox.Show(
+                    "This card has already been stamped today.",
+                    "Already Stamped",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Warning);
+                return;
+            }
 
 
             var result = MessageBox.Show(
@@ -222,15 +222,15 @@ namespace Salon.View
 
             bool allUsed = controller.IsAllMilestonesRedeemed(_customerId);
 
-            //if (!allUsed)
-            //{
-            //    MessageBox.Show(
-            //        "Customer still has unredeemed milestones.\nPlease redeem all before reissuing.",
-            //        "Cannot Reissue",
-            //        MessageBoxButtons.OK,
-            //        MessageBoxIcon.Warning);
-            //    return;
-            //}
+            if (!allUsed)
+            {
+                MessageBox.Show(
+                    "Customer still has unredeemed milestones.\nPlease redeem all before reissuing.",
+                    "Cannot Reissue",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Warning);
+                return;
+            }
             var result = MessageBox.Show(
                    "Reissue a new loyalty card for this customer?",
                    "Reissue Card",

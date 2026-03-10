@@ -48,7 +48,7 @@
             this.materialLabel1.AutoSize = true;
             this.materialLabel1.Depth = 0;
             this.materialLabel1.Font = new System.Drawing.Font("Roboto", 14F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
-            this.materialLabel1.Location = new System.Drawing.Point(23, 127);
+            this.materialLabel1.Location = new System.Drawing.Point(42, 127);
             this.materialLabel1.Margin = new System.Windows.Forms.Padding(3, 0, 3, 25);
             this.materialLabel1.MouseState = MaterialSkin.MouseState.HOVER;
             this.materialLabel1.Name = "materialLabel1";
@@ -61,7 +61,7 @@
             this.lbl_product_name.AutoSize = true;
             this.lbl_product_name.Depth = 0;
             this.lbl_product_name.Font = new System.Drawing.Font("Roboto", 14F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
-            this.lbl_product_name.Location = new System.Drawing.Point(290, 127);
+            this.lbl_product_name.Location = new System.Drawing.Point(309, 127);
             this.lbl_product_name.MouseState = MaterialSkin.MouseState.HOVER;
             this.lbl_product_name.Name = "lbl_product_name";
             this.lbl_product_name.Size = new System.Drawing.Size(107, 19);
@@ -73,7 +73,7 @@
             this.lbl_brand.AutoSize = true;
             this.lbl_brand.Depth = 0;
             this.lbl_brand.Font = new System.Drawing.Font("Roboto", 14F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
-            this.lbl_brand.Location = new System.Drawing.Point(290, 171);
+            this.lbl_brand.Location = new System.Drawing.Point(309, 171);
             this.lbl_brand.MouseState = MaterialSkin.MouseState.HOVER;
             this.lbl_brand.Name = "lbl_brand";
             this.lbl_brand.Size = new System.Drawing.Size(107, 19);
@@ -85,7 +85,7 @@
             this.materialLabel4.AutoSize = true;
             this.materialLabel4.Depth = 0;
             this.materialLabel4.Font = new System.Drawing.Font("Roboto", 14F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
-            this.materialLabel4.Location = new System.Drawing.Point(23, 171);
+            this.materialLabel4.Location = new System.Drawing.Point(42, 171);
             this.materialLabel4.Margin = new System.Windows.Forms.Padding(3, 0, 3, 25);
             this.materialLabel4.MouseState = MaterialSkin.MouseState.HOVER;
             this.materialLabel4.Name = "materialLabel4";
@@ -98,7 +98,7 @@
             this.lbl_price.AutoSize = true;
             this.lbl_price.Depth = 0;
             this.lbl_price.Font = new System.Drawing.Font("Roboto", 14F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
-            this.lbl_price.Location = new System.Drawing.Point(290, 259);
+            this.lbl_price.Location = new System.Drawing.Point(309, 259);
             this.lbl_price.MouseState = MaterialSkin.MouseState.HOVER;
             this.lbl_price.Name = "lbl_price";
             this.lbl_price.Size = new System.Drawing.Size(107, 19);
@@ -110,7 +110,7 @@
             this.materialLabel6.AutoSize = true;
             this.materialLabel6.Depth = 0;
             this.materialLabel6.Font = new System.Drawing.Font("Roboto", 14F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
-            this.materialLabel6.Location = new System.Drawing.Point(23, 259);
+            this.materialLabel6.Location = new System.Drawing.Point(42, 259);
             this.materialLabel6.Margin = new System.Windows.Forms.Padding(3, 0, 3, 25);
             this.materialLabel6.MouseState = MaterialSkin.MouseState.HOVER;
             this.materialLabel6.Name = "materialLabel6";
@@ -123,7 +123,7 @@
             this.materialLabel7.AutoSize = true;
             this.materialLabel7.Depth = 0;
             this.materialLabel7.Font = new System.Drawing.Font("Roboto", 14F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
-            this.materialLabel7.Location = new System.Drawing.Point(23, 303);
+            this.materialLabel7.Location = new System.Drawing.Point(42, 303);
             this.materialLabel7.MouseState = MaterialSkin.MouseState.HOVER;
             this.materialLabel7.Name = "materialLabel7";
             this.materialLabel7.Size = new System.Drawing.Size(29, 19);
@@ -132,7 +132,7 @@
             // 
             // txt_qty
             // 
-            this.txt_qty.Location = new System.Drawing.Point(284, 303);
+            this.txt_qty.Location = new System.Drawing.Point(303, 303);
             this.txt_qty.Name = "txt_qty";
             this.txt_qty.Size = new System.Drawing.Size(192, 22);
             this.txt_qty.TabIndex = 7;
@@ -182,7 +182,7 @@
             this.materialLabel8.AutoSize = true;
             this.materialLabel8.Depth = 0;
             this.materialLabel8.Font = new System.Drawing.Font("Roboto", 14F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
-            this.materialLabel8.Location = new System.Drawing.Point(22, 215);
+            this.materialLabel8.Location = new System.Drawing.Point(41, 215);
             this.materialLabel8.Margin = new System.Windows.Forms.Padding(3, 0, 3, 25);
             this.materialLabel8.MouseState = MaterialSkin.MouseState.HOVER;
             this.materialLabel8.Name = "materialLabel8";
@@ -195,7 +195,7 @@
             this.lbl_size.AutoSize = true;
             this.lbl_size.Depth = 0;
             this.lbl_size.Font = new System.Drawing.Font("Roboto", 14F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
-            this.lbl_size.Location = new System.Drawing.Point(290, 215);
+            this.lbl_size.Location = new System.Drawing.Point(309, 215);
             this.lbl_size.MouseState = MaterialSkin.MouseState.HOVER;
             this.lbl_size.Name = "lbl_size";
             this.lbl_size.Size = new System.Drawing.Size(107, 19);

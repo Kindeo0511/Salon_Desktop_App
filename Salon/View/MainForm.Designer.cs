@@ -559,13 +559,6 @@
             this.materialLabel42 = new MaterialSkin.Controls.MaterialLabel();
             this.txt_critical_level = new System.Windows.Forms.NumericUpDown();
             this.btn_critical_level = new MaterialSkin.Controls.MaterialButton();
-            this.groupBox3 = new System.Windows.Forms.GroupBox();
-            this.lbl_business_hour_id = new MaterialSkin.Controls.MaterialLabel();
-            this.materialLabel29 = new MaterialSkin.Controls.MaterialLabel();
-            this.dtp_opening = new System.Windows.Forms.DateTimePicker();
-            this.btn_save_business = new MaterialSkin.Controls.MaterialButton();
-            this.materialLabel38 = new MaterialSkin.Controls.MaterialLabel();
-            this.dtp_closing = new System.Windows.Forms.DateTimePicker();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.btn_add_payment_method = new MaterialSkin.Controls.MaterialButton();
             this.dgv_payment_method = new System.Windows.Forms.DataGridView();
@@ -806,7 +799,6 @@
             this.materialCard1.SuspendLayout();
             this.groupBox4.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.txt_critical_level)).BeginInit();
-            this.groupBox3.SuspendLayout();
             this.groupBox1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgv_payment_method)).BeginInit();
             this.groupBox2.SuspendLayout();
@@ -986,6 +978,7 @@
             this.col_db_stylist_name.MinimumWidth = 6;
             this.col_db_stylist_name.Name = "col_db_stylist_name";
             this.col_db_stylist_name.ReadOnly = true;
+            this.col_db_stylist_name.Visible = false;
             // 
             // col_db_date
             // 
@@ -1921,7 +1914,7 @@
             this.materialCard12.MouseState = MaterialSkin.MouseState.HOVER;
             this.materialCard12.Name = "materialCard12";
             this.materialCard12.Padding = new System.Windows.Forms.Padding(14);
-            this.materialCard12.Size = new System.Drawing.Size(1504, 636);
+            this.materialCard12.Size = new System.Drawing.Size(1504, 604);
             this.materialCard12.TabIndex = 9;
             // 
             // dgv_customer
@@ -2662,7 +2655,7 @@
             this.materialCard19.MouseState = MaterialSkin.MouseState.HOVER;
             this.materialCard19.Name = "materialCard19";
             this.materialCard19.Padding = new System.Windows.Forms.Padding(14);
-            this.materialCard19.Size = new System.Drawing.Size(1504, 604);
+            this.materialCard19.Size = new System.Drawing.Size(1504, 636);
             this.materialCard19.TabIndex = 17;
             // 
             // dgv_product
@@ -4781,7 +4774,8 @@
             this.col_btn_cart_apply_discount.MinimumWidth = 6;
             this.col_btn_cart_apply_discount.Name = "col_btn_cart_apply_discount";
             this.col_btn_cart_apply_discount.Resizable = System.Windows.Forms.DataGridViewTriState.True;
-            this.col_btn_cart_apply_discount.Width = 176;
+            this.col_btn_cart_apply_discount.Visible = false;
+            this.col_btn_cart_apply_discount.Width = 101;
             // 
             // panel19
             // 
@@ -5562,6 +5556,7 @@
             // 
             this.txt_reference.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.txt_reference.Location = new System.Drawing.Point(25, 564);
+            this.txt_reference.MaxLength = 16;
             this.txt_reference.Name = "txt_reference";
             this.txt_reference.Size = new System.Drawing.Size(322, 34);
             this.txt_reference.TabIndex = 34;
@@ -8030,7 +8025,6 @@
             this.materialCard1.AutoScroll = true;
             this.materialCard1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
             this.materialCard1.Controls.Add(this.groupBox4);
-            this.materialCard1.Controls.Add(this.groupBox3);
             this.materialCard1.Controls.Add(this.groupBox1);
             this.materialCard1.Controls.Add(this.groupBox2);
             this.materialCard1.Depth = 0;
@@ -8051,7 +8045,7 @@
             this.groupBox4.Controls.Add(this.txt_critical_level);
             this.groupBox4.Controls.Add(this.btn_critical_level);
             this.groupBox4.Dock = System.Windows.Forms.DockStyle.Top;
-            this.groupBox4.Location = new System.Drawing.Point(14, 289);
+            this.groupBox4.Location = new System.Drawing.Point(14, 139);
             this.groupBox4.Name = "groupBox4";
             this.groupBox4.Size = new System.Drawing.Size(671, 150);
             this.groupBox4.TabIndex = 28;
@@ -8099,103 +8093,12 @@
             this.btn_critical_level.UseVisualStyleBackColor = true;
             this.btn_critical_level.Click += new System.EventHandler(this.btn_critical_level_Click);
             // 
-            // groupBox3
-            // 
-            this.groupBox3.Controls.Add(this.lbl_business_hour_id);
-            this.groupBox3.Controls.Add(this.materialLabel29);
-            this.groupBox3.Controls.Add(this.dtp_opening);
-            this.groupBox3.Controls.Add(this.btn_save_business);
-            this.groupBox3.Controls.Add(this.materialLabel38);
-            this.groupBox3.Controls.Add(this.dtp_closing);
-            this.groupBox3.Dock = System.Windows.Forms.DockStyle.Top;
-            this.groupBox3.Location = new System.Drawing.Point(14, 139);
-            this.groupBox3.Name = "groupBox3";
-            this.groupBox3.Size = new System.Drawing.Size(671, 150);
-            this.groupBox3.TabIndex = 27;
-            this.groupBox3.TabStop = false;
-            this.groupBox3.Text = "Open Hours";
-            // 
-            // lbl_business_hour_id
-            // 
-            this.lbl_business_hour_id.AutoSize = true;
-            this.lbl_business_hour_id.Depth = 0;
-            this.lbl_business_hour_id.Font = new System.Drawing.Font("Roboto", 14F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
-            this.lbl_business_hour_id.Location = new System.Drawing.Point(42, 62);
-            this.lbl_business_hour_id.MouseState = MaterialSkin.MouseState.HOVER;
-            this.lbl_business_hour_id.Name = "lbl_business_hour_id";
-            this.lbl_business_hour_id.Size = new System.Drawing.Size(60, 19);
-            this.lbl_business_hour_id.TabIndex = 25;
-            this.lbl_business_hour_id.Text = "Opening";
-            this.lbl_business_hour_id.Visible = false;
-            // 
-            // materialLabel29
-            // 
-            this.materialLabel29.AutoSize = true;
-            this.materialLabel29.Depth = 0;
-            this.materialLabel29.Font = new System.Drawing.Font("Roboto", 14F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
-            this.materialLabel29.Location = new System.Drawing.Point(151, 39);
-            this.materialLabel29.MouseState = MaterialSkin.MouseState.HOVER;
-            this.materialLabel29.Name = "materialLabel29";
-            this.materialLabel29.Size = new System.Drawing.Size(60, 19);
-            this.materialLabel29.TabIndex = 23;
-            this.materialLabel29.Text = "Opening";
-            // 
-            // dtp_opening
-            // 
-            this.dtp_opening.Format = System.Windows.Forms.DateTimePickerFormat.Time;
-            this.dtp_opening.Location = new System.Drawing.Point(154, 61);
-            this.dtp_opening.Name = "dtp_opening";
-            this.dtp_opening.ShowUpDown = true;
-            this.dtp_opening.Size = new System.Drawing.Size(200, 34);
-            this.dtp_opening.TabIndex = 20;
-            // 
-            // btn_save_business
-            // 
-            this.btn_save_business.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
-            this.btn_save_business.Density = MaterialSkin.Controls.MaterialButton.MaterialButtonDensity.Default;
-            this.btn_save_business.Depth = 0;
-            this.btn_save_business.HighEmphasis = true;
-            this.btn_save_business.Icon = null;
-            this.btn_save_business.Location = new System.Drawing.Point(725, 62);
-            this.btn_save_business.Margin = new System.Windows.Forms.Padding(4, 6, 4, 6);
-            this.btn_save_business.MouseState = MaterialSkin.MouseState.HOVER;
-            this.btn_save_business.Name = "btn_save_business";
-            this.btn_save_business.NoAccentTextColor = System.Drawing.Color.Empty;
-            this.btn_save_business.Size = new System.Drawing.Size(64, 36);
-            this.btn_save_business.TabIndex = 22;
-            this.btn_save_business.Text = "save";
-            this.btn_save_business.Type = MaterialSkin.Controls.MaterialButton.MaterialButtonType.Contained;
-            this.btn_save_business.UseAccentColor = false;
-            this.btn_save_business.UseVisualStyleBackColor = true;
-            this.btn_save_business.Click += new System.EventHandler(this.btn_save_business_Click);
-            // 
-            // materialLabel38
-            // 
-            this.materialLabel38.AutoSize = true;
-            this.materialLabel38.Depth = 0;
-            this.materialLabel38.Font = new System.Drawing.Font("Roboto", 14F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
-            this.materialLabel38.Location = new System.Drawing.Point(473, 39);
-            this.materialLabel38.MouseState = MaterialSkin.MouseState.HOVER;
-            this.materialLabel38.Name = "materialLabel38";
-            this.materialLabel38.Size = new System.Drawing.Size(54, 19);
-            this.materialLabel38.TabIndex = 24;
-            this.materialLabel38.Text = "Closing";
-            // 
-            // dtp_closing
-            // 
-            this.dtp_closing.Format = System.Windows.Forms.DateTimePickerFormat.Time;
-            this.dtp_closing.Location = new System.Drawing.Point(476, 61);
-            this.dtp_closing.Name = "dtp_closing";
-            this.dtp_closing.ShowUpDown = true;
-            this.dtp_closing.Size = new System.Drawing.Size(200, 34);
-            this.dtp_closing.TabIndex = 21;
-            // 
             // groupBox1
             // 
             this.groupBox1.Controls.Add(this.btn_add_payment_method);
             this.groupBox1.Controls.Add(this.dgv_payment_method);
             this.groupBox1.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.groupBox1.Location = new System.Drawing.Point(14, 439);
+            this.groupBox1.Location = new System.Drawing.Point(14, 289);
             this.groupBox1.Name = "groupBox1";
             this.groupBox1.Size = new System.Drawing.Size(671, 257);
             this.groupBox1.TabIndex = 25;
@@ -8340,7 +8243,7 @@
             this.txt_vat.Hint = "Vat (%)";
             this.txt_vat.LeadingIcon = null;
             this.txt_vat.Location = new System.Drawing.Point(154, 37);
-            this.txt_vat.MaxLength = 50;
+            this.txt_vat.MaxLength = 3;
             this.txt_vat.MouseState = MaterialSkin.MouseState.OUT;
             this.txt_vat.Multiline = false;
             this.txt_vat.Name = "txt_vat";
@@ -8909,7 +8812,7 @@
             this.txt_visit_req.Hint = "Enter visit required";
             this.txt_visit_req.LeadingIcon = null;
             this.txt_visit_req.Location = new System.Drawing.Point(656, 64);
-            this.txt_visit_req.MaxLength = 10;
+            this.txt_visit_req.MaxLength = 2;
             this.txt_visit_req.MouseState = MaterialSkin.MouseState.OUT;
             this.txt_visit_req.Multiline = false;
             this.txt_visit_req.Name = "txt_visit_req";
@@ -9789,8 +9692,6 @@
             this.groupBox4.ResumeLayout(false);
             this.groupBox4.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.txt_critical_level)).EndInit();
-            this.groupBox3.ResumeLayout(false);
-            this.groupBox3.PerformLayout();
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgv_payment_method)).EndInit();
@@ -10096,11 +9997,6 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn col_deleted_by;
         private System.Windows.Forms.DataGridViewImageColumn col_restore;
         private System.Windows.Forms.DataGridViewImageColumn col_btn_deleted_record;
-        private MaterialSkin.Controls.MaterialButton btn_save_business;
-        private System.Windows.Forms.DateTimePicker dtp_closing;
-        private System.Windows.Forms.DateTimePicker dtp_opening;
-        private MaterialSkin.Controls.MaterialLabel materialLabel38;
-        private MaterialSkin.Controls.MaterialLabel materialLabel29;
         private System.Windows.Forms.Panel panel20;
         private System.Windows.Forms.FlowLayoutPanel flowLayoutPanel1;
         private MaterialSkin.Controls.MaterialButton btn_20;
@@ -10132,7 +10028,6 @@
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel4;
         private MaterialSkin.Controls.MaterialCard materialCard38;
         private System.Windows.Forms.GroupBox groupBox2;
-        private System.Windows.Forms.GroupBox groupBox3;
         private MaterialSkin.Controls.MaterialButton btn_promo;
         private System.Windows.Forms.TabPage tabPage2;
         private MaterialSkin.Controls.MaterialTabControl cash_tab;
@@ -10256,21 +10151,8 @@
         private System.Windows.Forms.DataGridViewImageColumn col_service_btn_delete;
         private MaterialSkin.Controls.MaterialLabel lbl_invoice_number;
         private MaterialSkin.Controls.MaterialLabel materialLabel35;
-        private MaterialSkin.Controls.MaterialLabel lbl_business_hour_id;
         private MaterialSkin.Controls.MaterialButton btn_add_specialist;
         private System.Windows.Forms.DataGridView dgv_specialist;
-        private System.Windows.Forms.DataGridViewTextBoxColumn col_db_app_id;
-        private System.Windows.Forms.DataGridViewTextBoxColumn col_db_customer_id;
-        private System.Windows.Forms.DataGridViewTextBoxColumn col_db_customer_name;
-        private System.Windows.Forms.DataGridViewTextBoxColumn col_db_stylist_id;
-        private System.Windows.Forms.DataGridViewTextBoxColumn col_db_stylist_name;
-        private System.Windows.Forms.DataGridViewTextBoxColumn col_db_date;
-        private System.Windows.Forms.DataGridViewTextBoxColumn col_db_start_time;
-        private System.Windows.Forms.DataGridViewTextBoxColumn col_db_end_time;
-        private System.Windows.Forms.DataGridViewTextBoxColumn col_db_status;
-        private System.Windows.Forms.DataGridViewTextBoxColumn col_db_payment_status;
-        private System.Windows.Forms.DataGridViewTextBoxColumn col_db_booking_type;
-        private System.Windows.Forms.DataGridViewImageColumn col_db_assign_staff;
         private MaterialSkin.Controls.MaterialCard materialCard19;
         private Util.PaginationControl product_pagination;
         private System.Windows.Forms.DataGridView dgv_product;
@@ -10278,18 +10160,6 @@
         private MaterialSkin.Controls.MaterialButton btn_refresh_product;
         private MaterialSkin.Controls.MaterialButton btn_add_product;
         private MaterialSkin.Controls.MaterialButton btn_search_product;
-        private System.Windows.Forms.DataGridViewTextBoxColumn col_cart_product_id;
-        private System.Windows.Forms.DataGridViewTextBoxColumn col_cart_product_name;
-        private System.Windows.Forms.DataGridViewTextBoxColumn col_cart_product_size_id;
-        private System.Windows.Forms.DataGridViewTextBoxColumn col_cart_product_category;
-        private System.Windows.Forms.DataGridViewTextBoxColumn col_cart_product_brand;
-        private System.Windows.Forms.DataGridViewTextBoxColumn col_cart_product_qty;
-        private System.Windows.Forms.DataGridViewTextBoxColumn col_cart_product_price;
-        private System.Windows.Forms.DataGridViewTextBoxColumn col_cart_final_price;
-        private System.Windows.Forms.DataGridViewTextBoxColumn col_cart_discounted;
-        private System.Windows.Forms.DataGridViewTextBoxColumn col_cart_vat_exempt;
-        private System.Windows.Forms.DataGridViewTextBoxColumn col_cart_status;
-        private System.Windows.Forms.DataGridViewImageColumn col_btn_cart_apply_discount;
         private System.Windows.Forms.DataGridViewTextBoxColumn col_product_id;
         private System.Windows.Forms.DataGridViewTextBoxColumn col_product_name;
         private System.Windows.Forms.DataGridViewTextBoxColumn col_product_type;
@@ -10457,5 +10327,29 @@
         private System.Windows.Forms.DataGridViewImageColumn btn_walk_in_payment;
         private System.Windows.Forms.DataGridViewImageColumn btn_walk_in_update;
         private System.Windows.Forms.DataGridViewButtonColumn btn_walk_in_view_details;
+        private System.Windows.Forms.DataGridViewTextBoxColumn col_cart_product_id;
+        private System.Windows.Forms.DataGridViewTextBoxColumn col_cart_product_name;
+        private System.Windows.Forms.DataGridViewTextBoxColumn col_cart_product_size_id;
+        private System.Windows.Forms.DataGridViewTextBoxColumn col_cart_product_category;
+        private System.Windows.Forms.DataGridViewTextBoxColumn col_cart_product_brand;
+        private System.Windows.Forms.DataGridViewTextBoxColumn col_cart_product_qty;
+        private System.Windows.Forms.DataGridViewTextBoxColumn col_cart_product_price;
+        private System.Windows.Forms.DataGridViewTextBoxColumn col_cart_final_price;
+        private System.Windows.Forms.DataGridViewTextBoxColumn col_cart_discounted;
+        private System.Windows.Forms.DataGridViewTextBoxColumn col_cart_vat_exempt;
+        private System.Windows.Forms.DataGridViewTextBoxColumn col_cart_status;
+        private System.Windows.Forms.DataGridViewImageColumn col_btn_cart_apply_discount;
+        private System.Windows.Forms.DataGridViewTextBoxColumn col_db_app_id;
+        private System.Windows.Forms.DataGridViewTextBoxColumn col_db_customer_id;
+        private System.Windows.Forms.DataGridViewTextBoxColumn col_db_customer_name;
+        private System.Windows.Forms.DataGridViewTextBoxColumn col_db_stylist_id;
+        private System.Windows.Forms.DataGridViewTextBoxColumn col_db_stylist_name;
+        private System.Windows.Forms.DataGridViewTextBoxColumn col_db_date;
+        private System.Windows.Forms.DataGridViewTextBoxColumn col_db_start_time;
+        private System.Windows.Forms.DataGridViewTextBoxColumn col_db_end_time;
+        private System.Windows.Forms.DataGridViewTextBoxColumn col_db_status;
+        private System.Windows.Forms.DataGridViewTextBoxColumn col_db_payment_status;
+        private System.Windows.Forms.DataGridViewTextBoxColumn col_db_booking_type;
+        private System.Windows.Forms.DataGridViewImageColumn col_db_assign_staff;
     }
 }

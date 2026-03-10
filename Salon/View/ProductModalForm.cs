@@ -53,27 +53,34 @@ namespace Salon.View
         private void ProductModalForm_Load(object sender, EventArgs e)
         {
             LoadSelectedProdct(this.productModel);
+            txt_qty.Minimum = 1;
+            txt_qty.Maximum = 99;
+            txt_qty.DecimalPlaces = 0;
         }
 
         private void btn_confirm_Click(object sender, EventArgs e)
         {
             int qty = Convert.ToInt32(txt_qty.Value);
 
-            // Validate stock first
-            if (!CheckInventoryProducttStock(productModel.product_id,productModel.product_size_id, qty))
+            var inventoryRepo = new InventoryRepository();
+            var inventoryController = new InventoryController(inventoryRepo);
+
+
+            int stock = inventoryController.GetProductQtyStck(productModel.product_id, productModel.product_size_id);
+            int qty_requested = Convert.ToInt32(txt_qty.Value);
+            if (stock < qty_requested)
             {
-                // Show detailed shortages
-                MessageBox.Show("Cannot sell product. Insufficient stock.",
-                         "Stock Check",
-                         MessageBoxButtons.OK,
-                         MessageBoxIcon.Error);
-                return; // block adding
+                MessageBox.Show($"Insufficient stock. Available: {stock}, Requested: {qty_requested}",
+                                "Stock Check",
+                                MessageBoxButtons.OK,
+                                MessageBoxIcon.Error);
 
-
+                return;
             }
 
 
-     
+
+
             addProductForm.SaveProduct(productModel.product_id, productModel.product_size_id, qty, productModel.selling_price);
             MessageBox.Show("Success");
             this.Close();

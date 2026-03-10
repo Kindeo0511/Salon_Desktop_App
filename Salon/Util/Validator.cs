@@ -1164,6 +1164,12 @@ namespace Salon.Util
                 return false;
             }
 
+            if (int.Parse(value) > 1000)
+            {
+                errorProvider.SetError(control, "Quantity cannot exceed 1,000.");
+                return false;
+            }
+
             errorProvider.SetError(control, "");
             return true;
         }
@@ -1224,9 +1230,9 @@ namespace Salon.Util
             }
 
             // Check range
-            if (vat < 0 || vat > 100)
+            if (vat < 1 || vat > 100)
             {
-                ep.SetError(control, "VAT must be between 0 and 100.");
+                ep.SetError(control, "VAT must be between 1 and 100.");
                 return false;
             }
 

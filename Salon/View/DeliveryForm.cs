@@ -642,6 +642,7 @@ namespace Salon.View
 
         private void btn_update_Click(object sender, EventArgs e)
         {
+            if (!IsValid()) return;
             if (dgv_Items.CurrentRow != null)
             {
                 var row = dgv_Items.CurrentRow;

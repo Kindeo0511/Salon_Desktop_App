@@ -26,6 +26,7 @@ namespace Salon.Models
             : "-";
         public string Status { get; set; }
 
+        public int bookings { get; set; }
        
 
     }

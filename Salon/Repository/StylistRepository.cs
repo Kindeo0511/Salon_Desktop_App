@@ -99,7 +99,7 @@ LEFT JOIN tbl_stylists s ON s.stylist_id = ss.stylist_id
 LEFT JOIN tbl_servicesname sn ON sn.serviceName_id = ss.service_id
 LEFT JOIN tbl_stylist_schedules sc ON sc.stylist_id = s.stylist_id
 LEFT JOIN tbl_weekly_schedule ws ON ws.weekly_id = sc.weekly_id
-WHERE  s.is_deleted = 0 AND ss.service_id = @id AND sc.is_duty = 1 AND LOWER(ws.day_of_week) = LOWER(DAYNAME(CURDATE()));";
+WHERE  s.is_deleted = 0 AND ss.category_id = @id AND sc.is_duty = 1 AND LOWER(ws.day_of_week) = LOWER(DAYNAME(CURDATE()));";
                 return con.Query<StylistModel>(sql, new { id }).ToList();
             }
         }
@@ -123,14 +123,14 @@ WHERE  s.is_deleted = 0 AND ss.service_id = @id AND sc.is_duty = 1 AND LOWER(ws.
                 return con.QuerySingle<int>(sql, stylist);
             }
         }
-        public bool AssignService(int stylist_id, int service_id) 
+        public bool AssignService(int stylist_id, int category_id) 
         {
             using (var con = Database.GetConnection())
             {
-                var sql = @"INSERT INTO tbl_stylist_services (stylist_id, service_id) VALUES (@stylist_id, @service_id)";
+                var sql = @"INSERT INTO tbl_stylist_services (stylist_id, category_id) VALUES (@stylist_id, @category_id)";
                 try
                 {
-                    con.Execute(sql, new { stylist_id, service_id });
+                    con.Execute(sql, new { stylist_id, category_id });
                     return true;
                 }
                 catch (Exception)
@@ -139,14 +139,14 @@ WHERE  s.is_deleted = 0 AND ss.service_id = @id AND sc.is_duty = 1 AND LOWER(ws.
                 }
             }
         }
-        public bool UnassignService(int stylist_id, int service_id)
+        public bool UnassignService(int stylist_id, int category_id)
         {
             using (var con = Database.GetConnection())
             {
-                var sql = @"DELETE FROM tbl_stylist_services WHERE stylist_id = @stylist_id AND service_id = @service_id;";
+                var sql = @"DELETE FROM tbl_stylist_services WHERE stylist_id = @stylist_id AND category_id = @category_id;";
                 try
                 {
-                    con.Execute(sql, new {stylist_id, service_id });
+                    con.Execute(sql, new {stylist_id, category_id });
                     return true;
                 }
                 catch (Exception ex)
@@ -404,7 +404,7 @@ WHERE  s.is_deleted = 0 AND ss.service_id = @id AND sc.is_duty = 1 AND LOWER(ws.
             using (var con = Database.GetConnection())
             {
                 return con.Query<int>(
-                    @"SELECT service_id 
+                    @"SELECT category_id 
               FROM tbl_stylist_services 
               WHERE stylist_id = @stylist_id",
                     new { stylist_id }).ToList();

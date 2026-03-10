@@ -34,6 +34,7 @@ using System.Reflection;
 using System.Runtime.InteropServices.ComTypes;
 using System.Security.Cryptography.X509Certificates;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Transactions;
 using System.Web.Configuration;
@@ -322,7 +323,6 @@ namespace Salon.View
 
             MinAndMaxDate();
             expiry_timer.Start();
-            LoadBusinessHours();
             LowOrOutOfStock();
             LoadSpecialist();
             UserAccess();
@@ -599,22 +599,22 @@ namespace Salon.View
         }
         public async Task RefreshPopularServices()
         {
-            //var repo = new AppointmentServiceRepository();
-            //var controller = new AppointmentServiceController(repo);
+            var repo = new AppointmentServiceRepository();
+            var controller = new AppointmentServiceController(repo);
 
-            //foreach (var service in await controller.GetPopulatServicesAsync())
-            //{
-            //    chart_popular_services.Series.Add(new PieSeries
-            //    {
-            //        Title = service.ServiceName,
-            //        Values = new ChartValues<int> { service.bookings },
-            //        DataLabels = true,
-            //        LabelPoint = chartPoint => $"{chartPoint.Y} ({chartPoint.Participation:P})"
+            foreach (var service in await controller.GetPopulatServicesAsync())
+            {
+                chart_popular_services.Series.Add(new PieSeries
+                {
+                    Title = service.ServiceName,
+                    Values = new ChartValues<int> { service.bookings },
+                    DataLabels = true,
+                    LabelPoint = chartPoint => $"{chartPoint.Y} ({chartPoint.Participation:P})"
 
-            //    });
+                });
 
-            //}
-            //chart_popular_services.LegendLocation = LegendLocation.Top;
+            }
+            chart_popular_services.LegendLocation = LegendLocation.Top;
         }
 
         public void LoadPopularServices()
@@ -2317,7 +2317,7 @@ namespace Salon.View
             // DASHBOARD
             col_db_app_id.DataPropertyName = "AppointmentId";
             col_db_customer_id.DataPropertyName = "CustomerId";
-            customerName.DataPropertyName = "DisplayCustomerName";
+            col_db_customer_name.DataPropertyName = "DisplayCustomerName";
             col_appointment_email.DataPropertyName = "Email";
             col_appointment_number.DataPropertyName = "PhoneNumber";
             col_db_stylist_id.DataPropertyName = "StylistId";
@@ -5612,8 +5612,12 @@ namespace Salon.View
             string invoice_number = lbl_invoice_number.Text;
 
 
-
-            if (ReferenceIsRequired)
+            if (string.IsNullOrEmpty(cmb_payment_method.Text)) 
+            {
+                MessageBox.Show("Pealse select payment method.", "Validation", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
+            if (ReferenceIsRequired && string.IsNullOrEmpty(txt_reference.Text))
             {
                 MessageBox.Show("Reference number is required for the selected payment method.", "Validation", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 return;
@@ -5861,31 +5865,85 @@ namespace Salon.View
 
         private void btn_20_Click(object sender, EventArgs e)
         {
+            if (string.IsNullOrWhiteSpace(lbl_total.Text) ||
+        !decimal.TryParse(lbl_total.Text, out decimal total) ||
+        total <= 0)
+            {
+                MessageBox.Show("Please add items before entering a cash amount.",
+                    "Validation", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
+
             PremadeButtons("20");
         }
 
         private void btn_50_Click(object sender, EventArgs e)
         {
+            if (string.IsNullOrWhiteSpace(lbl_total.Text) ||
+        !decimal.TryParse(lbl_total.Text, out decimal total) ||
+        total <= 0)
+            {
+                MessageBox.Show("Please add items before entering a cash amount.",
+                    "Validation", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
+
             PremadeButtons("50");
         }
 
         private void btn_100_Click(object sender, EventArgs e)
         {
+            if (string.IsNullOrWhiteSpace(lbl_total.Text) ||
+        !decimal.TryParse(lbl_total.Text, out decimal total) ||
+        total <= 0)
+            {
+                MessageBox.Show("Please add items before entering a cash amount.",
+                    "Validation", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
+
             PremadeButtons("100");
         }
 
         private void btn_200_Click(object sender, EventArgs e)
         {
+            if (string.IsNullOrWhiteSpace(lbl_total.Text) ||
+        !decimal.TryParse(lbl_total.Text, out decimal total) ||
+        total <= 0)
+            {
+                MessageBox.Show("Please add items before entering a cash amount.",
+                    "Validation", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
+
             PremadeButtons("200");
         }
 
         private void btn_500_Click(object sender, EventArgs e)
         {
+            if (string.IsNullOrWhiteSpace(lbl_total.Text) ||
+        !decimal.TryParse(lbl_total.Text, out decimal total) ||
+        total <= 0)
+            {
+                MessageBox.Show("Please add items before entering a cash amount.",
+                    "Validation", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
+
             PremadeButtons("500");
         }
 
         private void btn_1000_Click(object sender, EventArgs e)
         {
+            if (string.IsNullOrWhiteSpace(lbl_total.Text) ||
+        !decimal.TryParse(lbl_total.Text, out decimal total) ||
+        total <= 0)
+            {
+                MessageBox.Show("Please add items before entering a cash amount.",
+                    "Validation", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
+
             PremadeButtons("1000");
         }
         private void PremadeDiscountButtons(string input)
@@ -5968,16 +6026,40 @@ namespace Salon.View
 
         private void btn_5_percent_Click(object sender, EventArgs e)
         {
+            if (string.IsNullOrWhiteSpace(lbl_total.Text) ||
+      !decimal.TryParse(lbl_total.Text, out decimal total) ||
+      total <= 0)
+            {
+                MessageBox.Show("Please add items before entering a cash amount.",
+                    "Validation", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
             PremadeDiscountButtons("5");
         }
 
         private void btn_10_percent_Click(object sender, EventArgs e)
         {
+            if (string.IsNullOrWhiteSpace(lbl_total.Text) ||
+      !decimal.TryParse(lbl_total.Text, out decimal total) ||
+      total <= 0)
+            {
+                MessageBox.Show("Please add items before entering a cash amount.",
+                    "Validation", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
             PremadeDiscountButtons("10");
         }
 
         private void btn_20_percent_Click(object sender, EventArgs e)
         {
+            if (string.IsNullOrWhiteSpace(lbl_total.Text) ||
+      !decimal.TryParse(lbl_total.Text, out decimal total) ||
+      total <= 0)
+            {
+                MessageBox.Show("Please add items before entering a cash amount.",
+                    "Validation", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
             PremadeDiscountButtons("20");
         }
 
@@ -5996,6 +6078,14 @@ namespace Salon.View
         {
             var discount = LoadDiscountType("Senior");
 
+            if (string.IsNullOrWhiteSpace(lbl_total.Text) ||
+      !decimal.TryParse(lbl_total.Text, out decimal total) ||
+      total <= 0)
+            {
+                MessageBox.Show("Please add items before entering a cash amount.",
+                    "Validation", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
             if (discount == null)
             {
                 MessageBox.Show("Senior discount type not found.");
@@ -6024,6 +6114,14 @@ namespace Salon.View
         private void btn_pwd_Click(object sender, EventArgs e)
         {
             var discount = LoadDiscountType("PWD");
+            if (string.IsNullOrWhiteSpace(lbl_total.Text) ||
+      !decimal.TryParse(lbl_total.Text, out decimal total) ||
+      total <= 0)
+            {
+                MessageBox.Show("Please add items before entering a cash amount.",
+                    "Validation", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
             if (discount == null)
             {
                 MessageBox.Show("Senior discount type not found.");
@@ -6052,6 +6150,14 @@ namespace Salon.View
 
         private void txt_peso_amount_TextChanged(object sender, EventArgs e)
         {
+            if (string.IsNullOrWhiteSpace(lbl_total.Text) ||
+      !decimal.TryParse(lbl_total.Text, out decimal total) ||
+      total <= 0)
+            {
+                MessageBox.Show("Please add items before entering a cash amount.",
+                    "Validation", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
             if (discountAppliedAlready)
             {
                 txt_peso_amount.ReadOnly = true;
@@ -6093,6 +6199,15 @@ namespace Salon.View
 
         private void txt_percent_amount_TextChanged(object sender, EventArgs e)
         {
+            if (string.IsNullOrWhiteSpace(lbl_total.Text) ||
+      !decimal.TryParse(lbl_total.Text, out decimal total) ||
+      total <= 0)
+            {
+                MessageBox.Show("Please add items before entering a cash amount.",
+                    "Validation", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
+
             if (discountAppliedAlready)
             {
                 txt_percent_amount.ReadOnly = true;
@@ -6250,6 +6365,14 @@ namespace Salon.View
 
         private void btn_promo_Click(object sender, EventArgs e)
         {
+            if (string.IsNullOrWhiteSpace(lbl_total.Text) ||
+      !decimal.TryParse(lbl_total.Text, out decimal total) ||
+      total <= 0)
+            {
+                MessageBox.Show("Please add items before entering a cash amount.",
+                    "Validation", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
             if (discountAppliedAlready) return;
             using (var form = new PromoForm())
             {
@@ -6271,47 +6394,9 @@ namespace Salon.View
 
         // SETTINGS
 
-        public void LoadBusinessHours()
-        {
-            var repo = new BusinessHourRepository();
-            var controller = new TimeSlotController(repo);
-
-
-            var businessHours = controller.GetBusinessHours();
-
-            if (businessHours != null)
-            {
-                lbl_business_hour_id.Text = businessHours.business_hours_id.ToString();
-                dtp_opening.Value = DateTime.Today.Add(businessHours.open_time);
-                dtp_closing.Value = DateTime.Today.Add(businessHours.close_time);
-
-            }
-            else
-            {
-                dtp_opening.Value = DateTime.Today;
-                dtp_closing.Value = DateTime.Today;
-            }
-
-        }
-
-        private void btn_save_business_Click(object sender, EventArgs e)
-        {
-            MessageBox.Show(CreateBusinessHour());
-        }
-        private string CreateBusinessHour()
-        {
-            var repo = new BusinessHourRepository();
-            var controller = new TimeSlotController(repo);
-
-            var businessHour = new BusinessHour
-            {
-                business_hours_id = Convert.ToInt32(lbl_business_hour_id.Text),
-                open_time = dtp_opening.Value.TimeOfDay,
-                close_time = dtp_closing.Value.TimeOfDay,
-            };
-            return controller.CreateOrUpdateBusinessHours(businessHour);
-        }
-
+       
+     
+       
         public void LoadDiscount()
         {
             var repo = new DiscountRepository();
@@ -6342,7 +6427,14 @@ namespace Salon.View
         {
             var repo = new InventoryRepository();
             var controller = new InventoryController(repo);
-
+            
+            if (txt_critical_level.Value == 0) 
+            {
+                MessageBox.Show($"Critical level cannot be set to 0",
+                                "Inventory Critical Level",
+                                MessageBoxButtons.OK,
+                                MessageBoxIcon.Error);
+            }
             var result = MessageBox.Show($"“Do you want to update this record? Confirm to apply changes.”", "Warning", MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
             if (result == DialogResult.Yes)
             {
@@ -7145,7 +7237,7 @@ namespace Salon.View
 
                 if (controller.IsProductBeingUsed(product.product_id))
                 {
-                    MessageBox.Show("This product cannot be deleted because it is still being used to services.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    MessageBox.Show("This product cannot delete because it is still being used to services.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                     return;
                 }
 
@@ -7520,6 +7612,11 @@ namespace Salon.View
             if (string.IsNullOrEmpty(txt_visit_req.Text))
             {
                 errorProvider1.SetError(txt_visit_req, "Please enter the number of visits required.");
+                validated = false;
+            }
+            else if (!Regex.IsMatch(txt_visit_req.Text, @"^[1-9]\d*$"))
+            {
+                errorProvider1.SetError(txt_visit_req, "Visit required must be a positive whole number.");
                 validated = false;
             }
             else if (IsVisitRequiredExists(visit_req))  // ✔ check duplicate visit required

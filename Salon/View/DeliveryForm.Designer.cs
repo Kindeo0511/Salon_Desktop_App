@@ -29,7 +29,6 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(DeliveryForm));
             this.txt_received_by = new MaterialSkin.Controls.MaterialTextBox();
             this.txt_total = new MaterialSkin.Controls.MaterialTextBox();
             this.txt_price = new MaterialSkin.Controls.MaterialTextBox();
@@ -50,6 +49,7 @@
             this.btn_update = new MaterialSkin.Controls.MaterialButton();
             this.btn_add = new MaterialSkin.Controls.MaterialButton();
             this.dgv_Items = new System.Windows.Forms.DataGridView();
+            this.errorProvider1 = new System.Windows.Forms.ErrorProvider(this.components);
             this.product_id = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.col_product_name = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.col_product_size_id = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -62,8 +62,7 @@
             this.col_delivered_date = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.col_expiry_date = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.col_note = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.col_view_delivered_items = new System.Windows.Forms.DataGridViewImageColumn();
-            this.errorProvider1 = new System.Windows.Forms.ErrorProvider(this.components);
+            this.col_view_delivered_items = new System.Windows.Forms.DataGridViewButtonColumn();
             this.materialCard1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgv_Items)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.errorProvider1)).BeginInit();
@@ -155,7 +154,7 @@
             this.txt_qty.Hint = "Quantity Delivered";
             this.txt_qty.LeadingIcon = null;
             this.txt_qty.Location = new System.Drawing.Point(491, 209);
-            this.txt_qty.MaxLength = 50;
+            this.txt_qty.MaxLength = 4;
             this.txt_qty.MouseState = MaterialSkin.MouseState.OUT;
             this.txt_qty.Multiline = false;
             this.txt_qty.Name = "txt_qty";
@@ -408,7 +407,7 @@
             this.btn_update.Depth = 0;
             this.btn_update.HighEmphasis = true;
             this.btn_update.Icon = null;
-            this.btn_update.Location = new System.Drawing.Point(48, 512);
+            this.btn_update.Location = new System.Drawing.Point(57, 512);
             this.btn_update.Margin = new System.Windows.Forms.Padding(4, 6, 4, 6);
             this.btn_update.MouseState = MaterialSkin.MouseState.HOVER;
             this.btn_update.Name = "btn_update";
@@ -478,6 +477,11 @@
             this.dgv_Items.TabIndex = 16;
             this.dgv_Items.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgv_Items_CellClick);
             // 
+            // errorProvider1
+            // 
+            this.errorProvider1.BlinkStyle = System.Windows.Forms.ErrorBlinkStyle.NeverBlink;
+            this.errorProvider1.ContainerControl = this;
+            // 
             // product_id
             // 
             this.product_id.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
@@ -503,7 +507,7 @@
             this.col_product_size_id.Name = "col_product_size_id";
             this.col_product_size_id.ReadOnly = true;
             this.col_product_size_id.Visible = false;
-            this.col_product_size_id.Width = 125;
+            this.col_product_size_id.Width = 130;
             // 
             // col_size_label
             // 
@@ -536,7 +540,7 @@
             this.col_total_qty.MinimumWidth = 6;
             this.col_total_qty.Name = "col_total_qty";
             this.col_total_qty.ReadOnly = true;
-            this.col_total_qty.Width = 83;
+            this.col_total_qty.Width = 90;
             // 
             // col_price
             // 
@@ -582,17 +586,13 @@
             // col_view_delivered_items
             // 
             this.col_view_delivered_items.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
-            this.col_view_delivered_items.HeaderText = "";
-            this.col_view_delivered_items.Image = ((System.Drawing.Image)(resources.GetObject("col_view_delivered_items.Image")));
-            this.col_view_delivered_items.ImageLayout = System.Windows.Forms.DataGridViewImageCellLayout.Zoom;
+            this.col_view_delivered_items.HeaderText = "Action";
             this.col_view_delivered_items.MinimumWidth = 6;
             this.col_view_delivered_items.Name = "col_view_delivered_items";
             this.col_view_delivered_items.ReadOnly = true;
-            // 
-            // errorProvider1
-            // 
-            this.errorProvider1.BlinkStyle = System.Windows.Forms.ErrorBlinkStyle.NeverBlink;
-            this.errorProvider1.ContainerControl = this;
+            this.col_view_delivered_items.Resizable = System.Windows.Forms.DataGridViewTriState.True;
+            this.col_view_delivered_items.Text = "Edit";
+            this.col_view_delivered_items.UseColumnTextForButtonValue = true;
             // 
             // DeliveryForm
             // 
@@ -652,6 +652,6 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn col_delivered_date;
         private System.Windows.Forms.DataGridViewTextBoxColumn col_expiry_date;
         private System.Windows.Forms.DataGridViewTextBoxColumn col_note;
-        private System.Windows.Forms.DataGridViewImageColumn col_view_delivered_items;
+        private System.Windows.Forms.DataGridViewButtonColumn col_view_delivered_items;
     }
 }

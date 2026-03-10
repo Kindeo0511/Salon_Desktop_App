@@ -240,7 +240,6 @@
             this.materialCard1.AutoScroll = true;
             this.materialCard1.AutoScrollMargin = new System.Drawing.Size(0, 25);
             this.materialCard1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
-            this.materialCard1.Controls.Add(this.btn_update_draft);
             this.materialCard1.Controls.Add(this.chk_send_email);
             this.materialCard1.Controls.Add(this.materialLabel14);
             this.materialCard1.Controls.Add(this.dtp_end);
@@ -283,7 +282,7 @@
             this.btn_update_draft.DrawShadows = false;
             this.btn_update_draft.HighEmphasis = true;
             this.btn_update_draft.Icon = null;
-            this.btn_update_draft.Location = new System.Drawing.Point(98, 1098);
+            this.btn_update_draft.Location = new System.Drawing.Point(82, 18);
             this.btn_update_draft.Margin = new System.Windows.Forms.Padding(4, 6, 4, 6);
             this.btn_update_draft.MouseState = MaterialSkin.MouseState.HOVER;
             this.btn_update_draft.Name = "btn_update_draft";
@@ -361,7 +360,7 @@
             this.email_flow_panel.Controls.Add(this.groupBox1);
             this.email_flow_panel.Location = new System.Drawing.Point(51, 534);
             this.email_flow_panel.Name = "email_flow_panel";
-            this.email_flow_panel.Size = new System.Drawing.Size(752, 555);
+            this.email_flow_panel.Size = new System.Drawing.Size(752, 655);
             this.email_flow_panel.TabIndex = 48;
             // 
             // groupBox1
@@ -374,7 +373,7 @@
             this.groupBox1.Controls.Add(this.materialLabel11);
             this.groupBox1.Location = new System.Drawing.Point(3, 3);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(741, 407);
+            this.groupBox1.Size = new System.Drawing.Size(741, 657);
             this.groupBox1.TabIndex = 47;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "EMAIL NOTIFICATION";
@@ -384,7 +383,7 @@
             this.email_preview.Location = new System.Drawing.Point(22, 277);
             this.email_preview.MinimumSize = new System.Drawing.Size(20, 20);
             this.email_preview.Name = "email_preview";
-            this.email_preview.Size = new System.Drawing.Size(690, 250);
+            this.email_preview.Size = new System.Drawing.Size(690, 346);
             this.email_preview.TabIndex = 50;
             // 
             // materialLabel13
@@ -470,11 +469,12 @@
             // 
             // panel1
             // 
+            this.panel1.Controls.Add(this.btn_update_draft);
             this.panel1.Controls.Add(this.btn_published);
             this.panel1.Controls.Add(this.btn_save_draft);
             this.panel1.Controls.Add(this.btn_cancel_discount);
             this.panel1.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.panel1.Location = new System.Drawing.Point(14, 1100);
+            this.panel1.Location = new System.Drawing.Point(14, 1214);
             this.panel1.Name = "panel1";
             this.panel1.Size = new System.Drawing.Size(851, 75);
             this.panel1.TabIndex = 49;

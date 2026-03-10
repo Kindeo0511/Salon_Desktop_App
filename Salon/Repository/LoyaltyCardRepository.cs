@@ -61,7 +61,7 @@ namespace Salon.Repository
             using (var con = Database.GetConnection())
             {
                 var sql = @"DELETE FROM tbl_loyal_rewards WHERE reward_id = @id";
-                return con.Execute(sql, id) > 0;
+                return con.Execute(sql, new { id }) > 0;
             }
         }
         public bool DeleteCardVisit(int card_id) 

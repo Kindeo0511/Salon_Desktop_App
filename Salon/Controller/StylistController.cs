@@ -63,17 +63,17 @@ namespace Salon.Controller
         {
             return _repo.AddStylist(stylist);
         }
-        public bool AssignService(int stylist_id, int service_id) 
+        public bool AssignService(int stylist_id, int category_id) 
         {
-            return _repo.AssignService(stylist_id, service_id);
+            return _repo.AssignService(stylist_id, category_id);
         }
         public bool UpdateAssignService(int ss_id)
         {
             return _repo.UpdateAssignService(ss_id);
         }
-        public bool UnassignService(int stylist_id, int service_id) 
+        public bool UnassignService(int stylist_id, int category_id) 
         {
-            return _repo.UnassignService(stylist_id, service_id);
+            return _repo.UnassignService(stylist_id, category_id);
         }
         public bool Update(StylistModel stylist)
         {

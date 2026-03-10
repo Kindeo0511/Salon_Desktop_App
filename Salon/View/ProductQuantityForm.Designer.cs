@@ -41,7 +41,7 @@
             this.txt_qtn.Hint = "Enter quantity";
             this.txt_qtn.LeadingIcon = null;
             this.txt_qtn.Location = new System.Drawing.Point(60, 89);
-            this.txt_qtn.MaxLength = 50;
+            this.txt_qtn.MaxLength = 2;
             this.txt_qtn.MouseState = MaterialSkin.MouseState.OUT;
             this.txt_qtn.Multiline = false;
             this.txt_qtn.Name = "txt_qtn";
@@ -49,7 +49,9 @@
             this.txt_qtn.TabIndex = 0;
             this.txt_qtn.Text = "";
             this.txt_qtn.TrailingIcon = null;
+            this.txt_qtn.TextChanged += new System.EventHandler(this.txt_qtn_TextChanged);
             this.txt_qtn.KeyDown += new System.Windows.Forms.KeyEventHandler(this.txt_qtn_KeyDown);
+            this.txt_qtn.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txt_qtn_KeyPress);
             // 
             // materialLabel1
             // 

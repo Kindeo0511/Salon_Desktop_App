@@ -13,6 +13,10 @@ namespace Salon.Models
         public string type { get; set; }
         public int is_deleted { get; set; }
 
+        public override string ToString()
+        {
+            return categoryName; // this is what CheckedListBox displays
+        }
 
 
     }

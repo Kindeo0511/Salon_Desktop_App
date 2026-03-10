@@ -448,9 +448,14 @@ namespace Salon.View
             int.TryParse(lbl_size_id.Text.Trim(), out int product_size_id);
             string size_label = txt_size.Text.Trim();
             int.TryParse(txt_size_content.Text.Trim(), out int content);
-            decimal.TryParse(txt_size_price.Text.Trim(), out decimal cost_price);
-            decimal.TryParse(txt_selling_price.Text.Trim(), out decimal selling_price);
 
+            decimal cost_price = decimal.Parse(txt_size_price.Text,
+                System.Globalization.NumberStyles.AllowThousands |
+                System.Globalization.NumberStyles.AllowDecimalPoint);
+
+            decimal selling_price = decimal.Parse(txt_size_price.Text,
+            System.Globalization.NumberStyles.AllowThousands |
+            System.Globalization.NumberStyles.AllowDecimalPoint);
             // Size label required
             if (string.IsNullOrWhiteSpace(txt_size.Text))
             {
@@ -469,9 +474,19 @@ namespace Salon.View
                 errorProvider1.SetError(txt_size_content, "Content is required.");
                 validated = false;
             }
-            else if (!int.TryParse(txt_size_content.Text, out contentValue) || contentValue <= 0)
+            else if (!int.TryParse(txt_size_content.Text, out int value))
             {
-                errorProvider1.SetError(txt_size_content, "Content must be a positive number.");
+                errorProvider1.SetError(txt_size_content, "Content must be a whole number.");
+                validated = false;
+            }
+            else if (!int.TryParse(txt_size_content.Text, out contentValue))
+            {
+                errorProvider1.SetError(txt_size_content, "Content must be greater than 0.");
+                validated = false;
+            }
+            else if (value > 5000) 
+            {
+                errorProvider1.SetError(txt_size_content, "Content value seems too large.");
                 validated = false;
             }
             else errorProvider1.SetError(txt_size_content, "");
@@ -483,6 +498,11 @@ namespace Salon.View
             if (string.IsNullOrWhiteSpace(txt_size_price.Text))
             {
                 errorProvider1.SetError(txt_size_price, "Cost price is required.");
+                validated = false;
+            }
+            else if (cost_price > 50000.99M) 
+            {
+                errorProvider1.SetError(txt_size_price, "Cost price cannot exceed ₱50,000.99");
                 validated = false;
             }
             else if (!decimal.TryParse(txt_size_price.Text, out cost) || cost <= 0)
@@ -500,19 +520,24 @@ namespace Salon.View
                     errorProvider1.SetError(txt_selling_price, "Selling price is required.");
                     validated = false;
                 }
-                else if (!decimal.TryParse(txt_selling_price.Text, out price) || price <= 0)
+                else if (selling_price <= 0)
                 {
                     errorProvider1.SetError(txt_selling_price, "Selling price must be a positive amount.");
                     validated = false;
                 }
-                else if (cost >= price) // ✅ Selling price must be greater than cost price
+                else if (selling_price < cost_price)
                 {
-                    errorProvider1.SetError(txt_selling_price, "Selling price must be greater than cost price.");
+                    errorProvider1.SetError(txt_selling_price, "Selling price cannot be lower than cost price.");
+                    validated = false;
+                }
+                else if (selling_price > cost_price * 5)
+                {
+                    errorProvider1.SetError(txt_selling_price, $"Selling price cannot exceed 5x the cost price (₱{cost_price * 5:F2}).");
                     validated = false;
                 }
                 else
                 {
-                    errorProvider1.SetError(txt_selling_price, ""); // ✅ Clear error if valid
+                    errorProvider1.SetError(txt_selling_price, "");
                 }
             }
             else
@@ -709,8 +734,16 @@ namespace Salon.View
             int.TryParse(lbl_size_id.Text.Trim(), out int product_size_id);
             string size_label = txt_size.Text.Trim();
             int.TryParse(txt_size_content.Text.Trim(), out int content);
-            decimal.TryParse(txt_size_price.Text.Trim(), out decimal cost_price);
-            decimal.TryParse(txt_selling_price.Text.Trim(), out decimal selling_price);
+
+
+            decimal cost_price = decimal.Parse(txt_size_price.Text,
+                                System.Globalization.NumberStyles.AllowThousands |
+                                System.Globalization.NumberStyles.AllowDecimalPoint);
+
+
+            decimal selling_price = decimal.Parse(txt_size_price.Text,
+                                System.Globalization.NumberStyles.AllowThousands |
+                                System.Globalization.NumberStyles.AllowDecimalPoint);
 
             var size_model = new ProductSizeModel
             {
@@ -813,26 +846,14 @@ namespace Salon.View
         private async void btn_update_Click_1(object sender, EventArgs e)
         {
             if (!IsValid()) return;
-            if (!IsProductSizeListValid("updating")) return;
-
-            if (_isUpdating)
-            {
+           
+           
                 UpdateProductSize(Product_Model(), sizeList);
-            }
-            else if (_isDelete)
-            {
-
-
-                DeleteProductSize(Product_Model(), sizeList);
-
-
-
-                LoadProductSizeById(_product_id);
-                await mainForm.FilterdDeletedRecords(1, 25);
-            }
-
-
             this.Close();
+            
+        
+
+    
             //if (!IsValid()) return;
 
             //if (!HasProductChanges())
@@ -911,6 +932,17 @@ namespace Salon.View
                 var product_size_model = dgv_product_size.Rows[e.RowIndex].DataBoundItem as ProductSizeModel;
                 if (product_size_model != null)
                 {
+                    var repo = new ProductSizeRepository();
+                    var controller = new ProductSizeController(repo);
+                    if (controller.IsProductSizeIsUsed(product_size_model.product_size_id))
+                    {
+                        MessageBox.Show(
+                            "This product size is currently in use in inventory and cannot be delete.",
+                            "Cannot Delete",
+                            MessageBoxButtons.OK,
+                            MessageBoxIcon.Warning);
+                        return;
+                    }
                     var result = MessageBox.Show("Are you sure you want to delete this product size?",
                                                   "Delete Confirmation",
                                                   MessageBoxButtons.YesNo,
@@ -920,9 +952,26 @@ namespace Salon.View
                     {
                         // ✅ Remove from BindingList FIRST so it's excluded from the save
                         sizeList.Remove(product_size_model);
-                        _isDelete = true;
-                        _isUpdating = false;
-                       
+
+                        if (controller.SoftDeleteProductSize(product_size_model.product_size_id)) 
+                        {
+                            MessageBox.Show("Product deleted successfully!", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
+
+                            Audit.AuditLog(DateTime.Now, "Delete", UserSession.CurrentUser.first_Name,
+                                              "Manage Products Size",
+                                              $"Deleted product size '{product_size_model.size_label}' on {DateTime.Now:yyyy-MM-dd} at {DateTime.Now:HH:mm:ss}");
+
+                            mainForm.InsertDeletedRecord(product_size_model.product_size_id, null,
+                                                          "Manage Product Size",
+                                                          product_size_model.product_name + "( " + product_size_model.size_label + " )",
+                                                          UserSession.CurrentUser.first_Name, DateTime.Today);
+                        }
+
+
+
+                        LoadProductSizeById(_product_id);
+                        await mainForm.FilterdDeletedRecords(1, 25);
+
                     }
                 }
 
@@ -976,6 +1025,48 @@ namespace Salon.View
         private void btn_close_Click(object sender, EventArgs e)
         {
             this.Close();
+        }
+
+        private void txt_size_price_Leave(object sender, EventArgs e)
+        {
+            if (decimal.TryParse(txt_size_price.Text, out decimal cost))
+            {
+                txt_size_price.Text = cost.ToString("N2");  // 50,000.00
+            }
+        }
+
+        private void txt_selling_price_Leave(object sender, EventArgs e)
+        {
+            if (decimal.TryParse(txt_selling_price.Text, out decimal selling))
+            {
+                txt_selling_price.Text = selling.ToString("N2");  // 50,000.00
+            }
+        }
+
+        private void txt_size_content_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            if (!char.IsDigit(e.KeyChar) && e.KeyChar != (char)Keys.Back)
+                e.Handled = true;
+        }
+
+        private void txt_size_price_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            if (!char.IsDigit(e.KeyChar) && e.KeyChar != '.' && e.KeyChar != (char)Keys.Back)
+                e.Handled = true;
+
+            // Prevent multiple decimal points
+            if (e.KeyChar == '.' && ((MaterialTextBox)sender).Text.Contains('.'))
+                e.Handled = true;
+        }
+
+        private void txt_selling_price_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            if (!char.IsDigit(e.KeyChar) && e.KeyChar != '.' && e.KeyChar != (char)Keys.Back)
+                e.Handled = true;
+
+            // Prevent multiple decimal points
+            if (e.KeyChar == '.' && ((MaterialTextBox)sender).Text.Contains('.'))
+                e.Handled = true;
         }
 
 

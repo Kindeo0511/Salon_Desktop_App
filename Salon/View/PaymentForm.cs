@@ -664,16 +664,21 @@ namespace Salon.View
         }
         private async void btn_confirm_payment_Click(object sender, EventArgs e)
         {
-            DeductByBaseUnitsFIFO();
+    
             if (!Validated()) return;
 
-            decimal amountPaid = 0m;
+            decimal amountPaid = ParseCurrency(txt_amount_paid.Text);
             decimal totalAmount = ParseCurrency(lbl_Total.Text);
             decimal changeAmount = ParseCurrency(lbl_change_amount.Text);
 
-            if (!decimal.TryParse(txt_amount_paid.Text, out amountPaid))
+            if (string.IsNullOrEmpty(cmb_payment_method.Text))
             {
-                MessageBox.Show("Invalid amount paid.", "Validation Error", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                MessageBox.Show("Pealse select payment method.", "Validation", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
+            if (ReferenceIsRequired && string.IsNullOrEmpty(txt_reference.Text))
+            {
+                MessageBox.Show("Reference number is required for the selected payment method.", "Validation", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 return;
             }
 
@@ -687,7 +692,7 @@ namespace Salon.View
 
 
 
-
+            DeductByBaseUnitsFIFO();
             var invoice = new InvoiceModel
             {
                 InvoiceID = invoice_id,
@@ -1257,11 +1262,11 @@ namespace Salon.View
                 txt_discount_amount.ReadOnly = true;
                 return;
             }
-            if (lbl_customer_type.Text != "Member") 
-            {
-                txt_discount_amount.ReadOnly = true;
-                return;
-            }
+            //if (lbl_customer_type.Text != "Member") 
+            //{
+            //    txt_discount_amount.ReadOnly = true;
+            //    return;
+            //}
             ;
             if (!string.IsNullOrWhiteSpace(txt_discount_amount.Text)) 
             {
@@ -1354,31 +1359,27 @@ namespace Salon.View
 
         private void btn_disc_5_Click(object sender, EventArgs e)
         {
-            if (lbl_customer_type.Text != "Member")
-            {
-                MessageBox.Show("Promotions are only available for members.", "Not Eligible", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                return;
-            }
+          
             PremadeDiscountButtons("5");
         }
 
         private void btn_disc_10_Click(object sender, EventArgs e)
         {
-            if (lbl_customer_type.Text != "Member")
-            {
-                MessageBox.Show("Promotions are only available for members.", "Not Eligible", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                return;
-            }
+            //if (lbl_customer_type.Text != "Member")
+            //{
+            //    MessageBox.Show("Promotions are only available for members.", "Not Eligible", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            //    return;
+            //}
             PremadeDiscountButtons("10");
         }
 
         private void btn_disc_20_Click(object sender, EventArgs e)
         {
-            if (lbl_customer_type.Text != "Member")
-            {
-                MessageBox.Show("Promotions are only available for members.", "Not Eligible", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                return;
-            }
+            //if (lbl_customer_type.Text != "Member")
+            //{
+            //    MessageBox.Show("Promotions are only available for members.", "Not Eligible", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            //    return;
+            //}
             PremadeDiscountButtons("20");
         }
 
@@ -1449,11 +1450,11 @@ namespace Salon.View
                 txt_discount_percent.ReadOnly = true;
                 return;
             }
-            if (lbl_customer_type.Text != "Member")
-            {
-                txt_discount_percent.ReadOnly = true;
-                return;
-            }
+            //if (lbl_customer_type.Text != "Member")
+            //{
+            //    txt_discount_percent.ReadOnly = true;
+            //    return;
+            //}
 
             if (!string.IsNullOrWhiteSpace(txt_discount_percent.Text))
             {
@@ -1585,12 +1586,14 @@ namespace Salon.View
             discountAppliedAlready = false;
             OverallDiscountApplied = false;
 
+            txt_amount_paid.Text = "0.00";
             lbl_change_amount.Text = "0.00";
 
             
             calculate();
         }
 
+        private bool ReferenceIsRequired = false;
         private void cmb_payment_method_SelectedIndexChanged(object sender, EventArgs e)
         {
             if (cmb_payment_method.SelectedItem is PaymentMethodModel selectedMethod)
@@ -1599,11 +1602,13 @@ namespace Salon.View
                 {
                     lbl_reference.Visible = true;
                     txt_reference.Visible = true;
+                    ReferenceIsRequired = true;
                 }
                 else 
                 {
                     lbl_reference.Visible = false;
                     txt_reference.Visible = false;
+                    ReferenceIsRequired = false;
                 }
                 
             }
