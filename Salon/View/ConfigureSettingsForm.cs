@@ -360,7 +360,7 @@ namespace Salon.View
 
             // Confirmation dialog
             var result = MessageBox.Show(
-                "Settings saved successfully! Do you want to proceed to the login form?",
+                "Settings saved successfully!",
                 "Success",
                 MessageBoxButtons.YesNo,
                 MessageBoxIcon.Question
@@ -377,7 +377,7 @@ namespace Salon.View
         private void log_in()
         {
             string username = txt_username.Text.Trim();
-            string password = txt_password.Text.Trim();
+            string password = txt_HashPassword.Text.Trim();
             var repo = new UserRepository();
             var controler = new UserController(repo);
             var user = controler.AuthenticateUser(username, password);
@@ -443,6 +443,16 @@ namespace Salon.View
             {
                 materialTabControl1.SelectedIndex--; // move backward }
             }
+        }
+
+        private void txt_business_name_KeyPress(object sender, KeyPressEventArgs e)
+        {
+
+        }
+
+        private void txt_email_KeyPress(object sender, KeyPressEventArgs e)
+        {
+
         }
     }
 }

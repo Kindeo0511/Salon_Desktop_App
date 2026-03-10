@@ -1,4 +1,6 @@
-﻿using Salon.View;
+﻿using Salon.Controller;
+using Salon.Repository;
+using Salon.View;
 using System;
 using System.Windows.Forms;
 
@@ -21,7 +23,7 @@ namespace Salon
             //splash.ShowDialog(); // blocks until closed
 
             // Then launch login form as main window
-            Application.Run(new LoginForm());
+            //Application.Run(new LoginForm());
 
 
             //Application.Run(new Form1());
@@ -29,7 +31,29 @@ namespace Salon
 
             //Application.Run(new ConfigureSettingsForm());
 
+            var repo = new UserRepository();
+            var controller = new UserController(repo);
+
+
+
+
+
+            if (!controller.IsUserAccountExists())
+            {
+
+                Application.Run(new ConfigureSettingsForm());
+
+
+            }
+            else
+            {
+                Application.Run(new LoginForm());
+
+            }
 
         }
     }
+
 }
+    
+

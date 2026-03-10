@@ -850,6 +850,7 @@
             // 
             this.txt_password.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.txt_password.Location = new System.Drawing.Point(478, 260);
+            this.txt_password.MaxLength = 45;
             this.txt_password.Name = "txt_password";
             this.txt_password.Size = new System.Drawing.Size(500, 22);
             this.txt_password.TabIndex = 29;
@@ -859,9 +860,11 @@
             // 
             this.txt_email.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.txt_email.Location = new System.Drawing.Point(478, 146);
+            this.txt_email.MaxLength = 45;
             this.txt_email.Name = "txt_email";
             this.txt_email.Size = new System.Drawing.Size(500, 22);
             this.txt_email.TabIndex = 27;
+            this.txt_email.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txt_email_KeyPress);
             // 
             // materialLabel23
             // 
@@ -893,9 +896,11 @@
             // 
             this.txt_business_name.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.txt_business_name.Location = new System.Drawing.Point(475, 44);
+            this.txt_business_name.MaxLength = 45;
             this.txt_business_name.Name = "txt_business_name";
             this.txt_business_name.Size = new System.Drawing.Size(500, 22);
             this.txt_business_name.TabIndex = 25;
+            this.txt_business_name.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txt_business_name_KeyPress);
             // 
             // materialLabel25
             // 
