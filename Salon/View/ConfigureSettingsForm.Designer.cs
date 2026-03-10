@@ -35,6 +35,7 @@
             this.panel1 = new System.Windows.Forms.Panel();
             this.btn_personal_tab_next = new MaterialSkin.Controls.MaterialButton();
             this.materialCard1 = new MaterialSkin.Controls.MaterialCard();
+            this.txt_contact = new System.Windows.Forms.TextBox();
             this.dtp_day_of_birth = new System.Windows.Forms.DateTimePicker();
             this.materialLabel7 = new MaterialSkin.Controls.MaterialLabel();
             this.txt_address = new System.Windows.Forms.TextBox();
@@ -66,22 +67,6 @@
             this.materialLabel13 = new MaterialSkin.Controls.MaterialLabel();
             this.txt_username = new System.Windows.Forms.TextBox();
             this.materialLabel14 = new MaterialSkin.Controls.MaterialLabel();
-            this.generalPageTab = new System.Windows.Forms.TabPage();
-            this.panel6 = new System.Windows.Forms.Panel();
-            this.btn_vat_tab_back = new MaterialSkin.Controls.MaterialButton();
-            this.btn_vat_tab_next = new MaterialSkin.Controls.MaterialButton();
-            this.materialCard3 = new MaterialSkin.Controls.MaterialCard();
-            this.groupBox2 = new System.Windows.Forms.GroupBox();
-            this.dtp_closing = new System.Windows.Forms.DateTimePicker();
-            this.dtp_opening = new System.Windows.Forms.DateTimePicker();
-            this.materialLabel16 = new MaterialSkin.Controls.MaterialLabel();
-            this.materialLabel15 = new MaterialSkin.Controls.MaterialLabel();
-            this.panel5 = new System.Windows.Forms.Panel();
-            this.materialProgressBar3 = new MaterialSkin.Controls.MaterialProgressBar();
-            this.materialLabel10 = new MaterialSkin.Controls.MaterialLabel();
-            this.groupBox1 = new System.Windows.Forms.GroupBox();
-            this.materialLabel11 = new MaterialSkin.Controls.MaterialLabel();
-            this.txt_vat = new System.Windows.Forms.NumericUpDown();
             this.tabPage1 = new System.Windows.Forms.TabPage();
             this.materialCard30 = new MaterialSkin.Controls.MaterialCard();
             this.panel7 = new System.Windows.Forms.Panel();
@@ -103,7 +88,6 @@
             this.materialLabel24 = new MaterialSkin.Controls.MaterialLabel();
             this.txt_business_name = new System.Windows.Forms.TextBox();
             this.materialLabel25 = new MaterialSkin.Controls.MaterialLabel();
-            this.txt_contact = new System.Windows.Forms.TextBox();
             ((System.ComponentModel.ISupportInitialize)(this.errorProvider1)).BeginInit();
             this.materialTabControl1.SuspendLayout();
             this.personalTabPage.SuspendLayout();
@@ -114,13 +98,6 @@
             this.panel2.SuspendLayout();
             this.materialCard2.SuspendLayout();
             this.panel4.SuspendLayout();
-            this.generalPageTab.SuspendLayout();
-            this.panel6.SuspendLayout();
-            this.materialCard3.SuspendLayout();
-            this.groupBox2.SuspendLayout();
-            this.panel5.SuspendLayout();
-            this.groupBox1.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.txt_vat)).BeginInit();
             this.tabPage1.SuspendLayout();
             this.materialCard30.SuspendLayout();
             this.panel7.SuspendLayout();
@@ -136,7 +113,6 @@
             // 
             this.materialTabControl1.Controls.Add(this.personalTabPage);
             this.materialTabControl1.Controls.Add(this.accountTabPage);
-            this.materialTabControl1.Controls.Add(this.generalPageTab);
             this.materialTabControl1.Controls.Add(this.tabPage1);
             this.materialTabControl1.Depth = 0;
             this.materialTabControl1.Dock = System.Windows.Forms.DockStyle.Fill;
@@ -222,6 +198,16 @@
             this.materialCard1.Padding = new System.Windows.Forms.Padding(14);
             this.materialCard1.Size = new System.Drawing.Size(992, 949);
             this.materialCard1.TabIndex = 0;
+            // 
+            // txt_contact
+            // 
+            this.txt_contact.BackColor = System.Drawing.SystemColors.Menu;
+            this.txt_contact.Location = new System.Drawing.Point(442, 446);
+            this.txt_contact.Margin = new System.Windows.Forms.Padding(3, 3, 100, 50);
+            this.txt_contact.MaxLength = 11;
+            this.txt_contact.Name = "txt_contact";
+            this.txt_contact.Size = new System.Drawing.Size(450, 22);
+            this.txt_contact.TabIndex = 18;
             // 
             // dtp_day_of_birth
             // 
@@ -623,218 +609,6 @@
             this.materialLabel14.TabIndex = 0;
             this.materialLabel14.Text = "Username:";
             // 
-            // generalPageTab
-            // 
-            this.generalPageTab.Controls.Add(this.panel6);
-            this.generalPageTab.Controls.Add(this.materialCard3);
-            this.generalPageTab.Location = new System.Drawing.Point(4, 25);
-            this.generalPageTab.Name = "generalPageTab";
-            this.generalPageTab.Padding = new System.Windows.Forms.Padding(100, 25, 100, 25);
-            this.generalPageTab.Size = new System.Drawing.Size(1192, 999);
-            this.generalPageTab.TabIndex = 2;
-            this.generalPageTab.Text = "General Settings";
-            this.generalPageTab.UseVisualStyleBackColor = true;
-            // 
-            // panel6
-            // 
-            this.panel6.Controls.Add(this.btn_vat_tab_back);
-            this.panel6.Controls.Add(this.btn_vat_tab_next);
-            this.panel6.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.panel6.Location = new System.Drawing.Point(100, 892);
-            this.panel6.Name = "panel6";
-            this.panel6.Padding = new System.Windows.Forms.Padding(0, 3, 0, 0);
-            this.panel6.Size = new System.Drawing.Size(992, 82);
-            this.panel6.TabIndex = 3;
-            // 
-            // btn_vat_tab_back
-            // 
-            this.btn_vat_tab_back.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.btn_vat_tab_back.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
-            this.btn_vat_tab_back.Density = MaterialSkin.Controls.MaterialButton.MaterialButtonDensity.Default;
-            this.btn_vat_tab_back.Depth = 0;
-            this.btn_vat_tab_back.HighEmphasis = true;
-            this.btn_vat_tab_back.Icon = null;
-            this.btn_vat_tab_back.Location = new System.Drawing.Point(753, 25);
-            this.btn_vat_tab_back.Margin = new System.Windows.Forms.Padding(4, 6, 4, 6);
-            this.btn_vat_tab_back.MouseState = MaterialSkin.MouseState.HOVER;
-            this.btn_vat_tab_back.Name = "btn_vat_tab_back";
-            this.btn_vat_tab_back.NoAccentTextColor = System.Drawing.Color.Empty;
-            this.btn_vat_tab_back.Size = new System.Drawing.Size(64, 36);
-            this.btn_vat_tab_back.TabIndex = 1;
-            this.btn_vat_tab_back.Text = "back";
-            this.btn_vat_tab_back.Type = MaterialSkin.Controls.MaterialButton.MaterialButtonType.Contained;
-            this.btn_vat_tab_back.UseAccentColor = false;
-            this.btn_vat_tab_back.UseVisualStyleBackColor = true;
-            this.btn_vat_tab_back.Click += new System.EventHandler(this.btn_vat_tab_back_Click);
-            // 
-            // btn_vat_tab_next
-            // 
-            this.btn_vat_tab_next.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.btn_vat_tab_next.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
-            this.btn_vat_tab_next.Density = MaterialSkin.Controls.MaterialButton.MaterialButtonDensity.Default;
-            this.btn_vat_tab_next.Depth = 0;
-            this.btn_vat_tab_next.HighEmphasis = true;
-            this.btn_vat_tab_next.Icon = null;
-            this.btn_vat_tab_next.Location = new System.Drawing.Point(904, 25);
-            this.btn_vat_tab_next.Margin = new System.Windows.Forms.Padding(4, 6, 4, 6);
-            this.btn_vat_tab_next.MouseState = MaterialSkin.MouseState.HOVER;
-            this.btn_vat_tab_next.Name = "btn_vat_tab_next";
-            this.btn_vat_tab_next.NoAccentTextColor = System.Drawing.Color.Empty;
-            this.btn_vat_tab_next.Size = new System.Drawing.Size(64, 36);
-            this.btn_vat_tab_next.TabIndex = 0;
-            this.btn_vat_tab_next.Text = "Next";
-            this.btn_vat_tab_next.Type = MaterialSkin.Controls.MaterialButton.MaterialButtonType.Contained;
-            this.btn_vat_tab_next.UseAccentColor = false;
-            this.btn_vat_tab_next.UseVisualStyleBackColor = true;
-            this.btn_vat_tab_next.Click += new System.EventHandler(this.btn_vat_tab_next_Click);
-            // 
-            // materialCard3
-            // 
-            this.materialCard3.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
-            this.materialCard3.Controls.Add(this.groupBox2);
-            this.materialCard3.Controls.Add(this.panel5);
-            this.materialCard3.Controls.Add(this.groupBox1);
-            this.materialCard3.Depth = 0;
-            this.materialCard3.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.materialCard3.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(222)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
-            this.materialCard3.Location = new System.Drawing.Point(100, 25);
-            this.materialCard3.Margin = new System.Windows.Forms.Padding(100);
-            this.materialCard3.MouseState = MaterialSkin.MouseState.HOVER;
-            this.materialCard3.Name = "materialCard3";
-            this.materialCard3.Padding = new System.Windows.Forms.Padding(14);
-            this.materialCard3.Size = new System.Drawing.Size(992, 949);
-            this.materialCard3.TabIndex = 2;
-            // 
-            // groupBox2
-            // 
-            this.groupBox2.Controls.Add(this.dtp_closing);
-            this.groupBox2.Controls.Add(this.dtp_opening);
-            this.groupBox2.Controls.Add(this.materialLabel16);
-            this.groupBox2.Controls.Add(this.materialLabel15);
-            this.groupBox2.Location = new System.Drawing.Point(20, 417);
-            this.groupBox2.Name = "groupBox2";
-            this.groupBox2.Padding = new System.Windows.Forms.Padding(5);
-            this.groupBox2.Size = new System.Drawing.Size(948, 200);
-            this.groupBox2.TabIndex = 21;
-            this.groupBox2.TabStop = false;
-            this.groupBox2.Text = "BUSINESS HOUR";
-            // 
-            // dtp_closing
-            // 
-            this.dtp_closing.Format = System.Windows.Forms.DateTimePickerFormat.Time;
-            this.dtp_closing.Location = new System.Drawing.Point(466, 135);
-            this.dtp_closing.Name = "dtp_closing";
-            this.dtp_closing.ShowUpDown = true;
-            this.dtp_closing.Size = new System.Drawing.Size(457, 22);
-            this.dtp_closing.TabIndex = 24;
-            // 
-            // dtp_opening
-            // 
-            this.dtp_opening.Format = System.Windows.Forms.DateTimePickerFormat.Time;
-            this.dtp_opening.Location = new System.Drawing.Point(466, 61);
-            this.dtp_opening.Name = "dtp_opening";
-            this.dtp_opening.RightToLeft = System.Windows.Forms.RightToLeft.No;
-            this.dtp_opening.ShowUpDown = true;
-            this.dtp_opening.Size = new System.Drawing.Size(457, 22);
-            this.dtp_opening.TabIndex = 23;
-            // 
-            // materialLabel16
-            // 
-            this.materialLabel16.AutoSize = true;
-            this.materialLabel16.Depth = 0;
-            this.materialLabel16.Font = new System.Drawing.Font("Roboto", 16F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
-            this.materialLabel16.FontType = MaterialSkin.MaterialSkinManager.fontType.Subtitle1;
-            this.materialLabel16.Location = new System.Drawing.Point(63, 135);
-            this.materialLabel16.MouseState = MaterialSkin.MouseState.HOVER;
-            this.materialLabel16.Name = "materialLabel16";
-            this.materialLabel16.Size = new System.Drawing.Size(98, 19);
-            this.materialLabel16.TabIndex = 22;
-            this.materialLabel16.Text = "Closing Time:";
-            // 
-            // materialLabel15
-            // 
-            this.materialLabel15.AutoSize = true;
-            this.materialLabel15.Depth = 0;
-            this.materialLabel15.Font = new System.Drawing.Font("Roboto", 16F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
-            this.materialLabel15.FontType = MaterialSkin.MaterialSkinManager.fontType.Subtitle1;
-            this.materialLabel15.Location = new System.Drawing.Point(58, 64);
-            this.materialLabel15.MouseState = MaterialSkin.MouseState.HOVER;
-            this.materialLabel15.Name = "materialLabel15";
-            this.materialLabel15.Size = new System.Drawing.Size(104, 19);
-            this.materialLabel15.TabIndex = 21;
-            this.materialLabel15.Text = "Opening Time:";
-            // 
-            // panel5
-            // 
-            this.panel5.Controls.Add(this.materialProgressBar3);
-            this.panel5.Controls.Add(this.materialLabel10);
-            this.panel5.Dock = System.Windows.Forms.DockStyle.Top;
-            this.panel5.Location = new System.Drawing.Point(14, 14);
-            this.panel5.Name = "panel5";
-            this.panel5.Padding = new System.Windows.Forms.Padding(0, 25, 0, 0);
-            this.panel5.Size = new System.Drawing.Size(964, 98);
-            this.panel5.TabIndex = 17;
-            // 
-            // materialProgressBar3
-            // 
-            this.materialProgressBar3.Depth = 0;
-            this.materialProgressBar3.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.materialProgressBar3.Location = new System.Drawing.Point(0, 93);
-            this.materialProgressBar3.MouseState = MaterialSkin.MouseState.HOVER;
-            this.materialProgressBar3.Name = "materialProgressBar3";
-            this.materialProgressBar3.Size = new System.Drawing.Size(964, 5);
-            this.materialProgressBar3.TabIndex = 15;
-            // 
-            // materialLabel10
-            // 
-            this.materialLabel10.AutoSize = true;
-            this.materialLabel10.Depth = 0;
-            this.materialLabel10.Font = new System.Drawing.Font("Roboto Medium", 20F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Pixel);
-            this.materialLabel10.FontType = MaterialSkin.MaterialSkinManager.fontType.H6;
-            this.materialLabel10.Location = new System.Drawing.Point(32, 39);
-            this.materialLabel10.MouseState = MaterialSkin.MouseState.HOVER;
-            this.materialLabel10.Name = "materialLabel10";
-            this.materialLabel10.Size = new System.Drawing.Size(75, 24);
-            this.materialLabel10.TabIndex = 0;
-            this.materialLabel10.Tag = "";
-            this.materialLabel10.Text = "Settings";
-            // 
-            // groupBox1
-            // 
-            this.groupBox1.Controls.Add(this.materialLabel11);
-            this.groupBox1.Controls.Add(this.txt_vat);
-            this.groupBox1.Location = new System.Drawing.Point(17, 172);
-            this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Padding = new System.Windows.Forms.Padding(5);
-            this.groupBox1.Size = new System.Drawing.Size(948, 115);
-            this.groupBox1.TabIndex = 20;
-            this.groupBox1.TabStop = false;
-            this.groupBox1.Text = "VAT";
-            // 
-            // materialLabel11
-            // 
-            this.materialLabel11.AutoSize = true;
-            this.materialLabel11.Depth = 0;
-            this.materialLabel11.Font = new System.Drawing.Font("Roboto", 16F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
-            this.materialLabel11.FontType = MaterialSkin.MaterialSkinManager.fontType.Subtitle1;
-            this.materialLabel11.Location = new System.Drawing.Point(61, 52);
-            this.materialLabel11.MouseState = MaterialSkin.MouseState.HOVER;
-            this.materialLabel11.Name = "materialLabel11";
-            this.materialLabel11.Size = new System.Drawing.Size(35, 19);
-            this.materialLabel11.TabIndex = 20;
-            this.materialLabel11.Text = "VAT:";
-            // 
-            // txt_vat
-            // 
-            this.txt_vat.BackColor = System.Drawing.SystemColors.Menu;
-            this.txt_vat.DecimalPlaces = 2;
-            this.txt_vat.Location = new System.Drawing.Point(469, 49);
-            this.txt_vat.Name = "txt_vat";
-            this.txt_vat.Size = new System.Drawing.Size(457, 22);
-            this.txt_vat.TabIndex = 19;
-            // 
             // tabPage1
             // 
             this.tabPage1.Controls.Add(this.materialCard30);
@@ -903,6 +677,7 @@
             this.btn_smtp_back.Type = MaterialSkin.Controls.MaterialButton.MaterialButtonType.Contained;
             this.btn_smtp_back.UseAccentColor = false;
             this.btn_smtp_back.UseVisualStyleBackColor = true;
+            this.btn_smtp_back.Click += new System.EventHandler(this.btn_smtp_back_Click);
             // 
             // btn_smtp_next
             // 
@@ -1135,16 +910,6 @@
             this.materialLabel25.TabIndex = 26;
             this.materialLabel25.Text = "Sender Gmail Address:";
             // 
-            // txt_contact
-            // 
-            this.txt_contact.BackColor = System.Drawing.SystemColors.Menu;
-            this.txt_contact.Location = new System.Drawing.Point(442, 446);
-            this.txt_contact.Margin = new System.Windows.Forms.Padding(3, 3, 100, 50);
-            this.txt_contact.MaxLength = 11;
-            this.txt_contact.Name = "txt_contact";
-            this.txt_contact.Size = new System.Drawing.Size(450, 22);
-            this.txt_contact.TabIndex = 18;
-            // 
             // ConfigureSettingsForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
@@ -1173,17 +938,6 @@
             this.materialCard2.PerformLayout();
             this.panel4.ResumeLayout(false);
             this.panel4.PerformLayout();
-            this.generalPageTab.ResumeLayout(false);
-            this.panel6.ResumeLayout(false);
-            this.panel6.PerformLayout();
-            this.materialCard3.ResumeLayout(false);
-            this.groupBox2.ResumeLayout(false);
-            this.groupBox2.PerformLayout();
-            this.panel5.ResumeLayout(false);
-            this.panel5.PerformLayout();
-            this.groupBox1.ResumeLayout(false);
-            this.groupBox1.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.txt_vat)).EndInit();
             this.tabPage1.ResumeLayout(false);
             this.materialCard30.ResumeLayout(false);
             this.materialCard30.PerformLayout();
@@ -1232,22 +986,6 @@
         private System.Windows.Forms.Panel panel4;
         private MaterialSkin.Controls.MaterialProgressBar materialProgressBar2;
         private MaterialSkin.Controls.MaterialLabel materialLabel9;
-        private System.Windows.Forms.TabPage generalPageTab;
-        private System.Windows.Forms.Panel panel6;
-        private MaterialSkin.Controls.MaterialButton btn_vat_tab_back;
-        private MaterialSkin.Controls.MaterialButton btn_vat_tab_next;
-        private MaterialSkin.Controls.MaterialCard materialCard3;
-        private System.Windows.Forms.Panel panel5;
-        private MaterialSkin.Controls.MaterialProgressBar materialProgressBar3;
-        private MaterialSkin.Controls.MaterialLabel materialLabel10;
-        private System.Windows.Forms.NumericUpDown txt_vat;
-        private System.Windows.Forms.GroupBox groupBox1;
-        private MaterialSkin.Controls.MaterialLabel materialLabel11;
-        private System.Windows.Forms.GroupBox groupBox2;
-        private MaterialSkin.Controls.MaterialLabel materialLabel16;
-        private MaterialSkin.Controls.MaterialLabel materialLabel15;
-        private System.Windows.Forms.DateTimePicker dtp_closing;
-        private System.Windows.Forms.DateTimePicker dtp_opening;
         private System.Windows.Forms.TabPage tabPage1;
         private MaterialSkin.Controls.MaterialCard materialCard30;
         private MaterialSkin.Controls.MaterialButton btn_edit_smtp;

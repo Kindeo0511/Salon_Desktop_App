@@ -25,7 +25,7 @@ namespace Salon.View
         private ProductModel productModel;
         private bool _isSaving = false;
         private bool _isUpdating = false;
-
+        private bool _isDelete = false;
         private bool _isProductSizeSaving = false;
         private bool _isProductSizeUpdating = false;
         public event EventHandler RefreshData;
@@ -550,7 +550,7 @@ namespace Salon.View
             }
             else if (ProductSizeExists(product_size_id, product_id, contentValue))
             {
-                errorProvider1.SetError(txt_size_label, "Product size already exists.");
+                errorProvider1.SetError(txt_size, "Product size already exists.");
                 validated = false;
 
             }
@@ -564,7 +564,8 @@ namespace Salon.View
         {
             bool isDuplicate = sizeList.Any(s =>
                 s.product_id == newItem.product_id &&                    // ✅ same product
-                s.product_size_id != excludeId);                      // ✅ exclude self when updating
+                s.product_size_id != excludeId &&
+                s.is_deleted == 0);                      // ✅ exclude self when updating
 
             if (isDuplicate)
             {
@@ -759,17 +760,29 @@ namespace Salon.View
                 MessageBox.Show("Failed to update Please check the input and try again.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
-        private void DeleteProductSize(ProductModel model, IEnumerable<ProductSizeModel> size)
+        private void DeleteProductSize(ProductModel model, IEnumerable<ProductSizeModel> sizes)
         {
             var repo = new ProductRepository();
             var controller = new ProductController(repo);
 
-            bool success = controller.ProductSaveWithSize(model, size);
+            var size = sizes.FirstOrDefault();
+            if (size == null) return;
+
+            bool success = controller.ProductSaveWithSize(model, sizes);
 
 
             if (success)
             {
                 MessageBox.Show("Product deleted successfully!", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
+
+                Audit.AuditLog(DateTime.Now, "Delete", UserSession.CurrentUser.first_Name,
+                                  "Manage Products Size",
+                                  $"Deleted product size '{size.size_label}' on {DateTime.Now:yyyy-MM-dd} at {DateTime.Now:HH:mm:ss}");
+
+                mainForm.InsertDeletedRecord(size.product_size_id, null,
+                                              "Manage Product Size",
+                                              size.product_name + "( " + size.size_label + " )",
+                                              UserSession.CurrentUser.first_Name, DateTime.Today);
             }
             else
             {
@@ -802,7 +815,22 @@ namespace Salon.View
             if (!IsValid()) return;
             if (!IsProductSizeListValid("updating")) return;
 
-            UpdateProductSize(Product_Model(), sizeList);
+            if (_isUpdating)
+            {
+                UpdateProductSize(Product_Model(), sizeList);
+            }
+            else if (_isDelete)
+            {
+
+
+                DeleteProductSize(Product_Model(), sizeList);
+
+
+
+                LoadProductSizeById(_product_id);
+                await mainForm.FilterdDeletedRecords(1, 25);
+            }
+
 
             this.Close();
             //if (!IsValid()) return;
@@ -824,8 +852,10 @@ namespace Salon.View
         {
             _isProductSizeSaving = true;
             if (!IsProductSizeValid()) return;
-            if (!IsDuplicateConsumption(SizeModel())) return;
+  
             sizeList.Add(SizeModel());
+           
+
             ClearProductSize();
         }
 
@@ -890,21 +920,9 @@ namespace Salon.View
                     {
                         // ✅ Remove from BindingList FIRST so it's excluded from the save
                         sizeList.Remove(product_size_model);
-
-                        // ✅ Now save — missing ID will be marked is_deleted = 1 in DB
-                        DeleteProductSize(Product_Model(), sizeList);
-
-                        Audit.AuditLog(DateTime.Now, "Delete", UserSession.CurrentUser.first_Name,
-                                       "Manage Products Size",
-                                       $"Deleted product size '{product_size_model.size_label}' on {DateTime.Now:yyyy-MM-dd} at {DateTime.Now:HH:mm:ss}");
-
-                        mainForm.InsertDeletedRecord(product_size_model.product_size_id, null,
-                                                      "Manage Product Size",
-                                                      product_size_model.product_name + "( " + product_size_model.size_label + " )",
-                                                      UserSession.CurrentUser.first_Name, DateTime.Today);
-
-                        LoadProductSizeById(_product_id);
-                        await mainForm.FilterdDeletedRecords(1, 25);
+                        _isDelete = true;
+                        _isUpdating = false;
+                       
                     }
                 }
 
@@ -937,7 +955,7 @@ namespace Salon.View
             if (!IsProductSizeValid()) return;
 
             var updatedSize = SizeModel();
-            if (!IsDuplicateConsumption(updatedSize,updatedSize.product_size_id)) return;
+
 
             var existing = sizeList.FirstOrDefault(s => s.product_size_id == updatedSize.product_size_id);
 

@@ -52,6 +52,10 @@
             this.col_usage_btn_update = new System.Windows.Forms.DataGridViewImageColumn();
             this.btn_delete = new System.Windows.Forms.DataGridViewImageColumn();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.materialLabel8 = new MaterialSkin.Controls.MaterialLabel();
+            this.materialLabel7 = new MaterialSkin.Controls.MaterialLabel();
+            this.materialLabel6 = new MaterialSkin.Controls.MaterialLabel();
+            this.materialLabel5 = new MaterialSkin.Controls.MaterialLabel();
             this.txt_service_name = new MaterialSkin.Controls.MaterialTextBox();
             this.cmb_sub_category = new MaterialSkin.Controls.MaterialComboBox();
             this.txt_price = new MaterialSkin.Controls.MaterialTextBox();
@@ -62,10 +66,6 @@
             this.btn_save = new MaterialSkin.Controls.MaterialButton();
             this.materialCard1 = new MaterialSkin.Controls.MaterialCard();
             this.panel1 = new System.Windows.Forms.Panel();
-            this.materialLabel5 = new MaterialSkin.Controls.MaterialLabel();
-            this.materialLabel6 = new MaterialSkin.Controls.MaterialLabel();
-            this.materialLabel7 = new MaterialSkin.Controls.MaterialLabel();
-            this.materialLabel8 = new MaterialSkin.Controls.MaterialLabel();
             ((System.ComponentModel.ISupportInitialize)(this.errorProvider1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.errorProvider2)).BeginInit();
             this.groupBox2.SuspendLayout();
@@ -114,7 +114,7 @@
             this.btn_update_consumption.DrawShadows = false;
             this.btn_update_consumption.HighEmphasis = true;
             this.btn_update_consumption.Icon = null;
-            this.btn_update_consumption.Location = new System.Drawing.Point(0, 219);
+            this.btn_update_consumption.Location = new System.Drawing.Point(169, 219);
             this.btn_update_consumption.Margin = new System.Windows.Forms.Padding(4, 6, 4, 6);
             this.btn_update_consumption.MouseState = MaterialSkin.MouseState.HOVER;
             this.btn_update_consumption.Name = "btn_update_consumption";
@@ -389,6 +389,58 @@
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "SERVICE INFORMATION";
             // 
+            // materialLabel8
+            // 
+            this.materialLabel8.AutoSize = true;
+            this.materialLabel8.Depth = 0;
+            this.materialLabel8.Font = new System.Drawing.Font("Roboto Medium", 20F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Pixel);
+            this.materialLabel8.FontType = MaterialSkin.MaterialSkinManager.fontType.H6;
+            this.materialLabel8.Location = new System.Drawing.Point(36, 69);
+            this.materialLabel8.MouseState = MaterialSkin.MouseState.HOVER;
+            this.materialLabel8.Name = "materialLabel8";
+            this.materialLabel8.Size = new System.Drawing.Size(72, 24);
+            this.materialLabel8.TabIndex = 72;
+            this.materialLabel8.Text = "Service ";
+            // 
+            // materialLabel7
+            // 
+            this.materialLabel7.AutoSize = true;
+            this.materialLabel7.Depth = 0;
+            this.materialLabel7.Font = new System.Drawing.Font("Roboto Medium", 20F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Pixel);
+            this.materialLabel7.FontType = MaterialSkin.MaterialSkinManager.fontType.H6;
+            this.materialLabel7.Location = new System.Drawing.Point(36, 180);
+            this.materialLabel7.MouseState = MaterialSkin.MouseState.HOVER;
+            this.materialLabel7.Name = "materialLabel7";
+            this.materialLabel7.Size = new System.Drawing.Size(82, 24);
+            this.materialLabel7.TabIndex = 71;
+            this.materialLabel7.Text = "Category";
+            // 
+            // materialLabel6
+            // 
+            this.materialLabel6.AutoSize = true;
+            this.materialLabel6.Depth = 0;
+            this.materialLabel6.Font = new System.Drawing.Font("Roboto Medium", 20F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Pixel);
+            this.materialLabel6.FontType = MaterialSkin.MaterialSkinManager.fontType.H6;
+            this.materialLabel6.Location = new System.Drawing.Point(748, 69);
+            this.materialLabel6.MouseState = MaterialSkin.MouseState.HOVER;
+            this.materialLabel6.Name = "materialLabel6";
+            this.materialLabel6.Size = new System.Drawing.Size(47, 24);
+            this.materialLabel6.TabIndex = 70;
+            this.materialLabel6.Text = "Price";
+            // 
+            // materialLabel5
+            // 
+            this.materialLabel5.AutoSize = true;
+            this.materialLabel5.Depth = 0;
+            this.materialLabel5.Font = new System.Drawing.Font("Roboto Medium", 20F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Pixel);
+            this.materialLabel5.FontType = MaterialSkin.MaterialSkinManager.fontType.H6;
+            this.materialLabel5.Location = new System.Drawing.Point(748, 194);
+            this.materialLabel5.MouseState = MaterialSkin.MouseState.HOVER;
+            this.materialLabel5.Name = "materialLabel5";
+            this.materialLabel5.Size = new System.Drawing.Size(144, 24);
+            this.materialLabel5.TabIndex = 69;
+            this.materialLabel5.Text = "Duration: (mins)";
+            // 
             // txt_service_name
             // 
             this.txt_service_name.AnimateReadOnly = false;
@@ -563,58 +615,6 @@
             this.panel1.Name = "panel1";
             this.panel1.Size = new System.Drawing.Size(1236, 100);
             this.panel1.TabIndex = 37;
-            // 
-            // materialLabel5
-            // 
-            this.materialLabel5.AutoSize = true;
-            this.materialLabel5.Depth = 0;
-            this.materialLabel5.Font = new System.Drawing.Font("Roboto Medium", 20F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Pixel);
-            this.materialLabel5.FontType = MaterialSkin.MaterialSkinManager.fontType.H6;
-            this.materialLabel5.Location = new System.Drawing.Point(748, 194);
-            this.materialLabel5.MouseState = MaterialSkin.MouseState.HOVER;
-            this.materialLabel5.Name = "materialLabel5";
-            this.materialLabel5.Size = new System.Drawing.Size(144, 24);
-            this.materialLabel5.TabIndex = 69;
-            this.materialLabel5.Text = "Duration: (mins)";
-            // 
-            // materialLabel6
-            // 
-            this.materialLabel6.AutoSize = true;
-            this.materialLabel6.Depth = 0;
-            this.materialLabel6.Font = new System.Drawing.Font("Roboto Medium", 20F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Pixel);
-            this.materialLabel6.FontType = MaterialSkin.MaterialSkinManager.fontType.H6;
-            this.materialLabel6.Location = new System.Drawing.Point(748, 69);
-            this.materialLabel6.MouseState = MaterialSkin.MouseState.HOVER;
-            this.materialLabel6.Name = "materialLabel6";
-            this.materialLabel6.Size = new System.Drawing.Size(47, 24);
-            this.materialLabel6.TabIndex = 70;
-            this.materialLabel6.Text = "Price";
-            // 
-            // materialLabel7
-            // 
-            this.materialLabel7.AutoSize = true;
-            this.materialLabel7.Depth = 0;
-            this.materialLabel7.Font = new System.Drawing.Font("Roboto Medium", 20F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Pixel);
-            this.materialLabel7.FontType = MaterialSkin.MaterialSkinManager.fontType.H6;
-            this.materialLabel7.Location = new System.Drawing.Point(36, 180);
-            this.materialLabel7.MouseState = MaterialSkin.MouseState.HOVER;
-            this.materialLabel7.Name = "materialLabel7";
-            this.materialLabel7.Size = new System.Drawing.Size(82, 24);
-            this.materialLabel7.TabIndex = 71;
-            this.materialLabel7.Text = "Category";
-            // 
-            // materialLabel8
-            // 
-            this.materialLabel8.AutoSize = true;
-            this.materialLabel8.Depth = 0;
-            this.materialLabel8.Font = new System.Drawing.Font("Roboto Medium", 20F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Pixel);
-            this.materialLabel8.FontType = MaterialSkin.MaterialSkinManager.fontType.H6;
-            this.materialLabel8.Location = new System.Drawing.Point(36, 69);
-            this.materialLabel8.MouseState = MaterialSkin.MouseState.HOVER;
-            this.materialLabel8.Name = "materialLabel8";
-            this.materialLabel8.Size = new System.Drawing.Size(72, 24);
-            this.materialLabel8.TabIndex = 72;
-            this.materialLabel8.Text = "Service ";
             // 
             // ServiceForm
             // 

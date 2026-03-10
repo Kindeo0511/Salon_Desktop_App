@@ -1762,7 +1762,8 @@ namespace Salon.View
             var repo = new LoyaltyCardRepository();
             var controller = new LoyaltyCardController(repo);
 
-            int customer_id = Convert.ToInt32(lbl_customer_id.Text);
+            int.TryParse(lbl_customer_id.Text, out int customer_id);
+      
 
             return controller.IsCustomerHaveCardNumber(customer_id);
 

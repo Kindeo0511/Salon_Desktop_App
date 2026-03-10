@@ -84,43 +84,7 @@ namespace Salon.View
             }
         }
 
-        private void btn_vat_tab_next_Click(object sender, EventArgs e)
-        {
-            if (!VatValid()) return;
-
-            if (materialTabControl1.SelectedIndex < materialTabControl1.TabCount - 1)
-            {
-                materialTabControl1.SelectedIndex++; // move forward }
-
-            }
-        }
-        private bool VatValid() 
-        {
-            bool validated = true;
-
-            // VAT validation
-            if (txt_vat.Value == 0) // treat 0 as "empty" or not set
-            {
-                errorProvider1.SetError(txt_vat, "VAT is required.");
-                validated = false;
-            }
-            else if (txt_vat.Value < 0 || txt_vat.Value > 100)
-            {
-                errorProvider1.SetError(txt_vat, "VAT must be between 0% and 100%.");
-                validated = false;
-            }
-            else if (txt_vat.Value % 1 != 0)
-            {
-                errorProvider1.SetError(txt_vat, "VAT must be a whole number.");
-                validated = false;
-            }
-            else
-            {
-                errorProvider1.SetError(txt_vat, string.Empty);
-            }
-
-            return validated;
-        }
+     
         private bool IsValid()
         {
             DateTime birthDate = dtp_day_of_birth.Value;
@@ -381,26 +345,7 @@ namespace Salon.View
             return BCrypt.Net.BCrypt.HashPassword(password);
         }
       
-        private void AddVat()
-        {
-            var _repo = new VatRepository();
-            var tax_controller = new VatController(_repo);
-
-            // Safely parse VAT value (NumericUpDown.Value is already decimal)
-            int tax_rate = Convert.ToInt32(txt_vat.Value);
-
-            // Build a new model for creation
-            var tax_model = new VatModel
-            {
-                tax = tax_rate
-            };
-
-            // Save to database
-            tax_controller.CreateTax(tax_model);
-
-          
-        }
-
+        
         private void btn_smtp_next_Click(object sender, EventArgs e)
         {
             if (!SMPTPVALID()) return;
@@ -410,10 +355,6 @@ namespace Salon.View
             user_id = SaveUser();
 
             UpdateUserAccount();
-
-            AddVat();
-
-            CreateBusinessHour();
 
             CreateSMTPSettings();
 
@@ -428,11 +369,46 @@ namespace Salon.View
             if (result == DialogResult.Yes)
             {
 
-                var form = new LoginForm();
-                form.Show();
-                this.Hide();
+                log_in();
             }
 
+
+        }
+        private void log_in()
+        {
+            string username = txt_username.Text.Trim();
+            string password = txt_password.Text.Trim();
+            var repo = new UserRepository();
+            var controler = new UserController(repo);
+            var user = controler.AuthenticateUser(username, password);
+
+            if (user != null)
+            {
+                // ✅ Success: proceed to dashboard
+                UserSession.CurrentUser = user;
+                MessageBox.Show($"Welcome {user.userName}!", "Login Successful", MessageBoxButtons.OK, MessageBoxIcon.Information);
+
+                Audit.AuditLog(
+                      DateTime.Now,
+                      "Log In",
+                      UserSession.CurrentUser.first_Name,
+                      "User",
+                      $"Log In '{UserSession.CurrentUser.first_Name}'on {DateTime.Now:yyyy-MM-dd} at {DateTime.Now:HH:mm:ss}"
+                  );
+                var form = new MainForm();
+                form.ShowDialog();
+                this.Hide();
+                //this.Close();
+
+
+
+
+            }
+            else
+            {
+                // ❌ Failure: show error
+                MessageBox.Show("Invalid username or password.", "Login Failed", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
 
         }
         private void CreateSMTPSettings() 
@@ -452,31 +428,21 @@ namespace Salon.View
          
         }
        
-        private void CreateBusinessHour() 
-        {
-            var repo = new BusinessHourRepository();
-            var controller = new TimeSlotController(repo);
-
-                var businessHour = new BusinessHour
-                {
-                    business_hours_id = 0, // Assuming 0 or null for new record, adjust as needed
-                    open_time = dtp_opening.Value.TimeOfDay,
-                    close_time = dtp_closing.Value.TimeOfDay,
-                };
-            controller.CreateOrUpdateBusinessHours(businessHour);
-        }
-        private void btn_add_payment_method_Click(object sender, EventArgs e)
-        {
-            using (var form = new PaymentMethodForm(this))
-            {
-                form.ShowDialog();
-            }
-        }
+      
+      
 
         private void chk_show_password_CheckedChanged(object sender, EventArgs e)
         {
             txt_HashPassword.UseSystemPasswordChar = !chk_show_password.Checked;
             txt_confirm_password.UseSystemPasswordChar = !chk_show_password.Checked;
+        }
+
+        private void btn_smtp_back_Click(object sender, EventArgs e)
+        {
+            if (materialTabControl1.SelectedIndex > 0)
+            {
+                materialTabControl1.SelectedIndex--; // move backward }
+            }
         }
     }
 }

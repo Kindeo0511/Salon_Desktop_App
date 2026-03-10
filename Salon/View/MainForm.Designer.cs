@@ -84,7 +84,6 @@
             this.materialLabel1 = new MaterialSkin.Controls.MaterialLabel();
             this.userTab = new System.Windows.Forms.TabPage();
             this.materialCard11 = new MaterialSkin.Controls.MaterialCard();
-            this.paginationControl1 = new Salon.Util.PaginationControl();
             this.dgv_user = new System.Windows.Forms.DataGridView();
             this.col_id = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.col_first_name = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -106,7 +105,6 @@
             this.btn_add = new MaterialSkin.Controls.MaterialButton();
             this.stylistTab = new System.Windows.Forms.TabPage();
             this.materialCard13 = new MaterialSkin.Controls.MaterialCard();
-            this.paginationControl3 = new Salon.Util.PaginationControl();
             this.dgv_stylist = new System.Windows.Forms.DataGridView();
             this.col_stylist_id = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.stylist_first_name = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -124,7 +122,6 @@
             this.btn_add_stylist = new MaterialSkin.Controls.MaterialButton();
             this.customerTab = new System.Windows.Forms.TabPage();
             this.materialCard12 = new MaterialSkin.Controls.MaterialCard();
-            this.customerPagination = new Salon.Util.PaginationControl();
             this.dgv_customer = new System.Windows.Forms.DataGridView();
             this.col_customer_id = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.col_customer_first_name = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -142,7 +139,6 @@
             this.btn_add_customer = new MaterialSkin.Controls.MaterialButton();
             this.supplierTab = new System.Windows.Forms.TabPage();
             this.materialCard25 = new MaterialSkin.Controls.MaterialCard();
-            this.supplierPagination = new Salon.Util.PaginationControl();
             this.dgv_supplier = new System.Windows.Forms.DataGridView();
             this.col_supplier_id = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.col_supplier_name = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -162,12 +158,10 @@
             this.col_category_btn_update = new System.Windows.Forms.DataGridViewImageColumn();
             this.col_category_btn_delete = new System.Windows.Forms.DataGridViewImageColumn();
             this.materialCard14 = new MaterialSkin.Controls.MaterialCard();
-            this.paginationControl4 = new Salon.Util.PaginationControl();
             this.btn_refresh_data = new MaterialSkin.Controls.MaterialButton();
             this.btn_add_category = new MaterialSkin.Controls.MaterialButton();
             this.subCategoryTab = new System.Windows.Forms.TabPage();
             this.materialCard17 = new MaterialSkin.Controls.MaterialCard();
-            this.subcatPagination = new Salon.Util.PaginationControl();
             this.dgv_sub_category = new System.Windows.Forms.DataGridView();
             this.col_subcategory_id = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.col_sub_cid = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -180,7 +174,6 @@
             this.btn_add_subcategory = new MaterialSkin.Controls.MaterialButton();
             this.productsTab = new System.Windows.Forms.TabPage();
             this.materialCard19 = new MaterialSkin.Controls.MaterialCard();
-            this.product_pagination = new Salon.Util.PaginationControl();
             this.dgv_product = new System.Windows.Forms.DataGridView();
             this.col_product_id = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.col_product_name = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -198,7 +191,6 @@
             this.btn_add_product = new MaterialSkin.Controls.MaterialButton();
             this.deliveryTab = new System.Windows.Forms.TabPage();
             this.materialCard27 = new MaterialSkin.Controls.MaterialCard();
-            this.delivery_pagination = new Salon.Util.PaginationControl();
             this.dgv_delivery = new System.Windows.Forms.DataGridView();
             this.col_delivery_id = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.col_delivery_supplier_id = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -214,7 +206,6 @@
             this.materialCard29 = new MaterialSkin.Controls.MaterialCard();
             this.inventoryTabControl = new MaterialSkin.Controls.MaterialTabControl();
             this.inventory = new System.Windows.Forms.TabPage();
-            this.inventory_pagination = new Salon.Util.PaginationControl();
             this.dgv_inventory = new System.Windows.Forms.DataGridView();
             this.col_InventoryID = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.col_ProductID = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -238,7 +229,6 @@
             this.servicesTabControl = new MaterialSkin.Controls.MaterialTabControl();
             this.tabPageService = new System.Windows.Forms.TabPage();
             this.materialCard21 = new MaterialSkin.Controls.MaterialCard();
-            this.service_pagination = new Salon.Util.PaginationControl();
             this.dgv_service = new System.Windows.Forms.DataGridView();
             this.col_service_id = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.col_service_name = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -258,7 +248,6 @@
             this.serviceTabSelector = new MaterialSkin.Controls.MaterialTabSelector();
             this.appointmentTab = new System.Windows.Forms.TabPage();
             this.materialCard23 = new MaterialSkin.Controls.MaterialCard();
-            this.appointment_pagination = new Salon.Util.PaginationControl();
             this.dgv_appointment = new System.Windows.Forms.DataGridView();
             this.appointment_id = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.customer_id = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -425,7 +414,6 @@
             this.panel13 = new System.Windows.Forms.Panel();
             this.btn_print_transactions = new MaterialSkin.Controls.MaterialButton();
             this.cmb_transaction_range = new MaterialSkin.Controls.MaterialComboBox();
-            this.transaction_pagination = new Salon.Util.PaginationControl();
             this.btn_tran_refund = new MaterialSkin.Controls.MaterialButton();
             this.btn_refresh_transaction = new MaterialSkin.Controls.MaterialButton();
             this.btn_transaction_clear = new MaterialSkin.Controls.MaterialButton();
@@ -449,7 +437,6 @@
             this.panel21 = new System.Windows.Forms.Panel();
             this.btn_refund_print = new MaterialSkin.Controls.MaterialButton();
             this.cmb_refund_range = new MaterialSkin.Controls.MaterialComboBox();
-            this.refund_pagination = new Salon.Util.PaginationControl();
             this.materialButton4 = new MaterialSkin.Controls.MaterialButton();
             this.btn_refund_clear = new MaterialSkin.Controls.MaterialButton();
             this.btn_refund_filter = new MaterialSkin.Controls.MaterialButton();
@@ -477,7 +464,6 @@
             this.lbl_net_price = new MaterialSkin.Controls.MaterialLabel();
             this.materialLabel33 = new MaterialSkin.Controls.MaterialLabel();
             this.btn_print_sales_report = new MaterialSkin.Controls.MaterialButton();
-            this.sales_report_pagination = new Salon.Util.PaginationControl();
             this.lbl_report_profit = new MaterialSkin.Controls.MaterialLabel();
             this.materialLabel10 = new MaterialSkin.Controls.MaterialLabel();
             this.btn_sales_report_export_pdf = new MaterialSkin.Controls.MaterialButton();
@@ -506,7 +492,6 @@
             this.col_inventory_status = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.materialCard9 = new MaterialSkin.Controls.MaterialCard();
             this.btn_inventory_print = new MaterialSkin.Controls.MaterialButton();
-            this.inventory_report_pagination = new Salon.Util.PaginationControl();
             this.lbl_inventory_consum_product = new MaterialSkin.Controls.MaterialLabel();
             this.lbl_inventory_retail_product = new MaterialSkin.Controls.MaterialLabel();
             this.materialLabel12 = new MaterialSkin.Controls.MaterialLabel();
@@ -536,7 +521,6 @@
             this.col_audit_notes = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.materialCard37 = new MaterialSkin.Controls.MaterialCard();
             this.cmb_audit = new MaterialSkin.Controls.MaterialComboBox();
-            this.audit_pagination = new Salon.Util.PaginationControl();
             this.btn_export_audit_pdf = new MaterialSkin.Controls.MaterialButton();
             this.materialLabel37 = new MaterialSkin.Controls.MaterialLabel();
             this.dtp_audit_end = new System.Windows.Forms.DateTimePicker();
@@ -547,7 +531,6 @@
             this.materialTabSelector3 = new MaterialSkin.Controls.MaterialTabSelector();
             this.dataRecoveryTab = new System.Windows.Forms.TabPage();
             this.materialCard39 = new MaterialSkin.Controls.MaterialCard();
-            this.data_recovery_pagination = new Salon.Util.PaginationControl();
             this.dgv_deleted_record = new System.Windows.Forms.DataGridView();
             this.col_deleted_id = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.col_deleted_record_id = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -676,6 +659,23 @@
             this.printDocument1 = new System.Drawing.Printing.PrintDocument();
             this.printPreviewDialog1 = new System.Windows.Forms.PrintPreviewDialog();
             this.folderBrowserDialog1 = new System.Windows.Forms.FolderBrowserDialog();
+            this.paginationControl1 = new Salon.Util.PaginationControl();
+            this.paginationControl3 = new Salon.Util.PaginationControl();
+            this.customerPagination = new Salon.Util.PaginationControl();
+            this.supplierPagination = new Salon.Util.PaginationControl();
+            this.paginationControl4 = new Salon.Util.PaginationControl();
+            this.subcatPagination = new Salon.Util.PaginationControl();
+            this.product_pagination = new Salon.Util.PaginationControl();
+            this.delivery_pagination = new Salon.Util.PaginationControl();
+            this.inventory_pagination = new Salon.Util.PaginationControl();
+            this.service_pagination = new Salon.Util.PaginationControl();
+            this.appointment_pagination = new Salon.Util.PaginationControl();
+            this.transaction_pagination = new Salon.Util.PaginationControl();
+            this.refund_pagination = new Salon.Util.PaginationControl();
+            this.sales_report_pagination = new Salon.Util.PaginationControl();
+            this.inventory_report_pagination = new Salon.Util.PaginationControl();
+            this.audit_pagination = new Salon.Util.PaginationControl();
+            this.data_recovery_pagination = new Salon.Util.PaginationControl();
             this.materialTabControl1.SuspendLayout();
             this.dashboardTab.SuspendLayout();
             this.tableLayoutPanel2.SuspendLayout();
@@ -1437,17 +1437,8 @@
             this.materialCard11.MouseState = MaterialSkin.MouseState.HOVER;
             this.materialCard11.Name = "materialCard11";
             this.materialCard11.Padding = new System.Windows.Forms.Padding(14);
-            this.materialCard11.Size = new System.Drawing.Size(1504, 679);
+            this.materialCard11.Size = new System.Drawing.Size(1504, 711);
             this.materialCard11.TabIndex = 5;
-            // 
-            // paginationControl1
-            // 
-            this.paginationControl1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.paginationControl1.BackColor = System.Drawing.SystemColors.ControlDark;
-            this.paginationControl1.Location = new System.Drawing.Point(635, 778);
-            this.paginationControl1.Name = "paginationControl1";
-            this.paginationControl1.Size = new System.Drawing.Size(678, 50);
-            this.paginationControl1.TabIndex = 7;
             // 
             // dgv_user
             // 
@@ -1589,7 +1580,7 @@
             this.col_user_status.Name = "col_user_status";
             this.col_user_status.ReadOnly = true;
             this.col_user_status.Visible = false;
-            this.col_user_status.Width = 125;
+            this.col_user_status.Width = 71;
             // 
             // btn_update
             // 
@@ -1707,17 +1698,8 @@
             this.materialCard13.MouseState = MaterialSkin.MouseState.HOVER;
             this.materialCard13.Name = "materialCard13";
             this.materialCard13.Padding = new System.Windows.Forms.Padding(14);
-            this.materialCard13.Size = new System.Drawing.Size(1504, 679);
+            this.materialCard13.Size = new System.Drawing.Size(1504, 711);
             this.materialCard13.TabIndex = 7;
-            // 
-            // paginationControl3
-            // 
-            this.paginationControl3.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.paginationControl3.BackColor = System.Drawing.SystemColors.ControlDark;
-            this.paginationControl3.Location = new System.Drawing.Point(1046, 712);
-            this.paginationControl3.Name = "paginationControl3";
-            this.paginationControl3.Size = new System.Drawing.Size(388, 50);
-            this.paginationControl3.TabIndex = 7;
             // 
             // dgv_stylist
             // 
@@ -1939,17 +1921,8 @@
             this.materialCard12.MouseState = MaterialSkin.MouseState.HOVER;
             this.materialCard12.Name = "materialCard12";
             this.materialCard12.Padding = new System.Windows.Forms.Padding(14);
-            this.materialCard12.Size = new System.Drawing.Size(1504, 604);
+            this.materialCard12.Size = new System.Drawing.Size(1504, 636);
             this.materialCard12.TabIndex = 9;
-            // 
-            // customerPagination
-            // 
-            this.customerPagination.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.customerPagination.BackColor = System.Drawing.SystemColors.ControlDark;
-            this.customerPagination.Location = new System.Drawing.Point(1059, 709);
-            this.customerPagination.Name = "customerPagination";
-            this.customerPagination.Size = new System.Drawing.Size(388, 50);
-            this.customerPagination.TabIndex = 7;
             // 
             // dgv_customer
             // 
@@ -2175,17 +2148,8 @@
             this.materialCard25.MouseState = MaterialSkin.MouseState.HOVER;
             this.materialCard25.Name = "materialCard25";
             this.materialCard25.Padding = new System.Windows.Forms.Padding(14);
-            this.materialCard25.Size = new System.Drawing.Size(1504, 604);
+            this.materialCard25.Size = new System.Drawing.Size(1504, 636);
             this.materialCard25.TabIndex = 17;
-            // 
-            // supplierPagination
-            // 
-            this.supplierPagination.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.supplierPagination.BackColor = System.Drawing.SystemColors.ControlDark;
-            this.supplierPagination.Location = new System.Drawing.Point(1022, 707);
-            this.supplierPagination.Name = "supplierPagination";
-            this.supplierPagination.Size = new System.Drawing.Size(388, 50);
-            this.supplierPagination.TabIndex = 15;
             // 
             // dgv_supplier
             // 
@@ -2367,7 +2331,7 @@
             this.materialCard15.MouseState = MaterialSkin.MouseState.HOVER;
             this.materialCard15.Name = "materialCard15";
             this.materialCard15.Padding = new System.Windows.Forms.Padding(14);
-            this.materialCard15.Size = new System.Drawing.Size(1504, 604);
+            this.materialCard15.Size = new System.Drawing.Size(1504, 636);
             this.materialCard15.TabIndex = 11;
             // 
             // dgv_category
@@ -2394,7 +2358,7 @@
             this.dgv_category.RowHeadersVisible = false;
             this.dgv_category.RowHeadersWidth = 51;
             this.dgv_category.RowTemplate.Height = 24;
-            this.dgv_category.Size = new System.Drawing.Size(1476, 576);
+            this.dgv_category.Size = new System.Drawing.Size(1476, 608);
             this.dgv_category.TabIndex = 8;
             this.dgv_category.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgv_category_CellClick);
             // 
@@ -2455,14 +2419,6 @@
             this.materialCard14.Padding = new System.Windows.Forms.Padding(14);
             this.materialCard14.Size = new System.Drawing.Size(1504, 75);
             this.materialCard14.TabIndex = 10;
-            // 
-            // paginationControl4
-            // 
-            this.paginationControl4.BackColor = System.Drawing.SystemColors.ControlDark;
-            this.paginationControl4.Location = new System.Drawing.Point(1017, 8);
-            this.paginationControl4.Name = "paginationControl4";
-            this.paginationControl4.Size = new System.Drawing.Size(388, 50);
-            this.paginationControl4.TabIndex = 11;
             // 
             // btn_refresh_data
             // 
@@ -2531,18 +2487,9 @@
             this.materialCard17.MouseState = MaterialSkin.MouseState.HOVER;
             this.materialCard17.Name = "materialCard17";
             this.materialCard17.Padding = new System.Windows.Forms.Padding(14);
-            this.materialCard17.Size = new System.Drawing.Size(1504, 604);
+            this.materialCard17.Size = new System.Drawing.Size(1504, 636);
             this.materialCard17.TabIndex = 13;
             this.materialCard17.Paint += new System.Windows.Forms.PaintEventHandler(this.materialCard17_Paint);
-            // 
-            // subcatPagination
-            // 
-            this.subcatPagination.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.subcatPagination.BackColor = System.Drawing.SystemColors.ControlDark;
-            this.subcatPagination.Location = new System.Drawing.Point(1061, 697);
-            this.subcatPagination.Name = "subcatPagination";
-            this.subcatPagination.Size = new System.Drawing.Size(388, 50);
-            this.subcatPagination.TabIndex = 11;
             // 
             // dgv_sub_category
             // 
@@ -2718,15 +2665,6 @@
             this.materialCard19.Size = new System.Drawing.Size(1504, 604);
             this.materialCard19.TabIndex = 17;
             // 
-            // product_pagination
-            // 
-            this.product_pagination.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.product_pagination.BackColor = System.Drawing.SystemColors.ControlDark;
-            this.product_pagination.Location = new System.Drawing.Point(1042, 582);
-            this.product_pagination.Name = "product_pagination";
-            this.product_pagination.Size = new System.Drawing.Size(388, 50);
-            this.product_pagination.TabIndex = 13;
-            // 
             // dgv_product
             // 
             this.dgv_product.AllowUserToAddRows = false;
@@ -2797,7 +2735,7 @@
             this.col_display_ingredient.Name = "col_display_ingredient";
             this.col_display_ingredient.ReadOnly = true;
             this.col_display_ingredient.Visible = false;
-            this.col_display_ingredient.Width = 125;
+            this.col_display_ingredient.Width = 93;
             // 
             // col_display_retail
             // 
@@ -2807,7 +2745,7 @@
             this.col_display_retail.Name = "col_display_retail";
             this.col_display_retail.ReadOnly = true;
             this.col_display_retail.Visible = false;
-            this.col_display_retail.Width = 125;
+            this.col_display_retail.Width = 69;
             // 
             // col_is_ingredient
             // 
@@ -2817,7 +2755,7 @@
             this.col_is_ingredient.Name = "col_is_ingredient";
             this.col_is_ingredient.ReadOnly = true;
             this.col_is_ingredient.Visible = false;
-            this.col_is_ingredient.Width = 125;
+            this.col_is_ingredient.Width = 110;
             // 
             // col_is_retail
             // 
@@ -2827,7 +2765,7 @@
             this.col_is_retail.Name = "col_is_retail";
             this.col_is_retail.ReadOnly = true;
             this.col_is_retail.Visible = false;
-            this.col_is_retail.Width = 125;
+            this.col_is_retail.Width = 80;
             // 
             // col_product_brand
             // 
@@ -2951,16 +2889,8 @@
             this.materialCard27.MouseState = MaterialSkin.MouseState.HOVER;
             this.materialCard27.Name = "materialCard27";
             this.materialCard27.Padding = new System.Windows.Forms.Padding(14);
-            this.materialCard27.Size = new System.Drawing.Size(1504, 604);
+            this.materialCard27.Size = new System.Drawing.Size(1504, 636);
             this.materialCard27.TabIndex = 19;
-            // 
-            // delivery_pagination
-            // 
-            this.delivery_pagination.BackColor = System.Drawing.SystemColors.ControlDark;
-            this.delivery_pagination.Location = new System.Drawing.Point(1366, 681);
-            this.delivery_pagination.Name = "delivery_pagination";
-            this.delivery_pagination.Size = new System.Drawing.Size(395, 46);
-            this.delivery_pagination.TabIndex = 17;
             // 
             // dgv_delivery
             // 
@@ -3138,7 +3068,7 @@
             this.materialCard29.MouseState = MaterialSkin.MouseState.HOVER;
             this.materialCard29.Name = "materialCard29";
             this.materialCard29.Padding = new System.Windows.Forms.Padding(14);
-            this.materialCard29.Size = new System.Drawing.Size(1504, 679);
+            this.materialCard29.Size = new System.Drawing.Size(1504, 711);
             this.materialCard29.TabIndex = 2;
             // 
             // inventoryTabControl
@@ -3152,7 +3082,7 @@
             this.inventoryTabControl.Multiline = true;
             this.inventoryTabControl.Name = "inventoryTabControl";
             this.inventoryTabControl.SelectedIndex = 0;
-            this.inventoryTabControl.Size = new System.Drawing.Size(1476, 549);
+            this.inventoryTabControl.Size = new System.Drawing.Size(1476, 581);
             this.inventoryTabControl.TabIndex = 1;
             this.inventoryTabControl.SelectedIndexChanged += new System.EventHandler(this.inventoryTabControl_SelectedIndexChanged);
             // 
@@ -3163,19 +3093,10 @@
             this.inventory.Location = new System.Drawing.Point(4, 38);
             this.inventory.Name = "inventory";
             this.inventory.Padding = new System.Windows.Forms.Padding(3);
-            this.inventory.Size = new System.Drawing.Size(1468, 507);
+            this.inventory.Size = new System.Drawing.Size(1468, 539);
             this.inventory.TabIndex = 0;
             this.inventory.Text = "Inventory";
             this.inventory.UseVisualStyleBackColor = true;
-            // 
-            // inventory_pagination
-            // 
-            this.inventory_pagination.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.inventory_pagination.BackColor = System.Drawing.SystemColors.ControlDark;
-            this.inventory_pagination.Location = new System.Drawing.Point(1032, 605);
-            this.inventory_pagination.Name = "inventory_pagination";
-            this.inventory_pagination.Size = new System.Drawing.Size(388, 50);
-            this.inventory_pagination.TabIndex = 17;
             // 
             // dgv_inventory
             // 
@@ -3498,15 +3419,6 @@
             this.materialCard21.Size = new System.Drawing.Size(1590, 612);
             this.materialCard21.TabIndex = 17;
             // 
-            // service_pagination
-            // 
-            this.service_pagination.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.service_pagination.BackColor = System.Drawing.SystemColors.ControlDark;
-            this.service_pagination.Location = new System.Drawing.Point(1139, 714);
-            this.service_pagination.Name = "service_pagination";
-            this.service_pagination.Size = new System.Drawing.Size(388, 50);
-            this.service_pagination.TabIndex = 15;
-            // 
             // dgv_service
             // 
             this.dgv_service.AllowUserToAddRows = false;
@@ -3756,15 +3668,6 @@
             this.materialCard23.Padding = new System.Windows.Forms.Padding(14);
             this.materialCard23.Size = new System.Drawing.Size(1504, 604);
             this.materialCard23.TabIndex = 17;
-            // 
-            // appointment_pagination
-            // 
-            this.appointment_pagination.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.appointment_pagination.BackColor = System.Drawing.SystemColors.ControlDark;
-            this.appointment_pagination.Location = new System.Drawing.Point(1036, 695);
-            this.appointment_pagination.Name = "appointment_pagination";
-            this.appointment_pagination.Size = new System.Drawing.Size(388, 50);
-            this.appointment_pagination.TabIndex = 15;
             // 
             // dgv_appointment
             // 
@@ -4318,7 +4221,7 @@
             this.col_walk_in_price.Name = "col_walk_in_price";
             this.col_walk_in_price.ReadOnly = true;
             this.col_walk_in_price.Visible = false;
-            this.col_walk_in_price.Width = 125;
+            this.col_walk_in_price.Width = 109;
             // 
             // col_walk_in_stylist_id
             // 
@@ -4328,7 +4231,7 @@
             this.col_walk_in_stylist_id.Name = "col_walk_in_stylist_id";
             this.col_walk_in_stylist_id.ReadOnly = true;
             this.col_walk_in_stylist_id.Visible = false;
-            this.col_walk_in_stylist_id.Width = 125;
+            this.col_walk_in_stylist_id.Width = 85;
             // 
             // col_walk_in_stylist_name
             // 
@@ -4338,7 +4241,7 @@
             this.col_walk_in_stylist_name.Name = "col_walk_in_stylist_name";
             this.col_walk_in_stylist_name.ReadOnly = true;
             this.col_walk_in_stylist_name.Visible = false;
-            this.col_walk_in_stylist_name.Width = 125;
+            this.col_walk_in_stylist_name.Width = 109;
             // 
             // col_walk_in_date
             // 
@@ -4348,7 +4251,7 @@
             this.col_walk_in_date.Name = "col_walk_in_date";
             this.col_walk_in_date.ReadOnly = true;
             this.col_walk_in_date.Visible = false;
-            this.col_walk_in_date.Width = 125;
+            this.col_walk_in_date.Width = 63;
             // 
             // col_walk_in_start_time
             // 
@@ -4361,7 +4264,7 @@
             this.col_walk_in_start_time.Name = "col_walk_in_start_time";
             this.col_walk_in_start_time.ReadOnly = true;
             this.col_walk_in_start_time.Visible = false;
-            this.col_walk_in_start_time.Width = 125;
+            this.col_walk_in_start_time.Width = 95;
             // 
             // col_walk_in_end_time
             // 
@@ -4374,7 +4277,7 @@
             this.col_walk_in_end_time.Name = "col_walk_in_end_time";
             this.col_walk_in_end_time.ReadOnly = true;
             this.col_walk_in_end_time.Visible = false;
-            this.col_walk_in_end_time.Width = 125;
+            this.col_walk_in_end_time.Width = 92;
             // 
             // col_walk_in_appointment_type
             // 
@@ -4435,7 +4338,7 @@
             this.btn_walk_in_update.Name = "btn_walk_in_update";
             this.btn_walk_in_update.ReadOnly = true;
             this.btn_walk_in_update.Visible = false;
-            this.btn_walk_in_update.Width = 125;
+            this.btn_walk_in_update.Width = 56;
             // 
             // btn_walk_in_view_details
             // 
@@ -4567,7 +4470,7 @@
             this.col_waiting_stylist_id.Name = "col_waiting_stylist_id";
             this.col_waiting_stylist_id.ReadOnly = true;
             this.col_waiting_stylist_id.Visible = false;
-            this.col_waiting_stylist_id.Width = 125;
+            this.col_waiting_stylist_id.Width = 85;
             // 
             // col_waiting_stylist_name
             // 
@@ -5514,7 +5417,7 @@
             // 
             this.panel18.Controls.Add(this.btn_confirm_payment);
             this.panel18.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.panel18.Location = new System.Drawing.Point(3, 881);
+            this.panel18.Location = new System.Drawing.Point(3, 884);
             this.panel18.Name = "panel18";
             this.panel18.Size = new System.Drawing.Size(573, 57);
             this.panel18.TabIndex = 22;
@@ -5903,7 +5806,7 @@
             this.col_invoice_id.Name = "col_invoice_id";
             this.col_invoice_id.ReadOnly = true;
             this.col_invoice_id.Visible = false;
-            this.col_invoice_id.Width = 125;
+            this.col_invoice_id.Width = 74;
             // 
             // col_invoice_number
             // 
@@ -5997,7 +5900,7 @@
             this.col_tran_status.Name = "col_tran_status";
             this.col_tran_status.ReadOnly = true;
             this.col_tran_status.Visible = false;
-            this.col_tran_status.Width = 125;
+            this.col_tran_status.Width = 73;
             // 
             // panel13
             // 
@@ -6067,15 +5970,6 @@
             this.cmb_transaction_range.Size = new System.Drawing.Size(257, 49);
             this.cmb_transaction_range.StartIndex = -1;
             this.cmb_transaction_range.TabIndex = 23;
-            // 
-            // transaction_pagination
-            // 
-            this.transaction_pagination.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.transaction_pagination.BackColor = System.Drawing.SystemColors.ControlDark;
-            this.transaction_pagination.Location = new System.Drawing.Point(1155, 135);
-            this.transaction_pagination.Name = "transaction_pagination";
-            this.transaction_pagination.Size = new System.Drawing.Size(388, 50);
-            this.transaction_pagination.TabIndex = 22;
             // 
             // btn_tran_refund
             // 
@@ -6232,7 +6126,7 @@
             this.materialCard32.MouseState = MaterialSkin.MouseState.HOVER;
             this.materialCard32.Name = "materialCard32";
             this.materialCard32.Padding = new System.Windows.Forms.Padding(14);
-            this.materialCard32.Size = new System.Drawing.Size(1590, 681);
+            this.materialCard32.Size = new System.Drawing.Size(1590, 694);
             this.materialCard32.TabIndex = 7;
             // 
             // dgv_refund
@@ -6261,7 +6155,7 @@
             this.dgv_refund.RowHeadersVisible = false;
             this.dgv_refund.RowHeadersWidth = 51;
             this.dgv_refund.RowTemplate.Height = 24;
-            this.dgv_refund.Size = new System.Drawing.Size(1562, 459);
+            this.dgv_refund.Size = new System.Drawing.Size(1562, 472);
             this.dgv_refund.TabIndex = 7;
             // 
             // col_refund_id
@@ -6411,15 +6305,6 @@
             this.cmb_refund_range.StartIndex = -1;
             this.cmb_refund_range.TabIndex = 23;
             this.cmb_refund_range.SelectedIndexChanged += new System.EventHandler(this.cmb_refund_range_SelectedIndexChanged);
-            // 
-            // refund_pagination
-            // 
-            this.refund_pagination.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.refund_pagination.BackColor = System.Drawing.SystemColors.ControlDark;
-            this.refund_pagination.Location = new System.Drawing.Point(1155, 135);
-            this.refund_pagination.Name = "refund_pagination";
-            this.refund_pagination.Size = new System.Drawing.Size(388, 50);
-            this.refund_pagination.TabIndex = 22;
             // 
             // materialButton4
             // 
@@ -6789,15 +6674,6 @@
             this.btn_print_sales_report.UseVisualStyleBackColor = true;
             this.btn_print_sales_report.Click += new System.EventHandler(this.btn_print_sales_report_Click);
             // 
-            // sales_report_pagination
-            // 
-            this.sales_report_pagination.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.sales_report_pagination.BackColor = System.Drawing.SystemColors.ControlDark;
-            this.sales_report_pagination.Location = new System.Drawing.Point(1042, 289);
-            this.sales_report_pagination.Name = "sales_report_pagination";
-            this.sales_report_pagination.Size = new System.Drawing.Size(388, 50);
-            this.sales_report_pagination.TabIndex = 22;
-            // 
             // lbl_report_profit
             // 
             this.lbl_report_profit.AutoSize = true;
@@ -7074,7 +6950,7 @@
             this.panel6.Location = new System.Drawing.Point(25, 381);
             this.panel6.Name = "panel6";
             this.panel6.Padding = new System.Windows.Forms.Padding(0, 25, 0, 0);
-            this.panel6.Size = new System.Drawing.Size(1446, 181);
+            this.panel6.Size = new System.Drawing.Size(1446, 194);
             this.panel6.TabIndex = 3;
             // 
             // dgv_inventory_report
@@ -7103,7 +6979,7 @@
             this.dgv_inventory_report.RowHeadersVisible = false;
             this.dgv_inventory_report.RowHeadersWidth = 51;
             this.dgv_inventory_report.RowTemplate.Height = 24;
-            this.dgv_inventory_report.Size = new System.Drawing.Size(1446, 156);
+            this.dgv_inventory_report.Size = new System.Drawing.Size(1446, 169);
             this.dgv_inventory_report.TabIndex = 0;
             // 
             // col_inventory_product_name
@@ -7207,15 +7083,6 @@
             this.btn_inventory_print.UseAccentColor = false;
             this.btn_inventory_print.UseVisualStyleBackColor = true;
             this.btn_inventory_print.Click += new System.EventHandler(this.btn_inventory_print_Click);
-            // 
-            // inventory_report_pagination
-            // 
-            this.inventory_report_pagination.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.inventory_report_pagination.BackColor = System.Drawing.SystemColors.ControlDark;
-            this.inventory_report_pagination.Location = new System.Drawing.Point(1042, 289);
-            this.inventory_report_pagination.Name = "inventory_report_pagination";
-            this.inventory_report_pagination.Size = new System.Drawing.Size(388, 50);
-            this.inventory_report_pagination.TabIndex = 24;
             // 
             // lbl_inventory_consum_product
             // 
@@ -7505,14 +7372,14 @@
             this.panel14.Location = new System.Drawing.Point(0, 192);
             this.panel14.Name = "panel14";
             this.panel14.Padding = new System.Windows.Forms.Padding(0, 25, 0, 0);
-            this.panel14.Size = new System.Drawing.Size(1496, 395);
+            this.panel14.Size = new System.Drawing.Size(1496, 408);
             this.panel14.TabIndex = 10;
             // 
             // panel15
             // 
             this.panel15.Controls.Add(this.lbl_total_result);
             this.panel15.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.panel15.Location = new System.Drawing.Point(0, 376);
+            this.panel15.Location = new System.Drawing.Point(0, 389);
             this.panel15.Name = "panel15";
             this.panel15.Size = new System.Drawing.Size(1496, 19);
             this.panel15.TabIndex = 1;
@@ -7556,7 +7423,7 @@
             this.dgv_audit_report.RowHeadersVisible = false;
             this.dgv_audit_report.RowHeadersWidth = 51;
             this.dgv_audit_report.RowTemplate.Height = 24;
-            this.dgv_audit_report.Size = new System.Drawing.Size(1496, 370);
+            this.dgv_audit_report.Size = new System.Drawing.Size(1496, 383);
             this.dgv_audit_report.TabIndex = 0;
             // 
             // col_audit_id
@@ -7663,15 +7530,6 @@
             this.cmb_audit.Size = new System.Drawing.Size(300, 49);
             this.cmb_audit.StartIndex = -1;
             this.cmb_audit.TabIndex = 28;
-            // 
-            // audit_pagination
-            // 
-            this.audit_pagination.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.audit_pagination.BackColor = System.Drawing.SystemColors.ControlDark;
-            this.audit_pagination.Location = new System.Drawing.Point(1092, 125);
-            this.audit_pagination.Name = "audit_pagination";
-            this.audit_pagination.Size = new System.Drawing.Size(388, 50);
-            this.audit_pagination.TabIndex = 27;
             // 
             // btn_export_audit_pdf
             // 
@@ -7839,15 +7697,6 @@
             this.materialCard39.Size = new System.Drawing.Size(1554, 729);
             this.materialCard39.TabIndex = 8;
             // 
-            // data_recovery_pagination
-            // 
-            this.data_recovery_pagination.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.data_recovery_pagination.BackColor = System.Drawing.SystemColors.ControlDark;
-            this.data_recovery_pagination.Location = new System.Drawing.Point(1135, 823);
-            this.data_recovery_pagination.Name = "data_recovery_pagination";
-            this.data_recovery_pagination.Size = new System.Drawing.Size(388, 50);
-            this.data_recovery_pagination.TabIndex = 7;
-            // 
             // dgv_deleted_record
             // 
             this.dgv_deleted_record.AllowUserToAddRows = false;
@@ -7890,7 +7739,7 @@
             this.col_deleted_id.Name = "col_deleted_id";
             this.col_deleted_id.ReadOnly = true;
             this.col_deleted_id.Visible = false;
-            this.col_deleted_id.Width = 125;
+            this.col_deleted_id.Width = 24;
             // 
             // col_deleted_record_id
             // 
@@ -7900,7 +7749,7 @@
             this.col_deleted_record_id.Name = "col_deleted_record_id";
             this.col_deleted_record_id.ReadOnly = true;
             this.col_deleted_record_id.Visible = false;
-            this.col_deleted_record_id.Width = 125;
+            this.col_deleted_record_id.Width = 72;
             // 
             // col_deleted_sub_id
             // 
@@ -8346,7 +8195,7 @@
             this.groupBox1.Controls.Add(this.btn_add_payment_method);
             this.groupBox1.Controls.Add(this.dgv_payment_method);
             this.groupBox1.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.groupBox1.Location = new System.Drawing.Point(14, 425);
+            this.groupBox1.Location = new System.Drawing.Point(14, 439);
             this.groupBox1.Name = "groupBox1";
             this.groupBox1.Size = new System.Drawing.Size(671, 257);
             this.groupBox1.TabIndex = 25;
@@ -8434,7 +8283,7 @@
             this.col_payment_method_required.MinimumWidth = 6;
             this.col_payment_method_required.Name = "col_payment_method_required";
             this.col_payment_method_required.Visible = false;
-            this.col_payment_method_required.Width = 125;
+            this.col_payment_method_required.Width = 118;
             // 
             // col_payment_method_status
             // 
@@ -8443,7 +8292,7 @@
             this.col_payment_method_status.MinimumWidth = 6;
             this.col_payment_method_status.Name = "col_payment_method_status";
             this.col_payment_method_status.Visible = false;
-            this.col_payment_method_status.Width = 125;
+            this.col_payment_method_status.Width = 103;
             // 
             // col_payment_method_update
             // 
@@ -8596,7 +8445,7 @@
             this.col_discount_id.Name = "col_discount_id";
             this.col_discount_id.ReadOnly = true;
             this.col_discount_id.Visible = false;
-            this.col_discount_id.Width = 125;
+            this.col_discount_id.Width = 49;
             // 
             // col_discount_name
             // 
@@ -8623,7 +8472,7 @@
             this.col_discount_mode.Name = "col_discount_mode";
             this.col_discount_mode.ReadOnly = true;
             this.col_discount_mode.Visible = false;
-            this.col_discount_mode.Width = 125;
+            this.col_discount_mode.Width = 68;
             // 
             // col_discount_value
             // 
@@ -8633,7 +8482,7 @@
             this.col_discount_value.Name = "col_discount_value";
             this.col_discount_value.ReadOnly = true;
             this.col_discount_value.Visible = false;
-            this.col_discount_value.Width = 125;
+            this.col_discount_value.Width = 88;
             // 
             // col_discount_status_discount_status
             // 
@@ -8784,7 +8633,7 @@
             this.col_specialist_id.Name = "col_specialist_id";
             this.col_specialist_id.ReadOnly = true;
             this.col_specialist_id.Visible = false;
-            this.col_specialist_id.Width = 125;
+            this.col_specialist_id.Width = 49;
             // 
             // col_specialist_name
             // 
@@ -8802,7 +8651,7 @@
             this.col_specialist_is_deleted.Name = "col_specialist_is_deleted";
             this.col_specialist_is_deleted.ReadOnly = true;
             this.col_specialist_is_deleted.Visible = false;
-            this.col_specialist_is_deleted.Width = 125;
+            this.col_specialist_is_deleted.Width = 82;
             // 
             // col_specialist_update
             // 
@@ -8959,7 +8808,7 @@
             this.materialCard31.MouseState = MaterialSkin.MouseState.HOVER;
             this.materialCard31.Name = "materialCard31";
             this.materialCard31.Padding = new System.Windows.Forms.Padding(14);
-            this.materialCard31.Size = new System.Drawing.Size(1396, 560);
+            this.materialCard31.Size = new System.Drawing.Size(1396, 573);
             this.materialCard31.TabIndex = 0;
             // 
             // btn_clear_reward
@@ -9173,7 +9022,7 @@
             this.col_reward_update});
             this.dgv_reward_services.Dock = System.Windows.Forms.DockStyle.Bottom;
             this.dgv_reward_services.EnableHeadersVisualStyles = false;
-            this.dgv_reward_services.Location = new System.Drawing.Point(14, 300);
+            this.dgv_reward_services.Location = new System.Drawing.Point(14, 314);
             this.dgv_reward_services.Name = "dgv_reward_services";
             this.dgv_reward_services.RowHeadersBorderStyle = System.Windows.Forms.DataGridViewHeaderBorderStyle.None;
             this.dgv_reward_services.RowHeadersVisible = false;
@@ -9281,7 +9130,7 @@
             this.materialCard30.MouseState = MaterialSkin.MouseState.HOVER;
             this.materialCard30.Name = "materialCard30";
             this.materialCard30.Padding = new System.Windows.Forms.Padding(25);
-            this.materialCard30.Size = new System.Drawing.Size(1396, 460);
+            this.materialCard30.Size = new System.Drawing.Size(1396, 473);
             this.materialCard30.TabIndex = 30;
             // 
             // btn_test_smtp_connection
@@ -9603,6 +9452,157 @@
             this.printPreviewDialog1.Icon = ((System.Drawing.Icon)(resources.GetObject("printPreviewDialog1.Icon")));
             this.printPreviewDialog1.Name = "printPreviewDialog1";
             this.printPreviewDialog1.Visible = false;
+            // 
+            // paginationControl1
+            // 
+            this.paginationControl1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.paginationControl1.BackColor = System.Drawing.SystemColors.ControlDark;
+            this.paginationControl1.Location = new System.Drawing.Point(635, 778);
+            this.paginationControl1.Name = "paginationControl1";
+            this.paginationControl1.Size = new System.Drawing.Size(678, 50);
+            this.paginationControl1.TabIndex = 7;
+            // 
+            // paginationControl3
+            // 
+            this.paginationControl3.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.paginationControl3.BackColor = System.Drawing.SystemColors.ControlDark;
+            this.paginationControl3.Location = new System.Drawing.Point(1046, 712);
+            this.paginationControl3.Name = "paginationControl3";
+            this.paginationControl3.Size = new System.Drawing.Size(388, 50);
+            this.paginationControl3.TabIndex = 7;
+            // 
+            // customerPagination
+            // 
+            this.customerPagination.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.customerPagination.BackColor = System.Drawing.SystemColors.ControlDark;
+            this.customerPagination.Location = new System.Drawing.Point(1059, 709);
+            this.customerPagination.Name = "customerPagination";
+            this.customerPagination.Size = new System.Drawing.Size(388, 50);
+            this.customerPagination.TabIndex = 7;
+            // 
+            // supplierPagination
+            // 
+            this.supplierPagination.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.supplierPagination.BackColor = System.Drawing.SystemColors.ControlDark;
+            this.supplierPagination.Location = new System.Drawing.Point(1022, 707);
+            this.supplierPagination.Name = "supplierPagination";
+            this.supplierPagination.Size = new System.Drawing.Size(388, 50);
+            this.supplierPagination.TabIndex = 15;
+            // 
+            // paginationControl4
+            // 
+            this.paginationControl4.BackColor = System.Drawing.SystemColors.ControlDark;
+            this.paginationControl4.Location = new System.Drawing.Point(1017, 8);
+            this.paginationControl4.Name = "paginationControl4";
+            this.paginationControl4.Size = new System.Drawing.Size(388, 50);
+            this.paginationControl4.TabIndex = 11;
+            // 
+            // subcatPagination
+            // 
+            this.subcatPagination.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.subcatPagination.BackColor = System.Drawing.SystemColors.ControlDark;
+            this.subcatPagination.Location = new System.Drawing.Point(1061, 697);
+            this.subcatPagination.Name = "subcatPagination";
+            this.subcatPagination.Size = new System.Drawing.Size(388, 50);
+            this.subcatPagination.TabIndex = 11;
+            // 
+            // product_pagination
+            // 
+            this.product_pagination.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.product_pagination.BackColor = System.Drawing.SystemColors.ControlDark;
+            this.product_pagination.Location = new System.Drawing.Point(1042, 582);
+            this.product_pagination.Name = "product_pagination";
+            this.product_pagination.Size = new System.Drawing.Size(388, 50);
+            this.product_pagination.TabIndex = 13;
+            // 
+            // delivery_pagination
+            // 
+            this.delivery_pagination.BackColor = System.Drawing.SystemColors.ControlDark;
+            this.delivery_pagination.Location = new System.Drawing.Point(1366, 681);
+            this.delivery_pagination.Name = "delivery_pagination";
+            this.delivery_pagination.Size = new System.Drawing.Size(395, 46);
+            this.delivery_pagination.TabIndex = 17;
+            // 
+            // inventory_pagination
+            // 
+            this.inventory_pagination.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.inventory_pagination.BackColor = System.Drawing.SystemColors.ControlDark;
+            this.inventory_pagination.Location = new System.Drawing.Point(1032, 605);
+            this.inventory_pagination.Name = "inventory_pagination";
+            this.inventory_pagination.Size = new System.Drawing.Size(388, 50);
+            this.inventory_pagination.TabIndex = 17;
+            // 
+            // service_pagination
+            // 
+            this.service_pagination.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.service_pagination.BackColor = System.Drawing.SystemColors.ControlDark;
+            this.service_pagination.Location = new System.Drawing.Point(1139, 714);
+            this.service_pagination.Name = "service_pagination";
+            this.service_pagination.Size = new System.Drawing.Size(388, 50);
+            this.service_pagination.TabIndex = 15;
+            // 
+            // appointment_pagination
+            // 
+            this.appointment_pagination.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.appointment_pagination.BackColor = System.Drawing.SystemColors.ControlDark;
+            this.appointment_pagination.Location = new System.Drawing.Point(1036, 695);
+            this.appointment_pagination.Name = "appointment_pagination";
+            this.appointment_pagination.Size = new System.Drawing.Size(388, 50);
+            this.appointment_pagination.TabIndex = 15;
+            // 
+            // transaction_pagination
+            // 
+            this.transaction_pagination.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.transaction_pagination.BackColor = System.Drawing.SystemColors.ControlDark;
+            this.transaction_pagination.Location = new System.Drawing.Point(1155, 135);
+            this.transaction_pagination.Name = "transaction_pagination";
+            this.transaction_pagination.Size = new System.Drawing.Size(388, 50);
+            this.transaction_pagination.TabIndex = 22;
+            // 
+            // refund_pagination
+            // 
+            this.refund_pagination.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.refund_pagination.BackColor = System.Drawing.SystemColors.ControlDark;
+            this.refund_pagination.Location = new System.Drawing.Point(1155, 135);
+            this.refund_pagination.Name = "refund_pagination";
+            this.refund_pagination.Size = new System.Drawing.Size(388, 50);
+            this.refund_pagination.TabIndex = 22;
+            // 
+            // sales_report_pagination
+            // 
+            this.sales_report_pagination.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.sales_report_pagination.BackColor = System.Drawing.SystemColors.ControlDark;
+            this.sales_report_pagination.Location = new System.Drawing.Point(1042, 289);
+            this.sales_report_pagination.Name = "sales_report_pagination";
+            this.sales_report_pagination.Size = new System.Drawing.Size(388, 50);
+            this.sales_report_pagination.TabIndex = 22;
+            // 
+            // inventory_report_pagination
+            // 
+            this.inventory_report_pagination.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.inventory_report_pagination.BackColor = System.Drawing.SystemColors.ControlDark;
+            this.inventory_report_pagination.Location = new System.Drawing.Point(1042, 289);
+            this.inventory_report_pagination.Name = "inventory_report_pagination";
+            this.inventory_report_pagination.Size = new System.Drawing.Size(388, 50);
+            this.inventory_report_pagination.TabIndex = 24;
+            // 
+            // audit_pagination
+            // 
+            this.audit_pagination.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.audit_pagination.BackColor = System.Drawing.SystemColors.ControlDark;
+            this.audit_pagination.Location = new System.Drawing.Point(1092, 125);
+            this.audit_pagination.Name = "audit_pagination";
+            this.audit_pagination.Size = new System.Drawing.Size(388, 50);
+            this.audit_pagination.TabIndex = 27;
+            // 
+            // data_recovery_pagination
+            // 
+            this.data_recovery_pagination.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.data_recovery_pagination.BackColor = System.Drawing.SystemColors.ControlDark;
+            this.data_recovery_pagination.Location = new System.Drawing.Point(1135, 823);
+            this.data_recovery_pagination.Name = "data_recovery_pagination";
+            this.data_recovery_pagination.Size = new System.Drawing.Size(388, 50);
+            this.data_recovery_pagination.TabIndex = 7;
             // 
             // MainForm
             // 

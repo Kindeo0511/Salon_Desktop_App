@@ -40,6 +40,9 @@
             this.txt_cost_price = new MaterialSkin.Controls.MaterialTextBox();
             this.txt_content = new MaterialSkin.Controls.MaterialTextBox();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
+            this.lbl_size_id = new MaterialSkin.Controls.MaterialLabel();
+            this.btn_update_size = new MaterialSkin.Controls.MaterialButton();
+            this.txt_selling_price = new MaterialSkin.Controls.MaterialTextBox();
             this.materialLabel10 = new MaterialSkin.Controls.MaterialLabel();
             this.btn_add_size = new MaterialSkin.Controls.MaterialButton();
             this.txt_size_price = new MaterialSkin.Controls.MaterialTextBox();
@@ -49,6 +52,15 @@
             this.materialLabel7 = new MaterialSkin.Controls.MaterialLabel();
             this.materialLabel9 = new MaterialSkin.Controls.MaterialLabel();
             this.dgv_product_size = new System.Windows.Forms.DataGridView();
+            this.col_product_size_id = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.col_product_id = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.coL_product_name = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.col_product_size_label = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.col_product_content = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.col_product_cost_price = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.col_product_selling_price = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.col_product_size_update = new System.Windows.Forms.DataGridViewButtonColumn();
+            this.col_product_size_delete = new System.Windows.Forms.DataGridViewButtonColumn();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.chk_ingredient = new MaterialSkin.Controls.MaterialCheckbox();
             this.chk_retail = new MaterialSkin.Controls.MaterialCheckbox();
@@ -64,18 +76,6 @@
             this.materialCard1 = new MaterialSkin.Controls.MaterialCard();
             this.panel1 = new System.Windows.Forms.Panel();
             this.btn_close = new MaterialSkin.Controls.MaterialButton();
-            this.txt_selling_price = new MaterialSkin.Controls.MaterialTextBox();
-            this.btn_update_size = new MaterialSkin.Controls.MaterialButton();
-            this.lbl_size_id = new MaterialSkin.Controls.MaterialLabel();
-            this.col_product_size_id = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.col_product_id = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.coL_product_name = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.col_product_size_label = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.col_product_content = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.col_product_cost_price = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.col_product_selling_price = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.col_product_size_update = new System.Windows.Forms.DataGridViewButtonColumn();
-            this.col_product_size_delete = new System.Windows.Forms.DataGridViewButtonColumn();
             ((System.ComponentModel.ISupportInitialize)(this.errorProvider1)).BeginInit();
             this.groupBox2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgv_product_size)).BeginInit();
@@ -130,10 +130,11 @@
             this.txt_size_label.AnimateReadOnly = false;
             this.txt_size_label.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.txt_size_label.Depth = 0;
+            this.txt_size_label.Font = new System.Drawing.Font("Roboto", 16F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
             this.txt_size_label.LeadingIcon = null;
             this.txt_size_label.Location = new System.Drawing.Point(0, 0);
             this.txt_size_label.MaxLength = 50;
-            this.txt_size_label.MouseState = MaterialSkin.MouseState.HOVER;
+            this.txt_size_label.MouseState = MaterialSkin.MouseState.OUT;
             this.txt_size_label.Multiline = false;
             this.txt_size_label.Name = "txt_size_label";
             this.txt_size_label.Size = new System.Drawing.Size(100, 50);
@@ -197,10 +198,11 @@
             this.txt_cost_price.AnimateReadOnly = false;
             this.txt_cost_price.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.txt_cost_price.Depth = 0;
+            this.txt_cost_price.Font = new System.Drawing.Font("Roboto", 16F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
             this.txt_cost_price.LeadingIcon = null;
             this.txt_cost_price.Location = new System.Drawing.Point(0, 0);
             this.txt_cost_price.MaxLength = 50;
-            this.txt_cost_price.MouseState = MaterialSkin.MouseState.HOVER;
+            this.txt_cost_price.MouseState = MaterialSkin.MouseState.OUT;
             this.txt_cost_price.Multiline = false;
             this.txt_cost_price.Name = "txt_cost_price";
             this.txt_cost_price.Size = new System.Drawing.Size(100, 50);
@@ -213,10 +215,11 @@
             this.txt_content.AnimateReadOnly = false;
             this.txt_content.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.txt_content.Depth = 0;
+            this.txt_content.Font = new System.Drawing.Font("Roboto", 16F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
             this.txt_content.LeadingIcon = null;
             this.txt_content.Location = new System.Drawing.Point(0, 0);
             this.txt_content.MaxLength = 50;
-            this.txt_content.MouseState = MaterialSkin.MouseState.HOVER;
+            this.txt_content.MouseState = MaterialSkin.MouseState.OUT;
             this.txt_content.Multiline = false;
             this.txt_content.Name = "txt_content";
             this.txt_content.Size = new System.Drawing.Size(100, 50);
@@ -246,6 +249,58 @@
             this.groupBox2.TabIndex = 48;
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "PRODUCT SIZE INFORMATION";
+            // 
+            // lbl_size_id
+            // 
+            this.lbl_size_id.AutoSize = true;
+            this.lbl_size_id.Depth = 0;
+            this.lbl_size_id.Font = new System.Drawing.Font("Roboto", 14F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
+            this.lbl_size_id.Location = new System.Drawing.Point(69, 47);
+            this.lbl_size_id.MouseState = MaterialSkin.MouseState.HOVER;
+            this.lbl_size_id.Name = "lbl_size_id";
+            this.lbl_size_id.Size = new System.Drawing.Size(10, 19);
+            this.lbl_size_id.TabIndex = 69;
+            this.lbl_size_id.Text = "0";
+            this.lbl_size_id.Visible = false;
+            // 
+            // btn_update_size
+            // 
+            this.btn_update_size.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
+            this.btn_update_size.Density = MaterialSkin.Controls.MaterialButton.MaterialButtonDensity.Default;
+            this.btn_update_size.Depth = 0;
+            this.btn_update_size.HighEmphasis = true;
+            this.btn_update_size.Icon = null;
+            this.btn_update_size.Location = new System.Drawing.Point(43, 258);
+            this.btn_update_size.Margin = new System.Windows.Forms.Padding(4, 6, 4, 6);
+            this.btn_update_size.MouseState = MaterialSkin.MouseState.HOVER;
+            this.btn_update_size.Name = "btn_update_size";
+            this.btn_update_size.NoAccentTextColor = System.Drawing.Color.Empty;
+            this.btn_update_size.Size = new System.Drawing.Size(77, 36);
+            this.btn_update_size.TabIndex = 68;
+            this.btn_update_size.Text = "update";
+            this.btn_update_size.Type = MaterialSkin.Controls.MaterialButton.MaterialButtonType.Contained;
+            this.btn_update_size.UseAccentColor = false;
+            this.btn_update_size.Visible = false;
+            this.btn_update_size.Click += new System.EventHandler(this.btn_update_size_Click);
+            // 
+            // txt_selling_price
+            // 
+            this.txt_selling_price.AnimateReadOnly = false;
+            this.txt_selling_price.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            this.txt_selling_price.Depth = 0;
+            this.txt_selling_price.Enabled = false;
+            this.txt_selling_price.Font = new System.Drawing.Font("Roboto", 16F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
+            this.txt_selling_price.Hint = "Enter selling price";
+            this.txt_selling_price.LeadingIcon = null;
+            this.txt_selling_price.Location = new System.Drawing.Point(756, 154);
+            this.txt_selling_price.MaxLength = 50;
+            this.txt_selling_price.MouseState = MaterialSkin.MouseState.OUT;
+            this.txt_selling_price.Multiline = false;
+            this.txt_selling_price.Name = "txt_selling_price";
+            this.txt_selling_price.Size = new System.Drawing.Size(340, 50);
+            this.txt_selling_price.TabIndex = 0;
+            this.txt_selling_price.Text = "";
+            this.txt_selling_price.TrailingIcon = null;
             // 
             // materialLabel10
             // 
@@ -405,6 +460,87 @@
             this.dgv_product_size.Size = new System.Drawing.Size(1155, 246);
             this.dgv_product_size.TabIndex = 45;
             this.dgv_product_size.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgv_product_size_CellClick);
+            // 
+            // col_product_size_id
+            // 
+            this.col_product_size_id.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
+            this.col_product_size_id.HeaderText = "size_id";
+            this.col_product_size_id.MinimumWidth = 6;
+            this.col_product_size_id.Name = "col_product_size_id";
+            this.col_product_size_id.Visible = false;
+            this.col_product_size_id.Width = 125;
+            // 
+            // col_product_id
+            // 
+            this.col_product_id.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
+            this.col_product_id.HeaderText = "product_id";
+            this.col_product_id.MinimumWidth = 6;
+            this.col_product_id.Name = "col_product_id";
+            this.col_product_id.Visible = false;
+            this.col_product_id.Width = 125;
+            // 
+            // coL_product_name
+            // 
+            this.coL_product_name.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
+            this.coL_product_name.HeaderText = "Product Name";
+            this.coL_product_name.MinimumWidth = 6;
+            this.coL_product_name.Name = "coL_product_name";
+            this.coL_product_name.Visible = false;
+            // 
+            // col_product_size_label
+            // 
+            this.col_product_size_label.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
+            this.col_product_size_label.HeaderText = "Size  Label";
+            this.col_product_size_label.MinimumWidth = 6;
+            this.col_product_size_label.Name = "col_product_size_label";
+            // 
+            // col_product_content
+            // 
+            this.col_product_content.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
+            this.col_product_content.HeaderText = "Content";
+            this.col_product_content.MinimumWidth = 6;
+            this.col_product_content.Name = "col_product_content";
+            this.col_product_content.ReadOnly = true;
+            this.col_product_content.Width = 81;
+            // 
+            // col_product_cost_price
+            // 
+            this.col_product_cost_price.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
+            this.col_product_cost_price.HeaderText = "Cost Price";
+            this.col_product_cost_price.MinimumWidth = 6;
+            this.col_product_cost_price.Name = "col_product_cost_price";
+            this.col_product_cost_price.ReadOnly = true;
+            this.col_product_cost_price.Width = 97;
+            // 
+            // col_product_selling_price
+            // 
+            this.col_product_selling_price.HeaderText = "Selling Price";
+            this.col_product_selling_price.MinimumWidth = 6;
+            this.col_product_selling_price.Name = "col_product_selling_price";
+            this.col_product_selling_price.ReadOnly = true;
+            this.col_product_selling_price.Width = 125;
+            // 
+            // col_product_size_update
+            // 
+            this.col_product_size_update.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
+            this.col_product_size_update.HeaderText = "Update";
+            this.col_product_size_update.MinimumWidth = 6;
+            this.col_product_size_update.Name = "col_product_size_update";
+            this.col_product_size_update.Text = "Edit";
+            this.col_product_size_update.UseColumnTextForButtonValue = true;
+            this.col_product_size_update.Width = 58;
+            // 
+            // col_product_size_delete
+            // 
+            this.col_product_size_delete.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
+            this.col_product_size_delete.HeaderText = "Delete";
+            this.col_product_size_delete.MinimumWidth = 6;
+            this.col_product_size_delete.Name = "col_product_size_delete";
+            this.col_product_size_delete.Resizable = System.Windows.Forms.DataGridViewTriState.True;
+            this.col_product_size_delete.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Automatic;
+            this.col_product_size_delete.Text = "Delete";
+            this.col_product_size_delete.UseColumnTextForButtonValue = true;
+            this.col_product_size_delete.Width = 76;
             // 
             // groupBox1
             // 
@@ -673,139 +809,6 @@
             this.btn_close.UseAccentColor = false;
             this.btn_close.UseVisualStyleBackColor = true;
             this.btn_close.Click += new System.EventHandler(this.btn_close_Click);
-            // 
-            // txt_selling_price
-            // 
-            this.txt_selling_price.AnimateReadOnly = false;
-            this.txt_selling_price.BorderStyle = System.Windows.Forms.BorderStyle.None;
-            this.txt_selling_price.Depth = 0;
-            this.txt_selling_price.Enabled = false;
-            this.txt_selling_price.Font = new System.Drawing.Font("Roboto", 16F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
-            this.txt_selling_price.Hint = "Enter selling price";
-            this.txt_selling_price.LeadingIcon = null;
-            this.txt_selling_price.Location = new System.Drawing.Point(756, 154);
-            this.txt_selling_price.MaxLength = 50;
-            this.txt_selling_price.MouseState = MaterialSkin.MouseState.OUT;
-            this.txt_selling_price.Multiline = false;
-            this.txt_selling_price.Name = "txt_selling_price";
-            this.txt_selling_price.Size = new System.Drawing.Size(340, 50);
-            this.txt_selling_price.TabIndex = 0;
-            this.txt_selling_price.Text = "";
-            this.txt_selling_price.TrailingIcon = null;
-            // 
-            // btn_update_size
-            // 
-            this.btn_update_size.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
-            this.btn_update_size.Density = MaterialSkin.Controls.MaterialButton.MaterialButtonDensity.Default;
-            this.btn_update_size.Depth = 0;
-            this.btn_update_size.HighEmphasis = true;
-            this.btn_update_size.Icon = null;
-            this.btn_update_size.Location = new System.Drawing.Point(47, 258);
-            this.btn_update_size.Margin = new System.Windows.Forms.Padding(4, 6, 4, 6);
-            this.btn_update_size.MouseState = MaterialSkin.MouseState.HOVER;
-            this.btn_update_size.Name = "btn_update_size";
-            this.btn_update_size.NoAccentTextColor = System.Drawing.Color.Empty;
-            this.btn_update_size.Size = new System.Drawing.Size(77, 36);
-            this.btn_update_size.TabIndex = 68;
-            this.btn_update_size.Text = "update";
-            this.btn_update_size.Type = MaterialSkin.Controls.MaterialButton.MaterialButtonType.Contained;
-            this.btn_update_size.UseAccentColor = false;
-            this.btn_update_size.Visible = false;
-            this.btn_update_size.Click += new System.EventHandler(this.btn_update_size_Click);
-            // 
-            // lbl_size_id
-            // 
-            this.lbl_size_id.AutoSize = true;
-            this.lbl_size_id.Depth = 0;
-            this.lbl_size_id.Font = new System.Drawing.Font("Roboto", 14F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
-            this.lbl_size_id.Location = new System.Drawing.Point(69, 47);
-            this.lbl_size_id.MouseState = MaterialSkin.MouseState.HOVER;
-            this.lbl_size_id.Name = "lbl_size_id";
-            this.lbl_size_id.Size = new System.Drawing.Size(10, 19);
-            this.lbl_size_id.TabIndex = 69;
-            this.lbl_size_id.Text = "0";
-            this.lbl_size_id.Visible = false;
-            // 
-            // col_product_size_id
-            // 
-            this.col_product_size_id.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
-            this.col_product_size_id.HeaderText = "size_id";
-            this.col_product_size_id.MinimumWidth = 6;
-            this.col_product_size_id.Name = "col_product_size_id";
-            this.col_product_size_id.Visible = false;
-            this.col_product_size_id.Width = 55;
-            // 
-            // col_product_id
-            // 
-            this.col_product_id.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
-            this.col_product_id.HeaderText = "product_id";
-            this.col_product_id.MinimumWidth = 6;
-            this.col_product_id.Name = "col_product_id";
-            this.col_product_id.Visible = false;
-            this.col_product_id.Width = 76;
-            // 
-            // coL_product_name
-            // 
-            this.coL_product_name.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
-            this.coL_product_name.HeaderText = "Product Name";
-            this.coL_product_name.MinimumWidth = 6;
-            this.coL_product_name.Name = "coL_product_name";
-            this.coL_product_name.Visible = false;
-            // 
-            // col_product_size_label
-            // 
-            this.col_product_size_label.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
-            this.col_product_size_label.HeaderText = "Size  Label";
-            this.col_product_size_label.MinimumWidth = 6;
-            this.col_product_size_label.Name = "col_product_size_label";
-            // 
-            // col_product_content
-            // 
-            this.col_product_content.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
-            this.col_product_content.HeaderText = "Content";
-            this.col_product_content.MinimumWidth = 6;
-            this.col_product_content.Name = "col_product_content";
-            this.col_product_content.ReadOnly = true;
-            this.col_product_content.Width = 81;
-            // 
-            // col_product_cost_price
-            // 
-            this.col_product_cost_price.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
-            this.col_product_cost_price.HeaderText = "Cost Price";
-            this.col_product_cost_price.MinimumWidth = 6;
-            this.col_product_cost_price.Name = "col_product_cost_price";
-            this.col_product_cost_price.ReadOnly = true;
-            this.col_product_cost_price.Width = 97;
-            // 
-            // col_product_selling_price
-            // 
-            this.col_product_selling_price.HeaderText = "Selling Price";
-            this.col_product_selling_price.MinimumWidth = 6;
-            this.col_product_selling_price.Name = "col_product_selling_price";
-            this.col_product_selling_price.ReadOnly = true;
-            this.col_product_selling_price.Width = 125;
-            // 
-            // col_product_size_update
-            // 
-            this.col_product_size_update.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
-            this.col_product_size_update.HeaderText = "Update";
-            this.col_product_size_update.MinimumWidth = 6;
-            this.col_product_size_update.Name = "col_product_size_update";
-            this.col_product_size_update.Text = "Edit";
-            this.col_product_size_update.UseColumnTextForButtonValue = true;
-            this.col_product_size_update.Width = 58;
-            // 
-            // col_product_size_delete
-            // 
-            this.col_product_size_delete.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
-            this.col_product_size_delete.HeaderText = "Delete";
-            this.col_product_size_delete.MinimumWidth = 6;
-            this.col_product_size_delete.Name = "col_product_size_delete";
-            this.col_product_size_delete.Resizable = System.Windows.Forms.DataGridViewTriState.True;
-            this.col_product_size_delete.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Automatic;
-            this.col_product_size_delete.Text = "Delete";
-            this.col_product_size_delete.UseColumnTextForButtonValue = true;
-            this.col_product_size_delete.Width = 76;
             // 
             // ProductForm
             // 

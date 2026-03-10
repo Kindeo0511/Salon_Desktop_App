@@ -26,6 +26,7 @@ namespace Salon.View
         private StylistModel _stylist;
         private bool _isSaving = false;
         private bool _isUpdating = false;
+        private bool _isDeleting = false;
         private List<int> ss_id = new List<int>();
         private string serviceName = null;
 
@@ -521,15 +522,25 @@ namespace Salon.View
         {
             if (!IsValid()) return;
             if (!IsServiceListConsumptionValid("updating")) return;
-            UpdateServiceConsumption(Service_Model(), product_consumption_list);
-            //if (!HasServiceChange()) 
-            //{
-            //    MessageBox.Show("No changes detected.", "Information", MessageBoxButtons.OK, MessageBoxIcon.Information);
-            //    return;
-            //}
-            //IsServiceExists();
 
-            await mainform.RefreshServicesAsync(1, 25);
+            if (_isUpdating)
+            {
+                UpdateServiceConsumption(Service_Model(), product_consumption_list);
+
+            }
+            else if (_isDeleting) 
+            {
+                DeleteServiceConsumption(Service_Model(), product_consumption_list);
+            }
+
+                //if (!HasServiceChange()) 
+                //{
+                //    MessageBox.Show("No changes detected.", "Information", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                //    return;
+                //}
+                //IsServiceExists();
+
+                await mainform.RefreshServicesAsync(1, 25);
             ClearConsumptionField();
         }
         private ServiceModel Service_Model() 
@@ -612,17 +623,28 @@ namespace Salon.View
                 MessageBox.Show("Failed to update service please check the input and try again.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
-        private void DeleteServiceConsumption(ServiceModel model, IEnumerable<ServiceProductUsageModel> consumption)
+        private void DeleteServiceConsumption(ServiceModel model, IEnumerable<ServiceProductUsageModel> consumptions)
         {
             var repo = new ServiceRepository();
             var controller = new ServiceController(repo);
 
-            bool success = controller.ServiceSaveWithConsumption(model, consumption);
-
+            bool success = controller.ServiceSaveWithConsumption(model, consumptions);
+            var consumption = consumptions.FirstOrDefault();
+            if (consumptions == null) return;
 
             if (success)
             {
                 MessageBox.Show("Service deleted successfully!", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
+
+
+                Audit.AuditLog(DateTime.Now, "Delete", UserSession.CurrentUser.first_Name, "Manage Services Product Usage", $"Deleted product usage '{consumption.product_name}' for ({serviceModel.serviceName}) on {DateTime.Now:yyyy-MM-dd} at {DateTime.Now:HH:mm:ss}");
+
+
+                mainform.InsertDeletedRecord(consumption.service_product_id, consumption.product_id, "Manage Services Product Usage", consumption.serviceName, UserSession.CurrentUser.first_Name, DateTime.Today);
+
+             
+                RefreshServiceProductUsage(service_id);
+
             }
             else
             {
@@ -717,7 +739,6 @@ namespace Salon.View
         private void btn_add_consumption_Click_1(object sender, EventArgs e)
         {
             if(!IsServiceConsumptionValidated()) return;
-            if (!IsDuplicateConsumption(ServiceConsumptionModel())) return;
             product_consumption_list.Add(ServiceConsumptionModel());
 
             ClearConsumptionField();
@@ -793,20 +814,13 @@ namespace Salon.View
 
                 if (result == DialogResult.Yes)
                 {
-                    // ✅ Remove from BindingList FIRST so it's excluded from the save
+                    
                     product_consumption_list.Remove(productUsage);
 
-                    // ✅ Now save — missing ID will be marked is_deleted = 1 in DB
-                    DeleteServiceConsumption(Service_Model(), product_consumption_list);
+                    _isDeleting = true; 
+                  
 
 
-                    Audit.AuditLog(DateTime.Now, "Delete", UserSession.CurrentUser.first_Name, "Manage Services Product Usage", $"Deleted product usage '{product}' for ({serviceModel.serviceName}) on {DateTime.Now:yyyy-MM-dd} at {DateTime.Now:HH:mm:ss}");
-
-
-                    mainform.InsertDeletedRecord(productUsage.service_product_id, productUsage.product_id, "Manage Services Product Usage", productUsage.serviceName, UserSession.CurrentUser.first_Name, DateTime.Today);
-
-                    await mainform.FilterdDeletedRecords(1, 25);
-                    RefreshServiceProductUsage(service_id);
                 }
 
                
@@ -842,7 +856,6 @@ namespace Salon.View
             if (!IsServiceConsumptionValidated()) return;
 
             var updatedConsumption = ServiceConsumptionModel();
-            if (!IsDuplicateConsumption(updatedConsumption,updatedConsumption.service_product_id)) return;
 
             var existing = product_consumption_list.FirstOrDefault(s => s.service_product_id == updatedConsumption.service_product_id);
 

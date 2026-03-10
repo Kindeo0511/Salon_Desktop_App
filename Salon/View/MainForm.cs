@@ -69,10 +69,10 @@ namespace Salon.View
         private BindingList<RetailProduct> cart = new BindingList<RetailProduct>();
 
 
-        public MainForm(LoginForm login)
+        public MainForm()
         {
             InitializeComponent();
-            loginForm = login;
+ 
 
             ThemeManager.ApplyTheme(this);
 
@@ -91,6 +91,7 @@ namespace Salon.View
 
 
         }
+
         public void ExpiredPromo()
         {
             var repo = new DiscountRepository();
