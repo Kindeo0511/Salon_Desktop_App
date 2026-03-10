@@ -22,6 +22,10 @@ namespace Salon.Controller
             return repo.DisplayList();
         }
 
+        public int GetSpecialistIdByStylistId(int id) 
+        {
+            return repo.GetSpecialistIdByStylistId(id);
+        }
         public bool CreateSpecialist(SpecialistModel model)
         {
             return repo.Create(model) > 0;

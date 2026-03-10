@@ -34,6 +34,7 @@ namespace Salon.View
             dtp_day_of_birth.MaxDate = DateTime.Today;
             dtp_day_of_birth.MinDate = new DateTime(1900, 1, 1);
             LoadServices();
+            LoadSpecialists();
         }
         public StylistForm(MainForm mainForm, StylistModel stylist)
         {
@@ -55,9 +56,10 @@ namespace Salon.View
                 txt_contact.Text = _stylist.contactNumber;
                 txt_email.Text = _stylist.email;
                 txt_address.Text = _stylist.address;
+            ;
 
                 LoadServices(_stylist.stylist_id);
-
+                LoadSpecialists(_stylist.stylist_id);
                 btn_save.Visible = false;
                 btn_update.Visible = true;
 
@@ -92,19 +94,29 @@ namespace Salon.View
 
 
         }
-        public void LoadSpecialists() 
+        public void LoadSpecialists(int stylist_id = 0) 
         {
             var repo = new SpecialistRepository();
             var controller = new SpecialistController(repo);
             var specialists = controller.GetAllSpecialists();
 
+            int specialist_id = controller.GetSpecialistIdByStylistId(stylist_id);
+
+   
+
             cmb_specialist.DisplayMember = "name";
             cmb_specialist.ValueMember = "specialist_id";
-            cmb_specialist.SelectedIndex = -1;
 
-            cmb_specialist.DataSource = specialists; 
 
-           
+            cmb_specialist.DataSource = specialists;
+          
+
+            MessageBox.Show(specialist_id.ToString());
+            if (specialist_id > 0)
+                cmb_specialist.SelectedValue = specialist_id; // ← preselect
+            else
+                cmb_specialist.SelectedIndex = -1; // ← nothing selected for Add
+
 
 
 
@@ -318,7 +330,9 @@ namespace Salon.View
             if (!HasStylistChanges()) 
             {
                 MessageBox.Show("No changes detected.", "Information", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                this.Close();
                 return;
+    
             }
 
             IsAccountExists();
@@ -328,7 +342,8 @@ namespace Salon.View
             var fullName = txt_first_name.Text + " " + txt_last_name.Text;
             Audit.AuditLog(DateTime.Now, "Update", UserSession.CurrentUser.first_Name, "Manage Stylist", $"Updated stylist {fullName} on {DateTime.Now:yyyy-MM-dd} at {DateTime.Now:HH:mm:ss}");
             await _mainForm.RefreshStylistAsync(1, 25);
-    
+
+            this.Close();
         }
 
         private bool IsValid()
@@ -444,6 +459,12 @@ namespace Salon.View
             else
             {
                 errorProvider1.SetError(txt_address, "");
+            }
+
+            if (string.IsNullOrEmpty(cmb_specialist.Text)) 
+            {
+                errorProvider1.SetError(cmb_specialist, "Specialist is required.");
+                validated = false;
             }
 
             // Services (CheckedListBox must have at least one checked item)
@@ -615,7 +636,7 @@ namespace Salon.View
 
         private void StylistForm_Load(object sender, EventArgs e)
         {
-            LoadSpecialists();
+   
        
         }
 

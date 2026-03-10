@@ -45,13 +45,13 @@
             this.materialLabel6 = new MaterialSkin.Controls.MaterialLabel();
             this.txt_email = new System.Windows.Forms.TextBox();
             this.materialCard1 = new MaterialSkin.Controls.MaterialCard();
+            this.materialLabel9 = new MaterialSkin.Controls.MaterialLabel();
             this.cmb_specialist = new System.Windows.Forms.ComboBox();
             this.txt_contact = new System.Windows.Forms.TextBox();
             this.chk_services = new System.Windows.Forms.CheckedListBox();
             this.materialLabel8 = new MaterialSkin.Controls.MaterialLabel();
             this.txt_address = new System.Windows.Forms.TextBox();
             this.materialLabel7 = new MaterialSkin.Controls.MaterialLabel();
-            this.materialLabel9 = new MaterialSkin.Controls.MaterialLabel();
             ((System.ComponentModel.ISupportInitialize)(this.errorProvider1)).BeginInit();
             this.materialCard1.SuspendLayout();
             this.SuspendLayout();
@@ -294,6 +294,19 @@
             this.materialCard1.Size = new System.Drawing.Size(994, 733);
             this.materialCard1.TabIndex = 43;
             // 
+            // materialLabel9
+            // 
+            this.materialLabel9.AutoSize = true;
+            this.materialLabel9.Depth = 0;
+            this.materialLabel9.Font = new System.Drawing.Font("Roboto Medium", 20F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Pixel);
+            this.materialLabel9.FontType = MaterialSkin.MaterialSkinManager.fontType.H6;
+            this.materialLabel9.Location = new System.Drawing.Point(61, 836);
+            this.materialLabel9.MouseState = MaterialSkin.MouseState.HOVER;
+            this.materialLabel9.Name = "materialLabel9";
+            this.materialLabel9.Size = new System.Drawing.Size(77, 24);
+            this.materialLabel9.TabIndex = 50;
+            this.materialLabel9.Text = "Services";
+            // 
             // cmb_specialist
             // 
             this.cmb_specialist.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
@@ -302,7 +315,6 @@
             this.cmb_specialist.Location = new System.Drawing.Point(474, 748);
             this.cmb_specialist.Name = "cmb_specialist";
             this.cmb_specialist.Size = new System.Drawing.Size(450, 33);
-            this.cmb_specialist.Sorted = true;
             this.cmb_specialist.TabIndex = 49;
             // 
             // txt_contact
@@ -362,19 +374,6 @@
             this.materialLabel7.Size = new System.Drawing.Size(79, 24);
             this.materialLabel7.TabIndex = 43;
             this.materialLabel7.Text = "Address:";
-            // 
-            // materialLabel9
-            // 
-            this.materialLabel9.AutoSize = true;
-            this.materialLabel9.Depth = 0;
-            this.materialLabel9.Font = new System.Drawing.Font("Roboto Medium", 20F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Pixel);
-            this.materialLabel9.FontType = MaterialSkin.MaterialSkinManager.fontType.H6;
-            this.materialLabel9.Location = new System.Drawing.Point(61, 836);
-            this.materialLabel9.MouseState = MaterialSkin.MouseState.HOVER;
-            this.materialLabel9.Name = "materialLabel9";
-            this.materialLabel9.Size = new System.Drawing.Size(77, 24);
-            this.materialLabel9.TabIndex = 50;
-            this.materialLabel9.Text = "Services";
             // 
             // StylistForm
             // 

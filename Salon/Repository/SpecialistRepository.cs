@@ -19,6 +19,16 @@ namespace Salon.Repository
                 return con.Query<SpecialistModel>(sql).ToList();
             }
         }
+        public int GetSpecialistIdByStylistId(int stylist_id)
+        {
+            using (var con = Database.GetConnection())
+            {
+                var sql = @"SELECT specialist_id 
+                    FROM tbl_stylist_specialists 
+                    WHERE stylist_id = @stylist_id";
+                return con.QueryFirstOrDefault<int>(sql, new { stylist_id });
+            }
+        }
         public int Create(SpecialistModel model)
         {
             using (var con = Database.GetConnection())
