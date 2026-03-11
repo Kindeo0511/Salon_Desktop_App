@@ -61,7 +61,7 @@ namespace Salon.Repository
                 return result ?? 0;
             }
         }
-        public int GetProductQtyStockkByProductSize(int productId, int productSizeId)
+        public decimal GetProductQtyStockkByProductSize(int productId, int productSizeId)
         {
             using (var con = Database.GetConnection())
             {
@@ -73,7 +73,7 @@ namespace Salon.Repository
                       AND i.product_size_id = @productSizeId;
 ";
 
-                return con.QueryFirstOrDefault<int>(sql, new { productId = productId, productSizeId = productSizeId });
+                return con.QueryFirstOrDefault<decimal>(sql, new { productId = productId, productSizeId = productSizeId });
             }
         }
         public int TotalInventory() 

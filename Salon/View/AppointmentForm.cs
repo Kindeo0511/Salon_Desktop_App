@@ -414,8 +414,8 @@ namespace Salon.View
             for (DateTime time = startTime; time <= endTime; time = time.AddMinutes(30))
             {
                 // Skip past times if today
-                //if (selectedDate.Date == DateTime.Today && time < DateTime.Now)
-                //    continue;
+                if (selectedDate.Date == DateTime.Today && time < DateTime.Now)
+                    continue;
 
                 // Skip taken slots for this stylist
                 bool taken = appointments.Any(appt =>

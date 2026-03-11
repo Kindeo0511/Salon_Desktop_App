@@ -1676,6 +1676,8 @@ namespace Salon.View
                 serviceForm.RefreshData += async (s, args) => { await RefreshServicesAsync(service_pagination.CurrentPage, pageSize); };
 
                 serviceForm.ShowDialog();
+
+                LoyaltyCardSettings();
             }
         }
         private int GetServiceUsageCount(int service_id)
@@ -5494,8 +5496,8 @@ namespace Salon.View
                 }
 
                 // Parse qty
-                double newQty;
-                if (!double.TryParse(cellObj.ToString(), out newQty) || newQty <= 0)
+                decimal newQty;
+                if (!decimal.TryParse(cellObj.ToString(), out newQty) || newQty <= 0)
                 {
                     MessageBox.Show("Invalid quantity entered.",
                                     "Validation",
@@ -5512,7 +5514,7 @@ namespace Salon.View
                 var inventoryController = new InventoryController(inventoryRepo);
      
 
-                int stock = inventoryController.GetProductQtyStck(productId, productSizeId);
+                decimal stock = inventoryController.GetProductQtyStck(productId, productSizeId);
 
                 if (stock < newQty)
                 {
@@ -5600,12 +5602,18 @@ namespace Salon.View
             serviceController.AddServiceToInvoiceCart(cart);
 
         }
-
+        private decimal ParseLabel(string labelText)
+        {
+            string clean = labelText.Replace("₱", "")
+                                    .Replace(",", "")
+                                    .Trim();
+            return decimal.TryParse(clean, out decimal value) ? value : 0;
+        }
         private void btn_confirm_payment_Click_1(object sender, EventArgs e)
         {
-            decimal amount_paid = Convert.ToDecimal(lbl_total.Text);
-            decimal vat_amount = Convert.ToDecimal(lbl_vat.Text);
-            decimal discount_amount = Convert.ToDecimal(lbl_discount_name.Text);
+            decimal amount_paid = ParseLabel(lbl_total.Text);
+            decimal vat_amount = ParseLabel(lbl_vat.Text);
+            decimal discount_amount = ParseLabel(lbl_discount_name.Text);
             decimal cash_received = Convert.ToDecimal(txt_received.Text == "" ? "0" : txt_received.Text);
             decimal sub_total = Convert.ToDecimal(lbl_sub_total.Text);
             int payment_method_id = Convert.ToInt32(cmb_payment_method.SelectedValue);

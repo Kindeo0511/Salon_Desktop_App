@@ -36,10 +36,10 @@
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle4 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle5 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle6 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle10 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle7 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle8 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle9 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle10 = new System.Windows.Forms.DataGridViewCellStyle();
             this.materialTabControl1 = new MaterialSkin.Controls.MaterialTabControl();
             this.dashboardTab = new System.Windows.Forms.TabPage();
             this.tableLayoutPanel2 = new System.Windows.Forms.TableLayoutPanel();
@@ -326,18 +326,6 @@
             this.posTab = new System.Windows.Forms.TabPage();
             this.materialCard46 = new MaterialSkin.Controls.MaterialCard();
             this.dgv_cart_product = new System.Windows.Forms.DataGridView();
-            this.col_cart_product_id = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.col_cart_product_name = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.col_cart_product_size_id = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.col_cart_product_category = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.col_cart_product_brand = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.col_cart_product_qty = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.col_cart_product_price = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.col_cart_final_price = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.col_cart_discounted = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.col_cart_vat_exempt = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.col_cart_status = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.col_btn_cart_apply_discount = new System.Windows.Forms.DataGridViewImageColumn();
             this.panel19 = new System.Windows.Forms.Panel();
             this.btn_search_product = new MaterialSkin.Controls.MaterialButton();
             this.btn_void = new MaterialSkin.Controls.MaterialButton();
@@ -669,6 +657,18 @@
             this.inventory_report_pagination = new Salon.Util.PaginationControl();
             this.audit_pagination = new Salon.Util.PaginationControl();
             this.data_recovery_pagination = new Salon.Util.PaginationControl();
+            this.col_cart_product_id = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.col_cart_product_name = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.col_cart_product_size_id = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.col_cart_product_category = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.col_cart_product_brand = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.col_cart_product_qty = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.col_cart_product_price = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.col_cart_final_price = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.col_cart_discounted = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.col_cart_vat_exempt = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.col_cart_status = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.col_btn_cart_apply_discount = new System.Windows.Forms.DataGridViewImageColumn();
             this.materialTabControl1.SuspendLayout();
             this.dashboardTab.SuspendLayout();
             this.tableLayoutPanel2.SuspendLayout();
@@ -1914,7 +1914,7 @@
             this.materialCard12.MouseState = MaterialSkin.MouseState.HOVER;
             this.materialCard12.Name = "materialCard12";
             this.materialCard12.Padding = new System.Windows.Forms.Padding(14);
-            this.materialCard12.Size = new System.Drawing.Size(1504, 604);
+            this.materialCard12.Size = new System.Drawing.Size(1504, 636);
             this.materialCard12.TabIndex = 9;
             // 
             // dgv_customer
@@ -4671,111 +4671,6 @@
             this.dgv_cart_product.CellValueChanged += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgv_cart_product_CellValueChanged);
             this.dgv_cart_product.CurrentCellDirtyStateChanged += new System.EventHandler(this.dgv_cart_product_CurrentCellDirtyStateChanged);
             this.dgv_cart_product.EditingControlShowing += new System.Windows.Forms.DataGridViewEditingControlShowingEventHandler(this.dgv_cart_product_EditingControlShowing);
-            // 
-            // col_cart_product_id
-            // 
-            this.col_cart_product_id.HeaderText = "product_id";
-            this.col_cart_product_id.MinimumWidth = 6;
-            this.col_cart_product_id.Name = "col_cart_product_id";
-            this.col_cart_product_id.Visible = false;
-            this.col_cart_product_id.Width = 125;
-            // 
-            // col_cart_product_name
-            // 
-            this.col_cart_product_name.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
-            this.col_cart_product_name.HeaderText = "Product";
-            this.col_cart_product_name.MinimumWidth = 6;
-            this.col_cart_product_name.Name = "col_cart_product_name";
-            // 
-            // col_cart_product_size_id
-            // 
-            this.col_cart_product_size_id.HeaderText = "product_size_id";
-            this.col_cart_product_size_id.MinimumWidth = 6;
-            this.col_cart_product_size_id.Name = "col_cart_product_size_id";
-            this.col_cart_product_size_id.Visible = false;
-            this.col_cart_product_size_id.Width = 125;
-            // 
-            // col_cart_product_category
-            // 
-            this.col_cart_product_category.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
-            this.col_cart_product_category.HeaderText = "Size Label";
-            this.col_cart_product_category.MinimumWidth = 6;
-            this.col_cart_product_category.Name = "col_cart_product_category";
-            // 
-            // col_cart_product_brand
-            // 
-            this.col_cart_product_brand.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
-            this.col_cart_product_brand.HeaderText = "Brand";
-            this.col_cart_product_brand.MinimumWidth = 6;
-            this.col_cart_product_brand.Name = "col_cart_product_brand";
-            // 
-            // col_cart_product_qty
-            // 
-            this.col_cart_product_qty.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
-            dataGridViewCellStyle7.NullValue = null;
-            this.col_cart_product_qty.DefaultCellStyle = dataGridViewCellStyle7;
-            this.col_cart_product_qty.HeaderText = "Quantity";
-            this.col_cart_product_qty.MinimumWidth = 6;
-            this.col_cart_product_qty.Name = "col_cart_product_qty";
-            this.col_cart_product_qty.Width = 127;
-            // 
-            // col_cart_product_price
-            // 
-            this.col_cart_product_price.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.DisplayedCells;
-            this.col_cart_product_price.HeaderText = "Price";
-            this.col_cart_product_price.MinimumWidth = 6;
-            this.col_cart_product_price.Name = "col_cart_product_price";
-            this.col_cart_product_price.Width = 96;
-            // 
-            // col_cart_final_price
-            // 
-            this.col_cart_final_price.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
-            dataGridViewCellStyle8.Format = "C2";
-            dataGridViewCellStyle8.NullValue = null;
-            this.col_cart_final_price.DefaultCellStyle = dataGridViewCellStyle8;
-            this.col_cart_final_price.HeaderText = "Total";
-            this.col_cart_final_price.MinimumWidth = 6;
-            this.col_cart_final_price.Name = "col_cart_final_price";
-            this.col_cart_final_price.Width = 95;
-            // 
-            // col_cart_discounted
-            // 
-            this.col_cart_discounted.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
-            dataGridViewCellStyle9.Format = "C2";
-            dataGridViewCellStyle9.NullValue = null;
-            this.col_cart_discounted.DefaultCellStyle = dataGridViewCellStyle9;
-            this.col_cart_discounted.HeaderText = "Discount";
-            this.col_cart_discounted.MinimumWidth = 6;
-            this.col_cart_discounted.Name = "col_cart_discounted";
-            this.col_cart_discounted.Width = 133;
-            // 
-            // col_cart_vat_exempt
-            // 
-            this.col_cart_vat_exempt.HeaderText = "Vat Exempt";
-            this.col_cart_vat_exempt.MinimumWidth = 6;
-            this.col_cart_vat_exempt.Name = "col_cart_vat_exempt";
-            this.col_cart_vat_exempt.Visible = false;
-            this.col_cart_vat_exempt.Width = 125;
-            // 
-            // col_cart_status
-            // 
-            this.col_cart_status.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
-            this.col_cart_status.HeaderText = "Status";
-            this.col_cart_status.MinimumWidth = 6;
-            this.col_cart_status.Name = "col_cart_status";
-            this.col_cart_status.Width = 106;
-            // 
-            // col_btn_cart_apply_discount
-            // 
-            this.col_btn_cart_apply_discount.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
-            this.col_btn_cart_apply_discount.HeaderText = "Apply Discount";
-            this.col_btn_cart_apply_discount.Image = ((System.Drawing.Image)(resources.GetObject("col_btn_cart_apply_discount.Image")));
-            this.col_btn_cart_apply_discount.ImageLayout = System.Windows.Forms.DataGridViewImageCellLayout.Zoom;
-            this.col_btn_cart_apply_discount.MinimumWidth = 6;
-            this.col_btn_cart_apply_discount.Name = "col_btn_cart_apply_discount";
-            this.col_btn_cart_apply_discount.Resizable = System.Windows.Forms.DataGridViewTriState.True;
-            this.col_btn_cart_apply_discount.Visible = false;
-            this.col_btn_cart_apply_discount.Width = 101;
             // 
             // panel19
             // 
@@ -9507,6 +9402,113 @@
             this.data_recovery_pagination.Size = new System.Drawing.Size(388, 50);
             this.data_recovery_pagination.TabIndex = 7;
             // 
+            // col_cart_product_id
+            // 
+            this.col_cart_product_id.HeaderText = "product_id";
+            this.col_cart_product_id.MinimumWidth = 6;
+            this.col_cart_product_id.Name = "col_cart_product_id";
+            this.col_cart_product_id.Visible = false;
+            this.col_cart_product_id.Width = 125;
+            // 
+            // col_cart_product_name
+            // 
+            this.col_cart_product_name.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
+            this.col_cart_product_name.HeaderText = "Product";
+            this.col_cart_product_name.MinimumWidth = 6;
+            this.col_cart_product_name.Name = "col_cart_product_name";
+            // 
+            // col_cart_product_size_id
+            // 
+            this.col_cart_product_size_id.HeaderText = "product_size_id";
+            this.col_cart_product_size_id.MinimumWidth = 6;
+            this.col_cart_product_size_id.Name = "col_cart_product_size_id";
+            this.col_cart_product_size_id.Visible = false;
+            this.col_cart_product_size_id.Width = 125;
+            // 
+            // col_cart_product_category
+            // 
+            this.col_cart_product_category.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
+            this.col_cart_product_category.HeaderText = "Size Label";
+            this.col_cart_product_category.MinimumWidth = 6;
+            this.col_cart_product_category.Name = "col_cart_product_category";
+            // 
+            // col_cart_product_brand
+            // 
+            this.col_cart_product_brand.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
+            this.col_cart_product_brand.HeaderText = "Brand";
+            this.col_cart_product_brand.MinimumWidth = 6;
+            this.col_cart_product_brand.Name = "col_cart_product_brand";
+            // 
+            // col_cart_product_qty
+            // 
+            this.col_cart_product_qty.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
+            dataGridViewCellStyle7.NullValue = null;
+            this.col_cart_product_qty.DefaultCellStyle = dataGridViewCellStyle7;
+            this.col_cart_product_qty.HeaderText = "Quantity";
+            this.col_cart_product_qty.MinimumWidth = 6;
+            this.col_cart_product_qty.Name = "col_cart_product_qty";
+            this.col_cart_product_qty.Width = 127;
+            // 
+            // col_cart_product_price
+            // 
+            this.col_cart_product_price.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.DisplayedCells;
+            this.col_cart_product_price.HeaderText = "Price";
+            this.col_cart_product_price.MinimumWidth = 6;
+            this.col_cart_product_price.Name = "col_cart_product_price";
+            this.col_cart_product_price.Width = 96;
+            // 
+            // col_cart_final_price
+            // 
+            this.col_cart_final_price.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
+            dataGridViewCellStyle8.Format = "C2";
+            dataGridViewCellStyle8.NullValue = null;
+            this.col_cart_final_price.DefaultCellStyle = dataGridViewCellStyle8;
+            this.col_cart_final_price.HeaderText = "Total";
+            this.col_cart_final_price.MinimumWidth = 6;
+            this.col_cart_final_price.Name = "col_cart_final_price";
+            this.col_cart_final_price.Width = 95;
+            // 
+            // col_cart_discounted
+            // 
+            this.col_cart_discounted.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
+            dataGridViewCellStyle9.Format = "C2";
+            dataGridViewCellStyle9.NullValue = null;
+            this.col_cart_discounted.DefaultCellStyle = dataGridViewCellStyle9;
+            this.col_cart_discounted.HeaderText = "Discount";
+            this.col_cart_discounted.MinimumWidth = 6;
+            this.col_cart_discounted.Name = "col_cart_discounted";
+            this.col_cart_discounted.Visible = false;
+            this.col_cart_discounted.Width = 133;
+            // 
+            // col_cart_vat_exempt
+            // 
+            this.col_cart_vat_exempt.HeaderText = "Vat Exempt";
+            this.col_cart_vat_exempt.MinimumWidth = 6;
+            this.col_cart_vat_exempt.Name = "col_cart_vat_exempt";
+            this.col_cart_vat_exempt.Visible = false;
+            this.col_cart_vat_exempt.Width = 125;
+            // 
+            // col_cart_status
+            // 
+            this.col_cart_status.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
+            this.col_cart_status.HeaderText = "Status";
+            this.col_cart_status.MinimumWidth = 6;
+            this.col_cart_status.Name = "col_cart_status";
+            this.col_cart_status.Visible = false;
+            this.col_cart_status.Width = 106;
+            // 
+            // col_btn_cart_apply_discount
+            // 
+            this.col_btn_cart_apply_discount.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
+            this.col_btn_cart_apply_discount.HeaderText = "Apply Discount";
+            this.col_btn_cart_apply_discount.Image = ((System.Drawing.Image)(resources.GetObject("col_btn_cart_apply_discount.Image")));
+            this.col_btn_cart_apply_discount.ImageLayout = System.Windows.Forms.DataGridViewImageCellLayout.Zoom;
+            this.col_btn_cart_apply_discount.MinimumWidth = 6;
+            this.col_btn_cart_apply_discount.Name = "col_btn_cart_apply_discount";
+            this.col_btn_cart_apply_discount.Resizable = System.Windows.Forms.DataGridViewTriState.True;
+            this.col_btn_cart_apply_discount.Visible = false;
+            this.col_btn_cart_apply_discount.Width = 176;
+            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(120F, 120F);
@@ -10327,18 +10329,6 @@
         private System.Windows.Forms.DataGridViewImageColumn btn_walk_in_payment;
         private System.Windows.Forms.DataGridViewImageColumn btn_walk_in_update;
         private System.Windows.Forms.DataGridViewButtonColumn btn_walk_in_view_details;
-        private System.Windows.Forms.DataGridViewTextBoxColumn col_cart_product_id;
-        private System.Windows.Forms.DataGridViewTextBoxColumn col_cart_product_name;
-        private System.Windows.Forms.DataGridViewTextBoxColumn col_cart_product_size_id;
-        private System.Windows.Forms.DataGridViewTextBoxColumn col_cart_product_category;
-        private System.Windows.Forms.DataGridViewTextBoxColumn col_cart_product_brand;
-        private System.Windows.Forms.DataGridViewTextBoxColumn col_cart_product_qty;
-        private System.Windows.Forms.DataGridViewTextBoxColumn col_cart_product_price;
-        private System.Windows.Forms.DataGridViewTextBoxColumn col_cart_final_price;
-        private System.Windows.Forms.DataGridViewTextBoxColumn col_cart_discounted;
-        private System.Windows.Forms.DataGridViewTextBoxColumn col_cart_vat_exempt;
-        private System.Windows.Forms.DataGridViewTextBoxColumn col_cart_status;
-        private System.Windows.Forms.DataGridViewImageColumn col_btn_cart_apply_discount;
         private System.Windows.Forms.DataGridViewTextBoxColumn col_db_app_id;
         private System.Windows.Forms.DataGridViewTextBoxColumn col_db_customer_id;
         private System.Windows.Forms.DataGridViewTextBoxColumn col_db_customer_name;
@@ -10351,5 +10341,17 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn col_db_payment_status;
         private System.Windows.Forms.DataGridViewTextBoxColumn col_db_booking_type;
         private System.Windows.Forms.DataGridViewImageColumn col_db_assign_staff;
+        private System.Windows.Forms.DataGridViewTextBoxColumn col_cart_product_id;
+        private System.Windows.Forms.DataGridViewTextBoxColumn col_cart_product_name;
+        private System.Windows.Forms.DataGridViewTextBoxColumn col_cart_product_size_id;
+        private System.Windows.Forms.DataGridViewTextBoxColumn col_cart_product_category;
+        private System.Windows.Forms.DataGridViewTextBoxColumn col_cart_product_brand;
+        private System.Windows.Forms.DataGridViewTextBoxColumn col_cart_product_qty;
+        private System.Windows.Forms.DataGridViewTextBoxColumn col_cart_product_price;
+        private System.Windows.Forms.DataGridViewTextBoxColumn col_cart_final_price;
+        private System.Windows.Forms.DataGridViewTextBoxColumn col_cart_discounted;
+        private System.Windows.Forms.DataGridViewTextBoxColumn col_cart_vat_exempt;
+        private System.Windows.Forms.DataGridViewTextBoxColumn col_cart_status;
+        private System.Windows.Forms.DataGridViewImageColumn col_btn_cart_apply_discount;
     }
 }

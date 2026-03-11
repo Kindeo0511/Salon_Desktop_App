@@ -96,7 +96,6 @@ WHERE s.is_deleted = 0;  ";
                         SELECT ss_id, ss.stylist_id, s.firstName, s.middleName, s.lastName
 FROM tbl_stylist_services ss
 LEFT JOIN tbl_stylists s ON s.stylist_id = ss.stylist_id
-LEFT JOIN tbl_servicesname sn ON sn.serviceName_id = ss.service_id
 LEFT JOIN tbl_stylist_schedules sc ON sc.stylist_id = s.stylist_id
 LEFT JOIN tbl_weekly_schedule ws ON ws.weekly_id = sc.weekly_id
 WHERE  s.is_deleted = 0 AND ss.category_id = @id AND sc.is_duty = 1 AND LOWER(ws.day_of_week) = LOWER(DAYNAME(CURDATE()));";

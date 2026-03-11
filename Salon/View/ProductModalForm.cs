@@ -66,8 +66,9 @@ namespace Salon.View
             var inventoryController = new InventoryController(inventoryRepo);
 
 
-            int stock = inventoryController.GetProductQtyStck(productModel.product_id, productModel.product_size_id);
-            int qty_requested = Convert.ToInt32(txt_qty.Value);
+            decimal stock = inventoryController.GetProductQtyStck(productModel.product_id, productModel.product_size_id);
+            decimal qty_requested = Convert.ToDecimal(txt_qty.Value);
+
             if (stock < qty_requested)
             {
                 MessageBox.Show($"Insufficient stock. Available: {stock}, Requested: {qty_requested}",

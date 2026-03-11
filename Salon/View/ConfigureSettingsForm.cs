@@ -335,7 +335,7 @@ namespace Salon.View
                 user_id = user_id,
                 userName = txt_username.Text.Trim(),
                 userPassword = HashPassword(txt_HashPassword.Text.Trim()),
-                Position = "Admin"
+                Position = "Super Admin"
             };
             userController.UpdateUserAccount(user_model);
 

@@ -111,7 +111,7 @@ namespace Salon.View
             cmb_specialist.DataSource = specialists;
           
 
-            MessageBox.Show(specialist_id.ToString());
+          
             if (specialist_id > 0)
                 cmb_specialist.SelectedValue = specialist_id; // ← preselect
             else

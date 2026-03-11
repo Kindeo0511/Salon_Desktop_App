@@ -28,7 +28,7 @@ namespace Salon.Controller
         {
             return inventoryRepository.GetStockByProductSize(productId);
         }
-        public int GetProductQtyStck(int productId, int productSizeId)
+        public decimal GetProductQtyStck(int productId, int productSizeId)
         {
             return inventoryRepository.GetProductQtyStockkByProductSize(productId, productSizeId);
         }
