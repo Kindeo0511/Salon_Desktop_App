@@ -651,7 +651,7 @@ namespace Salon.View
                 row.Cells["col_qty"].Value = txt_qty.Text;
                 row.Cells["col_product_size_id"].Value = cmb_product_size.SelectedValue;
                 row.Cells["col_price"].Value = txt_price.Text;
-                row.Cells["col_total"].Value = txt_price.Text;
+                row.Cells["col_total"].Value = txt_total.Text;
                 row.Cells["col_delivered_date"].Value = dtp_delivery_date.Value.ToShortDateString();
                 row.Cells["col_expiry_date"].Value = dtp_expiry.Value.ToShortDateString();
                 row.Cells["col_note"].Value = txt_notes.Text;

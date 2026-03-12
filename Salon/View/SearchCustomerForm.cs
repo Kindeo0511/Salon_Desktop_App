@@ -19,7 +19,9 @@ namespace Salon.View
     {
         private AppointmentForm appointmentForm;
         private CreateCustomerCard CustomerCard;
+        private MainForm mainForm;
         private Walk_In_Form walk_in_form;
+        private bool IsPos;
         private bool isWalkin;
         private bool IsCustomerCard = false;
 
@@ -39,6 +41,15 @@ namespace Salon.View
             LoadCustomers();
             this.walk_in_form = walk_in_form;
             this.isWalkin = Is_Walkin;
+        }
+        public SearchCustomerForm(MainForm main, bool IsPos)
+        {
+            InitializeComponent();
+            ThemeManager.ApplyTheme(this);
+            LoadCustomers();
+            mainForm = main;
+            this.IsPos = IsPos;
+
         }
 
         public void LoadCustomers()
@@ -101,7 +112,13 @@ namespace Salon.View
                     {
                         walk_in_form.CustomerId = customer.customer_id.ToString();
                         walk_in_form.FullName = customer.fullName;
-                    }                   
+                    }
+                    else if (IsPos) 
+                    {
+                        mainForm.pos_customer_name = customer.fullName;
+                    }
+
+
                     else
                     {
                         appointmentForm.CustomerId = customer.customer_id.ToString();

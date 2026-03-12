@@ -55,11 +55,11 @@ namespace Salon.Controller
             return await repo.GetTransactionAsync(start_date, end_date);
         }
 
-        public TransactionModel GetTotalSales()
+        public decimal GetTotalSales()
         {
             return repo.GetTotalSales();
         }
-        public async Task<TransactionModel> GetTotalSalesAsync() 
+        public async Task<decimal> GetTotalSalesAsync() 
         {
             return await repo.GetTotalSalesAsync();
         }

@@ -468,7 +468,7 @@ namespace Salon.View
 
             if (total_sales != null)
             {
-                lbl_total_sales.Text = total_sales.TotalSales.ToString("C2");
+                lbl_total_sales.Text = total_sales.ToString("C2");
             }
             else
             {
@@ -482,9 +482,9 @@ namespace Salon.View
             var controller = new TransactionController(repo);
             var total_sales = controller.GetTotalSales();
 
-            if (total_sales != null)
+            if (total_sales != 0)
             {
-                lbl_total_sales.Text = total_sales.TotalSales.ToString("C2");
+                lbl_total_sales.Text = total_sales.ToString("C2");
             }
             else
             {
@@ -894,6 +894,11 @@ namespace Salon.View
         {
             var _repo = new StylistRepository();
             var stylistController = new StylistController(_repo);
+
+            var stylist_repo = new StylistScheduleRepository();
+            var stylist_schedule_controller = new StylistSchedulesController(stylist_repo);
+
+
             int offset = (pageNumber - 1) * pageSize;
             var stylists = await stylistController.RefreshStlyistAsync(pageSize, offset);
 
@@ -914,6 +919,17 @@ namespace Salon.View
 
             dgv_stylist.DataSource = stylists;
 
+            foreach (DataGridViewRow row in dgv_stylist.Rows)
+            {
+                var stylistId = Convert.ToInt32(row.Cells["col_stylist_id"].Value);
+                var scheduleCount = stylist_schedule_controller.GetScheduleById(stylistId);
+
+                row.Cells["col_btn_schedule"].Value =
+                    scheduleCount == 0 ? "Create Schedule" : "View Schedule";
+            }
+
+
+
 
         }
 
@@ -921,7 +937,14 @@ namespace Salon.View
         {
             var _repo = new StylistRepository();
             var stylistController = new StylistController(_repo);
+
+
+
+
+
+
             var stylists = stylistController.GetAll();
+
 
 
             dgv_stylist.AutoGenerateColumns = false;
@@ -938,15 +961,19 @@ namespace Salon.View
 
         }
 
-        private void btn_add_stylist_Click(object sender, EventArgs e)
+        private async void btn_add_stylist_Click(object sender, EventArgs e)
         {
             using (var stylistForm = new StylistForm(this))
             {
 
 
-                stylistForm.Added += async (s, args) => { await RefreshCategoryAsync(paginationControl3.CurrentPage, 25); };
+              
 
                 stylistForm.ShowDialog();
+
+                await RefreshStylistAsync(currentPage,pageSize);
+
+
             }
         }
 
@@ -977,6 +1004,7 @@ namespace Salon.View
                 {
 
                     stylistForm.ShowDialog();
+                 
                 }
             }
             else if (e.RowIndex >= 0 && dgv_stylist.Columns[e.ColumnIndex].Name == "col_stylist_duty")
@@ -3237,6 +3265,10 @@ namespace Salon.View
                 );
 
             }
+            if (selectedTab == stylistTab) 
+            {
+                RefreshStylistAsync(currentPage, pageSize);
+            }
 
         }
         private void LogOut()
@@ -3356,8 +3388,13 @@ namespace Salon.View
             col_invoice_ref_num.DataPropertyName = "reference_number";
             col_tran_status.DataPropertyName = "status";
             col_date.DataPropertyName = "TimeStamp";
+  
 
             dgv_transaction_list.DataSource = transactions;
+    
+
+                 // Resubscribe after values are set
+
             ;
         }
 
@@ -3410,10 +3447,33 @@ namespace Salon.View
 
         //    dgv_transaction_history.DataSource = transactions;
         //}
+        private void SetRefundStatus()
+        {
+            foreach (DataGridViewRow row in dgv_transaction_list.Rows)
+            {
+                var productName = row.Cells["col_invoice_product_name"].Value?.ToString();
+                var serviceName = row.Cells["col_invoice_service_name"].Value?.ToString();
+
+
+                if (!string.IsNullOrWhiteSpace(productName))
+                {
+                    row.Cells["col_refund_status"].Value = "Refundable";
+                    row.Cells["col_refund_status"].Style.ForeColor = Color.Green;
+                    row.Cells["col_refund_status"].Style.Font = new Font(dgv_transaction_list.Font, FontStyle.Bold);
+                }
+                else if (!string.IsNullOrWhiteSpace(serviceName))
+                {
+                    row.Cells["col_refund_status"].Value = "Non-refundable";
+                    row.Cells["col_refund_status"].Style.ForeColor = Color.Red;
+                    row.Cells["col_refund_status"].Style.Font = new Font(dgv_transaction_list.Font, FontStyle.Bold);
+                }
+            }
+        }
         private InvoiceModel invoice_model;
 
         private void btn_tran_refund_Click(object sender, EventArgs e)
         {
+
             using (var form = new RefundForm(this, invoice_model))
             {
                 form.ShowDialog();
@@ -3426,24 +3486,20 @@ namespace Salon.View
 
             if (e.RowIndex >= 0)
             {
+        
                 var row = dgv_transaction_list.Rows[e.RowIndex];
                 var status = row.Cells["col_tran_status"].Value?.ToString();
 
                 if (status != "Voided" && status != "Refunded")
                 {
 
-                    btn_tran_refund.Enabled = true;
 
                     var model = dgv_transaction_list.Rows[e.RowIndex].DataBoundItem as InvoiceModel;
 
                     invoice_model = model;
 
                 }
-                else
-                {
-
-                    btn_tran_refund.Enabled = false;
-                }
+                
             }
         }
 
@@ -4707,9 +4763,9 @@ namespace Salon.View
             FilterTransactionReport(currentPage, pageSize);
         }
 
-        private async void btn_refresh_data_recovery_Click(object sender, EventArgs e)
+        private  void btn_refresh_data_recovery_Click(object sender, EventArgs e)
         {
-            await RefreshDeletedRecords();
+             FilterdDeletedRecords(currentPage, pageSize);
         }
 
         private async void btn_refresh_discount_Click(object sender, EventArgs e)
@@ -5278,6 +5334,7 @@ namespace Salon.View
 
         private void Clear()
         {
+            lbl_pos_customer_name.Text = "N/A";
             lbl_discount_name.Text = "0.00";
             lbl_discount_name.Tag = 0m;
             txt_received.Text = "";
@@ -5748,7 +5805,7 @@ namespace Salon.View
             // Header
             sb.AppendLine("Hair Care Center Salon");
             sb.AppendLine($"Invoice #: {lbl_invoice_number.Text}");
-            sb.AppendLine($"Customer: {lbl_invoice_number.Text}");
+            sb.AppendLine($"Customer: {lbl_pos_customer_name.Text}");
             sb.AppendLine($"Date: {DateTime.Now:yyyy-MM-dd}");
             sb.AppendLine($"Time: {DateTime.Now:HH:mm:ss}");
             sb.AppendLine(new string('-', 32));
@@ -7086,6 +7143,28 @@ namespace Salon.View
                 }
             }
 
+
+
+            if (columnName == "col_refund_status")
+            {
+                var serviceName = e.Value?.ToString();
+                var productName = dgv_transaction_list.Rows[e.RowIndex].Cells["col_invoice_product_name"].Value?.ToString();
+                var serviceNameValue = dgv_transaction_list.Rows[e.RowIndex].Cells["col_invoice_service_name"].Value?.ToString();
+
+                if (!string.IsNullOrWhiteSpace(productName))
+                {
+                    e.Value = "Refundable";
+                    e.CellStyle.ForeColor = Color.Green;
+                    e.CellStyle.Font = new Font(dgv_transaction_list.Font, FontStyle.Bold);
+                }
+                else if (!string.IsNullOrWhiteSpace(serviceNameValue))
+                {
+                    e.Value = "Non-refundable";
+                    e.CellStyle.ForeColor = Color.Red;
+                    e.CellStyle.Font = new Font(dgv_transaction_list.Font, FontStyle.Bold);
+                }
+            }
+
         }
 
         private void materialCard8_Paint(object sender, PaintEventArgs e)
@@ -7802,6 +7881,36 @@ namespace Salon.View
         private void dgv_cart_product_CellContentClick(object sender, DataGridViewCellEventArgs e)
         {
 
+        }
+
+        private void dgv_transaction_list_SelectionChanged(object sender, EventArgs e)
+        {
+            if (dgv_transaction_list.CurrentRow == null) return;
+
+    
+            SetRefundStatus();
+
+            var refundStatus = dgv_transaction_list.CurrentRow.Cells["col_refund_status"].Value?.ToString();
+
+
+
+            btn_tran_refund.Enabled = refundStatus == "Refundable";
+
+
+
+
+        }
+        public string pos_customer_name
+        {
+            get => lbl_pos_customer_name.Text;
+            set => lbl_pos_customer_name.Text = value;
+        }
+        private void btn_search_member_Click(object sender, EventArgs e)
+        {
+            using (var searchCustomerForm = new SearchCustomerForm(this, true))
+            {
+                searchCustomerForm.ShowDialog();
+            }
         }
     }
 }

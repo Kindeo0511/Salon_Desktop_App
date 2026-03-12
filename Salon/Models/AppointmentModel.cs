@@ -13,7 +13,7 @@ namespace Salon.Models
         public int AppointmentId { get; set; }
         public int? CustomerId { get; set; }
         public string CustomerName { get; set; }
-
+        public string TemporaryName { get; set; }
       public string DisplayCustomerName
         {
             get
@@ -26,7 +26,7 @@ namespace Salon.Models
                 else if (AppointmentType == "Appointment")
                 {
                     // Appointment without customer record (walk-in appointment)
-                    return $"A-{AppointmentId.ToString().PadLeft(4, '0')}";
+                    return CustomerName;
                 }
                 else if (AppointmentType == "Walk-In")
                 {

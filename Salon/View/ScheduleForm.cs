@@ -1,4 +1,10 @@
-﻿using System;
+﻿using iText.Kernel.Geom;
+using MaterialSkin.Controls;
+using Salon.Controller;
+using Salon.Models;
+using Salon.Repository;
+using Salon.Util;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -7,11 +13,6 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-using MaterialSkin.Controls;
-using Salon.Controller;
-using Salon.Models;
-using Salon.Repository;
-using Salon.Util;
 namespace Salon.View
 {
     public partial class ScheduleForm : MaterialForm
@@ -79,11 +80,14 @@ namespace Salon.View
 
         }
 
-        private void btn_save_Click(object sender, EventArgs e)
+        private async void btn_save_Click(object sender, EventArgs e)
         {
             SaveOrUpdate();
             MessageBox.Show("Schedules saved successfully!");
+
             this.Close();
+            await mainForm.RefreshStylistAsync(1, 25);
+             mainForm.LoadStylistTrackPanel();
 
         }
 

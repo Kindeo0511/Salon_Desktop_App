@@ -140,7 +140,7 @@
             this.lbl_date.Depth = 0;
             this.lbl_date.Font = new System.Drawing.Font("Roboto Medium", 20F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Pixel);
             this.lbl_date.FontType = MaterialSkin.MaterialSkinManager.fontType.H6;
-            this.lbl_date.Location = new System.Drawing.Point(835, 52);
+            this.lbl_date.Location = new System.Drawing.Point(832, 52);
             this.lbl_date.MouseState = MaterialSkin.MouseState.HOVER;
             this.lbl_date.Name = "lbl_date";
             this.lbl_date.Size = new System.Drawing.Size(41, 24);
@@ -193,7 +193,7 @@
             this.materialLabel4.Depth = 0;
             this.materialLabel4.Font = new System.Drawing.Font("Roboto Medium", 20F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Pixel);
             this.materialLabel4.FontType = MaterialSkin.MaterialSkinManager.fontType.H6;
-            this.materialLabel4.Location = new System.Drawing.Point(30, 132);
+            this.materialLabel4.Location = new System.Drawing.Point(58, 132);
             this.materialLabel4.MouseState = MaterialSkin.MouseState.HOVER;
             this.materialLabel4.Name = "materialLabel4";
             this.materialLabel4.Padding = new System.Windows.Forms.Padding(0, 0, 50, 0);
@@ -207,7 +207,7 @@
             this.materialLabel2.Depth = 0;
             this.materialLabel2.Font = new System.Drawing.Font("Roboto Medium", 20F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Pixel);
             this.materialLabel2.FontType = MaterialSkin.MaterialSkinManager.fontType.H6;
-            this.materialLabel2.Location = new System.Drawing.Point(719, 52);
+            this.materialLabel2.Location = new System.Drawing.Point(716, 52);
             this.materialLabel2.MouseState = MaterialSkin.MouseState.HOVER;
             this.materialLabel2.Name = "materialLabel2";
             this.materialLabel2.Size = new System.Drawing.Size(48, 24);
@@ -220,7 +220,7 @@
             this.lbl_staff.Depth = 0;
             this.lbl_staff.Font = new System.Drawing.Font("Roboto Medium", 20F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Pixel);
             this.lbl_staff.FontType = MaterialSkin.MaterialSkinManager.fontType.H6;
-            this.lbl_staff.Location = new System.Drawing.Point(216, 132);
+            this.lbl_staff.Location = new System.Drawing.Point(244, 132);
             this.lbl_staff.MouseState = MaterialSkin.MouseState.HOVER;
             this.lbl_staff.Name = "lbl_staff";
             this.lbl_staff.Size = new System.Drawing.Size(43, 24);
@@ -233,7 +233,7 @@
             this.lbl_invoice_number.Depth = 0;
             this.lbl_invoice_number.Font = new System.Drawing.Font("Roboto Medium", 20F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Pixel);
             this.lbl_invoice_number.FontType = MaterialSkin.MaterialSkinManager.fontType.H6;
-            this.lbl_invoice_number.Location = new System.Drawing.Point(216, 52);
+            this.lbl_invoice_number.Location = new System.Drawing.Point(244, 52);
             this.lbl_invoice_number.MouseState = MaterialSkin.MouseState.HOVER;
             this.lbl_invoice_number.Name = "lbl_invoice_number";
             this.lbl_invoice_number.Size = new System.Drawing.Size(137, 24);
@@ -246,7 +246,7 @@
             this.materialLabel3.Depth = 0;
             this.materialLabel3.Font = new System.Drawing.Font("Roboto Medium", 20F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Pixel);
             this.materialLabel3.FontType = MaterialSkin.MaterialSkinManager.fontType.H6;
-            this.materialLabel3.Location = new System.Drawing.Point(28, 52);
+            this.materialLabel3.Location = new System.Drawing.Point(56, 52);
             this.materialLabel3.Margin = new System.Windows.Forms.Padding(3, 0, 50, 0);
             this.materialLabel3.MouseState = MaterialSkin.MouseState.HOVER;
             this.materialLabel3.Name = "materialLabel3";
@@ -262,7 +262,7 @@
             this.col_item_id.Name = "col_item_id";
             this.col_item_id.ReadOnly = true;
             this.col_item_id.Visible = false;
-            this.col_item_id.Width = 77;
+            this.col_item_id.Width = 54;
             // 
             // col_invoice_id
             // 
@@ -272,7 +272,7 @@
             this.col_invoice_id.Name = "col_invoice_id";
             this.col_invoice_id.ReadOnly = true;
             this.col_invoice_id.Visible = false;
-            this.col_invoice_id.Width = 95;
+            this.col_invoice_id.Width = 72;
             // 
             // col_product_id
             // 
@@ -282,7 +282,7 @@
             this.col_product_id.Name = "col_product_id";
             this.col_product_id.ReadOnly = true;
             this.col_product_id.Visible = false;
-            this.col_product_id.Width = 98;
+            this.col_product_id.Width = 75;
             // 
             // col_product__size_id
             // 
@@ -292,15 +292,16 @@
             this.col_product__size_id.Name = "col_product__size_id";
             this.col_product__size_id.ReadOnly = true;
             this.col_product__size_id.Visible = false;
-            this.col_product__size_id.Width = 78;
+            this.col_product__size_id.Width = 55;
             // 
             // col_item_name
             // 
-            this.col_item_name.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
+            this.col_item_name.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
             this.col_item_name.HeaderText = "Item Name";
             this.col_item_name.MinimumWidth = 6;
             this.col_item_name.Name = "col_item_name";
             this.col_item_name.ReadOnly = true;
+            this.col_item_name.Width = 101;
             // 
             // col_price
             // 
@@ -331,38 +332,46 @@
             // 
             // col_over_all_discount
             // 
+            this.col_over_all_discount.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
             this.col_over_all_discount.HeaderText = "Overall Discount";
             this.col_over_all_discount.MinimumWidth = 6;
             this.col_over_all_discount.Name = "col_over_all_discount";
             this.col_over_all_discount.ReadOnly = true;
-            this.col_over_all_discount.Width = 125;
+            this.col_over_all_discount.Visible = false;
+            this.col_over_all_discount.Width = 134;
             // 
             // col_item_discount
             // 
+            this.col_item_discount.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
             this.col_item_discount.HeaderText = "Item Discount";
             this.col_item_discount.MinimumWidth = 6;
             this.col_item_discount.Name = "col_item_discount";
             this.col_item_discount.ReadOnly = true;
-            this.col_item_discount.Width = 125;
+            this.col_item_discount.Visible = false;
+            this.col_item_discount.Width = 116;
             // 
             // col_vat_amount
             // 
+            this.col_vat_amount.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
             this.col_vat_amount.HeaderText = "vat_amount";
             this.col_vat_amount.MinimumWidth = 6;
             this.col_vat_amount.Name = "col_vat_amount";
             this.col_vat_amount.ReadOnly = true;
-            this.col_vat_amount.Width = 125;
+            this.col_vat_amount.Visible = false;
+            this.col_vat_amount.Width = 105;
             // 
             // col_total_amount
             // 
+            this.col_total_amount.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
             this.col_total_amount.HeaderText = "total amount";
             this.col_total_amount.MinimumWidth = 6;
             this.col_total_amount.Name = "col_total_amount";
             this.col_total_amount.ReadOnly = true;
-            this.col_total_amount.Width = 125;
+            this.col_total_amount.Width = 108;
             // 
             // col_payment_method
             // 
+            this.col_payment_method.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
             this.col_payment_method.HeaderText = "payment method";
             this.col_payment_method.MinimumWidth = 6;
             this.col_payment_method.Name = "col_payment_method";
@@ -371,19 +380,22 @@
             // 
             // col_ref_number
             // 
+            this.col_ref_number.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
             this.col_ref_number.HeaderText = "reference number";
             this.col_ref_number.MinimumWidth = 6;
             this.col_ref_number.Name = "col_ref_number";
             this.col_ref_number.ReadOnly = true;
-            this.col_ref_number.Width = 125;
+            this.col_ref_number.Width = 129;
             // 
             // col_refund_amount
             // 
+            this.col_refund_amount.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
             this.col_refund_amount.HeaderText = "Net Refund";
             this.col_refund_amount.MinimumWidth = 6;
             this.col_refund_amount.Name = "col_refund_amount";
             this.col_refund_amount.ReadOnly = true;
-            this.col_refund_amount.Width = 125;
+            this.col_refund_amount.Visible = false;
+            this.col_refund_amount.Width = 95;
             // 
             // col_total
             // 
@@ -406,16 +418,17 @@
             // col_btn_refund
             // 
             this.col_btn_refund.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
-            this.col_btn_refund.HeaderText = "Refund";
+            this.col_btn_refund.HeaderText = "Action";
             this.col_btn_refund.MinimumWidth = 6;
             this.col_btn_refund.Name = "col_btn_refund";
             this.col_btn_refund.ReadOnly = true;
-            this.col_btn_refund.Width = 56;
+            this.col_btn_refund.Text = "Refund";
+            this.col_btn_refund.Width = 50;
             // 
             // RefundForm
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
-            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.AutoScaleDimensions = new System.Drawing.SizeF(120F, 120F);
+            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Dpi;
             this.ClientSize = new System.Drawing.Size(1000, 700);
             this.Controls.Add(this.panel1);
             this.FormStyle = MaterialSkin.Controls.MaterialForm.FormStyles.ActionBar_None;

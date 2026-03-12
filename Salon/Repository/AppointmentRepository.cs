@@ -117,8 +117,15 @@ namespace Salon.Repository
       ? @"
      SELECT 
      a.appointment_id AS AppointmentId,
-     a.customer_id AS CustomerId,
-     CONCAT(c.firstName, ' ', c.middleName, ' ', c.lastName) AS CustomerName,
+    CASE 
+        WHEN a.customer_id IS NULL OR a.customer_id = '' 
+        THEN a.customer_name
+        ELSE CONCAT(
+            COALESCE(c.firstName, ''), ' ', 
+            COALESCE(c.middleName, ''), ' ', 
+            COALESCE(c.lastName, '')
+        )
+    END AS CustomerName,
      a.Date AS AppointmentDate,
     MIN(aps.start_time) AS StartTime,
     MAX(aps.end_time) AS EndTime,
@@ -136,7 +143,15 @@ INNER JOIN tbl_appointment_services aps ON aps.appointment_id = a.appointment_id
                   : @" SELECT 
      a.appointment_id AS AppointmentId,
      a.customer_id AS CustomerId,
-     CONCAT(c.firstName, ' ', c.middleName, ' ', c.lastName) AS CustomerName,
+      CASE 
+        WHEN a.customer_id IS NULL OR a.customer_id = '' 
+        THEN a.customer_name
+        ELSE CONCAT(
+            COALESCE(c.firstName, ''), ' ', 
+            COALESCE(c.middleName, ''), ' ', 
+            COALESCE(c.lastName, '')
+        )
+    END AS CustomerName,
      a.Date AS AppointmentDate,
     MIN(aps.start_time) AS StartTime,
     MAX(aps.end_time) AS EndTime,
@@ -169,7 +184,15 @@ INNER JOIN tbl_appointment_services aps ON aps.appointment_id = a.appointment_id
     SELECT 
         a.appointment_id AS AppointmentId,
         a.customer_id AS CustomerId,
-        CONCAT(c.firstName, ' ', c.middleName, ' ', c.lastName) AS CustomerName,
+      CASE 
+        WHEN a.customer_id IS NULL OR a.customer_id = '' 
+        THEN a.customer_name
+        ELSE CONCAT(
+            COALESCE(c.firstName, ''), ' ', 
+            COALESCE(c.middleName, ''), ' ', 
+            COALESCE(c.lastName, '')
+        )
+    END AS CustomerName,
         isc.stylist_id AS StylistId,
         COALESCE(CONCAT(s.firstName, ' ', s.middleName, ' ', s.lastName), 'Stylist not assigned yet') AS StylistName,
          c.email As Email,
@@ -224,7 +247,15 @@ INNER JOIN tbl_appointment_services aps ON aps.appointment_id = a.appointment_id
              SELECT 
             a.appointment_id AS AppointmentId,
             a.customer_id AS CustomerId,
-            CONCAT(ca.firstName, ' ', ca.middleName, ' ', ca.lastName) AS CustomerName,
+          CASE 
+        WHEN a.customer_id IS NULL OR a.customer_id = '' 
+        THEN a.customer_name
+        ELSE CONCAT(
+            COALESCE(ca.firstName, ''), ' ', 
+            COALESCE(ca.middleName, ''), ' ', 
+            COALESCE(ca.lastName, '')
+        )
+    END AS CustomerName,
             a.customer_type AS CustomerType,
             aps.servicename_id AS ServiceId,
             aps.stylist_id AS StylistId,
@@ -263,7 +294,15 @@ INNER JOIN tbl_appointment_services aps ON aps.appointment_id = a.appointment_id
             SELECT DISTINCT
     a.appointment_id AS AppointmentId,
     a.customer_id AS CustomerId,
-    CONCAT (ca.firstName, "" "", ca.lastName) AS CustomerName,
+ CASE 
+        WHEN a.customer_id IS NULL OR a.customer_id = '' 
+        THEN a.customer_name
+        ELSE CONCAT(
+            COALESCE(ca.firstName, ''), ' ', 
+            COALESCE(ca.middleName, ''), ' ', 
+            COALESCE(ca.lastName, '')
+        )
+    END AS CustomerName,
     a.start_time AS StartTime,
     a.end_time AS EndTime,
     a.appointment_type AS AppointmentType,
@@ -661,9 +700,9 @@ WHERE ss.stylist_id = @stylistId
             {
                 var sql = @"
             INSERT INTO tbl_appointment 
-                ( Date,appointment_type, Status, payment_status,customer_type)
+                (customer_name, Date,appointment_type, Status, payment_status,customer_type)
             VALUES 
-                ( @AppointmentDate,@AppointmentType, @Status, @PaymentStatus, @CustomerType);
+                (@CustomerName,@AppointmentDate,@AppointmentType, @Status, @PaymentStatus, @CustomerType);
             SELECT LAST_INSERT_ID();
         ";
 

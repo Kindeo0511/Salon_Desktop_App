@@ -1226,8 +1226,9 @@ namespace Salon.View
         {
             if (rad_guest.Checked)
             {
-                LoadWalkInCode();
+                //LoadWalkInCode();
                 btn_search.Enabled = false;
+               
             }
         }
 
@@ -1236,6 +1237,7 @@ namespace Salon.View
             if (rad_exists.Checked) 
             {
                 txt_FullName.Text = string.Empty;
+                txt_FullName.ReadOnly = true;
                 btn_search.Enabled = true;
             }
         }

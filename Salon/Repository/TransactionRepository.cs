@@ -171,24 +171,20 @@ namespace Salon.Repository
 
         }
 
-        public async Task<TransactionModel> GetTotalSalesAsync() 
+        public async Task<decimal> GetTotalSalesAsync()
         {
             using (var con = Database.GetConnection())
             {
-                var sql = "SELECT SUM(amount_paid) AS TotalSales FROM tbl_transaction WHERE payment_status = 'paid';";
-
-                var result = await con.QueryAsync<TransactionModel>(sql);
-
-                return result.FirstOrDefault();
+                var sql = "SELECT COALESCE(SUM(total_amount), 0) FROM tbl_invoice WHERE status = 'Paid';";
+                return await con.ExecuteScalarAsync<decimal>(sql);
             }
         }
-        public TransactionModel GetTotalSales() 
+        public decimal GetTotalSales()
         {
-            using (var con = Database.GetConnection()) 
+            using (var con = Database.GetConnection())
             {
-                var sql = "SELECT SUM(amount_paid) AS TotalSales FROM tbl_transaction WHERE payment_status = 'paid';";
-                
-                return con.Query<TransactionModel>(sql).FirstOrDefault();
+                var sql = "SELECT COALESCE(SUM(total_amount), 0) FROM tbl_invoice WHERE status = 'Paid';";
+                return con.ExecuteScalar<decimal>(sql);
             }
         }
         public TransactionModel GetTotalReportSales() 

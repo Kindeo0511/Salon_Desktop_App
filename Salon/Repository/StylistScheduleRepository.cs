@@ -7,6 +7,7 @@ using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Ink;
 
 namespace Salon.Repository
 {
@@ -28,6 +29,18 @@ namespace Salon.Repository
 
                 var result = con.Query<StylistScheduleModel>(sql, new { stylist_id = stylistId }).ToList();
                 return new BindingList<StylistScheduleModel>(result);
+
+            }
+        }
+
+        public int GetScheduleById(int stylistId) 
+        {
+            using (var con = Database.GetConnection())
+            {
+                var sql = @"SELECT COUNT(*) FROM tbl_stylist_schedules WHERE stylist_id = @stylist_id";
+
+                return con.ExecuteScalar<int>(sql, new { stylist_id = stylistId });
+
 
             }
         }

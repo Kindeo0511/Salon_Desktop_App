@@ -23,13 +23,13 @@ namespace Salon.View
         public RefundForm()
         {
             InitializeComponent();
-            ThemeManager.ApplyTheme(this);
-            ThemeManager.StyleDataGridView(dgv_products);
+
         }
         public RefundForm(MainForm mainForm, InvoiceModel invoiceModel)
         {
             InitializeComponent();
             ThemeManager.ApplyTheme(this);
+            ThemeManager.StyleDataGridView(dgv_products);
             this.mainForm = mainForm;
             this.invoiceModel = invoiceModel;
 

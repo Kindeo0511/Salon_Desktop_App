@@ -21,6 +21,10 @@ namespace Salon.Controller
         {
             return repo.GetAllScheduleById(stylistId);
         }
+        public int GetScheduleById(int stylistId)
+        {
+            return repo.GetScheduleById(stylistId);
+        }
         public void SaveOrUpdateSchedule(StylistScheduleModel schedule, int StylistId) 
         {
              repo.SaveOrUpdateSchedule(schedule, StylistId);

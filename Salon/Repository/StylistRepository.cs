@@ -20,6 +20,7 @@ namespace Salon.Repository
                 return con.Query<StylistModel>(sql).ToList();
             }
         }
+
         public int GetSSId(int stylist_id, int service_id) 
         {
             using (var con = Database.GetConnection())

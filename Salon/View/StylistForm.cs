@@ -102,7 +102,7 @@ namespace Salon.View
 
             int specialist_id = controller.GetSpecialistIdByStylistId(stylist_id);
 
-   
+        
 
             cmb_specialist.DisplayMember = "name";
             cmb_specialist.ValueMember = "specialist_id";
@@ -163,7 +163,8 @@ namespace Salon.View
                 || dtp_day_of_birth.Value != _stylist.birth_date
                 || txt_contact.Text != _stylist.contactNumber
                 || txt_email.Text != _stylist.email
-                || txt_address.Text != _stylist.address;
+                || txt_address.Text != _stylist.address
+                || cmb_specialist.Text != _stylist.specialist;
 
             // Current checked services from CheckedListBox
             var currentServices = chk_services.CheckedItems
@@ -274,7 +275,7 @@ namespace Salon.View
                         Added?.Invoke(this, EventArgs.Empty);
                         MessageBox.Show("Stylist added successfully!", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
                         _mainForm.LoadStylistTrackPanel();
-                        this.Close();
+               
 
                     }
                     else
@@ -291,7 +292,7 @@ namespace Salon.View
                         var fullName = txt_first_name.Text + " " + txt_last_name.Text;
                         Audit.AuditLog(DateTime.Now, "Create", UserSession.CurrentUser.first_Name, "Manage Stylist", $"Created stylist {fullName} on {DateTime.Now:yyyy-MM-dd} at {DateTime.Now:HH:mm:ss}");
                         _mainForm.LoadStylistTrackPanel();
-                        this.Close();
+             
                     }
                     else
                     {
@@ -318,7 +319,7 @@ namespace Salon.View
 
             await _mainForm.RefreshStylistAsync(1, 25);
 
-
+            this.Close();
 
         }
 
@@ -327,12 +328,12 @@ namespace Salon.View
 
 
             if (!IsValid()) return;
-            if (!HasStylistChanges()) 
+            if (!HasStylistChanges())
             {
                 MessageBox.Show("No changes detected.", "Information", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 this.Close();
                 return;
-    
+
             }
 
             IsAccountExists();
