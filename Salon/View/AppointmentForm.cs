@@ -1480,6 +1480,23 @@ namespace Salon.View
                 errorProvider1.SetError(txt_FullName, ""); 
             }
 
+            if (rad_guest.Checked)
+            {
+                if (string.IsNullOrEmpty(txt_FullName.Text))
+                {
+                    errorProvider1.SetError(txt_FullName, "Please enter a client name");
+                    validated = false;
+                }
+                else
+                {
+                    errorProvider1.SetError(txt_FullName, "");
+                }
+            }
+            else
+            {
+                errorProvider1.SetError(txt_FullName, "");
+            }
+
 
             if (string.IsNullOrEmpty(cmb_time_slot.Text))
             {
