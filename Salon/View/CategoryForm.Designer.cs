@@ -64,7 +64,7 @@
             this.btn_update.Depth = 0;
             this.btn_update.HighEmphasis = true;
             this.btn_update.Icon = null;
-            this.btn_update.Location = new System.Drawing.Point(323, 328);
+            this.btn_update.Location = new System.Drawing.Point(323, 359);
             this.btn_update.Margin = new System.Windows.Forms.Padding(4, 6, 4, 6);
             this.btn_update.MouseState = MaterialSkin.MouseState.HOVER;
             this.btn_update.Name = "btn_update";
@@ -83,6 +83,7 @@
             this.btn_cancel.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
             this.btn_cancel.Density = MaterialSkin.Controls.MaterialButton.MaterialButtonDensity.Default;
             this.btn_cancel.Depth = 0;
+            this.btn_cancel.DialogResult = System.Windows.Forms.DialogResult.Cancel;
             this.btn_cancel.HighEmphasis = true;
             this.btn_cancel.Icon = null;
             this.btn_cancel.Location = new System.Drawing.Point(567, 359);
@@ -92,7 +93,7 @@
             this.btn_cancel.NoAccentTextColor = System.Drawing.Color.Empty;
             this.btn_cancel.Size = new System.Drawing.Size(77, 36);
             this.btn_cancel.TabIndex = 19;
-            this.btn_cancel.Text = "cancel";
+            this.btn_cancel.Text = "close";
             this.btn_cancel.Type = MaterialSkin.Controls.MaterialButton.MaterialButtonType.Contained;
             this.btn_cancel.UseAccentColor = false;
             this.btn_cancel.UseVisualStyleBackColor = true;
@@ -139,6 +140,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.CancelButton = this.btn_cancel;
             this.ClientSize = new System.Drawing.Size(800, 450);
             this.Controls.Add(this.materialLabel1);
             this.Controls.Add(this.btn_update);

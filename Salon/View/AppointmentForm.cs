@@ -64,6 +64,7 @@ namespace Salon.View
             LoadSubcategory();
             LoadServices();
 
+            this.AcceptButton = btn_confirm;
       
         }
         private void LoadSubcategory()
@@ -214,6 +215,7 @@ namespace Salon.View
             LoadSelectedServices(model.AppointmentId);
 
 
+            this.AcceptButton = btn_update;
         }
         public AppointmentForm(MainForm mainForm, AppointmentModel model, bool isUpdate, bool QueueUpdate)
         {
@@ -1227,6 +1229,7 @@ namespace Salon.View
             if (rad_guest.Checked)
             {
                 //LoadWalkInCode();
+                txt_FullName.ReadOnly = false;
                 btn_search.Enabled = false;
                
             }

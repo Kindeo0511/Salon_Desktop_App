@@ -29,6 +29,7 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(DeliveryForm));
             this.txt_received_by = new MaterialSkin.Controls.MaterialTextBox();
             this.txt_total = new MaterialSkin.Controls.MaterialTextBox();
             this.txt_price = new MaterialSkin.Controls.MaterialTextBox();
@@ -50,6 +51,7 @@
             this.btn_add = new MaterialSkin.Controls.MaterialButton();
             this.dgv_Items = new System.Windows.Forms.DataGridView();
             this.errorProvider1 = new System.Windows.Forms.ErrorProvider(this.components);
+            this.btn_close = new MaterialSkin.Controls.MaterialButton();
             this.product_id = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.col_product_name = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.col_product_size_id = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -62,7 +64,7 @@
             this.col_delivered_date = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.col_expiry_date = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.col_note = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.col_view_delivered_items = new System.Windows.Forms.DataGridViewButtonColumn();
+            this.col_view_delivered_items = new System.Windows.Forms.DataGridViewImageColumn();
             this.materialCard1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgv_Items)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.errorProvider1)).BeginInit();
@@ -283,6 +285,7 @@
             // materialCard1
             // 
             this.materialCard1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
+            this.materialCard1.Controls.Add(this.btn_close);
             this.materialCard1.Controls.Add(this.cmb_product_size);
             this.materialCard1.Controls.Add(this.btn_save);
             this.materialCard1.Controls.Add(this.btn_cancel);
@@ -482,6 +485,28 @@
             this.errorProvider1.BlinkStyle = System.Windows.Forms.ErrorBlinkStyle.NeverBlink;
             this.errorProvider1.ContainerControl = this;
             // 
+            // btn_close
+            // 
+            this.btn_close.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
+            this.btn_close.Density = MaterialSkin.Controls.MaterialButton.MaterialButtonDensity.Default;
+            this.btn_close.Depth = 0;
+            this.btn_close.DialogResult = System.Windows.Forms.DialogResult.Cancel;
+            this.btn_close.Enabled = false;
+            this.btn_close.HighEmphasis = true;
+            this.btn_close.Icon = null;
+            this.btn_close.Location = new System.Drawing.Point(1445, 512);
+            this.btn_close.Margin = new System.Windows.Forms.Padding(4, 6, 4, 6);
+            this.btn_close.MouseState = MaterialSkin.MouseState.HOVER;
+            this.btn_close.Name = "btn_close";
+            this.btn_close.NoAccentTextColor = System.Drawing.Color.Empty;
+            this.btn_close.Size = new System.Drawing.Size(66, 36);
+            this.btn_close.TabIndex = 21;
+            this.btn_close.Text = "close";
+            this.btn_close.Type = MaterialSkin.Controls.MaterialButton.MaterialButtonType.Contained;
+            this.btn_close.UseAccentColor = false;
+            this.btn_close.UseVisualStyleBackColor = true;
+            this.btn_close.Visible = false;
+            // 
             // product_id
             // 
             this.product_id.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
@@ -587,17 +612,18 @@
             // 
             this.col_view_delivered_items.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
             this.col_view_delivered_items.HeaderText = "Action";
+            this.col_view_delivered_items.Image = ((System.Drawing.Image)(resources.GetObject("col_view_delivered_items.Image")));
+            this.col_view_delivered_items.ImageLayout = System.Windows.Forms.DataGridViewImageCellLayout.Zoom;
             this.col_view_delivered_items.MinimumWidth = 6;
             this.col_view_delivered_items.Name = "col_view_delivered_items";
             this.col_view_delivered_items.ReadOnly = true;
             this.col_view_delivered_items.Resizable = System.Windows.Forms.DataGridViewTriState.True;
-            this.col_view_delivered_items.Text = "Edit";
-            this.col_view_delivered_items.UseColumnTextForButtonValue = true;
             // 
             // DeliveryForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.CancelButton = this.btn_close;
             this.ClientSize = new System.Drawing.Size(1600, 869);
             this.Controls.Add(this.dgv_Items);
             this.Controls.Add(this.materialCard1);
@@ -640,6 +666,7 @@
         private MaterialSkin.Controls.MaterialButton btn_save;
         private System.Windows.Forms.ErrorProvider errorProvider1;
         private MaterialSkin.Controls.MaterialComboBox cmb_product_size;
+        private MaterialSkin.Controls.MaterialButton btn_close;
         private System.Windows.Forms.DataGridViewTextBoxColumn product_id;
         private System.Windows.Forms.DataGridViewTextBoxColumn col_product_name;
         private System.Windows.Forms.DataGridViewTextBoxColumn col_product_size_id;
@@ -652,6 +679,6 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn col_delivered_date;
         private System.Windows.Forms.DataGridViewTextBoxColumn col_expiry_date;
         private System.Windows.Forms.DataGridViewTextBoxColumn col_note;
-        private System.Windows.Forms.DataGridViewButtonColumn col_view_delivered_items;
+        private System.Windows.Forms.DataGridViewImageColumn col_view_delivered_items;
     }
 }

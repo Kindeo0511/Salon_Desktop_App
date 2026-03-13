@@ -35,6 +35,8 @@ namespace Salon.View
             dtp_day_of_birth.MinDate = new DateTime(1900, 1, 1);
             LoadServices();
             LoadSpecialists();
+            this.AcceptButton = btn_save;
+
         }
         public StylistForm(MainForm mainForm, StylistModel stylist)
         {
@@ -69,6 +71,8 @@ namespace Salon.View
                 btn_save.Visible = true;
                 btn_update.Visible = false;
             }
+
+            this.AcceptButton = btn_update;
         }
         public void LoadServices(int stylist_id = 0) 
         {

@@ -115,7 +115,7 @@
             this.materialButton3.NoAccentTextColor = System.Drawing.Color.Empty;
             this.materialButton3.Size = new System.Drawing.Size(77, 36);
             this.materialButton3.TabIndex = 7;
-            this.materialButton3.Text = "cancel";
+            this.materialButton3.Text = "close";
             this.materialButton3.Type = MaterialSkin.Controls.MaterialButton.MaterialButtonType.Contained;
             this.materialButton3.UseAccentColor = false;
             this.materialButton3.UseVisualStyleBackColor = true;
@@ -129,6 +129,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(120F, 120F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Dpi;
+            this.CancelButton = this.materialButton3;
             this.ClientSize = new System.Drawing.Size(800, 350);
             this.Controls.Add(this.materialButton3);
             this.Controls.Add(this.btn_update);

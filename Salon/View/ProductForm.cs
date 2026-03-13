@@ -43,6 +43,8 @@ namespace Salon.View
             _isSaving = true;
             this.mainForm = mainform;
 
+            this.AcceptButton = btn_save;
+
 
         }
         public ProductForm(MainForm mainform, ProductModel productModel)
@@ -80,6 +82,8 @@ namespace Salon.View
 
 
             }
+
+            this.AcceptButton = btn_update;
         }
         public void LoadProductSizeById(int product_id)
         {

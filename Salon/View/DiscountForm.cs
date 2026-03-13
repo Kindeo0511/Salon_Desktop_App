@@ -29,6 +29,8 @@ namespace Salon.View
             ThemeManager.ApplyTheme(this);
             is_saving = true;
             this.main = mainForm;
+            this.AcceptButton = btn_save_draft;
+
         
         }
         public DiscountForm(MainForm mainForm, DiscountModel model)
@@ -81,7 +83,7 @@ namespace Salon.View
 
 
 
-
+            this.AcceptButton = btn_update_draft;
 
         }
 

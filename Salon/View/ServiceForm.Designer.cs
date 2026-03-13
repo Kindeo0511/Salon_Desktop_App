@@ -33,6 +33,8 @@
             this.errorProvider1 = new System.Windows.Forms.ErrorProvider(this.components);
             this.errorProvider2 = new System.Windows.Forms.ErrorProvider(this.components);
             this.groupBox2 = new System.Windows.Forms.GroupBox();
+            this.materialLabel9 = new MaterialSkin.Controls.MaterialLabel();
+            this.txt_unit_type = new MaterialSkin.Controls.MaterialTextBox();
             this.btn_update_consumption = new MaterialSkin.Controls.MaterialButton();
             this.lbl_usage_id = new MaterialSkin.Controls.MaterialLabel();
             this.btn_add_consumption = new MaterialSkin.Controls.MaterialButton();
@@ -66,8 +68,6 @@
             this.btn_save = new MaterialSkin.Controls.MaterialButton();
             this.materialCard1 = new MaterialSkin.Controls.MaterialCard();
             this.panel1 = new System.Windows.Forms.Panel();
-            this.materialLabel9 = new MaterialSkin.Controls.MaterialLabel();
-            this.txt_unit_type = new MaterialSkin.Controls.MaterialTextBox();
             ((System.ComponentModel.ISupportInitialize)(this.errorProvider1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.errorProvider2)).BeginInit();
             this.groupBox2.SuspendLayout();
@@ -109,6 +109,38 @@
             this.groupBox2.TabIndex = 35;
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "PRODUCT CONSUMPTIONS";
+            // 
+            // materialLabel9
+            // 
+            this.materialLabel9.AutoSize = true;
+            this.materialLabel9.Depth = 0;
+            this.materialLabel9.Font = new System.Drawing.Font("Roboto Medium", 20F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Pixel);
+            this.materialLabel9.FontType = MaterialSkin.MaterialSkinManager.fontType.H6;
+            this.materialLabel9.Location = new System.Drawing.Point(748, 70);
+            this.materialLabel9.MouseState = MaterialSkin.MouseState.HOVER;
+            this.materialLabel9.Name = "materialLabel9";
+            this.materialLabel9.Size = new System.Drawing.Size(86, 24);
+            this.materialLabel9.TabIndex = 74;
+            this.materialLabel9.Text = "Unit Type";
+            // 
+            // txt_unit_type
+            // 
+            this.txt_unit_type.AnimateReadOnly = true;
+            this.txt_unit_type.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            this.txt_unit_type.Depth = 0;
+            this.txt_unit_type.Font = new System.Drawing.Font("Roboto", 16F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
+            this.txt_unit_type.Hint = "Unit Type";
+            this.txt_unit_type.LeadingIcon = null;
+            this.txt_unit_type.Location = new System.Drawing.Point(743, 97);
+            this.txt_unit_type.MaxLength = 50;
+            this.txt_unit_type.MouseState = MaterialSkin.MouseState.OUT;
+            this.txt_unit_type.Multiline = false;
+            this.txt_unit_type.Name = "txt_unit_type";
+            this.txt_unit_type.ReadOnly = true;
+            this.txt_unit_type.Size = new System.Drawing.Size(350, 50);
+            this.txt_unit_type.TabIndex = 73;
+            this.txt_unit_type.Text = "";
+            this.txt_unit_type.TrailingIcon = null;
             // 
             // btn_update_consumption
             // 
@@ -540,7 +572,7 @@
             this.btn_cancel.NoAccentTextColor = System.Drawing.Color.Empty;
             this.btn_cancel.Size = new System.Drawing.Size(77, 36);
             this.btn_cancel.TabIndex = 24;
-            this.btn_cancel.Text = "cancel";
+            this.btn_cancel.Text = "close";
             this.btn_cancel.Type = MaterialSkin.Controls.MaterialButton.MaterialButtonType.Contained;
             this.btn_cancel.UseAccentColor = false;
             this.btn_cancel.UseVisualStyleBackColor = true;
@@ -621,43 +653,12 @@
             this.panel1.Size = new System.Drawing.Size(1236, 100);
             this.panel1.TabIndex = 37;
             // 
-            // materialLabel9
-            // 
-            this.materialLabel9.AutoSize = true;
-            this.materialLabel9.Depth = 0;
-            this.materialLabel9.Font = new System.Drawing.Font("Roboto Medium", 20F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Pixel);
-            this.materialLabel9.FontType = MaterialSkin.MaterialSkinManager.fontType.H6;
-            this.materialLabel9.Location = new System.Drawing.Point(748, 70);
-            this.materialLabel9.MouseState = MaterialSkin.MouseState.HOVER;
-            this.materialLabel9.Name = "materialLabel9";
-            this.materialLabel9.Size = new System.Drawing.Size(86, 24);
-            this.materialLabel9.TabIndex = 74;
-            this.materialLabel9.Text = "Unit Type";
-            // 
-            // txt_unit_type
-            // 
-            this.txt_unit_type.AnimateReadOnly = true;
-            this.txt_unit_type.BorderStyle = System.Windows.Forms.BorderStyle.None;
-            this.txt_unit_type.Depth = 0;
-            this.txt_unit_type.Font = new System.Drawing.Font("Roboto", 16F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
-            this.txt_unit_type.Hint = "Unit Type";
-            this.txt_unit_type.LeadingIcon = null;
-            this.txt_unit_type.Location = new System.Drawing.Point(743, 97);
-            this.txt_unit_type.MaxLength = 50;
-            this.txt_unit_type.MouseState = MaterialSkin.MouseState.OUT;
-            this.txt_unit_type.Multiline = false;
-            this.txt_unit_type.Name = "txt_unit_type";
-            this.txt_unit_type.ReadOnly = true;
-            this.txt_unit_type.Size = new System.Drawing.Size(350, 50);
-            this.txt_unit_type.TabIndex = 73;
-            this.txt_unit_type.Text = "";
-            this.txt_unit_type.TrailingIcon = null;
-            // 
             // ServiceForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(120F, 120F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Dpi;
             this.AutoScroll = true;
+            this.CancelButton = this.btn_cancel;
             this.ClientSize = new System.Drawing.Size(1285, 900);
             this.Controls.Add(this.materialCard1);
             this.FormStyle = MaterialSkin.Controls.MaterialForm.FormStyles.ActionBar_None;

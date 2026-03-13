@@ -34,6 +34,8 @@ namespace Salon.View
             this.cart = cart;
             this.main = main;
             loadProduct();
+
+            this.AcceptButton = btn_confirm;
         }
 
         private void loadProduct()

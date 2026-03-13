@@ -163,6 +163,7 @@
             this.btn_cancel.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
             this.btn_cancel.Density = MaterialSkin.Controls.MaterialButton.MaterialButtonDensity.Default;
             this.btn_cancel.Depth = 0;
+            this.btn_cancel.DialogResult = System.Windows.Forms.DialogResult.Cancel;
             this.btn_cancel.HighEmphasis = true;
             this.btn_cancel.Icon = null;
             this.btn_cancel.Location = new System.Drawing.Point(752, 462);
@@ -207,6 +208,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.CancelButton = this.btn_cancel;
             this.ClientSize = new System.Drawing.Size(900, 530);
             this.Controls.Add(this.btn_update);
             this.Controls.Add(this.btn_cancel);

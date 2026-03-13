@@ -47,6 +47,8 @@
             this.col_stylist_id = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.col_stylist = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.col_time = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.col_start_time = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.col_end_time = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.col_status = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.col_service_time = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.col_change_stylist = new System.Windows.Forms.DataGridViewButtonColumn();
@@ -138,6 +140,8 @@
             this.col_stylist_id,
             this.col_stylist,
             this.col_time,
+            this.col_start_time,
+            this.col_end_time,
             this.col_status,
             this.col_service_time,
             this.col_change_stylist,
@@ -320,6 +324,20 @@
             this.col_time.Name = "col_time";
             this.col_time.Width = 67;
             // 
+            // col_start_time
+            // 
+            this.col_start_time.HeaderText = "start_time";
+            this.col_start_time.MinimumWidth = 6;
+            this.col_start_time.Name = "col_start_time";
+            this.col_start_time.Width = 125;
+            // 
+            // col_end_time
+            // 
+            this.col_end_time.HeaderText = "end time";
+            this.col_end_time.MinimumWidth = 6;
+            this.col_end_time.Name = "col_end_time";
+            this.col_end_time.Width = 125;
+            // 
             // col_status
             // 
             this.col_status.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
@@ -432,6 +450,8 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn col_stylist_id;
         private System.Windows.Forms.DataGridViewTextBoxColumn col_stylist;
         private System.Windows.Forms.DataGridViewTextBoxColumn col_time;
+        private System.Windows.Forms.DataGridViewTextBoxColumn col_start_time;
+        private System.Windows.Forms.DataGridViewTextBoxColumn col_end_time;
         private System.Windows.Forms.DataGridViewTextBoxColumn col_status;
         private System.Windows.Forms.DataGridViewTextBoxColumn col_service_time;
         private System.Windows.Forms.DataGridViewButtonColumn col_change_stylist;

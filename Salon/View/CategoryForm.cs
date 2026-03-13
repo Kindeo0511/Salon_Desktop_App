@@ -31,6 +31,8 @@ namespace Salon.View
             ThemeManager.ApplyTheme(this);
             _isSaving = true;
             this.mainForm = mainForm;
+
+            this.AcceptButton = btn_save;
         }
 
         public CategoryForm(MainForm mainForm, CategoryModel category)
@@ -49,6 +51,7 @@ namespace Salon.View
                 btn_save.Visible = false;
                 btn_update.Visible = true;
             }
+            this.AcceptButton = btn_update;
 
         }
 

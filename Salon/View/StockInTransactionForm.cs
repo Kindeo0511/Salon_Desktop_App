@@ -33,7 +33,14 @@ namespace Salon.View
             ThemeManager.StyleDataGridView(dgv_products);
             ThemeManager.StyleDataGridView(dgv_stock_out);
             this.mainForm = main;
-         
+
+            this.KeyPreview = true;
+            this.KeyDown += (s, e) =>
+            {
+                if (e.KeyCode == Keys.Escape)
+                    this.Close();
+            };
+
 
         }
         public void LoadStockInDetails() 

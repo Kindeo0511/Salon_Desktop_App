@@ -24,6 +24,13 @@ namespace Salon.View
             ThemeManager.ApplyTheme(this);
             this.mainForm = mainForm;
             LoadProducts();
+
+            this.KeyPreview = true;
+            this.KeyDown += (s, e) =>
+            {
+                if (e.KeyCode == Keys.Escape)
+                    this.Close();
+            };
         }
         private void LoadProducts()
         {
@@ -65,7 +72,7 @@ namespace Salon.View
 
         private void SearchRetailProductForm_Load(object sender, EventArgs e)
         {
-            
+            ThemeManager.StyleDataGridView(dgv_retails);
         }
 
         private void dgv_retails_CellClick(object sender, DataGridViewCellEventArgs e)

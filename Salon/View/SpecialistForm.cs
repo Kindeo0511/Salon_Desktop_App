@@ -27,7 +27,7 @@ namespace Salon.View
             ThemeManager.ApplyTheme(this);
             main = mainForm;
             IsSaving = true;
-
+            this.AcceptButton = btn_save;
         }
         public SpecialistForm(MainForm mainForm, SpecialistModel specialistModel)
         {
@@ -38,7 +38,8 @@ namespace Salon.View
             model = specialistModel;
 
             txt_name.Text = model.name;
-           
+            this.AcceptButton = btn_update;
+
         }
 
         private bool IsValid()

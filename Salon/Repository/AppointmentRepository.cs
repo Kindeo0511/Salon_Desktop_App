@@ -519,23 +519,19 @@ GROUP BY a.appointment_id;";
                 using (var con = Database.GetConnection())
                 {
                     var sql = @"
-                SELECT 
-                    CASE 
-                        WHEN a_s.status = 'On Going' THEN 1
-                        ELSE 0
-                    END AS IsBusy
-                FROM tbl_appointment_services a_s  
-                WHERE a_s.stylist_id = @stylistId
-                  AND DATE(a_s.start_time) = CURRENT_DATE()
-                  AND a_s.start_time = (
-                      SELECT MAX(inner_as.start_time)
-                      FROM (SELECT * FROM tbl_appointment_services) AS inner_as
-                      WHERE inner_as.stylist_id = @stylistId
-                        AND DATE(inner_as.start_time) = CURRENT_DATE()
-                  )";
+               SELECT 
+    CASE 
+        WHEN COUNT(*) > 0 THEN 1
+        ELSE 0
+    END AS IsBusy
+FROM tbl_appointment_services
+WHERE stylist_id = @stylistId
+  AND status = 'On Going'
+  AND start_time <= NOW()
+  AND end_time >= NOW()";
 
                     int result = con.ExecuteScalar<int>(sql, new { stylistId });
-                    return result == 1; // true = Busy, false = Available
+                    return result > 0;
                 }
             }
             catch (MySqlException ex)
@@ -544,12 +540,7 @@ GROUP BY a.appointment_id;";
                     MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return false;
             }
-            catch (Exception ex)
-            {
-                MessageBox.Show($"Unexpected error: {ex.Message}", "Error",
-                    MessageBoxButtons.OK, MessageBoxIcon.Error);
-                return false;
-            }
+         
         }
         public bool IsStylistOffDuty(int stylistId)
         {

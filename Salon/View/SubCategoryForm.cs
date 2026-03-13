@@ -30,6 +30,8 @@ namespace Salon.View
             this.mainform = mainform;
             _isSaving = true;
             LoadCategory();
+
+            this.AcceptButton = btn_save;
    
         }
 
@@ -49,6 +51,8 @@ namespace Salon.View
                 btn_save.Visible = false;
                 btn_update.Visible = true;
             }
+
+            this.AcceptButton = btn_update;
 
         }
         private bool HasCSubCategoryChanges()

@@ -169,7 +169,7 @@
             this.btn_cancel.NoAccentTextColor = System.Drawing.Color.Empty;
             this.btn_cancel.Size = new System.Drawing.Size(77, 36);
             this.btn_cancel.TabIndex = 8;
-            this.btn_cancel.Text = "cancel";
+            this.btn_cancel.Text = "close";
             this.btn_cancel.Type = MaterialSkin.Controls.MaterialButton.MaterialButtonType.Contained;
             this.btn_cancel.UseAccentColor = false;
             this.btn_cancel.UseVisualStyleBackColor = true;
@@ -408,6 +408,7 @@
             this.AutoScaleDimensions = new System.Drawing.SizeF(120F, 120F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Dpi;
             this.AutoScrollMargin = new System.Drawing.Size(0, 100);
+            this.CancelButton = this.btn_cancel;
             this.ClientSize = new System.Drawing.Size(800, 600);
             this.Controls.Add(this.materialCard1);
             this.MaximizeBox = false;

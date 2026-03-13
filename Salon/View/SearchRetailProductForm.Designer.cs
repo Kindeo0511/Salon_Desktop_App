@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(SearchRetailProductForm));
             this.txt_search_box = new MaterialSkin.Controls.MaterialTextBox();
             this.materialLabel1 = new MaterialSkin.Controls.MaterialLabel();
             this.dgv_retails = new System.Windows.Forms.DataGridView();
@@ -37,7 +38,7 @@
             this.col_brand = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.col_size = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.col_price = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.btn_add_to_cart = new System.Windows.Forms.DataGridViewButtonColumn();
+            this.btn_add_to_cart = new System.Windows.Forms.DataGridViewImageColumn();
             ((System.ComponentModel.ISupportInitialize)(this.dgv_retails)).BeginInit();
             this.SuspendLayout();
             // 
@@ -108,7 +109,7 @@
             this.col_product_id.MinimumWidth = 6;
             this.col_product_id.Name = "col_product_id";
             this.col_product_id.Visible = false;
-            this.col_product_id.Width = 125;
+            this.col_product_id.Width = 76;
             // 
             // col_product_name
             // 
@@ -124,7 +125,7 @@
             this.col_product_size_id.MinimumWidth = 6;
             this.col_product_size_id.Name = "col_product_size_id";
             this.col_product_size_id.Visible = false;
-            this.col_product_size_id.Width = 125;
+            this.col_product_size_id.Width = 130;
             // 
             // col_brand
             // 
@@ -150,12 +151,13 @@
             // btn_add_to_cart
             // 
             this.btn_add_to_cart.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
-            this.btn_add_to_cart.HeaderText = "Cart";
+            this.btn_add_to_cart.HeaderText = "Add To Cart";
+            this.btn_add_to_cart.Image = ((System.Drawing.Image)(resources.GetObject("btn_add_to_cart.Image")));
+            this.btn_add_to_cart.ImageLayout = System.Windows.Forms.DataGridViewImageCellLayout.Zoom;
             this.btn_add_to_cart.MinimumWidth = 6;
             this.btn_add_to_cart.Name = "btn_add_to_cart";
-            this.btn_add_to_cart.Text = "Add To Cart";
-            this.btn_add_to_cart.UseColumnTextForButtonValue = true;
-            this.btn_add_to_cart.Width = 37;
+            this.btn_add_to_cart.Resizable = System.Windows.Forms.DataGridViewTriState.True;
+            this.btn_add_to_cart.Width = 85;
             // 
             // SearchRetailProductForm
             // 
@@ -165,6 +167,8 @@
             this.Controls.Add(this.dgv_retails);
             this.Controls.Add(this.materialLabel1);
             this.Controls.Add(this.txt_search_box);
+            this.MaximizeBox = false;
+            this.MinimizeBox = false;
             this.Name = "SearchRetailProductForm";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "SearchRetailProductForm";
@@ -186,6 +190,6 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn col_brand;
         private System.Windows.Forms.DataGridViewTextBoxColumn col_size;
         private System.Windows.Forms.DataGridViewTextBoxColumn col_price;
-        private System.Windows.Forms.DataGridViewButtonColumn btn_add_to_cart;
+        private System.Windows.Forms.DataGridViewImageColumn btn_add_to_cart;
     }
 }

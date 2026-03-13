@@ -29,6 +29,8 @@ namespace Salon.View
             ThemeManager.ApplyTheme(this);
             _isSaving = true;
             this.mainform = mainform;
+
+            this.AcceptButton = btn_save;
         }
 
         public CustomerForm(MainForm mainform, CustomerModel customer)
@@ -51,6 +53,8 @@ namespace Salon.View
                 btn_update.Visible = true;
                 
             }
+
+            this.AcceptButton = btn_update;
         }
 
 

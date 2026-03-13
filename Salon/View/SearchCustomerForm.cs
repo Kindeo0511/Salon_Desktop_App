@@ -130,5 +130,10 @@ namespace Salon.View
                 }
             }
         }
+
+        private void SearchCustomerForm_Load(object sender, EventArgs e)
+        {
+            ThemeManager.StyleDataGridView(dgv_customer);
+        }
     }
 }

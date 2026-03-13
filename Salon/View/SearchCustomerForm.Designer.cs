@@ -145,6 +145,7 @@
             this.Name = "SearchCustomerForm";
             this.Padding = new System.Windows.Forms.Padding(3, 24, 3, 3);
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
+            this.Load += new System.EventHandler(this.SearchCustomerForm_Load);
             ((System.ComponentModel.ISupportInitialize)(this.dgv_customer)).EndInit();
             this.ResumeLayout(false);
 

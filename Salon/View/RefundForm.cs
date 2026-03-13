@@ -39,6 +39,13 @@ namespace Salon.View
             int invoice_id = GetInvoiceNumber(invoiceModel.InvoiceNumber);
             int service_cart_id = GetInvoiceServiceCartId(invoice_id);
             LoadCart(invoice_id);
+
+            this.KeyPreview = true;
+            this.KeyDown += (s, e) =>
+            {
+                if (e.KeyCode == Keys.Escape)
+                    this.Close();
+            };
         }
         public void LoadCart(int invoice_id)
         {
@@ -93,10 +100,20 @@ namespace Salon.View
         {
             if (e.RowIndex < 0) return;
 
+           
+           
             if (e.RowIndex >= 0 && dgv_products.Columns[e.ColumnIndex].Name == "col_btn_refund")
             {
                 var details = dgv_products.Rows[e.RowIndex].DataBoundItem as InvoiceServicesCart;
 
+                if (details.Status == "Refunded") 
+                {
+                    MessageBox.Show("This product has already been refunded.",
+                    "Refunded",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Information);
+                    return;
+                }
                 using (var form = new RefundModalForm(mainForm,this, details))
                 {
                     form.ShowDialog();

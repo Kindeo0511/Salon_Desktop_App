@@ -29,6 +29,8 @@ namespace Salon.View
             ThemeManager.ApplyTheme(this);
             this.main = main;
             IsSave = true;
+
+            this.AcceptButton = btn_save;
         }
         public PaymentMethodForm(ConfigureSettingsForm settingsForm)
         {
@@ -50,6 +52,7 @@ namespace Salon.View
             btn_update.Visible = true;
  
             IsUpdate = true;
+            this.AcceptButton = btn_update;
         }
         public void LoadPaymentMethod(PaymentMethodModel model) 
         {

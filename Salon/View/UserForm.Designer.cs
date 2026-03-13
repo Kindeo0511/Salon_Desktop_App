@@ -575,6 +575,7 @@
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.AutoValidate = System.Windows.Forms.AutoValidate.Disable;
+            this.CancelButton = this.btn_cancel;
             this.CausesValidation = false;
             this.ClientSize = new System.Drawing.Size(1400, 800);
             this.Controls.Add(this.userTabControl);

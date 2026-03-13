@@ -5803,7 +5803,7 @@ namespace Salon.View
             StringBuilder sb = new StringBuilder();
 
             // Header
-            sb.AppendLine("Hair Care Center Salon");
+            sb.AppendLine("Miabeau Salon");
             sb.AppendLine($"Invoice #: {lbl_invoice_number.Text}");
             sb.AppendLine($"Customer: {lbl_pos_customer_name.Text}");
             sb.AppendLine($"Date: {DateTime.Now:yyyy-MM-dd}");
@@ -5813,9 +5813,9 @@ namespace Salon.View
             // Items
             sb.AppendLine("Product              Qty   Price");
             sb.AppendLine(new string('-', 32));
-            foreach (var product in cart)
+            foreach (var product in cartItems)
             {
-                sb.AppendLine($"{product.product_name,-18}{product.quantity,3}{product.selling_price,8:C2}");
+                sb.AppendLine($"{product.Name,-18}{product.Quantity,3}{product.UnitPrice,8:C2}");
             }
             sb.AppendLine(new string('-', 32));
 

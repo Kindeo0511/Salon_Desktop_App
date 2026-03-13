@@ -43,7 +43,6 @@
             this.materialLabel5 = new MaterialSkin.Controls.MaterialLabel();
             this.chk_vat_exempt = new System.Windows.Forms.CheckBox();
             this.materialCard1 = new MaterialSkin.Controls.MaterialCard();
-            this.btn_update_draft = new MaterialSkin.Controls.MaterialButton();
             this.chk_send_email = new System.Windows.Forms.CheckBox();
             this.materialLabel14 = new MaterialSkin.Controls.MaterialLabel();
             this.dtp_end = new System.Windows.Forms.DateTimePicker();
@@ -60,6 +59,7 @@
             this.dtp_start = new System.Windows.Forms.DateTimePicker();
             this.materialLabel7 = new MaterialSkin.Controls.MaterialLabel();
             this.panel1 = new System.Windows.Forms.Panel();
+            this.btn_update_draft = new MaterialSkin.Controls.MaterialButton();
             this.btn_published = new MaterialSkin.Controls.MaterialButton();
             this.btn_save_draft = new MaterialSkin.Controls.MaterialButton();
             this.panel3 = new System.Windows.Forms.Panel();
@@ -87,7 +87,7 @@
             this.btn_cancel_discount.NoAccentTextColor = System.Drawing.Color.Empty;
             this.btn_cancel_discount.Size = new System.Drawing.Size(77, 36);
             this.btn_cancel_discount.TabIndex = 15;
-            this.btn_cancel_discount.Text = "cancel";
+            this.btn_cancel_discount.Text = "close";
             this.btn_cancel_discount.Type = MaterialSkin.Controls.MaterialButton.MaterialButtonType.Contained;
             this.btn_cancel_discount.UseAccentColor = false;
             this.btn_cancel_discount.UseVisualStyleBackColor = true;
@@ -272,30 +272,6 @@
             this.materialCard1.Size = new System.Drawing.Size(900, 533);
             this.materialCard1.TabIndex = 39;
             // 
-            // btn_update_draft
-            // 
-            this.btn_update_draft.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.btn_update_draft.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
-            this.btn_update_draft.Density = MaterialSkin.Controls.MaterialButton.MaterialButtonDensity.Default;
-            this.btn_update_draft.Depth = 0;
-            this.btn_update_draft.DrawShadows = false;
-            this.btn_update_draft.HighEmphasis = true;
-            this.btn_update_draft.Icon = null;
-            this.btn_update_draft.Location = new System.Drawing.Point(82, 18);
-            this.btn_update_draft.Margin = new System.Windows.Forms.Padding(4, 6, 4, 6);
-            this.btn_update_draft.MouseState = MaterialSkin.MouseState.HOVER;
-            this.btn_update_draft.Name = "btn_update_draft";
-            this.btn_update_draft.NoAccentTextColor = System.Drawing.Color.Empty;
-            this.btn_update_draft.Size = new System.Drawing.Size(77, 36);
-            this.btn_update_draft.TabIndex = 18;
-            this.btn_update_draft.Text = "update ";
-            this.btn_update_draft.Type = MaterialSkin.Controls.MaterialButton.MaterialButtonType.Contained;
-            this.btn_update_draft.UseAccentColor = false;
-            this.btn_update_draft.UseVisualStyleBackColor = true;
-            this.btn_update_draft.Visible = false;
-            this.btn_update_draft.Click += new System.EventHandler(this.btn_update_draft_Click);
-            // 
             // chk_send_email
             // 
             this.chk_send_email.AutoSize = true;
@@ -474,10 +450,34 @@
             this.panel1.Controls.Add(this.btn_save_draft);
             this.panel1.Controls.Add(this.btn_cancel_discount);
             this.panel1.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.panel1.Location = new System.Drawing.Point(14, 1214);
+            this.panel1.Location = new System.Drawing.Point(14, 1200);
             this.panel1.Name = "panel1";
             this.panel1.Size = new System.Drawing.Size(851, 75);
             this.panel1.TabIndex = 49;
+            // 
+            // btn_update_draft
+            // 
+            this.btn_update_draft.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.btn_update_draft.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
+            this.btn_update_draft.Density = MaterialSkin.Controls.MaterialButton.MaterialButtonDensity.Default;
+            this.btn_update_draft.Depth = 0;
+            this.btn_update_draft.DrawShadows = false;
+            this.btn_update_draft.HighEmphasis = true;
+            this.btn_update_draft.Icon = null;
+            this.btn_update_draft.Location = new System.Drawing.Point(84, 18);
+            this.btn_update_draft.Margin = new System.Windows.Forms.Padding(4, 6, 4, 6);
+            this.btn_update_draft.MouseState = MaterialSkin.MouseState.HOVER;
+            this.btn_update_draft.Name = "btn_update_draft";
+            this.btn_update_draft.NoAccentTextColor = System.Drawing.Color.Empty;
+            this.btn_update_draft.Size = new System.Drawing.Size(77, 36);
+            this.btn_update_draft.TabIndex = 18;
+            this.btn_update_draft.Text = "update ";
+            this.btn_update_draft.Type = MaterialSkin.Controls.MaterialButton.MaterialButtonType.Contained;
+            this.btn_update_draft.UseAccentColor = false;
+            this.btn_update_draft.UseVisualStyleBackColor = true;
+            this.btn_update_draft.Visible = false;
+            this.btn_update_draft.Click += new System.EventHandler(this.btn_update_draft_Click);
             // 
             // btn_published
             // 
@@ -536,6 +536,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(120F, 120F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Dpi;
+            this.CancelButton = this.btn_cancel_discount;
             this.ClientSize = new System.Drawing.Size(900, 600);
             this.Controls.Add(this.materialCard1);
             this.MaximizeBox = false;

@@ -1030,7 +1030,7 @@ namespace Salon.View
 
             var renderer = new ReceiptRenderer(e.Graphics, font, boldFont, centerX);
 
-            renderer.DrawHeader("Hair Care Center Salon");
+            renderer.DrawHeader("Miabeau Salon");
 
             renderer.DrawCenteredLines(new[]
             {

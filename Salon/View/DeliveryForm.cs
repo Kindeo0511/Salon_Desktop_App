@@ -22,6 +22,8 @@ namespace Salon.View
         private int content = 0;
         private int total_qty = 0;
         public event EventHandler RefreshData;
+        private bool IsAdd = false;
+        private bool IsUpdate = false;
         public DeliveryForm(MainForm mainform)
         {
             InitializeComponent();
@@ -39,6 +41,15 @@ namespace Salon.View
             dtp_expiry.MaxDate = DateTime.Today.AddYears(10);
 
             txt_received_by.Text = UserSession.CurrentUser.first_Name.ToString();
+
+            if (IsUpdate)
+            {
+                this.AcceptButton = btn_update;
+            }
+            else 
+            {
+                this.AcceptButton = btn_save;
+            }
         }
 
         private bool InvoiceExists(string invoice) 
@@ -374,6 +385,10 @@ namespace Salon.View
                 btn_cancel.Visible = true;
                 btn_add.Visible = false;
                 btn_delete.Enabled = true;
+
+
+           
+                IsUpdate = true;
             }
 
 

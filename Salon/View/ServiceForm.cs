@@ -52,8 +52,8 @@ namespace Salon.View
             this.mainform = mainform;
             _isSaving = true;
             LoadSubCategory();
-   
 
+            this.AcceptButton = btn_save;
 
 
 
@@ -87,7 +87,8 @@ namespace Salon.View
                 RefreshServiceProductUsage(serviceModel.serviceName_id);
             }
 
-     
+            this.AcceptButton = btn_update;
+
         }
       
 

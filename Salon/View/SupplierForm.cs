@@ -30,6 +30,8 @@ namespace Salon.View
             ThemeManager.ApplyTheme(this);
             this.mainform = mainform;
             _isSaving = true;
+
+            this.AcceptButton = btn_save;
         }
         public SupplierForm(MainForm mainform, SupplierModel model)
         {
@@ -48,7 +50,8 @@ namespace Salon.View
                 btn_save.Visible = false;
                 btn_update.Visible = true;
             }
-          
+
+            this.AcceptButton = btn_update;
         }
         private bool HasCustomerChanges()
         {

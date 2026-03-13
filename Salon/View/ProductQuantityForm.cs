@@ -27,6 +27,13 @@ namespace Salon.View
             ThemeManager.ApplyTheme(this);
             this.mainForm = mainForm;
             this.Product = retailProduct;
+
+            this.KeyPreview = true;
+            this.KeyDown += (s, e) =>
+            {
+                if (e.KeyCode == Keys.Escape)
+                    this.Close();
+            };
         }
 
         private void txt_qtn_KeyDown(object sender, KeyEventArgs e)

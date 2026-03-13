@@ -29,6 +29,7 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(ProductForm));
             this.errorProvider1 = new System.Windows.Forms.ErrorProvider(this.components);
             this.materialLabel5 = new MaterialSkin.Controls.MaterialLabel();
             this.materialLabel8 = new MaterialSkin.Controls.MaterialLabel();
@@ -52,15 +53,6 @@
             this.materialLabel7 = new MaterialSkin.Controls.MaterialLabel();
             this.materialLabel9 = new MaterialSkin.Controls.MaterialLabel();
             this.dgv_product_size = new System.Windows.Forms.DataGridView();
-            this.col_product_size_id = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.col_product_id = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.coL_product_name = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.col_product_size_label = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.col_product_content = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.col_product_cost_price = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.col_product_selling_price = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.col_product_size_update = new System.Windows.Forms.DataGridViewButtonColumn();
-            this.col_product_size_delete = new System.Windows.Forms.DataGridViewButtonColumn();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.chk_ingredient = new MaterialSkin.Controls.MaterialCheckbox();
             this.chk_retail = new MaterialSkin.Controls.MaterialCheckbox();
@@ -76,6 +68,15 @@
             this.materialCard1 = new MaterialSkin.Controls.MaterialCard();
             this.panel1 = new System.Windows.Forms.Panel();
             this.btn_close = new MaterialSkin.Controls.MaterialButton();
+            this.col_product_size_id = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.col_product_id = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.coL_product_name = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.col_product_size_label = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.col_product_content = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.col_product_cost_price = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.col_product_selling_price = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.col_product_size_update = new System.Windows.Forms.DataGridViewImageColumn();
+            this.col_product_size_delete = new System.Windows.Forms.DataGridViewImageColumn();
             ((System.ComponentModel.ISupportInitialize)(this.errorProvider1)).BeginInit();
             this.groupBox2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgv_product_size)).BeginInit();
@@ -466,87 +467,6 @@
             this.dgv_product_size.TabIndex = 45;
             this.dgv_product_size.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgv_product_size_CellClick);
             // 
-            // col_product_size_id
-            // 
-            this.col_product_size_id.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
-            this.col_product_size_id.HeaderText = "size_id";
-            this.col_product_size_id.MinimumWidth = 6;
-            this.col_product_size_id.Name = "col_product_size_id";
-            this.col_product_size_id.Visible = false;
-            this.col_product_size_id.Width = 125;
-            // 
-            // col_product_id
-            // 
-            this.col_product_id.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
-            this.col_product_id.HeaderText = "product_id";
-            this.col_product_id.MinimumWidth = 6;
-            this.col_product_id.Name = "col_product_id";
-            this.col_product_id.Visible = false;
-            this.col_product_id.Width = 125;
-            // 
-            // coL_product_name
-            // 
-            this.coL_product_name.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
-            this.coL_product_name.HeaderText = "Product Name";
-            this.coL_product_name.MinimumWidth = 6;
-            this.coL_product_name.Name = "coL_product_name";
-            this.coL_product_name.Visible = false;
-            // 
-            // col_product_size_label
-            // 
-            this.col_product_size_label.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
-            this.col_product_size_label.HeaderText = "Size  Label";
-            this.col_product_size_label.MinimumWidth = 6;
-            this.col_product_size_label.Name = "col_product_size_label";
-            // 
-            // col_product_content
-            // 
-            this.col_product_content.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
-            this.col_product_content.HeaderText = "Content";
-            this.col_product_content.MinimumWidth = 6;
-            this.col_product_content.Name = "col_product_content";
-            this.col_product_content.ReadOnly = true;
-            this.col_product_content.Width = 81;
-            // 
-            // col_product_cost_price
-            // 
-            this.col_product_cost_price.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
-            this.col_product_cost_price.HeaderText = "Cost Price";
-            this.col_product_cost_price.MinimumWidth = 6;
-            this.col_product_cost_price.Name = "col_product_cost_price";
-            this.col_product_cost_price.ReadOnly = true;
-            this.col_product_cost_price.Width = 97;
-            // 
-            // col_product_selling_price
-            // 
-            this.col_product_selling_price.HeaderText = "Selling Price";
-            this.col_product_selling_price.MinimumWidth = 6;
-            this.col_product_selling_price.Name = "col_product_selling_price";
-            this.col_product_selling_price.ReadOnly = true;
-            this.col_product_selling_price.Width = 125;
-            // 
-            // col_product_size_update
-            // 
-            this.col_product_size_update.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
-            this.col_product_size_update.HeaderText = "Update";
-            this.col_product_size_update.MinimumWidth = 6;
-            this.col_product_size_update.Name = "col_product_size_update";
-            this.col_product_size_update.Text = "Edit";
-            this.col_product_size_update.UseColumnTextForButtonValue = true;
-            this.col_product_size_update.Width = 58;
-            // 
-            // col_product_size_delete
-            // 
-            this.col_product_size_delete.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
-            this.col_product_size_delete.HeaderText = "Delete";
-            this.col_product_size_delete.MinimumWidth = 6;
-            this.col_product_size_delete.Name = "col_product_size_delete";
-            this.col_product_size_delete.Resizable = System.Windows.Forms.DataGridViewTriState.True;
-            this.col_product_size_delete.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Automatic;
-            this.col_product_size_delete.Text = "Delete";
-            this.col_product_size_delete.UseColumnTextForButtonValue = true;
-            this.col_product_size_delete.Width = 76;
-            // 
             // groupBox1
             // 
             this.groupBox1.Controls.Add(this.chk_ingredient);
@@ -799,15 +719,16 @@
             this.btn_close.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
             this.btn_close.Density = MaterialSkin.Controls.MaterialButton.MaterialButtonDensity.Default;
             this.btn_close.Depth = 0;
+            this.btn_close.DialogResult = System.Windows.Forms.DialogResult.Cancel;
             this.btn_close.DrawShadows = false;
             this.btn_close.HighEmphasis = true;
             this.btn_close.Icon = null;
-            this.btn_close.Location = new System.Drawing.Point(1010, 30);
+            this.btn_close.Location = new System.Drawing.Point(1021, 30);
             this.btn_close.Margin = new System.Windows.Forms.Padding(4, 6, 4, 6);
             this.btn_close.MouseState = MaterialSkin.MouseState.HOVER;
             this.btn_close.Name = "btn_close";
             this.btn_close.NoAccentTextColor = System.Drawing.Color.Empty;
-            this.btn_close.Size = new System.Drawing.Size(77, 36);
+            this.btn_close.Size = new System.Drawing.Size(66, 36);
             this.btn_close.TabIndex = 26;
             this.btn_close.Text = "close";
             this.btn_close.Type = MaterialSkin.Controls.MaterialButton.MaterialButtonType.Contained;
@@ -815,11 +736,94 @@
             this.btn_close.UseVisualStyleBackColor = true;
             this.btn_close.Click += new System.EventHandler(this.btn_close_Click);
             // 
+            // col_product_size_id
+            // 
+            this.col_product_size_id.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
+            this.col_product_size_id.HeaderText = "size_id";
+            this.col_product_size_id.MinimumWidth = 6;
+            this.col_product_size_id.Name = "col_product_size_id";
+            this.col_product_size_id.Visible = false;
+            this.col_product_size_id.Width = 55;
+            // 
+            // col_product_id
+            // 
+            this.col_product_id.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
+            this.col_product_id.HeaderText = "product_id";
+            this.col_product_id.MinimumWidth = 6;
+            this.col_product_id.Name = "col_product_id";
+            this.col_product_id.Visible = false;
+            this.col_product_id.Width = 76;
+            // 
+            // coL_product_name
+            // 
+            this.coL_product_name.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
+            this.coL_product_name.HeaderText = "Product Name";
+            this.coL_product_name.MinimumWidth = 6;
+            this.coL_product_name.Name = "coL_product_name";
+            this.coL_product_name.Visible = false;
+            // 
+            // col_product_size_label
+            // 
+            this.col_product_size_label.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
+            this.col_product_size_label.HeaderText = "Size  Label";
+            this.col_product_size_label.MinimumWidth = 6;
+            this.col_product_size_label.Name = "col_product_size_label";
+            // 
+            // col_product_content
+            // 
+            this.col_product_content.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
+            this.col_product_content.HeaderText = "Content";
+            this.col_product_content.MinimumWidth = 6;
+            this.col_product_content.Name = "col_product_content";
+            this.col_product_content.ReadOnly = true;
+            this.col_product_content.Width = 81;
+            // 
+            // col_product_cost_price
+            // 
+            this.col_product_cost_price.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
+            this.col_product_cost_price.HeaderText = "Cost Price";
+            this.col_product_cost_price.MinimumWidth = 6;
+            this.col_product_cost_price.Name = "col_product_cost_price";
+            this.col_product_cost_price.ReadOnly = true;
+            this.col_product_cost_price.Width = 97;
+            // 
+            // col_product_selling_price
+            // 
+            this.col_product_selling_price.HeaderText = "Selling Price";
+            this.col_product_selling_price.MinimumWidth = 6;
+            this.col_product_selling_price.Name = "col_product_selling_price";
+            this.col_product_selling_price.ReadOnly = true;
+            this.col_product_selling_price.Width = 125;
+            // 
+            // col_product_size_update
+            // 
+            this.col_product_size_update.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
+            this.col_product_size_update.HeaderText = "Update";
+            this.col_product_size_update.Image = ((System.Drawing.Image)(resources.GetObject("col_product_size_update.Image")));
+            this.col_product_size_update.ImageLayout = System.Windows.Forms.DataGridViewImageCellLayout.Zoom;
+            this.col_product_size_update.MinimumWidth = 6;
+            this.col_product_size_update.Name = "col_product_size_update";
+            this.col_product_size_update.Resizable = System.Windows.Forms.DataGridViewTriState.True;
+            this.col_product_size_update.Width = 58;
+            // 
+            // col_product_size_delete
+            // 
+            this.col_product_size_delete.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
+            this.col_product_size_delete.HeaderText = "Delete";
+            this.col_product_size_delete.Image = ((System.Drawing.Image)(resources.GetObject("col_product_size_delete.Image")));
+            this.col_product_size_delete.ImageLayout = System.Windows.Forms.DataGridViewImageCellLayout.Zoom;
+            this.col_product_size_delete.MinimumWidth = 6;
+            this.col_product_size_delete.Name = "col_product_size_delete";
+            this.col_product_size_delete.Resizable = System.Windows.Forms.DataGridViewTriState.True;
+            this.col_product_size_delete.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Automatic;
+            this.col_product_size_delete.Width = 76;
+            // 
             // ProductForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(120F, 120F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Dpi;
             this.AutoScroll = true;
+            this.CancelButton = this.btn_close;
             this.ClientSize = new System.Drawing.Size(1190, 800);
             this.Controls.Add(this.materialCard1);
             this.FormStyle = MaterialSkin.Controls.MaterialForm.FormStyles.ActionBar_None;
@@ -890,7 +894,7 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn col_product_content;
         private System.Windows.Forms.DataGridViewTextBoxColumn col_product_cost_price;
         private System.Windows.Forms.DataGridViewTextBoxColumn col_product_selling_price;
-        private System.Windows.Forms.DataGridViewButtonColumn col_product_size_update;
-        private System.Windows.Forms.DataGridViewButtonColumn col_product_size_delete;
+        private System.Windows.Forms.DataGridViewImageColumn col_product_size_update;
+        private System.Windows.Forms.DataGridViewImageColumn col_product_size_delete;
     }
 }

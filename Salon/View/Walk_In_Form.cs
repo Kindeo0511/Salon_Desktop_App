@@ -67,7 +67,7 @@ namespace Salon.View
 
             LoadServices();
 
-            
+            this.AcceptButton = btn_save;
 
            
            
@@ -94,6 +94,8 @@ namespace Salon.View
             LoadSelectedData(appointmentModel);
 
             LoadSelectedServices(appointmentModel.AppointmentId);
+
+            this.AcceptButton = btn_update;
         }
         private void LoadSelectedData(AppointmentModel model) 
         {

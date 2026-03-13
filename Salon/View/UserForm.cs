@@ -57,6 +57,8 @@ namespace Salon.View
 
             LoadRole();
 
+          
+
 
 
         }
@@ -124,7 +126,8 @@ namespace Salon.View
            
             }
 
-            
+            this.AcceptButton = btn_update;
+
         }
         private string HashPassword(string password)
         {

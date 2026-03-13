@@ -124,6 +124,8 @@ namespace Salon.View
             col_service_name.DataPropertyName = "ServiceName";
             col_service_time.DataPropertyName = "Duration";
             col_time.DataPropertyName = "DisplayTime";
+            col_start_time.DataPropertyName = "StartTime";
+            col_end_time.DataPropertyName = "EndTime";
             col_status.DataPropertyName = "Status";
             col_mark_as_completed.DataPropertyName = "IsCompleted";
 
@@ -229,6 +231,7 @@ namespace Salon.View
             if (e.RowIndex < 0) return;
             var dgv = dgv_service_selected;
 
+            var model = dgv.Rows[e.RowIndex].DataBoundItem as AppointmentServicesModel;
             int stylist_id = Convert.ToInt32(dgv.Rows[e.RowIndex].Cells["col_stylist_id"].Value);
             bool IsBusy = Stylist_Is_Available(stylist_id);
  
