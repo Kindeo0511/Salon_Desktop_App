@@ -2220,33 +2220,7 @@ namespace Salon.View
             if (e.RowIndex < 0) return;
 
 
-            if (e.RowIndex >= 0 && dgv_waiting.Columns[e.ColumnIndex].Name == "col_waiting_update")
-            {
-                var type = dgv_waiting.Rows[e.RowIndex].Cells["col_waiting_book_type"].Value?.ToString();
-
-                if (type == "Appointment")
-                {
-                    var appointment_data = dgv_walk_in.Rows[e.RowIndex].DataBoundItem as AppointmentModel;
-
-                    using (var form = new AppointmentForm(this, appointment_data, true, true))
-                    {
-                        form.ShowDialog();
-                    }
-
-                }
-                else
-                {
-                    var walk_in_data = dgv_walk_in.Rows[e.RowIndex].DataBoundItem as AppointmentModel;
-
-                    using (var form = new Walk_In_Form(this, walk_in_data))
-                    {
-                        form.ShowDialog();
-                    }
-                }
-
-                // Handle walk-in update logic here
-            }
-            else if (e.RowIndex >= 0 && dgv_waiting.Columns[e.ColumnIndex].Name == "col_waiting_view_details")
+            if (e.RowIndex >= 0 && dgv_waiting.Columns[e.ColumnIndex].Name == "col_waiting_view_details")
             {
                 var type = dgv_waiting.Rows[e.RowIndex].Cells["col_waiting_book_type"].Value?.ToString();
                 if (type == "Appointment")
@@ -5065,12 +5039,23 @@ namespace Salon.View
             cmb_payment_method.SelectedIndex = -1;
         }
 
-
+     
         private string GenerateInvoiceNumber()
         {
-            string prefix = "INV";
-            string datePart = DateTime.Now.ToString("yyyyMMdd-HHmm");
-            return $"{prefix}-{datePart}";
+
+            var date = DateTime.Now.ToString("yyyyMMdd");
+            var last_number = GetLastInvoiceNumber();
+            var sequence = (last_number + 1).ToString("D4");  
+        
+            return $"INV{date}-{sequence}";
+        }
+        public int GetLastInvoiceNumber()
+        {
+            var repo = new InvoiceRepository();
+            var controller = new InvoiceController(repo);
+
+            return controller.GetLastInvoiceNumber();
+
         }
 
         private int GetInvoiceId(int id)
@@ -5700,6 +5685,8 @@ namespace Salon.View
 
             FilterTransactionReport(currentPage, pageSize);
             LoadInventory(currentPage,pageSize);
+            lbl_invoice_number.Text = GenerateInvoiceNumber();
+    
             Clear();
         }
         private void PrintInvoice()
@@ -6545,9 +6532,9 @@ namespace Salon.View
 
         private void btn_edit_smtp_Click(object sender, EventArgs e)
         {
-            txt_business_name.ReadOnly = false;
-            txt_email.ReadOnly = false;
-            txt_password.ReadOnly = false;
+            txt_business_name.Enabled = true;
+            txt_email.Enabled = true;
+            txt_password.Enabled = true;
             btn_update_smtp.Visible = true;
             btn_edit_smtp.Visible = false;
         }
@@ -7672,6 +7659,11 @@ namespace Salon.View
 
                 e.Value = hasCard ? "🎴 View" : "+ Create";
             }
+        }
+
+        private void materialButton2_Click(object sender, EventArgs e)
+        {
+            UpdateExpireProducts();
         }
     }
 }

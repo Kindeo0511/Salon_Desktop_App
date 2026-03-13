@@ -25,9 +25,9 @@ namespace Salon.Controller
         {
             return repo.ShowAllAppointmnets(filter);
         }
-        public List<AppointmentModel> GetAppointmentsByDate(DateTime date)
+        public List<AppointmentModel> GetAppointmentsByDate(DateTime date, int stylist_id)
         {
-            return repo.GetAppointmentsByDate(date);
+            return repo.GetAppointmentsByDate(date, stylist_id);
         }
 
 
@@ -79,17 +79,17 @@ namespace Salon.Controller
             return repo.AddWalkIn(model);
         }
 
-        public void UpdateTheAppointment(AppointmentModel model) 
+        public void UpdateTheAppointment(DateTime new_date, int AppointmentId) 
         {
-            repo.UpdateAppointment(model);
+            repo.UpdateAppointment(new_date, AppointmentId);
         }
         public void UpdateAppointmentStatus(int id, string status) 
         {
             repo.UpdateAppointmentStatus(id, status);
         }
-        public void UpdateWalkin(AppointmentModel model)
+        public void UpdateWalkin(DateTime new_date, int AppointmentId)
         {
-            repo.UpdateWalkin(model);
+            repo.UpdateWalkin(new_date, AppointmentId);
         }
      
         public void UpdateAppointmentPayment(int appointmentId, string paymentStatus, string status)

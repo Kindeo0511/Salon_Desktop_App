@@ -188,7 +188,7 @@ namespace Salon.View
                 errorProvider1.SetError(cmb_discount_type, "Please select a discount type.");
                 validated = false;
             }
-            else if (cmb_discount_type.Text == "PWD" || cmb_discount_type.Text == "Senior" || cmb_discount_type.Text == "Free")
+            else if (cmb_discount_type.Text == "PWD" || cmb_discount_type.Text == "Senior")
             {
                 if (IsDiscountExistsFor_PWD_SENIOR_FREE(cmb_discount_type.Text))
                 {

@@ -54,7 +54,7 @@ namespace Salon.View
             lbl_item_name.Text = name;
             txt_qty.Value = qty;
             lbl_purchase_qty.Text = qty.ToString();
-            btn_free.Visible = false;
+
         }
 
 

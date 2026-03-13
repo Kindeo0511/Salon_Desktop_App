@@ -25,7 +25,7 @@ namespace Salon.Repository
             using (var con = Database.GetConnection())
             {
                 var sql = "SELECT invoice_number FROM tbl_invoice WHERE invoice_id = @id";
-                return con.QuerySingleOrDefault<string>(sql, new { id = id });
+                return con.QueryFirstOrDefault<string>(sql, new { id = id });
             }
         }
         public int GetInvoiceByNumber(string id)
@@ -33,8 +33,19 @@ namespace Salon.Repository
             using (var con = Database.GetConnection())
             {
                 var sql = "SELECT invoice_id FROM tbl_invoice WHERE invoice_number = @id";
-                return con.QuerySingleOrDefault<int>(sql, new { id = id });
+                return con.QueryFirstOrDefault<int>(sql, new { id = id });
 
+            }
+        }
+        public int GetLastInvoiceNumber()
+        {
+            using (var con = Database.GetConnection())
+            {
+                var sql = @"SELECT COALESCE(
+                                MAX(CAST(SUBSTRING_INDEX(invoice_number, '-', -1) AS UNSIGNED)), 
+                            0)
+                            FROM tbl_invoice;";
+                return con.ExecuteScalar<int>(sql);
             }
         }
         public int GetServiceCartId(int id)

@@ -39,9 +39,6 @@
             this.materialLabel3 = new MaterialSkin.Controls.MaterialLabel();
             this.materialLabel4 = new MaterialSkin.Controls.MaterialLabel();
             this.txt_discount_percent = new System.Windows.Forms.TextBox();
-            this.btn_discount_senior = new MaterialSkin.Controls.MaterialButton();
-            this.btn_discount_pwd = new MaterialSkin.Controls.MaterialButton();
-            this.btn_free = new MaterialSkin.Controls.MaterialButton();
             this.btn_promo = new MaterialSkin.Controls.MaterialButton();
             this.lbl_purchase_qty = new MaterialSkin.Controls.MaterialLabel();
             this.materialCard1.SuspendLayout();
@@ -192,67 +189,6 @@
             this.txt_discount_percent.TabIndex = 10;
             this.txt_discount_percent.TextChanged += new System.EventHandler(this.txt_discount_percent_TextChanged);
             // 
-            // btn_discount_senior
-            // 
-            this.btn_discount_senior.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
-            this.btn_discount_senior.Density = MaterialSkin.Controls.MaterialButton.MaterialButtonDensity.Default;
-            this.btn_discount_senior.Depth = 0;
-            this.btn_discount_senior.HighEmphasis = true;
-            this.btn_discount_senior.Icon = null;
-            this.btn_discount_senior.Location = new System.Drawing.Point(61, 367);
-            this.btn_discount_senior.Margin = new System.Windows.Forms.Padding(4, 6, 4, 6);
-            this.btn_discount_senior.MouseState = MaterialSkin.MouseState.HOVER;
-            this.btn_discount_senior.Name = "btn_discount_senior";
-            this.btn_discount_senior.NoAccentTextColor = System.Drawing.Color.Empty;
-            this.btn_discount_senior.Size = new System.Drawing.Size(73, 36);
-            this.btn_discount_senior.TabIndex = 11;
-            this.btn_discount_senior.Text = "Senior";
-            this.btn_discount_senior.Type = MaterialSkin.Controls.MaterialButton.MaterialButtonType.Contained;
-            this.btn_discount_senior.UseAccentColor = false;
-            this.btn_discount_senior.UseVisualStyleBackColor = true;
-            this.btn_discount_senior.Click += new System.EventHandler(this.btn_discount_senior_Click);
-            // 
-            // btn_discount_pwd
-            // 
-            this.btn_discount_pwd.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
-            this.btn_discount_pwd.Density = MaterialSkin.Controls.MaterialButton.MaterialButtonDensity.Default;
-            this.btn_discount_pwd.Depth = 0;
-            this.btn_discount_pwd.HighEmphasis = true;
-            this.btn_discount_pwd.Icon = null;
-            this.btn_discount_pwd.Location = new System.Drawing.Point(61, 427);
-            this.btn_discount_pwd.Margin = new System.Windows.Forms.Padding(4, 6, 4, 6);
-            this.btn_discount_pwd.MouseState = MaterialSkin.MouseState.HOVER;
-            this.btn_discount_pwd.Name = "btn_discount_pwd";
-            this.btn_discount_pwd.NoAccentTextColor = System.Drawing.Color.Empty;
-            this.btn_discount_pwd.Size = new System.Drawing.Size(64, 36);
-            this.btn_discount_pwd.TabIndex = 12;
-            this.btn_discount_pwd.Text = "PWD";
-            this.btn_discount_pwd.Type = MaterialSkin.Controls.MaterialButton.MaterialButtonType.Contained;
-            this.btn_discount_pwd.UseAccentColor = false;
-            this.btn_discount_pwd.UseVisualStyleBackColor = true;
-            this.btn_discount_pwd.Click += new System.EventHandler(this.btn_discount_pwd_Click);
-            // 
-            // btn_free
-            // 
-            this.btn_free.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
-            this.btn_free.Density = MaterialSkin.Controls.MaterialButton.MaterialButtonDensity.Default;
-            this.btn_free.Depth = 0;
-            this.btn_free.DrawShadows = false;
-            this.btn_free.HighEmphasis = true;
-            this.btn_free.Icon = null;
-            this.btn_free.Location = new System.Drawing.Point(213, 367);
-            this.btn_free.Margin = new System.Windows.Forms.Padding(4, 6, 4, 6);
-            this.btn_free.MouseState = MaterialSkin.MouseState.HOVER;
-            this.btn_free.Name = "btn_free";
-            this.btn_free.NoAccentTextColor = System.Drawing.Color.Empty;
-            this.btn_free.Size = new System.Drawing.Size(64, 36);
-            this.btn_free.TabIndex = 13;
-            this.btn_free.Text = "Free";
-            this.btn_free.Type = MaterialSkin.Controls.MaterialButton.MaterialButtonType.Contained;
-            this.btn_free.UseAccentColor = false;
-            this.btn_free.UseVisualStyleBackColor = true;
-            this.btn_free.Click += new System.EventHandler(this.materialButton1_Click);
-            // 
             // btn_promo
             // 
             this.btn_promo.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
@@ -261,7 +197,7 @@
             this.btn_promo.DrawShadows = false;
             this.btn_promo.HighEmphasis = true;
             this.btn_promo.Icon = null;
-            this.btn_promo.Location = new System.Drawing.Point(213, 427);
+            this.btn_promo.Location = new System.Drawing.Point(66, 361);
             this.btn_promo.Margin = new System.Windows.Forms.Padding(4, 6, 4, 6);
             this.btn_promo.MouseState = MaterialSkin.MouseState.HOVER;
             this.btn_promo.Name = "btn_promo";
@@ -295,9 +231,6 @@
             this.ControlBox = false;
             this.Controls.Add(this.lbl_purchase_qty);
             this.Controls.Add(this.btn_promo);
-            this.Controls.Add(this.btn_free);
-            this.Controls.Add(this.btn_discount_pwd);
-            this.Controls.Add(this.btn_discount_senior);
             this.Controls.Add(this.txt_discount_percent);
             this.Controls.Add(this.materialLabel4);
             this.Controls.Add(this.materialLabel3);
@@ -336,9 +269,6 @@
         private MaterialSkin.Controls.MaterialLabel materialLabel3;
         private MaterialSkin.Controls.MaterialLabel materialLabel4;
         private System.Windows.Forms.TextBox txt_discount_percent;
-        private MaterialSkin.Controls.MaterialButton btn_discount_senior;
-        private MaterialSkin.Controls.MaterialButton btn_discount_pwd;
-        private MaterialSkin.Controls.MaterialButton btn_free;
         private MaterialSkin.Controls.MaterialButton btn_promo;
         private System.Windows.Forms.Panel panel1;
         private MaterialSkin.Controls.MaterialLabel lbl_purchase_qty;

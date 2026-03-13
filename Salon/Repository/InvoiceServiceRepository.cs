@@ -162,7 +162,7 @@ WHERE isc.invoice_id = @InvoiceId;;
             {
                 var sql = @"SELECT service_cart_id FROM tbl_invoice_service_cart
                             WHERE invoice_id = @InvoiceId AND service_id = @ServiceId AND item_type = 'Service'";
-                return con.QuerySingleOrDefault<int>(sql, new { InvoiceId = invoice_id, ServiceId = service_id });
+                return con.QueryFirstOrDefault<int>(sql, new { InvoiceId = invoice_id, ServiceId = service_id });
             }
         }
         public void RefundServiceToCart(int id)

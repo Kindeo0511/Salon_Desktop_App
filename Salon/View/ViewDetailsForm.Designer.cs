@@ -40,6 +40,7 @@
             this.panel1 = new System.Windows.Forms.Panel();
             this.rad_appointment = new MaterialSkin.Controls.MaterialRadioButton();
             this.rad_walk_in = new MaterialSkin.Controls.MaterialRadioButton();
+            this.btn_add = new MaterialSkin.Controls.MaterialButton();
             this.col_aps_id = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.col_service_id = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.col_service_name = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -51,6 +52,7 @@
             this.col_change_stylist = new System.Windows.Forms.DataGridViewButtonColumn();
             this.col_mark_as_completed = new System.Windows.Forms.DataGridViewCheckBoxColumn();
             this.col_start_service = new System.Windows.Forms.DataGridViewButtonColumn();
+            this.col_remove = new System.Windows.Forms.DataGridViewButtonColumn();
             ((System.ComponentModel.ISupportInitialize)(this.dgv_service_selected)).BeginInit();
             this.panel1.SuspendLayout();
             this.SuspendLayout();
@@ -140,7 +142,8 @@
             this.col_service_time,
             this.col_change_stylist,
             this.col_mark_as_completed,
-            this.col_start_service});
+            this.col_start_service,
+            this.col_remove});
             this.dgv_service_selected.Location = new System.Drawing.Point(36, 345);
             this.dgv_service_selected.Name = "dgv_service_selected";
             this.dgv_service_selected.RowHeadersVisible = false;
@@ -250,11 +253,32 @@
             this.rad_walk_in.Text = "WALK-IN";
             this.rad_walk_in.UseVisualStyleBackColor = true;
             // 
+            // btn_add
+            // 
+            this.btn_add.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
+            this.btn_add.Density = MaterialSkin.Controls.MaterialButton.MaterialButtonDensity.Default;
+            this.btn_add.Depth = 0;
+            this.btn_add.HighEmphasis = true;
+            this.btn_add.Icon = null;
+            this.btn_add.Location = new System.Drawing.Point(36, 300);
+            this.btn_add.Margin = new System.Windows.Forms.Padding(4, 6, 4, 6);
+            this.btn_add.MouseState = MaterialSkin.MouseState.HOVER;
+            this.btn_add.Name = "btn_add";
+            this.btn_add.NoAccentTextColor = System.Drawing.Color.Empty;
+            this.btn_add.Size = new System.Drawing.Size(158, 36);
+            this.btn_add.TabIndex = 65;
+            this.btn_add.Text = "add new service";
+            this.btn_add.Type = MaterialSkin.Controls.MaterialButton.MaterialButtonType.Contained;
+            this.btn_add.UseAccentColor = false;
+            this.btn_add.UseVisualStyleBackColor = true;
+            this.btn_add.Click += new System.EventHandler(this.btn_add_Click);
+            // 
             // col_aps_id
             // 
             this.col_aps_id.HeaderText = "aps_id";
             this.col_aps_id.MinimumWidth = 6;
             this.col_aps_id.Name = "col_aps_id";
+            this.col_aps_id.Visible = false;
             this.col_aps_id.Width = 125;
             // 
             // col_service_id
@@ -264,7 +288,7 @@
             this.col_service_id.MinimumWidth = 6;
             this.col_service_id.Name = "col_service_id";
             this.col_service_id.Visible = false;
-            this.col_service_id.Width = 98;
+            this.col_service_id.Width = 75;
             // 
             // col_service_name
             // 
@@ -278,6 +302,7 @@
             this.col_stylist_id.HeaderText = "stylist_id";
             this.col_stylist_id.MinimumWidth = 6;
             this.col_stylist_id.Name = "col_stylist_id";
+            this.col_stylist_id.Visible = false;
             this.col_stylist_id.Width = 125;
             // 
             // col_stylist
@@ -344,11 +369,23 @@
             this.col_start_service.UseColumnTextForButtonValue = true;
             this.col_start_service.Width = 125;
             // 
+            // col_remove
+            // 
+            this.col_remove.HeaderText = "Remove";
+            this.col_remove.MinimumWidth = 6;
+            this.col_remove.Name = "col_remove";
+            this.col_remove.Resizable = System.Windows.Forms.DataGridViewTriState.True;
+            this.col_remove.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Automatic;
+            this.col_remove.Text = "Remove";
+            this.col_remove.UseColumnTextForButtonValue = true;
+            this.col_remove.Width = 125;
+            // 
             // ViewDetailsForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(120F, 120F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Dpi;
             this.ClientSize = new System.Drawing.Size(900, 700);
+            this.Controls.Add(this.btn_add);
             this.Controls.Add(this.panel1);
             this.Controls.Add(this.materialLabel2);
             this.Controls.Add(this.materialButton1);
@@ -387,6 +424,7 @@
         private System.Windows.Forms.Panel panel1;
         private MaterialSkin.Controls.MaterialRadioButton rad_appointment;
         private MaterialSkin.Controls.MaterialRadioButton rad_walk_in;
+        private MaterialSkin.Controls.MaterialButton btn_add;
         private System.Windows.Forms.DataGridViewTextBoxColumn col_aps_id;
         private System.Windows.Forms.DataGridViewTextBoxColumn col_service_id;
         private System.Windows.Forms.DataGridViewTextBoxColumn col_service_name;
@@ -398,5 +436,6 @@
         private System.Windows.Forms.DataGridViewButtonColumn col_change_stylist;
         private System.Windows.Forms.DataGridViewCheckBoxColumn col_mark_as_completed;
         private System.Windows.Forms.DataGridViewButtonColumn col_start_service;
+        private System.Windows.Forms.DataGridViewButtonColumn col_remove;
     }
 }

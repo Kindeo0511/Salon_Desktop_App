@@ -506,6 +506,12 @@ namespace Salon.View
             cmb_status.MouseWheel += Helper.ComboBox_MouseWheel;
             cmb_sub_category.MouseWheel += Helper.ComboBox_MouseWheel;
 
+
+            if (service_id > 0) 
+            {
+            
+            }
+
         }
 
      
@@ -544,6 +550,17 @@ namespace Salon.View
 
         private void btn_add_consumption_Click_1(object sender, EventArgs e)
         {
+            if (service_id == 0)
+            {
+                MessageBox.Show(
+                    "Please create a service first before adding a product consumption.",
+                    "Action Required",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Warning
+                );
+                return;
+            }
+
             using (var form = new ProductConsumptionForm(mainform, this, serviceName, service_id))
             {
                 form.ShowDialog();

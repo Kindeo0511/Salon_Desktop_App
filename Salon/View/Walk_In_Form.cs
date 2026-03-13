@@ -729,9 +729,20 @@ namespace Salon.View
         }
         private string GenerateInvoiceNumber()
         {
-            string prefix = "INV";
-            string datePart = DateTime.Now.ToString("yyyyMMdd-HHmm");
-            return $"{prefix}-{datePart}";
+
+            var date = DateTime.Now.ToString("yyyyMMdd");
+            var last_number = GetLastInvoiceNumber();
+            var sequence = (last_number + 1).ToString("D4");
+
+            return $"INV{date}-{sequence}";
+        }
+        public int GetLastInvoiceNumber()
+        {
+            var repo = new InvoiceRepository();
+            var controller = new InvoiceController(repo);
+
+            return controller.GetLastInvoiceNumber();
+
         }
         private void rad_guest_CheckedChanged(object sender, EventArgs e)
         {

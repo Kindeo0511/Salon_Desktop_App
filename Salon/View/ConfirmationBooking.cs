@@ -218,10 +218,10 @@ namespace Salon.View
             var appointmentController = new AppointmentController(repo);
 
             // Call the right update method based on booking type
-            if (model.CustomerType == "Member")
-                appointmentController.UpdateTheAppointment(model);
-            else
-                appointmentController.UpdateWalkin(model);
+            //if (model.CustomerType == "Member")
+            //    appointmentController.UpdateTheAppointment(model);
+            //else
+            //    appointmentController.UpdateWalkin(model);
 
             // Shared logic
             int invoice_id = appointmentForm.GetInvoiceId(existingAppointmentId);

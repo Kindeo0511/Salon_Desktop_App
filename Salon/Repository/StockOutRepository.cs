@@ -522,15 +522,18 @@ namespace Salon.Repository
                 {
                     try
                     {
-                        // 1) Get expired batches directly from tbl_delivery_items
-                        var expiredRows = con.Query<(int inventory_id, int product_size_id, decimal qty_delivered, decimal total_qty)>(
+                        // 1) Get expired batches that have NOT been deducted yet
+                        var expiredRows = con.Query<(int inventory_id, int delivery_item_id, int product_size_id, decimal qty_delivered, decimal total_qty)>(
                             @"SELECT 
+                        delivery_item_id, 
                         inventory_id, 
                         product_size_id, 
                         qty_delivered,
                         total_qty
                       FROM tbl_delivery_items 
-                      WHERE expiry_date < CURDATE()",
+                      WHERE expiry_date < CURDATE()
+                      AND is_deducted = 0", 
+        
                             transaction: tx).ToList();
 
                         if (!expiredRows.Any()) return;
@@ -548,9 +551,18 @@ namespace Salon.Repository
                           FOR UPDATE",
                                 new { id = row.inventory_id }, tx);
 
-                            if (inventory.inventory_id == 0) continue; // already zero, skip
+                            if (inventory.inventory_id == 0)
+                            {
+                                // ✅ Even if inventory is 0, mark as deducted to skip next time
+                                con.Execute(
+                                    @"UPDATE tbl_delivery_items 
+                              SET is_deducted = 1 
+                              WHERE delivery_item_id = @id",
+                                    new { id = row.delivery_item_id }, tx);
+                                continue;
+                            }
 
-                            // 3) Calculate deduction using expired batch qty
+                            // 3) Calculate deduction
                             var mlToDeduct = Math.Min((int)(row.qty_delivered * inventory.content), (int)inventory.total_remaining);
                             var newRemaining = Math.Max(inventory.total_remaining - mlToDeduct, 0);
                             var newQty = newRemaining / inventory.content;
@@ -600,6 +612,13 @@ namespace Salon.Repository
                                     newQty = newQty,
                                     userId = UserSession.CurrentUser.user_id,
                                 }, tx);
+
+                            // 7) ✅ Mark batch as deducted so it never runs again
+                            con.Execute(
+                                @"UPDATE tbl_delivery_items 
+                          SET is_deducted = 1 
+                          WHERE delivery_item_id = @id",
+                                new { id = row.delivery_item_id }, tx);
                         }
 
                         tx.Commit();

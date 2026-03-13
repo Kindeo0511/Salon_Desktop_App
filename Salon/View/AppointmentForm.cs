@@ -64,7 +64,7 @@ namespace Salon.View
             LoadSubcategory();
             LoadServices();
 
-            LoadTimeSlots(cmb_Date.Value);
+      
         }
         private void LoadSubcategory()
         {
@@ -125,6 +125,7 @@ namespace Salon.View
 
             cmb_stylist.DataSource = stylist;
             cmb_stylist.SelectedIndex = -1;
+
         }
         public void LoadStylistForRow(int index) 
         {
@@ -154,7 +155,10 @@ namespace Salon.View
             cmb_Date.MinDate = model.AppointmentDate.Date;
             cmb_Date.MaxDate = DateTime.Today.AddMonths(3);
 
-            LoadTimeSlots(model.AppointmentDate);
+            rad_exists.Enabled = false;
+            rad_guest.Enabled = false;
+            btn_register_customer.Enabled = false;
+            //LoadTimeSlots(model.AppointmentDate);
             if (model.Status == "On Going") 
             {
                 cmb_Date.Enabled = false;
@@ -230,7 +234,7 @@ namespace Salon.View
             rad_guest.Enabled = false;
             btn_search.Enabled = false;
             btn_register_customer.Enabled = false;
-            LoadTimeSlots(model.AppointmentDate);
+            //LoadTimeSlots(model.AppointmentDate);
             //this.isUpdate = isUpdate;
             if (model.CustomerId == null)
             {
@@ -391,27 +395,29 @@ namespace Salon.View
             cmb_stylist.Hint = "Select Stylist";
              
         }
-        private void LoadTimeSlots(DateTime selectedDate)
+        private void LoadTimeSlots(DateTime selectedDate, int stylistId)
         {
-            var appointmentRepo = new AppointmentRepository();
-            var appointmentController = new AppointmentController(appointmentRepo);
 
-            // Get appointments for the selected date
-            var appointments = appointmentController.GetAppointmentsByDate(selectedDate);
-
-            cmb_time_slot.Items.Clear();
-
-            // Generate slots for the whole day (00:00 → 23:30)
             DateTime startTime = selectedDate.Date;
             DateTime endTime = selectedDate.Date.AddDays(1).AddMinutes(-30);
 
+            var appointmentRepo = new AppointmentRepository();
+            var appointmentController = new AppointmentController(appointmentRepo);
+
+            // Get taken slots for this specific stylist
+            var appointments = appointmentController.GetAppointmentsByDate(selectedDate, stylistId);
+
+            cmb_time_slot.Items.Clear();
+       
+
+
             for (DateTime time = startTime; time <= endTime; time = time.AddMinutes(30))
             {
-                // Only skip past times if selectedDate is today
-                if (selectedDate.Date == DateTime.Today && time < DateTime.Now)
-                    continue;
+                // Skip past times if today
+                //if (selectedDate.Date == DateTime.Today && time < DateTime.Now)
+                //    continue;
 
-                // Check if slot overlaps with existing appointments
+                // Skip taken slots for this stylist
                 bool taken = appointments.Any(appt =>
                     time < appt.EndTime && time.AddMinutes(30) > appt.StartTime);
 
@@ -693,7 +699,7 @@ namespace Salon.View
             var controller = new AppointmentServiceController(repo);
             controller.DeleteAppointmentService(appointment_id);
         }
-
+     
         private void UpdateAppointment(AppointmentModel model)
         {
             try
@@ -707,18 +713,20 @@ namespace Salon.View
                 var service_invoice_repo = new InvoiceServiceRepository();
                 var service_invoice_controller = new InvoiceServiceCartController(service_invoice_repo);
                 int invoice_id = GetInvoiceId(model.AppointmentId);
+                DateTime new_date = cmb_Date.Value;
 
                 // Call the right update method based on booking type
                 if (model.CustomerType == "Member")
-                    appointmentController.UpdateTheAppointment(model);
+                    appointmentController.UpdateTheAppointment(new_date, model.AppointmentId);
+               
                 else
-                    appointmentController.UpdateWalkin(model);
+                    appointmentController.UpdateWalkin(new_date, model.AppointmentId);
 
 
 
 
                 //DeleteServiceFromCart(invoice_id);
-                DeleteAppointmentService(model.AppointmentId);
+                //DeleteAppointmentService(model.AppointmentId);
 
                 // Commit any pending edits in the grid
                 dgv_service_selected.EndEdit();
@@ -752,21 +760,27 @@ namespace Salon.View
                     decimal price = Convert.ToDecimal(row.Cells["col_price"].Value.ToString());
                     var statusValue = Convert.ToString(row.Cells["col_status"].Value);
 
-                    DateTime? start_time = null;
-                    DateTime? end_time = null;
-                    string rowStatus = statusValue; // preserve whatever status is in the grid
 
-                    if (statusValue == "Ready to Start" || statusValue == "On Going")
-                    {
-                        rowStatus = "On Going";
-                        start_time = DateTime.Now;
-                        end_time = DateTime.Now.AddMinutes(duration);
-                    }
-                    else if (statusValue == "Busy")
-                    {
-                        rowStatus = "Waiting";
-                        end_time = DateTime.Now.AddMinutes(duration);
-                    }
+                    //DateTime? start_time = null;
+                    //DateTime? end_time = null;
+                    //string rowStatus = statusValue; // preserve whatever status is in the grid
+
+                    //if (statusValue == "Ready to Start" || statusValue == "On Going")
+                    //{
+                    //    rowStatus = "On Going";
+                    //    start_time = Convert.ToDateTime(row.Cells["col_start_time"].Value);
+                    //    end_time = start_time.AddMinutes(duration);
+                    //}
+                    //else if (statusValue == "Busy")
+                    //{
+                    //    rowStatus = "Waiting";
+                    //    end_time = DateTime.Now.AddMinutes(duration);
+                    //}
+
+                    DateTime start_time = Convert.ToDateTime(row.Cells["col_start_time"].Value);
+                    var endTimeDuration = start_time.AddMinutes(duration);
+
+
                     bool service_exists = service_invoice_controller.CheckIfServiceExistInCart(invoice_id, service_id);
                     if (!service_exists)
                     {
@@ -796,8 +810,8 @@ namespace Salon.View
                         service_id,
                         stylist_id,
                         start_time,
-                        end_time,
-                        rowStatus
+                        endTimeDuration,
+                        "Waiting"
                        );
                     }
 
@@ -950,6 +964,8 @@ namespace Salon.View
             LoadServices();
 
 
+
+
         }
 
         private void rad_guest_CheckedChanged(object sender, EventArgs e)
@@ -987,9 +1003,20 @@ namespace Salon.View
 
         private string GenerateInvoiceNumber()
         {
-            string prefix = "INV";
-            string datePart = DateTime.Now.ToString("yyyyMMdd-HHmm");
-            return $"{prefix}-{datePart}";
+
+            var date = DateTime.Now.ToString("yyyyMMdd");
+            var last_number = GetLastInvoiceNumber();
+            var sequence = (last_number + 1).ToString("D4");
+
+            return $"INV{date}-{sequence}";
+        }
+        public int GetLastInvoiceNumber()
+        {
+            var repo = new InvoiceRepository();
+            var controller = new InvoiceController(repo);
+
+            return controller.GetLastInvoiceNumber();
+
         }
 
 
@@ -1063,8 +1090,6 @@ namespace Salon.View
                     CustomerName = txt_FullName.Text,
                     StylistName = cmb_stylist.Text,
                     AppointmentDate = cmb_Date.Value,
-                    StartTime = startTime,
-                    EndTime = startTime.Add(TimeSpan.FromMinutes(totalDuration)),
                     AppointmentType = "Appointment",
                     Status = "Scheduled",
                     CustomerType = "Guest",
@@ -1079,9 +1104,6 @@ namespace Salon.View
                     CustomerName = txt_FullName.Text,
                     StylistName = cmb_stylist.Text,
                     AppointmentDate = cmb_Date.Value,
-                    StartTime = cmb_Date.Value + selectedTime.TimeOfDay,
-                    EndDuration = cmb_Date.Value + selectedTime.TimeOfDay,
-                    EndTime = cmb_Date.Value + selectedTime.TimeOfDay.Add(TimeSpan.FromMinutes(totalDuration)),
                     AppointmentType = "Appointment",
                     Status = "Scheduled",
                     CustomerType = "Member",
@@ -1143,8 +1165,8 @@ namespace Salon.View
                 string rowStatus = "Scheduled"; // default
 
                 rowStatus = "Waiting";
-                var start_time = DateTime.Now;
-                var endTimeDuration = DateTime.Now.AddMinutes(duration);
+                DateTime start_time = Convert.ToDateTime(row.Cells["col_start_time"].Value);
+                var endTimeDuration = start_time.AddMinutes(duration);
                 service_controller.AddServicesToAppointment(appointment_id, service_id, stylist_id, start_time, endTimeDuration, rowStatus);
                 SaveInvoiceServices(invoiceServiceCart);
 
@@ -1205,7 +1227,7 @@ namespace Salon.View
             if (rad_guest.Checked)
             {
                 LoadWalkInCode();
-            
+                btn_search.Enabled = false;
             }
         }
 
@@ -1303,19 +1325,7 @@ namespace Salon.View
         {
             if(e.RowIndex < 0) return;
 
-            if (dgv_available_services.Columns[e.ColumnIndex].Name == "col_cmb_stylist")
-            {
-            //    if (dgv_available_services.Rows[e.RowIndex]
-            //.Cells["col_service_id"].Value == null)
-            //        return;
-
-            //    int serviceId = Convert.ToInt32(
-            //        dgv_available_services.Rows[e.RowIndex]
-            //        .Cells["col_service_id"].Value
-            //    );
-                LoadStylistForRow(e.RowIndex);
-            }
-
+          
             if (e.RowIndex >= 0 && dgv_available_services.Columns[e.ColumnIndex].Name == "col_remove") 
             {
                selectedServices.RemoveAt(e.RowIndex);
@@ -1551,7 +1561,7 @@ namespace Salon.View
               cmb_stylist.Text,
               txt_duration.Text,
               txt_price.Text,
-              null,
+              cmb_time_slot.Text,
               null,
               "Waiting"
               );
@@ -1720,7 +1730,31 @@ namespace Salon.View
 
         private void cmb_Date_ValueChanged(object sender, EventArgs e)
         {
-            LoadTimeSlots(cmb_Date.Value);
+            if (cmb_stylist.SelectedValue != null)
+            {
+                int stylistId = Convert.ToInt32(cmb_stylist.SelectedValue);
+                LoadTimeSlots(cmb_Date.Value, stylistId);
+            }
+        }
+
+        private void cmb_stylist_SelectedValueChanged(object sender, EventArgs e)
+        {
+           
+        }
+
+        private void cmb_stylist_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if (cmb_stylist.SelectedValue != null)
+            {
+
+                int stylistId = Convert.ToInt32(cmb_stylist.SelectedValue);
+                LoadTimeSlots(cmb_Date.Value, stylistId);
+            }
+            else
+            {
+                cmb_time_slot.Items.Clear();
+            }
+
         }
 
 

@@ -1396,7 +1396,11 @@ namespace Salon.View
         {
             var discount = LoadDiscountType("Senior");
 
-
+            if (discount == null)
+            {
+                MessageBox.Show("Senior discount type not found.");
+                return;
+            }
             if (discount.mode == "Percentage")
             {
                 currentPercentDiscount = discount.discount_rate;
@@ -1416,6 +1420,13 @@ namespace Salon.View
         private void btn_pwd_Click(object sender, EventArgs e)
         {
             var discount = LoadDiscountType("PWD");
+
+            if (discount == null)
+            {
+                MessageBox.Show("PWD discount type not found.");
+                return;
+            }
+
             if (discount.mode == "Percentage")
             {
                 currentPercentDiscount = discount.discount_rate;

@@ -23,6 +23,10 @@ namespace Salon.Controller
         {
             return repo.GetInvoiceByNumber(id);
         }
+        public int GetLastInvoiceNumber() 
+        {
+            return repo.GetLastInvoiceNumber();
+        }
         public int GetInvoiceServiceCartId(int id) 
         {
             return repo.GetServiceCartId(id);

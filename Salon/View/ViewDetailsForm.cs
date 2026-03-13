@@ -48,6 +48,7 @@ namespace Salon.View
         
             LoadSelectedAppointmentDetails(model);
             LoadServices(appointmentModel.AppointmentId);
+
             if (IsViewDetails)
             {
                 dgv_service_selected.Columns["col_mark_as_completed"].Visible = false;
@@ -110,7 +111,7 @@ namespace Salon.View
 
             lbl_prefix.Text = prefix_code;
         }
-        private void LoadServices(int id)
+        public void LoadServices(int id)
         {
             var repo = new AppointmentServiceRepository();
             var controller = new AppointmentServiceController(repo);
@@ -312,9 +313,70 @@ namespace Salon.View
                 
            
             }
+            else if (e.RowIndex >= 0 && dgv.Columns[e.ColumnIndex].Name == "col_remove")
+            {
+
+                var repo = new AppointmentServiceRepository();
+                var controller = new AppointmentServiceController(repo);
+
+                var inv_repo = new InvoiceServiceRepository();
+                var inv_service_controller = new InvoiceServiceCartController(inv_repo);
+
+                int appointmentServiceId = Convert.ToInt32(dgv_service_selected.Rows[e.RowIndex].Cells["col_aps_id"].Value);
+                int serviceId = Convert.ToInt32(dgv_service_selected.Rows[e.RowIndex].Cells["col_service_id"].Value);
+                string status = Convert.ToString(dgv_service_selected.Rows[e.RowIndex].Cells["col_status"].Value);
+                string serviceName = Convert.ToString(dgv_service_selected.Rows[e.RowIndex].Cells["col_service_name"].Value);
+
+
+
+
+
+                if (status == "Completed")
+                {
+                    MessageBox.Show("Cannot remove a completed service.", "Action Denied", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    return;
+                }
+                if (status == "On Going")
+                {
+                    MessageBox.Show("Cannot remove a service that is currently on going.", "Action Denied", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    return;
+                }
+
+                var confirmResult = MessageBox.Show($"Are you sure to remove {serviceName}?", "Confirm Remove", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+
+
+                if (confirmResult == DialogResult.Yes)
+                {
+                    if (appointmentServiceId == 0)
+                    {
+                        // Not saved yet, just remove from the grid
+                        dgv_service_selected.Rows.RemoveAt(e.RowIndex);
+
+                        MessageBox.Show($"{serviceName} removed successfully!",
+                                        "Removed", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    }
+                    else
+                    {
+
+                        int invoice_id = GetInvoiceId(appointmentModel.AppointmentId);
+                        int invoice_service_id = inv_service_controller.GetInvoiceServiceById(invoice_id, serviceId);
+                        controller.DeleteAppointmentServiceById(appointmentServiceId);
+                        inv_service_controller.DeleteServiceFromInvoiceCart(invoice_service_id);
+                       
+                    }
+                }
+
+            }
+        }
+        public int GetInvoiceId(int id)
+        {
+            var repo = new InvoiceRepository();
+            var controller = new InvoiceController(repo);
+            int invoice_id = controller.GetInvoice(id);
+
+            return invoice_id;
 
         }
-
         private void dgv_service_selected_CellFormatting(object sender, DataGridViewCellFormattingEventArgs e)
         {
             if (dgv_service_selected.Columns[e.ColumnIndex].Name == "col_mark_as_completed" && e.RowIndex >= 0)
@@ -399,6 +461,15 @@ namespace Salon.View
         private void dgv_service_selected_CellContentClick(object sender, DataGridViewCellEventArgs e)
         {
 
+        }
+
+        private void btn_add_Click(object sender, EventArgs e)
+        {
+            using (var form = new AddNewServiceForm(this, appointmentModel.AppointmentId)) 
+            {
+                form.ShowDialog();
+                LoadServices(appointmentModel.AppointmentId);
+            }
         }
     }
 }

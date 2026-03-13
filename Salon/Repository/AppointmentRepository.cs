@@ -120,16 +120,17 @@ namespace Salon.Repository
      a.customer_id AS CustomerId,
      CONCAT(c.firstName, ' ', c.middleName, ' ', c.lastName) AS CustomerName,
      a.Date AS AppointmentDate,
-     a.start_time AS StartTime,
-     a.end_time AS EndTime,
+    MIN(aps.start_time) AS StartTime,
+    MAX(aps.end_time) AS EndTime,
      a.appointment_type AS AppointmentType,
      a.Status,
      a.Payment_status AS PaymentStatus,
      a.customer_type AS CustomerType
  FROM tbl_appointment a
  LEFT JOIN tbl_customer_account c ON a.customer_id = c.customer_id
+INNER JOIN tbl_appointment_services aps ON aps.appointment_id = a.appointment_id
  WHERE a.Status IS NOT NULL AND a.appointment_type = 'Appointment'
-
+ GROUP BY a.appointment_id, a.customer_id
     LIMIT @page_size OFFSET @off_set
         ;"
                   : @" SELECT 
@@ -137,16 +138,17 @@ namespace Salon.Repository
      a.customer_id AS CustomerId,
      CONCAT(c.firstName, ' ', c.middleName, ' ', c.lastName) AS CustomerName,
      a.Date AS AppointmentDate,
-     a.start_time AS StartTime,
-     a.end_time AS EndTime,
+    MIN(aps.start_time) AS StartTime,
+    MAX(aps.end_time) AS EndTime,
      a.appointment_type AS AppointmentType,
      a.Status,
      a.Payment_status AS PaymentStatus,
      a.customer_type AS CustomerType
  FROM tbl_appointment a
  LEFT JOIN tbl_customer_account c ON a.customer_id = c.customer_id
+INNER JOIN tbl_appointment_services aps ON aps.appointment_id = a.appointment_id
  WHERE a.Status IS NOT NULL AND a.appointment_type = 'Appointment'
-
+ GROUP BY a.appointment_id, a.customer_id
     LIMIT @page_size OFFSET @off_set
                 ;";
 
@@ -601,17 +603,24 @@ WHERE ss.stylist_id = @stylistId
                 return result.FirstOrDefault();
             }
         }
-        public List<AppointmentModel> GetAppointmentsByDate(DateTime date)
+        public List<AppointmentModel> GetAppointmentsByDate(DateTime date, int stylistId)
         {
             using (var con = Database.GetConnection())
             {
-                var query = @"SELECT start_time, end_time 
-                          FROM tbl_appointment
-                          WHERE DATE(Date) = @Date AND Status != 'Cancelled'";
+                var query = @"SELECT s.start_time AS StartTime, s.end_time AS EndTime 
+                      FROM tbl_appointment_services s
+                      INNER JOIN tbl_appointment a ON s.appointment_id = a.appointment_id
+                      WHERE DATE(s.start_time) = @Date 
+                      AND s.stylist_id = @StylistId
+                      AND a.Status != 'Cancelled'
+                      AND s.status != 'Cancelled'";
 
-                return con.Query<AppointmentModel>(query, new { Date = date.Date }).ToList();
+                return con.Query<AppointmentModel>(query, new
+                {
+                    Date = date.Date.ToString("yyyy-MM-dd"),
+                    StylistId = stylistId
+                }).ToList();
             }
-
         }
 
 
@@ -635,9 +644,9 @@ WHERE ss.stylist_id = @stylistId
             {
                 var sql = @"
             INSERT INTO tbl_appointment 
-                (customer_id, Date, start_time, end_time,appointment_type, Status, payment_status,customer_type)
+                (customer_id, Date,appointment_type, Status, payment_status,customer_type)
             VALUES 
-                (@CustomerId, @AppointmentDate, @StartTime, @EndTime,@AppointmentType, @Status, @PaymentStatus, @CustomerType);
+                (@CustomerId, @AppointmentDate,@AppointmentType, @Status, @PaymentStatus, @CustomerType);
             SELECT LAST_INSERT_ID();
         ";
 
@@ -652,9 +661,9 @@ WHERE ss.stylist_id = @stylistId
             {
                 var sql = @"
             INSERT INTO tbl_appointment 
-                ( Date, start_time, end_time,appointment_type, Status, payment_status,customer_type)
+                ( Date,appointment_type, Status, payment_status,customer_type)
             VALUES 
-                ( @AppointmentDate, @StartTime, @EndTime,@AppointmentType, @Status, @PaymentStatus, @CustomerType);
+                ( @AppointmentDate,@AppointmentType, @Status, @PaymentStatus, @CustomerType);
             SELECT LAST_INSERT_ID();
         ";
 
@@ -673,29 +682,26 @@ WHERE ss.stylist_id = @stylistId
                 con.Execute(sql, new { AppointmentId, status});
             }
         }
-        public void UpdateAppointment(AppointmentModel appointment) 
+        public void UpdateAppointment(DateTime new_date, int AppointmentId) 
         {
             using (var con = Database.GetConnection()) 
             {
                 var sql = @"UPDATE tbl_appointment
                         SET 
-                        Date = @AppointmentDate,
-                        start_time = @StartTime,
-                        end_time = @EndTime
+                        Date = @new_date
                         WHERE appointment_id = @AppointmentId";
-                con.Execute(sql, appointment);
+                con.Execute(sql, new { new_date, AppointmentId });
             }
         }
-        public void UpdateWalkin(AppointmentModel appointment)
+        public void UpdateWalkin(DateTime new_date, int AppointmentId)
         {
             using (var con = Database.GetConnection())
             {
                 var sql = @"UPDATE tbl_appointment
-                        SET Date = @AppointmentDate,
-                        start_time = @StartTime,
-                        end_time = @EndTime
+                        SET 
+                        Date = @new_date
                         WHERE appointment_id = @AppointmentId";
-                con.Execute(sql, appointment);
+                con.Execute(sql, new { new_date, AppointmentId });
             }
         }
         public int Update(AppointmentModel appointment) 
