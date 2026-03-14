@@ -1236,6 +1236,7 @@ namespace Salon.View
             if (rad_exists.Checked) 
             {
                 txt_FullName.Text = string.Empty;
+                btn_search.Enabled = true;
             }
         }
 
